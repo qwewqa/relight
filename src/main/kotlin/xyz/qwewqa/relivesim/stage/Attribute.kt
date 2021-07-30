@@ -1,7 +1,7 @@
 package xyz.qwewqa.relivesim.stage
 
 enum class Attribute {
-    Neutral,
+    NeutralAttribute,
     Flower,
     Wind,
     Ice,

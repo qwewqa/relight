@@ -14,7 +14,7 @@ data class StatData(
     fun applyToCharacterState(state: CharacterState) {
         state.maxHp.value = maxHP
         state.actPower.value = actPower
-        state.normalDefense.value = actPower
+        state.normalDefense.value = normalDefense
         state.specialDefense.value = specialDefense
         state.agility.value = agility
         state.dexterity.value = dexterity

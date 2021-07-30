@@ -2,9 +2,9 @@ package xyz.qwewqa.relivesim.stage
 
 data class CharacterData(
     val name: String = "",
-    val attribute: Attribute = Attribute.Neutral,
+    val attribute: Attribute = Attribute.NeutralAttribute,
     val character: Character = Character.OtherCharacter,
-    val damageType: DamageType = DamageType.Neutral,
+    val damageType: DamageType = DamageType.NeutralDamage,
     val position: Position = Position.NoPosition,
     val stats: StatData = StatData(),
     val positionValue: Int = 0,

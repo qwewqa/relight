@@ -11,7 +11,7 @@ fun getAttributeEffectivenessTableSet(
     dreamDealtValue: Double = 1.25,
 ): Map<Attribute, AttributeEffectivenessTable> {
     val base = mapOf(
-        Attribute.Neutral to defaultValue,
+        Attribute.NeutralAttribute to defaultValue,
         Attribute.Flower to defaultValue,
         Attribute.Wind to defaultValue,
         Attribute.Ice to defaultValue,
@@ -27,7 +27,7 @@ fun getAttributeEffectivenessTableSet(
     }.toMap()
 
     return mapOf(
-        Attribute.Neutral to base,
+        Attribute.NeutralAttribute to base,
         Attribute.Flower to getTableFor(Attribute.Ice, Attribute.Wind),
         Attribute.Wind to getTableFor(Attribute.Flower, Attribute.Ice),
         Attribute.Ice to getTableFor(Attribute.Wind, Attribute.Flower),
@@ -35,7 +35,7 @@ fun getAttributeEffectivenessTableSet(
         Attribute.Space to getTableFor(Attribute.Moon, Attribute.Cloud),
         Attribute.Cloud to getTableFor(Attribute.Space, Attribute.Moon),
         Attribute.Dream to mapOf(
-            Attribute.Neutral to effectiveValue,
+            Attribute.NeutralAttribute to effectiveValue,
             Attribute.Flower to effectiveValue,
             Attribute.Wind to effectiveValue,
             Attribute.Ice to effectiveValue,

@@ -7,10 +7,13 @@ import kotlin.contracts.contract
 data class Stage(
     val playerCharacters: List<CharacterState>,
     val enemyCharacters: List<CharacterState>,
-    val playerCACount: Int = 0,
+    var playerCACount: Int = 0,
+    val damageCalculator: DamageCalculator = StandardDamageCalculator(),
     val configuration: StageConfiguration = StageConfiguration(),
 ) {
     val logger = Logger()
+
+    val playerCAActive get() = playerCACount > 0
 
     val activePlayerCharacters get() = playerCharacters.filter { it.alive }
     val activeEnemyCharacters get() = enemyCharacters.filter { it.alive }

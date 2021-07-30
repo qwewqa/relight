@@ -1,7 +1,7 @@
 package xyz.qwewqa.relivesim.stage
 
 enum class DamageType {
-    Neutral,
+    NeutralDamage,
     Normal,
     Special,
 }
