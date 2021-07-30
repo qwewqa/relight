@@ -1,0 +1,37 @@
+package xyz.qwewqa.relivesim.stage
+
+data class CharacterState(
+    val characterData: CharacterData,
+    var currentHP: Int = 1,
+    var currentBrilliance: Int = 50,
+    var maxHp: ValueBuffModifier = ValueBuffModifier(),
+    var actPower: ValueBuffModifier = ValueBuffModifier(),
+    var normalDefense: ValueBuffModifier = ValueBuffModifier(),
+    var specialDefense: ValueBuffModifier = ValueBuffModifier(),
+    var agility: ValueBuffModifier = ValueBuffModifier(),
+    var dexterity: SimpleModifier<Percent> = SimpleModifier(0.percent),
+    var critical: SimpleModifier<Percent> = SimpleModifier(0.percent),
+    var accuracy: SimpleModifier<Percent> = SimpleModifier(0.percent),
+    var evasion: SimpleModifier<Percent> = SimpleModifier(0.percent),
+    var effectiveDamage: SimpleModifier<Percent> = SimpleModifier(0.percent),
+    var normalReflect: SimpleModifier<Percent> = SimpleModifier(0.percent),
+    var specialReflect: SimpleModifier<Percent> = SimpleModifier(0.percent),
+    var brillianceGain: SimpleModifier<Percent> = SimpleModifier(0.percent),
+    var absorb: SimpleModifier<Percent> = SimpleModifier(0.percent),
+    var negativeEffectBlock: SimpleModifier<Percent> = SimpleModifier(0.percent),
+    var positiveEffectBlock: SimpleModifier<Percent> = SimpleModifier(0.percent),
+    var climaxDamage: SimpleModifier<Percent> = SimpleModifier(0.percent),
+    var damageDealtUp: SimpleModifier<Percent> = SimpleModifier(0.percent),
+    var damageTakenDown: SimpleModifier<Percent> = SimpleModifier(0.percent),
+    var damageTakenDownBuff: SimpleModifier<Percent> = SimpleModifier(0.percent),
+    val specialEffects: SpecialEffectState = SpecialEffectState(),
+    var evadeCount: Int = 0,
+    var fortitudeCount: Int = 0,
+    var reviveCount: Int = 0,
+    var specialActiveEffects: List<ActiveEffect> = emptyList(),
+    var positiveTimedEffects: List<ActiveEffect> = emptyList(),
+    var negativeTimedEffects: List<ActiveEffect> = emptyList(),
+    var positiveStackedEffects: List<ActiveEffect> = emptyList(),
+) {
+    val alive get() = currentHP > 0
+}
