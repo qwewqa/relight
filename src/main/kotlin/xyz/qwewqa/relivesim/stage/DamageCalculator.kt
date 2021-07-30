@@ -26,18 +26,20 @@ class StandardDamageCalculator : DamageCalculator {
         val attribute = overrideAttribute ?: attacker.characterData.attribute
         var eleCoef = target.characterData.effectivenessTable.getValue(attribute)
         // burn
-        if (eleCoef > 1.0) eleCoef *= 100.percent * attacker.effectiveDamage.get()
+        if (eleCoef > 1.0) eleCoef *= 100.percent + attacker.effectiveDamage.get()
         val critCoef = 100.percent + attacker.critical.get().coerceAtLeast(0.percent)
         val dex = attacker.dexterity.get().coerceIn(0.percent, 100.percent)
         val acc = (100.percent + attacker.accuracy.get() - target.evasion.get()).coerceIn(0.percent, 100.percent)
         // blind
         // mark
         val bonusCoef = 100.percent + attacker.eventBonus
-        val baseDmg = ((atk / hitCount).toInt() - (def / hitCount).toInt()) * eleCoef * bonusCoef
-        val criticalDmg = baseDmg * critCoef
+        val atkFactor = (atk / hitCount).toInt()
+        val defFactor = (def / hitCount).toInt()
+        val baseDmg = ((atkFactor - defFactor).coerceAtLeast(atkFactor / 10) * eleCoef * bonusCoef).toInt()
+        val criticalDmg = (baseDmg * critCoef).toInt()
         return DamageResult(
-            base = baseDmg.toInt(),
-            critical = criticalDmg.toInt(),
+            base = baseDmg,
+            critical = criticalDmg,
             criticalChance = dex.asDouble(),
             hitChance = acc.asDouble(),
         )
