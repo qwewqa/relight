@@ -2,6 +2,7 @@ import xyz.qwewqa.relivesim.stage.*
 import xyz.qwewqa.relivesim.stage.Attribute.*
 import xyz.qwewqa.relivesim.stage.Character.*
 import xyz.qwewqa.relivesim.stage.DamageType.*
+import xyz.qwewqa.relivesim.stage.Position.Back
 import xyz.qwewqa.relivesim.stage.Position.Front
 
 fun main() {
@@ -22,7 +23,43 @@ fun main() {
                 )
             ).createState().apply {
                 eventBonus = 120.percent
-            }
+            },
+            CharacterData(
+                name = "Empress",
+                attribute = Cloud,
+                character = MeiFan,
+                damageType = Special,
+                position = Front,
+                stats = StatData(
+                    actPower = 1593,
+                )
+            ).createState().apply {
+                eventBonus = 120.percent
+            },
+            CharacterData(
+                name = "Santa",
+                attribute = Ice,
+                character = Mahiru,
+                damageType = Normal,
+                position = Back,
+                stats = StatData(
+                    actPower = 1474,
+                )
+            ).createState().apply {
+                actPower.buff += (-10).percent
+                eventBonus = 0.percent
+            },
+            CharacterData(
+                name = "Ori",
+                attribute = Space,
+                damageType = Normal,
+                stats = StatData(
+                    actPower = 1133,
+                )
+            ).createState().apply {
+                actPower.buff += 0.percent
+                eventBonus = 0.percent
+            },
         ),
         enemyCharacters = listOf(
             CharacterData(
@@ -31,16 +68,26 @@ fun main() {
                 character = Maya,
                 damageType = Normal,
                 stats = StatData(
-                    normalDefense = 1500
-                )
-            ).createState()
+                    normalDefense = 1500,
+                    specialDefense = 1500,
+                ),
+            ).createState(),
+            CharacterData(
+                name = "Holmes",
+                attribute = Flower,
+                character = Karen,
+                damageType = Normal,
+                stats = StatData(
+                    normalDefense = 693,
+                ),
+            ).createState(),
         )
     ).run {
         println(damageCalculator.calculate(
-            attacker = playerCharacters[0],
+            attacker = playerCharacters[2],
             target = enemyCharacters[0],
-            modifier = 198.percent,
-            hitCount = 2,
-        ).possibleRolls())
+            modifier = 105.percent,
+            hitCount = 1,
+        ).possibleRolls(critical = false))
     }
 }

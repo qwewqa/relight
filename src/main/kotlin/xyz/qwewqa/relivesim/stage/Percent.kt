@@ -5,6 +5,8 @@ package xyz.qwewqa.relivesim.stage
  */
 @JvmInline
 value class Percent(val value: Double) : Comparable<Percent> {
+    override fun toString() = "$value%"
+
     operator fun times(other: Percent) = Percent(this.asDouble() * other.value)
     operator fun div(other: Percent) = Percent(this.value / other.asDouble())
     operator fun plus(other: Percent) = Percent(this.value + other.value)

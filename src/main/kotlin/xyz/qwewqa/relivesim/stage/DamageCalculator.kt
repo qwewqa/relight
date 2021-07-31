@@ -20,12 +20,13 @@ class StandardDamageCalculator : DamageCalculator {
     ): DamageResult {
         var atk = 2.0 * attacker.actPower.get() * modifier
         if (attacker.inCA) atk *= 1.1
-        val def =
-            if (attacker.characterData.damageType == DamageType.Normal) target.normalDefense.get()
-            else target.specialDefense.get()
+        val def = when (attacker.characterData.damageType) {
+            DamageType.Normal -> target.normalDefense.get()
+            DamageType.Special -> target.specialDefense.get()
+            else -> 0.0
+        }
         val attribute = overrideAttribute ?: attacker.characterData.attribute
         var eleCoef = target.characterData.effectivenessTable.getValue(attribute)
-        // burn
         if (eleCoef > 1.0) eleCoef *= 100.percent + attacker.effectiveDamage.get()
         val critCoef = 100.percent + attacker.critical.get().coerceAtLeast(0.percent)
         val dex = attacker.dexterity.get().coerceIn(0.percent, 100.percent)
