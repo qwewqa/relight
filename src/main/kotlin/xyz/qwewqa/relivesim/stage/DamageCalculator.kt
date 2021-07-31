@@ -1,5 +1,7 @@
 package xyz.qwewqa.relivesim.stage
 
+import xyz.qwewqa.relivesim.stage.activeeffects.EffectType
+
 interface DamageCalculator {
     fun calculate(
         attacker: CharacterState,
@@ -30,8 +32,8 @@ class StandardDamageCalculator : DamageCalculator {
         if (eleCoef > 1.0) eleCoef *= 100.percent + attacker.effectiveDamage.get()
         val critCoef = 100.percent + attacker.critical.get().coerceAtLeast(0.percent)
         val dex = attacker.dexterity.get().coerceIn(0.percent, 100.percent)
-        val acc = (100.percent + attacker.accuracy.get() - target.evasion.get()).coerceIn(0.percent, 100.percent)
-        // blind
+        val acc = (100.percent + attacker.accuracy.get() - target.evasion.get()).coerceIn(0.percent, 100.percent) *
+                if (attacker.effects.hasEffectType(EffectType.Blind)) 30.percent else 100.percent
         // mark
         val bonusCoef = 100.percent + attacker.eventBonus
         val atkFactor = (atk / hitCount).toInt()
