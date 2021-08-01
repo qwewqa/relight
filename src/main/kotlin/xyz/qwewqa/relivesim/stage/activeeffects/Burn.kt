@@ -18,15 +18,17 @@ class Burn(
 
     override fun start(target: CharacterState) {
         damage = fixedDamage + (target.maxHp.get() * percentDamage).toInt()
-        if (target.effects.hasEffectType(EffectType.Burn)) {
+        if (target.burnCounter == 0) {
             target.actPower.buff -= 10.percent
         }
+        target.burnCounter++
         target.burnTick += damage
     }
 
     override fun stop(target: CharacterState) {
+        target.burnCounter--
         target.burnTick -= damage
-        if (!target.effects.hasEffectType(EffectType.Burn)) {
+        if (target.burnCounter == 0) {
             target.actPower.buff += 10.percent
         }
     }

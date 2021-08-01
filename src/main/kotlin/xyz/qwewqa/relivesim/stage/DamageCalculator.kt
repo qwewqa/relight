@@ -1,44 +1,54 @@
 package xyz.qwewqa.relivesim.stage
 
-import xyz.qwewqa.relivesim.stage.activeeffects.EffectType
-
 interface DamageCalculator {
     fun calculate(
+        stage: Stage,
         attacker: CharacterState,
         target: CharacterState,
         modifier: Percent,
         hitCount: Int = 1,
+        isClimax: Boolean = false,
         overrideAttribute: Attribute? = null,
     ): DamageResult
 }
 
 class StandardDamageCalculator : DamageCalculator {
     override fun calculate(
+        stage: Stage,
         attacker: CharacterState,
         target: CharacterState,
         modifier: Percent,
         hitCount: Int,
+        isClimax: Boolean,
         overrideAttribute: Attribute?,
     ): DamageResult {
         var atk = 2.0 * attacker.actPower.get() * modifier
         if (attacker.inCA) atk *= 1.1
-        val def = when (attacker.characterData.damageType) {
+        val def = when (attacker.setup.data.damageType) {
             DamageType.Normal -> target.normalDefense.get()
             DamageType.Special -> target.specialDefense.get()
             else -> 0.0
         }
-        val attribute = overrideAttribute ?: attacker.characterData.attribute
-        var eleCoef = target.characterData.effectivenessTable.getValue(attribute)
+        val attribute = overrideAttribute ?: attacker.setup.data.attribute
+        var eleCoef = target.setup.data.effectivenessTable.getValue(attribute)
         if (eleCoef > 1.0) eleCoef *= 100.percent + attacker.effectiveDamage.get()
         val critCoef = 100.percent + attacker.critical.get().coerceAtLeast(0.percent)
         val dex = attacker.dexterity.get().coerceIn(0.percent, 100.percent)
         val acc = (100.percent + attacker.accuracy.get() - target.evasion.get()).coerceIn(0.percent, 100.percent) *
-                if (attacker.effects.hasEffectType(EffectType.Blind)) 30.percent else 100.percent
+                if (attacker.blindCounter > 0) 30.percent else 100.percent
+        val dmgDealtCoef = (100.percent + attacker.damageDealtUp.get() - target.damageTakenDown.get())
+            .coerceAtLeast(0.percent)
         // mark
+        // cx damage up
         val bonusCoef = 100.percent + attacker.eventBonus
         val atkFactor = (atk / hitCount).toInt()
         val defFactor = (def / hitCount).toInt()
-        val baseDmg = ((atkFactor - defFactor).coerceAtLeast(atkFactor / 10) * eleCoef * bonusCoef).toInt()
+        val baseDmg = (
+                (atkFactor - defFactor).coerceAtLeast(atkFactor / 10) *
+                        eleCoef *
+                        bonusCoef *
+                        dmgDealtCoef
+                ).toInt()
         val criticalDmg = (baseDmg * critCoef).toInt()
         return DamageResult(
             base = baseDmg,
@@ -46,6 +56,28 @@ class StandardDamageCalculator : DamageCalculator {
             criticalChance = dex.asDouble(),
             hitChance = acc.asDouble(),
         )
+    }
+}
+
+class LoggingDamageCalculator(private val calculator: DamageCalculator = StandardDamageCalculator()) :
+    DamageCalculator {
+    override fun calculate(
+        stage: Stage,
+        attacker: CharacterState,
+        target: CharacterState,
+        modifier: Percent,
+        hitCount: Int,
+        isClimax: Boolean,
+        overrideAttribute: Attribute?,
+    ): DamageResult {
+        return calculator.calculate(stage, attacker, target, modifier, hitCount, isClimax, overrideAttribute).apply {
+            stage.log("DamageCalculator") {
+                "[${attacker.setup.data.displayName}] attacks [${target.setup.data.displayName}]\n" +
+                        "Info: { base: $base, critical: $critical, criticalChance: $criticalChance, hitChance: $hitChance }\n" +
+                        "Possible base rolls: ${possibleRolls(false)}\n" +
+                        "Possible critical rolls: ${possibleRolls(true)}"
+            }
+        }
     }
 }
 

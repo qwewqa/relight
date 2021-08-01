@@ -14,7 +14,7 @@ data class CharacterData(
     val unitSkill: Any = Any(),
     val effectivenessTable: AttributeEffectivenessTable = standardAttributeEffectivenessTables.getValue(attribute),
 ) {
-    fun createState() = CharacterState(this).also {
-        stats.applyToCharacterState(it)
-    }
+    val displayName = "$name ${character.name}"
+
+    fun createState() = CharacterSetup(this).createState()
 }

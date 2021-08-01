@@ -7,6 +7,9 @@ import xyz.qwewqa.relivesim.stage.Position.Front
 
 fun main() {
     Stage(
+        configuration = StageConfiguration(
+            logging = true,
+        ),
         playerCharacters = listOf(
             CharacterData(
                 name = "Strength",
@@ -46,7 +49,6 @@ fun main() {
                     actPower = 1474,
                 )
             ).createState().apply {
-                actPower.buff += (-10).percent
                 eventBonus = 0.percent
             },
             CharacterData(
@@ -83,11 +85,12 @@ fun main() {
             ).createState(),
         )
     ).run {
-        println(damageCalculator.calculate(
+        hit(
             attacker = playerCharacters[2],
             target = enemyCharacters[0],
             modifier = 105.percent,
             hitCount = 1,
-        ).possibleRolls(critical = false))
+        )
+        print(logger)
     }
 }

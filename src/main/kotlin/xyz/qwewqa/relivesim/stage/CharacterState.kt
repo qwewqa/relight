@@ -3,7 +3,7 @@ package xyz.qwewqa.relivesim.stage
 import xyz.qwewqa.relivesim.stage.activeeffects.ActiveEffectManager
 
 class CharacterState(
-    val characterData: CharacterData,
+    val setup: CharacterSetup,
 ) {
     var currentHP: Int = 1
     var currentBrilliance: Int = 0
@@ -29,6 +29,12 @@ class CharacterState(
     val damageTakenDownBuff: SimpleModifier<Percent> = SimpleModifier(0.percent)
     val negativeEffectResist: SimpleModifier<Percent> = SimpleModifier(0.percent)
     val effects: ActiveEffectManager<CharacterState> = ActiveEffectManager(this)
+    var counterHealValue: Percent = 0.percent
+    val apUpCounter: Int = 0
+    val apDownCounter: Int = 0
+    var perfectAimCounter: Int = 0
+    var blindCounter: Int = 0
+    var burnCounter: Int = 0
     var burnTick: Int = 0
     var poisonTick: Int = 0
     var eventBonus: Percent = 0.percent

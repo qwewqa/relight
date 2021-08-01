@@ -22,4 +22,16 @@ data class StatData(
         state.accuracy.value = accuracy
         state.evasion.value = evasion
     }
+    
+    fun addToCharacterState(state: CharacterState) {
+        state.maxHp.value += maxHP
+        state.actPower.value += actPower
+        state.normalDefense.value += normalDefense
+        state.specialDefense.value += specialDefense
+        state.agility.value += agility
+        state.dexterity.value += dexterity
+        state.critical.value += critical
+        state.accuracy.value += accuracy
+        state.evasion.value += evasion
+    }
 }

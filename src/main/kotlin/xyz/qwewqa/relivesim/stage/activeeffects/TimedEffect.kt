@@ -3,7 +3,6 @@ package xyz.qwewqa.relivesim.stage.activeeffects
 import xyz.qwewqa.relivesim.stage.CharacterState
 
 interface TimedEffect<T> {
-
     val effectClass: EffectClass
     val effectType: EffectType
 
@@ -38,11 +37,11 @@ typealias CharacterEffect = TimedEffect<CharacterState>
 
 interface FlippableEffect<T> : TimedEffect<T> {
     /**
-     * Returns an instance of this effect when flipped.
+     * Returns an instance of this effect when flipped or null if this instance cannot be flipped.
      * The caller is responsible for both ending and removing the current effect,
      * as well as adding and starting the new effect.
      */
-    fun flipped(target: T): TimedEffect<T>
+    fun flipped(target: T): TimedEffect<T>?
 }
 
 enum class EffectClass {
@@ -64,8 +63,6 @@ enum class EffectType {
     Mark,
     Provoke,
     Aggro,
-    ApUp,
-    ApDown,
     ExitEvasion,
 }
 
