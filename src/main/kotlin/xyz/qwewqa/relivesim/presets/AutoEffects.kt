@@ -49,20 +49,20 @@ fun TeamAutoEffect.schoolOnly(school: School) = conditional(school.name) {
 }
 
 class DamageDealtAutoEffect(efficacy: Percent) : SimplePercentAutoEffect(efficacy) {
-    override fun activate(context: ActionContext) = context.run {
-        self.damageDealtUp.value += efficacy
+    override fun getModifier(context: ActionContext) = context.run {
+        self.damageDealtUp
     }
 }
 
 class DexterityAutoEffect(efficacy: Percent) : SimplePercentAutoEffect(efficacy) {
-    override fun activate(context: ActionContext) = context.run {
-        self.dexterity.value += efficacy
+    override fun getModifier(context: ActionContext) = context.run {
+        self.dexterity
     }
 }
 
 class EffectiveDamageAutoEffect(efficacy: Percent) : SimplePercentAutoEffect(efficacy) {
-    override fun activate(context: ActionContext) = context.run {
-        self.effectiveDamage.value += efficacy
+    override fun getModifier(context: ActionContext) = context.run {
+        self.effectiveDamage
     }
 }
 
@@ -99,7 +99,6 @@ data class TeamActDexterityAutoEffect(val efficacy: Percent) : TeamAutoEffect() 
         target.actPower.buff += efficacy
     }
 }
-
 
 data class TeamTimedDexterityAutoEffect(val turns: Int, val efficacy: Percent) : TeamAutoEffect() {
     override fun toString() = "TeamTimedDexterityAutoEffect(turns = $turns, efficacy = $efficacy)"

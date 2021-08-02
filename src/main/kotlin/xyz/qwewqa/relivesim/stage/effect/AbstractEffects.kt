@@ -2,6 +2,7 @@ package xyz.qwewqa.relivesim.stage.effect
 
 import xyz.qwewqa.relivesim.stage.Percent
 import xyz.qwewqa.relivesim.stage.character.CharacterState
+import xyz.qwewqa.relivesim.stage.character.Modifier
 import xyz.qwewqa.relivesim.stage.context.ActionContext
 import xyz.qwewqa.relivesim.stage.percent
 
@@ -11,6 +12,16 @@ abstract class SimplePercentTimedEffect(val efficacy: Percent) : TimedEffect {
 
     override val effectClass = if (efficacy >= 0.percent) EffectClass.Positive else EffectClass.Negative
     override val effectType = EffectType.Other
+
+    abstract fun getModifier(context: ActionContext): Modifier<*, *>
+
+    override fun start(context: ActionContext) {
+        getModifier(context).buff += efficacy
+    }
+
+    override fun stop(context: ActionContext) {
+        getModifier(context).buff -= efficacy
+    }
 }
 
 abstract class SimplePercentAutoEffect(val efficacy: Percent) : AutoEffect {
@@ -18,6 +29,12 @@ abstract class SimplePercentAutoEffect(val efficacy: Percent) : AutoEffect {
     override fun toString() = "$name(efficacy = $efficacy)"
 
     override val effectClass = if (efficacy >= 0.percent) EffectClass.Positive else EffectClass.Negative
+
+    abstract fun getModifier(context: ActionContext): Modifier<*, *>
+
+    override fun activate(context: ActionContext) {
+        getModifier(context).buff += efficacy
+    }
 }
 
 abstract class TeamAutoEffect : AutoEffect {
