@@ -1,13 +1,14 @@
-package xyz.qwewqa.relivesim.stage.activeeffects
+package xyz.qwewqa.relivesim.stage.effect
 
+import xyz.qwewqa.relivesim.stage.context.ActionContext
 import java.util.*
 import kotlin.collections.LinkedHashSet
 
-class ActiveEffectManager<T>(val target: T) {
-    private val neutralEffects = LinkedHashSet<TimedEffect<T>>()
-    private val positiveEffects = LinkedHashSet<TimedEffect<T>>()
-    private val negativeEffects = LinkedHashSet<TimedEffect<T>>()
-    private val effectsByType: MutableMap<EffectType, MutableSet<TimedEffect<T>>> = EnumMap(EffectType::class.java)
+class ActiveEffectManager {
+    private val neutralEffects = LinkedHashSet<TimedEffect>()
+    private val positiveEffects = LinkedHashSet<TimedEffect>()
+    private val negativeEffects = LinkedHashSet<TimedEffect>()
+    private val effectsByType: MutableMap<EffectType, MutableSet<TimedEffect>> = EnumMap(EffectType::class.java)
 
     private val positiveStackedEffects = mutableMapOf<StackedEffect, Int>()
     private val negativeStackedEffects = mutableMapOf<StackedEffect, Int>()
@@ -19,7 +20,7 @@ class ActiveEffectManager<T>(val target: T) {
     or replaces the existing effects in-place.
      */
 
-    fun get(effectType: EffectType): Set<TimedEffect<T>> {
+    fun get(effectType: EffectType): Set<TimedEffect> {
         return effectsByType[effectType] ?: emptySet()
     }
 
@@ -31,8 +32,8 @@ class ActiveEffectManager<T>(val target: T) {
         }[effect] ?: 0
     }
 
-    fun add(effect: TimedEffect<T>) {
-        effect.start(target)
+    fun add(effect: TimedEffect, context: ActionContext) {
+        effect.start(context)
         val added = when (effect.effectClass) {
             EffectClass.Positive -> positiveEffects
             EffectClass.Negative -> negativeEffects
@@ -50,7 +51,7 @@ class ActiveEffectManager<T>(val target: T) {
         }.let { it[effect] = (it[effect] ?: 0) + 1 }
     }
 
-    fun removeTimed(effect: TimedEffect<T>) {
+    fun removeTimed(effect: TimedEffect, context: ActionContext) {
         val removed = when (effect.effectClass) {
             EffectClass.Positive -> positiveEffects
             EffectClass.Negative -> negativeEffects
@@ -58,7 +59,7 @@ class ActiveEffectManager<T>(val target: T) {
         }.remove(effect)
         if (!removed) error("Effect is not active.")
         effectsByType[effect.effectType]!!.remove(effect)
-        effect.stop(target)
+        effect.stop(context)
     }
 
     fun removeStacked(effect: StackedEffect) {
@@ -73,13 +74,13 @@ class ActiveEffectManager<T>(val target: T) {
         }
     }
 
-    fun removeAll(type: EffectType) {
+    fun removeAll(type: EffectType, context: ActionContext) {
         effectsByType[type]?.toList()?.forEach {
-            removeTimed(it)
+            removeTimed(it, context)
         }
     }
 
-    fun dispelTimed(effectClass: EffectClass, includeLocked: Boolean = false) {
+    fun dispelTimed(effectClass: EffectClass, includeLocked: Boolean = false, context: ActionContext) {
         when (effectClass) {
             EffectClass.Positive -> positiveEffects
             EffectClass.Negative -> negativeEffects
@@ -88,12 +89,12 @@ class ActiveEffectManager<T>(val target: T) {
             filter { includeLocked or !it.locked }.forEach {
                 remove(it)
                 effectsByType[it.effectType]!!.remove(it)
-                it.stop(target)
+                it.stop(context)
             }
         }
     }
 
-    fun dispelStacked(effectClass: EffectClass) {
+    fun dispelStacked(effectClass: EffectClass, context: ActionContext) {
         when (effectClass) {
             EffectClass.Positive -> positiveStackedEffects
             EffectClass.Negative -> negativeStackedEffects
@@ -101,17 +102,19 @@ class ActiveEffectManager<T>(val target: T) {
         }.replaceAll { _, _ -> 0 }
     }
 
-    fun tick() {
-        positiveEffects.tick()
-        neutralEffects.tick()
-        negativeEffects.tick()
+    fun tick(effectClass: EffectClass, context: ActionContext) {
+        when (effectClass) {
+            EffectClass.Positive -> positiveEffects
+            EffectClass.Negative -> negativeEffects
+            EffectClass.Neutral -> neutralEffects
+        }.tick(context)
     }
 
-    private fun LinkedHashSet<TimedEffect<T>>.tick() {
-        filter { it.tick(target) }.forEach {
+    private fun LinkedHashSet<TimedEffect>.tick(context: ActionContext) {
+        filter { it.tick(context) }.forEach {
             remove(it)
             effectsByType[it.effectType]!!.remove(it)
-            it.stop(target)
+            it.stop(context)
         }
     }
 }

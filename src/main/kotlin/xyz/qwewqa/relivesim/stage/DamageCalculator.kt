@@ -1,5 +1,9 @@
 package xyz.qwewqa.relivesim.stage
 
+import xyz.qwewqa.relivesim.stage.character.Attribute
+import xyz.qwewqa.relivesim.stage.character.CharacterState
+import xyz.qwewqa.relivesim.stage.character.DamageType
+
 interface DamageCalculator {
     fun calculate(
         stage: Stage,
@@ -23,14 +27,14 @@ class StandardDamageCalculator : DamageCalculator {
         overrideAttribute: Attribute?,
     ): DamageResult {
         var atk = 2.0 * attacker.actPower.get() * modifier
-        if (attacker.inCA) atk *= 1.1
-        val def = when (attacker.setup.data.damageType) {
+        if (attacker.inCX) atk *= 1.1
+        val def = when (attacker.loadout.data.damageType) {
             DamageType.Normal -> target.normalDefense.get()
             DamageType.Special -> target.specialDefense.get()
             else -> 0.0
         }
-        val attribute = overrideAttribute ?: attacker.setup.data.attribute
-        var eleCoef = target.setup.data.effectivenessTable.getValue(attribute)
+        val attribute = overrideAttribute ?: attacker.loadout.data.attribute
+        var eleCoef = target.loadout.data.effectivenessTable.getValue(attribute)
         if (eleCoef > 1.0) eleCoef *= 100.percent + attacker.effectiveDamage.get()
         val critCoef = 100.percent + attacker.critical.get().coerceAtLeast(0.percent)
         val dex = attacker.dexterity.get().coerceIn(0.percent, 100.percent)
@@ -72,7 +76,7 @@ class LoggingDamageCalculator(private val calculator: DamageCalculator = Standar
     ): DamageResult {
         return calculator.calculate(stage, attacker, target, modifier, hitCount, isClimax, overrideAttribute).apply {
             stage.log("DamageCalculator") {
-                "[${attacker.setup.data.displayName}] attacks [${target.setup.data.displayName}]\n" +
+                "[${attacker.loadout.data.displayName}] attacks [${target.loadout.data.displayName}]\n" +
                         "Info: { base: $base, critical: $critical, criticalChance: $criticalChance, hitChance: $hitChance }\n" +
                         "Possible base rolls: ${possibleRolls(false)}\n" +
                         "Possible critical rolls: ${possibleRolls(true)}"

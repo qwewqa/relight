@@ -1,4 +1,4 @@
-package xyz.qwewqa.relivesim.stage
+package xyz.qwewqa.relivesim.stage.character
 
 enum class Position {
     NoPosition,

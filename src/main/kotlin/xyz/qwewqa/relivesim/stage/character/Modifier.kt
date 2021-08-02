@@ -1,4 +1,8 @@
-package xyz.qwewqa.relivesim.stage
+package xyz.qwewqa.relivesim.stage.character
+
+import xyz.qwewqa.relivesim.stage.Percent
+import xyz.qwewqa.relivesim.stage.percent
+import xyz.qwewqa.relivesim.stage.times
 
 interface Modifier<T> {
     fun get(): T

@@ -1,8 +1,8 @@
-package xyz.qwewqa.relivesim.stage.activeeffects
+package xyz.qwewqa.relivesim.stage.effect
 
-import xyz.qwewqa.relivesim.stage.CharacterState
+import xyz.qwewqa.relivesim.stage.context.ActionContext
 
-interface TimedEffect<T> {
+interface TimedEffect {
     val effectClass: EffectClass
     val effectType: EffectType
 
@@ -16,13 +16,13 @@ interface TimedEffect<T> {
     /**
      * Executes when the effect is applied.
      */
-    fun start(target: T)
+    fun start(context: ActionContext)
 
     /**
      * Executes at the end of a turn.
      * Returns true if the effect is expiring.
      */
-    fun tick(target: T): Boolean {
+    fun tick(context: ActionContext): Boolean {
         turns -= 1
         return turns <= 0
     }
@@ -30,18 +30,16 @@ interface TimedEffect<T> {
     /**
      * Executes upon expiration.
      */
-    fun stop(target: T)
+    fun stop(context: ActionContext)
 }
 
-typealias CharacterEffect = TimedEffect<CharacterState>
-
-interface FlippableEffect<T> : TimedEffect<T> {
+interface FlippableEffect : TimedEffect {
     /**
      * Returns an instance of this effect when flipped or null if this instance cannot be flipped.
      * The caller is responsible for both ending and removing the current effect,
      * as well as adding and starting the new effect.
      */
-    fun flipped(target: T): TimedEffect<T>?
+    fun flipped(context: ActionContext): TimedEffect?
 }
 
 enum class EffectClass {

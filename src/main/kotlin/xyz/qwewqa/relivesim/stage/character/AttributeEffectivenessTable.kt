@@ -1,4 +1,4 @@
-package xyz.qwewqa.relivesim.stage
+package xyz.qwewqa.relivesim.stage.character
 
 typealias AttributeEffectivenessTable = Map<Attribute, Double>
 

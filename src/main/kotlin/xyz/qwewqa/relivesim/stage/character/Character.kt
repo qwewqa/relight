@@ -1,6 +1,6 @@
-package xyz.qwewqa.relivesim.stage
+package xyz.qwewqa.relivesim.stage.character
 
-import xyz.qwewqa.relivesim.stage.School.*
+import xyz.qwewqa.relivesim.stage.character.School.*
 
 enum class Character(val school: School) {
     OtherCharacter(NoSchool),

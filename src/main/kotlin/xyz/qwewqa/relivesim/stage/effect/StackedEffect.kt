@@ -1,4 +1,4 @@
-package xyz.qwewqa.relivesim.stage.activeeffects
+package xyz.qwewqa.relivesim.stage.effect
 
 enum class StackedEffect(val effectClass: EffectClass) {
     Evade(EffectClass.Positive),

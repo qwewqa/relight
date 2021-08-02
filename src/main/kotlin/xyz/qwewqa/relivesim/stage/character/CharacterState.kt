@@ -1,10 +1,15 @@
-package xyz.qwewqa.relivesim.stage
+package xyz.qwewqa.relivesim.stage.character
 
-import xyz.qwewqa.relivesim.stage.activeeffects.ActiveEffectManager
+import xyz.qwewqa.relivesim.stage.Percent
+import xyz.qwewqa.relivesim.stage.act.ActData
+import xyz.qwewqa.relivesim.stage.act.ActType
+import xyz.qwewqa.relivesim.stage.effect.ActiveEffectManager
+import xyz.qwewqa.relivesim.stage.percent
 
 class CharacterState(
-    val setup: CharacterSetup,
+    val loadout: CharacterLoadout,
 ) {
+    val acts: MutableMap<ActType, ActData> = mutableMapOf()
     var currentHP: Int = 1
     var currentBrilliance: Int = 0
     val maxHp: ValueBuffModifier = ValueBuffModifier()
@@ -21,15 +26,16 @@ class CharacterState(
     val specialReflect: SimpleModifier<Percent> = SimpleModifier(0.percent)
     val brillianceGain: SimpleModifier<Percent> = SimpleModifier(0.percent)
     val absorb: SimpleModifier<Percent> = SimpleModifier(0.percent)
-    val negativeEffectBlock: SimpleModifier<Percent> = SimpleModifier(0.percent)
-    val positiveEffectBlock: SimpleModifier<Percent> = SimpleModifier(0.percent)
+    val negativeEffectResist: SimpleModifier<Percent> = SimpleModifier(0.percent)
+    val positiveEffectResist: SimpleModifier<Percent> = SimpleModifier(0.percent)
     val climaxDamage: SimpleModifier<Percent> = SimpleModifier(0.percent)
     val damageDealtUp: SimpleModifier<Percent> = SimpleModifier(0.percent)
     val damageTakenDown: SimpleModifier<Percent> = SimpleModifier(0.percent)
     val damageTakenDownBuff: SimpleModifier<Percent> = SimpleModifier(0.percent)
-    val negativeEffectResist: SimpleModifier<Percent> = SimpleModifier(0.percent)
-    val effects: ActiveEffectManager<CharacterState> = ActiveEffectManager(this)
+    val effects: ActiveEffectManager = ActiveEffectManager()
     var counterHealValue: Percent = 0.percent
+    var negativeEffectBlockCounter: Int = 0
+    var positiveEffectBlockCounter: Int = 0
     val apUpCounter: Int = 0
     val apDownCounter: Int = 0
     var perfectAimCounter: Int = 0
@@ -38,7 +44,7 @@ class CharacterState(
     var burnTick: Int = 0
     var poisonTick: Int = 0
     var eventBonus: Percent = 0.percent
-    var inCA: Boolean = false
+    var inCX: Boolean = false
 
-    val alive get() = currentHP > 0
+    val isAlive get() = currentHP > 0
 }

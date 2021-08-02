@@ -1,25 +1,23 @@
 package xyz.qwewqa.relivesim.stage
 
-import xyz.qwewqa.relivesim.stage.activeeffects.StackedEffect
+import xyz.qwewqa.relivesim.stage.character.Attribute
+import xyz.qwewqa.relivesim.stage.character.CharacterState
+import xyz.qwewqa.relivesim.stage.character.DamageType
+import xyz.qwewqa.relivesim.stage.effect.StackedEffect
+import xyz.qwewqa.relivesim.stage.team.Team
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 import kotlin.random.Random
 
 data class Stage(
-    val playerCharacters: List<CharacterState>,
-    val enemyCharacters: List<CharacterState>,
-    var playerCACount: Int = 0,
+    val player: Team,
+    val enemy: Team,
     val damageCalculator: DamageCalculator = LoggingDamageCalculator(),
     val configuration: StageConfiguration = StageConfiguration(),
     val random: Random = Random.Default,
 ) {
     val logger = Logger()
-
-    val playerCAActive get() = playerCACount > 0
-
-    val activePlayerCharacters get() = playerCharacters.filter { it.alive }
-    val activeEnemyCharacters get() = enemyCharacters.filter { it.alive }
 
     fun hit(
         attacker: CharacterState,
@@ -29,8 +27,8 @@ data class Stage(
         isClimax: Boolean = false,
         overrideAttribute: Attribute? = null,
     ) {
-        log("Hit") { "[${attacker.setup.data.displayName}] attempts to hit [${target.setup.data.displayName}]" }
-        if (!attacker.alive) {
+        log("Hit") { "[${attacker.loadout.data.displayName}] attempts to hit [${target.loadout.data.displayName}]" }
+        if (!attacker.isAlive) {
             log("Hit") { "Attacker is already dead" }
             return
         }
@@ -50,7 +48,7 @@ data class Stage(
             } else {
                 (result.base * (100.percent + n.percent)).toInt()
             }
-            val reflect = when (attacker.setup.data.damageType) {
+            val reflect = when (attacker.loadout.data.damageType) {
                 DamageType.Normal -> target.normalReflect.get()
                 DamageType.Special -> target.specialReflect.get()
                 DamageType.NeutralDamage -> 0.percent

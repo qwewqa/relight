@@ -1,14 +1,17 @@
-package xyz.qwewqa.relivesim.stage
+package xyz.qwewqa.relivesim.stage.character
+
+import xyz.qwewqa.relivesim.stage.Percent
+import xyz.qwewqa.relivesim.stage.percent
 
 data class StatData(
-    val maxHP: Int = 1,
+    val maxHP: Int = 0,
     val actPower: Int = 0,
     val normalDefense: Int = 0,
     val specialDefense: Int = 0,
     val agility: Int = 0,
-    val dexterity: Percent = 5.percent,
-    val critical: Percent = 50.percent,
-    val accuracy: Percent = 100.percent,
+    val dexterity: Percent = 0.percent,
+    val critical: Percent = 0.percent,
+    val accuracy: Percent = 0.percent,
     val evasion: Percent = 0.percent,
 ) {
     fun applyToCharacterState(state: CharacterState) {
