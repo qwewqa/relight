@@ -7,6 +7,7 @@ import xyz.qwewqa.relivesim.stage.context.ActionContext
 import xyz.qwewqa.relivesim.stage.effect.AutoEffect
 import xyz.qwewqa.relivesim.stage.effect.NoopAutoEffect
 
+@StageDslMarker
 class CharacterBuilder {
     var name: String = ""
     var attribute: Attribute = Attribute.NeutralAttribute

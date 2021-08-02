@@ -5,6 +5,7 @@ import xyz.qwewqa.relivesim.stage.character.CharacterLoadout
 import xyz.qwewqa.relivesim.stage.team.ClimaxSong
 import xyz.qwewqa.relivesim.stage.team.Team
 
+@StageDslMarker
 class TeamBuilder {
     val loadouts = mutableListOf<CharacterLoadout>()
     var friend: CharacterLoadout? = null
@@ -19,7 +20,9 @@ class TeamBuilder {
     }
 
     fun build() = Team(
-        loadouts.associate { it.name to it.createState() }.also {
+        // It's expected for loadouts to be declared back to front,
+        // however, in code, lower indicies are more front
+        loadouts.asReversed().associate { it.name to it.createState() }.also {
             if (it.size != loadouts.size) error("Duplicate loadout names")
         },
         friend?.createState(),

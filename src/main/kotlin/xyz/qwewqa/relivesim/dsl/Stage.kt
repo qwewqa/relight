@@ -6,6 +6,7 @@ import xyz.qwewqa.relivesim.stage.StageConfiguration
 import xyz.qwewqa.relivesim.stage.team.Team
 import kotlin.random.Random
 
+@StageDslMarker
 class StageBuilder {
     var playerTeam: Team? = null
     var enemyTeam: Team? = null

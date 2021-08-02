@@ -4,6 +4,7 @@ import xyz.qwewqa.relivesim.stage.character.CharacterData
 import xyz.qwewqa.relivesim.stage.character.CharacterLoadout
 import xyz.qwewqa.relivesim.stage.character.MemoirData
 
+@StageDslMarker
 class LoadoutBuilder {
     var name: String? = null
     var character: CharacterData? = null
@@ -11,6 +12,10 @@ class LoadoutBuilder {
 
     fun character(init: CharacterBuilder.() -> Unit) {
         character = CharacterBuilder().apply(init).build()
+    }
+
+    fun memoir(init: MemoirBuilder.() -> Unit) {
+        memoir = MemoirBuilder().apply(init).build()
     }
 
     fun build(): CharacterLoadout = CharacterLoadout(

@@ -4,6 +4,7 @@ import xyz.qwewqa.relivesim.stage.character.MemoirData
 import xyz.qwewqa.relivesim.stage.character.StatData
 import xyz.qwewqa.relivesim.stage.effect.AutoEffect
 
+@StageDslMarker
 class MemoirBuilder {
     var name = "Unnamed"
     var stats = StatData()
