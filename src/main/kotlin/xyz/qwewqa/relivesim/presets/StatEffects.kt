@@ -16,6 +16,26 @@ class ActTimedEffect(
     }
 }
 
+class NormalDefenseTimedEffect(
+    override var turns: Int,
+    efficacy: Percent,
+    override val locked: Boolean = false,
+) : SimplePercentTimedEffect(efficacy) {
+    override fun getModifier(context: ActionContext) = context.run {
+        self.normalDefense
+    }
+}
+
+class SpecialDefenseTimedEffect(
+    override var turns: Int,
+    efficacy: Percent,
+    override val locked: Boolean = false,
+) : SimplePercentTimedEffect(efficacy) {
+    override fun getModifier(context: ActionContext) = context.run {
+        self.specialDefense
+    }
+}
+
 class CriticalTimedEffect(
     override var turns: Int,
     efficacy: Percent,

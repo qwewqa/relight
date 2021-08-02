@@ -3,12 +3,15 @@ package xyz.qwewqa.relivesim.stage.character
 import xyz.qwewqa.relivesim.stage.Percent
 import xyz.qwewqa.relivesim.stage.act.ActData
 import xyz.qwewqa.relivesim.stage.act.ActType
+import xyz.qwewqa.relivesim.stage.context.ActionContext
 import xyz.qwewqa.relivesim.stage.effect.ActiveEffectManager
 import xyz.qwewqa.relivesim.stage.percent
 
 class CharacterState(
     val loadout: CharacterLoadout,
 ) {
+    lateinit var context: ActionContext
+
     val acts: MutableMap<ActType, ActData> = mutableMapOf()
     var currentHP: Int = 1
     var currentBrilliance: Int = 0
@@ -32,14 +35,16 @@ class CharacterState(
     val damageDealtUp: AdditivePercentModifier = AdditivePercentModifier()
     val damageTakenDown: AdditivePercentModifier = AdditivePercentModifier()
     val damageTakenDownBuff: AdditivePercentModifier = AdditivePercentModifier()
-    val effects: ActiveEffectManager = ActiveEffectManager()
+    val effects: ActiveEffectManager = ActiveEffectManager(this)
     var counterHealValue: Percent = 0.percent
     var negativeEffectBlockCounter: Int = 0
     var positiveEffectBlockCounter: Int = 0
-    val apUpCounter: Int = 0
-    val apDownCounter: Int = 0
+    var apUpCounter: Int = 0
+    var apDownCounter: Int = 0
     var perfectAimCounter: Int = 0
     var blindCounter: Int = 0
+    var markCounter: Int = 0
+    var antiMarkCounter: Int = 0
     var burnCounter: Int = 0
     var burnTick: Int = 0
     var poisonTick: Int = 0

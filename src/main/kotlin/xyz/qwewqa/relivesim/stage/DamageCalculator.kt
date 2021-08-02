@@ -57,8 +57,8 @@ class StandardDamageCalculator : DamageCalculator {
         return DamageResult(
             base = baseDmg,
             critical = criticalDmg,
-            criticalChance = dex.asDouble(),
-            hitChance = acc.asDouble(),
+            criticalChance = dex.toDouble(),
+            hitChance = acc.toDouble(),
         )
     }
 }

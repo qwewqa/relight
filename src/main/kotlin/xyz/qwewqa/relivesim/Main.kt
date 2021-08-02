@@ -8,6 +8,9 @@ import xyz.qwewqa.relivesim.stage.character.Character.*
 import xyz.qwewqa.relivesim.stage.character.DamageType.*
 import xyz.qwewqa.relivesim.stage.character.Position.*
 import xyz.qwewqa.relivesim.stage.character.School.*
+import xyz.qwewqa.relivesim.stage.effect.ApDownTimedEffect
+import xyz.qwewqa.relivesim.stage.effect.EffectClass
+import xyz.qwewqa.relivesim.stage.effect.EffectClass.*
 import xyz.qwewqa.relivesim.stage.percent
 import xyz.qwewqa.relivesim.stage.team.ClimaxSong
 
@@ -30,16 +33,44 @@ fun main() {
                     positionValue = 35050
 
                     Act1("Brilliance Slash", 2) {
-
+                        targetFront().act {
+                            attack(112.percent, hitCount = 2)
+                        }
+                        targetSelf().act {
+                            addBrilliance(20)
+                        }
                     }
                     Act2("Sword of Justice", 2) {
-
+                        targetAoe().act {
+                            attack(64.percent, hitCount = 2)
+                        }
+                        targetTeamAoe().act {
+                            applyEffects(
+                                ActTimedEffect(turns = 3, 20.percent),
+                                ApDownTimedEffect(turns = 2),
+                            )
+                        }
                     }
                     Act3("Right Judgement", 2) {
-
+                        targetBack().act {
+                            attack(198.percent, hitCount = 3)
+                        }
+                        targetTeamAoe().act {
+                            effects.dispelTimed(Negative)
+                            heal(30.percent)
+                        }
                     }
                     ClimaxAct("Absolute Justice", 2) {
-
+                        targetSelf().act {
+                            applyEffects(
+                                ActTimedEffect(turns = 3, 20.percent),
+                                DexterityTimedEffect(turns = 3, 20.percent),
+                                CriticalTimedEffect(turns = 3, 20.percent),
+                            )
+                        }
+                        targetAoe().act {
+                            attack(240.percent, hitCount = 4)
+                        }
                     }
 
                     +TeamTimedDexterityAutoEffect(turns = 3, 10.percent)
@@ -74,16 +105,40 @@ fun main() {
                     positionValue = 34050
 
                     Act1("Strong Slash", 2) {
-
+                        targetFront().act {
+                            attack(176.percent)
+                        }
                     }
                     Act2("Spearheading Blade", 2) {
-
+                        targetSelf().act {
+                            applyEffects(
+                                ActTimedEffect(turns = 3, 20.percent),
+                                CriticalTimedEffect(turns = 3, 20.percent),
+                            )
+                        }
+                        targetHighestAct().act {
+                            attack(155.percent, hitCount = 2)
+                        }
                     }
                     Act3("Dashing Blade", 2) {
-
+                        targetSelf().act {
+                            applyEffects(
+                                DexterityTimedEffect(turns = 3, 20.percent),
+                                EffectiveDamageTimedEffect(turns = 3, 30.percent),
+                            )
+                        }
+                        targetHighestAct().act {
+                            attack(198.percent, hitCount = 2)
+                        }
                     }
                     ClimaxAct("Greatest Spear", 2) {
-
+                        targetHighestAct().act {
+                            applyEffects(
+                                Mark(turns = 2),
+                                NormalDefenseTimedEffect(turns = 3, -30.percent),
+                            )
+                            attack(369.percent.conditionalMultiplier(1.5) { damageType == Special }, hitCount = 3)
+                        }
                     }
 
                     +DamageDealtAutoEffect(10.percent)

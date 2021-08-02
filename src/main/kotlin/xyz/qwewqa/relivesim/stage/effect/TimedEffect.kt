@@ -43,7 +43,6 @@ interface FlippableEffect : TimedEffect {
 }
 
 enum class EffectClass {
-    Neutral,
     Positive,
     Negative,
 }

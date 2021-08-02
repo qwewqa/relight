@@ -8,7 +8,7 @@ import xyz.qwewqa.relivesim.stage.percent
 
 abstract class SimplePercentTimedEffect(val efficacy: Percent) : TimedEffect {
     open val name: String = this::class.simpleName ?: "Anonymous"
-    override fun toString() = "$name(turns = $turns, efficacy = $efficacy)"
+    override fun toString() = "$name(turns = $turns, efficacy = $efficacy, locked = $locked)"
 
     override val effectClass = if (efficacy >= 0.percent) EffectClass.Positive else EffectClass.Negative
     override val effectType = EffectType.Other

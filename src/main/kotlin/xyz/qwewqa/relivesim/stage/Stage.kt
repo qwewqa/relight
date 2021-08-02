@@ -3,6 +3,7 @@ package xyz.qwewqa.relivesim.stage
 import xyz.qwewqa.relivesim.stage.character.Attribute
 import xyz.qwewqa.relivesim.stage.character.CharacterState
 import xyz.qwewqa.relivesim.stage.character.DamageType
+import xyz.qwewqa.relivesim.stage.context.ActionContext
 import xyz.qwewqa.relivesim.stage.effect.StackedEffect
 import xyz.qwewqa.relivesim.stage.team.Team
 import kotlin.contracts.ExperimentalContracts
@@ -12,12 +13,21 @@ import kotlin.random.Random
 
 data class Stage(
     val player: Team,
-    val enemy: Team,
+    val opponent: Team,
     val damageCalculator: DamageCalculator = LoggingDamageCalculator(),
     val configuration: StageConfiguration = StageConfiguration(),
     val random: Random = Random.Default,
 ) {
     val logger = Logger()
+
+    init {
+        player.characters.values.forEach {
+            it.context = ActionContext(it, this, player, opponent)
+        }
+        opponent.characters.values.forEach {
+            it.context = ActionContext(it, this, opponent, player)
+        }
+    }
 
     fun hit(
         attacker: CharacterState,
@@ -56,12 +66,40 @@ data class Stage(
             log("Hit") { "Damage roll: $damage (critical: $isCritical, varianceRoll: $n)" }
             val reflected = (damage * reflect).toInt()
             val unreflected = damage - reflected
+            damage(target, unreflected)
             log("Hit") { "Unreflected: $unreflected, Reflected: $reflected" }
+            if (reflected > 0) {
+                damage(attacker, reflected)
+            }
         } else {
             log("Hit") { "Miss" }
         }
     }
 
+    fun damage(target: CharacterState, amount: Int) {
+        log("Damage") { "[$target] damaged $amount (prevHp: ${target.currentHP}, newHp: ${target.currentHP - amount})" }
+        target.currentHP -= amount
+    }
+
+    fun heal(target: CharacterState, amount: Int) {
+        log("Heal") {
+            "[$target] healed $amount (prevHp: ${target.currentHP}, newHp: ${
+                (target.currentHP + amount).coerceAtMost(target.maxHp.get().toInt())
+            })"
+        }
+        target.currentHP += amount
+        target.currentHP = target.currentHP.coerceAtMost(target.maxHp.get().toInt())
+    }
+
+    fun addBrilliance(target: CharacterState, amount: Int) {
+        log("Brilliance") {
+            "[$target] brilliance change $amount (prevBril: ${target.currentBrilliance}, newBril: ${
+                (target.currentBrilliance + amount).coerceIn(0, 100)
+            })"
+        }
+        target.currentBrilliance += amount
+        target.currentBrilliance = target.currentBrilliance.coerceIn(0, 100)
+    }
 }
 
 @OptIn(ExperimentalContracts::class)

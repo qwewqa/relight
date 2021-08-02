@@ -1,24 +1,25 @@
 package xyz.qwewqa.relivesim.stage.effect
 
+import xyz.qwewqa.relivesim.stage.character.CharacterState
 import xyz.qwewqa.relivesim.stage.context.ActionContext
 import java.util.*
 import kotlin.collections.LinkedHashSet
 
-class ActiveEffectManager {
-    private val neutralEffects = LinkedHashSet<TimedEffect>()
+class ActiveEffectManager(val character: CharacterState) {
     private val positiveEffects = LinkedHashSet<TimedEffect>()
     private val negativeEffects = LinkedHashSet<TimedEffect>()
     private val effectsByType: MutableMap<EffectType, MutableSet<TimedEffect>> = EnumMap(EffectType::class.java)
 
     private val positiveStackedEffects = mutableMapOf<StackedEffect, Int>()
     private val negativeStackedEffects = mutableMapOf<StackedEffect, Int>()
-    private val neutralStackedEffects = mutableMapOf<StackedEffect, Int>()
 
     /*
     A note about flip:
     It is presently untested whether flip adds the new effects at the end of the list,
     or replaces the existing effects in-place.
      */
+
+    val context get() = character.context
 
     fun get(effectType: EffectType): Set<TimedEffect> {
         return effectsByType[effectType] ?: emptySet()
@@ -28,16 +29,14 @@ class ActiveEffectManager {
         return when (effect.effectClass) {
             EffectClass.Positive -> positiveStackedEffects
             EffectClass.Negative -> negativeStackedEffects
-            EffectClass.Neutral -> neutralStackedEffects
         }[effect] ?: 0
     }
 
-    fun add(effect: TimedEffect, context: ActionContext) {
+    fun add(effect: TimedEffect) {
         effect.start(context)
         val added = when (effect.effectClass) {
             EffectClass.Positive -> positiveEffects
             EffectClass.Negative -> negativeEffects
-            EffectClass.Neutral -> neutralEffects
         }.add(effect)
         if (!added) error("Effect is already active.")
         effectsByType.getOrPut(effect.effectType) { mutableSetOf() }.add(effect)
@@ -47,15 +46,13 @@ class ActiveEffectManager {
         when (effect.effectClass) {
             EffectClass.Positive -> positiveStackedEffects
             EffectClass.Negative -> negativeStackedEffects
-            EffectClass.Neutral -> neutralStackedEffects
         }.let { it[effect] = (it[effect] ?: 0) + 1 }
     }
 
-    fun removeTimed(effect: TimedEffect, context: ActionContext) {
+    fun removeTimed(effect: TimedEffect) {
         val removed = when (effect.effectClass) {
             EffectClass.Positive -> positiveEffects
             EffectClass.Negative -> negativeEffects
-            EffectClass.Neutral -> neutralEffects
         }.remove(effect)
         if (!removed) error("Effect is not active.")
         effectsByType[effect.effectType]!!.remove(effect)
@@ -66,7 +63,6 @@ class ActiveEffectManager {
         when (effect.effectClass) {
             EffectClass.Positive -> positiveStackedEffects
             EffectClass.Negative -> negativeStackedEffects
-            EffectClass.Neutral -> neutralStackedEffects
         }.let {
             val value = it[effect]
             if (value == null || value <= 0) throw RuntimeException("Cannot remove effect with no active stacks.")
@@ -74,17 +70,16 @@ class ActiveEffectManager {
         }
     }
 
-    fun removeAll(type: EffectType, context: ActionContext) {
+    fun removeAll(type: EffectType) {
         effectsByType[type]?.toList()?.forEach {
-            removeTimed(it, context)
+            removeTimed(it)
         }
     }
 
-    fun dispelTimed(effectClass: EffectClass, includeLocked: Boolean = false, context: ActionContext) {
+    fun dispelTimed(effectClass: EffectClass, includeLocked: Boolean = false) {
         when (effectClass) {
             EffectClass.Positive -> positiveEffects
             EffectClass.Negative -> negativeEffects
-            EffectClass.Neutral -> neutralEffects
         }.apply {
             filter { includeLocked or !it.locked }.forEach {
                 remove(it)
@@ -94,19 +89,17 @@ class ActiveEffectManager {
         }
     }
 
-    fun dispelStacked(effectClass: EffectClass, context: ActionContext) {
+    fun dispelStacked(effectClass: EffectClass) {
         when (effectClass) {
             EffectClass.Positive -> positiveStackedEffects
             EffectClass.Negative -> negativeStackedEffects
-            EffectClass.Neutral -> neutralStackedEffects
         }.replaceAll { _, _ -> 0 }
     }
 
-    fun tick(effectClass: EffectClass, context: ActionContext) {
+    fun tick(effectClass: EffectClass) {
         when (effectClass) {
             EffectClass.Positive -> positiveEffects
             EffectClass.Negative -> negativeEffects
-            EffectClass.Neutral -> neutralEffects
         }.tick(context)
     }
 

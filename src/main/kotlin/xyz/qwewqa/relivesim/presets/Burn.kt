@@ -1,7 +1,10 @@
-package xyz.qwewqa.relivesim.stage.effect
+package xyz.qwewqa.relivesim.presets
 
 import xyz.qwewqa.relivesim.stage.*
 import xyz.qwewqa.relivesim.stage.context.ActionContext
+import xyz.qwewqa.relivesim.stage.effect.EffectClass
+import xyz.qwewqa.relivesim.stage.effect.EffectType
+import xyz.qwewqa.relivesim.stage.effect.TimedEffect
 import kotlin.properties.Delegates
 
 class Burn(
@@ -10,7 +13,7 @@ class Burn(
     val percentDamage: Percent = 0.percent,
     override val locked: Boolean = false,
 ) : TimedEffect {
-    override fun toString() = "Burn(turns = $turns, fixedDamage = $fixedDamage, percentDamage = $percentDamage)"
+    override fun toString() = "Burn(turns = $turns, fixedDamage = $fixedDamage, percentDamage = $percentDamage, locked = $locked)"
 
     override val effectClass = EffectClass.Negative
     override val effectType = EffectType.Burn

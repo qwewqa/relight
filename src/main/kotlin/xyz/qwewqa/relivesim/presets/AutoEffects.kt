@@ -105,7 +105,7 @@ data class TeamTimedDexterityAutoEffect(val turns: Int, val efficacy: Percent) :
     override val effectClass = if (efficacy >= 0.percent) EffectClass.Positive else EffectClass.Negative
 
     override fun apply(context: ActionContext, target: CharacterState) = context.run {
-        target.applyTimedEffect(DexterityTimedEffect(turns, efficacy))
+        target.applyEffect(DexterityTimedEffect(turns, efficacy))
     }
 }
 
@@ -114,6 +114,6 @@ data class TeamTimedEffectiveDamageAutoEffect(val turns: Int, val efficacy: Perc
     override val effectClass = if (efficacy >= 0.percent) EffectClass.Positive else EffectClass.Negative
 
     override fun apply(context: ActionContext, target: CharacterState) = context.run {
-        target.applyTimedEffect(EffectiveDamageTimedEffect(turns, efficacy))
+        target.applyEffect(EffectiveDamageTimedEffect(turns, efficacy))
     }
 }
