@@ -81,7 +81,6 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
             val isCritical = stage.random.nextDouble() < result.criticalChance
             val damage = if (isCritical) {
                 (result.critical * (100.percent + n.percent)).toInt()
-
             } else {
                 (result.base * (100.percent + n.percent)).toInt()
             }

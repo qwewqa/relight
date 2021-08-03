@@ -78,9 +78,24 @@ data class Stage(
             val playerTiles = playerQueue.tiles + List(queueLength - playerQueue.tiles.size) { PrepareTile }
             val opponentTiles = opponentQueue.tiles + List(queueLength - playerQueue.tiles.size) { PrepareTile }
             playerTiles.zip(opponentTiles).forEach { (a, b) ->
-                listOf(a, b).sortedBy { random.nextDouble() }.sortedByDescending { it.agility }.forEach {
-                    it.execute()
-                    checkEnded()?.let { return it }
+                when {
+                    a.agility > b.agility -> {
+                        a.execute()
+                        b.execute()
+                    }
+                    b.agility > a.agility -> {
+                        b.execute()
+                        a.execute()
+                    }
+                    else -> {
+                        if (random.nextDouble() > 0.5) {
+                            a.execute()
+                            b.execute()
+                        } else {
+                            b.execute()
+                            a.execute()
+                        }
+                    }
                 }
             }
             listOf(player.active, opponent.active).flatten().apply {
