@@ -6,7 +6,7 @@ data class ActData(
     val name: String,
     val type: ActType,
     val apCost: Int,
-    val action: Act,
+    val act: Act,
 )
 
 fun interface Act {

@@ -1,26 +1,26 @@
 package xyz.qwewqa.relivesim.dsl
 
-import xyz.qwewqa.relivesim.stage.character.CharacterData
-import xyz.qwewqa.relivesim.stage.character.CharacterLoadout
+import xyz.qwewqa.relivesim.stage.character.StageGirlData
+import xyz.qwewqa.relivesim.stage.character.StageGirlLoadout
 import xyz.qwewqa.relivesim.stage.character.MemoirData
 
 @StageDslMarker
 class LoadoutBuilder {
     var name: String? = null
-    var character: CharacterData? = null
+    var stageGirl: StageGirlData? = null
     var memoir: MemoirData? = null
 
-    fun character(init: CharacterBuilder.() -> Unit) {
-        character = CharacterBuilder().apply(init).build()
+    fun stageGirl(init: StageGirlBuilder.() -> Unit) {
+        stageGirl = StageGirlBuilder().apply(init).build()
     }
 
     fun memoir(init: MemoirBuilder.() -> Unit) {
         memoir = MemoirBuilder().apply(init).build()
     }
 
-    fun build(): CharacterLoadout = CharacterLoadout(
-        name ?: character?.displayName ?: error("No name"),
-        character ?: error("Character not specified"),
+    fun build(): StageGirlLoadout = StageGirlLoadout(
+        name ?: stageGirl?.displayName ?: error("No name"),
+        stageGirl ?: error("Stage girl not specified"),
         memoir,
     )
 }

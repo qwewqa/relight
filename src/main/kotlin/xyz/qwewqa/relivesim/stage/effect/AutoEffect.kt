@@ -11,7 +11,9 @@ interface AutoEffect {
     fun activate(context: ActionContext)
 }
 
-object NoopAutoEffect : AutoEffect {
+object BlankAutoEffect : AutoEffect {
+    override fun toString() = "BlankAutoEffect"
+
     override val effectClass = EffectClass.Positive
 
     override fun activate(context: ActionContext) {}

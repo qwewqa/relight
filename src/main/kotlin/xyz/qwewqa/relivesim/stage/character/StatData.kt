@@ -14,27 +14,27 @@ data class StatData(
     val accuracy: Percent = 0.percent,
     val evasion: Percent = 0.percent,
 ) {
-    fun applyToCharacterState(state: CharacterState) {
-        state.maxHp.value = maxHP
-        state.actPower.value = actPower
-        state.normalDefense.value = normalDefense
-        state.specialDefense.value = specialDefense
-        state.agility.value = agility
-        state.dexterity.value = dexterity
-        state.critical.value = critical
-        state.accuracy.value = accuracy
-        state.evasion.value = evasion
+    fun applyToStageGirl(sg: StageGirl) {
+        sg.maxHp.value = maxHP
+        sg.actPower.value = actPower
+        sg.normalDefense.value = normalDefense
+        sg.specialDefense.value = specialDefense
+        sg.agility.value = agility
+        sg.dexterity.value = dexterity
+        sg.critical.value = critical
+        sg.accuracy.value = accuracy
+        sg.evasion.value = evasion
     }
     
-    fun addToCharacterState(state: CharacterState) {
-        state.maxHp.value += maxHP
-        state.actPower.value += actPower
-        state.normalDefense.value += normalDefense
-        state.specialDefense.value += specialDefense
-        state.agility.value += agility
-        state.dexterity.value += dexterity
-        state.critical.value += critical
-        state.accuracy.value += accuracy
-        state.evasion.value += evasion
+    fun addToStageGirl(sg: StageGirl) {
+        sg.maxHp.value += maxHP
+        sg.actPower.value += actPower
+        sg.normalDefense.value += normalDefense
+        sg.specialDefense.value += specialDefense
+        sg.agility.value += agility
+        sg.dexterity.value += dexterity
+        sg.critical.value += critical
+        sg.accuracy.value += accuracy
+        sg.evasion.value += evasion
     }
 }

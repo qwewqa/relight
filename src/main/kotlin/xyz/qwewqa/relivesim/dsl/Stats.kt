@@ -29,7 +29,7 @@ class StatsBuilder {
     )
 }
 
-fun defaultCharacterStats(): StatsBuilder = StatsBuilder().apply {
+fun defaultStageGirlStats(): StatsBuilder = StatsBuilder().apply {
     dexterity = 5.percent
     critical = 50.percent
     accuracy = 100.percent

@@ -2,9 +2,9 @@ package xyz.qwewqa.relivesim.stage.character
 
 import xyz.qwewqa.relivesim.stage.act.ActData
 import xyz.qwewqa.relivesim.stage.effect.AutoEffect
-import xyz.qwewqa.relivesim.stage.effect.NoopAutoEffect
+import xyz.qwewqa.relivesim.stage.effect.BlankAutoEffect
 
-data class CharacterData(
+data class StageGirlData(
     val name: String = "",
     val attribute: Attribute = Attribute.NeutralAttribute,
     val character: Character = Character.OtherCharacter,
@@ -15,14 +15,14 @@ data class CharacterData(
     val normalActs: List<ActData> = emptyList(),
     val climaxAct: ActData? = null,
     val autoSkills: List<AutoEffect> = emptyList(),
-    val unitSkill: AutoEffect = NoopAutoEffect,
+    val unitSkill: AutoEffect = BlankAutoEffect,
     val effectivenessTable: AttributeEffectivenessTable = standardAttributeEffectivenessTables.getValue(attribute),
 ) {
-    val displayName = "$name ${character.name}"
+    val displayName get() = "$name ${character.name}"
 
-    fun applyToCharacterState(state: CharacterState) {
-        stats.applyToCharacterState(state)
-        normalActs.forEach { state.acts[it.type] = it }
-        climaxAct?.let { state.acts[it.type] = it }
+    fun applyToStageGirl(sg: StageGirl) {
+        stats.applyToStageGirl(sg)
+        normalActs.forEach { sg.acts[it.type] = it }
+        climaxAct?.let { sg.acts[it.type] = it }
     }
 }

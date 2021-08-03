@@ -5,16 +5,22 @@ import xyz.qwewqa.relivesim.stage.act.ActData
 import xyz.qwewqa.relivesim.stage.act.ActType
 import xyz.qwewqa.relivesim.stage.context.ActionContext
 import xyz.qwewqa.relivesim.stage.effect.ActiveEffectManager
+import xyz.qwewqa.relivesim.stage.log
 import xyz.qwewqa.relivesim.stage.percent
+import xyz.qwewqa.relivesim.stage.team.Team
 
-class CharacterState(
-    val loadout: CharacterLoadout,
+class StageGirl(
+    val loadout: StageGirlLoadout,
 ) {
     lateinit var context: ActionContext
+    lateinit var team: Team
+
+    override fun toString() = loadout.data.displayName
 
     val acts: MutableMap<ActType, ActData> = mutableMapOf()
     var currentHP: Int = 1
     var currentBrilliance: Int = 0
+        set(value) { field = value.coerceIn(0, 100) }
     val maxHp: MultiplicativeBuffModifier = MultiplicativeBuffModifier()
     val actPower: MultiplicativeBuffModifier = MultiplicativeBuffModifier()
     val normalDefense: MultiplicativeBuffModifier = MultiplicativeBuffModifier()
@@ -50,6 +56,28 @@ class CharacterState(
     var poisonTick: Int = 0
     var eventBonus: Percent = 0.percent
     var inCX: Boolean = false
+        private set
+    var inCXAct: Boolean = false
+
+    val data get() = loadout.data
+
+    fun enterCX() {
+        if (inCX) return
+        context.stage.log("Climax") { "[$this] enter cx" }
+        team.song.effects.forEach {
+            it.start(context)
+        }
+        inCX = true
+    }
+
+    fun exitCX() {
+        if (!inCX) return
+        context.stage.log("Climax") { "[$this] exit cx" }
+        team.song.effects.forEach {
+            it.stop(context)
+        }
+        inCX = false
+    }
 
     val isAlive get() = currentHP > 0
 }

@@ -1,7 +1,7 @@
 package xyz.qwewqa.relivesim.stage.effect
 
 import xyz.qwewqa.relivesim.stage.Percent
-import xyz.qwewqa.relivesim.stage.character.CharacterState
+import xyz.qwewqa.relivesim.stage.character.StageGirl
 import xyz.qwewqa.relivesim.stage.character.Modifier
 import xyz.qwewqa.relivesim.stage.context.ActionContext
 import xyz.qwewqa.relivesim.stage.percent
@@ -39,7 +39,7 @@ abstract class SimplePercentAutoEffect(val efficacy: Percent) : AutoEffect {
 
 abstract class TeamAutoEffect : AutoEffect {
     open val name: String = this::class.simpleName ?: "Anonymous"
-    abstract fun apply(context: ActionContext, target: CharacterState)
+    abstract fun apply(context: ActionContext, target: StageGirl)
 
     override fun activate(context: ActionContext) = context.run {
         team.forEach { apply(this, it) }

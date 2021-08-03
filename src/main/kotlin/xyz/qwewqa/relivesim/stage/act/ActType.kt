@@ -5,5 +5,6 @@ sealed class ActType {
     object Act2 : ActType()
     object Act3 : ActType()
     object ClimaxAct : ActType()
+    object ConfusionAct: ActType()
     data class OtherAct(val name: String) : ActType()
 }
