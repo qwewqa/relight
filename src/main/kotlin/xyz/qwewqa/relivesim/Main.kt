@@ -1,7 +1,7 @@
 package xyz.qwewqa.relivesim
 
-import kotlinx.coroutines.runBlocking
-import xyz.qwewqa.relivesim.dsl.bulkRun
+import kotlinx.coroutines.coroutineScope
+import xyz.qwewqa.relivesim.dsl.bulkPlay
 import xyz.qwewqa.relivesim.presets.*
 import xyz.qwewqa.relivesim.stage.OutOfTurns
 import xyz.qwewqa.relivesim.stage.StageConfiguration
@@ -21,9 +21,9 @@ import xyz.qwewqa.relivesim.stage.strategy.FixedStrategy
 import xyz.qwewqa.relivesim.stage.team.ClimaxSong
 import kotlin.system.measureTimeMillis
 
-suspend fun main() = runBlocking {
+suspend fun main() = coroutineScope {
     measureTimeMillis {
-        bulkRun(1_000_000, maxTurns = 4) {
+        bulkPlay(1_000_000, maxTurns = 4) {
             player {
                 loadout {
                     name = "Justice"
@@ -339,6 +339,7 @@ suspend fun main() = runBlocking {
                 logging = false,
             )
         }.let {
+            println("${it.size} runs")
             println("${it.filterIsInstance<OutOfTurns>().map { it.margin }.average().toInt()}")
         }
     }.let {

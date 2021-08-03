@@ -3,7 +3,10 @@ package xyz.qwewqa.relivesim.dsl
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toList
 import xyz.qwewqa.relivesim.stage.LoggingDamageCalculator
 import xyz.qwewqa.relivesim.stage.Stage
 import xyz.qwewqa.relivesim.stage.StageConfiguration
@@ -13,7 +16,7 @@ import java.util.concurrent.Executors
 import kotlin.random.Random
 
 @StageDslMarker
-class StageBuilder {
+class StageBuilder(val seed: Int? = null) {
     var playerTeam: Team? = null
     var enemyTeam: Team? = null
     var damageCalculator = LoggingDamageCalculator()
@@ -32,19 +35,21 @@ class StageBuilder {
         enemyTeam ?: error("No enemy team"),
         damageCalculator,
         configuration,
+        seed?.let { Random(it) } ?: Random.Default
     )
 }
 
-fun stage(init: StageBuilder.() -> Unit) = StageBuilder().apply(init).build()
-suspend fun bulkRun(count: Int, maxTurns: Int, init: StageBuilder.() -> Unit): List<StageResult> = coroutineScope {
+fun stage(seed: Int? = null, init: StageBuilder.() -> Unit) = StageBuilder(seed).apply(init).build()
+suspend fun bulkPlay(count: Int, maxTurns: Int, init: StageBuilder.() -> Unit): List<StageResult> = coroutineScope {
     val processorCount = Runtime.getRuntime().availableProcessors()
-    val pool = Executors.newFixedThreadPool(processorCount).asCoroutineDispatcher()
-    flow { repeat(count) { emit(stage(init)) } }
-        .map { async(pool) { it.run(maxTurns) } }
-        .buffer(processorCount)
-        .map { it.await() }
-        .toList()
-        .also {
-            pool.close()
-        }
+    Executors.newFixedThreadPool(processorCount).asCoroutineDispatcher().use { pool ->
+        (0 until count).chunked(10000).asFlow()
+            .map { seeds ->
+                async(pool) { seeds.map { stage(seed = it, init).play(maxTurns) } }
+            }
+            .buffer(processorCount)
+            .map { it.await() }
+            .toList()
+            .flatten()
+    }
 }

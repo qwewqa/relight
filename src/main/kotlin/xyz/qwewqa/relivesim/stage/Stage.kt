@@ -50,7 +50,7 @@ data class Stage(
         }
     }
 
-    fun run(maxTurns: Int = 6): StageResult {
+    fun play(maxTurns: Int = 6): StageResult {
         log("Stage") { "Begin" }
 
         log("AutoEffect") { "Begin" }
@@ -59,7 +59,7 @@ data class Stage(
         } + listOfNotNull(player.friend, opponent.friend).map { sg ->
             BoundAutoSkill(sg, sg.data.unitSkill)
         }
-        autoEffects.sortedBy { random.nextDouble() }.sorted().forEach {
+        autoEffects.shuffled().sorted().forEach {
             log("AutoEffect") { "[${it.stageGirl}] auto effect [${it.autoSkill}] activate" }
             it.execute()
         }
