@@ -19,7 +19,7 @@ data class AdditivePercentModifier(
 data class MultiplicativeBuffModifier(
     override var value: Int = 0,
     override var buff: Percent = 0.percent,
-) : Modifier<Int, Double> {
-    override fun get() = value * (100.percent + buff)
+) : Modifier<Int, Int> {
+    override fun get() = (value * (100.percent + buff)).toInt()
 }
 

@@ -33,7 +33,7 @@ class FixedStrategyContext(val stage: Stage, val team: Team, val enemy: Team) {
 
     fun BoundAct.enqueue() {
         repeat(apCost - 1) { queue.add(PrepareTile) }
-        queue.add(ActionTile(stageGirl, actData))
+        queue.add(ActionTile(stageGirl, apCost, actData))
     }
 
     operator fun BoundAct.unaryPlus() = enqueue()

@@ -1,12 +1,9 @@
 package xyz.qwewqa.relivesim.stage
 
-import xyz.qwewqa.relivesim.stage.character.Attribute
 import xyz.qwewqa.relivesim.stage.character.StageGirl
-import xyz.qwewqa.relivesim.stage.character.DamageType
 import xyz.qwewqa.relivesim.stage.context.ActionContext
+import xyz.qwewqa.relivesim.stage.effect.AutoEffect
 import xyz.qwewqa.relivesim.stage.effect.EffectClass
-import xyz.qwewqa.relivesim.stage.effect.StackedEffect
-import xyz.qwewqa.relivesim.stage.strategy.ActionTile
 import xyz.qwewqa.relivesim.stage.strategy.PrepareTile
 import xyz.qwewqa.relivesim.stage.team.Team
 import kotlin.contracts.ExperimentalContracts
@@ -38,40 +35,41 @@ data class Stage(
     var turn = 0
         private set
 
-    fun run(turns: Int = 6) {
-        log("Stage") { "Begin" }
-        log("AutoEffect") { "Begin" }
+    private class BoundAutoSkill(val stageGirl: StageGirl, val autoSkill: AutoEffect) : Comparable<BoundAutoSkill> {
+        fun execute() {
+            autoSkill.activate(stageGirl.context)
+        }
 
-        // TODO: sort by agility, auto effects first
-        listOf(player.stageGirls.values, opponent.stageGirls.values).flatten().forEach { sg ->
-            sg.loadout.autoEffects
-                .filter { it.effectClass == EffectClass.Positive }
-                .forEach {
-                    log("AutoEffect") { "[$sg] auto effect $it activate" }
-                    it.activate(sg.context)
-                }
+        val effectClass = autoSkill.effectClass
+
+        override operator fun compareTo(other: BoundAutoSkill): Int {
+            var ret = effectClass.ordinal - other.effectClass.ordinal // sort negatives after positives
+            if (ret != 0) return ret
+            ret = other.stageGirl.agility.get() - stageGirl.agility.get()  // sort lower agility after higher
+            return ret
         }
-        player.friend?.let {
-            log("AutoEffect") { "[$it] auto effect ${it.loadout.data.unitSkill} activate" }
-            it.loadout.data.unitSkill.activate(it.context)
+    }
+
+    fun run(maxTurns: Int = 6): StageResult {
+        log("Stage") { "Begin" }
+
+        log("AutoEffect") { "Begin" }
+        val autoEffects = listOf(player.stageGirls.values, opponent.stageGirls.values).flatten().flatMap { sg ->
+            sg.loadout.autoEffects.map { BoundAutoSkill(sg, it) }
+        } + listOfNotNull(player.friend, opponent.friend).map { sg ->
+            BoundAutoSkill(sg, sg.data.unitSkill)
         }
-        opponent.friend?.let {
-            log("AutoEffect") { "[$it] auto effect ${it.loadout.data.unitSkill} activate" }
-            it.loadout.data.unitSkill.activate(it.context)
+        autoEffects.sortedBy { random.nextDouble() }.sorted().forEach {
+            log("AutoEffect") { "[${it.stageGirl}] auto effect [${it.autoSkill}] activate" }
+            it.execute()
         }
-        listOf(player.stageGirls.values, opponent.stageGirls.values).flatten().forEach { sg ->
-            sg.loadout.autoEffects
-                .filter { it.effectClass == EffectClass.Negative }
-                .forEach {
-                    log("AutoEffect") { "[$sg] auto effect $it activate" }
-                    it.activate(sg.context)
-                }
-        }
+        log("AutoEffect") { "End" }
+
         player.finalizeTurnZero()
         opponent.finalizeTurnZero()
-        while (turn < turns) {
+        while (turn < maxTurns) {
             turn++
-            log("Turn") { "$turn" }
+            log("Turn") { "Turn $turn begin" }
             val playerQueue = player.strategy.getQueue(this, player, opponent)
             val opponentQueue = opponent.strategy.getQueue(this, opponent, player)
             if (playerQueue.climax) player.enterCX()
@@ -80,121 +78,41 @@ data class Stage(
             val playerTiles = playerQueue.tiles + List(queueLength - playerQueue.tiles.size) { PrepareTile }
             val opponentTiles = opponentQueue.tiles + List(queueLength - playerQueue.tiles.size) { PrepareTile }
             playerTiles.zip(opponentTiles).forEach { (a, b) ->
-                when {
-                    a is ActionTile && b is ActionTile -> {
-                        val agilityA = a.stageGirl.agility.get().toInt()
-                        val agilityB = b.stageGirl.agility.get().toInt()
-                        when {
-                            agilityA == agilityB -> {
-                                if (random.nextDouble() < 0.5) {
-                                    a.execute()
-                                    b.execute()
-                                } else {
-                                    b.execute()
-                                    a.execute()
-                                }
-                            }
-                            agilityA > agilityB -> {
-                                a.execute()
-                                b.execute()
-                            }
-                            agilityB > agilityA -> {
-                                b.execute()
-                                a.execute()
-                            }
-                        }
-                    }
-                    a is ActionTile -> {
-                        a.execute()
-                    }
-                    b is ActionTile -> {
-                        b.execute()
-                    }
+                listOf(a, b).sortedBy { random.nextDouble() }.sortedByDescending { it.agility }.forEach {
+                    it.execute()
+                    checkEnded()?.let { return it }
                 }
             }
-            listOf(player.stageGirls.values, opponent.stageGirls.values).flatten().forEach { sg ->
-                sg.effects.tick(EffectClass.Positive)
-            }
-            listOf(player.stageGirls.values, opponent.stageGirls.values).flatten().forEach { sg ->
-                sg.effects.tick(EffectClass.Negative)
+            listOf(player.active, opponent.active).flatten().apply {
+                log("Turn") { "Turn $turn tick positive" }
+                forEach { sg -> sg.effects.tick(EffectClass.Positive) }
+                log("Turn") { "Turn $turn tick negative" }
+                forEach { sg -> sg.effects.tick(EffectClass.Negative) }
             }
             player.endTurn()
             opponent.endTurn()
+            log("Turn") { "Turn $turn end" }
+            checkEnded()?.let { return it }
         }
-        print(logger)
+        if (configuration.logging) print(logger)
+        return OutOfTurns(opponent.active.sumOf { it.maxHp.get() - it.currentHP })
     }
 
-    fun hit(
-        attacker: StageGirl,
-        target: StageGirl,
-        modifier: Percent,
-        hitCount: Int,
-        overrideAttribute: Attribute? = null,
-    ) {
-        log("Hit") { "[${attacker.loadout.data.displayName}] attempts to hit [${target.loadout.data.displayName}]" }
-        val result = damageCalculator.calculate(this, attacker, target, modifier, hitCount, overrideAttribute)
-        if (target.effects.get(StackedEffect.Evade) > 0) {
-            target.effects.removeStacked(StackedEffect.Evade)
-            if (!(attacker.perfectAimCounter > 0)) {
-                log("Hit") { "Miss from Evade" }
-            }
+    private fun checkEnded(): StageResult? {
+        if (player.active.isEmpty()) {
+            return TeamWipe
         }
-        if (random.nextDouble() < result.hitChance) {
-            val n = random.nextInt(-8, 9)
-            val isCritical = random.nextDouble() < result.criticalChance
-            val damage = if (isCritical) {
-                (result.critical * (100.percent + n.percent)).toInt()
-
-            } else {
-                (result.base * (100.percent + n.percent)).toInt()
-            }
-            val reflect = when (attacker.loadout.data.damageType) {
-                DamageType.Normal -> target.normalReflect.get()
-                DamageType.Special -> target.specialReflect.get()
-                DamageType.NeutralDamage -> 0.percent
-            }
-            log("Hit") { "Damage roll: $damage (critical: $isCritical, varianceRoll: $n)" }
-            val reflected = (damage * reflect).toInt()
-            val unreflected = damage - reflected
-            if (reflected > 0) log("Hit") { "Unreflected: $unreflected, Reflected: $reflected" }
-            damage(target, unreflected)
-            if (reflected > 0) {
-                damage(attacker, reflected)
-            }
-        } else {
-            log("Hit") { "Miss" }
+        if (opponent.active.isEmpty()) {
+            return Victory(turn)
         }
-    }
-
-    fun damage(target: StageGirl, amount: Int) {
-        val newHp = (target.currentHP - amount).coerceAtLeast(0)
-        log("Damage") { "[$target] damaged $amount (prevHp: ${target.currentHP}, newHp: $newHp)" }
-        target.currentHP = newHp
-        if (newHp == 0) {
-            log("Exit") { "[$target] has exited" }
-        }
-    }
-
-    fun heal(target: StageGirl, amount: Int) {
-        log("Heal") {
-            "[$target] healed $amount (prevHp: ${target.currentHP}, newHp: ${
-                (target.currentHP + amount).coerceAtMost(target.maxHp.get().toInt())
-            })"
-        }
-        target.currentHP += amount
-        target.currentHP = target.currentHP.coerceAtMost(target.maxHp.get().toInt())
-    }
-
-    fun addBrilliance(target: StageGirl, amount: Int) {
-        log("Brilliance") {
-            "[$target] brilliance change $amount (prevBril: ${target.currentBrilliance}, newBril: ${
-                (target.currentBrilliance + amount).coerceIn(0, 100)
-            })"
-        }
-        target.currentBrilliance += amount
-        target.currentBrilliance = target.currentBrilliance.coerceIn(0, 100)
+        return null
     }
 }
+
+sealed class StageResult
+object TeamWipe : StageResult()
+class OutOfTurns(val margin: Int) : StageResult()
+class Victory(val turns: Int) : StageResult()
 
 @OptIn(ExperimentalContracts::class)
 inline fun Stage.log(tag: String = "", value: () -> String) {

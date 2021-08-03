@@ -1,6 +1,7 @@
 package xyz.qwewqa.relivesim.stage.character
 
 import xyz.qwewqa.relivesim.stage.Percent
+import xyz.qwewqa.relivesim.stage.act.Act
 import xyz.qwewqa.relivesim.stage.act.ActData
 import xyz.qwewqa.relivesim.stage.act.ActType
 import xyz.qwewqa.relivesim.stage.context.ActionContext
@@ -20,7 +21,9 @@ class StageGirl(
     val acts: MutableMap<ActType, ActData> = mutableMapOf()
     var currentHP: Int = 1
     var currentBrilliance: Int = 0
-        set(value) { field = value.coerceIn(0, 100) }
+        set(value) {
+            field = value.coerceIn(0, 100)
+        }
     val maxHp: MultiplicativeBuffModifier = MultiplicativeBuffModifier()
     val actPower: MultiplicativeBuffModifier = MultiplicativeBuffModifier()
     val normalDefense: MultiplicativeBuffModifier = MultiplicativeBuffModifier()
@@ -60,6 +63,47 @@ class StageGirl(
     var inCXAct: Boolean = false
 
     val data get() = loadout.data
+
+    fun execute(act: Act, apCost: Int) {
+        this.addBrilliance(7 * apCost)
+        act.action(context)
+    }
+
+    fun damage(amount: Int) = context.run {
+        if (!isAlive) {
+            stage.log("Damage") { "[$self] has already exited" }
+        }
+        val newHp = (self.currentHP - amount).coerceAtLeast(0)
+        stage.log("Damage") { "[$self] damaged $amount (prevHp: ${self.currentHP}, newHp: $newHp)" }
+        self.currentHP = newHp
+        if (newHp == 0) {
+            stage.log("Exit") { "[$self] has exited" }
+            self.team.strategy.onStageGirlExit(self)
+            self.exitCX()
+        } else {
+            self.addBrilliance(amount * 100 / self.maxHp.get())
+        }
+    }
+
+    fun heal(amount: Int) = context.run {
+        stage.log("Heal") {
+            "[$self] healed $amount (prevHp: ${self.currentHP}, newHp: ${
+                (self.currentHP + amount).coerceAtMost(self.maxHp.get())
+            })"
+        }
+        self.currentHP += amount
+        self.currentHP = self.currentHP.coerceAtMost(self.maxHp.get())
+    }
+
+    fun addBrilliance(amount: Int) = context.run {
+        stage.log("Brilliance") {
+            "[$self] brilliance charge $amount (prevBril: ${self.currentBrilliance}, newBril: ${
+                (self.currentBrilliance + amount).coerceIn(0, 100)
+            })"
+        }
+        self.currentBrilliance += amount
+        self.currentBrilliance = self.currentBrilliance.coerceIn(0, 100)
+    }
 
     fun enterCX() {
         if (inCX) return

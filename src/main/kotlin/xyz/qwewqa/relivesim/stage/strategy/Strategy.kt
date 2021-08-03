@@ -20,17 +20,27 @@ data class QueueResult(
     val climax: Boolean,
 )
 
-sealed class QueueTile
-object PrepareTile : QueueTile()
-class ActionTile(val stageGirl: StageGirl, val actData: ActData) : QueueTile() {
-    fun execute() {
+sealed class QueueTile {
+    abstract val agility: Int
+    abstract fun execute()
+}
+
+object PrepareTile : QueueTile() {
+    override val agility = 0
+    override fun execute() {}
+}
+
+class ActionTile(val stageGirl: StageGirl, val apCost: Int, val actData: ActData) : QueueTile() {
+    override val agility get() = stageGirl.agility.get()
+
+    override fun execute() {
         stageGirl.context.stage.log("Act") { "[$stageGirl] executes act [${actData.name}]" }
         if (actData.type == ActType.ClimaxAct) {
             stageGirl.inCXAct = true
-            actData.act.action(stageGirl.context)
+            stageGirl.execute(actData.act, apCost)
             stageGirl.inCXAct = false
         } else {
-            actData.act.action(stageGirl.context)
+            stageGirl.execute(actData.act, apCost)
         }
     }
 }

@@ -25,7 +25,7 @@ class StandardDamageCalculator : DamageCalculator {
         hitCount: Int,
         overrideAttribute: Attribute?,
     ): DamageResult {
-        val atk = 2.0 * attacker.actPower.get().toInt() * modifier * (if (attacker.inCX) 1.1 else 1.0)
+        val atk = 2.0 * attacker.actPower.get() * modifier * (if (attacker.inCX) 1.1 else 1.0)
         val def = when (attacker.loadout.data.damageType) {
             DamageType.Normal -> target.normalDefense.get()
             DamageType.Special -> target.specialDefense.get()

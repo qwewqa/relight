@@ -1,13 +1,16 @@
 package xyz.qwewqa.relivesim.stage.context
 
+import xyz.qwewqa.relivesim.dsl.StageDslMarker
 import xyz.qwewqa.relivesim.stage.*
 import xyz.qwewqa.relivesim.stage.character.StageGirl
 import xyz.qwewqa.relivesim.stage.character.Attribute
+import xyz.qwewqa.relivesim.stage.character.DamageType
 import xyz.qwewqa.relivesim.stage.effect.EffectClass
+import xyz.qwewqa.relivesim.stage.effect.StackedEffect
 import xyz.qwewqa.relivesim.stage.effect.TimedEffect
 import xyz.qwewqa.relivesim.stage.team.Team
-import kotlin.math.log
 
+@StageDslMarker
 data class ActionContext(
     val self: StageGirl,
     val stage: Stage,
@@ -32,6 +35,7 @@ data class ActionContext(
     fun Team.forEach(action: (StageGirl) -> Unit) = active.forEach(action)
 }
 
+@StageDslMarker
 class TargetContext(val actionContext: ActionContext, val targets: List<StageGirl>) {
     val stage get() = actionContext.stage
     val self = actionContext.self
@@ -48,8 +52,7 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
         if (!self.isAlive) return
         repeat(hitCount) {
             targets.forEach { target ->
-                stage.hit(
-                    self,
+                hit(
                     target,
                     if (bonusCondition(target)) modifier * bonusMultiplier.toPercent() else modifier,
                     hitCount,
@@ -59,13 +62,54 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
         }
     }
 
+    private fun hit(
+        target: StageGirl,
+        modifier: Percent,
+        hitCount: Int,
+        overrideAttribute: Attribute? = null,
+    ) {
+        stage.log("Hit") { "[${self.loadout.data.displayName}] attempts to hit [${target.loadout.data.displayName}]" }
+        val result = stage.damageCalculator.calculate(stage, self, target, modifier, hitCount, overrideAttribute)
+        if (target.effects.get(StackedEffect.Evade) > 0) {
+            target.effects.removeStacked(StackedEffect.Evade)
+            if (!(self.perfectAimCounter > 0)) {
+                stage.log("Hit") { "Miss from Evade" }
+            }
+        }
+        if (stage.random.nextDouble() < result.hitChance) {
+            val n = stage.random.nextInt(-8, 9)
+            val isCritical = stage.random.nextDouble() < result.criticalChance
+            val damage = if (isCritical) {
+                (result.critical * (100.percent + n.percent)).toInt()
+
+            } else {
+                (result.base * (100.percent + n.percent)).toInt()
+            }
+            val reflect = when (self.loadout.data.damageType) {
+                DamageType.Normal -> target.normalReflect.get()
+                DamageType.Special -> target.specialReflect.get()
+                DamageType.NeutralDamage -> 0.percent
+            }
+            stage.log("Hit") { "Damage roll: $damage (critical: $isCritical, varianceRoll: $n)" }
+            val reflected = (damage * reflect).toInt()
+            val unreflected = damage - reflected
+            if (reflected > 0) stage.log("Hit") { "Unreflected: $unreflected, Reflected: $reflected" }
+            target.damage(unreflected)
+            if (reflected > 0) {
+                self.damage(reflected)
+            }
+        } else {
+            stage.log("Hit") { "Miss" }
+        }
+    }
+
     fun applyEffects(vararg effectFactories: () -> TimedEffect, chance: Percent = 100.percent) {
         effectFactories.forEach {
             applyEffect(chance, it)
         }
     }
 
-    fun applyEffect(chance: Percent = 100.percent, effectFactory: () -> TimedEffect)  {
+    fun applyEffect(chance: Percent = 100.percent, effectFactory: () -> TimedEffect) {
         if (!self.isAlive) return
         targets.forEach {
             it.apply {
@@ -73,26 +117,26 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
                 when (effect.effectClass) {
                     EffectClass.Positive -> {
                         if (positiveEffectBlockCounter > 0) {
-                            stage.log("Effect") { "[$this]: Positive effect $effect blocked" }
+                            stage.log("Effect") { "[$this]: Positive effect [$effect] blocked" }
                         }
                         val applyChance = chance * (100.percent - positiveEffectResist.value)
                         if (applyChance == 100.percent || stage.random.nextDouble().percent < applyChance) {
                             effects.add(effect)
-                            stage.log("Effect") { "[$this]: Positive effect $effect applied" }
+                            stage.log("Effect") { "[$this]: Positive effect [$effect] applied" }
                         } else {
-                            stage.log("Effect") { "[$this]: Positive effect $effect missed" }
+                            stage.log("Effect") { "[$this]: Positive effect [$effect] missed" }
                         }
                     }
                     EffectClass.Negative -> {
                         if (negativeEffectBlockCounter > 0) {
-                            stage.log("Effect") { "[$this]: Negative effect $effect blocked" }
+                            stage.log("Effect") { "[$this]: Negative effect [$effect] blocked" }
                         }
                         val applyChance = chance * (100.percent - negativeEffectResist.value)
                         if (applyChance == 100.percent || stage.random.nextDouble().percent < applyChance) {
                             effects.add(effect)
-                            stage.log("Effect") { "[$this]: Negative effect $effect applied" }
+                            stage.log("Effect") { "[$this]: Negative effect [$effect] applied" }
                         } else {
-                            stage.log("Effect") { "[$this]: Negative effect $effect missed" }
+                            stage.log("Effect") { "[$this]: Negative effect [$effect] missed" }
                         }
                     }
                 }
@@ -115,7 +159,7 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
         targets.forEach {
             it.apply {
                 stage.log("Heal") { "[$self] heals [$this] (percent: $percent, fixed: $fixed)" }
-                stage.heal(this, fixed + (percent * maxHp.get().toInt()).toInt())
+                this.heal(fixed + (percent * maxHp.get()).toInt())
             }
         }
     }
@@ -125,7 +169,7 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
         targets.forEach {
             it.apply {
                 stage.log("Brilliance") { "[$self] gives brilliance to [$this] (amount: $amount)" }
-                stage.addBrilliance(this, amount)
+                this.addBrilliance(amount)
             }
         }
     }
@@ -135,7 +179,7 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
         targets.forEach {
             it.apply {
                 stage.log("Brilliance") { "[$self] removes brilliance from [$this] (amount: $amount)" }
-                stage.addBrilliance(this, -amount)
+                this.addBrilliance(-amount)
             }
         }
     }

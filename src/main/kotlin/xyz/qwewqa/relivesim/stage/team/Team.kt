@@ -23,8 +23,10 @@ class Team(
 
     fun finalizeTurnZero() {
         stageGirls.values.forEach {
-            it.currentHP = it.maxHp.get().toInt()
+            it.currentHP = it.maxHp.get()
         }
+
+        // No clue how it actually works but this will prevent friends from dying for now
         friend?.let { it.currentHP = 999999 }
     }
 
