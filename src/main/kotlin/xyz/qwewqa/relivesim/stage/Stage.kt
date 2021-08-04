@@ -59,8 +59,14 @@ data class Stage(
         } + listOfNotNull(player.friend, opponent.friend).map { sg ->
             BoundAutoSkill(sg, sg.data.unitSkill)
         }
-        autoEffects.shuffled(random).sorted().forEach {
-            log("AutoEffect") { "[${it.stageGirl}] auto effect [${it.autoSkill}] activate" }
+
+        val (positiveAutoEffects, negativeAutoEffects) = autoEffects.partition { it.effectClass == EffectClass.Positive }
+        positiveAutoEffects.shuffled(random).sorted().forEach {
+            log("AutoEffect") { "[${it.stageGirl}] positive auto effect [${it.autoSkill}] activate" }
+            it.execute()
+        }
+        negativeAutoEffects.shuffled(random).sorted().forEach {
+            log("AutoEffect") { "[${it.stageGirl}] negative auto effect [${it.autoSkill}] activate" }
             it.execute()
         }
         log("AutoEffect") { "End" }
