@@ -10,11 +10,11 @@ class LoadoutBuilder {
     var stageGirl: StageGirlData? = null
     var memoir: MemoirData? = null
 
-    fun stageGirl(init: StageGirlBuilder.() -> Unit) {
+    inline fun stageGirl(init: StageGirlBuilder.() -> Unit) {
         stageGirl = StageGirlBuilder().apply(init).build()
     }
 
-    fun memoir(init: MemoirBuilder.() -> Unit) {
+    inline fun memoir(init: MemoirBuilder.() -> Unit) {
         memoir = MemoirBuilder().apply(init).build()
     }
 

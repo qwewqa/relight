@@ -35,4 +35,4 @@ fun defaultStageGirlStats(): StatsBuilder = StatsBuilder().apply {
     accuracy = 100.percent
 }
 
-fun stats(init: StatsBuilder.() -> Unit) = StatsBuilder().apply(init).build()
+inline fun stats(init: StatsBuilder.() -> Unit) = StatsBuilder().apply(init).build()

@@ -22,7 +22,7 @@ class StageGirlBuilder {
     var unitSkill: AutoEffect = BlankAutoEffect
     var effectivenessTable: AttributeEffectivenessTable? = null
 
-    fun stats(init: StatsBuilder.() -> Unit) {
+    inline fun stats(init: StatsBuilder.() -> Unit) {
         stats = defaultStageGirlStats().apply(init).build()
     }
 
@@ -54,6 +54,6 @@ class StageGirlBuilder {
     )
 }
 
-fun stageGirl(init: StageGirlBuilder.() -> Unit) = StageGirlBuilder().apply(init).build()
+inline fun stageGirl(init: StageGirlBuilder.() -> Unit) = StageGirlBuilder().apply(init).build()
 
 fun StageGirlData.withAutoSkill(unitSkill: AutoEffect) = copy(unitSkill = unitSkill)

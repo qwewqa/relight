@@ -17,11 +17,11 @@ class TeamBuilder {
     var eventBonus: Percent = 0.percent
     var strategy: Strategy = EmptyStrategy()
 
-    fun loadout(init: LoadoutBuilder.() -> Unit) {
+    inline fun loadout(init: LoadoutBuilder.() -> Unit) {
         loadouts.add(LoadoutBuilder().apply(init).build())
     }
 
-    fun friendLoadout(init: LoadoutBuilder.() -> Unit) {
+    inline fun friendLoadout(init: LoadoutBuilder.() -> Unit) {
         friend = LoadoutBuilder().apply(init).build()
     }
 

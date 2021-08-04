@@ -10,7 +10,7 @@ class MemoirBuilder {
     var stats = StatData()
     var autoEffects = mutableListOf<AutoEffect>()
 
-    fun stats(init: StatsBuilder.() -> Unit) {
+    inline fun stats(init: StatsBuilder.() -> Unit) {
         stats = StatsBuilder().apply(init).build()
     }
 
@@ -21,7 +21,7 @@ class MemoirBuilder {
     fun build() = MemoirData(name, stats, autoEffects)
 }
 
-fun memoir(init: MemoirBuilder.() -> Unit) = MemoirBuilder().apply(init).build()
+inline fun memoir(init: MemoirBuilder.() -> Unit) = MemoirBuilder().apply(init).build()
 
 fun MemoirData.withStats(stats: StatData) = copy(stats = stats)
 fun MemoirData.withStats(init: StatsBuilder.() -> Unit) = copy(stats = stats(init))

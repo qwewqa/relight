@@ -115,7 +115,7 @@ data class Stage(
 
     private fun checkEnded(): StageResult? {
         if (player.active.isEmpty()) {
-            return TeamWipe
+            return TeamWipe(turn)
         }
         if (opponent.active.isEmpty()) {
             return Victory(turn)
@@ -125,9 +125,9 @@ data class Stage(
 }
 
 sealed class StageResult
-object TeamWipe : StageResult()
+class TeamWipe(val turn: Int) : StageResult()
 class OutOfTurns(val margin: Int) : StageResult()
-class Victory(val turns: Int) : StageResult()
+class Victory(val turn: Int) : StageResult()
 
 @OptIn(ExperimentalContracts::class)
 inline fun Stage.log(tag: String = "", value: () -> String) {

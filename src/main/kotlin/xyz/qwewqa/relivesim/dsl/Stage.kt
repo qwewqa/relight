@@ -22,11 +22,11 @@ class StageBuilder(val seed: Int? = null) {
     var damageCalculator = LoggingDamageCalculator()
     var configuration = StageConfiguration()
 
-    fun player(init: TeamBuilder.() -> Unit) {
+    inline fun player(init: TeamBuilder.() -> Unit) {
         playerTeam = TeamBuilder().apply(init).build()
     }
 
-    fun enemy(init: TeamBuilder.() -> Unit) {
+    inline fun enemy(init: TeamBuilder.() -> Unit) {
         enemyTeam = TeamBuilder().apply(init).build()
     }
 
@@ -39,17 +39,18 @@ class StageBuilder(val seed: Int? = null) {
     )
 }
 
-fun stage(seed: Int? = null, init: StageBuilder.() -> Unit) = StageBuilder(seed).apply(init).build()
-suspend fun bulkPlay(count: Int, maxTurns: Int, init: StageBuilder.() -> Unit): List<StageResult> = coroutineScope {
-    val processorCount = Runtime.getRuntime().availableProcessors()
-    Executors.newFixedThreadPool(processorCount).asCoroutineDispatcher().use { pool ->
-        (0 until count).chunked(10000).asFlow()
-            .map { seeds ->
-                async(pool) { seeds.map { stage(seed = it, init).play(maxTurns) } }
-            }
-            .buffer(processorCount)
-            .map { it.await() }
-            .toList()
-            .flatten()
+inline fun stage(seed: Int? = null, init: StageBuilder.() -> Unit) = StageBuilder(seed).apply(init).build()
+suspend inline fun bulkPlay(count: Int, maxTurns: Int, crossinline init: StageBuilder.() -> Unit): List<StageResult> =
+    coroutineScope {
+        val processorCount = Runtime.getRuntime().availableProcessors()
+        Executors.newFixedThreadPool(processorCount).asCoroutineDispatcher().use { pool ->
+            (0 until count).chunked(10000).asFlow()
+                .map { seeds ->
+                    async(pool) { seeds.map { stage(seed = it, init).play(maxTurns) } }
+                }
+                .buffer(processorCount)
+                .map { it.await() }
+                .toList()
+                .flatten()
+        }
     }
-}
