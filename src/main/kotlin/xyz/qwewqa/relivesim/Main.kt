@@ -23,7 +23,7 @@ import kotlin.system.measureTimeMillis
 
 suspend fun main() = coroutineScope {
     measureTimeMillis {
-        bulkPlay(1_000_000, maxTurns = 4) {
+        bulkPlay(1, maxTurns = 4) {
             player {
                 loadout {
                     name = "Justice"
@@ -336,7 +336,7 @@ suspend fun main() = coroutineScope {
             }
 
             configuration = StageConfiguration(
-                logging = false,
+                logging = true,
             )
         }.let {
             println("${it.size} runs")

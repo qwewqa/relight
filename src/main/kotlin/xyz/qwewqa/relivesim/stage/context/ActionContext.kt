@@ -80,9 +80,9 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
             val n = stage.random.nextInt(-8, 9)
             val isCritical = stage.random.nextDouble() < result.criticalChance
             val damage = if (isCritical) {
-                (result.critical * (100.percent + n.percent)).toInt()
+                result.critical * (100 + n) / 100
             } else {
-                (result.base * (100.percent + n.percent)).toInt()
+                result.base * (100 + n) / 100
             }
             val reflect = when (self.loadout.data.damageType) {
                 DamageType.Normal -> target.normalReflect.get()

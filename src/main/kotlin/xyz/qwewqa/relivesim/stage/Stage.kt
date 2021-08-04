@@ -109,7 +109,7 @@ data class Stage(
             log("Turn") { "Turn $turn end" }
             checkEnded()?.let { return it }
         }
-        if (configuration.logging) print(logger)
+        if (configuration.logging) println(logger)
         return OutOfTurns(opponent.active.sumOf { it.maxHp.get() - it.currentHP })
     }
 
