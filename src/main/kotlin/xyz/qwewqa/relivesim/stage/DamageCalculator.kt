@@ -1,8 +1,8 @@
 package xyz.qwewqa.relivesim.stage
 
 import xyz.qwewqa.relivesim.stage.character.Attribute
-import xyz.qwewqa.relivesim.stage.character.StageGirl
 import xyz.qwewqa.relivesim.stage.character.DamageType
+import xyz.qwewqa.relivesim.stage.character.StageGirl
 
 interface DamageCalculator {
     fun calculate(
@@ -59,10 +59,7 @@ class StandardDamageCalculator : DamageCalculator {
 
         val bonusCoef = 100.percent + attacker.eventBonus
 
-        atk /= hitCount
-        def /= hitCount
-
-        val base = (atk - def).coerceAtLeast(atk / 10)
+        val base = (atk - def).coerceAtLeast(atk / 10) / hitCount
 
         var dmg = base
         dmg = (dmg * eleCoef).toInt()
