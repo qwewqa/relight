@@ -95,7 +95,7 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
             if (reflected > 0) stage.log("Hit") { "Unreflected: $unreflected, Reflected: $reflected" }
             target.damage(unreflected)
             if (reflected > 0) {
-                self.damage(reflected)
+                self.damage(reflected, isDirect = false)
             }
         } else {
             stage.log("Hit") { "Miss" }

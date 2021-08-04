@@ -69,7 +69,13 @@ class StageGirl(
         act.action(context)
     }
 
-    fun damage(amount: Int) = context.run {
+    /**
+     * Damages this stage girl by [amount].
+     *
+     * @param amount The amount of damage dealt
+     * @param isDirect Is true for standard act damage, false for indirect sources like dots and reflected damage
+     */
+    fun damage(amount: Int, isDirect: Boolean = true) = context.run {
         if (!isAlive) {
             stage.log("Damage") { "[$self] has already exited" }
         }
@@ -81,7 +87,9 @@ class StageGirl(
             self.team.strategy.onStageGirlExit(self)
             self.exitCX()
         } else {
-            self.addBrilliance(amount * 100 / self.maxHp.get())
+            if (isDirect) {
+                self.addBrilliance(amount * 70 / self.maxHp.get())
+            }
         }
     }
 
@@ -96,6 +104,7 @@ class StageGirl(
     }
 
     fun addBrilliance(amount: Int) = context.run {
+        // stop
         stage.log("Brilliance") {
             "[$self] brilliance charge $amount (prevBril: ${self.currentBrilliance}, newBril: ${
                 (self.currentBrilliance + amount).coerceIn(0, 100)

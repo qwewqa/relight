@@ -3,6 +3,7 @@ package xyz.qwewqa.relivesim
 import kotlinx.coroutines.coroutineScope
 import xyz.qwewqa.relivesim.dsl.bulkPlay
 import xyz.qwewqa.relivesim.presets.*
+import xyz.qwewqa.relivesim.presets.memoir.TurtleRui
 import xyz.qwewqa.relivesim.presets.stagegirl.JusticeNana
 import xyz.qwewqa.relivesim.presets.stagegirl.backrow.space.SanadaMahiru
 import xyz.qwewqa.relivesim.stage.OutOfTurns
@@ -23,7 +24,11 @@ import kotlin.system.measureTimeMillis
 
 suspend fun main() = coroutineScope {
     measureTimeMillis {
-        bulkPlay(1, maxTurns = 4) {
+        bulkPlay(1_000_000, maxTurns = 4) {
+            configuration = StageConfiguration(
+                logging = false,
+            )
+
             player {
                 loadout {
                     name = "Justice"
@@ -42,17 +47,8 @@ suspend fun main() = coroutineScope {
                 loadout {
                     name = "Sanada"
                     stageGirl = SanadaMahiru()
-
-                    memoir {
-                        name = "Turtle Rui"
-                        stats {
-                            actPower = 149
-                        }
-                        +DamageDealtAutoEffect(8.percent)
-                        +DexterityAutoEffect(16.percent)
-                    }
+                    memoir = TurtleRui()
                 }
-
                 loadout {
                     name = "BS Nana"
                     stageGirl {
@@ -213,10 +209,6 @@ suspend fun main() = coroutineScope {
                     }
                 }
             }
-
-            configuration = StageConfiguration(
-                logging = true,
-            )
         }.let {
             println("${it.size} runs")
             println("${it.filterIsInstance<OutOfTurns>().map { it.margin }.average().toInt()}")
