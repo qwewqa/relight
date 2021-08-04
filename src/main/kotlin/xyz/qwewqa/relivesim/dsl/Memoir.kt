@@ -5,7 +5,7 @@ import xyz.qwewqa.relivesim.stage.character.StatData
 import xyz.qwewqa.relivesim.stage.effect.AutoEffect
 
 @StageDslMarker
-class MemoirBuilder {
+class MemoirBuilder : Builder<MemoirData> {
     var name = "Unnamed"
     var stats = StatData()
     var autoEffects = mutableListOf<AutoEffect>()
@@ -18,7 +18,7 @@ class MemoirBuilder {
         autoEffects.add(this)
     }
 
-    fun build() = MemoirData(name, stats, autoEffects)
+    override fun build() = MemoirData(name, stats, autoEffects)
 }
 
 inline fun memoir(init: MemoirBuilder.() -> Unit) = MemoirBuilder().apply(init).build()

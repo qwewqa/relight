@@ -5,7 +5,7 @@ import xyz.qwewqa.relivesim.stage.character.StageGirlLoadout
 import xyz.qwewqa.relivesim.stage.character.MemoirData
 
 @StageDslMarker
-class LoadoutBuilder {
+class LoadoutBuilder : Builder<StageGirlLoadout> {
     var name: String? = null
     var stageGirl: StageGirlData? = null
     var memoir: MemoirData? = null
@@ -18,7 +18,7 @@ class LoadoutBuilder {
         memoir = MemoirBuilder().apply(init).build()
     }
 
-    fun build(): StageGirlLoadout = StageGirlLoadout(
+    override fun build(): StageGirlLoadout = StageGirlLoadout(
         name ?: stageGirl?.displayName ?: error("No name"),
         stageGirl ?: error("Stage girl not specified"),
         memoir,

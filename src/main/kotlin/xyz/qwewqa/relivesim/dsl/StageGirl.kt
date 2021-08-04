@@ -8,7 +8,7 @@ import xyz.qwewqa.relivesim.stage.effect.AutoEffect
 import xyz.qwewqa.relivesim.stage.effect.BlankAutoEffect
 
 @StageDslMarker
-class StageGirlBuilder {
+class StageGirlBuilder : Builder<StageGirlData> {
     var name: String = ""
     var attribute: Attribute = Attribute.NeutralAttribute
     var character: Character = Character.OtherCharacter
@@ -38,7 +38,7 @@ class StageGirlBuilder {
         autoSkills.add(this)
     }
 
-    fun build() = StageGirlData(
+    override fun build() = StageGirlData(
         name,
         attribute,
         character,

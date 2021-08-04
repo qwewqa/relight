@@ -3,6 +3,8 @@ package xyz.qwewqa.relivesim
 import kotlinx.coroutines.coroutineScope
 import xyz.qwewqa.relivesim.dsl.bulkPlay
 import xyz.qwewqa.relivesim.presets.*
+import xyz.qwewqa.relivesim.presets.stagegirl.JusticeNana
+import xyz.qwewqa.relivesim.presets.stagegirl.backrow.space.SanadaMahiru
 import xyz.qwewqa.relivesim.stage.OutOfTurns
 import xyz.qwewqa.relivesim.stage.StageConfiguration
 import xyz.qwewqa.relivesim.stage.act.ActType.*
@@ -14,8 +16,6 @@ import xyz.qwewqa.relivesim.stage.character.DamageType.Special
 import xyz.qwewqa.relivesim.stage.character.Position.Back
 import xyz.qwewqa.relivesim.stage.character.Position.Middle
 import xyz.qwewqa.relivesim.stage.character.School.Seisho
-import xyz.qwewqa.relivesim.stage.effect.ApDownTimedEffect
-import xyz.qwewqa.relivesim.stage.effect.EffectClass.Negative
 import xyz.qwewqa.relivesim.stage.percent
 import xyz.qwewqa.relivesim.stage.strategy.FixedStrategy
 import xyz.qwewqa.relivesim.stage.team.ClimaxSong
@@ -23,70 +23,11 @@ import kotlin.system.measureTimeMillis
 
 suspend fun main() = coroutineScope {
     measureTimeMillis {
-        bulkPlay(1_000_000, maxTurns = 4) {
+        bulkPlay(1, maxTurns = 4) {
             player {
                 loadout {
                     name = "Justice"
-                    stageGirl {
-                        name = "Justice"
-                        character = Nana
-                        attribute = Space
-                        damageType = Normal
-                        position = Back
-                        stats {
-                            maxHp = 31701
-                            actPower = 3416
-                            normalDefense = 1577
-                            specialDefense = 1025
-                            agility = 2113
-                        }
-                        positionValue = 35050
-
-                        Act1("Brilliance Slash", 2) {
-                            targetFront().act {
-                                attack(112.percent, hitCount = 2)
-                            }
-                            targetSelf().act {
-                                addBrilliance(20)
-                            }
-                        }
-                        Act2("Sword of Justice", 2) {
-                            targetAoe().act {
-                                attack(64.percent, hitCount = 2)
-                            }
-                            targetTeamAoe().act {
-                                applyEffects(
-                                    { ActTimedEffect(turns = 3, 20.percent) },
-                                    { ApDownTimedEffect(turns = 2) },
-                                )
-                            }
-                        }
-                        Act3("Right Judgement", 2) {
-                            targetBack().act {
-                                attack(198.percent, hitCount = 3)
-                            }
-                            targetTeamAoe().act {
-                                dispelTimed(Negative)
-                                heal(30.percent)
-                            }
-                        }
-                        ClimaxAct("Absolute Justice", 2) {
-                            targetSelf().act {
-                                applyEffects(
-                                    { ActTimedEffect(turns = 3, 20.percent) },
-                                    { DexterityTimedEffect(turns = 3, 20.percent) },
-                                    { CriticalTimedEffect(turns = 3, 20.percent) },
-                                )
-                            }
-                            targetAoe().act {
-                                attack(240.percent, hitCount = 4)
-                            }
-                        }
-
-                        +TeamTimedDexterityAutoEffect(turns = 3, 10.percent)
-                        +TeamTimedEffectiveDamageAutoEffect(turns = 3, 20.percent)
-                        // Brilliance Down
-
+                    stageGirl = JusticeNana {
                         unitSkill = TeamActCriticalAutoEffect(36.percent).attributeOnly(Space)
                     }
 
@@ -100,69 +41,7 @@ suspend fun main() = coroutineScope {
                 }
                 loadout {
                     name = "Sanada"
-                    stageGirl {
-                        name = "Sanada"
-                        character = Mahiru
-                        attribute = Space
-                        damageType = Normal
-                        position = Back
-                        stats {
-                            maxHp = 18605
-                            actPower = 2747
-                            normalDefense = 1541
-                            specialDefense = 1076
-                            agility = 2113
-                        }
-                        positionValue = 34050
-
-                        Act1("Strong Slash", 2) {
-                            targetFront().act {
-                                attack(176.percent)
-                            }
-                        }
-                        Act2("Spearheading Blade", 2) {
-                            targetSelf().act {
-                                applyEffects(
-                                    { ActTimedEffect(turns = 3, 20.percent) },
-                                    { CriticalTimedEffect(turns = 3, 20.percent) },
-                                )
-                            }
-                            targetHighestAct().act {
-                                attack(155.percent, hitCount = 2)
-                            }
-                        }
-                        Act3("Dashing Blade", 2) {
-                            targetSelf().act {
-                                applyEffects(
-                                    { DexterityTimedEffect(turns = 3, 20.percent) },
-                                    { EffectiveDamageTimedEffect(turns = 3, 30.percent) },
-                                )
-                            }
-                            targetHighestAct().act {
-                                attack(198.percent, hitCount = 2)
-                            }
-                        }
-                        ClimaxAct("Greatest Spear", 2) {
-                            targetHighestAct().act {
-                                applyEffects(
-                                    { Mark(turns = 2) },
-                                    { NormalDefenseTimedEffect(turns = 3, -30.percent) },
-                                )
-                                attack(
-                                    369.percent,
-                                    bonusMultiplier = 1.5,
-                                    bonusCondition = { data.damageType == Special },
-                                    hitCount = 3,
-                                )
-                            }
-                        }
-
-                        +DamageDealtAutoEffect(10.percent)
-                        +DexterityAutoEffect(10.percent)
-                        +EffectiveDamageAutoEffect(20.percent)
-
-                        unitSkill = TeamActCriticalAutoEffect(30.percent).positionOnly(Back)
-                    }
+                    stageGirl = SanadaMahiru()
 
                     memoir {
                         name = "Turtle Rui"
@@ -336,7 +215,7 @@ suspend fun main() = coroutineScope {
             }
 
             configuration = StageConfiguration(
-                logging = false,
+                logging = true,
             )
         }.let {
             println("${it.size} runs")

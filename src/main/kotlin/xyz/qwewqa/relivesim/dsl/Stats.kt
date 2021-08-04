@@ -5,7 +5,7 @@ import xyz.qwewqa.relivesim.stage.Percent
 import xyz.qwewqa.relivesim.stage.percent
 
 @StageDslMarker
-class StatsBuilder {
+class StatsBuilder : Builder<StatData> {
     var maxHp: Int = 0
     var actPower: Int = 0
     var normalDefense: Int = 0
@@ -16,7 +16,7 @@ class StatsBuilder {
     var accuracy: Percent = 0.percent
     var evasion: Percent = 0.percent
 
-    fun build() = StatData(
+    override fun build() = StatData(
         maxHp,
         actPower,
         normalDefense,

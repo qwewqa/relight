@@ -10,7 +10,7 @@ import xyz.qwewqa.relivesim.stage.team.ClimaxSong
 import xyz.qwewqa.relivesim.stage.team.Team
 
 @StageDslMarker
-class TeamBuilder {
+class TeamBuilder : Builder<Team> {
     val loadouts = mutableListOf<StageGirlLoadout>()
     var friend: StageGirlLoadout? = null
     var song: ClimaxSong = ClimaxSong(ActStatUpSongEffect(5))
@@ -25,7 +25,7 @@ class TeamBuilder {
         friend = LoadoutBuilder().apply(init).build()
     }
 
-    fun build() = Team(
+    override fun build() = Team(
         // It's expected for loadouts to be declared back to front,
         // however, in code, lower indicies are more front
         loadouts.asReversed().associate { it.name to it.createStageGirl() }.also {

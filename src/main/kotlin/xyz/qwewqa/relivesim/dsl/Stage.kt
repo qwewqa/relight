@@ -16,7 +16,7 @@ import java.util.concurrent.Executors
 import kotlin.random.Random
 
 @StageDslMarker
-class StageBuilder(val seed: Int? = null) {
+class StageBuilder(val seed: Int? = null) : Builder<Stage> {
     var playerTeam: Team? = null
     var enemyTeam: Team? = null
     var damageCalculator = LoggingDamageCalculator()
@@ -30,7 +30,7 @@ class StageBuilder(val seed: Int? = null) {
         enemyTeam = TeamBuilder().apply(init).build()
     }
 
-    fun build() = Stage(
+    override fun build() = Stage(
         playerTeam ?: error("No player team."),
         enemyTeam ?: error("No enemy team"),
         damageCalculator,
