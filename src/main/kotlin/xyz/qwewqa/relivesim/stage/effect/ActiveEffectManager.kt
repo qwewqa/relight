@@ -13,6 +13,8 @@ class ActiveEffectManager(val stageGirl: StageGirl) {
     private val positiveStackedEffects = mutableMapOf<StackedEffect, Int>()
     private val negativeStackedEffects = mutableMapOf<StackedEffect, Int>()
 
+    private val passiveEffects = mutableListOf<ActionContext.() -> Unit>()
+
     /*
     A note about flip:
     It is presently untested whether flip adds the new effects at the end of the list,
@@ -42,11 +44,15 @@ class ActiveEffectManager(val stageGirl: StageGirl) {
         effectsByType.getOrPut(effect.effectType) { mutableSetOf() }.add(effect)
     }
 
-    fun add(effect: StackedEffect) {
+    fun add(effect: StackedEffect, count: Int = 1) {
         when (effect.effectClass) {
             EffectClass.Positive -> positiveStackedEffects
             EffectClass.Negative -> negativeStackedEffects
-        }.let { it[effect] = (it[effect] ?: 0) + 1 }
+        }.let { it[effect] = (it[effect] ?: 0) + count }
+    }
+
+    fun addPassive(passive: ActionContext.() -> Unit) {
+        passiveEffects += passive
     }
 
     fun removeTimed(effect: TimedEffect) {
@@ -94,6 +100,10 @@ class ActiveEffectManager(val stageGirl: StageGirl) {
             EffectClass.Positive -> positiveStackedEffects
             EffectClass.Negative -> negativeStackedEffects
         }.replaceAll { _, _ -> 0 }
+    }
+
+    fun tickPassives() {
+        passiveEffects.forEach { it(context) }
     }
 
     fun tick(effectClass: EffectClass) {

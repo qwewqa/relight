@@ -46,8 +46,6 @@ class StageGirl(
     val damageTakenDownBuff: AdditivePercentModifier = AdditivePercentModifier()
     val effects: ActiveEffectManager = ActiveEffectManager(this)
     var counterHealValue: Percent = 0.percent
-    var negativeEffectBlockCounter: Int = 0
-    var positiveEffectBlockCounter: Int = 0
     var apUpCounter: Int = 0
     var apDownCounter: Int = 0
     var perfectAimCounter: Int = 0
@@ -64,6 +62,10 @@ class StageGirl(
 
     val data get() = loadout.data
 
+    val againstAttributeDamageDealtUp = mutableMapOf<Attribute, Percent>().withDefault { 0.percent }
+    val againstAttributeDamageTakenDown = mutableMapOf<Attribute, Percent>().withDefault { 0.percent }
+    val attributeDamageDealtUp = mutableMapOf<Attribute, Percent>().withDefault { 0.percent }
+
     fun execute(act: Act, apCost: Int) {
         this.addBrilliance(7 * apCost)
         act.action(context)
@@ -73,11 +75,13 @@ class StageGirl(
      * Damages this stage girl by [amount].
      *
      * @param amount The amount of damage dealt
+     * @param type The type of damage dealt
      * @param isDirect Is true for standard act damage, false for indirect sources like dots and reflected damage
      */
-    fun damage(amount: Int, isDirect: Boolean = true) = context.run {
+    fun damage(amount: Int, type: DamageType, isDirect: Boolean = true) = context.run {
         if (!isAlive) {
             stage.log("Damage") { "[$self] has already exited" }
+            return
         }
         val newHp = (self.currentHP - amount).coerceAtLeast(0)
         stage.log("Damage") { "[$self] damaged $amount (prevHp: ${self.currentHP}, newHp: $newHp)" }

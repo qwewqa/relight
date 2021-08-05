@@ -51,6 +51,11 @@ class StandardDamageCalculator : DamageCalculator {
         val dmgDealtCoef = (100.percent + attacker.damageDealtUp.get() - target.damageTakenDown.get())
             .coerceAtLeast(0.percent)
 
+        val eleDmgDealtCoef = 100.percent +
+                attacker.attributeDamageDealtUp.getValue(attribute) +
+                attacker.againstAttributeDamageDealtUp.getValue(target.loadout.data.attribute) -
+                target.againstAttributeDamageTakenDown.getValue(attribute)
+
         var markCoef = 100.percent
         if (target.markCounter > 0) markCoef += 30.percent
         if (target.antiMarkCounter > 0) markCoef -= 30.percent
@@ -66,6 +71,7 @@ class StandardDamageCalculator : DamageCalculator {
         dmg = (dmg * effEleCoef).toInt()
         dmg = (dmg * bonusCoef).toInt()
         dmg = (dmg * dmgDealtCoef).toInt()
+        dmg = (dmg * eleDmgDealtCoef).toInt()
         dmg = (dmg * markCoef).toInt()
 
         var criticalDmg = base
@@ -74,6 +80,7 @@ class StandardDamageCalculator : DamageCalculator {
         criticalDmg = (criticalDmg * critCoef).toInt()
         criticalDmg = (criticalDmg * bonusCoef).toInt()
         criticalDmg = (criticalDmg * dmgDealtCoef).toInt()
+        criticalDmg = (criticalDmg * eleDmgDealtCoef).toInt()
         criticalDmg = (criticalDmg * markCoef).toInt()
 
         return DamageResult(

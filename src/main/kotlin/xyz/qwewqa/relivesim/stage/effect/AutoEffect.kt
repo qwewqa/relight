@@ -11,6 +11,10 @@ interface AutoEffect {
     fun activate(context: ActionContext)
 }
 
+interface ActiveAutoEffect : AutoEffect {
+    fun tick(context: ActionContext)
+}
+
 object BlankAutoEffect : AutoEffect {
     override fun toString() = "BlankAutoEffect"
 

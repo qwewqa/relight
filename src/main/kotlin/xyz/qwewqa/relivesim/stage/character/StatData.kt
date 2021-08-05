@@ -4,7 +4,7 @@ import xyz.qwewqa.relivesim.stage.Percent
 import xyz.qwewqa.relivesim.stage.percent
 
 data class StatData(
-    val maxHP: Int = 0,
+    val hp: Int = 0,
     val actPower: Int = 0,
     val normalDefense: Int = 0,
     val specialDefense: Int = 0,
@@ -15,7 +15,7 @@ data class StatData(
     val evasion: Percent = 0.percent,
 ) {
     fun applyToStageGirl(sg: StageGirl) {
-        sg.maxHp.value = maxHP
+        sg.maxHp.value = hp
         sg.actPower.value = actPower
         sg.normalDefense.value = normalDefense
         sg.specialDefense.value = specialDefense
@@ -27,7 +27,7 @@ data class StatData(
     }
     
     fun addToStageGirl(sg: StageGirl) {
-        sg.maxHp.value += maxHP
+        sg.maxHp.value += hp
         sg.actPower.value += actPower
         sg.normalDefense.value += normalDefense
         sg.specialDefense.value += specialDefense

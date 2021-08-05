@@ -14,7 +14,6 @@ class FixedStrategy(val strategy: FixedStrategyContext.() -> Unit) : Strategy() 
     override fun onStageGirlExit(sg: StageGirl) {}
 
     override fun onStageGirlRevive(sg: StageGirl) {}
-
 }
 
 class FixedStrategyContext(val stage: Stage, val team: Team, val enemy: Team) {

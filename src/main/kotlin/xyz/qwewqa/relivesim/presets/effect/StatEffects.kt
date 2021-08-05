@@ -1,7 +1,6 @@
-package xyz.qwewqa.relivesim.presets
+package xyz.qwewqa.relivesim.presets.effect
 
 import xyz.qwewqa.relivesim.stage.Percent
-import xyz.qwewqa.relivesim.stage.character.Modifier
 import xyz.qwewqa.relivesim.stage.context.ActionContext
 import xyz.qwewqa.relivesim.stage.effect.SimplePercentTimedEffect
 
@@ -46,7 +45,6 @@ class CriticalTimedEffect(
     }
 }
 
-
 class DexterityTimedEffect(
     override var turns: Int,
     efficacy: Percent,
@@ -64,5 +62,15 @@ class EffectiveDamageTimedEffect(
 ) : SimplePercentTimedEffect(efficacy) {
     override fun getModifier(context: ActionContext) = context.run {
         self.effectiveDamage
+    }
+}
+
+class DamageTakenDownTimedEffect(
+    override var turns: Int,
+    efficacy: Percent,
+    override val locked: Boolean = false,
+) : SimplePercentTimedEffect(efficacy) {
+    override fun getModifier(context: ActionContext) = context.run {
+        self.damageTakenDownBuff
     }
 }

@@ -1,6 +1,9 @@
-package xyz.qwewqa.relivesim.stage.effect
+package xyz.qwewqa.relivesim.presets.effect
 
 import xyz.qwewqa.relivesim.stage.context.ActionContext
+import xyz.qwewqa.relivesim.stage.effect.EffectClass
+import xyz.qwewqa.relivesim.stage.effect.EffectType
+import xyz.qwewqa.relivesim.stage.effect.TimedEffect
 
 class ApDownTimedEffect(override var turns: Int) : TimedEffect {
     override val effectClass = EffectClass.Positive

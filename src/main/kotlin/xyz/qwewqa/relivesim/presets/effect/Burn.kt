@@ -1,4 +1,4 @@
-package xyz.qwewqa.relivesim.presets
+package xyz.qwewqa.relivesim.presets.effect
 
 import xyz.qwewqa.relivesim.stage.*
 import xyz.qwewqa.relivesim.stage.context.ActionContext
@@ -7,7 +7,7 @@ import xyz.qwewqa.relivesim.stage.effect.EffectType
 import xyz.qwewqa.relivesim.stage.effect.TimedEffect
 import kotlin.properties.Delegates
 
-class Burn(
+class BurnTimedEffect(
     override var turns: Int,
     val fixedDamage: Int = 0,
     val percentDamage: Percent = 0.percent,

@@ -26,7 +26,8 @@ data class ActionContext(
     fun targetFront(count: Int = 1) = enemies.active.take(count).targetContext()
     fun targetBack(count: Int = 1) = enemies.active.takeLast(count).targetContext()
     fun targetAoe() = enemies.active.targetContext()
-    fun targetTeamAoe() = team.active.targetContext()
+    fun targetAllyAoe() = team.active.targetContext()
+    fun targetAllyFront(count: Int = 1) = team.active.take(count).targetContext()
 
     fun targetHighestAct(count: Int = 1) = targetHighest(count) { it.actPower.get() }
     fun <T : Comparable<T>> targetHighest(count: Int = 1, condition: (StageGirl) -> T) =
@@ -93,9 +94,9 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
             val reflected = (damage * reflect).toInt()
             val unreflected = damage - reflected
             if (reflected > 0) stage.log("Hit") { "Unreflected: $unreflected, Reflected: $reflected" }
-            target.damage(unreflected)
+            target.damage(unreflected, DamageType.NeutralDamage)
             if (reflected > 0) {
-                self.damage(reflected, isDirect = false)
+                self.damage(reflected, self.loadout.data.damageType, isDirect = false)
             }
         } else {
             stage.log("Hit") { "Miss" }
@@ -115,10 +116,7 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
                 val effect = effectFactory()
                 when (effect.effectClass) {
                     EffectClass.Positive -> {
-                        if (positiveEffectBlockCounter > 0) {
-                            stage.log("Effect") { "[$this]: Positive effect [$effect] blocked" }
-                        }
-                        val applyChance = chance * (100.percent - positiveEffectResist.value)
+                        val applyChance = chance * (100.percent - positiveEffectResist.get())
                         if (applyChance == 100.percent || stage.random.nextDouble().percent < applyChance) {
                             effects.add(effect)
                             stage.log("Effect") { "[$this]: Positive effect [$effect] applied" }
@@ -127,10 +125,7 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
                         }
                     }
                     EffectClass.Negative -> {
-                        if (negativeEffectBlockCounter > 0) {
-                            stage.log("Effect") { "[$this]: Negative effect [$effect] blocked" }
-                        }
-                        val applyChance = chance * (100.percent - negativeEffectResist.value)
+                        val applyChance = chance * (100.percent - negativeEffectResist.get())
                         if (applyChance == 100.percent || stage.random.nextDouble().percent < applyChance) {
                             effects.add(effect)
                             stage.log("Effect") { "[$this]: Negative effect [$effect] applied" }

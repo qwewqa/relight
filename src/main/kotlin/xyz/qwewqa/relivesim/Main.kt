@@ -2,21 +2,27 @@ package xyz.qwewqa.relivesim
 
 import kotlinx.coroutines.coroutineScope
 import xyz.qwewqa.relivesim.dsl.bulkPlay
+import xyz.qwewqa.relivesim.dsl.fixedStrategy
 import xyz.qwewqa.relivesim.presets.*
-import xyz.qwewqa.relivesim.presets.memoir.TurtleRui
+import xyz.qwewqa.relivesim.presets.effect.*
+import xyz.qwewqa.relivesim.presets.memoir.*
+import xyz.qwewqa.relivesim.presets.stagegirl.IzanagiNana
 import xyz.qwewqa.relivesim.presets.stagegirl.JusticeNana
+import xyz.qwewqa.relivesim.presets.stagegirl.backrow.cloud.BabyStageGirlNana
+import xyz.qwewqa.relivesim.presets.stagegirl.backrow.cloud.StageGirlClaudine
 import xyz.qwewqa.relivesim.presets.stagegirl.backrow.space.SanadaMahiru
+import xyz.qwewqa.relivesim.presets.stagegirl.midrow.space.WheelOfFortuneKaren
 import xyz.qwewqa.relivesim.stage.OutOfTurns
 import xyz.qwewqa.relivesim.stage.StageConfiguration
 import xyz.qwewqa.relivesim.stage.act.ActType.*
-import xyz.qwewqa.relivesim.stage.character.Attribute.Cloud
-import xyz.qwewqa.relivesim.stage.character.Attribute.Space
+import xyz.qwewqa.relivesim.stage.character.Attribute
+import xyz.qwewqa.relivesim.stage.character.Attribute.*
 import xyz.qwewqa.relivesim.stage.character.Character.*
 import xyz.qwewqa.relivesim.stage.character.DamageType.Normal
-import xyz.qwewqa.relivesim.stage.character.DamageType.Special
-import xyz.qwewqa.relivesim.stage.character.Position.Back
 import xyz.qwewqa.relivesim.stage.character.Position.Middle
 import xyz.qwewqa.relivesim.stage.character.School.Seisho
+import xyz.qwewqa.relivesim.stage.effect.EffectClass
+import xyz.qwewqa.relivesim.stage.effect.autoEffect
 import xyz.qwewqa.relivesim.stage.percent
 import xyz.qwewqa.relivesim.stage.strategy.FixedStrategy
 import xyz.qwewqa.relivesim.stage.team.ClimaxSong
@@ -24,110 +30,64 @@ import kotlin.system.measureTimeMillis
 
 suspend fun main() = coroutineScope {
     measureTimeMillis {
-        bulkPlay(1_000_000, maxTurns = 4) {
+        bulkPlay(1, maxTurns = 3) {
             configuration = StageConfiguration(
-                logging = false,
+                logging = true,
             )
 
             player {
                 loadout {
+                    name = "BSKuro"
+                    stageGirl = StageGirlClaudine {
+                        unitSkill = TeamActCriticalAutoEffect(5.percent).attributeOnly(Cloud)
+                    }
+
+                    memoir = FirstAnnivSeishoMusicAcademy.min()
+                }
+                loadout {
                     name = "Justice"
-                    stageGirl = JusticeNana {
-                        unitSkill = TeamActCriticalAutoEffect(36.percent).attributeOnly(Space)
-                    }
-
-                    memoir {
-                        name = "Seisho Act"
-                        stats {
-                            maxHp = 2316
-                        }
-                        +TeamActAutoEffect(5.percent).schoolOnly(Seisho)
-                    }
+                    stageGirl = JusticeNana()
+                    memoir = CoStarringWithHatsuneMiku.max()
                 }
                 loadout {
-                    name = "Sanada"
-                    stageGirl = SanadaMahiru()
-                    memoir = TurtleRui()
+                    name = "Izanagi"
+                    stageGirl = IzanagiNana {
+                        unitSkill = TeamActCriticalAutoEffect(20.percent).damageTypeOnly(Normal)
+                    }
+                    memoir = FriendsAtTheAquarium.max()
                 }
                 loadout {
-                    name = "BS Nana"
-                    stageGirl {
-                        name = "Stage Girl"
-                        character = Nana
-                        attribute = Cloud
-                        damageType = Normal
-                        position = Middle
-                        stats {
-                            maxHp = 4203
-                            actPower = 281
-                            normalDefense = 279
-                            specialDefense = 144
-                            agility = 215
-                        }
-                        positionValue = 21040
-
-                        // Acts don't matter here
-                        // Neither do autoskills
-
-                        unitSkill = TeamActCriticalAutoEffect(50.percent).schoolOnly(Seisho)
-                    }
-
-                    memoir {
-                        name = "Seisho Act"
-                        stats {
-                            maxHp = 1291
-                        }
-                        +TeamActAutoEffect(5.percent).schoolOnly(Seisho)
-                    }
+                    name = "Wheel"
+                    stageGirl = WheelOfFortuneKaren()
+                    memoir = BandsmansGreeting.max()
+                }
+                loadout {
+                    name = "BSNana"
+                    stageGirl = BabyStageGirlNana()
+                    memoir = FirstAnnivSeishoMusicAcademy.min()
                 }
 
-                friendLoadout {
-                    stageGirl {
-                        name = "Mad Scientist"
-                        character = Nana
-                        damageType = Normal
-                        unitSkill = TeamHpDefenseAutoEffect(20.percent, 10.percent)
-                    }
-                }
+                eventBonus = 190.percent
 
-                song = ClimaxSong(
-                    CriticalSongEffect(25.percent),
-                    DexteritySongEffect(4.percent),
-                )
-
-                eventBonus = 672.percent
-
-                strategy = FixedStrategy {
-                    val sanada = -"Sanada"
+                strategy = fixedStrategy {
+                    val bsKuro = -"BSKuro"
                     val justice = -"Justice"
-                    val nana = -"BS Nana"
+                    val izanagi = -"Izanagi"
+                    val wheel = -"Wheel"
+                    val bsNana = -"BSNana"
 
                     when (turn) {
                         1 -> {
-                            +sanada[Act3]
-                            +sanada[Act1]
-                            +justice[Act3]
+                            +izanagi[Act2]
+                            +bsNana[Act3]
+                            +bsKuro[Act3]
+                            +bsKuro[Act2]
+                            +justice[Act1]
                         }
                         2 -> {
+                            +bsKuro[Act1]
                             +justice[Act2]
-                            +sanada[Act3]
-                            +sanada[Act2]
-                        }
-                        3 -> {
-                            +justice[Act2]
-                            +sanada[Act3]
                             +justice[Act3]
-                            +sanada[Act2]
-                            +sanada[Act1]
-                        }
-                        4 -> {
-                            sanada.currentBrilliance = 100
-                            climax()
-                            +sanada[Act3]
-                            +sanada[Act2]
-                            +justice[Act3]
-                            +sanada[ClimaxAct]
-                            +justice[Act2]
                         }
                     }
                 }
@@ -137,46 +97,81 @@ suspend fun main() = coroutineScope {
                 loadout {
                     name = "Boss"
                     stageGirl {
-                        name = "Raid Boss"
+                        name = "TR Boss"
                         attribute = Cloud
-                        character = Maya
+                        character = Misora
                         damageType = Normal
                         stats {
-                            maxHp = 100_000_000
-                            actPower = 1500
-                            normalDefense = 1500
-                            specialDefense = 1500
+                            hp = 5_000_000
+                            actPower = 1900
+                            normalDefense = 650
+                            specialDefense = 650
                             agility = 1  // who knows
                         }
 
-                        Act1("Strong Slash", 2) {
+                        +autoEffect("Boss Special", EffectClass.Positive) {
+                            self.againstAttributeDamageDealtUp[Flower] = 50.percent
+                            self.againstAttributeDamageDealtUp[Wind] = 50.percent
+                            self.againstAttributeDamageDealtUp[Ice] = 50.percent
+                            self.againstAttributeDamageDealtUp[Cloud] = 50.percent
+                            self.againstAttributeDamageDealtUp[Moon] = 50.percent
+                            self.againstAttributeDamageTakenDown[Flower] = 50.percent
+                            self.againstAttributeDamageTakenDown[Wind] = 50.percent
+                            self.againstAttributeDamageTakenDown[Ice] = 50.percent
+                            self.againstAttributeDamageTakenDown[Cloud] = 50.percent
+                            self.againstAttributeDamageTakenDown[Moon] = 50.percent
+                        }
+
+                        Act1("Violent Thrust", 2) {
                             targetFront().act {
-                                attack(200.percent, hitCount = 2)
+                                attack(100.percent)
                             }
                         }
-                        Act2("Weakening Slash", 2) {
+                        Act2("Violent Dual Thrust", 2) {
+                            targetFront(2).act {
+                                attack(120.percent, hitCount = 2)
+                            }
+                        }
+                        Act3("Violent Triple Thrust", 2) {
                             targetFront(3).act {
-                                attack(115.percent, hitCount = 3)
-                                applyEffect { ActTimedEffect(turns = 3, -30.percent) }
+                                attack(100.percent, hitCount = 3)
                             }
                         }
-                        Act3("Softening Slash", 2) {
-                            targetFront(3).act {
-                                attack(115.percent, hitCount = 3)
-                                applyEffects(
-                                    { NormalDefenseTimedEffect(turns = 3, -30.percent) },
-                                    { SpecialDefenseTimedEffect(turns = 3, -30.percent) },
-                                )
-                            }
-                        }
-                        ClimaxAct("Odette the Mavericks Neo", 2) {
+                        Act4("Counter Concerto", 2) {
                             targetAoe().act {
-                                attack(150.percent, hitCount = 3)
-                                applyEffects(
-                                    { DexterityTimedEffect(turns = 3, -30.percent) },
-                                    { ActTimedEffect(turns = 3, -30.percent) },
-                                    { CriticalTimedEffect(turns = 3, -30.percent) },
-                                )
+                                attack(120.percent, hitCount = 2)
+                            }
+                        }
+                        Act5("Thrust of Protection", 2) {
+                            targetAoe().act {
+                                attack(150.percent, hitCount = 4)
+                            }
+                            targetSelf().act {
+                                applyEffect { DamageTakenDownTimedEffect(turns = 3, 50.percent) }
+                            }
+                        }
+                        Act6("Inspiring Gust", 2) {
+                            targetSelf().act {
+                                applyEffect { ActTimedEffect(turns = 3, 50.percent) }
+                                applyEffect { DexterityTimedEffect(turns = 3, 50.percent) }
+                                applyEffect { CriticalTimedEffect(turns = 3, 50.percent) }
+                            }
+                        }
+                        Act7("Weakening Concerto", 2) {
+                            targetAoe().act {
+                                applyEffect { ActTimedEffect(turns = 3, -50.percent) }
+                            }
+                        }
+                        Act8("Poisonous Thrust", 2) {
+                            targetAoe().act {
+                                attack(150.percent, hitCount = 4)
+                                // TODO
+                            }
+                        }
+                        ClimaxAct("Moonlight Sacrament NEO", 2) {
+                            targetAoe().act {
+                                attack(200.percent, hitCount = 4)
+                                // TODO
                             }
                         }
                     }
@@ -187,24 +182,14 @@ suspend fun main() = coroutineScope {
 
                     when (turn) {
                         1 -> {
-                            +boss[Act2]
+                            +boss[Act7]
                             +boss[Act1]
-                            +boss[Act3]
+                            +boss[Act2]
                         }
                         2 -> {
+                            +boss[Act6]
                             +boss[Act3]
-                            +boss[Act2]
-                            +boss[Act1]
-                        }
-                        3 -> {
-                            +boss[Act1]
-                            +boss[Act3]
-                            +boss[Act2]
-                        }
-                        4 -> {
-                            +boss[ClimaxAct]
-                            +boss[Act2]
-                            +boss[Act1]
+                            +boss[Act5]
                         }
                     }
                 }

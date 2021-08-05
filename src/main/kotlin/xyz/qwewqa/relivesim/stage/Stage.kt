@@ -82,7 +82,7 @@ data class Stage(
             if (opponentQueue.climax) opponent.enterCX()
             val queueLength = max(playerQueue.tiles.size, opponentQueue.tiles.size)
             val playerTiles = playerQueue.tiles + List(queueLength - playerQueue.tiles.size) { PrepareTile }
-            val opponentTiles = opponentQueue.tiles + List(queueLength - playerQueue.tiles.size) { PrepareTile }
+            val opponentTiles = opponentQueue.tiles + List(queueLength - opponentQueue.tiles.size) { PrepareTile }
             playerTiles.zip(opponentTiles).forEach { (a, b) ->
                 when {
                     a.agility > b.agility -> {
@@ -105,6 +105,8 @@ data class Stage(
                 }
             }
             listOf(player.active, opponent.active).flatten().apply {
+                log("Turn") { "Turn $turn tick passive" }
+                forEach { sg -> sg.effects.tickPassives() }
                 log("Turn") { "Turn $turn tick positive" }
                 forEach { sg -> sg.effects.tick(EffectClass.Positive) }
                 log("Turn") { "Turn $turn tick negative" }
