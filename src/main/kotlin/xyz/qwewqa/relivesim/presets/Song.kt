@@ -1,10 +1,11 @@
 package xyz.qwewqa.relivesim.presets
 
 import xyz.qwewqa.relivesim.stage.Percent
+import xyz.qwewqa.relivesim.stage.character.Attribute
 import xyz.qwewqa.relivesim.stage.context.ActionContext
-import xyz.qwewqa.relivesim.stage.effect.SimpleSongEffect
+import xyz.qwewqa.relivesim.stage.effect.SongEffect
 
-class ActStatUpSongEffect(efficacy: Int) : SimpleSongEffect<Int>(efficacy) {
+data class ActStatUpSongEffect(val efficacy: Int) : SongEffect {
     override fun start(context: ActionContext) = context.run {
         self.actPower.value += efficacy
     }
@@ -14,7 +15,7 @@ class ActStatUpSongEffect(efficacy: Int) : SimpleSongEffect<Int>(efficacy) {
     }
 }
 
-class CriticalSongEffect(efficacy: Percent) : SimpleSongEffect<Percent>(efficacy) {
+data class CriticalSongEffect(val efficacy: Percent) : SongEffect {
     override fun start(context: ActionContext) = context.run {
         self.critical.value += efficacy
     }
@@ -24,12 +25,22 @@ class CriticalSongEffect(efficacy: Percent) : SimpleSongEffect<Percent>(efficacy
     }
 }
 
-class DexteritySongEffect(efficacy: Percent) : SimpleSongEffect<Percent>(efficacy) {
+data class DexteritySongEffect(val efficacy: Percent) : SongEffect {
     override fun start(context: ActionContext) = context.run {
-        self.dexterity.value += efficacy
+        self.dexterity.buff += efficacy
     }
 
     override fun stop(context: ActionContext) = context.run {
-        self.dexterity.value -= efficacy
+        self.dexterity.buff -= efficacy
+    }
+}
+
+data class AttributeDamageDealtUp(val attribute: Attribute, val efficacy: Percent) : SongEffect {
+    override fun start(context: ActionContext) = context.run {
+        self.attributeDamageDealtUp[attribute] = self.attributeDamageDealtUp.getValue(attribute) + (efficacy)
+    }
+
+    override fun stop(context: ActionContext) = context.run {
+        self.attributeDamageDealtUp[attribute] = self.attributeDamageDealtUp.getValue(attribute) - efficacy
     }
 }

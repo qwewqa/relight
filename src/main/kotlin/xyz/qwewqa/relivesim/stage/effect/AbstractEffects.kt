@@ -45,8 +45,3 @@ abstract class TeamAutoEffect : AutoEffect {
         team.forEach { apply(this, it) }
     }
 }
-
-abstract class SimpleSongEffect<T>(val efficacy: T) : SongEffect {
-    open val name: String = this::class.simpleName ?: "Anonymous"
-    override fun toString() = "$name(efficacy = $efficacy)"
-}

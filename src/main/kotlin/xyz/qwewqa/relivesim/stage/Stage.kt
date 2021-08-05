@@ -54,6 +54,15 @@ data class Stage(
         log("Stage") { "Begin" }
 
         log("AutoEffect") { "Begin" }
+
+        listOf(player, opponent).forEach { team ->
+            if (team.song.passive != null) {
+                team.active.forEach {
+                    team.song.passive.start(it.context)
+                }
+            }
+        }
+
         val autoEffects = listOf(player.stageGirls.values, opponent.stageGirls.values).flatten().flatMap { sg ->
             sg.loadout.autoEffects.map { BoundAutoSkill(sg, it) }
         } + listOfNotNull(player.friend, opponent.friend).map { sg ->

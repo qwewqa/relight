@@ -51,16 +51,25 @@ class StandardDamageCalculator : DamageCalculator {
         val dmgDealtCoef = (100.percent + attacker.damageDealtUp.get() - target.damageTakenDown.get())
             .coerceAtLeast(0.percent)
 
+        // tentative
+        var buffDmgDealtCoef = (100.percent + attacker.damageDealtUpBuff.get() - target.damageTakenDownBuff.get())
+            .coerceAtLeast(10.percent)
+
+        if (target.markCounter > 0) buffDmgDealtCoef += 30.percent
+        if (target.antiMarkCounter > 0) buffDmgDealtCoef -= 30.percent
+
+        // tentative
         val eleDmgDealtCoef = 100.percent +
                 attacker.attributeDamageDealtUp.getValue(attribute) +
                 attacker.againstAttributeDamageDealtUp.getValue(target.loadout.data.attribute) -
                 target.againstAttributeDamageTakenDown.getValue(attribute)
 
-        var markCoef = 100.percent
-        if (target.markCounter > 0) markCoef += 30.percent
-        if (target.antiMarkCounter > 0) markCoef -= 30.percent
-
         // cx damage up
+        val cxDmgCoef = if (attacker.inCXAct) {
+            100.percent + attacker.climaxDamage.get()
+        } else {
+            100.percent
+        }
 
         val bonusCoef = 100.percent + attacker.eventBonus
 
@@ -71,8 +80,9 @@ class StandardDamageCalculator : DamageCalculator {
         dmg = (dmg * effEleCoef).toInt()
         dmg = (dmg * bonusCoef).toInt()
         dmg = (dmg * dmgDealtCoef).toInt()
-        dmg = (dmg * eleDmgDealtCoef).toInt()
-        dmg = (dmg * markCoef).toInt()
+        dmg = (dmg * cxDmgCoef).toInt() // tentative
+        dmg = (dmg * eleDmgDealtCoef).toInt()  // tentative
+        dmg = (dmg * buffDmgDealtCoef).toInt()
 
         var criticalDmg = base
         criticalDmg = (criticalDmg * eleCoef).toInt()
@@ -80,8 +90,9 @@ class StandardDamageCalculator : DamageCalculator {
         criticalDmg = (criticalDmg * critCoef).toInt()
         criticalDmg = (criticalDmg * bonusCoef).toInt()
         criticalDmg = (criticalDmg * dmgDealtCoef).toInt()
+        criticalDmg = (criticalDmg * cxDmgCoef).toInt()
         criticalDmg = (criticalDmg * eleDmgDealtCoef).toInt()
-        criticalDmg = (criticalDmg * markCoef).toInt()
+        criticalDmg = (criticalDmg * buffDmgDealtCoef).toInt()
 
         return DamageResult(
             base = dmg,

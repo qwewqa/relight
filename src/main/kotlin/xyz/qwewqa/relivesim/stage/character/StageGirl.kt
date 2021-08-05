@@ -42,6 +42,7 @@ class StageGirl(
     val positiveEffectResist: AdditivePercentModifier = AdditivePercentModifier()
     val climaxDamage: AdditivePercentModifier = AdditivePercentModifier()
     val damageDealtUp: AdditivePercentModifier = AdditivePercentModifier()
+    val damageDealtUpBuff: AdditivePercentModifier = AdditivePercentModifier()
     val damageTakenDown: AdditivePercentModifier = AdditivePercentModifier()
     val damageTakenDownBuff: AdditivePercentModifier = AdditivePercentModifier()
     val effects: ActiveEffectManager = ActiveEffectManager(this)

@@ -67,6 +67,11 @@ suspend fun main() = coroutineScope {
                     memoir = FirstAnnivSeishoMusicAcademy.min()
                 }
 
+                song = ClimaxSong(
+                    DexteritySongEffect(7.percent),
+                    AttributeDamageDealtUp(Space, 10.percent),
+                )
+
                 eventBonus = 190.percent
 
                 strategy = fixedStrategy {
@@ -89,6 +94,14 @@ suspend fun main() = coroutineScope {
                             +justice[Act2]
                             +justice[Act3]
                         }
+                        3 -> {
+                            climax()
+                            +wheel[Act2]
+                            +justice[Act2]
+                            +izanagi[ClimaxAct]
+                            +justice[ClimaxAct]
+                            +justice[Act3]
+                        }
                     }
                 }
             }
@@ -102,7 +115,7 @@ suspend fun main() = coroutineScope {
                         character = Misora
                         damageType = Normal
                         stats {
-                            hp = 5_000_000
+                            hp = 10_000_000
                             actPower = 1900
                             normalDefense = 650
                             specialDefense = 650
@@ -190,6 +203,10 @@ suspend fun main() = coroutineScope {
                             +boss[Act6]
                             +boss[Act3]
                             +boss[Act5]
+                        }
+                        3 -> {
+                            +boss[ClimaxAct]
+                            +boss[Act7]
                         }
                     }
                 }
