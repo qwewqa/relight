@@ -4,23 +4,25 @@ import kotlinx.coroutines.coroutineScope
 import xyz.qwewqa.relivesim.dsl.bulkPlay
 import xyz.qwewqa.relivesim.dsl.fixedStrategy
 import xyz.qwewqa.relivesim.presets.*
-import xyz.qwewqa.relivesim.presets.effect.*
-import xyz.qwewqa.relivesim.presets.memoir.*
+import xyz.qwewqa.relivesim.presets.effect.ActTimedEffect
+import xyz.qwewqa.relivesim.presets.effect.CriticalTimedEffect
+import xyz.qwewqa.relivesim.presets.effect.DamageTakenDownTimedEffect
+import xyz.qwewqa.relivesim.presets.effect.DexterityTimedEffect
+import xyz.qwewqa.relivesim.presets.memoir.BandsmansGreeting
+import xyz.qwewqa.relivesim.presets.memoir.CoStarringWithHatsuneMiku
+import xyz.qwewqa.relivesim.presets.memoir.FirstAnnivSeishoMusicAcademy
+import xyz.qwewqa.relivesim.presets.memoir.FriendsAtTheAquarium
 import xyz.qwewqa.relivesim.presets.stagegirl.IzanagiNana
 import xyz.qwewqa.relivesim.presets.stagegirl.JusticeNana
 import xyz.qwewqa.relivesim.presets.stagegirl.backrow.cloud.BabyStageGirlNana
 import xyz.qwewqa.relivesim.presets.stagegirl.backrow.cloud.StageGirlClaudine
-import xyz.qwewqa.relivesim.presets.stagegirl.backrow.space.SanadaMahiru
 import xyz.qwewqa.relivesim.presets.stagegirl.midrow.space.WheelOfFortuneKaren
 import xyz.qwewqa.relivesim.stage.OutOfTurns
 import xyz.qwewqa.relivesim.stage.StageConfiguration
 import xyz.qwewqa.relivesim.stage.act.ActType.*
-import xyz.qwewqa.relivesim.stage.character.Attribute
 import xyz.qwewqa.relivesim.stage.character.Attribute.*
-import xyz.qwewqa.relivesim.stage.character.Character.*
+import xyz.qwewqa.relivesim.stage.character.Character.Misora
 import xyz.qwewqa.relivesim.stage.character.DamageType.Normal
-import xyz.qwewqa.relivesim.stage.character.Position.Middle
-import xyz.qwewqa.relivesim.stage.character.School.Seisho
 import xyz.qwewqa.relivesim.stage.effect.EffectClass
 import xyz.qwewqa.relivesim.stage.effect.autoEffect
 import xyz.qwewqa.relivesim.stage.percent
@@ -115,7 +117,7 @@ suspend fun main() = coroutineScope {
                         character = Misora
                         damageType = Normal
                         stats {
-                            hp = 10_000_000
+                            hp = 5_000_000
                             actPower = 1900
                             normalDefense = 650
                             specialDefense = 650

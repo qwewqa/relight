@@ -82,52 +82,56 @@ data class Stage(
 
         player.finalizeTurnZero()
         opponent.finalizeTurnZero()
-        while (turn < maxTurns) {
-            turn++
-            log("Turn") { "Turn $turn begin" }
-            val playerQueue = player.strategy.getQueue(this, player, opponent)
-            val opponentQueue = opponent.strategy.getQueue(this, opponent, player)
-            if (playerQueue.climax) player.enterCX()
-            if (opponentQueue.climax) opponent.enterCX()
-            val queueLength = max(playerQueue.tiles.size, opponentQueue.tiles.size)
-            val playerTiles = playerQueue.tiles + List(queueLength - playerQueue.tiles.size) { PrepareTile }
-            val opponentTiles = opponentQueue.tiles + List(queueLength - opponentQueue.tiles.size) { PrepareTile }
-            playerTiles.zip(opponentTiles).forEach { (a, b) ->
-                when {
-                    a.agility > b.agility -> {
-                        a.execute()
-                        b.execute()
-                    }
-                    b.agility > a.agility -> {
-                        b.execute()
-                        a.execute()
-                    }
-                    else -> {
-                        if (random.nextDouble() > 0.5) {
-                            a.execute()
-                            b.execute()
-                        } else {
-                            b.execute()
-                            a.execute()
+        try {
+            while (turn < maxTurns) {
+                turn++
+                log("Turn") { "Turn $turn begin" }
+                val playerQueue = player.strategy.getQueue(this, player, opponent)
+                val opponentQueue = opponent.strategy.getQueue(this, opponent, player)
+                if (playerQueue.climax) player.enterCX()
+                if (opponentQueue.climax) opponent.enterCX()
+                val queueLength = max(playerQueue.tiles.size, opponentQueue.tiles.size)
+                val playerTiles = playerQueue.tiles + List(queueLength - playerQueue.tiles.size) { PrepareTile }
+                val opponentTiles = opponentQueue.tiles + List(queueLength - opponentQueue.tiles.size) { PrepareTile }
+                playerTiles.zip(opponentTiles).forEach { (a, b) ->
+                    val (first, second) = when {
+                        a.agility > b.agility -> {
+                            a to b
+                        }
+                        b.agility > a.agility -> {
+                            b to a
+                        }
+                        else -> {
+                            if (random.nextDouble() > 0.5) {
+                                a to b
+                            } else {
+                                b to a
+                            }
                         }
                     }
+                    first.execute()
+                    checkEnded()?.let { return it }
+                    second.execute()
+                    checkEnded()?.let { return it }
                 }
+                listOf(player.active, opponent.active).flatten().apply {
+                    log("Turn") { "Turn $turn tick passive" }
+                    forEach { sg -> sg.effects.tickPassives() }
+                    log("Turn") { "Turn $turn tick positive" }
+                    forEach { sg -> sg.effects.tick(EffectClass.Positive) }
+                    log("Turn") { "Turn $turn tick negative" }
+                    forEach { sg -> sg.effects.tick(EffectClass.Negative) }
+                }
+                player.endTurn()
+                opponent.endTurn()
+                log("Turn") { "Turn $turn end" }
+                checkEnded()?.let { return it}
             }
-            listOf(player.active, opponent.active).flatten().apply {
-                log("Turn") { "Turn $turn tick passive" }
-                forEach { sg -> sg.effects.tickPassives() }
-                log("Turn") { "Turn $turn tick positive" }
-                forEach { sg -> sg.effects.tick(EffectClass.Positive) }
-                log("Turn") { "Turn $turn tick negative" }
-                forEach { sg -> sg.effects.tick(EffectClass.Negative) }
-            }
-            player.endTurn()
-            opponent.endTurn()
-            log("Turn") { "Turn $turn end" }
-            checkEnded()?.let { return it }
+            return OutOfTurns(opponent.active.sumOf { it.maxHp.get() - it.currentHP })
+        } finally {
+            log("Stage") { "End" }
+            if (configuration.logging) println(logger)
         }
-        if (configuration.logging) println(logger)
-        return OutOfTurns(opponent.active.sumOf { it.maxHp.get() - it.currentHP })
     }
 
     private fun checkEnded(): StageResult? {
