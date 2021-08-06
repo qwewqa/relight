@@ -1,11 +1,13 @@
 package xyz.qwewqa.relivesim.stage.context
 
 import xyz.qwewqa.relivesim.dsl.StageDslMarker
+import xyz.qwewqa.relivesim.presets.effect.BarrierTimedEffect
 import xyz.qwewqa.relivesim.stage.*
 import xyz.qwewqa.relivesim.stage.character.StageGirl
 import xyz.qwewqa.relivesim.stage.character.Attribute
 import xyz.qwewqa.relivesim.stage.character.DamageType
 import xyz.qwewqa.relivesim.stage.effect.EffectClass
+import xyz.qwewqa.relivesim.stage.effect.EffectType
 import xyz.qwewqa.relivesim.stage.effect.StackedEffect
 import xyz.qwewqa.relivesim.stage.effect.TimedEffect
 import xyz.qwewqa.relivesim.stage.team.Team
@@ -28,8 +30,9 @@ data class ActionContext(
     fun targetAoe() = enemies.active.targetContext()
     fun targetAllyAoe() = team.active.targetContext()
     fun targetAllyFront(count: Int = 1) = team.active.take(count).targetContext()
+    fun targetAllyRandom(count: Int = 1) = List(count) { team.active.random(stage.random) }.targetContext()
 
-    fun targetHighestAct(count: Int = 1) = targetHighest(count) { it.actPower.get() }
+    fun targetHighestAct(count: Int = 1) = targetHighest(count) { it.actPower.value }
     fun <T : Comparable<T>> targetHighest(count: Int = 1, condition: (StageGirl) -> T) =
         enemies.active.sortedBy(condition).take(count).targetContext()
 
@@ -73,7 +76,7 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
         val result = stage.damageCalculator.calculate(stage, self, target, modifier, hitCount, overrideAttribute)
         if (target.effects.get(StackedEffect.Evade) > 0) {
             target.effects.removeStacked(StackedEffect.Evade)
-            if (!(self.perfectAimCounter > 0)) {
+            if (self.perfectAimCounter <= 0) {
                 stage.log("Hit") { "Miss from Evade" }
             }
         }
@@ -86,15 +89,37 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
                 result.base * (100 + n) / 100
             }
             val reflect = when (self.loadout.data.damageType) {
-                DamageType.Normal -> target.normalReflect.get()
-                DamageType.Special -> target.specialReflect.get()
+                DamageType.Normal -> target.normalReflect.value
+                DamageType.Special -> target.specialReflect.value
                 DamageType.NeutralDamage -> 0.percent
             }
             stage.log("Hit") { "Damage roll: $damage (critical: $isCritical, varianceRoll: $n)" }
             val reflected = (damage * reflect).toInt()
             val unreflected = damage - reflected
             if (reflected > 0) stage.log("Hit") { "Unreflected: $unreflected, Reflected: $reflected" }
-            target.damage(unreflected, DamageType.NeutralDamage)
+            var afterBarrier = unreflected
+            when (self.loadout.data.damageType) {
+                DamageType.Normal -> EffectType.NormalBarrier
+                DamageType.Special -> EffectType.SpecialBarrier
+                else -> null
+            }?.let { barrierEffectType ->
+                val barriers = target.effects.get(barrierEffectType)
+                if (barriers.isNotEmpty()) {
+                    for (barrier in barriers.filterIsInstance<BarrierTimedEffect>()) {
+                        if (barrier.value > afterBarrier) {
+                            stage.log("Hit") { "Blocked by barrier (damage: $afterBarrier barrierStart: ${barrier.value}, barrierAfter: ${barrier.value - afterBarrier})" }
+                            barrier.value -= afterBarrier
+                            afterBarrier = 0
+                            break
+                        } else {
+                            stage.log("Hit") { "Destroys barrier (damage: $afterBarrier, after: $afterBarrier, barrier: ${barrier.value})" }
+                            afterBarrier -= barrier.value
+                            target.effects.removeTimed(barrier)
+                        }
+                    }
+                }
+            }
+            target.damage(afterBarrier, DamageType.NeutralDamage)
             if (reflected > 0) {
                 self.damage(reflected, self.loadout.data.damageType, isDirect = false)
             }
@@ -116,7 +141,7 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
                 val effect = effectFactory()
                 when (effect.effectClass) {
                     EffectClass.Positive -> {
-                        val applyChance = chance * (100.percent - positiveEffectResist.get())
+                        val applyChance = chance * (100.percent - positiveEffectResist.value)
                         if (applyChance == 100.percent || stage.random.nextDouble().percent < applyChance) {
                             effects.add(effect)
                             stage.log("Effect") { "[$this]: Positive effect [$effect] applied" }
@@ -125,7 +150,7 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
                         }
                     }
                     EffectClass.Negative -> {
-                        val applyChance = chance * (100.percent - negativeEffectResist.get())
+                        val applyChance = chance * (100.percent - negativeEffectResist.value)
                         if (applyChance == 100.percent || stage.random.nextDouble().percent < applyChance) {
                             effects.add(effect)
                             stage.log("Effect") { "[$this]: Negative effect [$effect] applied" }
@@ -153,7 +178,7 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
         targets.forEach {
             it.apply {
                 stage.log("Heal") { "[$self] heals [$this] (percent: $percent, fixed: $fixed)" }
-                this.heal(fixed + (percent * maxHp.get()).toInt())
+                this.heal(fixed + (percent * maxHp.value).toInt())
             }
         }
     }

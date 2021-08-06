@@ -5,7 +5,8 @@ import xyz.qwewqa.relivesim.stage.act.Act
 import xyz.qwewqa.relivesim.stage.act.ActData
 import xyz.qwewqa.relivesim.stage.act.ActType
 import xyz.qwewqa.relivesim.stage.context.ActionContext
-import xyz.qwewqa.relivesim.stage.effect.ActiveEffectManager
+import xyz.qwewqa.relivesim.stage.effect.EffectManager
+import xyz.qwewqa.relivesim.stage.effect.EffectType
 import xyz.qwewqa.relivesim.stage.log
 import xyz.qwewqa.relivesim.stage.percent
 import xyz.qwewqa.relivesim.stage.team.Team
@@ -45,7 +46,7 @@ class StageGirl(
     val damageDealtUpBuff: AdditivePercentModifier = AdditivePercentModifier()
     val damageTakenDown: AdditivePercentModifier = AdditivePercentModifier()
     val damageTakenDownBuff: AdditivePercentModifier = AdditivePercentModifier()
-    val effects: ActiveEffectManager = ActiveEffectManager(this)
+    val effects: EffectManager = EffectManager(this)
     var counterHealValue: Percent = 0.percent
     var apUpCounter: Int = 0
     var apDownCounter: Int = 0
@@ -67,9 +68,35 @@ class StageGirl(
     val againstAttributeDamageTakenDown = mutableMapOf<Attribute, Percent>().withDefault { 0.percent }
     val attributeDamageDealtUp = mutableMapOf<Attribute, Percent>().withDefault { 0.percent }
 
+    var aggroTarget: StageGirl? = null
+    var provokeTarget: StageGirl? = null
+
+    /**
+     * Execute an act normally, as from an act tile.
+     * Factors in CC effects and adds brilliance based on ap cost.
+     */
     fun execute(act: Act, apCost: Int) {
+        if (effects.count(EffectType.Confuse) > 0 && context.stage.random.nextDouble() < 0.3) {
+            context.stage.log("Affliction")  { "Confuse proc" }
+            context.run {
+                targetAllyRandom().act {
+                    attack(105.percent)
+                }
+            }
+            return
+        }
         this.addBrilliance(7 * apCost)
         act.action(context)
+    }
+
+    fun tick() {
+        if (poisonTick > 0) {
+            damage(poisonTick, DamageType.NeutralDamage, false)
+        }
+        if (burnTick > 0) {
+            damage(burnTick, DamageType.NeutralDamage, false)
+        }
+        effects.tick()
     }
 
     /**
@@ -89,11 +116,15 @@ class StageGirl(
         self.currentHP = newHp
         if (newHp == 0) {
             stage.log("Exit") { "[$self] has exited" }
-            self.team.strategy.onStageGirlExit(self)
+            team.strategy.onStageGirlExit(self)
+            enemies.forEach {
+                if (it.aggroTarget == self) it.effects.removeAll(EffectType.Aggro)
+                if (it.provokeTarget == self) it.effects.removeAll(EffectType.Provoke)
+            }
             self.exitCX()
         } else {
             if (isDirect) {
-                self.addBrilliance(amount * 70 / self.maxHp.get())
+                self.addBrilliance(amount * 70 / self.maxHp.value)
             }
         }
     }
@@ -101,11 +132,11 @@ class StageGirl(
     fun heal(amount: Int) = context.run {
         stage.log("Heal") {
             "[$self] healed $amount (prevHp: ${self.currentHP}, newHp: ${
-                (self.currentHP + amount).coerceAtMost(self.maxHp.get())
+                (self.currentHP + amount).coerceAtMost(self.maxHp.value)
             })"
         }
         self.currentHP += amount
-        self.currentHP = self.currentHP.coerceAtMost(self.maxHp.get())
+        self.currentHP = self.currentHP.coerceAtMost(self.maxHp.value)
     }
 
     fun addBrilliance(amount: Int) = context.run {

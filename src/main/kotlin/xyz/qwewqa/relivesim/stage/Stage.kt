@@ -47,7 +47,7 @@ data class Stage(
         override operator fun compareTo(other: BoundAutoSkill): Int {
             var ret = effectClass.ordinal - other.effectClass.ordinal // sort negatives after positives
             if (ret != 0) return ret
-            ret = other.stageGirl.agility.get() - stageGirl.agility.get()  // sort lower agility after higher
+            ret = other.stageGirl.agility.value - stageGirl.agility.value  // sort lower agility after higher
             return ret
         }
     }
@@ -142,12 +142,8 @@ data class Stage(
                     checkEnded()?.let { return it }
                 }
                 listOf(player.active, opponent.active).flatten().apply {
-                    log("Turn") { "Turn $turn tick passive" }
-                    forEach { sg -> sg.effects.tickPassives() }
-                    log("Turn") { "Turn $turn tick positive" }
-                    forEach { sg -> sg.effects.tick(EffectClass.Positive) }
-                    log("Turn") { "Turn $turn tick negative" }
-                    forEach { sg -> sg.effects.tick(EffectClass.Negative) }
+                    log("Effect") { "Turn end tick" }
+                    forEach { sg -> sg.tick() }
                 }
                 player.endTurn()
                 opponent.endTurn()

@@ -7,21 +7,19 @@ import xyz.qwewqa.relivesim.stage.effect.EffectType
 import xyz.qwewqa.relivesim.stage.effect.TimedEffect
 import kotlin.properties.Delegates
 
-class BurnTimedEffect(
+data class BurnTimedEffect(
     override var turns: Int,
     val fixedDamage: Int = 0,
     val percentDamage: Percent = 0.percent,
     override val locked: Boolean = false,
 ) : TimedEffect {
-    override fun toString() = "Burn(turns = $turns, fixedDamage = $fixedDamage, percentDamage = $percentDamage, locked = $locked)"
-
     override val effectClass = EffectClass.Negative
     override val effectType = EffectType.Burn
 
     var damage by Delegates.notNull<Int>()
 
     override fun start(context: ActionContext) = context.run {
-        damage = fixedDamage + (self.maxHp.get() * percentDamage).toInt()
+        damage = fixedDamage + (self.maxHp.value * percentDamage).toInt()
         if (self.burnCounter == 0) {
             self.actPower.buff -= 10.percent
         }
@@ -35,5 +33,27 @@ class BurnTimedEffect(
         if (self.burnCounter == 0) {
             self.actPower.buff += 10.percent
         }
+    }
+}
+
+
+data class PoisonTimedEffect(
+    override var turns: Int,
+    val fixedDamage: Int = 0,
+    val percentDamage: Percent = 0.percent,
+    override val locked: Boolean = false,
+) : TimedEffect {
+    override val effectClass = EffectClass.Negative
+    override val effectType = EffectType.Poison
+
+    var damage by Delegates.notNull<Int>()
+
+    override fun start(context: ActionContext) = context.run {
+        damage = fixedDamage + (self.maxHp.value * percentDamage).toInt()
+        self.poisonTick += damage
+    }
+
+    override fun stop(context: ActionContext) = context.run {
+        self.poisonTick -= damage
     }
 }

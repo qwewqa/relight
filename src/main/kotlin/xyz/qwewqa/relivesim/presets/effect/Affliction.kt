@@ -5,18 +5,15 @@ import xyz.qwewqa.relivesim.stage.effect.EffectClass
 import xyz.qwewqa.relivesim.stage.effect.EffectType
 import xyz.qwewqa.relivesim.stage.effect.TimedEffect
 
-data class PerfectAimTimedEffect(
+
+data class ConfusionTimedEffect(
     override var turns: Int,
     override val locked: Boolean = false,
 ) : TimedEffect {
-    override val effectType = EffectType.Other
-    override val effectClass = EffectClass.Positive
+    override val effectClass = EffectClass.Negative
+    override val effectType = EffectType.Confuse
 
-    override fun start(context: ActionContext) = context.run {
-        self.perfectAimCounter += 1
-    }
+    override fun start(context: ActionContext) = context.run {}
 
-    override fun stop(context: ActionContext) = context.run {
-        self.perfectAimCounter -= 1
-    }
+    override fun stop(context: ActionContext) = context.run {}
 }

@@ -4,10 +4,7 @@ import kotlinx.coroutines.coroutineScope
 import xyz.qwewqa.relivesim.dsl.bulkPlay
 import xyz.qwewqa.relivesim.dsl.fixedStrategy
 import xyz.qwewqa.relivesim.presets.*
-import xyz.qwewqa.relivesim.presets.effect.ActTimedEffect
-import xyz.qwewqa.relivesim.presets.effect.CriticalTimedEffect
-import xyz.qwewqa.relivesim.presets.effect.DamageTakenDownTimedEffect
-import xyz.qwewqa.relivesim.presets.effect.DexterityTimedEffect
+import xyz.qwewqa.relivesim.presets.effect.*
 import xyz.qwewqa.relivesim.presets.memoir.BandsmansGreeting
 import xyz.qwewqa.relivesim.presets.memoir.CoStarringWithHatsuneMiku
 import xyz.qwewqa.relivesim.presets.memoir.FirstAnnivSeishoMusicAcademy
@@ -181,13 +178,15 @@ suspend fun main() = coroutineScope {
                         Act8("Poisonous Thrust", 2) {
                             targetAoe().act {
                                 attack(150.percent, hitCount = 4)
-                                // TODO
+                                applyEffect { PoisonTimedEffect(turns = 3, fixedDamage = 10000) }
+                                applyEffect { ConfusionTimedEffect(turns = 2) }
                             }
                         }
                         ClimaxAct("Moonlight Sacrament NEO", 2) {
                             targetAoe().act {
                                 attack(200.percent, hitCount = 4)
-                                // TODO
+                                applyEffect { PoisonTimedEffect(turns = 3, fixedDamage = 10000) }
+                                applyEffect { ConfusionTimedEffect(turns = 2) }
                             }
                         }
                     }
@@ -210,6 +209,7 @@ suspend fun main() = coroutineScope {
                         3 -> {
                             +boss[ClimaxAct]
                             +boss[Act7]
+                            +boss[Act3]
                         }
                     }
                 }

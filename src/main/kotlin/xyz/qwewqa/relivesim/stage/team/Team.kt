@@ -1,8 +1,6 @@
 package xyz.qwewqa.relivesim.stage.team
 
 import xyz.qwewqa.relivesim.stage.Percent
-import xyz.qwewqa.relivesim.stage.act.Act
-import xyz.qwewqa.relivesim.stage.character.StageGirlLoadout
 import xyz.qwewqa.relivesim.stage.character.StageGirl
 import xyz.qwewqa.relivesim.stage.percent
 import xyz.qwewqa.relivesim.stage.strategy.Strategy
@@ -23,7 +21,7 @@ class Team(
 
     fun finalizeTurnZero() {
         stageGirls.values.forEach {
-            it.currentHP = it.maxHp.get()
+            it.currentHP = it.maxHp.value
         }
 
         // No clue how it actually works but this will prevent friends from dying for now

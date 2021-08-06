@@ -7,21 +7,21 @@ import xyz.qwewqa.relivesim.stage.effect.SongEffect
 
 data class ActStatUpSongEffect(val efficacy: Int) : SongEffect {
     override fun start(context: ActionContext) = context.run {
-        self.actPower.value += efficacy
+        self.actPower.base += efficacy
     }
 
     override fun stop(context: ActionContext) = context.run {
-        self.actPower.value -= efficacy
+        self.actPower.base -= efficacy
     }
 }
 
 data class CriticalSongEffect(val efficacy: Percent) : SongEffect {
     override fun start(context: ActionContext) = context.run {
-        self.critical.value += efficacy
+        self.critical.base += efficacy
     }
 
     override fun stop(context: ActionContext) = context.run {
-        self.critical.value -= efficacy
+        self.critical.base -= efficacy
     }
 }
 

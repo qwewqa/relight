@@ -77,7 +77,7 @@ data class TeamActCriticalAutoEffect(val efficacy: Percent) : TeamAutoEffect() {
     override fun apply(context: ActionContext, target: StageGirl) = context.run {
         target.run {
             actPower.buff += efficacy
-            critical.value += efficacy
+            critical.base += efficacy
         }
     }
 }

@@ -24,35 +24,35 @@ class StandardDamageCalculator : DamageCalculator {
         hitCount: Int,
         overrideAttribute: Attribute?,
     ): DamageResult {
-        var atk = 2 * attacker.actPower.get()
+        var atk = 2 * attacker.actPower.value
         if (attacker.inCX) atk = (atk * 110.percent).toInt()
         atk = (atk * modifier).toInt()
 
         var def = when (attacker.loadout.data.damageType) {
-            DamageType.Normal -> target.normalDefense.get()
-            DamageType.Special -> target.specialDefense.get()
+            DamageType.Normal -> target.normalDefense.value
+            DamageType.Special -> target.specialDefense.value
             else -> 0
         }.coerceAtLeast(0)
 
         val attribute = overrideAttribute ?: attacker.loadout.data.attribute
         val eleCoef = target.loadout.data.effectivenessTable.getValue(attribute).toPercent()
         val effEleCoef = if (eleCoef > 100.percent) {
-            100.percent + attacker.effectiveDamage.get()
+            100.percent + attacker.effectiveDamage.value
         } else {
             100.percent
         }
 
-        val critCoef = 100.percent + attacker.critical.get().coerceAtLeast(0.percent)
-        val dex = attacker.dexterity.get().coerceIn(0.percent, 100.percent)
+        val critCoef = 100.percent + attacker.critical.value.coerceAtLeast(0.percent)
+        val dex = attacker.dexterity.value.coerceIn(0.percent, 100.percent)
 
-        val acc = (100.percent + attacker.accuracy.get() - target.evasion.get()).coerceIn(0.percent, 100.percent) *
+        val acc = (100.percent + attacker.accuracy.value - target.evasion.value).coerceIn(0.percent, 100.percent) *
                 if (attacker.blindCounter > 0) 30.percent else 100.percent
 
-        val dmgDealtCoef = (100.percent + attacker.damageDealtUp.get() - target.damageTakenDown.get())
+        val dmgDealtCoef = (100.percent + attacker.damageDealtUp.value - target.damageTakenDown.value)
             .coerceAtLeast(0.percent)
 
         // tentative
-        var buffDmgDealtCoef = (100.percent + attacker.damageDealtUpBuff.get() - target.damageTakenDownBuff.get())
+        var buffDmgDealtCoef = (100.percent + attacker.damageDealtUpBuff.value - target.damageTakenDownBuff.value)
             .coerceAtLeast(10.percent)
 
         if (target.markCounter > 0) buffDmgDealtCoef += 30.percent
@@ -66,7 +66,7 @@ class StandardDamageCalculator : DamageCalculator {
 
         // cx damage up
         val cxDmgCoef = if (attacker.inCXAct) {
-            100.percent + attacker.climaxDamage.get()
+            100.percent + attacker.climaxDamage.value
         } else {
             100.percent
         }

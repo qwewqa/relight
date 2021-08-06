@@ -15,26 +15,26 @@ data class StatData(
     val evasion: Percent = 0.percent,
 ) {
     fun applyToStageGirl(sg: StageGirl) {
-        sg.maxHp.value = hp
-        sg.actPower.value = actPower
-        sg.normalDefense.value = normalDefense
-        sg.specialDefense.value = specialDefense
-        sg.agility.value = agility
-        sg.dexterity.value = dexterity
-        sg.critical.value = critical
-        sg.accuracy.value = accuracy
-        sg.evasion.value = evasion
+        sg.maxHp.base = hp
+        sg.actPower.base = actPower
+        sg.normalDefense.base = normalDefense
+        sg.specialDefense.base = specialDefense
+        sg.agility.base = agility
+        sg.dexterity.base = dexterity
+        sg.critical.base = critical
+        sg.accuracy.base = accuracy
+        sg.evasion.base = evasion
     }
     
     fun addToStageGirl(sg: StageGirl) {
-        sg.maxHp.value += hp
-        sg.actPower.value += actPower
-        sg.normalDefense.value += normalDefense
-        sg.specialDefense.value += specialDefense
-        sg.agility.value += agility
-        sg.dexterity.value += dexterity
-        sg.critical.value += critical
-        sg.accuracy.value += accuracy
-        sg.evasion.value += evasion
+        sg.maxHp.base += hp
+        sg.actPower.base += actPower
+        sg.normalDefense.base += normalDefense
+        sg.specialDefense.base += specialDefense
+        sg.agility.base += agility
+        sg.dexterity.base += dexterity
+        sg.critical.base += critical
+        sg.accuracy.base += accuracy
+        sg.evasion.base += evasion
     }
 }

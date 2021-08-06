@@ -9,6 +9,11 @@ interface TimedEffect {
     val locked: Boolean get() = false
 
     /**
+     * Whether other effects of the same type should be removed prior to application.
+     */
+    val exclusive: Boolean get() = false
+
+    /**
      * The number of remaining turns this effect has.
      */
     var turns: Int
@@ -61,5 +66,7 @@ enum class EffectType {
     Provoke,
     Aggro,
     ExitEvasion,
+    NormalBarrier,
+    SpecialBarrier,
 }
 

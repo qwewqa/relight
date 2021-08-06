@@ -117,8 +117,9 @@ val IzanagiNana = stageGirlPrototype + {
         targetAllyAoe().act {
             applyEffect { DexterityTimedEffect(turns = 3, 50.percent) }
             applyEffect { CriticalTimedEffect(turns = 3, 50.percent) }
+            applyEffect { NormalBarrierTimedEffect(turns = 3, 15000) }
+            applyEffect { SpecialBarrierTimedEffect(turns = 3, 15000) }
         }
-        // TODO: Barriers
     }
 
     +FortitudeAutoEffect()

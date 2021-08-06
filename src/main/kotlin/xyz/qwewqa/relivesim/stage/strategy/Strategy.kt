@@ -1,7 +1,6 @@
 package xyz.qwewqa.relivesim.stage.strategy
 
 import xyz.qwewqa.relivesim.stage.Stage
-import xyz.qwewqa.relivesim.stage.act.Act
 import xyz.qwewqa.relivesim.stage.act.ActData
 import xyz.qwewqa.relivesim.stage.act.ActType
 import xyz.qwewqa.relivesim.stage.character.StageGirl
@@ -31,7 +30,7 @@ object IdleTile : QueueTile() {
 }
 
 class ActionTile(val stageGirl: StageGirl, val apCost: Int, val actData: ActData) : QueueTile() {
-    override val agility get() = stageGirl.agility.get()
+    override val agility get() = stageGirl.agility.value
 
     override fun execute() {
         stageGirl.context.stage.log("Act") { "[$stageGirl] executes act [${actData.name}]" }
