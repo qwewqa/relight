@@ -31,7 +31,7 @@ class FixedStrategyContext(val stage: Stage, val team: Team, val enemy: Team) {
     operator fun StageGirl.get(act: ActType) = BoundAct(this, this.acts[act] ?: error("Act does not exist."))
 
     fun BoundAct.enqueue() {
-        repeat(apCost - 1) { queue.add(PrepareTile) }
+        repeat(apCost - 1) { queue.add(IdleTile) }
         queue.add(ActionTile(stageGirl, apCost, actData))
     }
 

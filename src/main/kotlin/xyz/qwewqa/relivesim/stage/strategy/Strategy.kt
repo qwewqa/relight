@@ -25,7 +25,7 @@ sealed class QueueTile {
     abstract fun execute()
 }
 
-object PrepareTile : QueueTile() {
+object IdleTile : QueueTile() {
     override val agility = 0
     override fun execute() {}
 }

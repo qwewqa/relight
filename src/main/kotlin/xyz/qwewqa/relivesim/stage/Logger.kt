@@ -3,19 +3,21 @@ package xyz.qwewqa.relivesim.stage
 class Logger {
     private val log = mutableListOf<LogEntry>()
 
-    fun log(tag: String = "", value: String) {
-        log += LogEntry(tag, value)
+    fun log(turn: Int, tile: Int, tag: String = "", value: String) {
+        log += LogEntry(turn, tile, tag, value)
     }
 
     override fun toString(): String {
-        return log.joinToString("\n") {
-            if ("\n" in it.value) {
-                "<${it.tag}>\n${it.value.prependIndent("    ")}"
-            } else {
-                "<${it.tag}> ${it.value}"
+        return log.joinToString("\n") { entry ->
+            entry.run {
+                if ("\n" in value) {
+                    "$turn.$tile <$tag>\n${value.prependIndent("    ")}"
+                } else {
+                    "$turn.$tile <$tag> $value"
+                }
             }
         }
     }
 }
 
-data class LogEntry(val tag: String, val value: String)
+data class LogEntry(val turn: Int, val tile: Int, val tag: String, val value: String)

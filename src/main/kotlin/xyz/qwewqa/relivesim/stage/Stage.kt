@@ -4,12 +4,12 @@ import xyz.qwewqa.relivesim.stage.character.StageGirl
 import xyz.qwewqa.relivesim.stage.context.ActionContext
 import xyz.qwewqa.relivesim.stage.effect.AutoEffect
 import xyz.qwewqa.relivesim.stage.effect.EffectClass
-import xyz.qwewqa.relivesim.stage.strategy.PrepareTile
+import xyz.qwewqa.relivesim.stage.strategy.ActionTile
+import xyz.qwewqa.relivesim.stage.strategy.IdleTile
 import xyz.qwewqa.relivesim.stage.team.Team
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
-import kotlin.math.max
 import kotlin.random.Random
 
 data class Stage(
@@ -33,6 +33,8 @@ data class Stage(
     }
 
     var turn = 0
+        private set
+    var tile = 0
         private set
 
     private class BoundAutoSkill(val stageGirl: StageGirl, val autoSkill: AutoEffect) : Comparable<BoundAutoSkill> {
@@ -85,15 +87,40 @@ data class Stage(
         try {
             while (turn < maxTurns) {
                 turn++
+                tile = 0
                 log("Turn") { "Turn $turn begin" }
                 val playerQueue = player.strategy.getQueue(this, player, opponent)
                 val opponentQueue = opponent.strategy.getQueue(this, opponent, player)
                 if (playerQueue.climax) player.enterCX()
                 if (opponentQueue.climax) opponent.enterCX()
-                val queueLength = max(playerQueue.tiles.size, opponentQueue.tiles.size)
-                val playerTiles = playerQueue.tiles + List(queueLength - playerQueue.tiles.size) { PrepareTile }
-                val opponentTiles = opponentQueue.tiles + List(queueLength - opponentQueue.tiles.size) { PrepareTile }
+                val playerTiles = playerQueue.tiles + List(6 - playerQueue.tiles.size) { IdleTile }
+                val opponentTiles = opponentQueue.tiles + List(6 - opponentQueue.tiles.size) { IdleTile }
+                log("Queue") {
+                    val player = listOf("Player") + playerTiles.map {
+                        if (it is ActionTile) {
+                            "[${it.stageGirl.loadout.data.displayName} (${it.stageGirl.loadout.name})]:[${it.actData.name}]"
+                        } else {
+                            "..."
+                        }
+                    }
+                    val padLength = player.maxOf { it.length } + 2
+                    val opponent = listOf("Opponent") + opponentTiles.map {
+                        if (it is ActionTile) {
+                            "[${it.stageGirl.loadout.data.displayName} (${it.stageGirl.loadout.name})]:[${it.actData.name}]"
+                        } else {
+                            "..."
+                        }
+                    }
+                    player.zip(opponent).mapIndexed { i, (p, o) ->
+                        if (i > 0) {
+                            "$turn.$i " + p.padEnd(padLength) + o
+                        } else {
+                           "    " + p.padEnd(padLength) + o
+                        }
+                    }.joinToString("\n")
+                }
                 playerTiles.zip(opponentTiles).forEach { (a, b) ->
+                    tile++
                     val (first, second) = when {
                         a.agility > b.agility -> {
                             a to b
@@ -125,9 +152,9 @@ data class Stage(
                 player.endTurn()
                 opponent.endTurn()
                 log("Turn") { "Turn $turn end" }
-                checkEnded()?.let { return it}
+                checkEnded()?.let { return it }
             }
-            return OutOfTurns(opponent.active.sumOf { it.maxHp.get() - it.currentHP })
+            return OutOfTurns(opponent.active.sumOf { it.currentHP })
         } finally {
             log("Stage") { "End" }
             if (configuration.logging) println(logger)
@@ -157,6 +184,6 @@ inline fun Stage.log(tag: String = "", value: () -> String) {
     }
 
     if (configuration.logging) {
-        logger.log(tag, value())
+        logger.log(turn, tile, tag, value())
     }
 }

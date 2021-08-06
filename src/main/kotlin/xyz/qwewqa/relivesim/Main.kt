@@ -19,6 +19,7 @@ import xyz.qwewqa.relivesim.presets.stagegirl.backrow.cloud.StageGirlClaudine
 import xyz.qwewqa.relivesim.presets.stagegirl.midrow.space.WheelOfFortuneKaren
 import xyz.qwewqa.relivesim.stage.OutOfTurns
 import xyz.qwewqa.relivesim.stage.StageConfiguration
+import xyz.qwewqa.relivesim.stage.Victory
 import xyz.qwewqa.relivesim.stage.act.ActType.*
 import xyz.qwewqa.relivesim.stage.character.Attribute.*
 import xyz.qwewqa.relivesim.stage.character.Character.Misora
@@ -213,9 +214,11 @@ suspend fun main() = coroutineScope {
                     }
                 }
             }
-        }.let {
-            println("${it.size} runs")
-            println("${it.filterIsInstance<OutOfTurns>().map { it.margin }.average().toInt()}")
+        }.let { results ->
+            println("${results.size} runs")
+            val wins = results.count { it is Victory }
+            println("${wins.toDouble() / results.size} ($wins)")
+            println("${results.filterIsInstance<OutOfTurns>().map { it.margin }.average().toInt()}")
         }
     }.let {
         println("Time: $it")
