@@ -22,6 +22,8 @@ data class Stage(
     val logger = Logger()
 
     init {
+        player.stage = this
+        opponent.stage = this
         player.stageGirls.values.forEach {
             it.context = ActionContext(it, this, player, opponent)
         }
@@ -91,8 +93,14 @@ data class Stage(
                 log("Turn") { "Turn $turn begin" }
                 val playerQueue = player.strategy.getQueue(this, player, opponent)
                 val opponentQueue = opponent.strategy.getQueue(this, opponent, player)
-                if (playerQueue.climax) player.enterCX()
-                if (opponentQueue.climax) opponent.enterCX()
+                if (playerQueue.climax) {
+                    log("Climax") { "Player Climax" }
+                    player.enterCX()
+                }
+                if (opponentQueue.climax) {
+                    log("Climax") { "Opponent Climax" }
+                    opponent.enterCX()
+                }
                 val playerTiles = playerQueue.tiles + List(6 - playerQueue.tiles.size) { IdleTile }
                 val opponentTiles = opponentQueue.tiles + List(6 - opponentQueue.tiles.size) { IdleTile }
                 log("Queue") {

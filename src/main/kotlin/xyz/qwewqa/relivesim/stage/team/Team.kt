@@ -1,6 +1,7 @@
 package xyz.qwewqa.relivesim.stage.team
 
 import xyz.qwewqa.relivesim.stage.Percent
+import xyz.qwewqa.relivesim.stage.Stage
 import xyz.qwewqa.relivesim.stage.character.StageGirl
 import xyz.qwewqa.relivesim.stage.percent
 import xyz.qwewqa.relivesim.stage.strategy.Strategy
@@ -12,6 +13,8 @@ class Team(
     val eventBonus: Percent = 0.percent,
     val strategy: Strategy,
 ) {
+    lateinit var stage: Stage
+
     var cxTurns: Int = 0
         private set
 

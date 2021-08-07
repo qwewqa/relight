@@ -19,6 +19,19 @@ data class ActionContext(
     val team: Team,
     val enemies: Team,
 ) {
+    var focus = false
+        private set
+    var superkill = false
+        private set
+
+    fun focus(block: () -> Unit) {
+        focus.let {
+            focus = true
+            block()
+            focus = it
+        }
+    }
+
     private fun List<StageGirl>.targetContext() = TargetContext(this@ActionContext, this)
 
     inline fun StageGirl.act(action: TargetContext.() -> Unit) =
@@ -51,6 +64,8 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
         hitCount: Int = 1,
         bonusMultiplier: Double = 1.0,
         bonusCondition: StageGirl.() -> Boolean = { false },
+        novariance: Boolean = false,
+        noreflect: Boolean = false,
         overrideAttribute: Attribute? = null,
     ) {
         if (!self.isAlive) return
@@ -60,6 +75,8 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
                     target,
                     if (bonusCondition(target)) modifier * bonusMultiplier.toPercent() else modifier,
                     hitCount,
+                    novariance,
+                    noreflect,
                     overrideAttribute,
                 )
             }
@@ -70,18 +87,20 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
         target: StageGirl,
         modifier: Percent,
         hitCount: Int,
+        novariance: Boolean = false,
+        noreflect: Boolean = false,
         overrideAttribute: Attribute? = null,
     ) {
         stage.log("Hit") { "[${self.loadout.data.displayName}] attempts to hit [${target.loadout.data.displayName}]" }
         val result = stage.damageCalculator.calculate(stage, self, target, modifier, hitCount, overrideAttribute)
         if (target.effects.get(StackedEffect.Evade) > 0) {
             target.effects.removeStacked(StackedEffect.Evade)
-            if (self.perfectAimCounter <= 0) {
+            if (self.perfectAimCounter <= 0 && !actionContext.focus) {
                 stage.log("Hit") { "Miss from Evade" }
             }
         }
-        if (stage.random.nextDouble() < result.hitChance) {
-            val n = stage.random.nextInt(-8, 9)
+        if (self.perfectAimCounter > 0 || actionContext.focus || stage.random.nextDouble() < result.hitChance) {
+            val n = if (novariance) 0 else stage.random.nextInt(-8, 9)
             val isCritical = stage.random.nextDouble() < result.criticalChance
             val damage = if (isCritical) {
                 result.critical * (100 + n) / 100
@@ -94,27 +113,29 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
                 DamageType.NeutralDamage -> 0.percent
             }
             stage.log("Hit") { "Damage roll: $damage (critical: $isCritical, varianceRoll: $n)" }
-            val reflected = (damage * reflect).toInt()
+            val reflected = if (actionContext.focus || noreflect) 0 else (damage * reflect).toInt()
             val unreflected = damage - reflected
             if (reflected > 0) stage.log("Hit") { "Unreflected: $unreflected, Reflected: $reflected" }
             var afterBarrier = unreflected
-            when (self.loadout.data.damageType) {
-                DamageType.Normal -> EffectType.NormalBarrier
-                DamageType.Special -> EffectType.SpecialBarrier
-                else -> null
-            }?.let { barrierEffectType ->
-                val barriers = target.effects.get(barrierEffectType)
-                if (barriers.isNotEmpty()) {
-                    for (barrier in barriers.filterIsInstance<BarrierTimedEffect>()) {
-                        if (barrier.value > afterBarrier) {
-                            stage.log("Hit") { "Blocked by barrier (damage: $afterBarrier barrierStart: ${barrier.value}, barrierAfter: ${barrier.value - afterBarrier})" }
-                            barrier.value -= afterBarrier
-                            afterBarrier = 0
-                            break
-                        } else {
-                            stage.log("Hit") { "Destroys barrier (damage: $afterBarrier, after: $afterBarrier, barrier: ${barrier.value})" }
-                            afterBarrier -= barrier.value
-                            target.effects.removeTimed(barrier)
+            if (!actionContext.focus) {
+                when (self.loadout.data.damageType) {
+                    DamageType.Normal -> EffectType.NormalBarrier
+                    DamageType.Special -> EffectType.SpecialBarrier
+                    else -> null
+                }?.let { barrierEffectType ->
+                    val barriers = target.effects.get(barrierEffectType)
+                    if (barriers.isNotEmpty()) {
+                        for (barrier in barriers.filterIsInstance<BarrierTimedEffect>()) {
+                            if (barrier.value > afterBarrier) {
+                                stage.log("Hit") { "Blocked by barrier (damage: $afterBarrier barrierStart: ${barrier.value}, barrierAfter: ${barrier.value - afterBarrier})" }
+                                barrier.value -= afterBarrier
+                                afterBarrier = 0
+                                break
+                            } else {
+                                stage.log("Hit") { "Destroys barrier (damage: $afterBarrier, after: $afterBarrier, barrier: ${barrier.value})" }
+                                afterBarrier -= barrier.value
+                                target.effects.removeTimed(barrier)
+                            }
                         }
                     }
                 }
