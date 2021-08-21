@@ -4,103 +4,109 @@ import kotlinx.coroutines.coroutineScope
 import xyz.qwewqa.relivesim.dsl.bulkPlay
 import xyz.qwewqa.relivesim.dsl.fixedStrategy
 import xyz.qwewqa.relivesim.presets.*
-import xyz.qwewqa.relivesim.presets.effect.*
-import xyz.qwewqa.relivesim.presets.memoir.BandsmansGreeting
-import xyz.qwewqa.relivesim.presets.memoir.CoStarringWithHatsuneMiku
-import xyz.qwewqa.relivesim.presets.memoir.FirstAnnivSeishoMusicAcademy
-import xyz.qwewqa.relivesim.presets.memoir.FriendsAtTheAquarium
+import xyz.qwewqa.relivesim.presets.memoir.*
 import xyz.qwewqa.relivesim.presets.stagegirl.IzanagiNana
 import xyz.qwewqa.relivesim.presets.stagegirl.JusticeNana
 import xyz.qwewqa.relivesim.presets.stagegirl.backrow.cloud.BabyStageGirlNana
 import xyz.qwewqa.relivesim.presets.stagegirl.backrow.cloud.StageGirlClaudine
+import xyz.qwewqa.relivesim.presets.stagegirl.backrow.flower.StageGirlMeiFan
+import xyz.qwewqa.relivesim.presets.stagegirl.boss.tr8.TR8FaithMisora
+import xyz.qwewqa.relivesim.presets.stagegirl.boss.tr8.TR8FaithMisoraStrategy
+import xyz.qwewqa.relivesim.presets.stagegirl.midrow.flower.DevilKaoruko
 import xyz.qwewqa.relivesim.presets.stagegirl.midrow.space.WheelOfFortuneKaren
 import xyz.qwewqa.relivesim.stage.OutOfTurns
 import xyz.qwewqa.relivesim.stage.StageConfiguration
 import xyz.qwewqa.relivesim.stage.Victory
 import xyz.qwewqa.relivesim.stage.act.ActType.*
-import xyz.qwewqa.relivesim.stage.character.Attribute.*
-import xyz.qwewqa.relivesim.stage.character.Character.Misora
+import xyz.qwewqa.relivesim.stage.character.Attribute.Cloud
+import xyz.qwewqa.relivesim.stage.character.Character
+import xyz.qwewqa.relivesim.stage.character.Character.*
 import xyz.qwewqa.relivesim.stage.character.DamageType.Normal
-import xyz.qwewqa.relivesim.stage.effect.EffectClass
-import xyz.qwewqa.relivesim.stage.effect.autoEffect
 import xyz.qwewqa.relivesim.stage.percent
-import xyz.qwewqa.relivesim.stage.strategy.FixedStrategy
 import xyz.qwewqa.relivesim.stage.team.ClimaxSong
 import kotlin.system.measureTimeMillis
 
 suspend fun main() = coroutineScope {
     measureTimeMillis {
-        bulkPlay(1, maxTurns = 3) {
+        bulkPlay(10_000_000, maxTurns = 3) {
             configuration = StageConfiguration(
-                logging = true,
+                logging = false,
             )
 
             player {
                 loadout {
-                    name = "BSKuro"
-                    stageGirl = StageGirlClaudine {
-                        unitSkill = TeamActCriticalAutoEffect(5.percent).attributeOnly(Cloud)
-                    }
-
-                    memoir = FirstAnnivSeishoMusicAcademy.min()
+                    name = "BSMeif"
+                    stageGirl = StageGirlMeiFan()
+                    memoir = MerryChristmas2019.max()
                 }
                 loadout {
-                    name = "Justice"
-                    stageGirl = JusticeNana()
-                    memoir = CoStarringWithHatsuneMiku.max()
-                }
-                loadout {
-                    name = "Izanagi"
-                    stageGirl = IzanagiNana {
-                        unitSkill = TeamActCriticalAutoEffect(20.percent).damageTypeOnly(Normal)
-                    }
+                    name = "Devil"
+                    stageGirl = DevilKaoruko()
                     memoir = FriendsAtTheAquarium.max()
-                }
-                loadout {
-                    name = "Wheel"
-                    stageGirl = WheelOfFortuneKaren()
-                    memoir = BandsmansGreeting.max()
-                }
-                loadout {
-                    name = "BSNana"
-                    stageGirl = BabyStageGirlNana()
-                    memoir = FirstAnnivSeishoMusicAcademy.min()
                 }
 
                 song = ClimaxSong(
-                    DexteritySongEffect(7.percent),
-                    AttributeDamageDealtUp(Space, 10.percent),
+                    DexteritySongEffect(5.percent),
+                    CriticalSongEffect(25.percent),
+                    passive = CriticalSongEffect(17.percent).conditional {
+                        data.character in setOf(Junna, Yuyuko, Lalafin, MeiFan)
+                    }
                 )
 
-                eventBonus = 190.percent
+                eventBonus = 140.percent
 
                 strategy = fixedStrategy {
-                    val bsKuro = -"BSKuro"
-                    val justice = -"Justice"
-                    val izanagi = -"Izanagi"
-                    val wheel = -"Wheel"
-                    val bsNana = -"BSNana"
+                    val meif = -"BSMeif"
+                    val devil = -"Devil"
 
                     when (turn) {
                         1 -> {
-                            +izanagi[Act2]
-                            +bsNana[Act3]
-                            +bsKuro[Act3]
-                            +bsKuro[Act2]
-                            +justice[Act1]
+                            +devil[Act2]
+                            +meif[Act2]
+                            +meif[Act3]
                         }
                         2 -> {
-                            +bsKuro[Act1]
-                            +justice[Act2]
-                            +justice[Act3]
+                            +devil[Act2]
+                            +meif[Act1]
+                            +meif[Act2]
+                            +meif[Act3]
+                            +devil[Act1]
                         }
                         3 -> {
-                            climax()
-                            +wheel[Act2]
-                            +justice[Act2]
-                            +izanagi[ClimaxAct]
-                            +justice[ClimaxAct]
-                            +justice[Act3]
+                            when (stage.random.nextInt(0, 4)) {
+                                0 -> {
+                                    climax()
+                                    +devil[ClimaxAct]
+                                    +meif[Act2]
+                                    +meif[Act3]
+                                    +meif[ClimaxAct]
+                                    +meif[Act1]
+                                }
+                                1 -> {
+                                    climax()
+                                    +devil[ClimaxAct]
+                                    +devil[Act2]
+                                    +meif[Act3]
+                                    +meif[ClimaxAct]
+                                    +meif[Act1]
+                                }
+                                2 -> {
+                                    climax()
+                                    +devil[ClimaxAct]
+                                    +devil[Act2]
+                                    +meif[Act2]
+                                    +meif[ClimaxAct]
+                                    +meif[Act1]
+                                }
+                                3 -> {
+                                    climax()
+                                    +devil[ClimaxAct]
+                                    +devil[Act2]
+                                    +meif[Act2]
+                                    +meif[Act3]
+                                    +meif[ClimaxAct]
+                                }
+                            }
                         }
                     }
                 }
@@ -108,111 +114,9 @@ suspend fun main() = coroutineScope {
 
             enemy {
                 loadout {
-                    name = "Boss"
-                    stageGirl {
-                        name = "TR Boss"
-                        attribute = Cloud
-                        character = Misora
-                        damageType = Normal
-                        stats {
-                            hp = 5_000_000
-                            actPower = 1900
-                            normalDefense = 650
-                            specialDefense = 650
-                            agility = 1  // who knows
-                        }
-
-                        +autoEffect("Boss Special", EffectClass.Positive) {
-                            self.againstAttributeDamageDealtUp[Flower] = 50.percent
-                            self.againstAttributeDamageDealtUp[Wind] = 50.percent
-                            self.againstAttributeDamageDealtUp[Ice] = 50.percent
-                            self.againstAttributeDamageDealtUp[Cloud] = 50.percent
-                            self.againstAttributeDamageDealtUp[Moon] = 50.percent
-                            self.againstAttributeDamageTakenDown[Flower] = 50.percent
-                            self.againstAttributeDamageTakenDown[Wind] = 50.percent
-                            self.againstAttributeDamageTakenDown[Ice] = 50.percent
-                            self.againstAttributeDamageTakenDown[Cloud] = 50.percent
-                            self.againstAttributeDamageTakenDown[Moon] = 50.percent
-                        }
-
-                        Act1("Violent Thrust", 2) {
-                            targetFront().act {
-                                attack(100.percent)
-                            }
-                        }
-                        Act2("Violent Dual Thrust", 2) {
-                            targetFront(2).act {
-                                attack(120.percent, hitCount = 2)
-                            }
-                        }
-                        Act3("Violent Triple Thrust", 2) {
-                            targetFront(3).act {
-                                attack(100.percent, hitCount = 3)
-                            }
-                        }
-                        Act4("Counter Concerto", 2) {
-                            targetAoe().act {
-                                attack(120.percent, hitCount = 2)
-                            }
-                        }
-                        Act5("Thrust of Protection", 2) {
-                            targetAoe().act {
-                                attack(150.percent, hitCount = 4)
-                            }
-                            targetSelf().act {
-                                applyEffect { DamageTakenDownTimedEffect(turns = 3, 50.percent) }
-                            }
-                        }
-                        Act6("Inspiring Gust", 2) {
-                            targetSelf().act {
-                                applyEffect { ActTimedEffect(turns = 3, 50.percent) }
-                                applyEffect { DexterityTimedEffect(turns = 3, 50.percent) }
-                                applyEffect { CriticalTimedEffect(turns = 3, 50.percent) }
-                            }
-                        }
-                        Act7("Weakening Concerto", 2) {
-                            targetAoe().act {
-                                applyEffect { ActTimedEffect(turns = 3, -50.percent) }
-                            }
-                        }
-                        Act8("Poisonous Thrust", 2) {
-                            targetAoe().act {
-                                attack(150.percent, hitCount = 4)
-                                applyEffect { PoisonTimedEffect(turns = 3, fixedDamage = 10000) }
-                                applyEffect { ConfusionTimedEffect(turns = 2) }
-                            }
-                        }
-                        ClimaxAct("Moonlight Sacrament NEO", 2) {
-                            targetAoe().act {
-                                attack(200.percent, hitCount = 4)
-                                applyEffect { PoisonTimedEffect(turns = 3, fixedDamage = 10000) }
-                                applyEffect { ConfusionTimedEffect(turns = 2) }
-                            }
-                        }
-                    }
+                    stageGirl = TR8FaithMisora()
                 }
-
-                strategy = FixedStrategy {
-                    val boss = -"Boss"
-
-                    when (turn) {
-                        1 -> {
-                            +boss[Act7]
-                            +boss[Act1]
-                            +boss[Act2]
-                        }
-                        2 -> {
-                            +boss[Act6]
-                            +boss[Act3]
-                            +boss[Act5]
-                        }
-                        3 -> {
-                            +boss[ClimaxAct]
-                            +boss[Act7]
-                            +boss[Act3]
-                        }
-                    }
-                }
+                strategy = TR8FaithMisoraStrategy
             }
         }.let { results ->
             println("${results.size} runs")

@@ -40,11 +40,11 @@ interface TimedEffect {
 
 interface FlippableEffect : TimedEffect {
     /**
-     * Returns an instance of this effect when flipped or null if this instance cannot be flipped.
+     * Returns an instance of this effect when flipped.
      * The caller is responsible for both ending and removing the current effect,
      * as well as adding and starting the new effect.
      */
-    fun flipped(context: ActionContext): TimedEffect?
+    fun flipped(context: ActionContext): TimedEffect
 }
 
 enum class EffectClass {

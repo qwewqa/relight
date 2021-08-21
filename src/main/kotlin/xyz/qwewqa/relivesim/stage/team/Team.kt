@@ -18,7 +18,6 @@ class Team(
     var cxTurns: Int = 0
         private set
 
-    val orderedStageGirls = stageGirls.values.sortedBy { it.loadout.data.positionValue }
     val active get() = stageGirls.values.filter { it.isAlive }
     val anyAlive get() = active.isNotEmpty()
 

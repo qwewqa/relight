@@ -9,7 +9,9 @@ class MemoirPreset(
     val min: Prototype<MemoirData, MemoirBuilder>,
     val max: Prototype<MemoirData, MemoirBuilder>,
     val lv1max: Prototype<MemoirData, MemoirBuilder>,
-)
+) {
+    operator fun invoke() = max()
+}
 
 fun memoirPreset(
     min: MemoirBuilder.() -> Unit = { throw NotImplementedError() },

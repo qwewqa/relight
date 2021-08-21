@@ -2,6 +2,7 @@ package xyz.qwewqa.relivesim.presets
 
 import xyz.qwewqa.relivesim.stage.Percent
 import xyz.qwewqa.relivesim.stage.character.Attribute
+import xyz.qwewqa.relivesim.stage.character.StageGirl
 import xyz.qwewqa.relivesim.stage.context.ActionContext
 import xyz.qwewqa.relivesim.stage.effect.SongEffect
 
@@ -42,5 +43,19 @@ data class AttributeDamageDealtUp(val attribute: Attribute, val efficacy: Percen
 
     override fun stop(context: ActionContext) = context.run {
         self.attributeDamageDealtUp[attribute] = self.attributeDamageDealtUp.getValue(attribute) - efficacy
+    }
+}
+
+fun SongEffect.conditional(condition: StageGirl.() -> Boolean) = object : SongEffect {
+    override fun start(context: ActionContext) {
+        if (context.self.condition()) {
+            this@conditional.start(context)
+        }
+    }
+
+    override fun stop(context: ActionContext) {
+        if (context.self.condition()) {
+            this@conditional.stop(context)
+        }
     }
 }

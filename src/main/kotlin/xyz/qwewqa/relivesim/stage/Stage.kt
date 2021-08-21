@@ -1,5 +1,6 @@
 package xyz.qwewqa.relivesim.stage
 
+import xyz.qwewqa.relivesim.dsl.stage
 import xyz.qwewqa.relivesim.stage.character.StageGirl
 import xyz.qwewqa.relivesim.stage.context.ActionContext
 import xyz.qwewqa.relivesim.stage.effect.AutoEffect
@@ -39,21 +40,6 @@ data class Stage(
     var tile = 0
         private set
 
-    private class BoundAutoSkill(val stageGirl: StageGirl, val autoSkill: AutoEffect) : Comparable<BoundAutoSkill> {
-        fun execute() {
-            autoSkill.activate(stageGirl.context)
-        }
-
-        val effectClass = autoSkill.effectClass
-
-        override operator fun compareTo(other: BoundAutoSkill): Int {
-            var ret = effectClass.ordinal - other.effectClass.ordinal // sort negatives after positives
-            if (ret != 0) return ret
-            ret = other.stageGirl.agility.value - stageGirl.agility.value  // sort lower agility after higher
-            return ret
-        }
-    }
-
     fun play(maxTurns: Int = 6): StageResult {
         log("Stage") { "Begin" }
 
@@ -66,22 +52,38 @@ data class Stage(
                 }
             }
         }
-
-        val autoEffects = listOf(player.stageGirls.values, opponent.stageGirls.values).flatten().flatMap { sg ->
-            sg.loadout.autoEffects.map { BoundAutoSkill(sg, it) }
-        } + listOfNotNull(player.friend, opponent.friend).map { sg ->
-            BoundAutoSkill(sg, sg.data.unitSkill)
+        val autoEffectPriority = if (random.nextDouble() < 0.5) {
+            (player.stageGirls.values + opponent.stageGirls.values).sortedByDescending { it.agility.value }
+        } else {
+            (opponent.stageGirls.values + player.stageGirls.values).sortedByDescending { it.agility.value }
         }
 
-        val (positiveAutoEffects, negativeAutoEffects) = autoEffects.partition { it.effectClass == EffectClass.Positive }
-        positiveAutoEffects.shuffled(random).sorted().forEach {
-            log("AutoEffect") { "[${it.stageGirl}] positive auto effect [${it.autoSkill}] activate" }
-            it.execute()
+        (autoEffectPriority + listOf(player.friend, opponent.friend).filterNotNull())
+            .map { it to it.data.unitSkill }.forEach { (sg, us) ->
+                log("AutoEffect") { "[${sg}] unit skill [${us}] activate" }
+                us.activate(sg.context)
+            }
+        autoEffectPriority.forEach { sg ->
+            sg.data.autoSkills.filter { it.effectClass == EffectClass.Positive }.forEach {
+                log("AutoEffect") { "[${sg}] positive auto effect [${it}] activate" }
+                it.activate(sg.context)
+            }
+            sg.loadout.memoir?.autoEffects?.filter { it.effectClass == EffectClass.Positive }?.forEach {
+                log("AutoEffect") { "[${sg}] positive auto effect [${it}] activate" }
+                it.activate(sg.context)
+            }
         }
-        negativeAutoEffects.shuffled(random).sorted().forEach {
-            log("AutoEffect") { "[${it.stageGirl}] negative auto effect [${it.autoSkill}] activate" }
-            it.execute()
+        autoEffectPriority.forEach { sg ->
+            sg.data.autoSkills.filter { it.effectClass == EffectClass.Negative }.forEach {
+                log("AutoEffect") { "[${sg}] negative auto effect [${it}] activate" }
+                it.activate(sg.context)
+            }
+            sg.loadout.memoir?.autoEffects?.filter { it.effectClass == EffectClass.Negative }?.forEach {
+                log("AutoEffect") { "[${sg}] negative auto effect [${it}] activate" }
+                it.activate(sg.context)
+            }
         }
+
         log("AutoEffect") { "End" }
 
         player.finalizeTurnZero()
@@ -123,7 +125,7 @@ data class Stage(
                         if (i > 0) {
                             "$turn.$i " + p.padEnd(padLength) + o
                         } else {
-                           "    " + p.padEnd(padLength) + o
+                            "    " + p.padEnd(padLength) + o
                         }
                     }.joinToString("\n")
                 }

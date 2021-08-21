@@ -17,3 +17,16 @@ data class ConfusionTimedEffect(
 
     override fun stop(context: ActionContext) = context.run {}
 }
+
+
+data class StopTimedEffect(
+    override var turns: Int,
+    override val locked: Boolean = false,
+) : TimedEffect {
+    override val effectClass = EffectClass.Negative
+    override val effectType = EffectType.Stop
+
+    override fun start(context: ActionContext) = context.run {}
+
+    override fun stop(context: ActionContext) = context.run {}
+}

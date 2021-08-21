@@ -62,7 +62,7 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
     fun attack(
         modifier: Percent,
         hitCount: Int = 1,
-        bonusMultiplier: Double = 1.0,
+        bonusMultiplier: Percent = 100.percent,
         bonusCondition: StageGirl.() -> Boolean = { false },
         novariance: Boolean = false,
         noreflect: Boolean = false,
@@ -73,8 +73,9 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
             targets.forEach { target ->
                 hit(
                     target,
-                    if (bonusCondition(target)) modifier * bonusMultiplier.toPercent() else modifier,
+                    modifier,
                     hitCount,
+                    if (target.bonusCondition()) bonusMultiplier else 0.percent,
                     novariance,
                     noreflect,
                     overrideAttribute,
@@ -87,12 +88,21 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
         target: StageGirl,
         modifier: Percent,
         hitCount: Int,
+        bonusMultiplier: Percent,
         novariance: Boolean = false,
         noreflect: Boolean = false,
         overrideAttribute: Attribute? = null,
     ) {
         stage.log("Hit") { "[${self.loadout.data.displayName}] attempts to hit [${target.loadout.data.displayName}]" }
-        val result = stage.damageCalculator.calculate(stage, self, target, modifier, hitCount, overrideAttribute)
+        val result = stage.damageCalculator.calculate(
+            stage,
+            self,
+            target,
+            modifier,
+            hitCount,
+            bonusMultiplier,
+            overrideAttribute,
+        )
         if (target.effects.get(StackedEffect.Evade) > 0) {
             target.effects.removeStacked(StackedEffect.Evade)
             if (self.perfectAimCounter <= 0 && !actionContext.focus) {
@@ -162,7 +172,9 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
                 val effect = effectFactory()
                 when (effect.effectClass) {
                     EffectClass.Positive -> {
-                        val applyChance = chance * (100.percent - positiveEffectResist.value)
+                        val applyChance = chance * (100.percent -
+                                positiveEffectResist.value -
+                                (effectTypeResist[effect.effectType] ?: 0.percent))
                         if (applyChance == 100.percent || stage.random.nextDouble().percent < applyChance) {
                             effects.add(effect)
                             stage.log("Effect") { "[$this]: Positive effect [$effect] applied" }
@@ -171,7 +183,9 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
                         }
                     }
                     EffectClass.Negative -> {
-                        val applyChance = chance * (100.percent - negativeEffectResist.value)
+                        val applyChance = chance * (100.percent -
+                                negativeEffectResist.value -
+                                (effectTypeResist[effect.effectType] ?: 0.percent))
                         if (applyChance == 100.percent || stage.random.nextDouble().percent < applyChance) {
                             effects.add(effect)
                             stage.log("Effect") { "[$this]: Negative effect [$effect] applied" }
@@ -188,8 +202,28 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
         if (!self.isAlive) return
         targets.forEach {
             it.apply {
-                stage.log("Dispel") { "[$self] dispels ${effectClass.name} effects from [$this]" }
+                stage.log("Dispel") { "[$self] dispels timed ${effectClass.name} effects from [$this]" }
                 effects.dispelTimed(effectClass)
+            }
+        }
+    }
+
+    fun flipTimed(effectClass: EffectClass, count: Int) {
+        if (!self.isAlive) return
+        targets.forEach {
+            it.apply {
+                stage.log("Flip") { "[$self] flips last $count timed ${effectClass.name} effects from [$this]" }
+                effects.flipTimed(effectClass, count)
+            }
+        }
+    }
+
+    fun dispelCountable(effectClass: EffectClass) {
+        if (!self.isAlive) return
+        targets.forEach {
+            it.apply {
+                stage.log("Dispel") { "[$self] dispels countable ${effectClass.name} effects from [$this]" }
+                effects.dispelCountable(effectClass)
             }
         }
     }

@@ -41,6 +41,31 @@ val FirstAnnivSeishoMusicAcademy = memoirPreset(
 )
 val SeishoAct = FirstAnnivSeishoMusicAcademy
 
+val FirstAnnivSiegfeldInstituteOfMusic = memoirPreset(
+    min = {
+        name = "(1st Anniv.) Siegfeld Institute of Music"
+        stats {
+            hp = 300
+        }
+        +TeamActAutoEffect(5.percent).schoolOnly(School.Siegfeld)
+    },
+    max = {
+        name = "(1st Anniv.) Siegfeld Institute of Music"
+        stats {
+            hp = 3000
+        }
+        +TeamActAutoEffect(7.percent).schoolOnly(School.Siegfeld)
+    },
+    lv1max = {
+        name = "(1st Anniv.) Siegfeld Institute of Music"
+        stats {
+            hp = 300
+        }
+        +TeamActAutoEffect(7.percent).schoolOnly(School.Siegfeld)
+    }
+)
+val SiegfeldAct = FirstAnnivSiegfeldInstituteOfMusic
+
 val CoStarringWithHatsuneMiku = memoirPreset(
     max = {
         name = "Co-starring with Hatsune Miku!"
@@ -51,6 +76,17 @@ val CoStarringWithHatsuneMiku = memoirPreset(
     }
 )
 val Miku = CoStarringWithHatsuneMiku
+
+val SunsetLabMemBadge = memoirPreset(
+    max = {
+        name = "Sunset Lab Mem Badge"
+        stats {
+            actPower = 299
+            specialDefense = 499
+        }
+        +SelfBrillianceRecoveryAutoEffect(40)
+    }
+)
 
 val FriendsAtTheAquarium = memoirPreset(
     max = {
@@ -79,5 +115,27 @@ val BandsmansGreeting = memoirPreset(
             actPower = 149
         }
         +TeamTimedActAutoEffect(turns = 3, 10.percent)
+    }
+)
+
+val PoolsideIncident = memoirPreset(
+    max = {
+        name = "Poolside Incident"
+        stats {
+            actPower = 149
+        }
+        +SelfBrillianceRecoveryAutoEffect(32)
+        +SelfPerfectAimTimedEffectAutoEffect(turns = 3)
+    }
+)
+
+val  MerryChristmas2019 = memoirPreset(
+    max = {
+        name = "Merry Christmas 2019"
+        stats {
+            actPower = 149
+        }
+        +SelfBrillianceRecoveryAutoEffect(32)
+        +SelfDexterityTimedEffectAutoEffect(turns = 3, 16.percent)
     }
 )

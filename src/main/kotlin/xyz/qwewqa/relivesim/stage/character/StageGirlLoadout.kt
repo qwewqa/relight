@@ -13,8 +13,8 @@ data class StageGirlLoadout(
     }
 
     val autoEffects get() = mutableListOf<AutoEffect>().apply {
-        addAll(data.autoSkills)
         add(data.unitSkill)
+        addAll(data.autoSkills)
         memoir?.let { addAll(it.autoEffects) }
     }
 }

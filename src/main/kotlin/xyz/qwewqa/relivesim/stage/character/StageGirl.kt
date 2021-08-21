@@ -41,6 +41,7 @@ class StageGirl(
     val absorb: AdditivePercentModifier = AdditivePercentModifier()
     val negativeEffectResist: AdditivePercentModifier = AdditivePercentModifier()
     val positiveEffectResist: AdditivePercentModifier = AdditivePercentModifier()
+    val effectTypeResist: MutableMap<EffectType, Percent> = mutableMapOf()
     val climaxDamage: AdditivePercentModifier = AdditivePercentModifier()
     val damageDealtUp: AdditivePercentModifier = AdditivePercentModifier()
     val damageDealtUpBuff: AdditivePercentModifier = AdditivePercentModifier()
@@ -76,8 +77,12 @@ class StageGirl(
      * Factors in CC effects and adds brilliance based on ap cost.
      */
     fun execute(act: Act, apCost: Int) {
+        if (effects.count(EffectType.Stop) > 0) {
+            context.stage.log("Act Affliction")  { "Stopped" }
+            return
+        }
         if (effects.count(EffectType.Confuse) > 0 && context.stage.random.nextDouble() < 0.3) {
-            context.stage.log("Affliction")  { "Confuse proc" }
+            context.stage.log("Act Affliction")  { "Confuse proc" }
             context.run {
                 targetAllyRandom().act {
                     attack(105.percent)
@@ -140,7 +145,10 @@ class StageGirl(
     }
 
     fun addBrilliance(amount: Int) = context.run {
-        // stop
+        if (self.effects.count(EffectType.Stop) > 0) {
+            stage.log("Brilliance") { "[$self] brilliance locked by stop" }
+            return
+        }
         stage.log("Brilliance") {
             "[$self] brilliance charge $amount (prevBril: ${self.currentBrilliance}, newBril: ${
                 (self.currentBrilliance + amount).coerceIn(0, 100)

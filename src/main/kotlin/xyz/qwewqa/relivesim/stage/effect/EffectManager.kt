@@ -10,8 +10,8 @@ class EffectManager(val stageGirl: StageGirl) {
     private val negativeEffects = LinkedHashSet<TimedEffect>()
     private val effectsByType: MutableMap<EffectType, LinkedHashSet<TimedEffect>> = EnumMap(EffectType::class.java)
 
-    private val positiveStackedEffects = mutableMapOf<StackedEffect, Int>()
-    private val negativeStackedEffects = mutableMapOf<StackedEffect, Int>()
+    private val positiveCountableEffects = mutableMapOf<StackedEffect, Int>()
+    private val negativeCountableEffects = mutableMapOf<StackedEffect, Int>()
 
     private val passiveEffects = mutableListOf<ActionContext.() -> Unit>()
 
@@ -33,8 +33,8 @@ class EffectManager(val stageGirl: StageGirl) {
 
     fun get(effect: StackedEffect): Int {
         return when (effect.effectClass) {
-            EffectClass.Positive -> positiveStackedEffects
-            EffectClass.Negative -> negativeStackedEffects
+            EffectClass.Positive -> positiveCountableEffects
+            EffectClass.Negative -> negativeCountableEffects
         }[effect] ?: 0
     }
 
@@ -53,8 +53,8 @@ class EffectManager(val stageGirl: StageGirl) {
 
     fun add(effect: StackedEffect, count: Int = 1) {
         when (effect.effectClass) {
-            EffectClass.Positive -> positiveStackedEffects
-            EffectClass.Negative -> negativeStackedEffects
+            EffectClass.Positive -> positiveCountableEffects
+            EffectClass.Negative -> negativeCountableEffects
         }.let { it[effect] = (it[effect] ?: 0) + count }
     }
 
@@ -74,8 +74,8 @@ class EffectManager(val stageGirl: StageGirl) {
 
     fun removeStacked(effect: StackedEffect) {
         when (effect.effectClass) {
-            EffectClass.Positive -> positiveStackedEffects
-            EffectClass.Negative -> negativeStackedEffects
+            EffectClass.Positive -> positiveCountableEffects
+            EffectClass.Negative -> negativeCountableEffects
         }.let {
             val value = it[effect]
             if (value == null || value <= 0) throw RuntimeException("Cannot remove effect with no active stacks.")
@@ -102,10 +102,26 @@ class EffectManager(val stageGirl: StageGirl) {
         }
     }
 
-    fun dispelStacked(effectClass: EffectClass) {
+    fun flipTimed(effectClass: EffectClass, count: Int, includeLocked: Boolean = false) {
         when (effectClass) {
-            EffectClass.Positive -> positiveStackedEffects
-            EffectClass.Negative -> negativeStackedEffects
+            EffectClass.Positive -> positiveEffects
+            EffectClass.Negative -> negativeEffects
+        }.apply {
+            filter { includeLocked or !it.locked }.filterIsInstance<FlippableEffect>().takeLast(count).map {
+                remove(it)
+                effectsByType[it.effectType]!!.remove(it)
+                it.stop(context)
+                it.flipped(context)
+            }.forEach {
+                this@EffectManager.add(it)
+            }
+        }
+    }
+
+    fun dispelCountable(effectClass: EffectClass) {
+        when (effectClass) {
+            EffectClass.Positive -> positiveCountableEffects
+            EffectClass.Negative -> negativeCountableEffects
         }.replaceAll { _, _ -> 0 }
     }
 

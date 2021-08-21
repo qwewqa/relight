@@ -11,6 +11,7 @@ interface DamageCalculator {
         target: StageGirl,
         modifier: Percent,
         hitCount: Int = 1,
+        bonusMultiplier: Percent = 100.percent,
         overrideAttribute: Attribute? = null,
     ): DamageResult
 }
@@ -22,6 +23,7 @@ class StandardDamageCalculator : DamageCalculator {
         target: StageGirl,
         modifier: Percent,
         hitCount: Int,
+        bonusMultiplier: Percent,
         overrideAttribute: Attribute?,
     ): DamageResult {
         var atk = 2 * attacker.actPower.value
@@ -111,16 +113,18 @@ class LoggingDamageCalculator(private val calculator: DamageCalculator = Standar
         target: StageGirl,
         modifier: Percent,
         hitCount: Int,
+        bonusMultiplier: Percent,
         overrideAttribute: Attribute?,
     ): DamageResult {
-        return calculator.calculate(stage, attacker, target, modifier, hitCount, overrideAttribute).apply {
-            stage.log("DamageCalculator") {
-                "[${attacker.loadout.data.displayName}] attacks [${target.loadout.data.displayName}]\n" +
-                        "Info: { base: $base, critical: $critical, criticalChance: $criticalChance, hitChance: $hitChance }\n" +
-                        "Possible base rolls: ${possibleRolls(false)}\n" +
-                        "Possible critical rolls: ${possibleRolls(true)}"
+        return calculator.calculate(stage, attacker, target, modifier, hitCount, bonusMultiplier, overrideAttribute)
+            .apply {
+                stage.log("DamageCalculator") {
+                    "[${attacker.loadout.data.displayName}] attacks [${target.loadout.data.displayName}]\n" +
+                            "Info: { base: $base, critical: $critical, criticalChance: $criticalChance, hitChance: $hitChance }\n" +
+                            "Possible base rolls: ${possibleRolls(false)}\n" +
+                            "Possible critical rolls: ${possibleRolls(true)}"
+                }
             }
-        }
     }
 }
 

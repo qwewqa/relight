@@ -60,7 +60,7 @@ val SanadaMahiru = stageGirlPrototype + {
             )
             attack(
                 369.percent,
-                bonusMultiplier = 1.5,
+                bonusMultiplier = 150.percent,
                 bonusCondition = { data.damageType == DamageType.Special },
                 hitCount = 3,
             )

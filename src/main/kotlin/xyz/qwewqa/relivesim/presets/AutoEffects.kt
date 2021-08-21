@@ -1,9 +1,6 @@
 package xyz.qwewqa.relivesim.presets
 
-import xyz.qwewqa.relivesim.presets.effect.ActTimedEffect
-import xyz.qwewqa.relivesim.presets.effect.ApDownTimedEffect
-import xyz.qwewqa.relivesim.presets.effect.DexterityTimedEffect
-import xyz.qwewqa.relivesim.presets.effect.EffectiveDamageTimedEffect
+import xyz.qwewqa.relivesim.presets.effect.*
 import xyz.qwewqa.relivesim.stage.Percent
 import xyz.qwewqa.relivesim.stage.character.*
 import xyz.qwewqa.relivesim.stage.context.ActionContext
@@ -125,6 +122,16 @@ data class TeamTimedDexterityAutoEffect(val turns: Int, val efficacy: Percent) :
     }
 }
 
+data class TeamTimedCriticalAutoEffect(val turns: Int, val efficacy: Percent) : TeamAutoEffect() {
+    override val effectClass = if (efficacy >= 0.percent) EffectClass.Positive else EffectClass.Negative
+
+    override fun apply(context: ActionContext, target: StageGirl) = context.run {
+        target.act {
+            applyEffect { CriticalTimedEffect(turns, efficacy) }
+        }
+    }
+}
+
 data class TeamTimedApDownAutoEffect(val turns: Int) : TeamAutoEffect() {
     override val effectClass = EffectClass.Positive
 
@@ -141,6 +148,27 @@ data class TeamTimedEffectiveDamageAutoEffect(val turns: Int, val efficacy: Perc
     override fun apply(context: ActionContext, target: StageGirl) = context.run {
         target.act {
             applyEffect { EffectiveDamageTimedEffect(turns, efficacy) }
+        }
+    }
+}
+
+
+data class SelfDexterityTimedEffectAutoEffect(val turns: Int, val efficacy: Percent) : AutoEffect {
+    override val effectClass = EffectClass.Positive
+
+    override fun activate(context: ActionContext) = context.run {
+        targetSelf().run {
+            applyEffect { DexterityTimedEffect(turns = turns, efficacy) }
+        }
+    }
+}
+
+data class SelfPerfectAimTimedEffectAutoEffect(val turns: Int) : AutoEffect {
+    override val effectClass = EffectClass.Positive
+
+    override fun activate(context: ActionContext) = context.run {
+        targetSelf().run {
+            applyEffect { PerfectAimTimedEffect(turns = turns) }
         }
     }
 }
@@ -176,3 +204,21 @@ data class ClimaxPowerAutoEffect(val efficacy: Percent) : AutoEffect {
         self.climaxDamage.buff += efficacy
     }
 }
+
+
+data class TeamEffectTypeResistanceAutoEffect(
+    val turns: Int,
+    val type: EffectType,
+    val efficacy: Percent = 100.percent,
+) : AutoEffect {
+    override val effectClass = EffectClass.Positive
+
+    override fun activate(context: ActionContext) = context.run {
+        targetAllyAoe().act {
+            applyEffect { EffectTypeResistanceTimedEffect(turns, type, efficacy) }
+        }
+    }
+}
+
+fun EffectType.teamResistAutoEffect(turns: Int = 6, efficacy: Percent = 100.percent) =
+    TeamEffectTypeResistanceAutoEffect(turns, this, efficacy)
