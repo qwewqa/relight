@@ -187,9 +187,9 @@ data class Stage(
 }
 
 sealed class StageResult
-class TeamWipe(val turn: Int) : StageResult()
-class OutOfTurns(val margin: Int) : StageResult()
-class Victory(val turn: Int) : StageResult()
+data class TeamWipe(val turn: Int) : StageResult()
+data class OutOfTurns(val margin: Int) : StageResult()
+data class Victory(val turn: Int) : StageResult()
 
 @OptIn(ExperimentalContracts::class)
 inline fun Stage.log(tag: String = "", value: () -> String) {
