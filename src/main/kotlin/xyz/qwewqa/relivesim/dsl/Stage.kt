@@ -59,7 +59,7 @@ suspend fun simulate(count: Int, maxTurns: Int, init: StageBuilder.() -> Unit) =
     val progressCounter = AtomicInteger()
     val completed = AtomicBoolean()
     val progressBarJob = launch {
-        val barParts = " ▁▃▄▅▆▇█"
+        val barParts = " ▁▂▃▄▅▆▇█"
         val barSegmentCount = 20
         while (true) {
             if (completed.get()) {
