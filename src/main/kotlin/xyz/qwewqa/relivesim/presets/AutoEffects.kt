@@ -14,6 +14,7 @@ class ConditionalTeamAutoEffect(
 ) : TeamAutoEffect() {
     override fun toString() = "($conditionName) $base"
     override val effectClass get() = base.effectClass
+    override val autoEffectOrder get() = base.autoEffectOrder
 
     override fun apply(context: ActionContext, target: StageGirl) {
         base.apply(context, target)
@@ -51,18 +52,21 @@ fun TeamAutoEffect.schoolOnly(school: School) = conditional(school.name) {
 }
 
 class DamageDealtAutoEffect(efficacy: Percent) : SimplePercentAutoEffect(efficacy) {
+    override val autoEffectOrder = AutoEffectOrder.PASSIVE
     override fun getModifier(context: ActionContext) = context.run {
         self.damageDealtUp
     }
 }
 
 class DexterityAutoEffect(efficacy: Percent) : SimplePercentAutoEffect(efficacy) {
+    override val autoEffectOrder = AutoEffectOrder.PASSIVE
     override fun getModifier(context: ActionContext) = context.run {
         self.dexterity
     }
 }
 
 class EffectiveDamageAutoEffect(efficacy: Percent) : SimplePercentAutoEffect(efficacy) {
+    override val autoEffectOrder = AutoEffectOrder.PASSIVE
     override fun getModifier(context: ActionContext) = context.run {
         self.effectiveDamage
     }
@@ -70,6 +74,7 @@ class EffectiveDamageAutoEffect(efficacy: Percent) : SimplePercentAutoEffect(eff
 
 data class TeamActCriticalAutoEffect(val efficacy: Percent) : TeamAutoEffect() {
     override val effectClass = EffectClass.Positive
+    override val autoEffectOrder = AutoEffectOrder.PASSIVE
 
     override fun apply(context: ActionContext, target: StageGirl) = context.run {
         target.run {
@@ -81,6 +86,7 @@ data class TeamActCriticalAutoEffect(val efficacy: Percent) : TeamAutoEffect() {
 
 data class TeamActAutoEffect(val efficacy: Percent) : TeamAutoEffect() {
     override val effectClass = EffectClass.Positive
+    override val autoEffectOrder = AutoEffectOrder.PASSIVE
 
     override fun apply(context: ActionContext, target: StageGirl) = context.run {
         target.run {
@@ -92,6 +98,7 @@ data class TeamActAutoEffect(val efficacy: Percent) : TeamAutoEffect() {
 class TeamHpDefenseAutoEffect(val hpEfficacy: Percent, val defenseEfficacy: Percent) : TeamAutoEffect() {
     override fun toString() = "TeamHpDefenseAutoEffect(hpEfficacy = $hpEfficacy, defenseEfficacy = $defenseEfficacy)"
     override val effectClass = EffectClass.Positive
+    override val autoEffectOrder = AutoEffectOrder.PASSIVE
 
     override fun apply(context: ActionContext, target: StageGirl) = context.run {
         target.run {
@@ -104,6 +111,7 @@ class TeamHpDefenseAutoEffect(val hpEfficacy: Percent, val defenseEfficacy: Perc
 
 data class TeamTimedActAutoEffect(val turns: Int, val efficacy: Percent) : TeamAutoEffect() {
     override val effectClass = if (efficacy >= 0.percent) EffectClass.Positive else EffectClass.Negative
+    override val autoEffectOrder = AutoEffectOrder.TURN_START_2
 
     override fun apply(context: ActionContext, target: StageGirl) = context.run {
         target.act {
@@ -114,6 +122,7 @@ data class TeamTimedActAutoEffect(val turns: Int, val efficacy: Percent) : TeamA
 
 data class TeamTimedDexterityAutoEffect(val turns: Int, val efficacy: Percent) : TeamAutoEffect() {
     override val effectClass = if (efficacy >= 0.percent) EffectClass.Positive else EffectClass.Negative
+    override val autoEffectOrder = AutoEffectOrder.TURN_START_2
 
     override fun apply(context: ActionContext, target: StageGirl) = context.run {
         target.act {
@@ -124,6 +133,7 @@ data class TeamTimedDexterityAutoEffect(val turns: Int, val efficacy: Percent) :
 
 data class TeamTimedCriticalAutoEffect(val turns: Int, val efficacy: Percent) : TeamAutoEffect() {
     override val effectClass = if (efficacy >= 0.percent) EffectClass.Positive else EffectClass.Negative
+    override val autoEffectOrder = AutoEffectOrder.TURN_START_2
 
     override fun apply(context: ActionContext, target: StageGirl) = context.run {
         target.act {
@@ -134,6 +144,7 @@ data class TeamTimedCriticalAutoEffect(val turns: Int, val efficacy: Percent) : 
 
 data class TeamTimedApDownAutoEffect(val turns: Int) : TeamAutoEffect() {
     override val effectClass = EffectClass.Positive
+    override val autoEffectOrder = AutoEffectOrder.TURN_START_2
 
     override fun apply(context: ActionContext, target: StageGirl) = context.run {
         target.act {
@@ -144,6 +155,7 @@ data class TeamTimedApDownAutoEffect(val turns: Int) : TeamAutoEffect() {
 
 data class TeamTimedEffectiveDamageAutoEffect(val turns: Int, val efficacy: Percent) : TeamAutoEffect() {
     override val effectClass = if (efficacy >= 0.percent) EffectClass.Positive else EffectClass.Negative
+    override val autoEffectOrder = AutoEffectOrder.TURN_START_2
 
     override fun apply(context: ActionContext, target: StageGirl) = context.run {
         target.act {
@@ -155,6 +167,7 @@ data class TeamTimedEffectiveDamageAutoEffect(val turns: Int, val efficacy: Perc
 
 data class SelfDexterityTimedEffectAutoEffect(val turns: Int, val efficacy: Percent) : AutoEffect {
     override val effectClass = EffectClass.Positive
+    override val autoEffectOrder = AutoEffectOrder.TURN_START_2
 
     override fun activate(context: ActionContext) = context.run {
         targetSelf().run {
@@ -165,6 +178,7 @@ data class SelfDexterityTimedEffectAutoEffect(val turns: Int, val efficacy: Perc
 
 data class SelfPerfectAimTimedEffectAutoEffect(val turns: Int) : AutoEffect {
     override val effectClass = EffectClass.Positive
+    override val autoEffectOrder = AutoEffectOrder.TURN_START_2
 
     override fun activate(context: ActionContext) = context.run {
         targetSelf().run {
@@ -175,6 +189,7 @@ data class SelfPerfectAimTimedEffectAutoEffect(val turns: Int) : AutoEffect {
 
 data class SelfBrillianceRecoveryAutoEffect(val amount: Int) : AutoEffect {
     override val effectClass = EffectClass.Positive
+    override val autoEffectOrder = AutoEffectOrder.TURN_START_1
 
     override fun activate(context: ActionContext) = context.run {
         self.addBrilliance(amount)
@@ -183,6 +198,7 @@ data class SelfBrillianceRecoveryAutoEffect(val amount: Int) : AutoEffect {
 
 data class TurnBrillianceAutoEffect(val amount: Int) : AutoEffect {
     override val effectClass: EffectClass = EffectClass.Positive
+    override val autoEffectOrder = AutoEffectOrder.PASSIVE
 
     override fun activate(context: ActionContext) = context.run {
         self.effects.addPassive { self.addBrilliance(amount) }
@@ -191,6 +207,7 @@ data class TurnBrillianceAutoEffect(val amount: Int) : AutoEffect {
 
 data class FortitudeAutoEffect(val count: Int = 1) : AutoEffect {
     override val effectClass: EffectClass = EffectClass.Positive
+    override val autoEffectOrder = AutoEffectOrder.PASSIVE
 
     override fun activate(context: ActionContext) = context.run {
         self.effects.add(StackedEffect.Fortitude, count)
@@ -199,6 +216,7 @@ data class FortitudeAutoEffect(val count: Int = 1) : AutoEffect {
 
 data class ClimaxPowerAutoEffect(val efficacy: Percent) : AutoEffect {
     override val effectClass: EffectClass = EffectClass.Positive
+    override val autoEffectOrder = AutoEffectOrder.PASSIVE
 
     override fun activate(context: ActionContext) = context.run {
         self.climaxDamage.buff += efficacy
@@ -212,6 +230,7 @@ data class TeamEffectTypeResistanceAutoEffect(
     val efficacy: Percent = 100.percent,
 ) : AutoEffect {
     override val effectClass = EffectClass.Positive
+    override val autoEffectOrder = AutoEffectOrder.TURN_START_1
 
     override fun activate(context: ActionContext) = context.run {
         targetAllyAoe().act {

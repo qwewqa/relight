@@ -8,11 +8,11 @@ import xyz.qwewqa.relivesim.stage.effect.SongEffect
 
 data class ActStatUpSongEffect(val efficacy: Int) : SongEffect {
     override fun start(context: ActionContext) = context.run {
-        self.actPower.base += efficacy
+        self.actPower.extra += efficacy
     }
 
     override fun stop(context: ActionContext) = context.run {
-        self.actPower.base -= efficacy
+        self.actPower.extra -= efficacy
     }
 }
 

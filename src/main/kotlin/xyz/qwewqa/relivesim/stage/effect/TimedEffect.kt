@@ -9,11 +9,6 @@ interface TimedEffect {
     val locked: Boolean get() = false
 
     /**
-     * Whether other effects of the same type should be removed prior to application.
-     */
-    val exclusive: Boolean get() = false
-
-    /**
      * The number of remaining turns this effect has.
      */
     var turns: Int
@@ -52,7 +47,7 @@ enum class EffectClass {
     Negative,
 }
 
-enum class EffectType {
+enum class EffectType(val exclusive: Boolean = false) {
     Other,
     Poison,
     Burn,
@@ -62,11 +57,13 @@ enum class EffectType {
     Stop,
     Freeze,
     Blind,
-    Mark,
-    Provoke,
-    Aggro,
-    ExitEvasion,
+    Mark(exclusive = true),
+    Provoke(exclusive = true),
+    Aggro(exclusive = true),
+    ExitEvasion(exclusive = true),
     NormalBarrier,
     SpecialBarrier,
+    ApUp(exclusive = true),
+    ApDown(exclusive = true),
 }
 

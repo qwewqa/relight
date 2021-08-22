@@ -4,6 +4,7 @@ import xyz.qwewqa.relivesim.dsl.stage
 import xyz.qwewqa.relivesim.stage.character.StageGirl
 import xyz.qwewqa.relivesim.stage.context.ActionContext
 import xyz.qwewqa.relivesim.stage.effect.AutoEffect
+import xyz.qwewqa.relivesim.stage.effect.AutoEffectOrder
 import xyz.qwewqa.relivesim.stage.effect.EffectClass
 import xyz.qwewqa.relivesim.stage.strategy.ActionTile
 import xyz.qwewqa.relivesim.stage.strategy.IdleTile
@@ -40,6 +41,16 @@ data class Stage(
     var tile = 0
         private set
 
+    private class EffectAgent(val stageGirl: StageGirl, val effects: List<AutoEffect>) : Comparable<EffectAgent> {
+        fun execute(cls: EffectClass) {
+            effects.filter { it.effectClass == cls }.forEach { it.activate(stageGirl.context) }
+        }
+
+        override operator fun compareTo(other: EffectAgent): Int {
+            return other.stageGirl.agility.value - stageGirl.agility.value  // sort lower agility after higher
+        }
+    }
+
     fun play(maxTurns: Int = 6): StageResult {
         log("Stage") { "Begin" }
 
@@ -52,35 +63,32 @@ data class Stage(
                 }
             }
         }
-        val autoEffectPriority = if (random.nextDouble() < 0.5) {
-            (player.stageGirls.values + opponent.stageGirls.values).sortedByDescending { it.agility.value }
-        } else {
-            (opponent.stageGirls.values + player.stageGirls.values).sortedByDescending { it.agility.value }
-        }
+
+        var autoEffectPriority = (player.stageGirls.values + opponent.stageGirls.values)
+            .shuffled(random)
+            .sortedByDescending { it.agility.value }
 
         (autoEffectPriority + listOf(player.friend, opponent.friend).filterNotNull())
             .map { it to it.data.unitSkill }.forEach { (sg, us) ->
                 log("AutoEffect") { "[${sg}] unit skill [${us}] activate" }
                 us.activate(sg.context)
             }
-        autoEffectPriority.forEach { sg ->
-            sg.data.autoSkills.filter { it.effectClass == EffectClass.Positive }.forEach {
-                log("AutoEffect") { "[${sg}] positive auto effect [${it}] activate" }
-                it.activate(sg.context)
+
+        AutoEffectOrder.values().forEach { order ->
+            autoEffectPriority.forEach { sg ->
+                sg.data.autoSkills.filter { it.autoEffectOrder == order }.forEach {
+                    log("AutoEffect") { "[${sg}] @${order.name} auto effect [${it}] activate" }
+                    it.activate(sg.context)
+                }
+                sg.loadout.memoir?.autoEffects?.filter { it.autoEffectOrder == order }?.forEach {
+                    log("AutoEffect") { "[${sg}] @${order.name} auto effect [${it}] activate" }
+                    it.activate(sg.context)
+                }
             }
-            sg.loadout.memoir?.autoEffects?.filter { it.effectClass == EffectClass.Positive }?.forEach {
-                log("AutoEffect") { "[${sg}] positive auto effect [${it}] activate" }
-                it.activate(sg.context)
-            }
-        }
-        autoEffectPriority.forEach { sg ->
-            sg.data.autoSkills.filter { it.effectClass == EffectClass.Negative }.forEach {
-                log("AutoEffect") { "[${sg}] negative auto effect [${it}] activate" }
-                it.activate(sg.context)
-            }
-            sg.loadout.memoir?.autoEffects?.filter { it.effectClass == EffectClass.Negative }?.forEach {
-                log("AutoEffect") { "[${sg}] negative auto effect [${it}] activate" }
-                it.activate(sg.context)
+            if (order == AutoEffectOrder.PASSIVE) {
+                autoEffectPriority = autoEffectPriority
+                    .shuffled(random)
+                    .sortedByDescending { it.agility.value }
             }
         }
 

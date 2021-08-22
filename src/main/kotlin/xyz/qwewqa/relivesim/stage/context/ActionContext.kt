@@ -104,7 +104,7 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
             overrideAttribute,
         )
         if (target.effects.get(StackedEffect.Evade) > 0) {
-            target.effects.removeStacked(StackedEffect.Evade)
+            target.effects.remove(StackedEffect.Evade)
             if (self.perfectAimCounter <= 0 && !actionContext.focus) {
                 stage.log("Hit") { "Miss from Evade" }
             }
@@ -144,7 +144,7 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
                             } else {
                                 stage.log("Hit") { "Destroys barrier (damage: $afterBarrier, after: $afterBarrier, barrier: ${barrier.value})" }
                                 afterBarrier -= barrier.value
-                                target.effects.removeTimed(barrier)
+                                target.effects.remove(barrier)
                             }
                         }
                     }

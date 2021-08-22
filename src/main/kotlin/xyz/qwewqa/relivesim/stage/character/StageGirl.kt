@@ -26,7 +26,7 @@ class StageGirl(
             field = value.coerceIn(0, 100)
         }
     val maxHp: MultiplicativeBuffModifier = MultiplicativeBuffModifier()
-    val actPower: MultiplicativeBuffModifier = MultiplicativeBuffModifier()
+    val actPower: MultiplicativeBuffWithExtraModifier = MultiplicativeBuffWithExtraModifier()
     val normalDefense: MultiplicativeBuffModifier = MultiplicativeBuffModifier()
     val specialDefense: MultiplicativeBuffModifier = MultiplicativeBuffModifier()
     val agility: MultiplicativeBuffModifier = MultiplicativeBuffModifier()

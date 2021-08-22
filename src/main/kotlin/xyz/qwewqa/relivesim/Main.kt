@@ -19,6 +19,7 @@ import xyz.qwewqa.relivesim.stage.StageConfiguration
 import xyz.qwewqa.relivesim.stage.Victory
 import xyz.qwewqa.relivesim.stage.act.ActType.*
 import xyz.qwewqa.relivesim.stage.character.Attribute.Cloud
+import xyz.qwewqa.relivesim.stage.character.Attribute.Flower
 import xyz.qwewqa.relivesim.stage.character.Character
 import xyz.qwewqa.relivesim.stage.character.Character.*
 import xyz.qwewqa.relivesim.stage.character.DamageType.Normal
@@ -28,7 +29,7 @@ import kotlin.system.measureTimeMillis
 
 suspend fun main() = coroutineScope {
     measureTimeMillis {
-        bulkPlay(10_000_000, maxTurns = 3) {
+        bulkPlay(1_000_000, maxTurns = 3) {
             configuration = StageConfiguration(
                 logging = false,
             )
@@ -37,7 +38,7 @@ suspend fun main() = coroutineScope {
                 loadout {
                     name = "BSMeif"
                     stageGirl = StageGirlMeiFan()
-                    memoir = MerryChristmas2019.max()
+                    memoir = SunsetLabMemBadge.max()
                 }
                 loadout {
                     name = "Devil"
@@ -46,10 +47,10 @@ suspend fun main() = coroutineScope {
                 }
 
                 song = ClimaxSong(
-                    DexteritySongEffect(5.percent),
-                    CriticalSongEffect(25.percent),
-                    passive = CriticalSongEffect(17.percent).conditional {
-                        data.character in setOf(Junna, Yuyuko, Lalafin, MeiFan)
+                    ActStatUpSongEffect(65),
+                    AttributeDamageDealtUp(Flower, 8.percent),
+                    passive = ActStatUpSongEffect(58).conditional {
+                        data.character in setOf(Junna, Kaoruko, Rui, Yuyuko)
                     }
                 )
 
@@ -61,14 +62,14 @@ suspend fun main() = coroutineScope {
 
                     when (turn) {
                         1 -> {
-                            +devil[Act2]
                             +meif[Act2]
+                            +devil[Act2]
                             +meif[Act3]
                         }
                         2 -> {
                             +devil[Act2]
-                            +meif[Act1]
                             +meif[Act2]
+                            +meif[Act1]
                             +meif[Act3]
                             +devil[Act1]
                         }

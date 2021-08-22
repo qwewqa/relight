@@ -2,6 +2,7 @@ package xyz.qwewqa.relivesim.stage.effect
 
 import xyz.qwewqa.relivesim.stage.character.StageGirl
 import xyz.qwewqa.relivesim.stage.context.ActionContext
+import xyz.qwewqa.relivesim.stage.log
 import java.util.*
 import kotlin.collections.LinkedHashSet
 
@@ -39,8 +40,17 @@ class EffectManager(val stageGirl: StageGirl) {
     }
 
     fun add(effect: TimedEffect) {
-        if (effect.exclusive) {
-            removeAll(effect.effectType)
+        if (effect.effectType.exclusive) {
+            val existing = get(effect.effectType).singleOrNull()
+            if (existing != null) {
+                if (effect.turns >= existing.turns) {
+                    context.stage.log("Effect") { "Exclusive timed effect [$effect] overwrites [$existing]" }
+                    remove(existing)
+                } else {
+                    context.stage.log("Effect") { "Failed to overwrite timed effect [$effect] over [$existing]" }
+                    return
+                }
+            }
         }
         effect.start(context)
         val added = when (effect.effectClass) {
@@ -62,7 +72,7 @@ class EffectManager(val stageGirl: StageGirl) {
         passiveEffects += passive
     }
 
-    fun removeTimed(effect: TimedEffect) {
+    fun remove(effect: TimedEffect) {
         val removed = when (effect.effectClass) {
             EffectClass.Positive -> positiveEffects
             EffectClass.Negative -> negativeEffects
@@ -72,7 +82,7 @@ class EffectManager(val stageGirl: StageGirl) {
         effect.stop(context)
     }
 
-    fun removeStacked(effect: StackedEffect) {
+    fun remove(effect: StackedEffect) {
         when (effect.effectClass) {
             EffectClass.Positive -> positiveCountableEffects
             EffectClass.Negative -> negativeCountableEffects
@@ -85,7 +95,7 @@ class EffectManager(val stageGirl: StageGirl) {
 
     fun removeAll(type: EffectType) {
         effectsByType[type]?.toList()?.forEach {
-            removeTimed(it)
+            remove(it)
         }
     }
 

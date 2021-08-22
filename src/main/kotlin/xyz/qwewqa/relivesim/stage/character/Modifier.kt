@@ -23,3 +23,11 @@ data class MultiplicativeBuffModifier(
     override val value get() = (base * (100.percent + buff)).toInt()
 }
 
+data class MultiplicativeBuffWithExtraModifier(
+    override var base: Int = 0,
+    override var buff: Percent = 0.percent,
+    var extra: Int = 0,
+) : Modifier<Int, Int> {
+    override val value get() = (base * (100.percent + buff)).toInt() + extra
+}
+
