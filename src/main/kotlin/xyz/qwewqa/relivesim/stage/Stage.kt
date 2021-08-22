@@ -9,6 +9,7 @@ import xyz.qwewqa.relivesim.stage.effect.EffectClass
 import xyz.qwewqa.relivesim.stage.strategy.ActionTile
 import xyz.qwewqa.relivesim.stage.strategy.IdleTile
 import xyz.qwewqa.relivesim.stage.team.Team
+import kotlin.Exception
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
@@ -96,6 +97,9 @@ data class Stage(
 
         player.finalizeTurnZero()
         opponent.finalizeTurnZero()
+        player.strategy.initialize(this, player, opponent)
+        opponent.strategy.initialize(this, opponent, player)
+
         try {
             while (turn < maxTurns) {
                 turn++
@@ -169,6 +173,10 @@ data class Stage(
                 checkEnded()?.let { return it }
             }
             return OutOfTurns(opponent.active.sumOf { it.currentHP })
+        } catch (e: Exception) {
+            log("Error") { e.stackTraceToString() }
+            if (configuration.logging) println(logger)
+            return PlayError(e)
         } finally {
             log("Stage") { "End" }
             if (configuration.logging) println(logger)
@@ -190,6 +198,7 @@ sealed class StageResult
 data class TeamWipe(val turn: Int) : StageResult()
 data class OutOfTurns(val margin: Int) : StageResult()
 data class Victory(val turn: Int) : StageResult()
+data class PlayError(val exception: Exception) : StageResult()
 
 @OptIn(ExperimentalContracts::class)
 inline fun Stage.log(tag: String = "", value: () -> String) {
