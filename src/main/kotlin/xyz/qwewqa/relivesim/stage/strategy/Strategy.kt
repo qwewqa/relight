@@ -7,11 +7,12 @@ import xyz.qwewqa.relivesim.stage.character.StageGirl
 import xyz.qwewqa.relivesim.stage.log
 import xyz.qwewqa.relivesim.stage.team.Team
 
-abstract class Strategy {
-    abstract fun getQueue(stage: Stage, team: Team, enemy: Team): QueueResult
+interface Strategy {
+    fun initialize(stage: Stage, team: Team, enemy: Team) {}
+    fun getQueue(stage: Stage, team: Team, enemy: Team): QueueResult
 
-    abstract fun onStageGirlExit(sg: StageGirl)
-    abstract fun onStageGirlRevive(sg: StageGirl)
+    fun onStageGirlExit(sg: StageGirl)
+    fun onStageGirlRevive(sg: StageGirl)
 }
 
 data class QueueResult(
@@ -44,7 +45,7 @@ class ActionTile(val stageGirl: StageGirl, val apCost: Int, val actData: ActData
     }
 }
 
-class EmptyStrategy : Strategy() {
+class EmptyStrategy : Strategy {
     override fun getQueue(stage: Stage, team: Team, enemy: Team) = QueueResult(mutableListOf<QueueTile>(), false)
 
     override fun onStageGirlExit(sg: StageGirl) {}

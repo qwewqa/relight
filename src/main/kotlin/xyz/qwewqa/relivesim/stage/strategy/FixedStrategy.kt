@@ -6,7 +6,7 @@ import xyz.qwewqa.relivesim.stage.act.ActType
 import xyz.qwewqa.relivesim.stage.character.StageGirl
 import xyz.qwewqa.relivesim.stage.team.Team
 
-class FixedStrategy(val strategy: FixedStrategyContext.() -> Unit) : Strategy() {
+class FixedStrategy(val strategy: FixedStrategyContext.() -> Unit) : Strategy {
     override fun getQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
         return FixedStrategyContext(stage, team, enemy).apply(strategy).get()
     }

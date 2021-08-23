@@ -4,6 +4,7 @@ import kotlinx.coroutines.coroutineScope
 import xyz.qwewqa.relivesim.dsl.bulkPlay
 import xyz.qwewqa.relivesim.dsl.fixedStrategy
 import xyz.qwewqa.relivesim.dsl.simulate
+import xyz.qwewqa.relivesim.dsl.standardStrategy
 import xyz.qwewqa.relivesim.presets.*
 import xyz.qwewqa.relivesim.presets.memoir.*
 import xyz.qwewqa.relivesim.presets.stagegirl.IzanagiNana
@@ -56,17 +57,19 @@ suspend fun main() = coroutineScope {
 
             eventBonus = 140.percent
 
-            strategy = fixedStrategy {
+            strategy = standardStrategy {
                 val meif = -"BSMeif"
                 val devil = -"Devil"
 
                 when (turn) {
                     1 -> {
+                        devil[Act3].tryHold()
                         +meif[Act2]
                         +devil[Act2]
                         +meif[Act3]
                     }
                     2 -> {
+                        devil[Act3].tryHold()
                         +devil[Act2]
                         +meif[Act2]
                         +meif[Act3]
@@ -74,40 +77,14 @@ suspend fun main() = coroutineScope {
                         +devil[Act1]
                     }
                     3 -> {
-                        when (stage.random.nextInt(0, 4)) {
-                            0 -> {
-                                climax()
-                                +devil[ClimaxAct]
-                                +meif[Act2]
-                                +meif[Act3]
-                                +meif[ClimaxAct]
-                                +meif[Act1]
-                            }
-                            1 -> {
-                                climax()
-                                +devil[ClimaxAct]
-                                +devil[Act2]
-                                +meif[Act3]
-                                +meif[ClimaxAct]
-                                +meif[Act1]
-                            }
-                            2 -> {
-                                climax()
-                                +devil[ClimaxAct]
-                                +devil[Act2]
-                                +meif[Act2]
-                                +meif[ClimaxAct]
-                                +meif[Act1]
-                            }
-                            3 -> {
-                                climax()
-                                +devil[ClimaxAct]
-                                +devil[Act2]
-                                +meif[Act2]
-                                +meif[Act3]
-                                +meif[ClimaxAct]
-                            }
-                        }
+                        devil[Act1].discard()
+                        climax()
+                        +devil[ClimaxAct]
+                        -devil[Act2]
+                        -meif[Act2]
+                        -meif[Act3]
+                        +meif[ClimaxAct]
+                        -meif[Act1]
                     }
                 }
             }
