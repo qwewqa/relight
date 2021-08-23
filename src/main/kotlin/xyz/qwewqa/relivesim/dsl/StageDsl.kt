@@ -12,7 +12,6 @@ import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.random.Random
 import kotlin.system.measureNanoTime
-import kotlin.system.measureTimeMillis
 
 @StageDslMarker
 class StageBuilder(val seed: Int? = null) : Builder<Stage> {
@@ -106,12 +105,12 @@ suspend fun simulate(count: Int, maxTurns: Int, init: StageBuilder.() -> Unit) =
     if (excluded > 0) {
         println("Excluded $excluded iterations")
     }
-    val count = results.size - excluded
-    println("Complete in ${time / 1000000}ms (${"%.2f".format(time / count.toDouble())}ns per iteration)")
-    println("Clear    : ${"%.4f".format(100 * wins.toDouble() / count).padStart(8)}%")
-    println("End      : ${"%.4f".format(100 * outOfTurns.toDouble() / count).padStart(8)}%")
-    println("Wipe     : ${"%.4f".format(100 * wipes.toDouble() / count).padStart(8)}%")
+    val included = results.size - excluded
+    println("Complete in ${time / 1000000}ms (${"%.2f".format(time / results.size.toDouble())}ns per iteration)")
+    println("Clear    : ${"%.4f".format(100 * wins.toDouble() / included).padStart(8)}%")
+    println("End      : ${"%.4f".format(100 * outOfTurns.toDouble() / included).padStart(8)}%")
+    println("Wipe     : ${"%.4f".format(100 * wipes.toDouble() / included).padStart(8)}%")
     if (errors > 0) {
-        println("Error: ${"%.4f".format(100 * errors.toDouble() / count).padStart(8)}%")
+        println("Error: ${"%.4f".format(100 * errors.toDouble() / included).padStart(8)}%")
     }
 }

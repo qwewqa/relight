@@ -75,7 +75,7 @@ suspend fun main() = coroutineScope {
                     3 -> {
                         devil[Act1].discard()
                         climax()
-                        if (meif[Act2].canQueue) ignoreRun()
+                        if (!meif[Act2].canQueue) ignoreRun()
                         +devil[ClimaxAct]
                         -devil[Act2]
                         -meif[Act2]
