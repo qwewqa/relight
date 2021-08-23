@@ -16,16 +16,13 @@ import xyz.qwewqa.relivesim.presets.stagegirl.boss.tr8.TR8FaithMisora
 import xyz.qwewqa.relivesim.presets.stagegirl.boss.tr8.TR8FaithMisoraStrategy
 import xyz.qwewqa.relivesim.presets.stagegirl.midrow.flower.DevilKaoruko
 import xyz.qwewqa.relivesim.presets.stagegirl.midrow.space.WheelOfFortuneKaren
-import xyz.qwewqa.relivesim.stage.OutOfTurns
-import xyz.qwewqa.relivesim.stage.StageConfiguration
-import xyz.qwewqa.relivesim.stage.Victory
+import xyz.qwewqa.relivesim.stage.*
 import xyz.qwewqa.relivesim.stage.act.ActType.*
 import xyz.qwewqa.relivesim.stage.character.Attribute.Cloud
 import xyz.qwewqa.relivesim.stage.character.Attribute.Flower
 import xyz.qwewqa.relivesim.stage.character.Character
 import xyz.qwewqa.relivesim.stage.character.Character.*
 import xyz.qwewqa.relivesim.stage.character.DamageType.Normal
-import xyz.qwewqa.relivesim.stage.percent
 import xyz.qwewqa.relivesim.stage.team.ClimaxSong
 import kotlin.system.measureTimeMillis
 
@@ -44,14 +41,13 @@ suspend fun main() = coroutineScope {
             loadout {
                 name = "Devil"
                 stageGirl = DevilKaoruko()
-                memoir = FriendsAtTheAquarium.max()
+                memoir = CoStarringWithHatsuneMiku.max()
             }
 
             song = ClimaxSong(
-                ActStatUpSongEffect(65),
-                AttributeDamageDealtUp(Flower, 8.percent),
-                passive = ActStatUpSongEffect(58).conditional {
-                    data.character in setOf(Junna, Kaoruko, Rui, Yuyuko)
+                DexteritySongEffect(6.percent),
+                passive = DexteritySongEffect(7.percent).conditional {
+                    data.character in setOf(Junna, Yuyuko, Lalafin, MeiFan)
                 }
             )
 
@@ -79,6 +75,7 @@ suspend fun main() = coroutineScope {
                     3 -> {
                         devil[Act1].discard()
                         climax()
+                        if (meif[Act2].canQueue) ignoreRun()
                         +devil[ClimaxAct]
                         -devil[Act2]
                         -meif[Act2]

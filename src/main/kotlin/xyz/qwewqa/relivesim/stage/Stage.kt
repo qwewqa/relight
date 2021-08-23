@@ -1,6 +1,5 @@
 package xyz.qwewqa.relivesim.stage
 
-import xyz.qwewqa.relivesim.dsl.stage
 import xyz.qwewqa.relivesim.stage.character.StageGirl
 import xyz.qwewqa.relivesim.stage.context.ActionContext
 import xyz.qwewqa.relivesim.stage.effect.AutoEffect
@@ -173,9 +172,11 @@ data class Stage(
                 checkEnded()?.let { return it }
             }
             return OutOfTurns(opponent.active.sumOf { it.currentHP })
+        } catch (e: IgnoreRunException) {
+            log("Stage") { "Early run end." }
+            return ExcludedRun
         } catch (e: Exception) {
             log("Error") { e.stackTraceToString() }
-            if (configuration.logging) println(logger)
             return PlayError(e)
         } finally {
             log("Stage") { "End" }
@@ -194,11 +195,16 @@ data class Stage(
     }
 }
 
+class IgnoreRunException : Exception()
+
+fun ignoreRun(): Nothing = throw IgnoreRunException()
+
 sealed class StageResult
 data class TeamWipe(val turn: Int) : StageResult()
 data class OutOfTurns(val margin: Int) : StageResult()
 data class Victory(val turn: Int) : StageResult()
 data class PlayError(val exception: Exception) : StageResult()
+object ExcludedRun : StageResult()
 
 @OptIn(ExperimentalContracts::class)
 inline fun Stage.log(tag: String = "", value: () -> String) {

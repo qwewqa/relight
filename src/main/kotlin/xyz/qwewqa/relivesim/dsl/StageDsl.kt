@@ -102,11 +102,16 @@ suspend fun simulate(count: Int, maxTurns: Int, init: StageBuilder.() -> Unit) =
     val outOfTurns = results.count { it is OutOfTurns }
     val wipes = results.count { it is TeamWipe }
     val errors = results.count { it is PlayError }
+    val excluded = results.count { it is ExcludedRun }
+    if (excluded > 0) {
+        println("Excluded $excluded iterations")
+    }
+    val count = results.size - excluded
     println("Complete in ${time / 1000000}ms (${"%.2f".format(time / count.toDouble())}ns per iteration)")
-    println("Clear: ${"%.4f".format(100 * wins.toDouble() / results.size).padStart(8)}%")
-    println("End  : ${"%.4f".format(100 * outOfTurns.toDouble() / results.size).padStart(8)}%")
-    println("Wipe : ${"%.4f".format(100 * wipes.toDouble() / results.size).padStart(8)}%")
+    println("Clear    : ${"%.4f".format(100 * wins.toDouble() / count).padStart(8)}%")
+    println("End      : ${"%.4f".format(100 * outOfTurns.toDouble() / count).padStart(8)}%")
+    println("Wipe     : ${"%.4f".format(100 * wipes.toDouble() / count).padStart(8)}%")
     if (errors > 0) {
-        println("Error: ${"%.4f".format(100 * errors.toDouble() / results.size).padStart(8)}%")
+        println("Error: ${"%.4f".format(100 * errors.toDouble() / count).padStart(8)}%")
     }
 }
