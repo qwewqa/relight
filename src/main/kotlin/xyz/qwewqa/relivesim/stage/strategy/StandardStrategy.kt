@@ -6,11 +6,14 @@ import xyz.qwewqa.relivesim.stage.act.ActType
 import xyz.qwewqa.relivesim.stage.character.StageGirl
 import xyz.qwewqa.relivesim.stage.log
 import xyz.qwewqa.relivesim.stage.team.Team
+import kotlin.reflect.KProperty
 
 class StandardStrategy(val strategy: StandardStrategyContext.() -> Unit) : Strategy {
     lateinit var stage: Stage
     lateinit var team: Team
     lateinit var enemy: Team
+
+    val vars = Variables()
 
     lateinit var actCards: Map<Pair<StageGirl, ActType>, ActCard>
     lateinit var availableCards: MutableSet<ActCard>
@@ -55,7 +58,7 @@ class StandardStrategy(val strategy: StandardStrategyContext.() -> Unit) : Strat
     }
 
     override fun onStageGirlExit(sg: StageGirl) {
-        sg.acts.forEach { (actType, actData) ->
+        sg.acts.forEach { (actType, _) ->
             val actCard = actCards.getValue(sg to actType)
             availableCards -= actCard
             if (heldCard == actCard) {
@@ -84,10 +87,37 @@ class StandardStrategy(val strategy: StandardStrategyContext.() -> Unit) : Strat
     }
 }
 
+@Suppress("UNCHECKED_CAST")
+class Variables {
+    private val values = mutableMapOf<String, Any?>()
+
+    operator fun invoke(default: () -> Any) = VariableWithDefault(default)
+
+    operator fun <T> getValue(thisRef: Any?, property: KProperty<*>): T {
+        return values.getOrElse(property.name) { error("Variable ${property.name} initialized.") } as T
+    }
+
+    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Any?) {
+        values[property.name] = value
+    }
+
+    inner class VariableWithDefault(val default: () -> Any) {
+
+        operator fun <T> getValue(thisRef: Any?, property: KProperty<*>): T {
+            return values.getOrPut(property.name, default) as T
+        }
+
+        operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Any?) {
+            values[property.name] = value
+        }
+    }
+}
+
 class StandardStrategyContext(val strategy: StandardStrategy) {
     val stage = strategy.stage
     val team = strategy.team
     val enemy = strategy.enemy
+    val vars = strategy.vars
 
     val turn get() = stage.turn
     val friend get() = team.friend ?: error("Friend not found.")
@@ -151,6 +181,9 @@ class StandardStrategyContext(val strategy: StandardStrategy) {
     val hand = mutableSetOf<StandardStrategy.ActCard>()
 
     private val cardsToReadd = mutableListOf<StandardStrategy.ActCard>()
+
+    fun haveAll(vararg cards: StandardStrategy.ActCard) = cards.all { it in hand }
+    fun haveAny(vararg cards: StandardStrategy.ActCard) = cards.any { it in hand }
 
     val StandardStrategy.ActCard.canHold get() = this in hand && strategy.heldCard == null
 

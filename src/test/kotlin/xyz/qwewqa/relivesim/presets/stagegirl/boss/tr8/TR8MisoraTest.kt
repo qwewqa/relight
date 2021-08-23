@@ -3,10 +3,7 @@ package xyz.qwewqa.relivesim.presets.stagegirl.boss.tr8
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import xyz.qwewqa.relivesim.dsl.bulkPlay
-import xyz.qwewqa.relivesim.dsl.fixedStrategy
-import xyz.qwewqa.relivesim.dsl.simulate
-import xyz.qwewqa.relivesim.dsl.stage
+import xyz.qwewqa.relivesim.dsl.*
 import xyz.qwewqa.relivesim.presets.ActStatUpSongEffect
 import xyz.qwewqa.relivesim.presets.AttributeDamageDealtUp
 import xyz.qwewqa.relivesim.presets.conditional
@@ -52,17 +49,19 @@ internal class TR8MisoraTest {
 
                 eventBonus = 140.percent
 
-                strategy = fixedStrategy {
+                strategy = standardStrategy {
                     val meif = -"BSMeif"
                     val devil = -"Devil"
 
                     when (turn) {
                         1 -> {
+                            devil[ActType.Act3].tryHold()
                             +meif[ActType.Act2]
                             +devil[ActType.Act2]
                             +meif[ActType.Act3]
                         }
                         2 -> {
+                            devil[ActType.Act3].tryHold()
                             +devil[ActType.Act2]
                             +meif[ActType.Act2]
                             +meif[ActType.Act3]
@@ -70,40 +69,14 @@ internal class TR8MisoraTest {
                             +devil[ActType.Act1]
                         }
                         3 -> {
-                            when (stage.random.nextInt(0, 4)) {
-                                0 -> {
-                                    climax()
-                                    +devil[ActType.ClimaxAct]
-                                    +meif[ActType.Act2]
-                                    +meif[ActType.Act3]
-                                    +meif[ActType.ClimaxAct]
-                                    +meif[ActType.Act1]
-                                }
-                                1 -> {
-                                    climax()
-                                    +devil[ActType.ClimaxAct]
-                                    +devil[ActType.Act2]
-                                    +meif[ActType.Act3]
-                                    +meif[ActType.ClimaxAct]
-                                    +meif[ActType.Act1]
-                                }
-                                2 -> {
-                                    climax()
-                                    +devil[ActType.ClimaxAct]
-                                    +devil[ActType.Act2]
-                                    +meif[ActType.Act2]
-                                    +meif[ActType.ClimaxAct]
-                                    +meif[ActType.Act1]
-                                }
-                                3 -> {
-                                    climax()
-                                    +devil[ActType.ClimaxAct]
-                                    +devil[ActType.Act2]
-                                    +meif[ActType.Act2]
-                                    +meif[ActType.Act3]
-                                    +meif[ActType.ClimaxAct]
-                                }
-                            }
+                            devil[ActType.Act1].discard()
+                            climax()
+                            +devil[ActType.ClimaxAct]
+                            -devil[ActType.Act2]
+                            -meif[ActType.Act2]
+                            -meif[ActType.Act3]
+                            +meif[ActType.ClimaxAct]
+                            -meif[ActType.Act1]
                         }
                     }
                 }
@@ -119,6 +92,6 @@ internal class TR8MisoraTest {
             }
         }.play(3)
         assertTrue(result is OutOfTurns)
-        assertEquals(995464091, (result as OutOfTurns).margin)
+        assertEquals(995071067, (result as OutOfTurns).margin)
     }
 }
