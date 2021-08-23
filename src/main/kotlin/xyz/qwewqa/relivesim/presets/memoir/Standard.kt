@@ -129,7 +129,7 @@ val PoolsideIncident = memoirPreset(
     }
 )
 
-val  MerryChristmas2019 = memoirPreset(
+val MerryChristmas2019 = memoirPreset(
     max = {
         name = "Merry Christmas 2019"
         stats {
@@ -137,5 +137,17 @@ val  MerryChristmas2019 = memoirPreset(
         }
         +SelfBrillianceRecoveryAutoEffect(32)
         +SelfDexterityTimedEffectAutoEffect(turns = 3, 16.percent)
+    }
+)
+
+val ReverberatingVoiceTsuabasaAndMaya = memoirPreset(
+    lv1max = {
+        name = "Reverberating Voice Tsuabasa & Maya"
+        stats {
+            hp = 300
+            normalDefense = 50
+        }
+        +DexterityAutoEffect(16.percent)
+        +PerfectAimAutoEffect()
     }
 )

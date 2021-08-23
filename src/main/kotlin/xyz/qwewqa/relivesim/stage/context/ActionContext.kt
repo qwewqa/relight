@@ -75,7 +75,7 @@ class TargetContext(val actionContext: ActionContext, val targets: List<StageGir
                     target,
                     modifier,
                     hitCount,
-                    if (target.bonusCondition()) bonusMultiplier else 0.percent,
+                    if (target.bonusCondition()) bonusMultiplier else 100.percent,
                     novariance,
                     noreflect,
                     overrideAttribute,

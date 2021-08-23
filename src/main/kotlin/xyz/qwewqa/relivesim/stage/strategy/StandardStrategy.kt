@@ -66,9 +66,6 @@ class StandardStrategy(val strategy: StandardStrategyContext.() -> Unit) : Strat
             }
             cardQueue.remove(actCard)
         }
-        if (team.active.size == 1) {
-            TODO()
-        }
     }
 
     override fun onStageGirlRevive(sg: StageGirl) {
@@ -129,6 +126,9 @@ class StandardStrategyContext(val strategy: StandardStrategy) {
 
     val ignoredCards = mutableSetOf<StandardStrategy.ActCard>()
 
+    var holdActionDone = false
+        private set
+
     init {
         val held = strategy.heldCard
         if (held != null) {
@@ -176,6 +176,13 @@ class StandardStrategyContext(val strategy: StandardStrategy) {
         }
     }
 
+    fun tryClimax() = if (canClimax) {
+        climax()
+        true
+    } else {
+        false
+    }
+
     val queued = mutableListOf<StandardStrategy.ActCard>()
     var apTotal = 0
     val hand = mutableSetOf<StandardStrategy.ActCard>()
@@ -184,10 +191,17 @@ class StandardStrategyContext(val strategy: StandardStrategy) {
 
     fun haveAll(vararg cards: StandardStrategy.ActCard) = cards.all { it in hand }
     fun haveAny(vararg cards: StandardStrategy.ActCard) = cards.any { it in hand }
+    fun haveCount(vararg cards: StandardStrategy.ActCard) = cards.count { it in hand }
 
-    val StandardStrategy.ActCard.canHold get() = this in hand && strategy.heldCard == null
+    val isHolding get() = strategy.heldCard != null
+    val heldCard get() = strategy.heldCard
+
+    val StandardStrategy.ActCard.canHold get() = !holdActionDone && this in hand && strategy.heldCard == null
 
     fun StandardStrategy.ActCard.hold() {
+        if (holdActionDone) {
+            error("Hold action was already performed.")
+        }
         if (this !in hand) {
             error("Card $this not in hand.")
         }
@@ -200,6 +214,7 @@ class StandardStrategyContext(val strategy: StandardStrategy) {
         ignoredCards += replacement
         hand += replacement
         strategy.heldCard = this
+        holdActionDone = true
     }
 
     fun StandardStrategy.ActCard.tryHold() = if (canHold) {
@@ -209,9 +224,12 @@ class StandardStrategyContext(val strategy: StandardStrategy) {
         false
     }
 
-    val StandardStrategy.ActCard.canDiscard get() = this in hand && strategy.heldCard != null
+    val StandardStrategy.ActCard.canDiscard get() = !holdActionDone && this in hand && strategy.heldCard != null
 
     fun StandardStrategy.ActCard.discard() {
+        if (holdActionDone) {
+            error("Hold action was already performed.")
+        }
         if (this !in hand) {
             error("Card $this not in hand.")
         }
@@ -219,6 +237,7 @@ class StandardStrategyContext(val strategy: StandardStrategy) {
         hand -= this
         hand += strategy.heldCard ?: error("Not holding a card.")
         strategy.heldCard = null
+        holdActionDone = true
     }
 
     fun StandardStrategy.ActCard.tryDiscard() = if (canDiscard) {
@@ -268,6 +287,9 @@ class StandardStrategyContext(val strategy: StandardStrategy) {
     }
 
     init {
+        if (team.active.size == 1) {
+            TODO()
+        }
         if (inClimax) {
             strategy.climaxCards.forEach { card ->
                 if (card.stageGirl.inCX && card !in strategy.usedClimaxCards) {

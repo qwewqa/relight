@@ -180,7 +180,7 @@ data class Stage(
             return PlayError(e)
         } finally {
             log("Stage") { "End" }
-            if (configuration.logging) println(logger)
+            if (configuration.displayLogging) println(logger)
         }
     }
 
@@ -195,7 +195,7 @@ data class Stage(
     }
 }
 
-class IgnoreRunException : Exception()
+class IgnoreRunException : Exception("Run ignored.", null, true, false)
 
 fun ignoreRun(): Nothing = throw IgnoreRunException()
 

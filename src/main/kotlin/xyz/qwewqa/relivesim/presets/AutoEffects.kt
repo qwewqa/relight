@@ -196,6 +196,16 @@ data class SelfBrillianceRecoveryAutoEffect(val amount: Int) : AutoEffect {
     }
 }
 
+class PerfectAimAutoEffect : AutoEffect {
+    override val effectClass: EffectClass = EffectClass.Positive
+    override val autoEffectOrder = AutoEffectOrder.PASSIVE
+
+    override fun activate(context: ActionContext) = context.run {
+        self.perfectAimCounter += 1
+    }
+}
+
+
 data class TurnBrillianceAutoEffect(val amount: Int) : AutoEffect {
     override val effectClass: EffectClass = EffectClass.Positive
     override val autoEffectOrder = AutoEffectOrder.PASSIVE

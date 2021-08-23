@@ -67,6 +67,18 @@ class DexterityTimedEffect(
     override fun flipped(context: ActionContext) = DexterityTimedEffect(turns, -efficacy, locked)
 }
 
+class EvasionTimedEffect(
+    override var turns: Int,
+    efficacy: Percent,
+    override val locked: Boolean = false,
+) : SimplePercentTimedEffect(efficacy), FlippableEffect {
+    override fun getModifier(context: ActionContext) = context.run {
+        self.evasion
+    }
+
+    override fun flipped(context: ActionContext) = EvasionTimedEffect(turns, -efficacy, locked)
+}
+
 class EffectiveDamageTimedEffect(
     override var turns: Int,
     efficacy: Percent,

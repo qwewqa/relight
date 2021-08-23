@@ -80,6 +80,7 @@ class StandardDamageCalculator : DamageCalculator {
         var dmg = base
         dmg = (dmg * eleCoef).toInt()
         dmg = (dmg * effEleCoef).toInt()
+        dmg = (dmg * bonusMultiplier).toInt()  // tentative
         dmg = (dmg * bonusCoef).toInt()
         dmg = (dmg * dmgDealtCoef).toInt()
         dmg = (dmg * cxDmgCoef).toInt() // tentative
@@ -90,6 +91,7 @@ class StandardDamageCalculator : DamageCalculator {
         criticalDmg = (criticalDmg * eleCoef).toInt()
         criticalDmg = (criticalDmg * effEleCoef).toInt()
         criticalDmg = (criticalDmg * critCoef).toInt()
+        criticalDmg = (criticalDmg * bonusMultiplier).toInt()  // tentative
         criticalDmg = (criticalDmg * bonusCoef).toInt()
         criticalDmg = (criticalDmg * dmgDealtCoef).toInt()
         criticalDmg = (criticalDmg * cxDmgCoef).toInt()

@@ -46,6 +46,21 @@ data class AttributeDamageDealtUp(val attribute: Attribute, val efficacy: Percen
     }
 }
 
+data class AttributeDamageTakenDown(val attribute: Attribute, val efficacy: Percent) : SongEffect {
+    // tentative
+    override fun start(context: ActionContext) = context.run {
+        if (self.data.attribute == attribute) {
+            self.damageTakenDown.buff += efficacy
+        }
+    }
+
+    override fun stop(context: ActionContext) = context.run {
+        if (self.data.attribute == attribute) {
+            self.damageTakenDown.buff -= efficacy
+        }
+    }
+}
+
 fun SongEffect.conditional(condition: StageGirl.() -> Boolean) = object : SongEffect {
     override fun start(context: ActionContext) {
         if (context.self.condition()) {
