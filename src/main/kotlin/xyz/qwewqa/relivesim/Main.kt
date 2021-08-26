@@ -1,36 +1,20 @@
 package xyz.qwewqa.relivesim
 
 import kotlinx.coroutines.coroutineScope
-import xyz.qwewqa.relivesim.dsl.bulkPlay
-import xyz.qwewqa.relivesim.dsl.fixedStrategy
 import xyz.qwewqa.relivesim.dsl.simulate
 import xyz.qwewqa.relivesim.dsl.standardStrategy
 import xyz.qwewqa.relivesim.presets.*
 import xyz.qwewqa.relivesim.presets.memoir.*
-import xyz.qwewqa.relivesim.presets.stagegirl.IzanagiNana
 import xyz.qwewqa.relivesim.presets.stagegirl.JusticeNana
-import xyz.qwewqa.relivesim.presets.stagegirl.backrow.cloud.BabyStageGirlNana
-import xyz.qwewqa.relivesim.presets.stagegirl.backrow.cloud.StageGirlClaudine
-import xyz.qwewqa.relivesim.presets.stagegirl.backrow.flower.StageGirlMeiFan
 import xyz.qwewqa.relivesim.presets.stagegirl.backrow.moon.BabyStageGirlHikari
 import xyz.qwewqa.relivesim.presets.stagegirl.backrow.space.SanadaMahiru
 import xyz.qwewqa.relivesim.presets.stagegirl.boss.tr8.TR8EvilBanishingKomachiTamao
 import xyz.qwewqa.relivesim.presets.stagegirl.boss.tr8.TR8EvilBanishingKomachiTamaoStrategy
-import xyz.qwewqa.relivesim.presets.stagegirl.boss.tr8.TR8FaithMisora
-import xyz.qwewqa.relivesim.presets.stagegirl.boss.tr8.TR8FaithMisoraStrategy
-import xyz.qwewqa.relivesim.presets.stagegirl.midrow.flower.DevilKaoruko
-import xyz.qwewqa.relivesim.presets.stagegirl.midrow.space.WheelOfFortuneKaren
 import xyz.qwewqa.relivesim.stage.*
 import xyz.qwewqa.relivesim.stage.act.ActType.*
-import xyz.qwewqa.relivesim.stage.character.Attribute
 import xyz.qwewqa.relivesim.stage.character.Attribute.*
-import xyz.qwewqa.relivesim.stage.character.Character
-import xyz.qwewqa.relivesim.stage.character.Character.*
-import xyz.qwewqa.relivesim.stage.character.DamageType.Normal
-import xyz.qwewqa.relivesim.stage.character.Position
 import xyz.qwewqa.relivesim.stage.character.Position.Back
 import xyz.qwewqa.relivesim.stage.team.ClimaxSong
-import kotlin.system.measureTimeMillis
 
 suspend fun main() = coroutineScope {
     simulate(1_000_000, maxTurns = 3) {
@@ -141,12 +125,12 @@ suspend fun main() = coroutineScope {
                         if (canClimax) {
                             if (turn1ApDown) {
                                 if (isHolding) {
-                                    justice[Act3].tryDiscard()
+                                    justice[Act3].discard()
                                 } else {
                                     if (justice[Act1] !in hand) {
-                                        justice[Act3].tryHold()
+                                        justice[Act3].hold()
                                     } else if (justice[Act3] !in hand) {
-                                        justice[Act1].tryHold()
+                                        justice[Act1].hold()
                                     }
                                 }
                                 climax()
@@ -155,18 +139,18 @@ suspend fun main() = coroutineScope {
                                 -justice[Act2]
                                 -sanada[Act3]
                                 -sanada[Act2]
-                                -sanada[ClimaxAct]
+                                +sanada[ClimaxAct]
                                 -sanada[Act1]
                                 -justice[Act3]
                                 -justice[Act1]
                             } else {
                                 if (isHolding) {
-                                    justice[Act2].tryDiscard()
+                                    justice[Act2].discard()
                                 } else {
                                     if (justice[Act1] !in hand) {
-                                        justice[Act2].tryHold()
+                                        justice[Act2].hold()
                                     } else if (justice[Act2] !in hand) {
-                                        justice[Act1].tryHold()
+                                        justice[Act1].hold()
                                     }
                                 }
                                 climax()
@@ -176,7 +160,7 @@ suspend fun main() = coroutineScope {
                                 -justice[Act2]
                                 -sanada[Act3]
                                 -sanada[Act2]
-                                -sanada[ClimaxAct]
+                                +sanada[ClimaxAct]
                                 -sanada[Act1]
                                 -justice[Act3]
                                 -justice[Act1]

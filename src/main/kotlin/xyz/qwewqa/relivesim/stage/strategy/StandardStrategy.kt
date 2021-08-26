@@ -16,10 +16,10 @@ class StandardStrategy(val strategy: StandardStrategyContext.() -> Unit) : Strat
     val vars = Variables()
 
     lateinit var actCards: Map<Pair<StageGirl, ActType>, ActCard>
-    lateinit var availableCards: MutableSet<ActCard>
     lateinit var climaxCards: Set<ActCard>
 
     val cardQueue = ArrayDeque<ActCard>()
+    val discardPile = ArrayDeque<ActCard>()
     var heldCard: ActCard? = null
     val usedClimaxCards = mutableSetOf<ActCard>()
 
@@ -31,7 +31,8 @@ class StandardStrategy(val strategy: StandardStrategyContext.() -> Unit) : Strat
     }
 
     private fun refillCardQueue() {
-        cardQueue += availableCards.shuffled(stage.random)
+        cardQueue += discardPile.shuffled(stage.random)
+        discardPile.clear()
     }
 
     override fun initialize(stage: Stage, team: Team, enemy: Team) {
@@ -43,10 +44,7 @@ class StandardStrategy(val strategy: StandardStrategyContext.() -> Unit) : Strat
                 (sg to actType) to ActCard(sg, actData)
             }
         }.toMap()
-        availableCards = actCards
-            .filterKeys { (_, actType) -> actType != ActType.ClimaxAct }
-            .values
-            .toMutableSet()
+        discardPile += actCards.values.filter { it.actData.type != ActType.ClimaxAct }
         climaxCards = actCards
             .filterKeys { (_, actType) -> actType == ActType.ClimaxAct }
             .values
@@ -60,11 +58,11 @@ class StandardStrategy(val strategy: StandardStrategyContext.() -> Unit) : Strat
     override fun onStageGirlExit(sg: StageGirl) {
         sg.acts.forEach { (actType, _) ->
             val actCard = actCards.getValue(sg to actType)
-            availableCards -= actCard
+            cardQueue -= actCard
+            discardPile -= actCard
             if (heldCard == actCard) {
                 heldCard = null
             }
-            cardQueue.remove(actCard)
         }
     }
 
@@ -124,26 +122,12 @@ class StandardStrategyContext(val strategy: StandardStrategy) {
         return strategy.actCards[this to act] ?: error("Act $act for $this not available.")
     }
 
-    val ignoredCards = mutableSetOf<StandardStrategy.ActCard>()
+    val returningCards = mutableListOf<StandardStrategy.ActCard>()
 
     var holdActionDone = false
         private set
 
-    init {
-        val held = strategy.heldCard
-        if (held != null) {
-            ignoredCards += held
-        }
-    }
-
-    fun nextCard(): StandardStrategy.ActCard {
-        val card = strategy.nextCard()
-        return if (card in ignoredCards || card in hand) {
-            nextCard()
-        } else {
-            card
-        }
-    }
+    fun nextCard() = strategy.nextCard()
 
     var climax = false
 
@@ -158,19 +142,20 @@ class StandardStrategyContext(val strategy: StandardStrategy) {
             error("Cannot climax with cards already queued.")
         }
         climax = true
-        hand.clear()
         strategy.usedClimaxCards.clear()
-        strategy.climaxCards.forEach { card ->
-            if (card.stageGirl.isAlive && card.stageGirl.currentBrilliance == 100) {
-                hand += card
-            }
+        val activeClimaxCards = strategy.climaxCards.filter {
+            it.stageGirl.isAlive && it.stageGirl.currentBrilliance == 100
         }
-        repeat(5 - hand.size) {
-            hand += nextCard()
+        returningCards += internalHand.takeLast(activeClimaxCards.size)
+        strategy.discardPile += internalHand.dropLast(activeClimaxCards.size)
+        internalHand.clear()
+        internalHand += activeClimaxCards
+        repeat(5 - activeClimaxCards.size) {
+            internalHand += nextCard()
         }
         stage.log("Strategy") { "Prepare Climax" }
         stage.log("Hand") {
-            hand.map {
+            internalHand.map {
                 "[${it.stageGirl.loadout.data.displayName} (${it.stageGirl.loadout.name})]:[${it.actData.name}]"
             }.joinToString("\n")
         }
@@ -185,34 +170,45 @@ class StandardStrategyContext(val strategy: StandardStrategy) {
 
     val queued = mutableListOf<StandardStrategy.ActCard>()
     var apTotal = 0
-    val hand = mutableSetOf<StandardStrategy.ActCard>()
+    private val internalHand = mutableListOf<StandardStrategy.ActCard>()
+    val hand: List<StandardStrategy.ActCard>
+        get() = internalHand.toMutableList().also { cards ->
+            val temp = cards[3]
+            cards[3] = cards[1]
+            cards[1] = temp
+            cards.sortBy { it.apCost }
+            cards.sortBy { it.actData.type == ActType.ClimaxAct }
+        }
 
-    private val cardsToReadd = mutableListOf<StandardStrategy.ActCard>()
+    fun haveAll(vararg cards: StandardStrategy.ActCard) = cards.all { it in internalHand }
+    fun haveAny(vararg cards: StandardStrategy.ActCard) = cards.any { it in internalHand }
+    fun haveCount(vararg cards: StandardStrategy.ActCard) = cards.count { it in internalHand }
+    fun have(card: StandardStrategy.ActCard) = card in internalHand
 
-    fun haveAll(vararg cards: StandardStrategy.ActCard) = cards.all { it in hand }
-    fun haveAny(vararg cards: StandardStrategy.ActCard) = cards.any { it in hand }
-    fun haveCount(vararg cards: StandardStrategy.ActCard) = cards.count { it in hand }
+    fun queueIs(vararg cards: StandardStrategy.ActCard): Boolean {
+        return cards.size == queued.size && cards.zip(queued).all { (a, b) -> a == b }
+    }
 
     val isHolding get() = strategy.heldCard != null
     val heldCard get() = strategy.heldCard
 
-    val StandardStrategy.ActCard.canHold get() = !holdActionDone && this in hand && strategy.heldCard == null
+    val StandardStrategy.ActCard.canHold get() = !holdActionDone && this !in queued && this in internalHand && strategy.heldCard == null
 
     fun StandardStrategy.ActCard.hold() {
         if (holdActionDone) {
             error("Hold action was already performed.")
         }
-        if (this !in hand) {
+        if (this !in internalHand) {
             error("Card $this not in hand.")
         }
         if (strategy.heldCard != null) {
             error("Already holding a card.")
         }
-        ignoredCards += this
-        hand -= this
-        val replacement = nextCard()
-        ignoredCards += replacement
-        hand += replacement
+        if (this in queued) {
+            error("Cannot hold a queued card.")
+        }
+        internalHand -= this
+        internalHand += nextCard()
         strategy.heldCard = this
         holdActionDone = true
     }
@@ -224,18 +220,21 @@ class StandardStrategyContext(val strategy: StandardStrategy) {
         false
     }
 
-    val StandardStrategy.ActCard.canDiscard get() = !holdActionDone && this in hand && strategy.heldCard != null
+    val StandardStrategy.ActCard.canDiscard get() = !holdActionDone && this !in queued && this in internalHand && strategy.heldCard != null
 
     fun StandardStrategy.ActCard.discard() {
         if (holdActionDone) {
             error("Hold action was already performed.")
         }
-        if (this !in hand) {
+        if (this !in internalHand) {
             error("Card $this not in hand.")
         }
-        ignoredCards += this
-        hand -= this
-        hand += strategy.heldCard ?: error("Not holding a card.")
+        if (this in queued) {
+            error("Cannot discard a queued card.")
+        }
+        returningCards += this
+        internalHand -= this
+        internalHand += strategy.heldCard ?: error("Not holding a card.")
         strategy.heldCard = null
         holdActionDone = true
     }
@@ -248,11 +247,14 @@ class StandardStrategyContext(val strategy: StandardStrategy) {
     }
 
 
-    val StandardStrategy.ActCard.canQueue get() = this in hand && (apTotal + apCost) <= 6
+    val StandardStrategy.ActCard.canQueue get() = this in internalHand && this !in queued && (apTotal + apCost) <= 6
 
     private fun StandardStrategy.ActCard.ensureCanQueue() {
-        if (this !in hand) {
+        if (this !in internalHand) {
             error("Card $this not in hand.")
+        }
+        if (this in queued) {
+            error("Card already queued.")
         }
         if ((apTotal + apCost) > 6) {
             error("Card $this exceeds ap tile limit.")
@@ -261,7 +263,6 @@ class StandardStrategyContext(val strategy: StandardStrategy) {
 
     fun StandardStrategy.ActCard.queue() {
         ensureCanQueue()
-        hand.remove(this)
         apTotal += apCost
         queued += this
     }
@@ -282,7 +283,9 @@ class StandardStrategyContext(val strategy: StandardStrategy) {
             repeat(card.apCost - 1) { queue += IdleTile }
             queue += ActionTile(card.stageGirl, card.apCost, card.actData)
         }
-        strategy.availableCards += cardsToReadd
+        strategy.usedClimaxCards += queued.filter { it.actData.type == ActType.ClimaxAct }
+        strategy.discardPile += internalHand
+        strategy.discardPile += returningCards
         return QueueResult(queue, climax)
     }
 
@@ -290,20 +293,20 @@ class StandardStrategyContext(val strategy: StandardStrategy) {
         if (team.active.size == 1) {
             TODO()
         }
-        if (inClimax) {
-            strategy.climaxCards.forEach { card ->
-                if (card.stageGirl.inCX && card !in strategy.usedClimaxCards) {
-                    hand += card
-                }
-            }
+        val activeClimaxCards = if (inClimax) {
+            strategy.climaxCards.filter { it.stageGirl.inCX && it !in strategy.usedClimaxCards }
+        } else {
+            emptyList()
         }
-        repeat(5 - hand.size) {
-            hand += nextCard()
+        internalHand += activeClimaxCards
+        repeat(5 - this.internalHand.size) {
+            this.internalHand += nextCard()
         }
         stage.log("Hand") {
-            hand.map {
+            this.internalHand.map {
                 "[${it.stageGirl.loadout.data.displayName} (${it.stageGirl.loadout.name})]:[${it.actData.name}]"
             }.joinToString("\n")
         }
     }
+
 }

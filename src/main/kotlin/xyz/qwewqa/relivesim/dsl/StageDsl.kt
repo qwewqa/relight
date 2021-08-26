@@ -62,7 +62,7 @@ suspend fun simulate(count: Int, maxTurns: Int, init: StageBuilder.() -> Unit) =
         val barSegmentCount = 20
         while (true) {
             if (completed.get()) {
-                println("▕${barParts.last().toString().repeat(barSegmentCount)}▏ $count/$count (100.00%)")
+                println("[${barParts.last().toString().repeat(barSegmentCount)}] $count/$count (100.00%)")
                 break
             }
             val currentCount = progressCounter.get()
@@ -71,9 +71,9 @@ suspend fun simulate(count: Int, maxTurns: Int, init: StageBuilder.() -> Unit) =
             if (progress * barSegmentCount % 1 != 0.0) {
                 barBody += barParts[(progress * barSegmentCount % 1 * (barParts.length - 1)).toInt()]
             }
-            barBody += " ".repeat(barSegmentCount - barBody.length)
+            barBody += barParts.first().toString().repeat(barSegmentCount - barBody.length)
             val totalCountText = count.toString()
-            print("▕$barBody▏ ${currentCount.toString().padStart(totalCountText.length)}/$totalCountText " +
+            print("[$barBody] ${currentCount.toString().padStart(totalCountText.length)}/$totalCountText " +
                     "(${"%.2f".format(progress * 100).padStart(6)}%)\r")
             delay(10)
         }
