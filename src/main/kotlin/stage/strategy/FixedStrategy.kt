@@ -34,7 +34,7 @@ class FixedStrategyContext(val stage: Stage, val team: Team, val enemy: Team) {
 
     operator fun BoundAct.unaryPlus() = enqueue()
 
-    fun get() = QueueResult(queue, climax)
+    fun get() = QueueResult(queue.take(6), climax)
 }
 
 data class BoundAct(val actor: Actor, val actData: ActData) {

@@ -6,7 +6,6 @@ import xyz.qwewqa.relivesim.stage.character.Position
 import xyz.qwewqa.relive.simulator.presets.condition.IceOnlyCondition
 import xyz.qwewqa.relive.simulator.presets.condition.SpecialDamageOnlyCondition
 import xyz.qwewqa.relive.simulator.presets.condition.characterCondition
-import xyz.qwewqa.relive.simulator.stage.Stage
 import xyz.qwewqa.relive.simulator.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.stage.actor.actsOf
@@ -95,9 +94,9 @@ val StageGirlRui = Dress(
         }
     ),
     autoSkills = listOf(
-        GenericBuffPassive(EffectiveDamageDealtBuff) { targetAllyAoe() }.new(20, turns = 2),
-        GenericBuffPassive(CriticalUpBuff) { targetAllyAoe() }.new(20, turns = 2),
-        TeamBrillianceUpPassive.new(20) + characterCondition(Character.Tamao),
+        GenericBuffPassive(EffectiveDamageDealtBuff, ActionTarget.Team).new(20, turns = 3),
+        GenericBuffPassive(CriticalUpBuff, ActionTarget.Team).new(20, turns = 3),
+        TeamBrillianceRecoverPassive.new(20) + characterCondition(Character.Tamao),
     ),
     unitSkill = listOf(
         TeamActPassive.new(50) + IceOnlyCondition,

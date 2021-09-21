@@ -90,8 +90,8 @@ val DeathTamao = Dress(
     ),
     autoSkills = listOf(
         EnemyBrillianceDownPassive.new(20),
-        DebuffPassive(ConfusionBuff) { targetBack(1) }.new(turns = 2),
-        GenericBuffPassive(ReviveBuff) { targetSelf() }.new(50),
+        DebuffPassive(ConfusionBuff, ActionTarget.EnemyBack(1)).new(turns = 2),
+        GenericBuffPassive(ReviveBuff, ActionTarget.Self).new(50),
     ),
     unitSkill = listOf(
         TeamActPassive.new(50) + IceOnlyCondition,

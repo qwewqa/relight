@@ -41,3 +41,16 @@ object TeamCriticalPassive : PassiveEffect {
         }
     }
 }
+
+
+object TeamHpUpPassive : PassiveEffect {
+    override val category = PassiveEffectCategory.Passive
+
+    override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) = context.run {
+        team.actors.values.forEach { member ->
+            condition.runIfTrue(member) {
+                member.boostMaxHp += value
+            }
+        }
+    }
+}

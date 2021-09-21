@@ -63,7 +63,7 @@ class RandomDamageCalculator : DamageCalculator {
                                 afterBarrier = 0
                                 break
                             } else {
-                                attacker.context.log("Hit") { "Destroys barrier (damage: $afterBarrier, after: $afterBarrier, barrier: ${barrier.value})" }
+                                attacker.context.log("Hit") { "Destroys barrier (damage: $afterBarrier, after: ${afterBarrier - barrier.value}, barrier: ${barrier.value})" }
                                 afterBarrier -= barrier.value
                                 target.buffs.remove(barrier)
                             }

@@ -121,7 +121,7 @@ class Actor(
     }
 
     fun tick() {
-
+        buffs.tick()
     }
 
     /**
