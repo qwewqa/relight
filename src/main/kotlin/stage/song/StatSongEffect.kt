@@ -30,3 +30,13 @@ data class DamageAgainstAttributeUpSongEffect(val attribute: Attribute) : SongEf
         self.againstAttributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) - value
     }
 }
+
+
+data class AttributeDamageDealtUpSongEffect(val attribute: Attribute) : SongEffect {
+    override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {
+        self.attributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) + value
+    }
+    override fun end(context: ActionContext, value: Int, condition: Condition) = context.run {
+        self.attributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) - value
+    }
+}
