@@ -1,2 +1,3 @@
-rootProject.name = "relive-simulator-core"
+rootProject.name = "relive-simulator"
 
+include("relive-simulator-core")
