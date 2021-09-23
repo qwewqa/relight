@@ -1,6 +1,6 @@
-package xyz.qwewqa.relive.simulator.stage.condition
+package xyz.qwewqa.relive.simulator.core.stage.condition
 
-import xyz.qwewqa.relive.simulator.stage.actor.Actor
+import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract

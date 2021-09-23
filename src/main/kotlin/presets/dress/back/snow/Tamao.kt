@@ -1,17 +1,17 @@
-package xyz.qwewqa.relive.simulator.presets.dress.back.snow
+package xyz.qwewqa.relive.simulator.core.presets.dress.back.snow
 
 import xyz.qwewqa.relivesim.stage.character.Character
 import xyz.qwewqa.relivesim.stage.character.DamageType
 import xyz.qwewqa.relivesim.stage.character.Position
-import xyz.qwewqa.relive.simulator.presets.condition.IceOnlyCondition
-import xyz.qwewqa.relive.simulator.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.stage.actor.actsOf
-import xyz.qwewqa.relive.simulator.stage.actor.defaultDressStats
-import xyz.qwewqa.relive.simulator.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.stage.buff.*
-import xyz.qwewqa.relive.simulator.stage.loadout.Dress
-import xyz.qwewqa.relive.simulator.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.presets.condition.IceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
+import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val DeathTamao = Dress(
     name = "Death Tamao",
@@ -89,12 +89,12 @@ val DeathTamao = Dress(
         }
     ),
     autoSkills = listOf(
-        EnemyBrillianceDownPassive.new(20),
-        DebuffPassive(ConfusionBuff, ActionTarget.EnemyBack(1)).new(turns = 2),
-        GenericBuffPassive(ReviveBuff, ActionTarget.Self).new(50),
+        EnemyBrillianceDrainPassive.new(20),
+        EnemyBack1ConfusionBuffPassive.new(turns = 2),
+        ReviveBuffPassive.new(50),
     ),
     unitSkill = listOf(
-        TeamActPassive.new(50) + IceOnlyCondition,
+        TeamActPowerUpPassive.new(50) + IceOnlyCondition,
         TeamCriticalPassive.new(50) + IceOnlyCondition,
     )
 )

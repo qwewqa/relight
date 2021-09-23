@@ -1,10 +1,10 @@
-package xyz.qwewqa.relive.simulator.stage.passive
+package xyz.qwewqa.relive.simulator.core.stage.passive
 
-import xyz.qwewqa.relive.simulator.stage.ActionContext
-import xyz.qwewqa.relive.simulator.stage.autoskill.PassiveEffect
-import xyz.qwewqa.relive.simulator.stage.condition.Condition
-import xyz.qwewqa.relive.simulator.stage.condition.NamedCondition
-import xyz.qwewqa.relive.simulator.stage.condition.plus
+import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffect
+import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
+import xyz.qwewqa.relive.simulator.core.stage.condition.NamedCondition
+import xyz.qwewqa.relive.simulator.core.stage.condition.plus
 
 data class PassiveData(
     val effect: PassiveEffect,

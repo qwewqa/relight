@@ -1,59 +1,59 @@
-package xyz.qwewqa.relive.simulator.stage.passive
+package xyz.qwewqa.relive.simulator.core.stage.passive
 
-import xyz.qwewqa.relive.simulator.stage.ActionContext
-import xyz.qwewqa.relive.simulator.stage.TargetContext
-import xyz.qwewqa.relive.simulator.stage.autoskill.PassiveEffect
-import xyz.qwewqa.relive.simulator.stage.autoskill.PassiveEffectCategory
-import xyz.qwewqa.relive.simulator.stage.buff.BuffEffect
-import xyz.qwewqa.relive.simulator.stage.buff.BuffResistanceBuff
-import xyz.qwewqa.relive.simulator.stage.condition.Condition
+import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.TargetContext
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffect
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 
-sealed class ActionTarget(val accessor: ActionContext.() -> TargetContext) {
-    object Self : ActionTarget({ targetSelf() })
-    object Team : ActionTarget({ targetAllyAoe() })
-    object EnemyTeam : ActionTarget({ targetAoe() })
-    data class EnemyBack(val count: Int) : ActionTarget({ targetBack(count) })
+val ReviveBuffPassive: PassiveEffect = GenericBuffPassive(ReviveBuff) { targetSelf() }
 
-    fun get(context: ActionContext) = context.accessor()
-}
+val TeamActPowerUpBuffPassive: PassiveEffect = GenericBuffPassive(ActPowerUpBuff) { targetAllyAoe() }
+val TeamDexterityUpBuffPassive: PassiveEffect = GenericBuffPassive(DexterityUpBuff) { targetAllyAoe() }
+val TeamCriticalUpBuffPassive: PassiveEffect = GenericBuffPassive(CriticalUpBuff) { targetAllyAoe() }
+val TeamEffectiveDamageDealtUpBuffPassive: PassiveEffect = GenericBuffPassive(EffectiveDamageDealtUpBuff) { targetAllyAoe() }
 
-// TODO: Conditions here
+val TeamConfusionResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(ConfusionResistanceBuff) { targetAllyAoe() }
+val TeamStopResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(StopResistanceBuff) { targetAllyAoe() }
 
-data class GenericBuffPassive(
+val EnemyBack1ConfusionBuffPassive: PassiveEffect = DebuffPassive(ConfusionBuff) { targetBack(1) }
+
+private data class GenericBuffPassive(
     val buffEffect: BuffEffect,
-    val target: ActionTarget,
+    val target: ActionContext.() -> TargetContext,
 ) : PassiveEffect {
     override val name = "Auto Buff ${buffEffect.name}"
     override val category = PassiveEffectCategory.TurnStartPositive2
 
     override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) =
-        target.get(context).act {
+        target(context).act {
             applyBuff(buffEffect, value, turns)
         }
 }
 
-data class ResistanceBuffPassive(
-    val buffEffect: BuffResistanceBuff,
-    val target: ActionTarget,
+private data class ResistanceBuffPassive(
+    val buffEffect: BuffEffect,
+    val target: ActionContext.() -> TargetContext,
 ) : PassiveEffect {
     override val name = "Auto Resistance Buff ${buffEffect.name}"
     override val category = PassiveEffectCategory.TurnStartPositive1
 
     override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) =
-        target.get(context).act {
+        target(context).act {
             applyBuff(buffEffect, value, turns)
         }
 }
 
-data class DebuffPassive(
+private data class DebuffPassive(
     val buffEffect: BuffEffect,
-    val target: ActionTarget,
+    val target: ActionContext.() -> TargetContext,
 ) : PassiveEffect {
     override val name = "Auto Debuff ${buffEffect.name}"
     override val category = PassiveEffectCategory.TurnStartNegative
 
     override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) =
-        target.get(context).act {
+        target(context).act {
             applyBuff(buffEffect, value, turns)
         }
 }

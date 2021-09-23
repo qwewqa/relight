@@ -1,2 +1,2 @@
-rootProject.name = "relive-sim"
+rootProject.name = "relive-simulator-core"
 

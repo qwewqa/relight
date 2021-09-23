@@ -1,9 +1,9 @@
-package xyz.qwewqa.relive.simulator.stage.actor
+package xyz.qwewqa.relive.simulator.core.stage.actor
 
-import xyz.qwewqa.relive.simulator.stage.ActionContext
-import xyz.qwewqa.relive.simulator.stage.buff.BuffEffect
-import xyz.qwewqa.relive.simulator.stage.buff.BuffCategory
-import xyz.qwewqa.relive.simulator.stage.log
+import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.log
 
 class BuffManager(val actor: Actor) {
     private val positiveBuffs = LinkedHashSet<ActiveBuff>()

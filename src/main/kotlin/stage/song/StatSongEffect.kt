@@ -1,8 +1,8 @@
-package xyz.qwewqa.relive.simulator.stage.song
+package xyz.qwewqa.relive.simulator.core.stage.song
 
-import xyz.qwewqa.relive.simulator.stage.ActionContext
-import xyz.qwewqa.relive.simulator.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.stage.condition.Condition
+import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 
 object DexterityUpSongEffect : SongEffect {
     override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {

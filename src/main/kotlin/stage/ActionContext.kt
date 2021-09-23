@@ -1,12 +1,12 @@
-package xyz.qwewqa.relive.simulator.stage
+package xyz.qwewqa.relive.simulator.core.stage
 
 import xyz.qwewqa.relivesim.stage.character.DamageType
-import xyz.qwewqa.relive.simulator.stage.actor.Actor
-import xyz.qwewqa.relive.simulator.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.stage.buff.BuffCategory
-import xyz.qwewqa.relive.simulator.stage.buff.BuffEffect
-import xyz.qwewqa.relive.simulator.stage.condition.Condition
-import xyz.qwewqa.relive.simulator.stage.team.Team
+import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
+import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
+import xyz.qwewqa.relive.simulator.core.stage.team.Team
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
@@ -37,9 +37,11 @@ class ActionContext(
     fun targetFront(count: Int = 1) = enemy.active.take(count).targetContext()
     fun targetBack(count: Int = 1) = enemy.active.takeLast(count).targetContext()
     fun targetAoe() = enemy.active.targetContext()
+    fun targetAoe(condition: Condition) = enemy.active.filter { condition.evaluate(it) }.targetContext()
     fun targetRandom(count: Int = 1) = List(count) { enemy.active.random(stage.random) }.targetContext()
     fun targetAnyRandom(count: Int) = List(count) { enemy.active.random(stage.random) }.targetContext(false)
     fun targetAllyAoe() = team.active.targetContext()
+    fun targetAllyAoe(condition: Condition) = team.active.filter { condition.evaluate(it) }.targetContext()
     fun targetAllyFront(count: Int = 1) = team.active.take(count).targetContext()
     fun targetAllyBack(count: Int = 1) = team.active.takeLast(count).targetContext()
     fun targetAllyRandom(count: Int = 1) = List(count) { team.active.random(stage.random) }.targetContext()

@@ -1,9 +1,9 @@
-package xyz.qwewqa.relive.simulator.stage
+package xyz.qwewqa.relive.simulator.core.stage
 
-import xyz.qwewqa.relive.simulator.stage.autoskill.PassiveEffectCategory
-import xyz.qwewqa.relive.simulator.stage.strategy.ActionTile
-import xyz.qwewqa.relive.simulator.stage.strategy.IdleTile
-import xyz.qwewqa.relive.simulator.stage.team.Team
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
+import xyz.qwewqa.relive.simulator.core.stage.strategy.ActionTile
+import xyz.qwewqa.relive.simulator.core.stage.strategy.IdleTile
+import xyz.qwewqa.relive.simulator.core.stage.team.Team
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract

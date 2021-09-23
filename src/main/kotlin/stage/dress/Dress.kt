@@ -1,13 +1,13 @@
-package xyz.qwewqa.relive.simulator.stage.loadout
+package xyz.qwewqa.relive.simulator.core.stage.loadout
 
 import xyz.qwewqa.relivesim.stage.character.Character
 import xyz.qwewqa.relivesim.stage.character.DamageType
 import xyz.qwewqa.relivesim.stage.character.Position
-import xyz.qwewqa.relive.simulator.stage.actor.ActData
-import xyz.qwewqa.relive.simulator.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.stage.actor.StatData
-import xyz.qwewqa.relive.simulator.stage.passive.PassiveData
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActData
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
+import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
 
 data class Dress(
     val name: String,

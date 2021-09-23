@@ -1,9 +1,9 @@
-package xyz.qwewqa.relive.simulator.stage.loadout
+package xyz.qwewqa.relive.simulator.core.stage.loadout
 
-import xyz.qwewqa.relive.simulator.stage.actor.Actor
-import xyz.qwewqa.relive.simulator.stage.song.Song
-import xyz.qwewqa.relive.simulator.stage.strategy.Strategy
-import xyz.qwewqa.relive.simulator.stage.team.Team
+import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
+import xyz.qwewqa.relive.simulator.core.stage.song.Song
+import xyz.qwewqa.relive.simulator.core.stage.strategy.Strategy
+import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
 data class TeamLoadout(
     val actors: List<ActorLoadout>,

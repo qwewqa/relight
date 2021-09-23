@@ -1,23 +1,23 @@
-package xyz.qwewqa.relive.simulator.presets.dress.boss.tr9
+package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr9
 
 import xyz.qwewqa.relivesim.stage.character.Character
 import xyz.qwewqa.relivesim.stage.character.DamageType
 import xyz.qwewqa.relivesim.stage.character.Position
-import xyz.qwewqa.relive.simulator.stage.ActionContext
-import xyz.qwewqa.relive.simulator.stage.actor.*
-import xyz.qwewqa.relive.simulator.stage.autoskill.PassiveEffect
-import xyz.qwewqa.relive.simulator.stage.autoskill.PassiveEffectCategory
-import xyz.qwewqa.relive.simulator.stage.buff.*
-import xyz.qwewqa.relive.simulator.stage.condition.Condition
-import xyz.qwewqa.relive.simulator.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.stage.loadout.Dress
-import xyz.qwewqa.relive.simulator.stage.passive.PassiveData
-import xyz.qwewqa.relive.simulator.stage.strategy.FixedStrategy
+import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffect
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
+import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
+import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
+import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
+import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 
-val tr9Misora = ActorLoadout(
-    "TR9 Misora",
+val tr9FaithMisora = ActorLoadout(
+    "TR9 Faith Misora",
     Dress(
-        name = "Misora",
+        name = "Faith Misora",
         character = Character.Misora,
         attribute = Attribute.Flower,
         damageType = DamageType.Special,
@@ -161,7 +161,7 @@ val tr9Misora = ActorLoadout(
     ),
 )
 
-val tr9MisoraStrategy = FixedStrategy {
+val tr9FaithMisoraStrategy = FixedStrategy {
     val boss = this.team.actors.values.first()
 
     when (turn) {

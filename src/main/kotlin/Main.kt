@@ -1,34 +1,22 @@
-package xyz.qwewqa.relive.simulator
+package xyz.qwewqa.relive.simulator.core
 
-import xyz.qwewqa.relivesim.stage.character.Character
-import xyz.qwewqa.relive.simulator.presets.condition.FlowerOnlyCondition
-import xyz.qwewqa.relive.simulator.presets.condition.characterCondition
-import xyz.qwewqa.relive.simulator.presets.dress.back.flower.StageGirlMeiFan
-import xyz.qwewqa.relive.simulator.presets.dress.back.snow.DeathTamao
-import xyz.qwewqa.relive.simulator.presets.dress.back.snow.StageGirlRui
-import xyz.qwewqa.relive.simulator.presets.dress.back.snow.StageGirlRui95
-import xyz.qwewqa.relive.simulator.presets.dress.back.snow.StageGirlYachiyo
-import xyz.qwewqa.relive.simulator.presets.dress.boss.tr9.tr9Misora
-import xyz.qwewqa.relive.simulator.presets.dress.boss.tr9.tr9MisoraStrategy
-import xyz.qwewqa.relive.simulator.presets.dress.boss.tr9.tr9Shizuha
-import xyz.qwewqa.relive.simulator.presets.dress.boss.tr9.tr9ShizuhaStrategy
-import xyz.qwewqa.relive.simulator.presets.dress.middle.flower.DevilKaoruko
-import xyz.qwewqa.relive.simulator.presets.memoir.*
-import xyz.qwewqa.relive.simulator.stage.ActionContext
-import xyz.qwewqa.relive.simulator.stage.StageConfiguration
-import xyz.qwewqa.relive.simulator.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.stage.condition.Condition
-import xyz.qwewqa.relive.simulator.stage.condition.plus
-import xyz.qwewqa.relive.simulator.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.stage.loadout.StageLoadout
-import xyz.qwewqa.relive.simulator.stage.loadout.TeamLoadout
-import xyz.qwewqa.relive.simulator.stage.loadout.simulate
-import xyz.qwewqa.relive.simulator.stage.passive.TeamActPassive
-import xyz.qwewqa.relive.simulator.stage.passive.TeamCriticalPassive
-import xyz.qwewqa.relive.simulator.stage.song.*
-import xyz.qwewqa.relive.simulator.stage.strategy.FixedStrategy
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.flower.StageGirlMeiFan
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr9.tr9QueenOfHeartsShizuha
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr9.tr9QueenOfHeartsShizuhaStrategy
+import xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower.DevilKaoruko
+import xyz.qwewqa.relive.simulator.core.presets.memoir.BandsmansGreeting
+import xyz.qwewqa.relive.simulator.core.presets.memoir.CrazyMadScientist
+import xyz.qwewqa.relive.simulator.core.stage.StageConfiguration
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
+import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
+import xyz.qwewqa.relive.simulator.core.stage.loadout.TeamLoadout
+import xyz.qwewqa.relive.simulator.core.stage.loadout.simulate
+import xyz.qwewqa.relive.simulator.core.stage.song.AttributeDamageDealtUpSongEffect
+import xyz.qwewqa.relive.simulator.core.stage.song.Song
+import xyz.qwewqa.relive.simulator.core.stage.song.SongEffectData
+import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 
 suspend fun main() {
     StageLoadout(
@@ -42,13 +30,13 @@ suspend fun main() {
                 ActorLoadout(
                     "Meif",
                     StageGirlMeiFan,
-                    FriendsAtTheAquarium,
+                    CrazyMadScientist,
                 )
             ),
             song = Song(
-                SongEffectData(
+                passive = SongEffectData(
                     AttributeDamageDealtUpSongEffect(Attribute.Flower),
-                    3,
+                    9,
                 ),
             ),
             strategy = FixedStrategy {
@@ -56,9 +44,9 @@ suspend fun main() {
                 val meif = -"Meif"
                 when (turn) {
                     1 -> {
+                        +devil[ActType.Act2]
                         +meif[ActType.Act2]
                         +meif[ActType.Act3]
-                        +meif[ActType.Act1]
                     }
                     2 -> {
                         +devil[ActType.Act2]
@@ -68,27 +56,26 @@ suspend fun main() {
                         +devil[ActType.Act3]
                     }
                     3 -> {
-                        climax()
                         +devil[ActType.Act2]
                         +meif[ActType.Act2]
                         +meif[ActType.Act3]
-                        +meif[ActType.ClimaxAct]
                         +meif[ActType.Act1]
+                        +devil[ActType.Act3]
                     }
                 }
             }
         ),
         enemy = TeamLoadout(
             actors = listOf(
-                tr9Shizuha,
+                tr9QueenOfHeartsShizuha,
             ),
-            strategy = tr9ShizuhaStrategy,
+            strategy = tr9QueenOfHeartsShizuhaStrategy,
         ),
         prerun = {
             player.actors.values.forEach { it.eventBonus = 50 }
         },
-        configuration = StageConfiguration(logging = true)
-    ).simulate(1, 3)
+        configuration = StageConfiguration(logging = false)
+    ).simulate(100_000, 3)
 //    StageLoadout(
 //        player = TeamLoadout(
 //            actors = listOf(
@@ -216,4 +203,68 @@ suspend fun main() {
 //        },
 //        configuration = StageConfiguration(logging = false)
 //    ).simulate(1_000_000, 3)
+//    val results = Channel<Int>(10_000_000)
+//    StageLoadout(
+//        player = TeamLoadout(
+//            actors = listOf(
+//                ActorLoadout(
+//                    "Sanada",
+//                    Dress(
+//                        "Sanada",
+//                        Character.Mahiru,
+//                        Attribute.Space,
+//                        DamageType.Normal,
+//                        Position.Back,
+//                        defaultDressStats.copy(
+//                            hp = 18605,
+//                            specialDefense = 1076
+//                        ),
+//                        emptyMap(),
+//                        listOf(
+//                            BrillianceRecoverPassive.new(0),
+//                        ),
+//                        emptyList(),
+//                    ),
+//                ),
+//                ActorLoadout(
+//                    "Justice",
+//                    Dress(
+//                        "Justice",
+//                        Character.Nana,
+//                        Attribute.Space,
+//                        DamageType.Normal,
+//                        Position.Back,
+//                        defaultDressStats.copy(
+//                            hp = 999999
+//                        ),
+//                        emptyMap(),
+//                        emptyList(),
+//                        emptyList(),
+//                    ),
+//                )
+//            ),
+//            song = Song(
+//            ),
+//            strategy = FixedStrategy {
+////                if (turn == 3 && (-"Sanada").brilliance < 100) ignoreRun()
+//                if (turn == 3) results.trySend((-"Sanada").brilliance)
+//            }
+//        ),
+//        enemy = TeamLoadout(
+//            actors = listOf(
+//                tr9WhiteRabbitMisora,
+//            ),
+//            strategy = tr9WhiteRabbitMisoraStrategy,
+//        ),
+//        prerun = {
+//            player.actors.values.forEach { it.eventBonus = 10 }
+//        },
+//        configuration = StageConfiguration(logging = false)
+//    ).simulate(10_000_000, 3)
+//    var cum = 0.0
+//    results.close()
+//    results.toList().groupBy { it }.map { (k, v) -> k to v.size }.toList().sortedBy { it.first }.forEach { (k, v) ->
+//        cum += v / 10_000_000.0 * 100
+//        println("$k: ${"%.4f".format(v / 10_000_000.0 * 100)}%")
+//    }
 }

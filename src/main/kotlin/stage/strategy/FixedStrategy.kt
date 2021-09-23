@@ -1,11 +1,11 @@
-package xyz.qwewqa.relive.simulator.stage.strategy
+package xyz.qwewqa.relive.simulator.core.stage.strategy
 
-import xyz.qwewqa.relive.simulator.stage.Stage
-import xyz.qwewqa.relive.simulator.stage.actor.ActData
-import xyz.qwewqa.relive.simulator.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.stage.actor.Actor
-import xyz.qwewqa.relive.simulator.stage.buff.apChange
-import xyz.qwewqa.relive.simulator.stage.team.Team
+import xyz.qwewqa.relive.simulator.core.stage.Stage
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActData
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
+import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
+import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
 class FixedStrategy(val strategy: FixedStrategyContext.() -> Unit) : Strategy {
     override fun getQueue(stage: Stage, team: Team, enemy: Team): QueueResult {

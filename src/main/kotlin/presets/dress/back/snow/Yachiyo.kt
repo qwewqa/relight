@@ -1,21 +1,17 @@
-package xyz.qwewqa.relive.simulator.presets.dress.back.snow
+package xyz.qwewqa.relive.simulator.core.presets.dress.back.snow
 
+import xyz.qwewqa.relive.simulator.core.presets.condition.SiegfeldOnlyCondition
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
+import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relivesim.stage.character.Character
 import xyz.qwewqa.relivesim.stage.character.DamageType
 import xyz.qwewqa.relivesim.stage.character.Position
-import xyz.qwewqa.relivesim.stage.character.School
-import xyz.qwewqa.relive.simulator.presets.condition.IceOnlyCondition
-import xyz.qwewqa.relive.simulator.presets.condition.SpecialDamageOnlyCondition
-import xyz.qwewqa.relive.simulator.presets.condition.characterCondition
-import xyz.qwewqa.relive.simulator.presets.condition.schoolCondition
-import xyz.qwewqa.relive.simulator.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.stage.actor.actsOf
-import xyz.qwewqa.relive.simulator.stage.actor.defaultDressStats
-import xyz.qwewqa.relive.simulator.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.stage.buff.*
-import xyz.qwewqa.relive.simulator.stage.loadout.Dress
-import xyz.qwewqa.relive.simulator.stage.passive.*
 
 
 val StageGirlYachiyo = Dress(
@@ -84,12 +80,12 @@ val StageGirlYachiyo = Dress(
         }
     ),
     autoSkills = listOf(
-        EnemyBrillianceDownPassive.new(10),
+        EnemyBrillianceDrainPassive.new(10),
         TeamHpUpPassive.new(50),
         NegativeEffectResistPassive.new(50),
     ),
     unitSkill = listOf(
-        TeamActPassive.new(50) + schoolCondition(School.Siegfeld),
-        TeamCriticalPassive.new(50) + schoolCondition(School.Siegfeld),
+        TeamActPowerUpPassive.new(50) + SiegfeldOnlyCondition,
+        TeamCriticalPassive.new(50) + SiegfeldOnlyCondition,
     )
 )

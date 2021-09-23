@@ -1,12 +1,12 @@
-package xyz.qwewqa.relive.simulator.stage.passive
+package xyz.qwewqa.relive.simulator.core.stage.passive
 
-import xyz.qwewqa.relive.simulator.stage.ActionContext
-import xyz.qwewqa.relive.simulator.stage.autoskill.PassiveEffect
-import xyz.qwewqa.relive.simulator.stage.autoskill.PassiveEffectCategory
-import xyz.qwewqa.relive.simulator.stage.condition.Condition
-import xyz.qwewqa.relive.simulator.stage.condition.runIfTrue
+import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffect
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
+import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
+import xyz.qwewqa.relive.simulator.core.stage.condition.runIfTrue
 
-object BrillianceRecoverPassive : PassiveEffect {
+object BrillianceRecoveryPassive : PassiveEffect {
     override val category = PassiveEffectCategory.TurnStartPositive1
 
     override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) = context.run {
@@ -17,7 +17,7 @@ object BrillianceRecoverPassive : PassiveEffect {
 }
 
 
-object TeamBrillianceRecoverPassive : PassiveEffect {
+object TeamBrillianceRecoveryPassive : PassiveEffect {
     override val category = PassiveEffectCategory.TurnStartPositive1
 
     override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) = context.run {
@@ -29,7 +29,7 @@ object TeamBrillianceRecoverPassive : PassiveEffect {
     }
 }
 
-object EnemyBrillianceDownPassive : PassiveEffect {
+object EnemyBrillianceDrainPassive : PassiveEffect {
     override val category = PassiveEffectCategory.TurnStartNegative
 
     override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) = context.run {

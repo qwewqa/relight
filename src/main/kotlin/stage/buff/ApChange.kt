@@ -1,6 +1,6 @@
-package xyz.qwewqa.relive.simulator.stage.buff
+package xyz.qwewqa.relive.simulator.core.stage.buff
 
-import xyz.qwewqa.relive.simulator.stage.actor.Actor
+import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 
 object ApDownBuff : BuffEffect {
     override val category = BuffCategory.Positive

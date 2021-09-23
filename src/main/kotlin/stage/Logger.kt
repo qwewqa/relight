@@ -1,4 +1,4 @@
-package xyz.qwewqa.relive.simulator.stage
+package xyz.qwewqa.relive.simulator.core.stage
 
 class Logger {
     private val log = mutableListOf<LogEntry>()

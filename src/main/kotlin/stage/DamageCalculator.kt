@@ -1,12 +1,12 @@
-package xyz.qwewqa.relive.simulator.stage
+package xyz.qwewqa.relive.simulator.core.stage
 
 import xyz.qwewqa.relivesim.stage.character.DamageType
-import xyz.qwewqa.relive.simulator.stage.actor.Actor
-import xyz.qwewqa.relive.simulator.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.stage.actor.CountableBuff
-import xyz.qwewqa.relive.simulator.stage.actor.effectiveCoefTable
-import xyz.qwewqa.relive.simulator.stage.buff.NormalBarrierBuff
-import xyz.qwewqa.relive.simulator.stage.buff.SpecialBarrierBuff
+import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.actor.effectiveCoefTable
+import xyz.qwewqa.relive.simulator.core.stage.buff.NormalBarrierBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.SpecialBarrierBuff
 
 interface DamageCalculator {
     fun damage(attacker: Actor, target: Actor, hitAttribute: HitAttribute)

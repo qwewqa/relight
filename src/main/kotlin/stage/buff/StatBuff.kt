@@ -1,6 +1,6 @@
-package xyz.qwewqa.relive.simulator.stage.buff
+package xyz.qwewqa.relive.simulator.core.stage.buff
 
-import xyz.qwewqa.relive.simulator.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 
 
 object ActPowerUpBuff : BuffEffect {
@@ -143,8 +143,8 @@ object SpecialDefenseDownBuff : BuffEffect {
     }
 }
 
-object EffectiveDamageDealtBuff : BuffEffect {
-    override val name = "Effective Damage Dealt"
+object EffectiveDamageDealtUpBuff : BuffEffect {
+    override val name = "Effective Damage Dealt Up"
     override val category = BuffCategory.Positive
 
     override fun onStart(context: ActionContext, value: Int) = context.run {

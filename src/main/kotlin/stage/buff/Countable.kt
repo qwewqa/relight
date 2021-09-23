@@ -1,7 +1,7 @@
-package xyz.qwewqa.relive.simulator.stage.buff
+package xyz.qwewqa.relive.simulator.core.stage.buff
 
-import xyz.qwewqa.relive.simulator.stage.ActionContext
-import xyz.qwewqa.relive.simulator.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 
 // Note: value is unused, though the game seems to support values other than 50%
 // If other revive values ever get used, countable buffs will need a rework

@@ -1,16 +1,16 @@
-package xyz.qwewqa.relive.simulator.stage.actor
+package xyz.qwewqa.relive.simulator.core.stage.actor
 
-import xyz.qwewqa.relive.simulator.stage.Act
-import xyz.qwewqa.relive.simulator.stage.ActionContext
-import xyz.qwewqa.relive.simulator.stage.buff.BuffEffect
-import xyz.qwewqa.relive.simulator.stage.buff.SleepBuff
-import xyz.qwewqa.relive.simulator.stage.execute
-import xyz.qwewqa.relive.simulator.stage.loadout.Dress
-import xyz.qwewqa.relive.simulator.stage.buff.ConfusionBuff
-import xyz.qwewqa.relive.simulator.stage.buff.StopBuff
-import xyz.qwewqa.relive.simulator.stage.log
-import xyz.qwewqa.relive.simulator.stage.memoir.Memoir
-import xyz.qwewqa.relive.simulator.stage.passive.PassiveData
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
+import xyz.qwewqa.relive.simulator.core.stage.buff.SleepBuff
+import xyz.qwewqa.relive.simulator.core.stage.execute
+import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
+import xyz.qwewqa.relive.simulator.core.stage.buff.ConfusionBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.StopBuff
+import xyz.qwewqa.relive.simulator.core.stage.log
+import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoir
+import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
 
 class Actor(
     val name: String,

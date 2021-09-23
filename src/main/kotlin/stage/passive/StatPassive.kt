@@ -1,10 +1,10 @@
-package xyz.qwewqa.relive.simulator.stage.passive
+package xyz.qwewqa.relive.simulator.core.stage.passive
 
-import xyz.qwewqa.relive.simulator.stage.ActionContext
-import xyz.qwewqa.relive.simulator.stage.autoskill.PassiveEffect
-import xyz.qwewqa.relive.simulator.stage.autoskill.PassiveEffectCategory
-import xyz.qwewqa.relive.simulator.stage.condition.Condition
-import xyz.qwewqa.relive.simulator.stage.condition.runIfTrue
+import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffect
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
+import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
+import xyz.qwewqa.relive.simulator.core.stage.condition.runIfTrue
 
 object ActPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive

@@ -1,20 +1,18 @@
-package xyz.qwewqa.relive.simulator.presets.dress.back.flower
+package xyz.qwewqa.relive.simulator.core.presets.dress.back.flower
 
 import xyz.qwewqa.relivesim.stage.character.Character
 import xyz.qwewqa.relivesim.stage.character.DamageType
 import xyz.qwewqa.relivesim.stage.character.Position
-import xyz.qwewqa.relive.simulator.presets.condition.FlowerOnlyCondition
-import xyz.qwewqa.relive.simulator.presets.condition.IceOnlyCondition
-import xyz.qwewqa.relive.simulator.presets.condition.SpecialDamageOnlyCondition
-import xyz.qwewqa.relive.simulator.presets.condition.characterCondition
-import xyz.qwewqa.relive.simulator.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.stage.actor.actsOf
-import xyz.qwewqa.relive.simulator.stage.actor.defaultDressStats
-import xyz.qwewqa.relive.simulator.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.stage.buff.*
-import xyz.qwewqa.relive.simulator.stage.loadout.Dress
-import xyz.qwewqa.relive.simulator.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.presets.condition.FlowerOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SpecialDamageOnlyCondition
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
+import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val StageGirlMeiFan = Dress(
     name = "Stage Girl MeiFan",
@@ -41,7 +39,7 @@ val StageGirlMeiFan = Dress(
         ActType.Act2("Flash of Determination", 2) {
             targetSelf().act {
                 applyBuff(
-                    EffectiveDamageDealtBuff,
+                    EffectiveDamageDealtUpBuff,
                     value = 30,
                     turns = 3,
                 )
@@ -99,12 +97,12 @@ val StageGirlMeiFan = Dress(
         }
     ),
     autoSkills = listOf(
-        GenericBuffPassive(ActPowerUpBuff, ActionTarget.Team).new(20, turns = 3),
-        ResistanceBuffPassive(BuffResistanceBuff(ConfusionBuff), ActionTarget.Team).new(100, turns = 6),
-        ResistanceBuffPassive(BuffResistanceBuff(StopBuff), ActionTarget.Team).new(100, turns = 6),
+        TeamActPowerUpBuffPassive.new(20, turns = 3),
+        TeamConfusionResistanceBuffPassive.new(100, turns = 6),
+        TeamStopResistanceBuffPassive.new(100, turns = 6),
     ),
     unitSkill = listOf(
-        TeamActPassive.new(50) + FlowerOnlyCondition,
+        TeamActPowerUpPassive.new(50) + FlowerOnlyCondition,
         TeamCriticalPassive.new(50) + FlowerOnlyCondition,
     )
 )

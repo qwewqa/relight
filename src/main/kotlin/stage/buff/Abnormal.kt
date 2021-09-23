@@ -1,4 +1,4 @@
-package xyz.qwewqa.relive.simulator.stage.buff
+package xyz.qwewqa.relive.simulator.core.stage.buff
 
 object StopBuff : BuffEffect {
     override val category = BuffCategory.Negative

@@ -1,6 +1,6 @@
-package xyz.qwewqa.relive.simulator.stage.actor
+package xyz.qwewqa.relive.simulator.core.stage.actor
 
-import xyz.qwewqa.relive.simulator.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.Act
 
 data class ActData(
     val name: String,

@@ -1,11 +1,11 @@
-package xyz.qwewqa.relive.simulator.stage.strategy
+package xyz.qwewqa.relive.simulator.core.stage.strategy
 
-import xyz.qwewqa.relive.simulator.stage.Stage
-import xyz.qwewqa.relive.simulator.stage.actor.ActData
-import xyz.qwewqa.relive.simulator.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.stage.actor.Actor
-import xyz.qwewqa.relive.simulator.stage.log
-import xyz.qwewqa.relive.simulator.stage.team.Team
+import xyz.qwewqa.relive.simulator.core.stage.Stage
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActData
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
+import xyz.qwewqa.relive.simulator.core.stage.log
+import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
 
 interface Strategy {

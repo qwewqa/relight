@@ -1,4 +1,4 @@
-package xyz.qwewqa.relive.simulator.stage.actor
+package xyz.qwewqa.relive.simulator.core.stage.actor
 
 data class StatData(
     val hp: Int = 0,

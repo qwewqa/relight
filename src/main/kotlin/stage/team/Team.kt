@@ -1,8 +1,8 @@
-package xyz.qwewqa.relive.simulator.stage.team
+package xyz.qwewqa.relive.simulator.core.stage.team
 
-import xyz.qwewqa.relive.simulator.stage.actor.Actor
-import xyz.qwewqa.relive.simulator.stage.song.Song
-import xyz.qwewqa.relive.simulator.stage.strategy.Strategy
+import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
+import xyz.qwewqa.relive.simulator.core.stage.song.Song
+import xyz.qwewqa.relive.simulator.core.stage.strategy.Strategy
 
 class Team(
     val actors: LinkedHashMap<String, Actor>,

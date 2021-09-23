@@ -1,8 +1,8 @@
-package xyz.qwewqa.relive.simulator.stage.song
+package xyz.qwewqa.relive.simulator.core.stage.song
 
-import xyz.qwewqa.relive.simulator.stage.ActionContext
-import xyz.qwewqa.relive.simulator.stage.condition.Condition
-import xyz.qwewqa.relive.simulator.stage.condition.NamedCondition
+import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
+import xyz.qwewqa.relive.simulator.core.stage.condition.NamedCondition
 
 interface SongEffect {
     val name: String get() = this::class.simpleName ?: "Unknown Song Effect"

@@ -1,19 +1,19 @@
-package xyz.qwewqa.relive.simulator.presets.dress.back.snow
+package xyz.qwewqa.relive.simulator.core.presets.dress.back.snow
 
 import xyz.qwewqa.relivesim.stage.character.Character
 import xyz.qwewqa.relivesim.stage.character.DamageType
 import xyz.qwewqa.relivesim.stage.character.Position
-import xyz.qwewqa.relive.simulator.presets.condition.IceOnlyCondition
-import xyz.qwewqa.relive.simulator.presets.condition.SpecialDamageOnlyCondition
-import xyz.qwewqa.relive.simulator.presets.condition.characterCondition
-import xyz.qwewqa.relive.simulator.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.stage.actor.actsOf
-import xyz.qwewqa.relive.simulator.stage.actor.defaultDressStats
-import xyz.qwewqa.relive.simulator.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.stage.buff.*
-import xyz.qwewqa.relive.simulator.stage.loadout.Dress
-import xyz.qwewqa.relive.simulator.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.presets.condition.IceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SpecialDamageOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.TamaoOnlyCondition
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
+import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val StageGirlRui = Dress(
     name = "Stage Girl Rui",
@@ -94,12 +94,12 @@ val StageGirlRui = Dress(
         }
     ),
     autoSkills = listOf(
-        GenericBuffPassive(EffectiveDamageDealtBuff, ActionTarget.Team).new(20, turns = 3),
-        GenericBuffPassive(CriticalUpBuff, ActionTarget.Team).new(20, turns = 3),
-        TeamBrillianceRecoverPassive.new(20) + characterCondition(Character.Tamao),
+        TeamEffectiveDamageDealtUpBuffPassive.new(20, turns = 3),
+        TeamCriticalUpBuffPassive.new(20, turns = 3),
+        TeamBrillianceRecoveryPassive.new(20) + TamaoOnlyCondition,
     ),
     unitSkill = listOf(
-        TeamActPassive.new(50) + IceOnlyCondition,
+        TeamActPowerUpPassive.new(50) + IceOnlyCondition,
         TeamCriticalPassive.new(50) + IceOnlyCondition,
     )
 )

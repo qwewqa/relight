@@ -1,12 +1,10 @@
-package xyz.qwewqa.relive.simulator.presets.memoir
+package xyz.qwewqa.relive.simulator.core.presets.memoir
 
-import xyz.qwewqa.relivesim.stage.character.School
-import xyz.qwewqa.relive.simulator.presets.condition.schoolCondition
-import xyz.qwewqa.relive.simulator.stage.actor.StatData
-import xyz.qwewqa.relive.simulator.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.stage.buff.ActPowerUpBuff
-import xyz.qwewqa.relive.simulator.stage.memoir.Memoir
-import xyz.qwewqa.relive.simulator.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.presets.condition.SiegfeldOnlyCondition
+import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoir
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val FriendsAtTheAquarium = Memoir(
     name = "Friends at the Aquarium",
@@ -15,7 +13,7 @@ val FriendsAtTheAquarium = Memoir(
         normalDefense = 179,
     ),
     autoskills = listOf(
-        BrillianceRecoverPassive.new(40)
+        BrillianceRecoveryPassive.new(40)
     )
 )
 
@@ -36,7 +34,7 @@ val CoStarringWithHatsuneMiku = Memoir(
         actPower = 149,
     ),
     autoskills = listOf(
-        BrillianceRecoverPassive.new(40)
+        BrillianceRecoveryPassive.new(40)
     )
 )
 
@@ -46,7 +44,7 @@ val FirstAnnivSiegfeldInstituteOfMusic = Memoir(
         hp = 2999,
     ),
     autoskills = listOf(
-        TeamActPassive.new(7) + schoolCondition(School.Siegfeld)
+        TeamActPowerUpPassive.new(7) + SiegfeldOnlyCondition
     )
 )
 
@@ -56,10 +54,9 @@ val FirstAnnivSiegfeldInstituteOfMusicLv1 = Memoir(
         hp = 2999,
     ),
     autoskills = listOf(
-        TeamActPassive.new(5) + schoolCondition(School.Siegfeld)
+        TeamActPowerUpPassive.new(5) + SiegfeldOnlyCondition
     )
 )
-
 
 val BandsmansGreeting = Memoir(
     name = "Bandsman's Greeting",
@@ -67,6 +64,18 @@ val BandsmansGreeting = Memoir(
         actPower = 149,
     ),
     autoskills = listOf(
-        GenericBuffPassive(ActPowerUpBuff, ActionTarget.Team).new(10, turns = 3)
+        TeamActPowerUpBuffPassive.new(10, turns = 3)
+    )
+)
+
+val CrazyMadScientist = Memoir(
+    name = "Crazy Mad Scientist",
+    stats = StatData(
+        actPower = 299,
+        normalDefense = 499,
+    ),
+    autoskills = listOf(
+        CriticalPassive.new(30),
+        DexterityPassive.new(16)
     )
 )

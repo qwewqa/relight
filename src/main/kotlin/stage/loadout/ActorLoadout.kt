@@ -1,7 +1,7 @@
-package xyz.qwewqa.relive.simulator.stage.loadout
+package xyz.qwewqa.relive.simulator.core.stage.loadout
 
-import xyz.qwewqa.relive.simulator.stage.actor.Actor
-import xyz.qwewqa.relive.simulator.stage.memoir.Memoir
+import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
+import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoir
 
 data class ActorLoadout(
     val name: String,

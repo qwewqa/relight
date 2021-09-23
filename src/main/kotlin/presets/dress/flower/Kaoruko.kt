@@ -1,17 +1,14 @@
-package xyz.qwewqa.relive.simulator.presets.dress.middle.flower
+package xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower
 
-import xyz.qwewqa.relive.simulator.presets.condition.FlowerOnlyCondition
-import xyz.qwewqa.relive.simulator.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.stage.actor.actsOf
-import xyz.qwewqa.relive.simulator.stage.actor.defaultDressStats
-import xyz.qwewqa.relive.simulator.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.stage.buff.*
-import xyz.qwewqa.relive.simulator.stage.loadout.Dress
-import xyz.qwewqa.relive.simulator.stage.passive.ActionTarget
-import xyz.qwewqa.relive.simulator.stage.passive.GenericBuffPassive
-import xyz.qwewqa.relive.simulator.stage.passive.TeamActPassive
-import xyz.qwewqa.relive.simulator.stage.passive.TeamCriticalPassive
+import xyz.qwewqa.relive.simulator.core.presets.condition.FlowerOnlyCondition
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
+import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relivesim.stage.character.Character
 import xyz.qwewqa.relivesim.stage.character.DamageType
 import xyz.qwewqa.relivesim.stage.character.Position
@@ -55,7 +52,7 @@ val DevilKaoruko = Dress(
                     turns = 3,
                 )
                 applyBuff(
-                    EffectiveDamageDealtBuff,
+                    EffectiveDamageDealtUpBuff,
                     value = 30,
                     turns = 3,
                 )
@@ -76,12 +73,12 @@ val DevilKaoruko = Dress(
         }
     ),
     autoSkills = listOf(
-        GenericBuffPassive(DexterityUpBuff, ActionTarget.Team).new(10, turns = 3),
-        GenericBuffPassive(CriticalUpBuff, ActionTarget.Team).new(20, turns = 3),
+        TeamDexterityUpBuffPassive.new(10, turns = 3),
+        TeamCriticalUpBuffPassive.new(20, turns = 3),
         // TODO: CX Seal
     ),
     unitSkill = listOf(
-        TeamActPassive.new(50) + FlowerOnlyCondition,
+        TeamActPowerUpPassive.new(50) + FlowerOnlyCondition,
         TeamCriticalPassive.new(50) + FlowerOnlyCondition,
     )
 )

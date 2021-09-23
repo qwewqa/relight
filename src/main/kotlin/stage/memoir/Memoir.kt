@@ -1,7 +1,7 @@
-package xyz.qwewqa.relive.simulator.stage.memoir
+package xyz.qwewqa.relive.simulator.core.stage.memoir
 
-import xyz.qwewqa.relive.simulator.stage.actor.StatData
-import xyz.qwewqa.relive.simulator.stage.passive.PassiveData
+import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
+import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
 
 data class Memoir(
     val name: String,
