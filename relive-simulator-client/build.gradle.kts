@@ -24,6 +24,10 @@ dependencies {
 kotlin {
     js {
         browser {
+            distribution {
+                directory = File("${project(":relive-simulator-server").projectDir}/src/main/resources/client")
+            }
+
             webpackTask {
                 cssSupport.enabled = true
             }

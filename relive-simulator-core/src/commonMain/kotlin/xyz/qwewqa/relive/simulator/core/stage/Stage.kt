@@ -151,7 +151,6 @@ class Stage(
             return PlayError(e)
         } finally {
             log("Stage") { "End" }
-            if (configuration.logging) println(logger)
         }
     }
 

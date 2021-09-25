@@ -13,6 +13,7 @@ data class SimulationParameters(
     val strategy: StrategyParameter,
     val boss: String,
     val eventBonus: Int,
+    val seed: Int,
 )
 
 @Serializable
@@ -58,7 +59,9 @@ data class SimulationResult(
     val results: List<SimulationResultValue>,
     val log: String?,
     val cancelled: Boolean = false,
-)
+) {
+    val done get() = cancelled || currentIterations >= maxIterations
+}
 
 @Serializable
 data class SimulationResultValue(val result: SimulationResultType, val count: Int)

@@ -7,11 +7,9 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.browser.document
 import kotlinx.coroutines.delay
-import kotlinx.html.br
-import kotlinx.html.div
+import kotlinx.html.*
 import kotlinx.html.dom.create
-import kotlinx.html.id
-import kotlinx.html.p
+import org.w3c.dom.url.URL
 
 val client = HttpClient {
     install(JsonFeature) {
@@ -20,11 +18,11 @@ val client = HttpClient {
 }
 
 suspend fun main() {
-    val response: SimulateResponse = client.post("http://localhost:50505/simulate") {
-        contentType(ContentType.Application.Json)
-        body = SimulationParameters(
+    val simulator = RemoteSimulator(URL("http://localhost:8080/simulate"))
+    val simulation = simulator.simulate(
+        SimulationParameters(
             3,
-            1_000_000,
+            1,
             listOf(
                 PlayerLoadoutParameters(
                     "Death",
@@ -50,24 +48,27 @@ suspend fun main() {
             ),
             "TR9 Faith Misora",
             140,
+            0,
         )
-    }
-    val token = response.token
+    )
 
     while (true) {
-        val result: SimulationResult = client.get("http://localhost:50505/result/$token")
+        val result = simulation.pollResult()
         val existingDiv = document.getElementById("results")!!
         val newDiv = document.create.div {
             id = "results"
             p {
                 result.results.forEach { (k, v) ->
                     +"$k: $v (${v * 100.0 / result.currentIterations}%)"
-                    br {  }
+                    br { }
+                }
+                pre {
+                    +(result.log ?: "")
                 }
             }
         }
         existingDiv.replaceWith(newDiv)
-        if (result.currentIterations == result.maxIterations) break
+        if (result.done) break
         delay(200)
     }
 }

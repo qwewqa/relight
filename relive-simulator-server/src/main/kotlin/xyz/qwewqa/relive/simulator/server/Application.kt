@@ -8,7 +8,7 @@ import io.ktor.server.netty.*
 import xyz.qwewqa.relive.simulator.server.plugins.*
 
 fun main() {
-    embeddedServer(Netty, port = 50505, host = "0.0.0.0") {
+    embeddedServer(Netty, port = 8080, host = "localhost") {
         install(CORS) {
             anyHost()
             header(HttpHeaders.ContentType)

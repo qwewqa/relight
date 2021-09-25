@@ -29,6 +29,7 @@ data class SimulationParameters(
     val strategy: StrategyParameter,
     val boss: String,
     val eventBonus: Int,
+    val seed: Int,
 ) {
     fun createStageLoadout() = StageLoadout(
         TeamLoadout(

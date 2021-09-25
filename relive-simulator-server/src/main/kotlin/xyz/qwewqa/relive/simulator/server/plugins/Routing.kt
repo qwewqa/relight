@@ -3,8 +3,10 @@ package xyz.qwewqa.relive.simulator.server.plugins
 import io.ktor.routing.*
 import io.ktor.application.*
 import io.ktor.http.*
+import io.ktor.http.content.*
 import io.ktor.response.*
 import io.ktor.request.*
+import kotlinx.coroutines.cancelAndJoin
 import xyz.qwewqa.relive.simulator.core.presets.condition.conditions
 import xyz.qwewqa.relive.simulator.core.presets.dress.bossLoadouts
 import xyz.qwewqa.relive.simulator.core.presets.dress.playerDresses
@@ -14,8 +16,9 @@ import xyz.qwewqa.relive.simulator.server.*
 
 fun Application.configureRouting() {
     routing {
-        get("/") {
-            call.respondText("Hello World!")
+        static("/") {
+            resources("client")
+            defaultResource("client/index.html")
         }
         post("/simulate") {
             val parameters = call.receive<SimulationParameters>()
@@ -35,6 +38,16 @@ fun Application.configureRouting() {
             val token = call.parameters["token"]!!
             simulationResults.remove(token)
             call.respond(HttpStatusCode.NoContent)
+        }
+        get("/result/{token}/cancel") {
+            val token = call.parameters["token"]!!
+            val job = simulationJobs[token]
+            if (job == null) {
+                call.respond(HttpStatusCode.NotFound)
+            } else {
+                job.cancelAndJoin()
+                call.respond(HttpStatusCode.NoContent)
+            }
         }
         get("/options") {
             call.respond(
