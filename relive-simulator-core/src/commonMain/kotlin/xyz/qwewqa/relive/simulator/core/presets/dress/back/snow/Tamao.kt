@@ -93,8 +93,5 @@ val DeathTamao = Dress(
         EnemyBack1ConfusionBuffPassive.new(turns = 2),
         ReviveBuffPassive.new(50),
     ),
-    unitSkill = listOf(
-        TeamActPowerUpPassive.new(50) + IceOnlyCondition,
-        TeamCriticalPassive.new(50) + IceOnlyCondition,
-    )
+    unitSkill = ActCritical50UnitSkill + IceOnlyCondition,
 )

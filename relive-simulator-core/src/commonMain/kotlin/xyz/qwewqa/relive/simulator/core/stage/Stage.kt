@@ -43,7 +43,7 @@ class Stage(
 
         (autoEffectPriority + listOf(player.guest, enemy.guest).filterNotNull())
             .map { it to it.dress.unitSkill }.forEach { (sg, us) ->
-                us.forEach {
+                us?.forLevel(sg.unitSkillLevel)?.forEach {
                     log("AutoEffect") { "[${sg.name}] unit skill [${it.name}] activate" }
                     it.activate(sg.context)
                 }
@@ -176,6 +176,7 @@ class Stage(
 }
 
 expect class IgnoreRunException : Exception
+
 expect fun ignoreRun(): Nothing
 
 sealed class StageResult

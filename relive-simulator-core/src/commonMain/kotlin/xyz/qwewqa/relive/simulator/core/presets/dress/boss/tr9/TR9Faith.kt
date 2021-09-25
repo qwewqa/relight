@@ -157,7 +157,6 @@ val tr9FaithMisora = ActorLoadout(
                 }
             )
         ),
-        unitSkill = emptyList()
     ),
 )
 

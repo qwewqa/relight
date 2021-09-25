@@ -101,8 +101,5 @@ val StageGirlMeiFan = Dress(
         TeamConfusionResistanceBuffPassive.new(100, turns = 6),
         TeamStopResistanceBuffPassive.new(100, turns = 6),
     ),
-    unitSkill = listOf(
-        TeamActPowerUpPassive.new(50) + FlowerOnlyCondition,
-        TeamCriticalPassive.new(50) + FlowerOnlyCondition,
-    )
+    unitSkill = ActCritical50UnitSkill + FlowerOnlyCondition,
 )

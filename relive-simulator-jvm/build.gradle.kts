@@ -1,8 +1,8 @@
 plugins {
-    kotlin("jvm") version "1.5.31"
+    kotlin("jvm")
 }
 
-group = "xyz.qwewqa.relive.simulator.jvm"
+group = "xyz.qwewqa.relive.simulator"
 version = "0.0.1"
 
 repositories {

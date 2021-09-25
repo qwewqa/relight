@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.snow
 
+import xyz.qwewqa.relive.simulator.core.presets.condition.IceOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SiegfeldOnlyCondition
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
@@ -84,8 +85,5 @@ val StageGirlYachiyo = Dress(
         TeamHpUpPassive.new(50),
         NegativeEffectResistPassive.new(50),
     ),
-    unitSkill = listOf(
-        TeamActPowerUpPassive.new(50) + SiegfeldOnlyCondition,
-        TeamCriticalPassive.new(50) + SiegfeldOnlyCondition,
-    )
+    unitSkill = ActCritical50UnitSkill + SiegfeldOnlyCondition,
 )

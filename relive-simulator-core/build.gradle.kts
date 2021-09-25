@@ -1,8 +1,8 @@
 plugins {
-    kotlin("multiplatform") version "1.5.31"
+    kotlin("multiplatform")
 }
 
-group = "xyz.qwewqa"
+group = "xyz.qwewqa.relive.simulator"
 version = "0.0.1"
 
 repositories {
@@ -16,6 +16,7 @@ kotlin {
 
 dependencies {
     "commonMainImplementation"(kotlin("stdlib"))
+    "commonMainImplementation"("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {

@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.condition.runIfTrue
 
-object ActPassive : PassiveEffect {
+object ActUpPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
 
     override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) = context.run {
@@ -26,7 +26,7 @@ object DexterityPassive : PassiveEffect {
     }
 }
 
-object CriticalPassive : PassiveEffect {
+object CriticalUpPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
 
     override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) = context.run {

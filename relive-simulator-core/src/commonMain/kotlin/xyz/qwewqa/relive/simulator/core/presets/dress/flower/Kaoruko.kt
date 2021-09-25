@@ -77,8 +77,5 @@ val DevilKaoruko = Dress(
         TeamCriticalUpBuffPassive.new(20, turns = 3),
         // TODO: CX Seal
     ),
-    unitSkill = listOf(
-        TeamActPowerUpPassive.new(50) + FlowerOnlyCondition,
-        TeamCriticalPassive.new(50) + FlowerOnlyCondition,
-    )
+    unitSkill = ActCritical50UnitSkill + FlowerOnlyCondition,
 )

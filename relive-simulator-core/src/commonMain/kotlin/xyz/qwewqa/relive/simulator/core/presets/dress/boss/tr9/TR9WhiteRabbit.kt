@@ -113,7 +113,6 @@ val tr9WhiteRabbitMisora = ActorLoadout(
                 }
             )
         ),
-        unitSkill = emptyList()
     ),
 )
 

@@ -98,13 +98,11 @@ val StageGirlRui = Dress(
         TeamCriticalUpBuffPassive.new(20, turns = 3),
         TeamBrillianceRecoveryPassive.new(20) + TamaoOnlyCondition,
     ),
-    unitSkill = listOf(
-        TeamActPowerUpPassive.new(50) + IceOnlyCondition,
-        TeamCriticalPassive.new(50) + IceOnlyCondition,
-    )
+    unitSkill = ActCritical50UnitSkill + IceOnlyCondition,
 )
 
 val StageGirlRui95 = StageGirlRui.copy(
+    name = "Stage Girl Rui [r9.5]",
     stats = StageGirlRui.stats.copy(
         hp = 32492,
         normalDefense = 1677,

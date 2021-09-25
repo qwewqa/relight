@@ -12,7 +12,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.loadout.TeamLoadout
-import xyz.qwewqa.relive.simulator.core.stage.song.AttributeDamageDealtUpSongEffect
+import xyz.qwewqa.relive.simulator.core.stage.simulate
 import xyz.qwewqa.relive.simulator.core.stage.song.Song
 import xyz.qwewqa.relive.simulator.core.stage.song.SongEffectData
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
@@ -33,10 +33,6 @@ suspend fun main() {
                 )
             ),
             song = Song(
-                passive = SongEffectData(
-                    AttributeDamageDealtUpSongEffect(Attribute.Flower),
-                    9,
-                ),
             ),
             strategy = FixedStrategy {
                 val devil = -"Devil"
@@ -130,9 +126,9 @@ suspend fun main() {
 //        ),
 //        enemy = TeamLoadout(
 //            actors = listOf(
-//                tr9Shizuha,
+//                tr9QueenOfHeartsShizuha,
 //            ),
-//            strategy = tr9ShizuhaStrategy,
+//            strategy = tr9QueenOfHeartsShizuhaStrategy,
 //        ),
 //        prerun = {
 //            player.actors.values.forEach { it.eventBonus = 140 }

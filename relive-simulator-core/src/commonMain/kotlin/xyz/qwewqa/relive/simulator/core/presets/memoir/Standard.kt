@@ -49,7 +49,7 @@ val FirstAnnivSiegfeldInstituteOfMusic = Memoir(
 )
 
 val FirstAnnivSiegfeldInstituteOfMusicLv1 = Memoir(
-    name = "(1st Anniv.) Siegfeld Institute of Music [lv1]",
+    name = "(1st Anniv.) Siegfeld Institute of Music [0ub, lv1]",
     stats = StatData(
         hp = 2999,
     ),
@@ -75,7 +75,7 @@ val CrazyMadScientist = Memoir(
         normalDefense = 499,
     ),
     autoskills = listOf(
-        CriticalPassive.new(30),
+        CriticalUpPassive.new(30),
         DexterityPassive.new(16)
     )
 )

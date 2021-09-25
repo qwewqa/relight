@@ -154,7 +154,6 @@ val tr9QueenOfHeartsShizuha = ActorLoadout(
                 }
             )
         ),
-        unitSkill = emptyList()
     ),
 )
 
