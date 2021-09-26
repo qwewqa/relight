@@ -6,9 +6,17 @@ import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.browser.document
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.html.*
 import kotlinx.html.dom.create
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import org.w3c.dom.HTMLButtonElement
+import org.w3c.dom.HTMLInputElement
+import org.w3c.dom.HTMLTextAreaElement
 import org.w3c.dom.url.URL
 
 val client = HttpClient {
@@ -17,58 +25,47 @@ val client = HttpClient {
     }
 }
 
+@OptIn(DelicateCoroutinesApi::class, kotlinx.serialization.ExperimentalSerializationApi::class)
 suspend fun main() {
     val simulator = RemoteSimulator(URL("http://localhost:8080/simulate"))
-    val simulation = simulator.simulate(
-        SimulationParameters(
-            3,
-            1,
-            listOf(
-                PlayerLoadoutParameters(
-                    "Death",
-                    "Death Tamao",
-                    "Urashima Taro Performance Flyer",
-                    21,
-                ),
-                PlayerLoadoutParameters(
-                    "Rui",
-                    "Stage Girl Rui",
-                    "Urashima Taro Performance Flyer",
-                    21,
-                ),
-            ),
-            null,
-            SongParameters(
-                listOf(),
-                null,
-            ),
-            StrategyParameter(
-                "fixed",
-                ""
-            ),
-            "TR9 Faith Misora",
-            140,
-            0,
-        )
-    )
+    var simulation: Simulation? = null
+    var done = false
+
+    val button = document.getElementById("simulate-button") as HTMLButtonElement
+    val parameters = document.getElementById("simulation-parameters") as HTMLTextAreaElement
+    button.addEventListener("click", {
+        GlobalScope.launch {
+            simulation = simulator.simulate(
+                Json.decodeFromString(parameters.value)
+            )
+            done = false
+        }
+    })
 
     while (true) {
-        val result = simulation.pollResult()
-        val existingDiv = document.getElementById("results")!!
-        val newDiv = document.create.div {
-            id = "results"
-            p {
-                result.results.forEach { (k, v) ->
-                    +"$k: $v (${v * 100.0 / result.currentIterations}%)"
-                    br { }
+        if (!done) {
+            simulation?.let {
+                val result = it.pollResult()
+                val existingDiv = document.getElementById("results")!!
+                val newDiv = document.create.div {
+                    id = "results"
+                    p {
+                        result.results.forEach { (k, v) ->
+                            +"$k: $v (${v * 100.0 / result.currentIterations}%)"
+                            br { }
+                        }
+                        pre {
+                            +(result.log ?: "")
+                        }
+                        pre {
+                            +(result.error ?: "")
+                        }
+                    }
                 }
-                pre {
-                    +(result.log ?: "")
-                }
+                existingDiv.replaceWith(newDiv)
+                done = result.done
             }
         }
-        existingDiv.replaceWith(newDiv)
-        if (result.done) break
         delay(200)
     }
 }

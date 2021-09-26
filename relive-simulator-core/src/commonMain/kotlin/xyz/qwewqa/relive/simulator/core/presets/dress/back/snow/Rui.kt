@@ -17,7 +17,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val StageGirlRui = Dress(
     name = "Stage Girl Rui",
-    character = Character.Tamao,
+    character = Character.Rui,
     attribute = Attribute.Ice,
     damageType = DamageType.Normal,
     position = Position.Back,

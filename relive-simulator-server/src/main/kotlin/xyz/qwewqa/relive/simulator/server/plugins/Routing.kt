@@ -46,6 +46,9 @@ fun Application.configureRouting() {
                 call.respond(HttpStatusCode.NotFound)
             } else {
                 job.cancelAndJoin()
+                val currentResult = simulationResults[token]
+                // Could lead to a race with delete, but going to ignore that case for now
+                if (currentResult != null) simulationResults[token] = currentResult.copy(cancelled = true)
                 call.respond(HttpStatusCode.NoContent)
             }
         }

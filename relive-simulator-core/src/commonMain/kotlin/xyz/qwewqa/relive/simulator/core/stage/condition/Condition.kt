@@ -12,7 +12,7 @@ fun interface Condition {
 @OptIn(ExperimentalContracts::class)
 inline fun Condition.runIfTrue(actor: Actor, block: Actor.() -> Unit) {
     contract {
-        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+        callsInPlace(block, InvocationKind.AT_MOST_ONCE)
     }
     if (evaluate(actor)) actor.block()
 }

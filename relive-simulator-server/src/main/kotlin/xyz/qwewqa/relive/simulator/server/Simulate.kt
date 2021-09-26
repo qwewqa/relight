@@ -1,10 +1,7 @@
 package xyz.qwewqa.relive.simulator.server
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.launch
 import xyz.qwewqa.relive.simulator.core.stage.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
@@ -30,7 +27,7 @@ fun simulate(parameters: SimulationParameters): String {
         parameters.maxIterations,
         0,
         emptyList(),
-        null
+        null,
     )
     if (parameters.maxIterations == 1) {
         simulationJobs[token] = simulateSingle(parameters, token)
@@ -41,7 +38,7 @@ fun simulate(parameters: SimulationParameters): String {
 }
 
 private fun simulateSingle(parameters: SimulationParameters, token: String) = CoroutineScope(pool).launch {
-    val loadout = parameters.createStageLoadout()
+    val loadout = parameters.createStageLoadoutOrReportError(token) ?: return@launch
     val stage =
         loadout.create(Random(Random(parameters.seed).nextInt()))  // Seed the same was as one iteration of simulateMany
     val result = stage.play(parameters.maxTurns)
@@ -51,13 +48,15 @@ private fun simulateSingle(parameters: SimulationParameters, token: String) = Co
         1,
         listOf(SimulationResultValue(result.toSimulationResult(), 1)),
         log,
+        error = (result as? PlayError)?.exception?.stackTraceToString()
     )
 }
 
 private fun simulateMany(parameters: SimulationParameters, token: String) = CoroutineScope(pool).launch {
-    val loadout = parameters.createStageLoadout()
+    val loadout = parameters.createStageLoadoutOrReportError(token) ?: return@launch
     val resultsChannel = Channel<StageResult>(SIMULATE_CHUNK_SIZE)
     val seedProducer = Random(parameters.seed)
+    var errorMessage: String? = null
     (0 until parameters.maxIterations).asSequence().map { seedProducer.nextInt() }.chunked(SIMULATE_CHUNK_SIZE)
         .forEach { seeds ->
             launch(pool) {
@@ -69,10 +68,16 @@ private fun simulateMany(parameters: SimulationParameters, token: String) = Coro
     var resultCount = 0
     val resultCounts = mutableMapOf<SimulationResultType, Int>()
     while (resultCount < parameters.maxIterations) {
-        val nextResult = resultsChannel.receive().toSimulationResult()
+        val nextResult = resultsChannel.receive()
+            .also {
+                if (it is PlayError && errorMessage == null) {
+                    errorMessage = it.exception.stackTraceToString()
+                }
+            }
+            .toSimulationResult()
         resultCount++
         resultCounts[nextResult] = resultCounts.getOrDefault(nextResult, 0) + 1
-        if (resultCount % SIMULATE_CHUNK_SIZE == 0) {
+        if (resultCount % SIMULATE_CHUNK_SIZE == 0 || resultCount == parameters.maxIterations) {
             simulationResults[token] = SimulationResult(
                 parameters.maxIterations,
                 resultCount,
@@ -81,6 +86,20 @@ private fun simulateMany(parameters: SimulationParameters, token: String) = Coro
             )
         }
     }
+}
+
+private fun SimulationParameters.createStageLoadoutOrReportError(token: String) = try {
+    createStageLoadout()
+} catch (e: Exception) {
+    simulationResults[token] = SimulationResult(
+        maxIterations,
+        0,
+        emptyList(),
+        "Error occurred during setup.",
+        cancelled = true,
+        error = e.stackTraceToString(),
+    )
+    null
 }
 
 fun StageResult.toSimulationResult() = when (this) {

@@ -31,60 +31,65 @@ data class SimulationParameters(
     val eventBonus: Int,
     val seed: Int,
 ) {
-    fun createStageLoadout() = StageLoadout(
-        TeamLoadout(
-            team.map {
-                ActorLoadout(
-                    it.name,
-                    playerDresses[it.dress]!!,
-                    memoirs[it.memoir]!!,
-                    it.unitSkillLevel,
-                )
-            },
-            guest?.let {
-                ActorLoadout(
-                    it.name,
-                    playerDresses[it.dress]!!,
-                    memoirs[it.memoir]!!,
-                    it.unitSkillLevel,
-                )
-            },
-            Song(
-                song.activeEffects.map {
-                    SongEffectData(
-                        songEffects[it.name]!!,
-                        it.value,
-                        it.conditions.map { group ->
-                            group.map { name -> conditions[name]!! }.reduce { acc, condition -> acc or condition }
-                        }.fold<NamedCondition?, NamedCondition?>(null) { acc, condition -> acc + condition }
+    fun createStageLoadout(): StageLoadout {
+        require(maxTurns > 0) { "Max turns should be a positive integer." }
+        require(maxIterations > 0) { "Max iterations should be a positive integer" }
+        require(team.isNotEmpty()) { "Team should not be empty." }
+        return StageLoadout(
+            TeamLoadout(
+                team.map {
+                    ActorLoadout(
+                        it.name,
+                        playerDresses[it.dress]!!,
+                        memoirs[it.memoir]!!,
+                        it.unitSkillLevel,
                     )
                 },
-                song.passiveEffect?.let {
-                    SongEffectData(
-                        songEffects[it.name]!!,
-                        it.value,
-                        it.conditions.map { group ->
-                            group.map { name -> conditions[name]!! }.reduce { acc, condition -> acc or condition }
-                        }.fold<NamedCondition?, NamedCondition?>(null) { acc, condition -> acc + condition }
+                guest?.let {
+                    ActorLoadout(
+                        it.name,
+                        playerDresses[it.dress]!!,
+                        memoirs[it.memoir]!!,
+                        it.unitSkillLevel,
                     )
+                },
+                Song(
+                    song.activeEffects.map {
+                        SongEffectData(
+                            songEffects[it.name]!!,
+                            it.value,
+                            it.conditions.map { group ->
+                                group.map { name -> conditions[name]!! }.reduce { acc, condition -> acc or condition }
+                            }.fold<NamedCondition?, NamedCondition?>(null) { acc, condition -> acc + condition }
+                        )
+                    },
+                    song.passiveEffect?.let {
+                        SongEffectData(
+                            songEffects[it.name]!!,
+                            it.value,
+                            it.conditions.map { group ->
+                                group.map { name -> conditions[name]!! }.reduce { acc, condition -> acc or condition }
+                            }.fold<NamedCondition?, NamedCondition?>(null) { acc, condition -> acc + condition }
+                        )
+                    }
+                ),
+                FixedStrategy {
+
                 }
             ),
-            FixedStrategy {
-
-            }
-        ),
-        TeamLoadout(
-            listOf(
-                bossLoadouts[boss]!!.loadout
+            TeamLoadout(
+                listOf(
+                    bossLoadouts[boss]!!.loadout
+                ),
+                strategy = bossLoadouts[boss]!!.strategy
             ),
-            strategy = bossLoadouts[boss]!!.strategy
-        ),
-        {
-            player.actors.values.forEach { it.eventBonus = eventBonus }
-        },
-        RandomDamageCalculator(),
-        if (maxIterations > 1) StageConfiguration(logging = false) else StageConfiguration(logging = true)
-    )
+            {
+                player.actors.values.forEach { it.eventBonus = eventBonus }
+            },
+            RandomDamageCalculator(),
+            if (maxIterations > 1) StageConfiguration(logging = false) else StageConfiguration(logging = true)
+        )
+    }
 }
 
 @Serializable
@@ -130,6 +135,7 @@ data class SimulationResult(
     val results: List<SimulationResultValue>,
     val log: String?,
     val cancelled: Boolean = false,
+    val error: String? = null,
 )
 
 @Serializable

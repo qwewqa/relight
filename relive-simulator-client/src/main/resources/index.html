@@ -1,13 +1,56 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>relive-simulator-client</title>
-    <script src="relive-simulator-client.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+            crossorigin="anonymous"></script>
 </head>
 <body>
-    <a href="options">options</a>
-    <div id="results"></div>
+<a href="shutdown">Shutdown</a>
+<a href="options">Options</a>
+<form>
+    <div class="form-group">
+        <label for="simulation-parameters">Parameters</label>
+        <textarea class="form-control" id="simulation-parameters" rows="20">
+{
+  "maxTurns": 3,
+  "maxIterations": 1,
+  "team": [
+    {
+      "name": "Death",
+      "dress": "Death Tamao",
+      "memoir": "Urashima Taro Performance Flyer",
+      "unitSkillLevel": 21
+    },
+    {
+      "name": "Rui",
+      "dress": "Stage Girl Rui",
+      "memoir": "Urashima Taro Performance Flyer",
+      "unitSkillLevel": 21
+    }
+  ],
+  "guest": null,
+  "song": {
+    "activeEffects": [],
+    "passiveEffect": null
+  },
+  "strategy": {
+    "type": "fixed",
+    "value": ""
+  },
+  "boss": "TR9 Faith Misora",
+  "eventBonus": 140,
+  "seed": 0
+}
+        </textarea>
+    </div>
+    <button id="simulate-button" type="button" class="btn btn-primary">Simulate</button>
+</form>
+<div id="results"></div>
+<script src="relive-simulator-client.js"></script>
 </body>
 </html>

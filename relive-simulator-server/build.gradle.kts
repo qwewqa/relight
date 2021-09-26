@@ -4,6 +4,7 @@ val logback_version: String by project
 
 plugins {
     application
+    id("com.github.johnrengelman.shadow") version "7.0.0"
     kotlin("jvm")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.5.31"
 }

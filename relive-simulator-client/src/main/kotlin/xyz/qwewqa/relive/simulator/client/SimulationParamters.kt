@@ -59,6 +59,7 @@ data class SimulationResult(
     val results: List<SimulationResultValue>,
     val log: String?,
     val cancelled: Boolean = false,
+    val error: String?,
 ) {
     val done get() = cancelled || currentIterations >= maxIterations
 }
