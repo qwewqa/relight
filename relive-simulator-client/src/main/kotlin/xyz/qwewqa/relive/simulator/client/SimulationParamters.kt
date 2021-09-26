@@ -79,15 +79,21 @@ sealed class SimulationResultType {
 
     @Serializable
     @SerialName("end")
-    data class End(val margin: Int) : SimulationResultType()
+    object End : SimulationResultType() {
+        override fun toString() = "End"
+    }
 
     @Serializable
     @SerialName("excluded")
-    object Excluded : SimulationResultType()
+    object Excluded : SimulationResultType() {
+        override fun toString() = "Excluded"
+    }
 
     @Serializable
     @SerialName("error")
-    object Error : SimulationResultType()
+    object Error : SimulationResultType() {
+        override fun toString() = "Error"
+    }
 }
 
 @Serializable

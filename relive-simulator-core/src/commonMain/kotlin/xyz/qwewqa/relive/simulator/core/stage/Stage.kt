@@ -32,6 +32,7 @@ class Stage(
         listOf(player, enemy).forEach { team ->
             if (team.song.passive != null) {
                 team.active.forEach {
+                    it.context.log("Song") { "Apply passive ${team.song.passive.name}" }
                     team.song.passive.start(it.context)
                 }
             }
@@ -42,10 +43,10 @@ class Stage(
             .sortedByDescending { it.agility }
 
         (autoEffectPriority + listOf(player.guest, enemy.guest).filterNotNull())
-            .map { it to it.dress.unitSkill }.forEach { (sg, us) ->
-                us?.forLevel(sg.unitSkillLevel)?.forEach {
-                    log("AutoEffect") { "[${sg.name}] unit skill [${it.name}] activate" }
-                    it.activate(sg.context)
+            .map { it to it.dress.unitSkill }.forEach { (actor, us) ->
+                us?.forLevel(actor.unitSkillLevel)?.forEach {
+                    log("AutoEffect") { "[${actor.name}] unit skill [${it.name}] activate" }
+                    it.activate(actor.context)
                 }
             }
 

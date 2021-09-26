@@ -1,11 +1,17 @@
 package xyz.qwewa.relive.simulator.jvm
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.flower.StageGirlMeiFan
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.snow.DeathTamao
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.snow.StageGirlRui95
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr9.tr9FaithMisora
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr9.tr9FaithMisoraStrategy
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr9.tr9QueenOfHeartsShizuha
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr9.tr9QueenOfHeartsShizuhaStrategy
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower.DevilKaoruko
 import xyz.qwewqa.relive.simulator.core.presets.memoir.BandsmansGreeting
 import xyz.qwewqa.relive.simulator.core.presets.memoir.CrazyMadScientist
+import xyz.qwewqa.relive.simulator.core.presets.memoir.UrashimaTaroPerformanceFlyer
+import xyz.qwewqa.relive.simulator.core.presets.song.CriticalUpSongEffect
 import xyz.qwewqa.relive.simulator.core.stage.StageConfiguration
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
@@ -22,55 +28,114 @@ suspend fun main() {
         player = TeamLoadout(
             actors = listOf(
                 ActorLoadout(
-                    "Devil",
-                    DevilKaoruko,
-                    BandsmansGreeting,
+                    "Death",
+                    DeathTamao,
+                    UrashimaTaroPerformanceFlyer,
                 ),
+
                 ActorLoadout(
-                    "Meif",
-                    StageGirlMeiFan,
-                    CrazyMadScientist,
+                    "Rui",
+                    StageGirlRui95,
+                    UrashimaTaroPerformanceFlyer,
                 )
             ),
             song = Song(
+                passive = SongEffectData(
+                    CriticalUpSongEffect,
+                    21,
+                )
             ),
             strategy = FixedStrategy {
-                val devil = -"Devil"
-                val meif = -"Meif"
+                val death = -"Death"
+                val rui = -"Rui"
+
                 when (turn) {
                     1 -> {
-                        +devil[ActType.Act2]
-                        +meif[ActType.Act2]
-                        +meif[ActType.Act3]
+                        +death[ActType.Act2]
+                        +rui[ActType.Act3]
+                        +death[ActType.Act3]
                     }
                     2 -> {
-                        +devil[ActType.Act2]
-                        +meif[ActType.Act2]
-                        +meif[ActType.Act3]
-                        +meif[ActType.Act1]
-                        +devil[ActType.Act3]
+                        +death[ActType.Act2]
+                        +death[ActType.Act3]
+                        +rui[ActType.Act2]
+                        +rui[ActType.Act3]
+                        +death[ActType.Act1]
                     }
                     3 -> {
-                        +devil[ActType.Act2]
-                        +meif[ActType.Act2]
-                        +meif[ActType.Act3]
-                        +meif[ActType.Act1]
-                        +devil[ActType.Act3]
+                        +death[ActType.Act3]
+                        +rui[ActType.Act2]
+                        +rui[ActType.Act3]
+                        +rui[ActType.Act1]
+                        +death[ActType.Act1]
                     }
                 }
             }
         ),
         enemy = TeamLoadout(
             actors = listOf(
-                tr9QueenOfHeartsShizuha,
+                tr9FaithMisora,
             ),
-            strategy = tr9QueenOfHeartsShizuhaStrategy,
+            strategy = tr9FaithMisoraStrategy,
         ),
         prerun = {
-            player.actors.values.forEach { it.eventBonus = 50 }
+            player.actors.values.forEach { it.eventBonus = 140 }
         },
         configuration = StageConfiguration(logging = false)
     ).simulate(1_000_000, 3)
+//    StageLoadout(
+//        player = TeamLoadout(
+//            actors = listOf(
+//                ActorLoadout(
+//                    "Devil",
+//                    DevilKaoruko,
+//                    BandsmansGreeting,
+//                ),
+//                ActorLoadout(
+//                    "Meif",
+//                    StageGirlMeiFan,
+//                    CrazyMadScientist,
+//                )
+//            ),
+//            song = Song(
+//            ),
+//            strategy = FixedStrategy {
+//                val devil = -"Devil"
+//                val meif = -"Meif"
+//                when (turn) {
+//                    1 -> {
+//                        +devil[ActType.Act2]
+//                        +meif[ActType.Act2]
+//                        +meif[ActType.Act3]
+//                    }
+//                    2 -> {
+//                        +devil[ActType.Act2]
+//                        +meif[ActType.Act2]
+//                        +meif[ActType.Act3]
+//                        +meif[ActType.Act1]
+//                        +devil[ActType.Act3]
+//                    }
+//                    3 -> {
+//                        +devil[ActType.Act2]
+//                        +meif[ActType.Act2]
+//                        +meif[ActType.Act3]
+//                        +meif[ActType.Act1]
+//                        +devil[ActType.Act3]
+//                    }
+//                }
+//            }
+//        ),
+//        enemy = TeamLoadout(
+//            actors = listOf(
+//                tr9QueenOfHeartsShizuha,
+//            ),
+//            strategy = tr9QueenOfHeartsShizuhaStrategy,
+//        ),
+//        prerun = {
+//            player.actors.values.forEach { it.eventBonus = 50 }
+//        },
+//        configuration = StageConfiguration(logging = false)
+//    ).simulate(1_000_000, 3)
 //    StageLoadout(
 //        player = TeamLoadout(
 //            actors = listOf(

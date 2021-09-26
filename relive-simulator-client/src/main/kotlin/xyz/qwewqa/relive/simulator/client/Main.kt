@@ -33,10 +33,15 @@ suspend fun main() {
 
     val button = document.getElementById("simulate-button") as HTMLButtonElement
     val parameters = document.getElementById("simulation-parameters") as HTMLTextAreaElement
+    val strategy = document.getElementById("simulation-strategy") as HTMLTextAreaElement
     button.addEventListener("click", {
         GlobalScope.launch {
             simulation = simulator.simulate(
-                Json.decodeFromString(parameters.value)
+                Json.decodeFromString<SimulationParameters>(parameters.value).let {
+                    it.copy(
+                        strategy = it.strategy.copy(value = strategy.value)
+                    )
+                }
             )
             done = false
         }

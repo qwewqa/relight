@@ -3,16 +3,22 @@ package xyz.qwewqa.relive.simulator.core.presets.song
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
+import xyz.qwewqa.relive.simulator.core.stage.condition.applyIfTrue
 import xyz.qwewqa.relive.simulator.core.stage.song.SongEffect
 
 object DexterityUpSongEffect : SongEffect {
     override val displayName = "Dexterity Up"
 
     override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {
-        self.valueDexterity += value
+        condition.applyIfTrue(self) {
+            self.valueDexterity += value
+        }
     }
+
     override fun end(context: ActionContext, value: Int, condition: Condition) = context.run {
-        self.valueDexterity -= value
+        condition.applyIfTrue(self) {
+            self.valueDexterity -= value
+        }
     }
 }
 
@@ -20,10 +26,15 @@ object CriticalUpSongEffect : SongEffect {
     override val displayName = "Critical Up"
 
     override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {
-        self.valueCritical += value
+        condition.applyIfTrue(self) {
+            self.valueCritical += value
+        }
     }
+
     override fun end(context: ActionContext, value: Int, condition: Condition) = context.run {
-        self.valueCritical -= value
+        condition.applyIfTrue(self) {
+            self.valueCritical -= value
+        }
     }
 }
 
@@ -32,10 +43,15 @@ private data class DamageAgainstAttributeUpSongEffect(val attribute: Attribute) 
     override val displayName = "Damage Against ${attribute.name} Up"
 
     override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {
-        self.againstAttributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) + value
+        condition.applyIfTrue(self) {
+            self.againstAttributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) + value
+        }
     }
+
     override fun end(context: ActionContext, value: Int, condition: Condition) = context.run {
-        self.againstAttributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) - value
+        condition.applyIfTrue(self) {
+            self.againstAttributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) - value
+        }
     }
 }
 
@@ -45,9 +61,14 @@ private data class AttributeDamageDealtUpSongEffect(val attribute: Attribute) : 
     override val displayName = "{attribute.name} Damage Up"
 
     override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {
-        self.attributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) + value
+        condition.applyIfTrue(self) {
+            self.attributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) + value
+        }
     }
+
     override fun end(context: ActionContext, value: Int, condition: Condition) = context.run {
-        self.attributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) - value
+        condition.applyIfTrue(self) {
+            self.attributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) - value
+        }
     }
 }

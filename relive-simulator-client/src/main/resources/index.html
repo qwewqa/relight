@@ -15,7 +15,7 @@
 <form>
     <div class="form-group">
         <label for="simulation-parameters">Parameters</label>
-        <textarea class="form-control" id="simulation-parameters" rows="20">
+        <textarea class="form-control" id="simulation-parameters" rows="8">
 {
   "maxTurns": 3,
   "maxIterations": 1,
@@ -36,10 +36,19 @@
   "guest": null,
   "song": {
     "activeEffects": [],
-    "passiveEffect": null
+    "passiveEffect": {
+      "name": "Critical Up",
+      "value": 21,
+      "conditions": [
+        [
+          "Rui Only",
+          "Tamao Only"
+        ]
+      ]
+    }
   },
   "strategy": {
-    "type": "fixed",
+    "type": "simple",
     "value": ""
   },
   "boss": "TR9 Faith Misora",
@@ -47,6 +56,26 @@
   "seed": 0
 }
         </textarea>
+        <textarea class="form-control" id="simulation-strategy" rows="12">
+Turn 1:
+Death 2
+Rui 3
+Death 3
+
+Turn 2:
+Death 2
+Death 3
+Rui 2
+Rui 3
+Death 1
+
+Turn 3:
+Death 3
+Rui 2
+Rui 3
+Rui 1
+Death 1
+</textarea>
     </div>
     <button id="simulate-button" type="button" class="btn btn-primary">Simulate</button>
 </form>

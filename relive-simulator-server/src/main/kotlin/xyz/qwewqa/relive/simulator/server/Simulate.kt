@@ -104,7 +104,7 @@ private fun SimulationParameters.createStageLoadoutOrReportError(token: String) 
 
 fun StageResult.toSimulationResult() = when (this) {
     ExcludedRun -> SimulationResultType.Excluded
-    is OutOfTurns -> SimulationResultType.End(margin)
+    is OutOfTurns -> SimulationResultType.End
     is PlayError -> SimulationResultType.Error
     is TeamWipe -> SimulationResultType.Wipe(turn)
     is Victory -> SimulationResultType.Victory(turn)

@@ -215,6 +215,7 @@ class Actor(
         if (inCX) return
         context.log("Climax") { "Enter cx" }
         team.song.effects.forEach {
+            context.log("Song") { "Apply song effect ${it.name}." }
             it.start(context)
         }
         inCX = true

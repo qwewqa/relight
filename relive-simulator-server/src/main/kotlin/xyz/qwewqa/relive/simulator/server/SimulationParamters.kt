@@ -18,6 +18,7 @@ import xyz.qwewqa.relive.simulator.core.stage.loadout.TeamLoadout
 import xyz.qwewqa.relive.simulator.core.stage.song.Song
 import xyz.qwewqa.relive.simulator.core.stage.song.SongEffectData
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
+import xyz.qwewqa.relive.simulator.core.stage.strategy.strategyParsers
 
 @Serializable
 data class SimulationParameters(
@@ -73,9 +74,7 @@ data class SimulationParameters(
                         )
                     }
                 ),
-                FixedStrategy {
-
-                }
+                strategyParsers[strategy.type]!!.parse(strategy.value),
             ),
             TeamLoadout(
                 listOf(
@@ -153,7 +152,7 @@ sealed class SimulationResultType {
 
     @Serializable
     @SerialName("end")
-    data class End(val margin: Int) : SimulationResultType()
+    object End : SimulationResultType()
 
     @Serializable
     @SerialName("excluded")
