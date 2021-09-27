@@ -36,7 +36,9 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" id="do-import-button" data-bs-dismiss="modal">Import</button>
+                                <button type="button" class="btn btn-primary" id="do-import-button"
+                                        data-bs-dismiss="modal">Import
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -111,83 +113,128 @@
                     <h4>Song</h4>
                 </div>
                 <div class="col-12">
-                    <div id="song-settings" class="border border-2 rounded px-3 py-2">
-                        <div class="row gy-3 py-2">
-                            <div class="col-12">
-                                <div class="border border-2 rounded p-3 song-effect-group">
-                                    <div class="col-12">
-                                        <h5>Effect 1</h5>
-                                    </div>
+                    <div id="song-settings" class="accordion">
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <h5 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapse-song-effect-1">
+                                        Effect 1
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapse-song-effect-1" class="accordion-collapse collapse"
+                                 data-bs-parent="#song-settings">
+                                <div class="accordion-body song-effect-group">
                                     <div class="row gy-3">
                                         <div class="col-8">
                                             <label for="song-effect-1-type" class="form-label">Type</label>
-                                            <select id="song-effect-1-type" class="selectpicker form-control song-effect-type" data-live-search="true"></select>
+                                            <select id="song-effect-1-type"
+                                                    class="selectpicker form-control song-effect-type"
+                                                    data-live-search="true"></select>
                                         </div>
                                         <div class="col-4">
                                             <label for="song-effect-1-value" class="form-label">Value</label>
-                                            <input id="song-effect-1-value" class="form-control song-effect-value" type="number" placeholder="0">
+                                            <input id="song-effect-1-value" class="form-control song-effect-value"
+                                                   type="number" placeholder="0">
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-1-condition-1" class="form-label">Condition 1</label>
-                                            <select id="song-effect-1-condition-1" class="selectpicker form-control song-effect-condition" data-live-search="true" multiple></select>
+                                            <label for="song-effect-1-condition-1" class="form-label">Condition
+                                                1</label>
+                                            <select id="song-effect-1-condition-1"
+                                                    class="selectpicker form-control song-effect-condition"
+                                                    data-live-search="true" multiple></select>
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-1-condition-2" class="form-label">Condition 2</label>
-                                            <select id="song-effect-1-condition-2" class="selectpicker form-control song-effect-condition" data-live-search="true" multiple></select>
+                                            <label for="song-effect-1-condition-2" class="form-label">Condition
+                                                2</label>
+                                            <select id="song-effect-1-condition-2"
+                                                    class="selectpicker form-control song-effect-condition"
+                                                    data-live-search="true" multiple></select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row gy-3 py-2">
-                            <div class="col-12">
-                                <div class="border border-2 rounded p-3 song-effect-group">
-                                    <div class="col-12">
-                                        <h5>Effect 2</h5>
-                                    </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <h5 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapse-song-effect-2">
+                                        Effect 2
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapse-song-effect-2" class="accordion-collapse collapse"
+                                 data-bs-parent="#song-settings">
+                                <div class="accordion-body song-effect-group">
                                     <div class="row gy-3">
                                         <div class="col-8">
                                             <label for="song-effect-2-type" class="form-label">Type</label>
-                                            <select id="song-effect-2-type" class="selectpicker form-control song-effect-type" data-live-search="true"></select>
+                                            <select id="song-effect-2-type"
+                                                    class="selectpicker form-control song-effect-type"
+                                                    data-live-search="true"></select>
                                         </div>
                                         <div class="col-4">
                                             <label for="song-effect-2-value" class="form-label">Value</label>
-                                            <input id="song-effect-2-value" class="form-control song-effect-value" type="number" placeholder="0">
+                                            <input id="song-effect-2-value" class="form-control song-effect-value"
+                                                   type="number" placeholder="0">
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-2-condition-1" class="form-label">Condition 1</label>
-                                            <select id="song-effect-2-condition-1" class="selectpicker form-control song-effect-condition" data-live-search="true" multiple></select>
+                                            <label for="song-effect-2-condition-1" class="form-label">Condition
+                                                1</label>
+                                            <select id="song-effect-2-condition-1"
+                                                    class="selectpicker form-control song-effect-condition"
+                                                    data-live-search="true" multiple></select>
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-2-condition-2" class="form-label">Condition 2</label>
-                                            <select id="song-effect-2-condition-2" class="selectpicker form-control song-effect-condition" data-live-search="true" multiple></select>
+                                            <label for="song-effect-2-condition-2" class="form-label">Condition
+                                                2</label>
+                                            <select id="song-effect-2-condition-2"
+                                                    class="selectpicker form-control song-effect-condition"
+                                                    data-live-search="true" multiple></select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row gy-3 py-2">
-                            <div class="col-12">
-                                <div class="border border-2 rounded p-3 song-effect-group">
-                                    <div class="col-12">
-                                        <h5>Effect 3 (Passive)</h5>
-                                    </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <h5 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapse-song-effect-3">
+                                        Effect 3 (Passive)
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapse-song-effect-3" class="accordion-collapse collapse"
+                                 data-bs-parent="#song-settings">
+                                <div class="accordion-body song-effect-group">
                                     <div class="row gy-3">
                                         <div class="col-8">
                                             <label for="song-effect-3-type" class="form-label">Type</label>
-                                            <select id="song-effect-3-type" class="selectpicker form-control song-effect-type" data-live-search="true"></select>
+                                            <select id="song-effect-3-type"
+                                                    class="selectpicker form-control song-effect-type"
+                                                    data-live-search="true"></select>
                                         </div>
                                         <div class="col-4">
                                             <label for="song-effect-3-value" class="form-label">Value</label>
-                                            <input id="song-effect-3-value" class="form-control song-effect-value" type="number" placeholder="0">
+                                            <input id="song-effect-3-value" class="form-control song-effect-value"
+                                                   type="number" placeholder="0">
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-3-condition-1" class="form-label">Condition 1</label>
-                                            <select id="song-effect-3-condition-1" class="selectpicker form-control song-effect-condition" data-live-search="true" multiple></select>
+                                            <label for="song-effect-3-condition-1" class="form-label">Condition
+                                                1</label>
+                                            <select id="song-effect-3-condition-1"
+                                                    class="selectpicker form-control song-effect-condition"
+                                                    data-live-search="true" multiple></select>
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-3-condition-2" class="form-label">Condition 2</label>
-                                            <select id="song-effect-3-condition-2" class="selectpicker form-control song-effect-condition" data-live-search="true" multiple></select>
+                                            <label for="song-effect-3-condition-2" class="form-label">Condition
+                                                2</label>
+                                            <select id="song-effect-3-condition-2"
+                                                    class="selectpicker form-control song-effect-condition"
+                                                    data-live-search="true" multiple></select>
                                         </div>
                                     </div>
                                 </div>
