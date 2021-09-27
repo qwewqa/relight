@@ -8,5 +8,6 @@ fun interface StrategyParser {
 
 val strategyParsers = mapOf(
     "simple" to StrategyParser {
-        SimpleStrategy(SimpleStrategyGrammar.parseToEnd(it)) }
+        SimpleStrategy(SimpleStrategyGrammar.parseToEnd(it))
+    }
 )

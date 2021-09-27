@@ -52,7 +52,7 @@ object SimpleStrategyGrammar : Grammar<Map<Int, List<SimpleStrategyCommand>>>() 
 
     val lines by separatedTerms(line, newlines, acceptZero = true)
 
-    override val rootParser by (lines * -newlines).map { lines ->
+    override val rootParser by (-optional(newlines) * lines * -optional(newlines)).map { lines ->
         val results = mutableMapOf<Int, List<SimpleStrategyCommand>>()
         var currentGroup: MutableList<SimpleStrategyCommand>? = null
         lines.forEach { line ->

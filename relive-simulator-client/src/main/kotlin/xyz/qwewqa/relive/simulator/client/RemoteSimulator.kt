@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.client
 
 import io.ktor.client.*
+import io.ktor.client.features.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
@@ -27,6 +28,12 @@ class RemoteSimulator(val baseUrl: URL) : Simulator {
 
     override suspend fun getOptions(): SimulationOptionNames {
         return client.get(URL("/options", baseUrl.href).href)
+    }
+
+    override suspend fun shutdown() {
+        require(client.get<HttpResponse>(URL("/shutdown", baseUrl.href).href) {
+            expectSuccess = false
+        }.status == HttpStatusCode.Gone)
     }
 
     inner class RemoteSimulation(val simulator: RemoteSimulator, val token: String) : Simulation {

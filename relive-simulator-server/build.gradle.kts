@@ -34,4 +34,4 @@ dependencies {
 }
 
 val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
-compileKotlin.dependsOn(":relive-simulator-client:browserProductionWebpack")
+compileKotlin.dependsOn(":relive-simulator-client:browserDevelopmentWebpack")

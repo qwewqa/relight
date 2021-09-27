@@ -36,6 +36,7 @@ data class SimulationParameters(
         require(maxTurns > 0) { "Max turns should be a positive integer." }
         require(maxIterations > 0) { "Max iterations should be a positive integer" }
         require(team.isNotEmpty()) { "Team should not be empty." }
+        require(team.map { it.name }.toSet().size == team.size) { "Team must not have duplicate names." }
         return StageLoadout(
             TeamLoadout(
                 team.map {
@@ -98,6 +99,7 @@ data class SimulationOptionNames(
     val songEffects: List<String>,
     val conditions: List<String>,
     val bosses: List<String>,
+    val strategyTypes: List<String>,
 )
 
 @Serializable

@@ -23,6 +23,7 @@ data class SimulationOptionNames(
     val songEffects: List<String>,
     val conditions: List<String>,
     val bosses: List<String>,
+    val strategyTypes: List<String>,
 )
 
 @Serializable
