@@ -144,7 +144,7 @@ suspend fun start(simulator: Simulator) {
                 div("col-12 my-2") {
                     div("border border-2 rounded") {
                         div("row m-2") {
-                            div("col-12 col-md-6 my-2") {
+                            div("col-12 col-md-8 my-2") {
                                 val inputId = "actor-name-${idCounter++}"
                                 label("form-label") {
                                     htmlFor = inputId
@@ -154,7 +154,7 @@ suspend fun start(simulator: Simulator) {
                                     id = inputId
                                 }
                             }
-                            div("col-12 col-md-6 my-2") {
+                            div("col-12 col-md-4 my-2") {
                                 val inputId = "actor-unit-skill-${idCounter++}"
                                 label("form-label") {
                                     htmlFor = inputId
