@@ -6,8 +6,10 @@ fun interface StrategyParser {
     fun parse(value: String): Strategy
 }
 
-val strategyParsers = mapOf(
-    "simple" to StrategyParser {
-        SimpleStrategy(SimpleStrategyGrammar.parseToEnd(it))
-    }
-)
+val strategyParsers by lazy {
+    mapOf(
+        "simple" to StrategyParser {
+            SimpleStrategy(SimpleStrategyGrammar.parseToEnd(it))
+        }
+    )
+}

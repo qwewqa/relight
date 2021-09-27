@@ -24,7 +24,7 @@ data class StatData(
     }
 }
 
-val defaultDressStats = StatData(
+val defaultDressStats get() = StatData(
     dexterity = 5,
     critical = 50,
     accuracy = 100,

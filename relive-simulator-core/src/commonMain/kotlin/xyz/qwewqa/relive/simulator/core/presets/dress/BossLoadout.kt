@@ -5,8 +5,10 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr9.tr9FaithMisoraStr
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.Strategy
 
-val bossLoadouts = listOf(
-    BossLoadout(tr9FaithMisora, tr9FaithMisoraStrategy)
-).associateBy { it.loadout.name }
+val bossLoadouts by lazy {
+    listOf(
+        BossLoadout(tr9FaithMisora, tr9FaithMisoraStrategy)
+    ).associateBy { it.loadout.name }
+}
 
 data class BossLoadout(val loadout: ActorLoadout, val strategy: Strategy)
