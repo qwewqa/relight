@@ -7,6 +7,7 @@ version = "0.0.1"
 
 repositories {
     maven { url = uri("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven") }
+    maven { url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap") }
     mavenCentral()
 }
 
@@ -18,7 +19,7 @@ dependencies {
 }
 
 kotlin {
-    js {
+    js(IR) {
         browser {
             webpackTask {
                 cssSupport.enabled = true
@@ -33,6 +34,11 @@ kotlin {
                     useChromeHeadless()
                     webpackConfig.cssSupport.enabled = true
                 }
+            }
+        }
+        compilations.all {
+            kotlinOptions {
+                freeCompilerArgs += "-Xir-property-lazy-initialization"
             }
         }
         binaries.executable()

@@ -11,7 +11,14 @@ repositories {
 
 kotlin {
     jvm()
-    js().browser()
+    js(IR) {
+        browser()
+        compilations.all {
+            kotlinOptions {
+                freeCompilerArgs += "-Xir-property-lazy-initialization"
+            }
+        }
+    }
 }
 
 dependencies {

@@ -2,12 +2,9 @@ package xyz.qwewqa.relive.simulator.core.stage.actor
 
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
-import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
-import xyz.qwewqa.relive.simulator.core.stage.buff.SleepBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.execute
 import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
-import xyz.qwewqa.relive.simulator.core.stage.buff.ConfusionBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.StopBuff
 import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoir
 import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
@@ -37,7 +34,7 @@ class Actor(
     var boostMaxHp = 0
 
     val actPower get() = valueActPower * (100 + boostActPower + actBurnFactor) / 100
-    val actBurnFactor get() = 0
+    val actBurnFactor get() = if (buffs.count(BurnBuff) + buffs.count(LockedBurnBuff) > 0) -10 else 0
     var valueActPower = 0
     var boostActPower = 0
 
@@ -53,8 +50,13 @@ class Actor(
     var valueAgility = 0
     var boostAgility = 0
 
-    val dexterity get() = valueDexterity.coerceIn(0, 100)
+    val dexterity
+        get() = (valueDexterity +
+                buffDexterity.coerceAtMost(100) +
+                debuffDexterity.coerceAtMost(100)).coerceIn(0, 100)
     var valueDexterity = 0
+    var buffDexterity = 0
+    var debuffDexterity = 0
 
     val critical get() = valueCritical.coerceAtLeast(0)
     var valueCritical = 0
@@ -123,6 +125,14 @@ class Actor(
 
     fun tick() {
         buffs.tick()
+        val burn = (buffs.get(BurnBuff) + buffs.get(LockedBurnBuff)).map { it.value }
+        val burnFixed = burn.filter { it > 100 }.sum()
+        val burnPercent = burn.filter { it <= 100 }.map { maxHp * it / 100 }.sum()
+        val burnTotal = burnFixed + burnPercent
+        if (burnTotal > 0) {
+            context.log("Burn") { "Burn tick." }
+            damage(burnTotal, addBrilliance = false)
+        }
     }
 
     /**
@@ -136,6 +146,21 @@ class Actor(
         }
         if (buffs.any(SleepBuff)) {
             context.log("Abnormal") { "Act prevented by sleep." }
+            return
+        }
+        if (buffs.any(CountableBuff.Daze)) {
+            context.log("Abnormal") { "Act prevented by daze." }
+            Act {
+                targetAllyRandom().act {
+                    targetAllyRandom().act {
+                        attack(
+                            modifier = 71, // TODO: figure out what the actual value is
+                            hitCount = 1,
+                            removeOnConnect = CountableBuff.Daze,
+                        )
+                    }
+                }
+            }.execute(context)
             return
         }
         if (buffs.any(ConfusionBuff) && context.stage.random.nextDouble() < 0.3) {

@@ -1,0 +1,10 @@
+{
+  "resources":{
+    "includes":[
+      {"pattern":"\\QMETA-INF/services/kotlin.reflect.jvm.internal.impl.resolve.ExternalOverridabilityCondition\\E"},
+      {"pattern":"\\Qclient/index.html\\E"},
+      {"pattern":"\\Qclient/relive-simulator-client.js\\E"},
+      {"pattern":"\\Qorg/slf4j/impl/StaticLoggerBinder.class\\E"}
+    ]},
+  "bundles":[]
+}

@@ -9,6 +9,6 @@ val FrontierOnlyCondition = schoolCondition(School.Frontier)
 val SiegfeldOnlyCondition = schoolCondition(School.Siegfeld)
 val SeiranOnlyCondition = schoolCondition(School.Seiran)
 
-private fun schoolCondition(school: School) = NamedCondition("${school.name} Only") {
+private fun schoolCondition(school: School) = NamedCondition(school.name) {
     it.dress.character.school == school
 }

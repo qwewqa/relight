@@ -147,7 +147,8 @@ class ActiveBuff(
 operator fun BuffEffect.invoke(value: Int, turns: Int) = ActiveBuff(this, value, turns)
 
 enum class CountableBuff(val category: BuffCategory) {
-    Evade(BuffCategory.Positive),
+    Evasion(BuffCategory.Positive),
     Fortitude(BuffCategory.Positive),
     Revive(BuffCategory.Positive),
+    Daze(BuffCategory.Negative),
 }

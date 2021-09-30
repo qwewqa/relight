@@ -37,11 +37,11 @@ object DexterityUpBuff : BuffEffect {
     override val flipped get() = DexterityDownBuff
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.valueDexterity += value
+        self.buffDexterity += value
     }
 
     override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.valueDexterity -= value
+        self.buffDexterity -= value
     }
 }
 
@@ -51,11 +51,11 @@ object DexterityDownBuff : BuffEffect {
     override val flipped get() = DexterityUpBuff
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.valueDexterity -= value
+        self.debuffDexterity += value
     }
 
     override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.valueDexterity += value
+        self.debuffDexterity -= value
     }
 }
 

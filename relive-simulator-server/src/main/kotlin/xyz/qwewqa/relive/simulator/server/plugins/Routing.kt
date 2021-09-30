@@ -17,9 +17,15 @@ import xyz.qwewqa.relive.simulator.server.*
 
 fun Application.configureRouting() {
     routing {
-        static("/") {
-            resources("client")
-            defaultResource("client/index.html")
+        // Static doesn't seem to work with GraalVM properly :(
+        get("/") {
+            call.respondText(Thread.currentThread().getContextClassLoader().getResourceAsStream("client/index.html")!!.bufferedReader().readText(), ContentType.Text.Html)
+        }
+        get("/index.html") {
+            call.respondText(Thread.currentThread().getContextClassLoader().getResourceAsStream("client/index.html")!!.bufferedReader().readText(), ContentType.Text.Html)
+        }
+        get("/relive-simulator-client.js") {
+            call.respondText(Thread.currentThread().getContextClassLoader().getResourceAsStream("client/relive-simulator-client.js")!!.bufferedReader().readText(), ContentType.Text.JavaScript)
         }
         post("/simulate") {
             val parameters = call.receive<SimulationParameters>()

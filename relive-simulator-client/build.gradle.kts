@@ -11,6 +11,7 @@ version = "0.0.1"
 repositories {
     maven { url = uri("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven") }
     mavenCentral()
+    maven { url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap") }
 }
 
 dependencies {
@@ -22,7 +23,7 @@ dependencies {
 }
 
 kotlin {
-    js {
+    js(IR) {
         browser {
             distribution {
                 directory = File("${project(":relive-simulator-server").projectDir}/src/main/resources/client")
@@ -41,6 +42,11 @@ kotlin {
                     useChromeHeadless()
                     webpackConfig.cssSupport.enabled = true
                 }
+            }
+        }
+        compilations.all {
+            kotlinOptions {
+                freeCompilerArgs += "-Xir-property-lazy-initialization"
             }
         }
         binaries.executable()

@@ -17,7 +17,7 @@ interface PassiveEffect {
     fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition)
     fun formatName(value: Int, condition: Condition): String {
         val formattedValue = if (value != 0) " $value" else ""
-        val formattedCondition = (condition as? NamedCondition)?.let { " ${it.name}" } ?: ""
+        val formattedCondition = (condition as? NamedCondition)?.let { " [${it.displayName}]" } ?: ""
         return "$name$formattedValue$formattedCondition"
     }
 }
@@ -27,8 +27,7 @@ interface PassiveEffect {
  */
 enum class PassiveEffectCategory {
     Passive,
-    TurnStartPositive1,
-    TurnStartPositive2,
+    TurnStartPositive,
     TurnStartNegative,
 }
 

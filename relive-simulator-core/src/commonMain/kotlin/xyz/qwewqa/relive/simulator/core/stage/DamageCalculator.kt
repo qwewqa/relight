@@ -13,7 +13,7 @@ interface DamageCalculator {
 }
 
 class RandomDamageCalculator : DamageCalculator {
-    override fun damage(attacker: Actor, target: Actor, hitAttribute: HitAttribute) = attacker.context.run {
+    override fun damage(attacker: Actor, target: Actor, hitAttribute: HitAttribute): Unit = attacker.context.run {
         log("Hit") { "[${attacker.name}] attempts to hit [${target.name}]" }
         val result = calculateDamage(attacker, target, hitAttribute)
         result.apply {
@@ -24,10 +24,11 @@ class RandomDamageCalculator : DamageCalculator {
                         "Possible critical rolls: ${possibleRolls(true)}"
             }
         }
-        if (target.buffs.count(CountableBuff.Evade) > 0) {
-            target.buffs.remove(CountableBuff.Evade)
+        if (target.buffs.count(CountableBuff.Evasion) > 0) {
+            target.buffs.remove(CountableBuff.Evasion)
             if (self.perfectAimCounter <= 0 && !hitAttribute.focus) {
                 log("Hit") { "Miss from Evade" }
+                return@run
             }
         }
         if (self.perfectAimCounter > 0 || hitAttribute.focus || stage.random.nextDouble() < result.hitChance) {
@@ -77,6 +78,10 @@ class RandomDamageCalculator : DamageCalculator {
             }
         } else {
             attacker.context.log("Hit") { "Miss" }
+            return@run
+        }
+        hitAttribute.removeOnConnect?.let {
+            attacker.buffs.remove(it)
         }
     }
 
@@ -178,4 +183,5 @@ data class HitAttribute(
     val focus: Boolean = false,
     val noReflect: Boolean = false,
     val noVariance: Boolean = false,
+    val removeOnConnect: CountableBuff?,
 )

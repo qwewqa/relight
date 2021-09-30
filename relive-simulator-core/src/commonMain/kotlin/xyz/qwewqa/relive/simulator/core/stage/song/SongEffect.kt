@@ -19,7 +19,7 @@ interface SongEffect {
     fun end(context: ActionContext, value: Int, condition: Condition)
     fun formatName(value: Int, condition: Condition): String {
         val formattedValue = if (value != 0) " $value" else ""
-        val formattedCondition = (condition as? NamedCondition)?.let { " ${it.name}" } ?: ""
+        val formattedCondition = (condition as? NamedCondition)?.let { " [${it.displayName}]" } ?: ""
         return "$name$formattedValue$formattedCondition"
     }
 }

@@ -79,3 +79,15 @@ val CrazyMadScientist = Memoir(
         DexterityPassive.new(16)
     )
 )
+
+val ThePhantomAndChristine = Memoir(
+    name = "The Phantom and Christine",
+    stats = StatData(
+        actPower = 89,
+        normalDefense = 179,
+    ),
+    autoskills = listOf(
+        DamageDealtPassive.new(8),
+        CriticalUpPassive.new(30),
+    )
+)

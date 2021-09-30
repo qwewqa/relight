@@ -7,7 +7,7 @@ import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.condition.applyIfTrue
 
 object BrillianceRecoveryPassive : PassiveEffect {
-    override val category = PassiveEffectCategory.TurnStartPositive1
+    override val category = PassiveEffectCategory.TurnStartPositive
 
     override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
@@ -18,7 +18,7 @@ object BrillianceRecoveryPassive : PassiveEffect {
 
 
 object TeamBrillianceRecoveryPassive : PassiveEffect {
-    override val category = PassiveEffectCategory.TurnStartPositive1
+    override val category = PassiveEffectCategory.TurnStartPositive
 
     override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->

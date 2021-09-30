@@ -3,6 +3,7 @@ package xyz.qwewqa.relive.simulator.core.stage
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
@@ -45,10 +46,12 @@ class ActionContext(
     fun targetAllyFront(count: Int = 1) = team.active.take(count).targetContext()
     fun targetAllyBack(count: Int = 1) = team.active.takeLast(count).targetContext()
     fun targetAllyRandom(count: Int = 1) = List(count) { team.active.random(stage.random) }.targetContext()
-
-    fun targetHighestAct(count: Int = 1) = targetHighest(count) { it.actPower }
-    fun <T : Comparable<T>> targetHighest(count: Int = 1, condition: (Actor) -> T) =
+    fun <T : Comparable<T>>  targetByHighest(count: Int = 1, condition: (Actor) -> T) =
         enemy.active.sortedBy(condition).take(count).targetContext()
+    fun <T : Comparable<T>> targetAllyByHighest(count: Int = 1, selector: (Actor) -> T) =
+        team.active.sortedByDescending(selector).take(count).targetContext()
+    fun <T : Comparable<T>> targetAllyByLowest(count: Int = 1, selector: (Actor) -> T) =
+        team.active.sortedBy(selector).take(count).targetContext()
 
     fun Team.forEach(action: (Actor) -> Unit) = active.forEach(action)
 }
@@ -75,6 +78,7 @@ class TargetContext(
         focus: Boolean = actionContext.focusEnabled,
         noVariance: Boolean = false,
         noReflect: Boolean = false,
+        removeOnConnect: CountableBuff? = null,
     ) {
         if (!self.isAlive) return
         repeat(if (autoRepeatHits) hitCount else 1) {
@@ -92,6 +96,7 @@ class TargetContext(
                         focus = focus,
                         noReflect = noReflect,
                         noVariance = noVariance,
+                        removeOnConnect = removeOnConnect,
                     )
                 )
             }
@@ -121,6 +126,34 @@ class TargetContext(
                             stage.log("Effect") { "Negative buff ${effect.formatName(value)} (${turns}t) applied" }
                         } else {
                             stage.log("Effect") { "Negative buff ${effect.formatName(value)} (${turns}t) missed" }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun applyCountableBuff(effect: CountableBuff, value: Int = 1, chance: Int = 100) {
+        if (!self.isAlive) return
+        targets.forEach {
+            it.apply {
+                when (effect.category) {
+                    BuffCategory.Positive -> {
+                        val applyChance = chance / 100.0
+                        if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
+                            buffs.addCountable(effect, value)
+                            context.log("Effect") { "Positive buff [${effect.name}] (${value}) applied" }
+                        } else {
+                            context.log("Effect") { "Positive buff [${effect.name}] (${value}) missed" }
+                        }
+                    }
+                    BuffCategory.Negative -> {
+                        val applyChance = chance / 100.0
+                        if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
+                            buffs.addCountable(effect, value)
+                            stage.log("Effect") { "Negative buff [${effect.name}] (${value}) applied" }
+                        } else {
+                            stage.log("Effect") { "Negative buff [${effect.name}] (${value}) missed" }
                         }
                     }
                 }

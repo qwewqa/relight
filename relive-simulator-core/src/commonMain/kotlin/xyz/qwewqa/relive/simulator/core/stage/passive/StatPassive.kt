@@ -80,7 +80,7 @@ object EffectiveDamageDealtPassive : PassiveEffect {
     }
 }
 
-object NegativeEffectResistPassive : PassiveEffect {
+object NegativeEffectResistancePassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
 
     override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) = context.run {

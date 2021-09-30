@@ -20,7 +20,9 @@ inline fun Condition.applyIfTrue(actor: Actor, block: Actor.() -> Unit) {
 data class NamedCondition(
     val name: String,
     val condition: Condition,
-) : Condition by condition
+) : Condition by condition {
+    val displayName get() = "$name only"
+}
 
 infix fun NamedCondition.or(other: NamedCondition) = NamedCondition(
     "$name or ${other.name}"
