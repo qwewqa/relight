@@ -131,7 +131,7 @@ class Actor(
         val burnTotal = burnFixed + burnPercent
         if (burnTotal > 0) {
             context.log("Burn") { "Burn tick." }
-            damage(burnTotal, addBrilliance = false)
+            damage(burnTotal, additionalEffects = false)
         }
     }
 
@@ -142,6 +142,10 @@ class Actor(
     fun execute(act: Act, apCost: Int) {
         if (buffs.any(StopBuff)) {
             context.log("Abnormal") { "Act prevented by stop." }
+            return
+        }
+        if (buffs.any(FreezeBuff)) {
+            context.log("Abnormal") { "Act prevented by freeze." }
             return
         }
         if (buffs.any(SleepBuff)) {
@@ -186,7 +190,7 @@ class Actor(
     /**
      * Damages this stage girl by [amount].
      */
-    fun damage(amount: Int, addBrilliance: Boolean = true) = context.run {
+    fun damage(amount: Int, additionalEffects: Boolean = true) = context.run {
         if (!isAlive) {
             context.log("Damage") { "Already exited" }
             return
@@ -198,8 +202,12 @@ class Actor(
             exit()
             return@run
         }
-        if (addBrilliance) {
+        if (additionalEffects) {
             self.addBrilliance(amount * 70 / self.maxHp)
+            self.buffs.removeAll(FreezeBuff)
+            if (self.buffs.count(SleepBuff) > 0 && stage.random.nextDouble() > 0.2) {
+                self.buffs.removeAll(SleepBuff)
+            }
         }
 
     }
