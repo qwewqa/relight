@@ -1,5 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.buff
 
+import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+
 object StopBuff : BuffEffect {
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
@@ -18,12 +20,18 @@ object ConfusionBuff : BuffEffect {
     override fun formatName(value: Int) = name
 }
 
-//Not really sure how to implement freeze since it has properties of both timed and countable buffs.
-
 object FreezeBuff : BuffEffect {
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
     override fun formatName(value: Int) = name
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueDamageTakenDownBuff -= 50
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueDamageTakenDownBuff += 50
+    }
 }
 
 sealed interface BurnBuffEffect : BuffEffect

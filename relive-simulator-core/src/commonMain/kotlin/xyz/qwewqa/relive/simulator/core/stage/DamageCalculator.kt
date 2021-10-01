@@ -72,9 +72,9 @@ class RandomDamageCalculator : DamageCalculator {
                     }
                 }
             }
-            target.damage(afterBarrier, addBrilliance = hitAttribute.addBrilliance)
+            target.damage(afterBarrier, additionalEffects = hitAttribute.addBrilliance)
             if (reflected > 0) {
-                self.damage(reflected, addBrilliance = false)
+                self.damage(reflected, additionalEffects = false)
             }
         } else {
             attacker.context.log("Hit") { "Miss" }
