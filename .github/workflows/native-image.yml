@@ -30,7 +30,7 @@ jobs:
       - name: 'Publish JAR'
         uses: actions/upload-artifact@v2
         with:
-          name: 'relive-simulator-${{env.VERSION}}-all.jar'
+          name: 'relive-simulator-server-${{env.VERSION}}-all.jar'
           path: relive-simulator-server/build/libs/*-all.jar
 
   build-non-windows-image:
@@ -72,21 +72,17 @@ jobs:
       - name: 'Get JAR Artifact'
         uses: actions/download-artifact@v2
         with:
-          name: 'relive-simulator-${{env.VERSION}}-all.jar'
-
-      - name: 'Display downloaded files'
-        run: |
-          ls -R
+          name: 'relive-simulator-server-${{env.VERSION}}-all.jar'
 
       - name: 'Build Native Image'
         run: |
-          native-image -jar relive-simulator-${{env.VERSION}}-all.jar
+          native-image -jar relive-simulator-server-${{env.VERSION}}-all.jar
       - name: 'Publish Native Image'
         if: success()
         uses: actions/upload-artifact@v2
         with:
-          name: 'relive-simulator-${{env.VERSION}}-${{matrix.label}}'
-          path: 'relive-simulator-${{env.VERSION}}-all'
+          name: 'relive-simulator-server-${{env.VERSION}}-${{matrix.label}}'
+          path: 'relive-simulator-server-${{env.VERSION}}-all'
 
   build-windows-image:
     needs: [build-jar-job]
@@ -118,11 +114,7 @@ jobs:
       - name: 'Get JAR Artifact'
         uses: actions/download-artifact@v2
         with:
-          name: 'relive-simulator-${{env.VERSION}}-all.jar'
-
-      - name: 'Display downloaded files'
-        shell: cmd
-        run: dir
+          name: 'relive-simulator-server-${{env.VERSION}}-all.jar'
 
       - name: 'Build Native Image'
         shell: cmd
@@ -130,10 +122,10 @@ jobs:
           JAVA_HOME: ./graalvm-ce-java11-21.1.0
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
-          ./graalvm-ce-java11-21.1.0/bin/native-image -jar relive-simulator-${{env.VERSION}}-all.jar
+          ./graalvm-ce-java11-21.1.0/bin/native-image -jar relive-simulator-server-${{env.VERSION}}-all.jar
       - name: 'Publish Windows Image'
         if: success()
         uses: actions/upload-artifact@v2
         with:
-          name: 'relive-simulator-${{env.VERSION}}-windows.exe'
-          path: 'relive-simulator-${{env.VERSION}}-all.exe'
+          name: 'relive-simulator-server-${{env.VERSION}}-windows.exe'
+          path: 'relive-simulator-server-${{env.VERSION}}-all.exe'
