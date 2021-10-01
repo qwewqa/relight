@@ -5,6 +5,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.back.snow.StageGirlRui
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.snow.StageGirlRui95
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.wind.FoolYachiyo
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.TowerHikari
+import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.HondaFutaba
 
 val playerDresses = listOf(
     StageGirlRui,
@@ -12,4 +13,5 @@ val playerDresses = listOf(
     DeathTamao,
     TowerHikari,
     FoolYachiyo,
+    HondaFutaba,
 ).associateBy { it.name }
