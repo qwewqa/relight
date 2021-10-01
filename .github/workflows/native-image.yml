@@ -56,11 +56,11 @@ jobs:
           java-version: 11
 
       - name: 'Setup GraalVM Environment'
-        uses: DeLaGuardo/setup-graalvm@master
+        uses: DeLaGuardo/setup-graalvm@5.0
         with:
-          java-version: 11
-          graalvm-version: '21.1.0.java11'
-          native-image: true
+          graalvm: '21.1.0'
+          java: 'java11'
+          arch: 'amd64'
 
       - name: 'Get Version Number'
         run: |
