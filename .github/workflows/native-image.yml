@@ -26,7 +26,7 @@ jobs:
           ./gradlew :relive-simulator-server:shadowJar
       - name: 'Get Version Number'
         run: |
-          echo "VERSION=$(./gradlew :relive-simulator-server:properties -q | grep "version:" | awk '{print $2}')" >> $GITHUB_ENV
+          echo "VERSION=$(./gradlew :relive-simulator-server:properties -q | grep "^version:" | awk '{print $2}')" >> $GITHUB_ENV
       - name: 'Publish JAR'
         uses: actions/upload-artifact@v2
         with:
@@ -64,7 +64,7 @@ jobs:
 
       - name: 'Get Version Number'
         run: |
-          echo "VERSION=$(./gradlew :relive-simulator-server:properties -q | grep "version:" | awk '{print $2}')" >> $GITHUB_ENV
+          echo "VERSION=$(./gradlew :relive-simulator-server:properties -q | grep "^version:" | awk '{print $2}')" >> $GITHUB_ENV
       - name: 'Get JAR Artifact'
         uses: actions/download-artifact@v2
         with:
@@ -104,7 +104,7 @@ jobs:
           choco install visualstudio2019-workload-vctools
       - name: 'Get Version Number'
         run: |
-          echo "VERSION=$(./gradlew :relive-simulator-server:properties -q | grep "version:" | awk '{print $2}')" >> $GITHUB_ENV
+          echo "VERSION=$(./gradlew :relive-simulator-server:properties -q | grep "^version:" | awk '{print $2}')" >> $GITHUB_ENV
         shell: bash
 
       - name: 'Get JAR Artifact'
