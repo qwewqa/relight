@@ -160,6 +160,7 @@ object EffectiveDamageDealtUpBuff : BuffEffect {
 object BrillianceGainDownBuff : BuffEffect {
     override val name = "Brilliance Gain Down"
     override val category = BuffCategory.Negative
+    override val flipped get() = BrillianceGainUpBuff
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.valueBrillianceGainUp -= value
@@ -167,5 +168,50 @@ object BrillianceGainDownBuff : BuffEffect {
 
     override fun onEnd(context: ActionContext, value: Int) = context.run {
         self.valueBrillianceGainUp += value
+    }
+}
+
+
+object BrillianceGainUpBuff : BuffEffect {
+    override val name = "Brilliance Gain Up"
+    override val category = BuffCategory.Positive
+    override val flipped get() = BrillianceGainDownBuff
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueBrillianceGainUp += value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueBrillianceGainUp -= value
+    }
+}
+
+
+object EvasionRateUpBuff : BuffEffect {
+    override val name = "Evasion Rate Up"
+    override val category = BuffCategory.Positive
+    override val flipped get() = EvasionRateDownBuff
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueEvasion += value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueEvasion -= value
+    }
+}
+
+
+object EvasionRateDownBuff : BuffEffect {
+    override val name = "Evasion Rate Down"
+    override val category = BuffCategory.Negative
+    override val flipped get() = EvasionRateUpBuff
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueEvasion -= value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueEvasion += value
     }
 }

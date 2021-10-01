@@ -18,6 +18,14 @@ object ConfusionBuff : BuffEffect {
     override fun formatName(value: Int) = name
 }
 
+//Not really sure how to implement freeze since it has properties of both timed and countable buffs.
+
+object FreezeBuff : BuffEffect {
+    override val category = BuffCategory.Negative
+    override val exclusive: Boolean = true
+    override fun formatName(value: Int) = name
+}
+
 sealed interface BurnBuffEffect : BuffEffect
 
 object BurnBuff : BurnBuffEffect {
