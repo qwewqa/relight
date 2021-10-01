@@ -74,6 +74,10 @@ jobs:
         with:
           name: 'relive-simulator-${{env.VERSION}}-all.jar'
 
+      - name: 'Display downloaded files'
+        run: |
+          ls -R
+
       - name: 'Build Native Image'
         run: |
           native-image -jar relive-simulator-${{env.VERSION}}-all.jar
@@ -115,6 +119,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: 'relive-simulator-${{env.VERSION}}-all.jar'
+
+      - name: 'Display downloaded files'
+        shell: cmd
+        run: dir
 
       - name: 'Build Native Image'
         shell: cmd
