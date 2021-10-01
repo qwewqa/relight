@@ -64,7 +64,7 @@ jobs:
 
       - name: 'Setup GraalVM native-image'
         run: |
-          ${{ matrix.gu-binary }} install native-image
+          gu install native-image
 
       - name: 'Get Version Number'
         run: |
