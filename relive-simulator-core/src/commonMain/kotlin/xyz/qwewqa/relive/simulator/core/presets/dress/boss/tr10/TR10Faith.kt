@@ -184,5 +184,8 @@ val tr10FaithMisoraStrategy = FixedStrategy {
             +boss[ActType.Act7]
             +boss[ActType.Act3]
         }
+        else -> {
+            error("Unsupported.")
+        }
     }
 }

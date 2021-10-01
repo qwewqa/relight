@@ -76,6 +76,57 @@ val ActCritical50UnitSkill = UnitSkill(
     ),
     listOf(TeamActUpPassive, TeamCriticalUpPassive)
 )
+val SelfActCritical50UnitSkill = UnitSkill(
+    listOf(
+        listOf(
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            22,
+            24,
+            26,
+            28,
+            30,
+            32,
+            34,
+            36,
+            40,
+            50
+        ),
+        listOf(
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            22,
+            24,
+            26,
+            28,
+            30,
+            32,
+            34,
+            36,
+            40,
+            50
+        ),
+    ),
+    listOf(ActUpPassive, CriticalUpPassive)
+)
 val ActCritical30UnitSkill = UnitSkill(
     listOf(
         listOf(
