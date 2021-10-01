@@ -26,11 +26,11 @@ object FreezeBuff : BuffEffect {
     override fun formatName(value: Int) = name
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.valueDamageTakenDownBuff -= 50
+        self.valueDamageTakenDownBuff -= 30
     }
 
     override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.valueDamageTakenDownBuff += 50
+        self.valueDamageTakenDownBuff += 30
     }
 }
 

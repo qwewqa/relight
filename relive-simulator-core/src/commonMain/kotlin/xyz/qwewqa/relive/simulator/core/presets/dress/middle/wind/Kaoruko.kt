@@ -1,7 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.SpecialDamageOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.SelfOnlyCondition
 import xyz.qwewqa.relive.simulator.core.stage.actor.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
@@ -74,8 +73,5 @@ val CatalinaKaoruko = Dress(
         EffectiveDamageDealtPassive.new(10),
         DexterityPassive.new(10),
     ),
-
-    //Not sure how you wish to implement selfish US.
-
-    unitSkill = ActCritical50UnitSkill + SelfOnlyCondition,
+    unitSkill = SelfActCritical50UnitSkill,
 )
