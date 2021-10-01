@@ -62,6 +62,10 @@ jobs:
           java: 'java11'
           arch: 'amd64'
 
+      - name: 'Setup GraalVM native-image'
+        run: |
+          ${{ matrix.gu-binary }} install native-image
+
       - name: 'Get Version Number'
         run: |
           echo "VERSION=$(./gradlew :relive-simulator-server:properties -q | grep "^version:" | awk '{print $2}')" >> $GITHUB_ENV
