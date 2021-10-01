@@ -12,7 +12,7 @@ import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
 val HondaFutaba = Dress(
-    name = "Honda Futaba 9.8",
+    name = "Honda Futaba",
     character = Character.Futaba,
     attribute = Attribute.Wind,
     damageType = DamageType.Special,
@@ -74,19 +74,17 @@ val HondaFutaba = Dress(
             }
         },
         ActType.ClimaxAct("Invincible Spear", 2) {
-            focus {
-                targetBack().act {
-                    flipTimed(
-                        category = BuffCategory.Positive,
-                        count = 5
-                    )
-                    attack(
-                        modifier = 369,
-                        hitCount = 3,
-                        bonusMultiplier = 150,
-                        bonusCondition = NormalDamageOnlyCondition
-                    )
-                }
+            targetBack().act {
+                flipTimed(
+                    category = BuffCategory.Positive,
+                    count = 5
+                )
+                attack(
+                    modifier = 369,
+                    hitCount = 3,
+                    bonusMultiplier = 150,
+                    bonusCondition = NormalDamageOnlyCondition
+                )
             }
         }
     ),
