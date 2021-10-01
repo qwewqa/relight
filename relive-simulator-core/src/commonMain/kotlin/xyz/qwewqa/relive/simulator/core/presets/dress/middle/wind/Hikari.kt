@@ -71,23 +71,21 @@ val TowerHikari = Dress(
             }
         },
         ActType.ClimaxAct("Tower's Conviction", 2) {
-            focus {
-                targetAoe().act {
-                    attack(
-                        modifier = 197,
-                        hitCount = 5,
-                    )
-                }
-                targetAllyAoe().act {
-                    applyBuff(
-                        ApplyEvasionBuff,
-                        value = 2
-                    )
-                    applyBuff(
-                        ApplyFortitudeBuff,
-                        value = 1,
-                    )
-                }
+            targetAoe().act {
+                attack(
+                    modifier = 197,
+                    hitCount = 5,
+                )
+            }
+            targetAllyAoe().act {
+                applyBuff(
+                    ApplyEvasionBuff,
+                    value = 2
+                )
+                applyBuff(
+                    ApplyFortitudeBuff,
+                    value = 1,
+                )
             }
         }
     ),
