@@ -51,7 +51,7 @@ val FirstAnnivSiegfeldInstituteOfMusic = Memoir(
 val FirstAnnivSiegfeldInstituteOfMusicLv1 = Memoir(
     name = "(1st Anniv.) Siegfeld Institute of Music [0ub, lv1]",
     stats = StatData(
-        hp = 2999,
+        hp = 300,
     ),
     autoskills = listOf(
         TeamActPowerUpPassive.new(5) + SiegfeldOnlyCondition
@@ -89,5 +89,101 @@ val ThePhantomAndChristine = Memoir(
     autoskills = listOf(
         DamageDealtPassive.new(8),
         CriticalUpPassive.new(30),
+    )
+)
+
+val PoolsideIncident = Memoir(
+    name = "Poolside Incident",
+    stats = StatData(
+        actPower = 149,
+    ),
+    autoskills = listOf(
+        BrillianceRecoveryPassive.new(32),
+        SelfPerfectAimBuffPassive.new(turns = 3),
+    )
+)
+
+val MerryChristmas2019 = Memoir(
+    name = "Merry Christmas 2019",
+    stats = StatData(
+        actPower = 149,
+    ),
+    autoskills = listOf(
+        BrillianceRecoveryPassive.new(32),
+        SelfDexterityUpBuffPassive.new(16,3),
+    )
+)
+
+val PrinceAndPrincessEtude = Memoir(
+    name = "Prince and Princess Etude",
+    stats = StatData(
+        actPower = 149,
+    ),
+    autoskills = listOf(
+        DexterityPassive.new(16),
+        EffectiveDamageDealtPassive.new(12),
+    )
+)
+
+val SunsetLabMemBadge = Memoir(
+    name = "Sunset Lab Mem Badge",
+    stats = StatData(
+        actPower = 299,
+        specialDefense = 499,
+    ),
+    autoskills = listOf(
+        BrillianceRecoveryPassive.new(40),
+    )
+)
+
+val ReminiscenceMelody = Memoir(
+    name = "Reminiscence Melody",
+    stats = StatData(
+        actPower = 299,
+        specialDefense = 499,
+    ),
+    autoskills = listOf(
+        BrillianceRecoveryPassive.new(32),
+        SelfCriticalUpBuffPassive.new(30,6),
+        SelfEffectiveDamageDealtUpBuffPassive.new(12,6),
+    )
+)
+
+val ReminiscenceMelodyLv60 = Memoir(
+    name = "Reminiscence Melody Lv60",
+    stats = StatData(
+        actPower = 231,
+        specialDefense = 386,
+    ),
+    autoskills = listOf(
+        BrillianceRecoveryPassive.new(22),
+        SelfCriticalUpBuffPassive.new(21,6),
+        SelfEffectiveDamageDealtUpBuffPassive.new(8,6),
+    )
+)
+
+val KappoTomoyesPosterGirl = Memoir(
+    name = "Kappo Tomoye's Poster Girl",
+    stats = StatData(
+        hp = 2999,
+        actPower = 299,
+    ),
+    autoskills = listOf(
+        BrillianceRecoveryPassive.new(32),
+        SelfDexterityUpBuffPassive.new(16,6),
+        SelfEffectiveDamageDealtUpBuffPassive.new(12,6),
+    )
+)
+
+val KappoTomoyesPosterGirlLv60 = Memoir(
+    name = "Kappo Tomoye's Poster Girl Lv60",
+    stats = StatData(
+        hp = 2316,
+        actPower = 231,
+    ),
+    autoskills = listOf(
+        BrillianceRecoveryPassive.new(32),
+        SelfDexterityUpBuffPassive.new(16,6),
+        SelfEffectiveDamageDealtUpBuffPassive.new(12,6),
     )
 )

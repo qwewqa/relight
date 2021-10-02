@@ -15,6 +15,10 @@ val TeamActPowerUpBuffPassive: PassiveEffect = GenericBuffPassive(ActPowerUpBuff
 val TeamDexterityUpBuffPassive: PassiveEffect = GenericBuffPassive(DexterityUpBuff) { targetAllyAoe() }
 val TeamCriticalUpBuffPassive: PassiveEffect = GenericBuffPassive(CriticalUpBuff) { targetAllyAoe() }
 val TeamEffectiveDamageDealtUpBuffPassive: PassiveEffect = GenericBuffPassive(EffectiveDamageDealtUpBuff) { targetAllyAoe() }
+val SelfPerfectAimBuffPassive: PassiveEffect = GenericBuffPassive(PerfectAim) { targetSelf() }
+val SelfDexterityUpBuffPassive: PassiveEffect = GenericBuffPassive(DexterityUpBuff) { targetSelf() }
+val SelfEffectiveDamageDealtUpBuffPassive : PassiveEffect = GenericBuffPassive(EffectiveDamageDealtUpBuff) { targetSelf() }
+val SelfCriticalUpBuffPassive : PassiveEffect = GenericBuffPassive(CriticalUpBuff) { targetSelf() }
 
 val TeamConfusionResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(ConfusionResistanceBuff) { targetAllyAoe() }
 val TeamStopResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(StopResistanceBuff) { targetAllyAoe() }
