@@ -1,15 +1,8 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run Server" type="KtorApplicationConfigurationType" factoryName="Ktor">
+  <configuration default="false" name="Run Server" type="JetRunConfigurationType">
+    <option name="MAIN_CLASS_NAME" value="xyz.qwewqa.relive.simulator.server.ApplicationKt" />
     <module name="relive-simulator.relive-simulator-server.main" />
-    <option name="alternativeJrePath" />
-    <option name="alternativeJrePathEnabled" value="false" />
-    <option name="includeProvidedScope" value="true" />
-    <option name="mainClass" value="xyz.qwewqa.relive.simulator.server.ApplicationKt" />
-    <option name="passParentEnvs" value="true" />
-    <option name="programParameters" value="" />
-    <option name="shortenCommandLine" value="NONE" />
-    <option name="vmParameters" value="" />
-    <option name="workingDirectory" value="" />
+    <shortenClasspath name="NONE" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

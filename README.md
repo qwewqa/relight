@@ -9,5 +9,5 @@ Run the server.
 
 GraalVM Native image.
 ```
-native-image --no-fallback --report-unsupported-elements-at-runtime --install-exit-handlers --allow-incomplete-classpath --initialize-at-build-time=kotlinx,kotlin,org.slf4j,ch.qos.logback -H:+ReportUnsupportedElementsAtRuntime -H:+ReportExceptionStackTraces -jar relive-simulator-server-0.0.1-all.jar
+native-image -jar relive-simulator-server-0.0.1-all.jar
 ```
