@@ -24,7 +24,7 @@ val tr10FaithMisora = ActorLoadout(
         position = Position.None,
         stats = defaultDressStats.copy(
             hp = 5_000_000,
-            actPower = 1900,
+            actPower = 2100,
             normalDefense = 650,
             specialDefense = 650,
             agility = 1,
@@ -86,12 +86,12 @@ val tr10FaithMisora = ActorLoadout(
                     )
                     applyBuff(
                         effect = DexterityUpBuff,
-                        value = 50,
+                        value = 30,
                         turns = 3,
                     )
                     applyBuff(
                         effect = CriticalUpBuff,
-                        value = 50,
+                        value = 30,
                         turns = 3,
                     )
                 }
