@@ -81,7 +81,7 @@ data class SimulationParameters(
                 listOf(
                     bossLoadouts[boss]!!.loadout
                 ),
-                strategy = bossLoadouts[boss]!!.strategy
+                strategy = { bossLoadouts[boss]!!.strategy }
             ),
             {
                 player.actors.values.forEach { it.eventBonus = eventBonus }
