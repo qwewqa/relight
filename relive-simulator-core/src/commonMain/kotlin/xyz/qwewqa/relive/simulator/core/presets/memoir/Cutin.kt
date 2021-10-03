@@ -1,6 +1,5 @@
 package xyz.qwewqa.relive.simulator.core.presets.memoir
 
-import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.DexterityUpBuff
@@ -55,13 +54,14 @@ val UnburnedFlowerUnwitheredFlame = Memoir(
         usageLimit = 2,
         target = CutinTarget.BeforeEnemyAct(1),
         act = {
-            targetByLowest { it.EnemyTurnOrder }.act {
-                applyBuff(
-                    effect = FreezeBuff,
-                    turns = 2,
-                    chance = 100,
-                )
-            }
+            TODO()
+//            targetByLowest { it.EnemyTurnOrder }.act {
+//                applyBuff(
+//                    effect = FreezeBuff,
+//                    turns = 2,
+//                    chance = 100,
+//                )
+//            }
         }
     )
 )
@@ -78,7 +78,7 @@ val XIIHangedManReverse = Memoir(
         cooldownStart = 1,
         cooldown = 2,
         usageLimit = 2,
-        target = CutinTarget.StartOfTurn(),
+        target = CutinTarget.TurnStart,
         act = {
             targetAllyFront(5).act {
                 applyBuff(
@@ -103,7 +103,7 @@ val XIIHangedManReverseLv65 = Memoir(
         cooldownStart = 2,
         cooldown = 3,
         usageLimit = 1,
-        target = CutinTarget.StartOfTurn(),
+        target = CutinTarget.TurnStart,
         act = {
             targetAllyFront(5).act {
                 applyBuff(
@@ -128,7 +128,7 @@ val VILoversReverse = Memoir(
         cooldownStart = 1,
         cooldown = 2,
         usageLimit = 2,
-        target = CutinTarget.StartOfTurn(),
+        target = CutinTarget.TurnStart,
         act = {
             targetAllyFront(5).act {
                 applyBuff(
@@ -153,7 +153,7 @@ val VILoversReverseLv65 = Memoir(
         cooldownStart = 2,
         cooldown = 3,
         usageLimit = 1,
-        target = CutinTarget.StartOfTurn(),
+        target = CutinTarget.TurnStart,
         act = {
             targetAllyFront(5).act {
                 applyBuff(
@@ -181,7 +181,7 @@ val XVITowerUpright = Memoir(
         cooldownStart = 1,
         cooldown = 2,
         usageLimit = 2,
-        target = CutinTarget.StartOfTurn(),
+        target = CutinTarget.TurnStart,
         act = {
             targetBack(1).act {
                 applyBuff(
@@ -208,7 +208,7 @@ val XVITowerUprightLv65 = Memoir(
         cooldownStart = 2,
         cooldown = 3,
         usageLimit = 1,
-        target = CutinTarget.StartOfTurn(),
+        target = CutinTarget.TurnStart,
         act = {
             targetBack(1).act {
                 applyBuff(
