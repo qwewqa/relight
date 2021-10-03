@@ -38,12 +38,18 @@ object CsNil : CsObject {
 
 fun Number.asCsNumber() = CsNumber(toDouble())
 fun Boolean.asCsBoolean() = CsBoolean(this)
+fun String.asCSString() = CsString(this)
 
 fun CsObject.number() = (this as? CsNumber)?.value ?: csError("Expected a number.")
 
 data class CsNumber(val value: Double) : CsObject {
     override fun bool() = value != 0.0
     override fun display() = value.toString()
+}
+
+data class CsString(val value: String) : CsObject {
+    override fun bool() = value.isNotEmpty()
+    override fun display() = value
 }
 
 data class CsBoolean(val value: Boolean) : CsObject {
@@ -71,6 +77,9 @@ class CsActor(val value: Actor) : CsObject {
         "alive" -> value.isAlive.asCsBoolean()
         "canCx" -> (value.brilliance >= 100).asCsBoolean()
         "inCx" -> value.inCX.asCsBoolean()
+        "hp" -> value.hp.asCsNumber()
+        "maxHp" -> value.maxHp.asCsNumber()
+        "brilliance" -> value.brilliance.asCsNumber()
         else -> null
     }
     override fun display() = value.name
@@ -109,5 +118,7 @@ data class CsList(val value: List<CsObject>) : CsObject {
         }
         else -> null
     }
+
+    override fun bool() = value.isNotEmpty()
     override fun display() = value.toString()
 }

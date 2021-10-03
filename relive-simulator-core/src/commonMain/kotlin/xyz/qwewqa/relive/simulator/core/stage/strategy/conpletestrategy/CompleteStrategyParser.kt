@@ -5,8 +5,6 @@ import com.github.h0tk3y.betterParse.grammar.Grammar
 import com.github.h0tk3y.betterParse.grammar.parser
 import com.github.h0tk3y.betterParse.lexer.*
 import com.github.h0tk3y.betterParse.parser.Parser
-import xyz.qwewqa.relive.simulator.core.stage.strategy.conpletestrategy.CsParser.getValue
-import xyz.qwewqa.relive.simulator.core.stage.strategy.conpletestrategy.CsParser.provideDelegate
 
 enum class NumericalInfixOperator {
     PLUS,
@@ -72,6 +70,7 @@ object CsParser : Grammar<CsScriptNode>() {
 
     val num by regexToken("[0-9]+(\\.[0-9]+)?")
     val ident by regexToken("([^\\W0-9]\\w*)|(`[^`]+`)")
+    val str by regexToken("\".*\"")
     val nl by regexToken("\\r?\\n", ignore = true)
     val ws by regexToken("[^\\S\\r\\n]+", ignore = true)
 
@@ -95,12 +94,14 @@ object CsParser : Grammar<CsScriptNode>() {
     val identifier by ident.use { if (text[0] == '`') text.substring(1 until text.length - 1) else text }
 
     val numLiteral by num.use { CsLiteralNode(text.toDouble().asCsNumber()) }
+    val strLiteral by str.use { CsLiteralNode(text.substring(1 until text.length - 1).asCSString()) }
     val identifierExpression by identifier.map { CsIdentifierNode(it) }
 
     val expressionList by separatedTerms(parser { expression }, comma) or zeroOrMore(parser { expression } * -comma)
 
     val atomicExpression
             by numLiteral or
+                    strLiteral or
                     identifierExpression or
                     (-lpar * parser { expression } * -rpar)
 

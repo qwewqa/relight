@@ -43,7 +43,8 @@ sealed interface CsCaseClause {
 data class CsExpressionCase(val condition: List<CsExpressionNode>, override val body: CsStatementNode) : CsCaseClause
 data class CsDefaultCase(override val body: CsStatementNode) : CsCaseClause
 
-data class CsIfNode(val condition: CsExpressionNode, val tbranch: CsStatementNode, val fbranch: CsStatementNode?) : CsStatementNode {
+data class CsIfNode(val condition: CsExpressionNode, val tbranch: CsStatementNode, val fbranch: CsStatementNode?) :
+    CsStatementNode {
     override fun execute(context: CsContext) {
         if (condition.evaluate(context).bool()) {
             tbranch.execute(context)
@@ -93,15 +94,21 @@ data class CsNumericalInfixOperatorNode(
     val op: NumericalInfixOperator,
 ) : CsExpressionNode {
     override fun evaluate(context: CsContext): CsObject {
-        val l = lhs.evaluate(context).number()
-        val r = rhs.evaluate(context).number()
+        val l = lhs.evaluate(context)
+        val r = rhs.evaluate(context)
         return when (op) {
-            NumericalInfixOperator.PLUS -> l + r
-            NumericalInfixOperator.MINUS -> l - r
-            NumericalInfixOperator.DIV -> l / r
-            NumericalInfixOperator.TIMES -> l * r
-            NumericalInfixOperator.MOD -> l % r
-        }.asCsNumber()
+            NumericalInfixOperator.PLUS -> {
+                if (l is CsString || r is CsString) {
+                    (l.display() + r.display()).asCSString()
+                } else {
+                    (l.number() + r.number()).asCsNumber()
+                }
+            }
+            NumericalInfixOperator.MINUS -> (l.number() - r.number()).asCsNumber()
+            NumericalInfixOperator.DIV -> (l.number() / r.number()).asCsNumber()
+            NumericalInfixOperator.TIMES -> (l.number() * r.number()).asCsNumber()
+            NumericalInfixOperator.MOD -> (l.number() % r.number()).asCsNumber()
+        }
     }
 }
 
