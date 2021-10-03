@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage
 
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
 import xyz.qwewqa.relive.simulator.core.stage.strategy.ActionTile
 import xyz.qwewqa.relive.simulator.core.stage.strategy.IdleTile
@@ -85,6 +86,12 @@ class Stage(
                 if (enemyQueue.climax) {
                     log("Climax") { "enemy Climax" }
                     enemy.enterCX()
+                }
+                playerQueue.tiles.filterIsInstance<ActionTile>().forEach {
+                    if (it.actData.type == ActType.ClimaxAct) it.actor.enterCX()
+                }
+                enemyQueue.tiles.filterIsInstance<ActionTile>().forEach {
+                    if (it.actData.type == ActType.ClimaxAct) it.actor.enterCX()
                 }
                 val playerTiles = playerQueue.tiles + List(6 - playerQueue.tiles.size) { IdleTile }
                 val enemyTiles = enemyQueue.tiles + List(6 - enemyQueue.tiles.size) { IdleTile }

@@ -9,7 +9,7 @@ data class TeamLoadout(
     val actors: List<ActorLoadout>,
     val guest: ActorLoadout? = null,
     val song: Song = Song(),
-    val strategy: Strategy,
+    val strategy: () -> Strategy,
 ) {
     fun create() = Team(
         LinkedHashMap<String, Actor>().apply {
@@ -19,6 +19,6 @@ data class TeamLoadout(
         },
         guest?.create(),
         song,
-        strategy,
+        strategy(),
     )
 }

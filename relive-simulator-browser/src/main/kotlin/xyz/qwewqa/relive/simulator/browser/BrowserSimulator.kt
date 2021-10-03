@@ -167,7 +167,7 @@ class BrowserSimulator : Simulator, CoroutineScope {
                 listOf(
                     bossLoadouts[boss]!!.loadout
                 ),
-                strategy = bossLoadouts[boss]!!.strategy
+                strategy = { bossLoadouts[boss]!!.strategy }
             ),
             {
                 player.actors.values.forEach { it.eventBonus = eventBonus }

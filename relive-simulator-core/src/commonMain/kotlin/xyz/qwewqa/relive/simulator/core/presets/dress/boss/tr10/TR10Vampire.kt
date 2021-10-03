@@ -17,7 +17,7 @@ import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 val tr10VampireShiori = ActorLoadout(
     "TR10 Vampire Shiori",
     Dress(
-        name = "TR10 Vampire Shiori",
+        name = "Vampire Shiori",
         character = Character.Shiori,
         attribute = Attribute.Ice,
         damageType = DamageType.Normal,
