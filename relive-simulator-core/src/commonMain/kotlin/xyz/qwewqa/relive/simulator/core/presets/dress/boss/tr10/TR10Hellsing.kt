@@ -14,90 +14,72 @@ import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
 import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 
-val tr10FaithMisora = ActorLoadout(
-    "TR10 Faith Misora",
+val tr10HellsingMichiru = ActorLoadout(
+    "TR10 Hellsing Michiru",
     Dress(
-        name = "Faith Misora",
-        character = Character.Misora,
-        attribute = Attribute.Ice,
-        damageType = DamageType.Special,
+        name = "TR10 Hellsing Michiru",
+        character = Character.Michiru,
+        attribute = Attribute.Dream,
+        damageType = DamageType.Normal,
         position = Position.None,
         stats = defaultDressStats.copy(
-            hp = 5_000_000,
+            hp = 4_500_000,
             actPower = 2100,
             normalDefense = 650,
             specialDefense = 650,
             agility = 1,
         ),
         acts = actsOf(
-            ActType.Act1("Violent Thrust", 2) {
-                targetBack().act {
+            ActType.Act1("Slash", 2) {
+                targetFront().act {
+                    attack(
+                        modifier = 100,
+                        hitCount = 1,
+                    )
+                }
+            },
+            ActType.Act2("Strong Slash", 2) {
+                targetFront().act {
                     attack(
                         modifier = 150,
                         hitCount = 1,
                     )
                 }
             },
-            ActType.Act2("Violent Dual Thrust", 2) {
-                targetBack(2).act {
+            ActType.Act3("Triple Slash", 2) {
+                targetFront(3).act {
                     attack(
-                        modifier = 120,
-                        hitCount = 2,
+                        modifier = 70,
+                        hitCount = 3,
                     )
                 }
             },
-            ActType.Act3("Violent Triple Thrust", 2) {
-                targetBack(3).act {
+            ActType.Act4("Strong Triple Slash", 2) {
+                targetFront(3).act {
                     attack(
                         modifier = 100,
                         hitCount = 3,
                     )
                 }
             },
-            ActType.Act4("Counter Concerto", 2) {
+            ActType.Act5("Counter Concerto", 2) {
                 targetAoe().act {
                     attack(
                         modifier = 120,
-                        hitCount = 4,
-                    )
-                }
-            },
-            ActType.Act5("Evasion Strike", 2) {
-                targetAoe().act {
-                    attack(
-                        modifier = 150,
                         hitCount = 3,
                     )
                 }
-                targetSelf().act {
-                    applyBuff(
-                        effect = EvasionRateUpBuff,
-                        value = 50,
-                        turns = 2,
-                    )
-                }
             },
-            ActType.Act6("Inspiring Gust", 2) {
-                targetSelf().act {
-                    applyBuff(
-                        effect = ActPowerUpBuff,
-                        value = 50,
-                        turns = 3,
-                    )
-                    applyBuff(
-                        effect = DexterityUpBuff,
-                        value = 30,
-                        turns = 3,
-                    )
-                    applyBuff(
-                        effect = CriticalUpBuff,
-                        value = 30,
-                        turns = 3,
+            ActType.Act6("Flurry Dance", 2) {
+                targetAoe().act {
+                    attack(
+                        modifier = 150,
+                        hitCount = 5,
                     )
                 }
             },
             ActType.Act7("Weakening Concerto", 2) {
-                targetAoe().act {
+                targetAoe().act{
                     applyBuff(
                         effect = ActPowerDownBuff,
                         value = 50,
@@ -105,33 +87,59 @@ val tr10FaithMisora = ActorLoadout(
                     )
                 }
             },
-            ActType.Act8("Freezing Concerto", 2) {
+            ActType.Act8("Helpless Concerto", 2) {
+                targetAoe().act {
+                    applyBuff(
+                        effect = DexterityDownBuff,
+                        value = 30,
+                        turns = 3,
+                    )
+                    applyBuff(
+                        effect = CriticalDownBuff,
+                        value = 30,
+                        turns = 3,
+                    )
+                }
+            },
+            ActType.Act9("Perfect Aim Flurry", 2) {
+                targetSelf().act {
+                    applyBuff(
+                        effect = ActPowerUpBuff,
+                        value = 50,
+                        turns = 3,
+                    )
+                    applyBuff(
+                        PerfectAim,
+                        turns = 1,
+                    )
+                }
                 targetAoe().act {
                     attack(
                         modifier = 150,
                         hitCount = 4,
                     )
-                    applyBuff(
-                        effect = FreezeBuff,
-                        turns = 1,
-                        chance = 100,
-                    )
                 }
             },
-            ActType.ClimaxAct("Moonlight Sacrament NEO", 2) {
+            ActType.ClimaxAct("Cross of Retribution NEO", 2) {
+                targetSelf().act {
+                    applyBuff(
+                        effect = ActPowerUpBuff,
+                        value = 50,
+                        turns = 3,
+                    )
+                    applyBuff(
+                        PerfectAim,
+                        turns = 1,
+                    )
+                }
                 targetAoe().act {
                     attack(
                         modifier = 200,
                         hitCount = 4,
                     )
-                    applyBuff(
-                        effect = FreezeBuff,
-                        turns = 1,
-                        chance = 100,
-                    )
                 }
             },
-            ActType.ConfusionAct("Thrust", 2) {
+            ActType.ConfusionAct("Slash", 2) {
                 targetAllyRandom().act {
                     attack(
                         modifier = 105,
@@ -147,17 +155,6 @@ val tr10FaithMisora = ActorLoadout(
                     override val category = PassiveEffectCategory.Passive
 
                     override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) = context.run {
-                        listOf(ApUpBuff, ConfusionBuff).forEach {
-                            self.specificBuffResist[it] = 100
-                        }
-                        Attribute.values().forEach {
-                            self.againstAttributeDamageDealtUp[it] = 50
-                            self.againstAttributeDamageTakenDown[it] = 50
-                        }
-                        self.againstAttributeDamageDealtUp[Attribute.Wind] = 0
-                        self.againstAttributeDamageTakenDown[Attribute.Wind] = 0
-                        self.againstAttributeDamageDealtUp[Attribute.Dream] = 0
-                        self.againstAttributeDamageTakenDown[Attribute.Dream] = 0
                     }
                 }
             )
@@ -165,27 +162,25 @@ val tr10FaithMisora = ActorLoadout(
     ),
 )
 
-val tr10FaithMisoraStrategy = FixedStrategy {
+val tr10HellsingMichiruStrategy = FixedStrategy {
     val boss = this.team.actors.values.first()
 
     when (turn) {
         1 -> {
-            +boss[ActType.Act7]
             +boss[ActType.Act1]
-            +boss[ActType.Act2]
+            +boss[ActType.Act3]
+            +boss[ActType.Act7]
         }
         2 -> {
-            +boss[ActType.Act6]
-            +boss[ActType.Act3]
+            +boss[ActType.Act4]
             +boss[ActType.Act5]
+            +boss[ActType.Act8]
         }
         3 -> {
-            +boss[ActType.ClimaxAct]
             +boss[ActType.Act7]
-            +boss[ActType.Act3]
+            +boss[ActType.Act5]
+            +boss[ActType.ClimaxAct]
         }
-        else -> {
-            error("Unsupported.")
-        }
+        else -> error("Not supported.")
     }
 }

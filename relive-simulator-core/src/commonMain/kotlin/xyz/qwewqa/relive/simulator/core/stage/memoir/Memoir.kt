@@ -20,6 +20,7 @@ data class CutinData(
 )
 
 sealed class CutinTarget {
+    object TurnStart : CutinTarget()
     data class BeforeAllyAct(val index: Int) : CutinTarget()
     data class BeforeEnemyAct(val index: Int) : CutinTarget()
 }
