@@ -357,14 +357,24 @@ suspend fun start(simulator: Simulator) {
     GlobalScope.launch {
         while (true) {
             if (!done) {
-                simulation?.let {
-                    val result = it.pollResult()
+                simulation?.let { sim ->
+                    val result = sim.pollResult()
+                    val iterationResults = result.results.associate { it.result to it.count }
+                    val excludedCount = iterationResults[SimulationResultType.Excluded] ?: 0
                     val existingDiv = document.getElementById("results")!!
                     val newDiv = document.create.div {
                         id = "results"
                         p {
-                            result.results.forEach { (k, v) ->
-                                +"$k: $v (${v * 100.0 / result.currentIterations}%)"
+                            iterationResults.forEach { (k, v) ->
+                                if (excludedCount == 0) {
+                                    +"$k: $v (${v * 100.0 / result.currentIterations}%)"
+                                } else {
+                                    if (k == SimulationResultType.Excluded) {
+                                        +"$k: $v (N/A / ${v * 100.0 / result.currentIterations}%)"
+                                    } else {
+                                        +"$k: $v (${v * 100.0 / (result.currentIterations - excludedCount)}% / ${v * 100.0 / result.currentIterations}%)"
+                                    }
+                                }
                                 br { }
                             }
                             pre {
