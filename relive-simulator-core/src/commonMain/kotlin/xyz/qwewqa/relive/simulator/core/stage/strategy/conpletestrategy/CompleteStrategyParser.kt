@@ -108,7 +108,8 @@ object CsParser : Grammar<CsScriptNode>() {
         value.fold(lhs) { a, v -> CsAttributeAccessNode(a, v.text) }
     }
 
-    val functionCall: Parser<CsExpressionNode> by (parser { attributeAccess } * zeroOrMore(-lpar * optional(expressionList) * -rpar)).map { (lhs, calls) ->
+    val functionCall: Parser<CsExpressionNode> by (parser { attributeAccess } * zeroOrMore(-lpar * optional(
+        expressionList) * -rpar)).map { (lhs, calls) ->
         calls.fold(lhs) { a, v -> CsCallNode(a, v ?: emptyList()) }
     }
 
@@ -146,11 +147,11 @@ object CsParser : Grammar<CsScriptNode>() {
         (a + b).filterNotNull()
     }
     val block by (-lcurl * statementList * -rcurl)
-    val anyBlock by parser { statement }.map { listOf(it) } or block
 
-    val ifStatement by (-`if` * expression * anyBlock * optional(-`else` * anyBlock)).map { (expr, tbranch, fbranch) ->
+    val ifStatement: Parser<CsIfNode> by (-`if` * expression * block * optional(parser { elseBlock })).map { (expr, tbranch, fbranch) ->
         CsIfNode(expr, CsBlockNode(tbranch), fbranch?.let { CsBlockNode(it) })
     }
+    val elseBlock: Parser<List<CsStatementNode>> = (-`else` * (block or ifStatement.map { listOf(it) }))
 
     val expressionCaseClause by (-case * expressionList * -colon * statementList).map { (expressions, body) ->
         CsExpressionCase(expressions, CsBlockNode(body))
