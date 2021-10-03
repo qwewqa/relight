@@ -27,6 +27,7 @@ interface CsObject {
     fun getAttribute(name: String): CsObject? = null
     fun invoke(arguments: List<CsObject>): CsObject = csError("Invoke not supported.")
     fun bool(): Boolean = true
+    fun display(): String = toString()
 }
 
 operator fun CsObject.get(name: String) = getAttribute(name) ?: csError("Attribute $name not found.")
@@ -42,10 +43,12 @@ fun CsObject.number() = (this as? CsNumber)?.value ?: csError("Expected a number
 
 data class CsNumber(val value: Double) : CsObject {
     override fun bool() = value != 0.0
+    override fun display() = value.toString()
 }
 
 data class CsBoolean(val value: Boolean) : CsObject {
     override fun bool() = value
+    override fun display() = value.toString()
 }
 
 data class CsFunction(val value: (List<CsObject>) -> CsObject) : CsObject {
@@ -70,6 +73,7 @@ class CsActor(val value: Actor) : CsObject {
         "inCx" -> value.inCX.asCsBoolean()
         else -> null
     }
+    override fun display() = value.name
 }
 
 data class CsAct(val actor: Actor, val act: ActData) : CsObject, Comparable<CsAct> {
@@ -105,4 +109,5 @@ data class CsList(val value: List<CsObject>) : CsObject {
         }
         else -> null
     }
+    override fun display() = value.toString()
 }

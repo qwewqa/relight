@@ -129,6 +129,12 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             if (it.size != 0) csError("Expected zero arguments.")
             ignoreRun()
         }
+        context.addFunction("log") {
+            if (it.size == 0) csError("Expected at least one argument.")
+            stage.log("Strategy Log") { it.joinToString(", ") { it.display() } }
+            CsNil
+        }
+        context.variables["hand"] = CsList(hand)
     }
 
     override fun getQueue(stage: Stage, team: Team, enemy: Team): QueueResult {

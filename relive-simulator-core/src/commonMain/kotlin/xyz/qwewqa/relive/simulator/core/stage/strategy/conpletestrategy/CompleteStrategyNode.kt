@@ -94,7 +94,7 @@ data class CsNumericalInfixOperatorNode(
 ) : CsExpressionNode {
     override fun evaluate(context: CsContext): CsObject {
         val l = lhs.evaluate(context).number()
-        val r = lhs.evaluate(context).number()
+        val r = rhs.evaluate(context).number()
         return when (op) {
             NumericalInfixOperator.PLUS -> l + r
             NumericalInfixOperator.MINUS -> l - r
@@ -126,7 +126,7 @@ data class CsComparisonOperatorNode(
 ) : CsExpressionNode {
     override fun evaluate(context: CsContext): CsObject {
         val l = lhs.evaluate(context)
-        val r = lhs.evaluate(context)
+        val r = rhs.evaluate(context)
         return when (op) {
             ComparisonOperator.EQUAL -> l == r
             ComparisonOperator.NOT_EQUAL -> l != r
