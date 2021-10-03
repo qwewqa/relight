@@ -20,6 +20,7 @@ private val pool = Executors
     .asCoroutineDispatcher()
 
 private const val SIMULATE_CHUNK_SIZE = 10000
+private const val SIMULATE_RESULT_UPDATE_INTERVAL = 10000
 
 fun simulate(parameters: SimulationParameters): String {
     val token = generateToken()
@@ -40,7 +41,8 @@ fun simulate(parameters: SimulationParameters): String {
 private fun simulateSingle(parameters: SimulationParameters, token: String) = CoroutineScope(pool).launch {
     val loadout = parameters.createStageLoadoutOrReportError(token) ?: return@launch
     val stage =
-        loadout.create(Random(Random(parameters.seed).nextInt()))  // Seed the same was as one iteration of simulateMany
+        loadout.create(Random(Random(parameters.seed).nextInt()),
+            StageConfiguration(logging = true))  // Seed the same was as one iteration of simulateMany
     val result = stage.play(parameters.maxTurns)
     val log = stage.logger.toString()
     simulationResults[token] = SimulationResult(
@@ -52,32 +54,53 @@ private fun simulateSingle(parameters: SimulationParameters, token: String) = Co
     )
 }
 
+private data class IterationResult(val index: Int, val seed: Int, val result: StageResult)
+
+private val StageResult.resultPriority
+    get() = when (this) {
+        ExcludedRun -> 0
+        is OutOfTurns -> 1
+        is TeamWipe -> 1
+        is Victory -> 1
+        is PlayError -> 2
+    }
+
 private fun simulateMany(parameters: SimulationParameters, token: String) = CoroutineScope(pool).launch {
     val loadout = parameters.createStageLoadoutOrReportError(token) ?: return@launch
-    val resultsChannel = Channel<StageResult>(SIMULATE_CHUNK_SIZE)
+    val resultsChannel = Channel<IterationResult>(SIMULATE_CHUNK_SIZE)
     val seedProducer = Random(parameters.seed)
-    var errorMessage: String? = null
-    (0 until parameters.maxIterations).asSequence().map { seedProducer.nextInt() }.chunked(SIMULATE_CHUNK_SIZE)
+    (0 until parameters.maxIterations).asSequence().map { it to seedProducer.nextInt() }.chunked(SIMULATE_CHUNK_SIZE)
         .forEach { seeds ->
             launch(pool) {
-                seeds.map {
-                    resultsChannel.send(loadout.create(Random(it)).play(parameters.maxTurns))
+                seeds.map { (index, seed) ->
+                    resultsChannel.send(
+                        IterationResult(
+                            index,
+                            seed,
+                            loadout.create(Random(seed), StageConfiguration(logging = false)).play(parameters.maxTurns),
+                        )
+                    )
                 }
             }
         }
     var resultCount = 0
     val resultCounts = mutableMapOf<SimulationResultType, Int>()
+    var firstApplicableIteration: IterationResult? = null
     while (resultCount < parameters.maxIterations) {
-        val nextResult = resultsChannel.receive()
-            .also {
-                if (it is PlayError && errorMessage == null) {
-                    errorMessage = it.exception.stackTraceToString()
-                }
-            }
+        val nextIteration = resultsChannel.receive()
+        if (firstApplicableIteration == null ||
+            firstApplicableIteration.result.resultPriority < nextIteration.result.resultPriority ||
+            (firstApplicableIteration.result.resultPriority == nextIteration.result.resultPriority &&
+                    nextIteration.index < firstApplicableIteration.index)
+        ) {
+            firstApplicableIteration = nextIteration
+        }
+        val nextResult = nextIteration
+            .result
             .toSimulationResult()
         resultCount++
         resultCounts[nextResult] = resultCounts.getOrDefault(nextResult, 0) + 1
-        if (resultCount % SIMULATE_CHUNK_SIZE == 0 || resultCount == parameters.maxIterations) {
+        if (resultCount % SIMULATE_RESULT_UPDATE_INTERVAL == 0) {
             simulationResults[token] = SimulationResult(
                 parameters.maxIterations,
                 resultCount,
@@ -86,6 +109,19 @@ private fun simulateMany(parameters: SimulationParameters, token: String) = Coro
             )
         }
     }
+    val loggedResult = firstApplicableIteration?.let {
+        val stage = loadout.create(Random(it.seed), StageConfiguration(logging = true))
+        val playResult = stage.play(parameters.maxTurns)
+        "Iteration ${it.index + 1}\n${stage.logger}" to playResult
+    }
+    simulationResults[token] = SimulationResult(
+        parameters.maxIterations,
+        resultCount,
+        resultCounts.map { (k, v) -> SimulationResultValue(k, v) },
+        loggedResult?.first,
+        false,
+        (loggedResult?.second as? PlayError)?.exception?.stackTraceToString(),
+    )
 }
 
 private fun SimulationParameters.createStageLoadoutOrReportError(token: String) = try {

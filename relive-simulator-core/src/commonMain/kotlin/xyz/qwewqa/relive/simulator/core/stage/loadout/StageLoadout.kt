@@ -11,9 +11,8 @@ data class StageLoadout(
     val enemy: TeamLoadout,
     val prerun: Stage.() -> Unit,
     val damageCalculator: DamageCalculator = RandomDamageCalculator(),
-    val configuration: StageConfiguration,
 ) {
-    fun create(random: Random = Random.Default) = Stage(
+    fun create(random: Random = Random.Default, configuration: StageConfiguration = StageConfiguration()) = Stage(
         player.create(),
         enemy.create(),
         damageCalculator,

@@ -173,7 +173,6 @@ class BrowserSimulator : Simulator, CoroutineScope {
                 player.actors.values.forEach { it.eventBonus = eventBonus }
             },
             RandomDamageCalculator(),
-            if (maxIterations > 1) StageConfiguration(logging = false) else StageConfiguration(logging = true)
         )
     }
 
