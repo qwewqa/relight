@@ -58,6 +58,19 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         enemy.actors.forEach { (k, v) ->
             context.variables[k] = CsActor(v)
         }
+        context.addFunction("ignore") {
+            if (it.size != 0) csError("Expected zero arguments.")
+            ignoreRun()
+        }
+        context.addFunction("log") {
+            if (it.size == 0) csError("Expected at least one argument.")
+            stage.log("Strategy Log") { it.joinToString(", ") { it.display() } }
+            CsNil
+        }
+        context.addFunction("random") {
+            if (it.size != 0) csError("Expected zero arguments.")
+            stage.random.nextDouble().asCsNumber()
+        }
         script.initialize?.execute(context)
         context.addFunction("canClimax") {
             if (it.size != 0) csError("Expected zero arguments.")
@@ -124,15 +137,6 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             } else {
                 false.asCsBoolean()
             }
-        }
-        context.addFunction("ignore") {
-            if (it.size != 0) csError("Expected zero arguments.")
-            ignoreRun()
-        }
-        context.addFunction("log") {
-            if (it.size == 0) csError("Expected at least one argument.")
-            stage.log("Strategy Log") { it.joinToString(", ") { it.display() } }
-            CsNil
         }
         context.variables["hand"] = CsList(hand)
     }

@@ -26,53 +26,52 @@ class Stage(
 
 
     fun play(maxTurns: Int = 6): StageResult {
-        log("Stage") { "Begin" }
-
-        log("AutoEffect") { "Begin" }
-
-        listOf(player, enemy).forEach { team ->
-            if (team.song.passive != null) {
-                team.active.forEach {
-                    it.context.log("Song") { "Apply passive ${team.song.passive.name}" }
-                    team.song.passive.start(it.context)
-                }
-            }
-        }
-
-        var autoEffectPriority = (player.actors.values + enemy.actors.values)
-            .shuffled(random)
-            .sortedByDescending { it.agility }
-
-        (autoEffectPriority + listOf(player.guest, enemy.guest).filterNotNull())
-            .map { it to it.dress.unitSkill }.forEach { (actor, us) ->
-                us?.forLevel(actor.unitSkillLevel)?.forEach {
-                    log("AutoEffect") { "[${actor.name}] unit skill [${it.name}] activate" }
-                    it.activate(actor.context)
-                }
-            }
-
-        PassiveEffectCategory.values().forEach { category ->
-            autoEffectPriority.forEach { sg ->
-                sg.passives.filter { it.effect.category == category }.forEach {
-                    sg.context.log("AutoEffect") { "${category.name} auto effect [${it.name}] activate" }
-                    it.activate(sg.context)
-                }
-            }
-            if (category == PassiveEffectCategory.Passive) {
-                autoEffectPriority = autoEffectPriority
-                    .shuffled(random)
-                    .sortedByDescending { it.agility }
-            }
-        }
-
-        log("AutoEffect") { "End" }
-
-        player.finalizeTurnZero()
-        enemy.finalizeTurnZero()
-        player.strategy.initialize(this, player, enemy)
-        enemy.strategy.initialize(this, enemy, player)
-
         try {
+            log("Stage") { "Begin" }
+
+            log("AutoEffect") { "Begin" }
+
+            listOf(player, enemy).forEach { team ->
+                if (team.song.passive != null) {
+                    team.active.forEach {
+                        it.context.log("Song") { "Apply passive ${team.song.passive.name}" }
+                        team.song.passive.start(it.context)
+                    }
+                }
+            }
+
+            var autoEffectPriority = (player.actors.values + enemy.actors.values)
+                .shuffled(random)
+                .sortedByDescending { it.agility }
+
+            (autoEffectPriority + listOf(player.guest, enemy.guest).filterNotNull())
+                .map { it to it.dress.unitSkill }.forEach { (actor, us) ->
+                    us?.forLevel(actor.unitSkillLevel)?.forEach {
+                        log("AutoEffect") { "[${actor.name}] unit skill [${it.name}] activate" }
+                        it.activate(actor.context)
+                    }
+                }
+
+            PassiveEffectCategory.values().forEach { category ->
+                autoEffectPriority.forEach { sg ->
+                    sg.passives.filter { it.effect.category == category }.forEach {
+                        sg.context.log("AutoEffect") { "${category.name} auto effect [${it.name}] activate" }
+                        it.activate(sg.context)
+                    }
+                }
+                if (category == PassiveEffectCategory.Passive) {
+                    autoEffectPriority = autoEffectPriority
+                        .shuffled(random)
+                        .sortedByDescending { it.agility }
+                }
+            }
+
+            log("AutoEffect") { "End" }
+
+            player.finalizeTurnZero()
+            enemy.finalizeTurnZero()
+            player.strategy.initialize(this, player, enemy)
+            enemy.strategy.initialize(this, enemy, player)
             while (turn < maxTurns) {
                 turn++
                 tile = 0
