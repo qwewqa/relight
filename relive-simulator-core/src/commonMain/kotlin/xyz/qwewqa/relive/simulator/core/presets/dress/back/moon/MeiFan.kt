@@ -104,8 +104,8 @@ val FuMeiFan = Dress(
         TeamDexterityUpBuffPassive.new(20,3),
         TeamCriticalUpBuffPassive.new(20,3),
         TeamHpUpPassive.new(100) + SiegfeldOnlyCondition,
-        BrillianceRecoveryPassive.new(20) + MeiFanOnlyCondition,
-        BrillianceRecoveryPassive.new(20) + YachiyoOnlyCondition,
+        TeamBrillianceRecoveryPassive.new(20) + MeiFanOnlyCondition,
+        TeamBrillianceRecoveryPassive.new(20) + YachiyoOnlyCondition,
     ),
     unitSkill = ActCritical30UnitSkill + BackOnlyCondition,
 )
