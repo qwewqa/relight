@@ -1,4 +1,4 @@
-package xyz.qwewqa.relive.simulator.core.stage.strategy.conpletestrategy
+package xyz.qwewqa.relive.simulator.core.stage.strategy.complete
 
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActData
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType

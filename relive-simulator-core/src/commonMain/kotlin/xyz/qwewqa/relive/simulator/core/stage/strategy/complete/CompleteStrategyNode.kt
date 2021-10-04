@@ -1,4 +1,4 @@
-package xyz.qwewqa.relive.simulator.core.stage.strategy.conpletestrategy
+package xyz.qwewqa.relive.simulator.core.stage.strategy.complete
 
 interface CsNode
 

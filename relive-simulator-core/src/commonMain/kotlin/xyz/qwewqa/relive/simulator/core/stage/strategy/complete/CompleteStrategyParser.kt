@@ -1,4 +1,4 @@
-package xyz.qwewqa.relive.simulator.core.stage.strategy.conpletestrategy
+package xyz.qwewqa.relive.simulator.core.stage.strategy.complete
 
 import com.github.h0tk3y.betterParse.combinators.*
 import com.github.h0tk3y.betterParse.grammar.Grammar
