@@ -66,7 +66,8 @@ val MitsuhideKaren = Dress(
                 dispelTimed(BuffCategory.Negative)
                 applyBuff(
                     effect = NegativeEffectResistanceBuff,
-                    turns = 3
+                    value = 100,
+                    turns = 3,
                 )
             }
             targetBack().act {

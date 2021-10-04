@@ -46,6 +46,7 @@ val IzanagiNana = Dress(
             targetAllyAoe().act {
                 applyBuff(
                     effect = NegativeEffectResistanceBuff,
+                    value = 100,
                     turns = 3,
                 )
             }

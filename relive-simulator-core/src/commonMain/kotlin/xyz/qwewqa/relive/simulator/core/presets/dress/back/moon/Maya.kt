@@ -53,6 +53,7 @@ val WorldMaya = Dress(
                 )
                 applyBuff(
                     effect = NegativeEffectResistanceBuff,
+                    value = 100,
                     turns = 3,
                 )
             }

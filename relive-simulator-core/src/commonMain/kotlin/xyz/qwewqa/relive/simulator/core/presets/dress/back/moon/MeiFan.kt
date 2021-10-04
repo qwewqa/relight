@@ -35,12 +35,13 @@ val FuMeiFan = Dress(
                 dispelTimed(BuffCategory.Negative)
                 applyBuff(
                     effect = NegativeEffectResistanceBuff,
+                    value = 100,
                     turns = 3
                 )
             }
             targetAoe().act {
                 attack(
-                    modifier = 101,
+                    modifier = 100,
                     hitCount = 2,
                 )
             }
@@ -88,7 +89,7 @@ val FuMeiFan = Dress(
             targetAoe().act {
                 dispelTimed(BuffCategory.Positive)
             }
-            targetRandom(10).act {
+            targetAnyRandom(10).act {
                 attack(
                     modifier = 450,
                     hitCount = 10,
