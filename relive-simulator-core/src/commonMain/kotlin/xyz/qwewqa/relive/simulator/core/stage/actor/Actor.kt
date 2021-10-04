@@ -133,6 +133,11 @@ class Actor(
             context.log("Burn") { "Burn tick." }
             damage(burnTotal, additionalEffects = false)
         }
+        val nightmare = buffs.get(NightmareBuff).map { it.value }.sum()
+        if (nightmare > 0){
+            context.log("Nightmare") { "Nightmare tick." }
+            damage(nightmare,additionalEffects = false)
+        }
     }
 
     /**
@@ -150,6 +155,14 @@ class Actor(
         }
         if (buffs.any(SleepBuff)) {
             context.log("Abnormal") { "Act prevented by sleep." }
+            return
+        }
+        if (buffs.any(NightmareBuff)) {
+            context.log("Abnormal") { "Act prevented by nightmare." }
+            return
+        }
+        if (buffs.any(StunBuff) && context.stage.random.nextDouble() < 0.5) {
+            context.log("Abnormal") { "Act prevented by stun." }
             return
         }
         if (buffs.any(CountableBuff.Daze)) {
@@ -207,6 +220,9 @@ class Actor(
             self.buffs.removeAll(FreezeBuff)
             if (self.buffs.count(SleepBuff) > 0 && stage.random.nextDouble() > 0.2) {
                 self.buffs.removeAll(SleepBuff)
+            }
+            if (self.buffs.count(NightmareBuff) > 0 && stage.random.nextDouble() > 0.2) {
+                self.buffs.removeAll(NightmareBuff)
             }
         }
 

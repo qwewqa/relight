@@ -215,3 +215,59 @@ object EvasionRateDownBuff : BuffEffect {
         self.valueEvasion += value
     }
 }
+
+object DamageTakenDownBuff : BuffEffect {
+    override val name = "Damage Taken Down"
+    override val category = BuffCategory.Positive
+    override val flipped get() = DamageTakenUpBuff
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueDamageTakenDownBuff += value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueDamageTakenDownBuff -= value
+    }
+}
+
+object DamageTakenUpBuff : BuffEffect {
+    override val name = "Damage Taken Up"
+    override val category = BuffCategory.Negative
+    override val flipped get() = DamageTakenDownBuff
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueDamageTakenDownBuff -= value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueDamageTakenDownBuff += value
+    }
+}
+
+object ClimaxDamageUpBuff : BuffEffect {
+    override val name = "Climax Damage Up"
+    override val category = BuffCategory.Positive
+    override val flipped get() = ClimaxDamageDownBuff
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueClimaxDamageUp += value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueClimaxDamageUp -= value
+    }
+}
+
+object ClimaxDamageDownBuff : BuffEffect {
+    override val name = "Climax Damage Down"
+    override val category = BuffCategory.Negative
+    override val flipped get() = ClimaxDamageUpBuff
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueClimaxDamageUp -= value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueClimaxDamageUp += value
+    }
+}

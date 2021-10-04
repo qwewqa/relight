@@ -92,7 +92,7 @@ val XIIHangedManReverse = Memoir(
 )
 
 val XIIHangedManReverseLv65 = Memoir(
-    name = "XII Hanged Man [Reverse] 1ub Lv65",
+    name = "XII Hanged Man [Reverse] [1ub, Lv65]",
     stats = StatData(
         actPower = 425,
     ),
@@ -142,7 +142,7 @@ val VILoversReverse = Memoir(
 )
 
 val VILoversReverseLv65 = Memoir(
-    name = "VI Lovers [Reverse] 1ub Lv65",
+    name = "VI Lovers [Reverse] [1ub, Lv65]",
     stats = StatData(
         actPower = 425,
     ),
@@ -194,7 +194,7 @@ val XVITowerUpright = Memoir(
 )
 
 val XVITowerUprightLv65 = Memoir(
-    name = "XVI Tower [Upright] 1ub Lv65",
+    name = "XVI Tower [Upright] [1ub, Lv65]",
     stats = StatData(
         hp = 3325,
         actPower = 305,

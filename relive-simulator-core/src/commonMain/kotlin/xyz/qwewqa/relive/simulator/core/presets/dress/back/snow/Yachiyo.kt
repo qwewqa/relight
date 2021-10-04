@@ -76,7 +76,17 @@ val StageGirlYachiyo = Dress(
             }
         },
         ActType.ClimaxAct("This world is a stage. Even the king is a player!", 2) {
-            TODO()
+            targetAoe().act {
+                dispelTimed(BuffCategory.Positive)
+                attack(
+                    modifier = 197,
+                    hitCount = 3,
+                )
+                applyBuff(
+                    effect = FreezeBuff,
+                    turns = 1,
+                )
+            }
         }
     ),
     autoSkills = listOf(

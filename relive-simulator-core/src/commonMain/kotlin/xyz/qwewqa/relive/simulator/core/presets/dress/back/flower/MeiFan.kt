@@ -29,7 +29,7 @@ val StageGirlMeiFan = Dress(
     ),
     acts = actsOf(
         ActType.Act1("Strong Slash", 2) {
-            targetBack().act {
+            targetFront().act {
                 attack(
                     modifier = 176,
                     hitCount = 2,
