@@ -305,31 +305,3 @@ private fun <T : Comparable<T>> partition(a: MutableList<T>, l: Int, u: Int): In
         a.swap(i, j)
     }
 }
-
-class SimpleStrategy(val commands: Map<Int, List<SimpleStrategyCommand>>) : Strategy {
-    override fun getQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
-        val queue = mutableListOf<QueueTile>()
-        var climax = false
-        commands[stage.turn]?.forEach { command ->
-            when (command) {
-                SimpleStrategyCommand.EnterClimax -> {
-                    if (team.cxTurns > 0) error("Player already in climax.")
-                    if (team.active.all { it.brilliance < 100 }) error("Player climax not ready.")
-                    climax = true
-                }
-                is SimpleStrategyCommand.QueueAct -> {
-                    val actor = team.actors[command.actor] ?: error("Unknown actor ${command.actor}")
-                    val act = actor.acts[command.act] ?: error("Unknown act ${command.act} for actor ${command.actor}")
-                    val cost = (act.apCost + actor.apChange).coerceAtLeast(1)
-                    if (command.act == ActType.ClimaxAct && !(climax || team.cxTurns > 0 || actor.brilliance < 100)) {
-                        error("Climax not ready for actor [${actor.name}]")
-                    }
-                    repeat(cost - 1) { queue += IdleTile }
-                    queue += ActionTile(actor, cost, act)
-                }
-            }
-        }
-        require(queue.size <= 6) { "Queue must be at most 6 tiles long." }
-        return QueueResult(queue, climax)
-    }
-}
