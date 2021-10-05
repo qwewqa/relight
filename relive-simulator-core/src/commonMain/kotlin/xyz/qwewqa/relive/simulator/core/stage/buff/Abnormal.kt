@@ -14,6 +14,12 @@ object SleepBuff : BuffEffect {
     override fun formatName(value: Int) = name
 }
 
+object NightmareBuff : BuffEffect {
+    override val category = BuffCategory.Negative
+    override val exclusive: Boolean = true
+    override fun formatName(value: Int) = name
+}
+
 object ConfusionBuff : BuffEffect {
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
@@ -32,6 +38,12 @@ object FreezeBuff : BuffEffect {
     override fun onEnd(context: ActionContext, value: Int) = context.run {
         self.valueDamageTakenDownBuff += 30
     }
+}
+
+object StunBuff : BuffEffect {
+    override val category = BuffCategory.Negative
+    override val exclusive: Boolean = true
+    override fun formatName(value: Int) = name
 }
 
 sealed interface BurnBuffEffect : BuffEffect

@@ -150,7 +150,7 @@ val ReminiscenceMelody = Memoir(
 )
 
 val ReminiscenceMelodyLv60 = Memoir(
-    name = "Reminiscence Melody Lv60",
+    name = "Reminiscence Melody [0ub, Lv60]",
     stats = StatData(
         actPower = 231,
         specialDefense = 386,
@@ -176,7 +176,7 @@ val KappoTomoyesPosterGirl = Memoir(
 )
 
 val KappoTomoyesPosterGirlLv60 = Memoir(
-    name = "Kappo Tomoye's Poster Girl Lv60",
+    name = "Kappo Tomoye's Poster Girl [0ub, Lv60]",
     stats = StatData(
         hp = 2316,
         actPower = 231,

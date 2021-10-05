@@ -19,12 +19,18 @@ val SelfPerfectAimBuffPassive: PassiveEffect = GenericBuffPassive(PerfectAim) { 
 val SelfDexterityUpBuffPassive: PassiveEffect = GenericBuffPassive(DexterityUpBuff) { targetSelf() }
 val SelfEffectiveDamageDealtUpBuffPassive : PassiveEffect = GenericBuffPassive(EffectiveDamageDealtUpBuff) { targetSelf() }
 val SelfCriticalUpBuffPassive : PassiveEffect = GenericBuffPassive(CriticalUpBuff) { targetSelf() }
+val TeamAPDownBuffPassive: PassiveEffect = GenericBuffPassive(ApDownBuff) { targetAllyAoe() }
+val SelfClimaxDamageUpBuffPassive: PassiveEffect = GenericBuffPassive(ClimaxDamageUpBuff) { targetSelf() }
 
 val TeamConfusionResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(ConfusionResistanceBuff) { targetAllyAoe() }
 val TeamStopResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(StopResistanceBuff) { targetAllyAoe() }
+val SelfStopResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(StopResistanceBuff) { targetSelf() }
+val TeamStunResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(StunResistanceBuff) { targetAllyAoe() }
 
 val EnemyBack1ConfusionBuffPassive: PassiveEffect = DebuffPassive(ConfusionBuff) { targetBack(1) }
 val EnemyBack1DazeBuffPassive: PassiveEffect = CountableDebuffPassive(CountableBuff.Daze) { targetBack(1) }
+val EnemyFront3NightmareBuffPassive : PassiveEffect = DebuffPassive(NightmareBuff) { targetFront(3) }
+val EnemyBack3StopBuffPassive : PassiveEffect = DebuffPassive(StopBuff) { targetBack(3) }
 
 private data class GenericBuffPassive(
     val buffEffect: BuffEffect,
