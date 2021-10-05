@@ -25,6 +25,7 @@ val UnshakableFeelings = Memoir(
         BrillianceRecoveryPassive.new(32)
     ),
     cutinData = CutinData(
+        cost = 3,
         cooldownStart = 1,
         cooldown = 2,
         usageLimit = 2,
@@ -49,6 +50,7 @@ val UnburnedFlowerUnwitheredFlame = Memoir(
         BrillianceRecoveryPassive.new(40)
     ),
     cutinData = CutinData(
+        cost = 3,
         cooldownStart = 2,
         cooldown = 2,
         usageLimit = 2,
@@ -75,6 +77,7 @@ val XIIHangedManReverse = Memoir(
         EffectiveDamageDealtPassive.new(30)
     ),
     cutinData = CutinData(
+        cost = 2,
         cooldownStart = 1,
         cooldown = 2,
         usageLimit = 2,
@@ -100,6 +103,7 @@ val XIIHangedManReverseLv65 = Memoir(
         EffectiveDamageDealtPassive.new(20)
     ),
     cutinData = CutinData(
+        cost = 3,
         cooldownStart = 2,
         cooldown = 3,
         usageLimit = 1,
@@ -125,6 +129,7 @@ val VILoversReverse = Memoir(
         DexterityPassive.new(20)
     ),
     cutinData = CutinData(
+        cost = 2,
         cooldownStart = 1,
         cooldown = 2,
         usageLimit = 2,
@@ -150,6 +155,7 @@ val VILoversReverseLv65 = Memoir(
         DexterityPassive.new(14)
     ),
     cutinData = CutinData(
+        cost = 3,
         cooldownStart = 2,
         cooldown = 3,
         usageLimit = 1,
@@ -178,6 +184,7 @@ val XVITowerUpright = Memoir(
         BrillianceRecoveryPassive.new(40)
     ),
     cutinData = CutinData(
+        cost = 1,
         cooldownStart = 1,
         cooldown = 2,
         usageLimit = 2,
@@ -205,6 +212,7 @@ val XVITowerUprightLv65 = Memoir(
         BrillianceRecoveryPassive.new(28)
     ),
     cutinData = CutinData(
+        cost = 2,
         cooldownStart = 2,
         cooldown = 3,
         usageLimit = 1,
