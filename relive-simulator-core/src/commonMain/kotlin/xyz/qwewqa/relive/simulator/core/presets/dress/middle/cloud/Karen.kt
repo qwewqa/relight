@@ -84,6 +84,7 @@ val MitsuhideKaren = Dress(
                     hitCount = 5,
                 )
             }
+            // TODO
 /*            targetAllyFront(5).act {
 *                applyBuff(
 *                    effect = Resilience,   Need to code Resilience.

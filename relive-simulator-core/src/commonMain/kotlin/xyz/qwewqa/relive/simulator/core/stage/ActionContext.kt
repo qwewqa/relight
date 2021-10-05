@@ -47,9 +47,11 @@ class ActionContext(
     fun targetAllyBack(count: Int = 1) = team.active.takeLast(count).targetContext()
     fun targetAllyRandom(count: Int = 1) = List(count) { team.active.random(stage.random) }.targetContext()
     fun <T : Comparable<T>>  targetByHighest(count: Int = 1, condition: (Actor) -> T) =
+        enemy.active.sortedBy(condition).takeLast(count).targetContext()
+    fun <T : Comparable<T>>  targetByLowest(count: Int = 1, condition: (Actor) -> T) =
         enemy.active.sortedBy(condition).take(count).targetContext()
     fun <T : Comparable<T>> targetAllyByHighest(count: Int = 1, selector: (Actor) -> T) =
-        team.active.sortedByDescending(selector).take(count).targetContext()
+        team.active.sortedBy(selector).takeLast(count).targetContext()
     fun <T : Comparable<T>> targetAllyByLowest(count: Int = 1, selector: (Actor) -> T) =
         team.active.sortedBy(selector).take(count).targetContext()
 

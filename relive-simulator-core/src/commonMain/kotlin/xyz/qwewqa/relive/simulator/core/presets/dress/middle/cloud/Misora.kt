@@ -27,7 +27,7 @@ val StageGirlMisora = Dress(
         agility = 1938,
     ),
     acts = actsOf(
-       /* ActType.Act1("Rear Flash", 2) {
+        ActType.Act1("Rear Flash", 2) {
             targetByLowest { it.normalDefense }.act {
                 attack(
                     modifier = 176,
@@ -53,7 +53,7 @@ val StageGirlMisora = Dress(
                     value = 1,
                 )
             }
-        },*/
+        },
         ActType.Act3("Leap to the Skies", 4) {
             targetAllyBack(5).act {
                 addBrilliance(60)

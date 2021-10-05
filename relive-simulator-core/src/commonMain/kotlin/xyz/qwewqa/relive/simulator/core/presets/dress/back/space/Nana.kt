@@ -99,7 +99,7 @@ val IzanagiNana = Dress(
     autoSkills = listOf(
         ApplyFortitudeBuffPassive.new(50),
         SelfClimaxDamageUpBuffPassive.new(10),
-    //    SelfBrillianceRecoveryPerTurnPassive.new(20),
+        SelfTurnBrillianceRecoveryPassive.new(20),
         TeamAPDownBuffPassive.new(turns=1),
     ),
     unitSkill = ActCritical30UnitSkill + NormalDamageOnlyCondition,

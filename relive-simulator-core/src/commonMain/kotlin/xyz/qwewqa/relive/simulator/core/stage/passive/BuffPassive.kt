@@ -60,6 +60,7 @@ private data class ResistanceBuffPassive(
 
 private data class DebuffPassive(
     val buffEffect: BuffEffect,
+    val chance: Int = 100,
     val target: ActionContext.() -> TargetContext,
 ) : PassiveEffect {
     override val name = "Auto Debuff ${buffEffect.name}"
@@ -67,7 +68,7 @@ private data class DebuffPassive(
 
     override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) =
         target(context).act {
-            applyBuff(buffEffect, value, turns)
+            applyBuff(buffEffect, value, turns, chance)
         }
 }
 

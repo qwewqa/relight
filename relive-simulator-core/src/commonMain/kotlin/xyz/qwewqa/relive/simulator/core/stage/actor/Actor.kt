@@ -134,9 +134,9 @@ class Actor(
             damage(burnTotal, additionalEffects = false)
         }
         val nightmare = buffs.get(NightmareBuff).map { it.value }.sum()
-        if (nightmare > 0){
+        if (nightmare > 0) {
             context.log("Nightmare") { "Nightmare tick." }
-            damage(nightmare,additionalEffects = false)
+            damage(nightmare, additionalEffects = false)
         }
     }
 

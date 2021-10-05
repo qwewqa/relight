@@ -6,6 +6,18 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.condition.applyIfTrue
 
+object SelfTurnBrillianceRecoveryPassive : PassiveEffect {
+    override val category = PassiveEffectCategory.TurnStartPositive
+
+    override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) = context.run {
+        condition.applyIfTrue(self) {
+            buffs.addPassive {
+                addBrilliance(value)
+            }
+        }
+    }
+}
+
 object BrillianceRecoveryPassive : PassiveEffect {
     override val category = PassiveEffectCategory.TurnStartPositive
 

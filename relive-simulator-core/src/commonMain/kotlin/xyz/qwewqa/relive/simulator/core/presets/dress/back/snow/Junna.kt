@@ -86,7 +86,7 @@ val StageGirlJunna = Dress(
     ),
     autoSkills = listOf(
         ApplyFortitudeBuffPassive.new(50),
-    //    SelfBrillianceRecoveryPerTurnPassive.new(10), Need to code Brilliance gen per turn.
+        SelfTurnBrillianceRecoveryPassive.new(10),
         TeamDexterityUpBuffPassive.new(20,3),
     ),
     unitSkill = ActCritical30UnitSkillStageGirl + IceOnlyCondition,
