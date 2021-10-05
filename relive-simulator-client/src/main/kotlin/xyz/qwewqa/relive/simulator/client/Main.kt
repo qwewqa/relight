@@ -3,12 +3,9 @@ package xyz.qwewqa.relive.simulator.client
 import io.ktor.client.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
-import io.ktor.client.request.*
-import io.ktor.http.*
 import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.coroutines.*
-import kotlinx.dom.hasClass
 import kotlinx.html.*
 import kotlinx.html.dom.create
 import kotlinx.serialization.decodeFromString
@@ -54,9 +51,11 @@ suspend fun start(simulator: Simulator) {
     val addActorRow = document.getElementById("add-actor-row") as HTMLDivElement
     val bossSelect = document.getElementById("boss-select") as HTMLSelectElement
     val strategyTypeSelect = document.getElementById("strategy-type-select") as HTMLSelectElement
+    val strategyContainer = document.getElementById("strategy-container") as HTMLDivElement
     val simulateButton = document.getElementById("simulate-button") as HTMLButtonElement
     val cancelButton = document.getElementById("cancel-button") as HTMLButtonElement
 
+    val strategyEditor = CodeMirror(strategyContainer, js("{lineNumbers: true, mode: null}"))
 
     fun HTMLSelectElement.getSelected() = selectedOptions.asList().map {
         it.asDynamic().value as String
@@ -129,8 +128,8 @@ suspend fun start(simulator: Simulator) {
                 songSettings.last().takeIf { it.name != "None" },
             ),
             StrategyParameter(
-                (document.getElementById("strategy-type-select") as HTMLSelectElement).getSelected().single(),
-                (document.getElementById("strategy") as HTMLTextAreaElement).value,
+                strategyTypeSelect.getSelected().single(),
+                strategyEditor.getValue(),
             ),
             bossSelect.getSelected().single(),
             (document.getElementById("event-bonus-input") as HTMLInputElement).valueOrPlaceholder.trim().toInt(),
@@ -277,8 +276,8 @@ suspend fun start(simulator: Simulator) {
                             select.setSelected(values)
                         }
                 }
-            (document.getElementById("strategy-type-select") as HTMLSelectElement).setSelected(strategy.type)
-            (document.getElementById("strategy") as HTMLTextAreaElement).value = strategy.value
+            strategyTypeSelect.setSelected(strategy.type)
+            strategyEditor.setValue(strategy.value)
             bossSelect.setSelected(boss)
             (document.getElementById("event-bonus-input") as HTMLInputElement).value = eventBonus.toString()
             seedInput.value = seed.toString()

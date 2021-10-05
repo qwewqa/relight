@@ -39,6 +39,8 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     }
 
     override fun onRevive(actor: Actor) {
+        // This does not work if an actor exits and is revived the same turn
+        // Nor has it been tested how that works
         discardPile += (actor.acts[ActType.Act1]!!.asCsAct(actor))
         discardPile += (actor.acts[ActType.Act2]!!.asCsAct(actor))
         discardPile += (actor.acts[ActType.Act3]!!.asCsAct(actor))
@@ -57,31 +59,31 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         enemy.actors.forEach { (k, v) ->
             context.variables[k] = CsActor(v)
         }
-        context.addFunction("ignore") {
-            if (it.size != 0) csError("Expected zero arguments.")
+        context.addFunction("ignore") { args ->
+            if (args.isNotEmpty()) csError("Expected zero arguments.")
             ignoreRun()
         }
-        context.addFunction("log") {
-            if (it.size == 0) csError("Expected at least one argument.")
-            stage.log("Strategy Log") { it.joinToString(", ") { it.display() } }
+        context.addFunction("log") { args ->
+            if (args.isEmpty()) csError("Expected at least one argument.")
+            stage.log("Strategy Log") { args.joinToString(", ") { it.display() } }
             CsNil
         }
-        context.addFunction("random") {
-            if (it.size != 0) csError("Expected zero arguments.")
+        context.addFunction("random") { args ->
+            if (args.isNotEmpty()) csError("Expected zero arguments.")
             stage.random.nextDouble().asCsNumber()
         }
         script.initialize?.execute(context)
-        context.addFunction("canClimax") {
-            if (it.size != 0) csError("Expected zero arguments.")
+        context.addFunction("canClimax") { args ->
+            if (args.isNotEmpty()) csError("Expected zero arguments.")
             canCx().asCsBoolean()
         }
-        context.addFunction("climax") {
-            if (it.size != 0) csError("Expected zero arguments.")
+        context.addFunction("climax") { args ->
+            if (args.isNotEmpty()) csError("Expected zero arguments.")
             enterClimax()
             CsNil
         }
-        context.addFunction("tryClimax") {
-            if (it.size != 0) csError("Expected zero arguments.")
+        context.addFunction("tryClimax") { args ->
+            if (args.isNotEmpty()) csError("Expected zero arguments.")
             if (canCx()) {
                 enterClimax()
                 true.asCsBoolean()
@@ -89,49 +91,49 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
                 false.asCsBoolean()
             }
         }
-        context.addFunction("canQueue") {
-            canQueue(it.singleAct()).asCsBoolean()
+        context.addFunction("canQueue") { args ->
+            canQueue(args.singleAct()).asCsBoolean()
         }
-        context.addFunction("queue") {
-            queue(it.singleAct())
+        context.addFunction("queue") { args ->
+            queue(args.singleAct())
             CsNil
         }
-        context.addFunction("tryQueue") {
-            val act = it.singleAct()
+        context.addFunction("tryQueue") { args ->
+            val act = args.singleAct()
             if (canQueue(act)) {
-                queue(it.singleAct())
+                queue(act)
                 true.asCsBoolean()
             } else {
                 false.asCsBoolean()
             }
         }
-        context.addFunction("canHold") {
-            canHold(it.singleAct()).asCsBoolean()
+        context.addFunction("canHold") { args ->
+            canHold(args.singleAct()).asCsBoolean()
         }
-        context.addFunction("hold") {
-            hold(it.singleAct())
+        context.addFunction("hold") { args ->
+            hold(args.singleAct())
             CsNil
         }
-        context.addFunction("tryHold") {
-            val act = it.singleAct()
+        context.addFunction("tryHold") { args ->
+            val act = args.singleAct()
             if (canHold(act)) {
-                hold(it.singleAct())
+                hold(args.singleAct())
                 true.asCsBoolean()
             } else {
                 false.asCsBoolean()
             }
         }
-        context.addFunction("canDiscard") {
-            canDiscard(it.singleAct()).asCsBoolean()
+        context.addFunction("canDiscard") { args ->
+            canDiscard(args.singleAct()).asCsBoolean()
         }
-        context.addFunction("discard") {
-            discard(it.singleAct())
+        context.addFunction("discard") { args ->
+            discard(args.singleAct())
             CsNil
         }
-        context.addFunction("tryDiscard") {
-            val act = it.singleAct()
+        context.addFunction("tryDiscard") { args ->
+            val act = args.singleAct()
             if (canDiscard(act)) {
-                discard(it.singleAct())
+                discard(args.singleAct())
                 true.asCsBoolean()
             } else {
                 false.asCsBoolean()
@@ -246,6 +248,18 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         logHand()
     }
 }
+
+/*
+Quicksort implementation recreated from the Lua 4.4 source code:
+
+Copyright © 1994–2021 Lua.org, PUC-Rio.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 
 private fun <T : Comparable<T>> MutableList<T>.qsort() {
     if (size <= 1) return

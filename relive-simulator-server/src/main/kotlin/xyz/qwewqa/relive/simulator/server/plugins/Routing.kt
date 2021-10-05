@@ -25,7 +25,10 @@ fun Application.configureRouting() {
             call.respondText(Thread.currentThread().getContextClassLoader().getResourceAsStream("client/index.html")!!.bufferedReader().readText(), ContentType.Text.Html)
         }
         get("/relive-simulator-client.js") {
-            call.respondText(Thread.currentThread().getContextClassLoader().getResourceAsStream("client/relive-simulator-client.js")!!.bufferedReader().readText(), ContentType.Text.JavaScript)
+            call.respondText(Thread.currentThread().getContextClassLoader().getResourceAsStream("client/relive-simulator-client.js")!!.bufferedReader().readText(), ContentType.Application.JavaScript)
+        }
+        get("/codemirror.css") {
+            call.respondText(Thread.currentThread().getContextClassLoader().getResourceAsStream("client/codemirror.css")!!.bufferedReader().readText(), ContentType.Text.CSS)
         }
         post("/simulate") {
             val parameters = call.receive<SimulationParameters>()

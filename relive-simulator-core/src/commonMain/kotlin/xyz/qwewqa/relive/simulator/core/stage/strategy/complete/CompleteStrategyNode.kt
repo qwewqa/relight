@@ -1,5 +1,8 @@
 package xyz.qwewqa.relive.simulator.core.stage.strategy.complete
 
+import com.github.h0tk3y.betterParse.lexer.Token
+import com.github.h0tk3y.betterParse.lexer.TokenMatch
+
 interface CsNode
 
 data class CsScriptNode(
@@ -17,6 +20,22 @@ sealed interface CsExpressionNode : CsStatementNode {
     }
 
     fun evaluate(context: CsContext): CsObject
+}
+
+data class CsStatementContainer(val statement: CsStatementNode, val startToken: TokenMatch?) : CsStatementNode{
+    override fun execute(context: CsContext) {
+        try {
+            statement.execute(context)
+        } catch (e: CsRuntimeException) {
+            if (startToken == null || e is AnnotatedCsRuntimeException) {
+                throw e
+            }
+            throw AnnotatedCsRuntimeException(
+                "Error on (row ${startToken.row}): ${e.message}",
+                cause = e,
+            )
+        }
+    }
 }
 
 data class CsSwitchClause(val expression: CsExpressionNode?, val cases: List<CsCaseClause>) : CsStatementNode {

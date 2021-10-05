@@ -20,6 +20,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
     implementation("io.ktor:ktor-client-js:$ktor_version")
     implementation("io.ktor:ktor-client-serialization:$ktor_version")
+    implementation(npm("codemirror", "5.63.1"))
 }
 
 kotlin {

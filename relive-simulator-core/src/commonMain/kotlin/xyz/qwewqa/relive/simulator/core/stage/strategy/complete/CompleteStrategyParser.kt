@@ -4,6 +4,8 @@ import com.github.h0tk3y.betterParse.combinators.*
 import com.github.h0tk3y.betterParse.grammar.Grammar
 import com.github.h0tk3y.betterParse.grammar.parser
 import com.github.h0tk3y.betterParse.lexer.*
+import com.github.h0tk3y.betterParse.parser.ParseResult
+import com.github.h0tk3y.betterParse.parser.Parsed
 import com.github.h0tk3y.betterParse.parser.Parser
 
 enum class NumericalInfixOperator {
@@ -172,7 +174,33 @@ object CsParser : Grammar<CsScriptNode>() {
     }
 
     val statement: Parser<CsStatementNode>
-            by ifStatement or switchStatement or assignmentStatement or expression
+            by (ifStatement or switchStatement or assignmentStatement or expression).let { parser ->
+                object : Parser<CsStatementNode> {
+                    override fun tryParse(
+                        tokens: TokenMatchesSequence,
+                        fromPosition: Int,
+                    ): ParseResult<CsStatementNode> {
+                        val result = parser.tryParse(tokens, fromPosition)
+                        return if (result is Parsed) {
+                            var startToken: TokenMatch? = null
+                            var pos = fromPosition
+                            while (true) {
+                                val nextToken = tokens.get(pos++) ?: break
+                                if (!nextToken.type.ignored) {
+                                    startToken = nextToken
+                                    break
+                                }
+                            }
+                            object : Parsed<CsStatementNode>() {
+                                override val value = CsStatementContainer(result.value, startToken)
+                                override val nextPosition = result.nextPosition
+                            }
+                        } else {
+                            result
+                        }
+                    }
+                }
+            }
 
     val initBlock by -`init` * -lcurl * statementList * -rcurl
 

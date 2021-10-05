@@ -17,10 +17,11 @@ fun CsContext.addFunction(name: String, func: (List<CsObject>) -> CsObject) {
     variables[name] = CsFunction(func)
 }
 
-class CsRuntimeException(message: String) : RuntimeException(message)
+open class CsRuntimeException(message: String, cause: Throwable? = null) : RuntimeException(message, cause)
+class AnnotatedCsRuntimeException(message: String, cause: Throwable? = null) : CsRuntimeException(message, cause)
 
-fun csError(message: String): Nothing {
-    throw CsRuntimeException(message)
+fun csError(message: String, cause: Throwable? = null): Nothing {
+    throw CsRuntimeException(message, cause)
 }
 
 interface CsObject {
