@@ -12,6 +12,7 @@ data class Memoir(
 )
 
 data class CutinData(
+    val cost: Int,
     val cooldownStart: Int,
     val cooldown: Int,
     val usageLimit: Int,
