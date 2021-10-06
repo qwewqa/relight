@@ -182,8 +182,8 @@ val KappoTomoyesPosterGirlLv60 = Memoir(
         actPower = 231,
     ),
     autoskills = listOf(
-        BrillianceRecoveryPassive.new(32),
-        SelfDexterityUpBuffPassive.new(16,6),
-        SelfEffectiveDamageDealtUpBuffPassive.new(12,6),
+        BrillianceRecoveryPassive.new(22),
+        SelfDexterityUpBuffPassive.new(11,6),
+        SelfEffectiveDamageDealtUpBuffPassive.new(8,6),
     )
 )
