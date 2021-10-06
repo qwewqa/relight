@@ -38,7 +38,7 @@ object CriticalUpSongEffect : SongEffect {
     }
 }
 
-private data class DamageAgainstAttributeUpSongEffect(val attribute: Attribute) : SongEffect {
+data class DamageAgainstAttributeUpSongEffect(val attribute: Attribute) : SongEffect {
     override val name = "DamageAgainst${attribute.name}UpSongEffect"
     override val displayName = "Damage Against ${attribute.name} Up"
 
@@ -56,9 +56,9 @@ private data class DamageAgainstAttributeUpSongEffect(val attribute: Attribute) 
 }
 
 
-private data class AttributeDamageDealtUpSongEffect(val attribute: Attribute) : SongEffect {
+data class AttributeDamageDealtUpSongEffect(val attribute: Attribute) : SongEffect {
     override val name = "t${attribute.name}DamageUpSongEffect"
-    override val displayName = "{attribute.name} Damage Up"
+    override val displayName = "${attribute.name} Damage Up"
 
     override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {

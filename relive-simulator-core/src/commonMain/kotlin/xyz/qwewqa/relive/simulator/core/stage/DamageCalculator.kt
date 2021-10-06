@@ -5,6 +5,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.actor.effectiveCoefTable
+import xyz.qwewqa.relive.simulator.core.stage.buff.FreezeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.NormalBarrierBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.SpecialBarrierBuff
 
@@ -109,16 +110,21 @@ class RandomDamageCalculator : DamageCalculator {
 
         val acc = (attacker.accuracy - target.evasion).coerceIn(0, 100)
 
-        val dmgDealtCoef = (100 + attacker.damageDealtUp - target.damageTakenDown).coerceAtLeast(0)
+        val dmgDealtDownCoef = (100 - target.damageTakenDown).coerceAtLeast(0)
+
+        val dmgDealtUpCoef =  100 + attacker.damageDealtUp
 
         // tentative
         val buffDmgDealtCoef = (100 + attacker.damageDealtUpBuff - target.damageTakenDownBuff).coerceAtLeast(10)
 
-        // tentative
-        val eleDmgDealtCoef = 100 +
-                attacker.attributeDamageDealtUp.getValue(attribute) +
-                attacker.againstAttributeDamageDealtUp.getValue(target.dress.attribute) -
+        // for element dmg up song
+        val eleDmgDealtCoef = 100 + attacker.attributeDamageDealtUp.getValue(attribute)
+
+        // for vs element dmg up song and elemental dmg down buff?
+        val vsEleDmgDealtCoef = 100 + attacker.againstAttributeDamageDealtUp.getValue(target.dress.attribute) -
                 target.againstAttributeDamageTakenDown.getValue(attribute)
+
+        val frozenCoef = 100 + (30 * target.buffs.count(FreezeBuff))
 
         // cx damage up
         val cxDmgCoef = if (attacker.inCXAct) {
@@ -134,22 +140,28 @@ class RandomDamageCalculator : DamageCalculator {
         var dmg = base
         dmg = dmg * eleCoef / 100
         dmg = dmg * effEleCoef / 100
-        dmg = dmg * hitAttribute.bonus / 100  // tentative
-        dmg = dmg * bonusCoef / 100
-        dmg = dmg * dmgDealtCoef / 100
-        dmg = dmg * cxDmgCoef / 100 // tentative
         dmg = dmg * eleDmgDealtCoef / 100  // tentative
+        dmg = dmg * hitAttribute.bonus / 100  // tentative
+        dmg = dmg * vsEleDmgDealtCoef / 100 // tentative
+        dmg = dmg * bonusCoef / 100
+        dmg = dmg * dmgDealtDownCoef / 100
+        dmg = dmg * frozenCoef / 100
+        dmg = dmg * dmgDealtUpCoef / 100
+        dmg = dmg * cxDmgCoef / 100 // tentative
         dmg = dmg * buffDmgDealtCoef / 100
 
         var criticalDmg = base
         criticalDmg = criticalDmg * eleCoef / 100
         criticalDmg = criticalDmg * effEleCoef / 100
         criticalDmg = criticalDmg * critCoef / 100
-        criticalDmg = criticalDmg * hitAttribute.bonus / 100  // tentative
-        criticalDmg = criticalDmg * bonusCoef / 100
-        criticalDmg = criticalDmg * dmgDealtCoef / 100
-        criticalDmg = criticalDmg * cxDmgCoef / 100
         criticalDmg = criticalDmg * eleDmgDealtCoef / 100
+        criticalDmg = criticalDmg * hitAttribute.bonus / 100  // tentative
+        criticalDmg = criticalDmg * vsEleDmgDealtCoef / 100
+        criticalDmg = criticalDmg * bonusCoef / 100
+        criticalDmg = criticalDmg * dmgDealtDownCoef / 100
+        criticalDmg = criticalDmg * frozenCoef / 100
+        criticalDmg = criticalDmg * dmgDealtUpCoef / 100
+        criticalDmg = criticalDmg * cxDmgCoef / 100
         criticalDmg = criticalDmg * buffDmgDealtCoef / 100
 
         return DamageResult(
