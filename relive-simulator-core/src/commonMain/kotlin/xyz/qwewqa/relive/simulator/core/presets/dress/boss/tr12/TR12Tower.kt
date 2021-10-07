@@ -140,10 +140,6 @@ val tr12TowerHikari = ActorLoadout(
                         modifier = 200,
                         hitCount = 3,
                     )
-                    applyBuff(
-                        effect = ConfusionBuff,
-                        turns = 2,
-                    )
                 }
                 targetSelf().act {
                     applyBuff(
@@ -193,7 +189,7 @@ val tr12TowerHikariStrategy = FixedStrategy {
     when (turn) {
         1 -> {
             +boss[ActType.Act10]
-            +boss[ActType.Act3]
+            +boss[ActType.Act2]
             +boss[ActType.Act4]
         }
         2 -> {

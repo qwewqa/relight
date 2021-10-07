@@ -44,13 +44,13 @@ data class DamageAgainstAttributeUpSongEffect(val attribute: Attribute) : SongEf
 
     override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.againstAttributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) + value
+            self.againstAttributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) + value.coerceAtMost(10)
         }
     }
 
     override fun end(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.againstAttributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) - value
+            self.againstAttributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) - value.coerceAtMost(10)
         }
     }
 }
@@ -62,13 +62,13 @@ data class AttributeDamageDealtUpSongEffect(val attribute: Attribute) : SongEffe
 
     override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.attributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) + value
+            self.attributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) + value.coerceAtMost(10)
         }
     }
 
     override fun end(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.attributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) - value
+            self.attributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) - value.coerceAtMost(10)
         }
     }
 }
