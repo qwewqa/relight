@@ -12,7 +12,15 @@ import org.w3c.dom.url.URL
 class RemoteSimulator(val baseUrl: URL) : Simulator {
     private val client = HttpClient {
         install(JsonFeature) {
-            serializer = KotlinxSerializer()
+            serializer = KotlinxSerializer(
+                kotlinx.serialization.json.Json {
+                    isLenient = false
+                    ignoreUnknownKeys = false
+                    allowSpecialFloatingPointValues = true
+                    useArrayPolymorphism = false
+                    encodeDefaults = true
+                }
+            )
         }
     }
 

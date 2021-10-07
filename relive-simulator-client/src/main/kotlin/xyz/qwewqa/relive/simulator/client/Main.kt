@@ -11,21 +11,20 @@ import kotlinx.html.dom.create
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import net.mamoe.yamlkt.Yaml
 import org.w3c.dom.*
 import org.w3c.dom.url.URL
 import kotlin.random.Random
-
-val client = HttpClient {
-    install(JsonFeature) {
-        serializer = KotlinxSerializer()
-    }
-}
 
 suspend fun main() {
     start(RemoteSimulator(URL("${window.location.protocol}//${window.location.host}")))
 }
 
 val HTMLInputElement.valueOrPlaceholder: String get() = if (value.isNotEmpty()) value else placeholder
+
+val yaml = Yaml {
+    encodeDefaultValues = false
+}
 
 @OptIn(DelicateCoroutinesApi::class, kotlinx.serialization.ExperimentalSerializationApi::class)
 suspend fun start(simulator: Simulator) {
@@ -39,8 +38,9 @@ suspend fun start(simulator: Simulator) {
     val exportButton = document.getElementById("export-button") as HTMLButtonElement
     val importButton = document.getElementById("import-button") as HTMLButtonElement
     val doImportButton = document.getElementById("do-import-button") as HTMLButtonElement
-    val importText = document.getElementById("import-text") as HTMLInputElement
-    val exportText = document.getElementById("export-text") as HTMLInputElement
+    val yamlImportCheckbox = document.getElementById("import-yaml-checkbox") as HTMLInputElement
+    val importText = document.getElementById("import-text") as HTMLTextAreaElement
+    val exportText = document.getElementById("export-text") as HTMLTextAreaElement
     val seedInput = document.getElementById("seed-input") as HTMLInputElement
     val seedRandomizeButton = document.getElementById("seed-randomize") as HTMLButtonElement
     val actorSettingsDiv = document.getElementById("actor-settings") as HTMLDivElement
@@ -261,19 +261,30 @@ suspend fun start(simulator: Simulator) {
             simulatorOptionsDiv.remove()
         }
     })
-    exportButton.addEventListener("click", {
+    fun updateExportText() {
         try {
-            exportText.value = Json.encodeToString(getSetup())
+            if (yamlImportCheckbox.checked) {
+                exportText.value = yaml.encodeToString(getSetup())
+            } else {
+                exportText.value = Json.encodeToString(getSetup())
+            }
         } catch (e: Exception) {
             exportText.value = e.message ?: "Error"
         }
+    }
+    exportButton.addEventListener("click", {
+        updateExportText()
+    })
+    yamlImportCheckbox.addEventListener("click", {
+        updateExportText()
     })
     exportText.addEventListener("click", {
         exportText.focus()
         exportText.select()
     })
     doImportButton.addEventListener("click", {
-        Json.decodeFromString<SimulationParameters>(importText.value).run {
+        val decoded = yaml.decodeFromString<SimulationParameters>(importText.value)
+        decoded.run {
             (document.getElementById("turns-input") as HTMLInputElement).value = maxTurns.toString()
             (document.getElementById("iterations-input") as HTMLInputElement).value = maxIterations.toString()
             while (actorSettingsDiv.childElementCount >= 2) {

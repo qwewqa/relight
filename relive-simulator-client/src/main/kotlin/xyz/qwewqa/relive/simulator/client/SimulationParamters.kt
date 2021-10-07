@@ -5,15 +5,15 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SimulationParameters(
-    val maxTurns: Int,
-    val maxIterations: Int,
+    val maxTurns: Int = 3,
+    val maxIterations: Int = 1000000,
     val team: List<PlayerLoadoutParameters>,
-    val guest: PlayerLoadoutParameters?,
-    val song: SongParameters,
-    val strategy: StrategyParameter,
+    val guest: PlayerLoadoutParameters? = null,
+    val song: SongParameters = SongParameters(),
+    val strategy: StrategyParameter = StrategyParameter("Simple", ""),
     val boss: String,
     val eventBonus: Int,
-    val seed: Int,
+    val seed: Int = 0,
 )
 
 @Serializable
@@ -28,8 +28,8 @@ data class SimulationOptionNames(
 
 @Serializable
 data class SongParameters(
-    val activeEffects: List<SongEffectParameter>,
-    val passiveEffect: SongEffectParameter?,
+    val activeEffects: List<SongEffectParameter> = emptyList(),
+    val passiveEffect: SongEffectParameter? = null,
 )
 
 @Serializable
@@ -44,8 +44,8 @@ data class PlayerLoadoutParameters(
     val name: String,
     val dress: String,
     val memoir: String,
-    val memoirLevel: Int,
-    val memoirUnbind: Int,
+    val memoirLevel: Int = 1,
+    val memoirLimitBreak: Int = 4,
     val unitSkillLevel: Int,
 )
 

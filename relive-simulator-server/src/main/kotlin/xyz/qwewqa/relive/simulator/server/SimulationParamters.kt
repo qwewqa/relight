@@ -37,13 +37,14 @@ data class SimulationParameters(
         require(maxIterations > 0) { "Max iterations should be a positive integer" }
         require(team.isNotEmpty()) { "Team should not be empty." }
         require(team.map { it.name }.toSet().size == team.size) { "Team must not have duplicate names." }
+        require(team.all { it.memoirLimitBreak in 0..4 }) { "Memoir limit break must be between 0 and 4 inclusive" }
         return StageLoadout(
             TeamLoadout(
                 team.map {
                     ActorLoadout(
                         it.name,
                         playerDresses[it.dress]!!,
-                        memoirs[it.memoir]!!.create(it.memoirLevel, it.memoirUnbind),
+                        memoirs[it.memoir]!!.create(it.memoirLevel, it.memoirLimitBreak),
                         it.unitSkillLevel,
                     )
                 },
@@ -51,7 +52,7 @@ data class SimulationParameters(
                     ActorLoadout(
                         it.name,
                         playerDresses[it.dress]!!,
-                        memoirs[it.memoir]!!.create(it.memoirLevel, it.memoirUnbind),
+                        memoirs[it.memoir]!!.create(it.memoirLevel, it.memoirLimitBreak),
                         it.unitSkillLevel,
                     )
                 },
@@ -120,7 +121,7 @@ data class PlayerLoadoutParameters(
     val dress: String,
     val memoir: String,
     val memoirLevel: Int,
-    val memoirUnbind: Int,
+    val memoirLimitBreak: Int,
     val unitSkillLevel: Int,
 )
 

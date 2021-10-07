@@ -34,7 +34,7 @@
                                         aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <input id="import-text" class="form-control text-monospace"/>
+                                <textarea id="import-text" class="form-control text-monospace" rows="8"></textarea>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -54,9 +54,15 @@
                                         aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <input id="export-text" class="form-control text-monospace" readonly/>
+                                <textarea id="export-text" class="form-control text-monospace" rows="8" readonly></textarea>
                             </div>
                             <div class="modal-footer">
+                                <div class="px-2">
+                                    <input class="form-check-input" type="checkbox" value="" id="import-yaml-checkbox" checked>
+                                    <label class="form-check-label" for="import-yaml-checkbox">
+                                        Use YAML
+                                    </label>
+                                </div>
                                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
