@@ -22,4 +22,7 @@ val memoirs = listOf(
     XIIHangedManReverse,
     VILoversReverse,
     XVITowerUpright,
+    TheGreatYearEndCleanup,
+    ConfidantsOnADate,
+    SparklingStageChika
 ).sortedBy { it.name }.sortedBy { it.cutinData.any { cutin -> cutin == null } }.associateBy { it.name }

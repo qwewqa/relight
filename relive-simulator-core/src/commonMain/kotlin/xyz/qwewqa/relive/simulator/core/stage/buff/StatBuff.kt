@@ -271,3 +271,29 @@ object ClimaxDamageDownBuff : BuffEffect {
         self.valueClimaxDamageUp += value
     }
 }
+
+object NormalReflectBuff : BuffEffect {
+    override val name = "Normal Reflect"
+    override val category = BuffCategory.Positive
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueNormalReflect += value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueNormalReflect -= value
+    }
+}
+
+object SpecialReflectBuff : BuffEffect {
+    override val name = "Special Reflect"
+    override val category = BuffCategory.Positive
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueSpecialReflect += value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueSpecialReflect -= value
+    }
+}

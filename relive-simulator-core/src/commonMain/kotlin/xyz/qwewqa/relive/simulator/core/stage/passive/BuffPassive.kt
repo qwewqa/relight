@@ -9,6 +9,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 
 val ApplyFortitudeBuffPassive: PassiveEffect = GenericBuffPassive(ApplyFortitudeBuff) { targetSelf() }
+val ApplyEvasionBuffPassive: PassiveEffect = GenericBuffPassive(ApplyEvasionBuff) { targetSelf() }
 val ApplyReviveBuffPassive: PassiveEffect = GenericBuffPassive(ApplyReviveBuff) { targetSelf() }
 
 val TeamActPowerUpBuffPassive: PassiveEffect = GenericBuffPassive(ActPowerUpBuff) { targetAllyAoe() }
@@ -21,11 +22,14 @@ val SelfEffectiveDamageDealtUpBuffPassive : PassiveEffect = GenericBuffPassive(E
 val SelfCriticalUpBuffPassive : PassiveEffect = GenericBuffPassive(CriticalUpBuff) { targetSelf() }
 val TeamAPDownBuffPassive: PassiveEffect = GenericBuffPassive(ApDownBuff) { targetAllyAoe() }
 val SelfClimaxDamageUpBuffPassive: PassiveEffect = GenericBuffPassive(ClimaxDamageUpBuff) { targetSelf() }
+val SelfNormalBarrierBuffPassive: PassiveEffect = GenericBuffPassive(NormalBarrierBuff) { targetSelf() }
+val SelfSpecialBarrierBuffPassive: PassiveEffect = GenericBuffPassive(SpecialBarrierBuff) { targetSelf() }
 
 val TeamConfusionResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(ConfusionResistanceBuff) { targetAllyAoe() }
 val TeamStopResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(StopResistanceBuff) { targetAllyAoe() }
 val SelfStopResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(StopResistanceBuff) { targetSelf() }
 val TeamStunResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(StunResistanceBuff) { targetAllyAoe() }
+val TeamBurnResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(BurnResistanceBuff) { targetAllyAoe() }
 
 val EnemyBack1ConfusionBuffPassive: PassiveEffect = DebuffPassive(ConfusionBuff) { targetBack(1) }
 val EnemyBack1DazeBuffPassive: PassiveEffect = CountableDebuffPassive(CountableBuff.Daze) { targetBack(1) }

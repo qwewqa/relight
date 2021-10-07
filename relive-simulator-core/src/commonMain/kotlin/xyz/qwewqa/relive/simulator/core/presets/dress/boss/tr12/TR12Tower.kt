@@ -145,13 +145,13 @@ val tr12TowerHikari = ActorLoadout(
                         turns = 2,
                     )
                 }
-                // TODO targetSelf().act {
-//                    applyBuff(
-//                        effect = NormalReflectBuff,
-//                        value = 30,
-//                        turns = 2,
-//                    )
-//                }
+                targetSelf().act {
+                    applyBuff(
+                        effect = NormalReflectBuff,
+                        value = 30,
+                        turns = 2,
+                    )
+                }
             },
             ActType.ConfusionAct("Slash", 2) {
                 targetAllyRandom().act {
