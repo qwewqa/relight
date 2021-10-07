@@ -30,7 +30,7 @@ val UnshakableFeelings = MemoirBlueprint(
         specialDefense = 5696,
     ),
     baseAutoskills = listOf(
-        BrillianceRecoveryPassive.new(32)
+        BrillianceRecoveryPassive.new(22)
     ),
     maxAutoskills = listOf(
         BrillianceRecoveryPassive.new(32)
@@ -88,25 +88,88 @@ val UnshakableFeelings = MemoirBlueprint(
     )
 )
 
-val UnburnedFlowerUnwitheredFlame = Memoir(
+val UnburnedFlowerUnwitheredFlame = MemoirBlueprint(
     name = "Unburned Flower, Unwithered Flame",
-    stats = StatData(
-        hp = 4000,
-        actPower = 350,
-        normalDefense = 600,
-        specialDefense = 600,
+    rarity = 4,
+    baseStats = StatData(
+        hp = 445,
+        actPower = 113,
+        normalDefense = 363,
+        specialDefense = 363,
     ),
-    autoskills = listOf(
+    growthStats = StatData(
+      hp = 45000,
+      actPower = 3000,
+      normalDefense = 3000,
+      specialDefense = 3000,
+    ),
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(28)
+    ),
+    maxAutoskills = listOf(
         BrillianceRecoveryPassive.new(40)
     ),
-    cutinData = CutinData(
-        cost = 3,
-        cooldownStart = 2,
-        cooldown = 2,
-        usageLimit = 2,
-        target = CutinTarget.BeforeEnemyAct(1),
-        act = {
-            TODO()
+    cutinData = listOf(
+        null,
+        CutinData(
+            cost = 4,
+            cooldownStart = 3,
+            cooldown = 3,
+            usageLimit = 1,
+            target = CutinTarget.BeforeEnemyAct(1),
+            act = {
+                TODO()
+//            targetByLowest { it.EnemyTurnOrder }.act {
+//                applyBuff(
+//                    effect = FreezeBuff,
+//                    turns = 1,
+//                    chance = 100,
+//                )
+//            }
+            }
+        ),
+        CutinData(
+            cost = 4,
+            cooldownStart = 3,
+            cooldown = 3,
+            usageLimit = 1,
+            target = CutinTarget.BeforeEnemyAct(1),
+            act = {
+                TODO()
+//            targetByLowest { it.EnemyTurnOrder }.act {
+//                applyBuff(
+//                    effect = FreezeBuff,
+//                    turns = 1,
+//                    chance = 100,
+//                )
+//            }
+            }
+        ),
+        CutinData(
+            cost = 4,
+            cooldownStart = 3,
+            cooldown = 3,
+            usageLimit = 1,
+            target = CutinTarget.BeforeEnemyAct(1),
+            act = {
+                TODO()
+//            targetByLowest { it.EnemyTurnOrder }.act {
+//                applyBuff(
+//                    effect = FreezeBuff,
+//                    turns = 1,
+//                    chance = 100,
+//                )
+//            }
+            }
+        ),
+        CutinData(
+            cost = 3,
+            cooldownStart = 2,
+            cooldown = 2,
+            usageLimit = 2,
+            target = CutinTarget.BeforeEnemyAct(1),
+            act = {
+                TODO()
 //            targetByLowest { it.EnemyTurnOrder }.act {
 //                applyBuff(
 //                    effect = FreezeBuff,
@@ -114,166 +177,261 @@ val UnburnedFlowerUnwitheredFlame = Memoir(
 //                    chance = 100,
 //                )
 //            }
-        }
-    )
-)
-
-val XIIHangedManReverse = Memoir(
-    name = "XII Hanged Man [Reverse]",
-    stats = StatData(
-        actPower = 500,
-    ),
-    autoskills = listOf(
-        EffectiveDamageDealtPassive.new(30)
-    ),
-    cutinData = CutinData(
-        cost = 2,
-        cooldownStart = 1,
-        cooldown = 2,
-        usageLimit = 2,
-        target = CutinTarget.TurnStart,
-        act = {
-            targetAllyFront(5).act {
-                applyBuff(
-                    effect = EffectiveDamageDealtUpBuff,
-                    value = 50,
-                    turns = 2,
-                )
             }
-        }
+        ),
     )
 )
 
-val XIIHangedManReverseLv65 = Memoir(
-    name = "XII Hanged Man [Reverse] [1ub, Lv65]",
-    stats = StatData(
-        actPower = 425,
+val XIIHangedManReverse = MemoirBlueprint(
+    name = "XII Hanged Man [Reverse]",
+    rarity = 4,
+    baseStats = StatData(
+        actPower = 105,
     ),
-    autoskills = listOf(
+    growthStats = StatData(
+        actPower = 5000,
+    ),
+    baseAutoskills = listOf(
         EffectiveDamageDealtPassive.new(20)
     ),
-    cutinData = CutinData(
-        cost = 3,
-        cooldownStart = 2,
-        cooldown = 3,
-        usageLimit = 1,
-        target = CutinTarget.TurnStart,
-        act = {
-            targetAllyFront(5).act {
-                applyBuff(
-                    effect = EffectiveDamageDealtUpBuff,
-                    value = 30,
-                    turns = 1,
-                )
+    maxAutoskills = listOf(
+        EffectiveDamageDealtPassive.new(30)
+    ),
+    cutinData = listOf(
+        null,
+        CutinData(
+            cost = 3,
+            cooldownStart = 2,
+            cooldown = 3,
+            usageLimit = 1,
+            target = CutinTarget.TurnStart,
+            act = {
+                targetAllyFront(5).act {
+                    applyBuff(
+                        effect = EffectiveDamageDealtUpBuff,
+                        value = 30,
+                        turns = 1,
+                    )
+                }
             }
-        }
+        ),
+        CutinData(
+            cost = 3,
+            cooldownStart = 2,
+            cooldown = 3,
+            usageLimit = 1,
+            target = CutinTarget.TurnStart,
+            act = {
+                targetAllyFront(5).act {
+                    applyBuff(
+                        effect = EffectiveDamageDealtUpBuff,
+                        value = 35,
+                        turns = 1,
+                    )
+                }
+            }
+        ),
+        CutinData(
+            cost = 3,
+            cooldownStart = 2,
+            cooldown = 3,
+            usageLimit = 1,
+            target = CutinTarget.TurnStart,
+            act = {
+                targetAllyFront(5).act {
+                    applyBuff(
+                        effect = EffectiveDamageDealtUpBuff,
+                        value = 40,
+                        turns = 1,
+                    )
+                }
+            }
+        ),
+        CutinData(
+            cost = 2,
+            cooldownStart = 1,
+            cooldown = 2,
+            usageLimit = 2,
+            target = CutinTarget.TurnStart,
+            act = {
+                targetAllyFront(5).act {
+                    applyBuff(
+                        effect = EffectiveDamageDealtUpBuff,
+                        value = 50,
+                        turns = 2,
+                    )
+                }
+            }
+        )
     )
 )
 
-val VILoversReverse = Memoir(
+val VILoversReverse = MemoirBlueprint(
     name = "VI Lovers [Reverse]",
-    stats = StatData(
-        actPower = 500,
+    rarity = 4,
+    baseStats = StatData(
+        actPower = 105,
     ),
-    autoskills = listOf(
-        DexterityPassive.new(20)
+    growthStats = StatData(
+        actPower = 3417,
     ),
-    cutinData = CutinData(
-        cost = 2,
-        cooldownStart = 1,
-        cooldown = 2,
-        usageLimit = 2,
-        target = CutinTarget.TurnStart,
-        act = {
-            targetAllyFront(5).act {
-                applyBuff(
-                    effect = DexterityUpBuff,
-                    value = 30,
-                    turns = 2,
-                )
-            }
-        }
-    )
-)
-
-val VILoversReverseLv65 = Memoir(
-    name = "VI Lovers [Reverse] [1ub, Lv65]",
-    stats = StatData(
-        actPower = 425,
-    ),
-    autoskills = listOf(
+    baseAutoskills = listOf(
         DexterityPassive.new(14)
     ),
-    cutinData = CutinData(
-        cost = 3,
-        cooldownStart = 2,
-        cooldown = 3,
-        usageLimit = 1,
-        target = CutinTarget.TurnStart,
-        act = {
-            targetAllyFront(5).act {
-                applyBuff(
-                    effect = DexterityUpBuff,
-                    value = 15,
-                    turns = 1,
-                )
+    maxAutoskills = listOf(
+        DexterityPassive.new(20)
+    ),
+    cutinData = listOf(
+        null,
+        CutinData(
+            cost = 3,
+            cooldownStart = 2,
+            cooldown = 3,
+            usageLimit = 1,
+            target = CutinTarget.TurnStart,
+            act = {
+                targetAllyFront(5).act {
+                    applyBuff(
+                        effect = DexterityUpBuff,
+                        value = 15,
+                        turns = 1,
+                    )
+                }
             }
-        }
+        ),
+        CutinData(
+            cost = 3,
+            cooldownStart = 2,
+            cooldown = 3,
+            usageLimit = 1,
+            target = CutinTarget.TurnStart,
+            act = {
+                targetAllyFront(5).act {
+                    applyBuff(
+                        effect = DexterityUpBuff,
+                        value = 20,
+                        turns = 1,
+                    )
+                }
+            }
+        ),
+        CutinData(
+            cost = 3,
+            cooldownStart = 2,
+            cooldown = 3,
+            usageLimit = 1,
+            target = CutinTarget.TurnStart,
+            act = {
+                targetAllyFront(5).act {
+                    applyBuff(
+                        effect = DexterityUpBuff,
+                        value = 25,
+                        turns = 1,
+                    )
+                }
+            }
+        ),
+        CutinData(
+            cost = 2,
+            cooldownStart = 1,
+            cooldown = 2,
+            usageLimit = 2,
+            target = CutinTarget.TurnStart,
+            act = {
+                targetAllyFront(5).act {
+                    applyBuff(
+                        effect = DexterityUpBuff,
+                        value = 30,
+                        turns = 2,
+                    )
+                }
+            }
+        ),
     )
 )
 
-val XVITowerUpright = Memoir(
+val XVITowerUpright = MemoirBlueprint(
     name = "XVI Tower [Upright]",
-    stats = StatData(
-        hp = 4000,
-        actPower = 350,
-        normalDefense = 600,
-        specialDefense = 600,
+    rarity = 4,
+    baseStats = StatData(
+        hp = 445,
+        actPower = 113,
+        normalDefense = 363,
+        specialDefense = 363,
     ),
-    autoskills = listOf(
-        BrillianceRecoveryPassive.new(40)
+    growthStats = StatData(
+        hp = 45000,
+        actPower = 3000,
+        normalDefense = 3000,
+        specialDefense = 3000,
     ),
-    cutinData = CutinData(
-        cost = 1,
-        cooldownStart = 1,
-        cooldown = 2,
-        usageLimit = 2,
-        target = CutinTarget.TurnStart,
-        act = {
-            targetBack(1).act {
-                applyBuff(
-                    effect = MarkBuff,
-                    turns = 3,
-                )
-            }
-        }
-    )
-)
-
-val XVITowerUprightLv65 = Memoir(
-    name = "XVI Tower [Upright] [1ub, Lv65]",
-    stats = StatData(
-        hp = 3325,
-        actPower = 305,
-        normalDefense = 555,
-        specialDefense = 555,
-    ),
-    autoskills = listOf(
+    baseAutoskills = listOf(
         BrillianceRecoveryPassive.new(28)
     ),
-    cutinData = CutinData(
-        cost = 2,
-        cooldownStart = 2,
-        cooldown = 3,
-        usageLimit = 1,
-        target = CutinTarget.TurnStart,
-        act = {
-            targetBack(1).act {
-                applyBuff(
-                    effect = MarkBuff,
-                    turns = 2,
-                )
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(40)
+    ),
+    cutinData = listOf(
+        null,
+        CutinData(
+            cost = 2,
+            cooldownStart = 2,
+            cooldown = 3,
+            usageLimit = 1,
+            target = CutinTarget.TurnStart,
+            act = {
+                targetBack(1).act {
+                    applyBuff(
+                        effect = MarkBuff,
+                        turns = 2,
+                    )
+                }
             }
-        }
+        ),
+        CutinData(
+            cost = 2,
+            cooldownStart = 2,
+            cooldown = 3,
+            usageLimit = 1,
+            target = CutinTarget.TurnStart,
+            act = {
+                targetBack(1).act {
+                    applyBuff(
+                        effect = MarkBuff,
+                        turns = 2,
+                    )
+                }
+            }
+        ),
+        CutinData(
+            cost = 2,
+            cooldownStart = 2,
+            cooldown = 3,
+            usageLimit = 1,
+            target = CutinTarget.TurnStart,
+            act = {
+                targetBack(1).act {
+                    applyBuff(
+                        effect = MarkBuff,
+                        turns = 2,
+                    )
+                }
+            }
+        ),
+        CutinData(
+            cost = 1,
+            cooldownStart = 1,
+            cooldown = 2,
+            usageLimit = 2,
+            target = CutinTarget.TurnStart,
+            act = {
+                targetBack(1).act {
+                    applyBuff(
+                        effect = MarkBuff,
+                        turns = 3,
+                    )
+                }
+            }
+        ),
     )
 )
