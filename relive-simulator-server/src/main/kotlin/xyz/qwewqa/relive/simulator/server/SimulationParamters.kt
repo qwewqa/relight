@@ -43,7 +43,7 @@ data class SimulationParameters(
                     ActorLoadout(
                         it.name,
                         playerDresses[it.dress]!!,
-                        memoirs[it.memoir]!!,
+                        memoirs[it.memoir]!!.create(it.memoirLevel, it.memoirUnbind),
                         it.unitSkillLevel,
                     )
                 },
@@ -51,7 +51,7 @@ data class SimulationParameters(
                     ActorLoadout(
                         it.name,
                         playerDresses[it.dress]!!,
-                        memoirs[it.memoir]!!,
+                        memoirs[it.memoir]!!.create(it.memoirLevel, it.memoirUnbind),
                         it.unitSkillLevel,
                     )
                 },
@@ -119,6 +119,8 @@ data class PlayerLoadoutParameters(
     val name: String,
     val dress: String,
     val memoir: String,
+    val memoirLevel: Int,
+    val memoirUnbind: Int,
     val unitSkillLevel: Int,
 )
 

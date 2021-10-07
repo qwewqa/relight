@@ -44,6 +44,8 @@ data class PlayerLoadoutParameters(
     val name: String,
     val dress: String,
     val memoir: String,
+    val memoirLevel: Int,
+    val memoirUnbind: Int,
     val unitSkillLevel: Int,
 )
 

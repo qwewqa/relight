@@ -9,32 +9,82 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.MarkBuff
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinData
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinTarget
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoir
+import xyz.qwewqa.relive.simulator.core.stage.memoir.MemoirBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.BrillianceRecoveryPassive
 import xyz.qwewqa.relive.simulator.core.stage.passive.DexterityPassive
 import xyz.qwewqa.relive.simulator.core.stage.passive.EffectiveDamageDealtPassive
 
-val UnshakableFeelings = Memoir(
+val UnshakableFeelings = MemoirBlueprint(
     name = "Unshakable Feelings",
-    stats = StatData(
-        hp = 2999,
-        actPower = 299,
-        normalDefense = 499,
-        specialDefense = 499,
+    rarity = 4,
+    baseStats = StatData(
+        hp = 300,
+        actPower = 30,
+        normalDefense = 50,
+        specialDefense = 50,
     ),
-    autoskills = listOf(
+    growthStats = StatData(
+        hp = 34177,
+        actPower = 3417,
+        normalDefense = 5696,
+        specialDefense = 5696,
+    ),
+    baseAutoskills = listOf(
         BrillianceRecoveryPassive.new(32)
     ),
-    cutinData = CutinData(
-        cost = 3,
-        cooldownStart = 1,
-        cooldown = 2,
-        usageLimit = 2,
-        target = CutinTarget.BeforeAllyAct(1),
-        act = {
-            targetAllyByLowest { it.hp }.act {
-                heal(fixed = 25000)
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(32)
+    ),
+    cutinData = listOf(
+        null,
+        CutinData(
+            cost = 4,
+            cooldownStart = 2,
+            cooldown = 3,
+            usageLimit = 1,
+            target = CutinTarget.BeforeAllyAct(1),
+            act = {
+                targetAllyByLowest { it.hp }.act {
+                    heal(fixed = 10000)
+                }
             }
-        }
+        ),
+        CutinData(
+            cost = 4,
+            cooldownStart = 2,
+            cooldown = 3,
+            usageLimit = 1,
+            target = CutinTarget.BeforeAllyAct(1),
+            act = {
+                targetAllyByLowest { it.hp }.act {
+                    heal(fixed = 15000)
+                }
+            }
+        ),
+        CutinData(
+            cost = 4,
+            cooldownStart = 2,
+            cooldown = 3,
+            usageLimit = 1,
+            target = CutinTarget.BeforeAllyAct(1),
+            act = {
+                targetAllyByLowest { it.hp }.act {
+                    heal(fixed = 20000)
+                }
+            }
+        ),
+        CutinData(
+            cost = 3,
+            cooldownStart = 1,
+            cooldown = 2,
+            usageLimit = 2,
+            target = CutinTarget.BeforeAllyAct(1),
+            act = {
+                targetAllyByLowest { it.hp }.act {
+                    heal(fixed = 25000)
+                }
+            }
+        ),
     )
 )
 

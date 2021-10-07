@@ -34,8 +34,6 @@ suspend fun start(simulator: Simulator) {
 
     val options = simulator.getOptions()
 
-    var idCounter = 0
-
     val simulatorOptionsDiv = document.getElementById("simulator-options") as HTMLDivElement
     val shutdownButton = document.getElementById("shutdown-button") as HTMLButtonElement
     val exportButton = document.getElementById("export-button") as HTMLButtonElement
@@ -117,6 +115,13 @@ suspend fun start(simulator: Simulator) {
                         .asList()
                         .filterIsInstance<HTMLSelectElement>()
                         .single().getSelected().single(),
+                    (options.getElementsByClassName("actor-memoir-level")
+                        .asList()
+                        .single() as HTMLInputElement).valueOrPlaceholder.trim().toInt(),
+                    options.getElementsByClassName("actor-memoir-unbind")
+                        .asList()
+                        .filterIsInstance<HTMLSelectElement>()
+                        .single().getSelected().single().toInt(),
                     (options.getElementsByClassName("actor-unit-skill")
                         .asList()
                         .single() as HTMLInputElement).valueOrPlaceholder.trim().toInt(),
@@ -138,13 +143,14 @@ suspend fun start(simulator: Simulator) {
     }
 
     fun addActor() {
+        val actorCount = actorSettingsDiv.getElementsByClassName("actor-options").length + 1
         actorSettingsDiv.insertBefore(
             document.create.div("row actor-options") {
                 div("col-12 my-2") {
                     div("border border-2 rounded") {
                         div("row m-2") {
                             div("col-12 col-md-8 my-2") {
-                                val inputId = "actor-name-${idCounter++}"
+                                val inputId = "actor-name-$actorCount"
                                 label("form-label") {
                                     htmlFor = inputId
                                     +"Name"
@@ -154,7 +160,7 @@ suspend fun start(simulator: Simulator) {
                                 }
                             }
                             div("col-12 col-md-4 my-2") {
-                                val inputId = "actor-unit-skill-${idCounter++}"
+                                val inputId = "actor-unit-skill-$actorCount"
                                 label("form-label") {
                                     htmlFor = inputId
                                     +"Unit Skill Level"
@@ -165,7 +171,7 @@ suspend fun start(simulator: Simulator) {
                                 }
                             }
                             div("col-12 my-2") {
-                                val selectId = "actor-dress-${idCounter++}"
+                                val selectId = "actor-dress-$actorCount"
                                 label("form-label") {
                                     htmlFor = selectId
                                     +"Dress"
@@ -181,8 +187,8 @@ suspend fun start(simulator: Simulator) {
                                     }
                                 }
                             }
-                            div("col-12 my-2") {
-                                val selectId = "actor-memoir-${idCounter++}"
+                            div("col-12 col-md-6 my-2") {
+                                val selectId = "actor-memoir-$actorCount"
                                 label("form-label") {
                                     htmlFor = selectId
                                     +"Memoir"
@@ -195,6 +201,48 @@ suspend fun start(simulator: Simulator) {
                                             value = it
                                             +it
                                         }
+                                    }
+                                }
+                            }
+                            div("col-6 col-md-3 my-2") {
+                                val inputId = "actor-memoir-level-$actorCount"
+                                label("form-label") {
+                                    htmlFor = inputId
+                                    +"Memoir Level"
+                                }
+                                input(InputType.number, classes = "form-control actor-memoir-level") {
+                                    id = inputId
+                                    placeholder = "1"
+                                }
+                            }
+                            div("col-6 col-md-3 my-2") {
+                                val selectId = "actor-memoir-unbind-$actorCount"
+                                label("form-label") {
+                                    htmlFor = selectId
+                                    +"Memoir Unbind"
+                                }
+                                select(classes = "form-control actor-memoir-unbind") {
+                                    id = selectId
+                                    option {
+                                        value = "0"
+                                        label = "0"
+                                    }
+                                    option {
+                                        value = "1"
+                                        label = "1"
+                                    }
+                                    option {
+                                        value = "2"
+                                        label = "2"
+                                    }
+                                    option {
+                                        value = "3"
+                                        label = "3"
+                                    }
+                                    option {
+                                        value = "4"
+                                        label = "4"
+                                        selected = true
                                     }
                                 }
                             }

@@ -11,6 +11,41 @@ data class Memoir(
     val cutinData: CutinData? = null,
 )
 
+data class MemoirBlueprint(
+    val name: String,
+    val rarity: Int,
+    val baseStats: StatData,
+    val growthStats: StatData,
+    val autoskills: List<List<PassiveData>>,
+    val cutinData: List<CutinData?> = listOf(null, null, null, null, null),
+) {
+    constructor(
+        name: String,
+        rarity: Int,
+        baseStats: StatData,
+        growthStats: StatData,
+        baseAutoskills: List<PassiveData>,
+        maxAutoskills: List<PassiveData>,
+        cutinData: List<CutinData?> = listOf(null, null, null, null, null),
+    ) : this(name, rarity, baseStats, growthStats, List(4) { baseAutoskills } + listOf(maxAutoskills), cutinData)
+
+    fun maxLevel(limitBreak: Int) = (rarity + 2) * 10 + limitBreak * 5
+
+    fun create(level: Int, limitBreak: Int): Memoir {
+        require(level in 1..maxLevel(limitBreak)) { "Invalid level $level for rarity $rarity at limit break $limitBreak." }
+        return Memoir(
+            name,
+            baseStats + growthStats * (level - 1) / 1000,
+            autoskills[limitBreak],
+            if (limitBreak > 0) cutinData[limitBreak] else null,
+        )
+    }
+}
+
+enum class MemoirRarity {
+
+}
+
 data class CutinData(
     val cost: Int,
     val cooldownStart: Int,

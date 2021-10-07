@@ -22,10 +22,47 @@ data class StatData(
         actor.valueAccuracy += accuracy
         actor.valueEvasion += evasion
     }
+
+    operator fun plus(other: StatData) = StatData(
+        hp + other.hp,
+        actPower + other.actPower,
+        normalDefense + other.normalDefense,
+        specialDefense + other.specialDefense,
+        agility + other.agility,
+        dexterity + other.dexterity,
+        critical + other.critical,
+        accuracy + other.accuracy,
+        evasion + other.evasion,
+    )
+
+    operator fun times(value: Int) = StatData(
+        hp * value,
+        actPower * value,
+        normalDefense * value,
+        specialDefense * value,
+        agility * value,
+        dexterity * value,
+        critical * value,
+        accuracy * value,
+        evasion * value,
+    )
+
+    operator fun div(value: Int) = StatData(
+        hp / value,
+        actPower / value,
+        normalDefense / value,
+        specialDefense / value,
+        agility / value,
+        dexterity / value,
+        critical / value,
+        accuracy / value,
+        evasion / value,
+    )
 }
 
-val defaultDressStats get() = StatData(
-    dexterity = 5,
-    critical = 50,
-    accuracy = 100,
-)
+val defaultDressStats
+    get() = StatData(
+        dexterity = 5,
+        critical = 50,
+        accuracy = 100,
+    )

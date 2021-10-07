@@ -4,17 +4,26 @@ import xyz.qwewqa.relive.simulator.core.presets.condition.SiegfeldOnlyCondition
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoir
+import xyz.qwewqa.relive.simulator.core.stage.memoir.MemoirBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
-val FriendsAtTheAquarium = Memoir(
+val FriendsAtTheAquarium = MemoirBlueprint(
     name = "Friends at the Aquarium",
-    stats = StatData(
-        hp = 2099,
-        normalDefense = 179,
+    rarity = 4,
+    baseStats = StatData(
+        hp = 210,
+        normalDefense = 18,
     ),
-    autoskills = listOf(
+    growthStats = StatData(
+        hp = 23924,
+        normalDefense = 2050,
+    ),
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(28)
+    ),
+    maxAutoskills = listOf(
         BrillianceRecoveryPassive.new(40)
-    )
+    ),
 )
 
 val UrashimaTaroPerformanceFlyer = Memoir(
