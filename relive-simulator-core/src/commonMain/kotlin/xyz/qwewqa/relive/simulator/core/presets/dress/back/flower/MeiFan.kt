@@ -15,7 +15,7 @@ import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val StageGirlMeiFan = Dress(
-    name = "Stage Girl MeiFan",
+    name = "Stage Girl Mei Fan",
     character = Character.MeiFan,
     attribute = Attribute.Flower,
     damageType = DamageType.Normal,

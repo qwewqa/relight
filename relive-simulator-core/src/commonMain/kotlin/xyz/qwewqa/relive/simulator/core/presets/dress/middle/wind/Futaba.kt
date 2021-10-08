@@ -12,7 +12,7 @@ import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
 val HondaFutaba = Dress(
-    name = "Honda Futaba",
+    name = "Honda Tadakatsu Futaba",
     character = Character.Futaba,
     attribute = Attribute.Wind,
     damageType = DamageType.Special,

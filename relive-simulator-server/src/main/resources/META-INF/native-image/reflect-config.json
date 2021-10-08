@@ -185,7 +185,7 @@
     ]
   },
   {
-    "name": "xyz.qwewqa.relive.simulator.server.SimulationOptionNames",
+    "name": "xyz.qwewqa.relive.simulator.server.SimulationOptions",
     "fields": [
       {
         "name": "Companion"
@@ -193,7 +193,7 @@
     ]
   },
   {
-    "name": "xyz.qwewqa.relive.simulator.server.SimulationOptionNames$Companion",
+    "name": "xyz.qwewqa.relive.simulator.server.SimulationOptions$Companion",
     "methods": [
       {
         "name": "serializer",

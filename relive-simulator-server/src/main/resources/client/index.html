@@ -14,10 +14,14 @@
 <body>
 <div class="container">
     <div id="simulator-options">
-        <div class="row justify-content-between my-2">
+        <div class="row my-2">
             <div class="col-auto">
                 <button id="shutdown-button" type="button" class="btn btn-danger">Shutdown</button>
             </div>
+            <div class="col-auto">
+                <select id="language-select" class="form-select"></select>
+            </div>
+            <div class="col"></div>
             <div class="col-auto">
                 <button id="import-button" type="button" class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#import-modal">Import
@@ -54,11 +58,13 @@
                                         aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <textarea id="export-text" class="form-control text-monospace" rows="8" readonly></textarea>
+                                <textarea id="export-text" class="form-control text-monospace" rows="8"
+                                          readonly></textarea>
                             </div>
                             <div class="modal-footer">
                                 <div class="px-2">
-                                    <input class="form-check-input" type="checkbox" value="" id="import-yaml-checkbox" checked>
+                                    <input class="form-check-input" type="checkbox" value="" id="import-yaml-checkbox"
+                                           checked>
                                     <label class="form-check-label" for="import-yaml-checkbox">
                                         Use YAML
                                     </label>
@@ -265,9 +271,7 @@
                     <div id="strategy-container"></div>
                 </div>
             </div>
-            <div class="row justify-content-between my-2">
-                <div class="col-auto">
-                </div>
+            <div class="row justify-content-end my-2">
                 <div class="col-auto">
                     <button id="cancel-button" type="button" class="btn btn-danger" disabled>Cancel</button>
                     <button id="simulate-button" type="button" class="btn btn-success">Simulate</button>

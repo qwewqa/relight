@@ -13,7 +13,7 @@ import xyz.qwewqa.relive.simulator.stage.character.Position
 
 
 val SanadaMahiru = Dress(
-    name = "Sanada Mahiru",
+    name = "Sanada Yukimura Mahiru",
     character = Character.Mahiru,
     attribute = Attribute.Space,
     damageType = DamageType.Normal,

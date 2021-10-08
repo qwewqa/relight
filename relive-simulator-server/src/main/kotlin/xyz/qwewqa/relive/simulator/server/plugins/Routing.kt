@@ -1,12 +1,14 @@
 package xyz.qwewqa.relive.simulator.server.plugins
 
+import com.charleskorn.kaml.Yaml
 import io.ktor.routing.*
 import io.ktor.application.*
 import io.ktor.http.*
-import io.ktor.http.content.*
 import io.ktor.response.*
 import io.ktor.request.*
 import kotlinx.coroutines.cancelAndJoin
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import xyz.qwewqa.relive.simulator.core.presets.condition.conditions
 import xyz.qwewqa.relive.simulator.core.presets.dress.bossLoadouts
 import xyz.qwewqa.relive.simulator.core.presets.dress.playerDresses
@@ -19,16 +21,21 @@ fun Application.configureRouting() {
     routing {
         // Static doesn't seem to work with GraalVM properly :(
         get("/") {
-            call.respondText(Thread.currentThread().getContextClassLoader().getResourceAsStream("client/index.html")!!.bufferedReader().readText(), ContentType.Text.Html)
+            call.respondText(Thread.currentThread().getContextClassLoader().getResourceAsStream("client/index.html")!!
+                .bufferedReader().readText(), ContentType.Text.Html)
         }
         get("/index.html") {
-            call.respondText(Thread.currentThread().getContextClassLoader().getResourceAsStream("client/index.html")!!.bufferedReader().readText(), ContentType.Text.Html)
+            call.respondText(Thread.currentThread().getContextClassLoader().getResourceAsStream("client/index.html")!!
+                .bufferedReader().readText(), ContentType.Text.Html)
         }
         get("/relive-simulator-client.js") {
-            call.respondText(Thread.currentThread().getContextClassLoader().getResourceAsStream("client/relive-simulator-client.js")!!.bufferedReader().readText(), ContentType.Application.JavaScript)
+            call.respondText(Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("client/relive-simulator-client.js")!!.bufferedReader().readText(),
+                ContentType.Application.JavaScript)
         }
         get("/codemirror.css") {
-            call.respondText(Thread.currentThread().getContextClassLoader().getResourceAsStream("client/codemirror.css")!!.bufferedReader().readText(), ContentType.Text.CSS)
+            call.respondText(Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("client/codemirror.css")!!.bufferedReader().readText(), ContentType.Text.CSS)
         }
         post("/simulate") {
             val parameters = call.receive<SimulationParameters>()
@@ -64,15 +71,39 @@ fun Application.configureRouting() {
         }
         get("/options") {
             call.respond(
-                SimulationOptionNames(
-                    playerDresses.keys.toList(),
-                    memoirs.keys.toList(),
-                    songEffects.keys.toList(),
-                    conditions.keys.toList(),
-                    bossLoadouts.keys.toList(),
-                    strategyParsers.keys.toList(),
+                SimulationOptions(
+                    listOf("en", "zh_hant", "ko"),
+                    getLocalizationConfig("commmonText.yaml"),
+                    getLocalizationConfig("dress.yaml", playerDresses.keys),
+                    getLocalizationConfig("memoir.yaml", memoirs.keys),
+                    getLocalizationConfig("songEffect.yaml", songEffects.keys),
+                    getLocalizationConfig("condition.yaml", conditions.keys),
+                    getLocalizationConfig("bossLoadout.yaml", bossLoadouts.keys),
+                    getLocalizationConfig("strategy.yaml", strategyParsers.keys),
                 )
             )
         }
     }
 }
+
+private fun loadResourceText(path: String) =
+    Thread.currentThread().getContextClassLoader().getResourceAsStream(path)?.bufferedReader()?.readText()
+
+private fun decodeLocalizationConfig(text: String, options: Iterable<String>): List<SimulationOption> {
+    val localized = Yaml.default.decodeFromString<Map<String, Map<String, String>>>(text)
+    return options.map {
+        SimulationOption(it, localized[it] ?: emptyMap())
+    }
+}
+
+private fun decodeLocalizationConfig(text: String): List<SimulationOption> {
+    return Yaml.default.decodeFromString<Map<String, Map<String, String>>>(text).map { (id, localized) ->
+        SimulationOption(id, localized)
+    }
+}
+
+private fun getLocalizationConfig(path: String, options: Iterable<String>) =
+    decodeLocalizationConfig(loadResourceText(path) ?: "{}", options)
+
+private fun getLocalizationConfig(path: String) =
+    decodeLocalizationConfig(loadResourceText(path) ?: "{}")

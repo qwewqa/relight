@@ -14,7 +14,7 @@ import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
 val MitsuhideKaren = Dress(
-    name = "Mitsuhide Karen",
+    name = "Akechi Mitsuhide Karen",
     character = Character.Karen,
     attribute = Attribute.Cloud,
     damageType = DamageType.Normal,

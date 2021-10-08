@@ -17,7 +17,7 @@ import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val FuMeiFan = Dress(
-    name = "Fu MeiFan",
+    name = "Second Lieutenant Fu Mei Fan",
     character = Character.MeiFan,
     attribute = Attribute.Moon,
     damageType = DamageType.Normal,

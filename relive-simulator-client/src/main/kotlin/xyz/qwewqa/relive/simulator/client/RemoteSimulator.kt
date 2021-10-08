@@ -34,7 +34,7 @@ class RemoteSimulator(val baseUrl: URL) : Simulator {
         )
     }
 
-    override suspend fun getOptions(): SimulationOptionNames {
+    override suspend fun getOptions(): SimulationOptions {
         return client.get(URL("/options", baseUrl.href).href)
     }
 

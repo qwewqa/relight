@@ -11,7 +11,7 @@ import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
 val CatalinaKaoruko = Dress(
-    name = "Catalina Kaoruko",
+    name = "Rebellious General Catalina Kaoruko",
     character = Character.Kaoruko,
     attribute = Attribute.Wind,
     damageType = DamageType.Normal,

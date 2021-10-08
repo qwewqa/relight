@@ -93,13 +93,21 @@ data class SimulationParameters(
 }
 
 @Serializable
-data class SimulationOptionNames(
-    val dresses: List<String>,
-    val memoirs: List<String>,
-    val songEffects: List<String>,
-    val conditions: List<String>,
-    val bosses: List<String>,
-    val strategyTypes: List<String>,
+data class SimulationOptions(
+    val locales: List<String>,
+    val commonText: List<SimulationOption>,
+    val dresses: List<SimulationOption>,
+    val memoirs: List<SimulationOption>,
+    val songEffects: List<SimulationOption>,
+    val conditions: List<SimulationOption>,
+    val bosses: List<SimulationOption>,
+    val strategyTypes: List<SimulationOption>,
+)
+
+@Serializable
+data class SimulationOption(
+    val id: String,
+    val name: Map<String, String>,
 )
 
 @Serializable
