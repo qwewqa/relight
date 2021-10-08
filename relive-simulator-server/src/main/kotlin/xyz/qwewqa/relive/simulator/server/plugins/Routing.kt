@@ -1,14 +1,14 @@
 package xyz.qwewqa.relive.simulator.server.plugins
 
 import com.charleskorn.kaml.Yaml
-import io.ktor.routing.*
 import io.ktor.application.*
 import io.ktor.http.*
-import io.ktor.response.*
 import io.ktor.request.*
+import io.ktor.response.*
+import io.ktor.routing.*
 import kotlinx.coroutines.cancelAndJoin
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.builtins.serializer
 import xyz.qwewqa.relive.simulator.core.presets.condition.conditions
 import xyz.qwewqa.relive.simulator.core.presets.dress.bossLoadouts
 import xyz.qwewqa.relive.simulator.core.presets.dress.playerDresses
@@ -89,15 +89,18 @@ fun Application.configureRouting() {
 private fun loadResourceText(path: String) =
     Thread.currentThread().getContextClassLoader().getResourceAsStream(path)?.bufferedReader()?.readText()
 
+private val configSerializer =
+    MapSerializer(String.serializer(), MapSerializer(String.serializer(), String.serializer()))
+
 private fun decodeLocalizationConfig(text: String, options: Iterable<String>): List<SimulationOption> {
-    val localized = Yaml.default.decodeFromString<Map<String, Map<String, String>>>(text)
+    val localized = Yaml.default.decodeFromString(configSerializer, text)
     return options.map {
         SimulationOption(it, localized[it] ?: emptyMap())
     }
 }
 
 private fun decodeLocalizationConfig(text: String): List<SimulationOption> {
-    return Yaml.default.decodeFromString<Map<String, Map<String, String>>>(text).map { (id, localized) ->
+    return Yaml.default.decodeFromString(configSerializer, text).map { (id, localized) ->
         SimulationOption(id, localized)
     }
 }

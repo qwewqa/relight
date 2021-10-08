@@ -106,6 +106,9 @@
     "name": "java.util.Map"
   },
   {
+    "name": "java.util.HashMap"
+  },
+  {
     "name": "java.util.PropertyPermission"
   },
   {
