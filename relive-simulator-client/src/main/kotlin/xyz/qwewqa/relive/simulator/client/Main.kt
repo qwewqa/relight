@@ -1,8 +1,5 @@
 package xyz.qwewqa.relive.simulator.client
 
-import io.ktor.client.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
 import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.coroutines.*
@@ -20,10 +17,26 @@ suspend fun main() {
     start(RemoteSimulator(URL("${window.location.protocol}//${window.location.host}")))
 }
 
-val HTMLInputElement.valueOrPlaceholder: String get() = if (value.isNotEmpty()) value else placeholder
+val HTMLInputElement.valueOrPlaceholder: String get() = value.ifEmpty { placeholder }
 
 val yaml = Yaml {
     encodeDefaultValues = false
+}
+
+fun HTMLSelectElement.getSelected() = selectedOptions.asList().map {
+    it.asDynamic().value as String
+}
+
+fun HTMLSelectElement.setSelected(selected: List<String>) {
+    this.options.asList().filterIsInstance<HTMLOptionElement>().forEach {
+        it.selected = it.value in selected
+    }
+}
+
+fun HTMLSelectElement.setSelected(selected: String) {
+    this.options.asList().filterIsInstance<HTMLOptionElement>().forEach {
+        it.selected = it.value == selected
+    }
 }
 
 @OptIn(DelicateCoroutinesApi::class, kotlinx.serialization.ExperimentalSerializationApi::class)
@@ -33,6 +46,15 @@ suspend fun start(simulator: Simulator) {
 
     val options = simulator.getOptions()
 
+    val commonText = options.commonText.associateBy { it.id }
+    val bosses = options.bosses.associateBy { it.id }
+    val strategies = options.strategyTypes.associateBy { it.id }
+    val songEffects = options.songEffects.associateBy { it.id }
+    val conditions = options.conditions.associateBy { it.id }
+    val dresses = options.dresses.associateBy { it.id }
+    val memoirs = options.memoirs.associateBy { it.id }
+
+    val languageSelect = document.getElementById("language-select") as HTMLSelectElement
     val simulatorOptionsDiv = document.getElementById("simulator-options") as HTMLDivElement
     val shutdownButton = document.getElementById("shutdown-button") as HTMLButtonElement
     val exportButton = document.getElementById("export-button") as HTMLButtonElement
@@ -55,29 +77,7 @@ suspend fun start(simulator: Simulator) {
 
     val strategyEditor = CodeMirror(strategyContainer, js("{lineNumbers: true, mode: null}"))
 
-    fun HTMLSelectElement.getSelected() = selectedOptions.asList().map {
-        it.asDynamic().value as String
-    }
-
-    fun HTMLSelectElement.setSelected(selected: List<String>) {
-        this.options.asList().filterIsInstance<HTMLOptionElement>().forEach {
-            if (it.value in selected) {
-                it.selected = true
-            } else {
-                it.selected = false
-            }
-        }
-    }
-
-    fun HTMLSelectElement.setSelected(selected: String) {
-        this.options.asList().filterIsInstance<HTMLOptionElement>().forEach {
-            if (it.value == selected) {
-                it.selected = true
-            } else {
-                it.selected = false
-            }
-        }
-    }
+    var locale = options.locales[0]
 
     fun getSetup(): SimulationParameters {
         val songSettings = document
@@ -129,12 +129,12 @@ suspend fun start(simulator: Simulator) {
             },
             null,
             SongParameters(
-                songSettings.dropLast(1).filter { it.name != "None" },
-                songSettings.last().takeIf { it.name != "None" },
+                songSettings.dropLast(1).filter { it.name != "none" },
+                songSettings.last().takeIf { it.name != "none" },
             ),
             StrategyParameter(
                 strategyTypeSelect.getSelected().single(),
-                strategyEditor.getValue(),
+                strategyEditor.getValue() as String,
             ),
             bossSelect.getSelected().single(),
             (document.getElementById("event-bonus-input") as HTMLInputElement).valueOrPlaceholder.trim().toInt(),
@@ -181,8 +181,8 @@ suspend fun start(simulator: Simulator) {
                                     attributes["data-live-search"] = "true"
                                     options.dresses.forEach {
                                         option {
-                                            value = it
-                                            +it
+                                            value = it.id
+                                            +it[locale]
                                         }
                                     }
                                 }
@@ -198,8 +198,8 @@ suspend fun start(simulator: Simulator) {
                                     attributes["data-live-search"] = "true"
                                     options.memoirs.forEach {
                                         option {
-                                            value = it
-                                            +it
+                                            value = it.id
+                                            +it[locale]
                                         }
                                     }
                                 }
@@ -221,7 +221,7 @@ suspend fun start(simulator: Simulator) {
                                     htmlFor = selectId
                                     +"Memoir Unbind"
                                 }
-                                select(classes = "form-control actor-memoir-unbind") {
+                                select(classes = "form-select actor-memoir-unbind") {
                                     id = selectId
                                     option {
                                         value = "0"
@@ -305,22 +305,29 @@ suspend fun start(simulator: Simulator) {
                     .asList()
                     .filterIsInstance<HTMLSelectElement>()
                     .single().setSelected(actor.memoir)
+                (options.getElementsByClassName("actor-memoir-level")
+                    .asList()
+                    .single() as HTMLInputElement).value = actor.memoirLevel.toString()
+                options.getElementsByClassName("actor-memoir-unbind")
+                    .asList()
+                    .filterIsInstance<HTMLSelectElement>()
+                    .single().setSelected(actor.memoirLimitBreak.toString())
                 (options.getElementsByClassName("actor-unit-skill")
                     .asList()
                     .single() as HTMLInputElement).value = actor.unitSkillLevel.toString()
             }
-            val songEffects = song.activeEffects.take(2) +
+            val effects = song.activeEffects.take(2) +
                     List((2 - song.activeEffects.size).coerceAtLeast(0)) { null } +
                     listOf(song.passiveEffect)
             document
                 .getElementById("song-settings")!!
                 .getElementsByClassName("song-effect-group")
                 .asList()
-                .zip(songEffects).forEach { (options, effect) ->
+                .zip(effects).forEach { (options, effect) ->
                     options.getElementsByClassName("song-effect-type")
                         .asList()
                         .filterIsInstance<HTMLSelectElement>()
-                        .single().setSelected(effect?.name ?: "None")
+                        .single().setSelected(effect?.name ?: "none")
                     (options.getElementsByClassName("song-effect-value")[0] as HTMLInputElement).value =
                         effect?.value?.toString() ?: ""
                     (options.getElementsByClassName("song-effect-condition")
@@ -357,28 +364,42 @@ suspend fun start(simulator: Simulator) {
     })
     addActor() // Start with one already here by default
 
-    options.bosses.forEach {
-        bossSelect.add(
+    options.locales.forEach {
+        languageSelect.add(
             document.create.option {
                 value = it
                 +it
+            }.asDynamic()
+        )
+    }
+    options.bosses.forEach {
+        bossSelect.add(
+            document.create.option {
+                value = it.id
+                +it[locale]
             }.asDynamic()
         )
     }
     options.strategyTypes.forEach {
         strategyTypeSelect.add(
             document.create.option {
-                value = it
-                +it
+                value = it.id
+                +it[locale]
             }.asDynamic()
         )
     }
     document.getElementsByClassName("song-effect-type").asList().forEach { select ->
-        (listOf("None") + options.songEffects).forEach {
+        (select as? HTMLSelectElement)?.add(
+            document.create.option {
+                value = "none"
+                +(commonText["none"]?.get(locale) ?: "-")
+            }.asDynamic()
+        )
+        options.songEffects.forEach {
             (select as? HTMLSelectElement)?.add(
                 document.create.option {
-                    value = it
-                    +it
+                    value = it.id
+                    +it[locale]
                 }.asDynamic()
             )
         }
@@ -387,8 +408,8 @@ suspend fun start(simulator: Simulator) {
         options.conditions.forEach {
             (select as? HTMLSelectElement)?.add(
                 document.create.option {
-                    value = it
-                    +it
+                    value = it.id
+                    +it[locale]
                 }.asDynamic()
             )
         }
@@ -408,6 +429,51 @@ suspend fun start(simulator: Simulator) {
             simulateButton.disabled = false
             cancelButton.disabled = true
         }
+    })
+
+    fun updateLocaleText() {
+        bossSelect.options.asList().filterIsInstance<HTMLOptionElement>().forEach {
+            it.text = bosses[it.value]!![locale]
+        }
+        strategyTypeSelect.options.asList().filterIsInstance<HTMLOptionElement>().forEach {
+            it.text = strategies[it.value]!![locale]
+        }
+        document.getElementsByClassName("song-effect-type").asList().forEach { select ->
+            (select as? HTMLSelectElement)?.options?.asList()?.filterIsInstance<HTMLOptionElement>()?.forEach {
+                if (it.value == "none") {
+                    it.text = commonText["none"]?.get(locale) ?: "-"
+                } else {
+                    it.text = songEffects[it.value]!![locale]
+                }
+            }
+        }
+        document.getElementsByClassName("song-effect-condition").asList().forEach { select ->
+            (select as? HTMLSelectElement)?.options?.asList()?.filterIsInstance<HTMLOptionElement>()?.forEach {
+                it.text = conditions[it.value]!![locale]
+            }
+        }
+        document.getElementsByClassName("actor-dress")
+            .asList()
+            .filterIsInstance<HTMLSelectElement>()
+            .forEach { select ->
+                select.options.asList().filterIsInstance<HTMLOptionElement>().forEach {
+                    it.text = dresses[it.value]!![locale]
+                }
+            }
+        document.getElementsByClassName("actor-memoir")
+            .asList()
+            .filterIsInstance<HTMLSelectElement>()
+            .forEach { select ->
+                select.options.asList().filterIsInstance<HTMLOptionElement>().forEach {
+                    it.text = memoirs[it.value]!![locale]
+                }
+            }
+        js("$('.selectpicker').selectpicker('refresh')")
+    }
+
+    languageSelect.addEventListener("change", {
+        locale = languageSelect.getSelected().single()
+        updateLocaleText()
     })
 
     js("$('.selectpicker').selectpicker('refresh')")
