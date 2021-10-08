@@ -346,11 +346,11 @@ val TheGreatYearEndCleanup = MemoirBlueprint(
     ),
     baseAutoskills = listOf(
         SelfNormalBarrierBuffPassive.new(560,3),
-        ApplyEvasionBuffPassive.new(50),
+        ApplyEvasionBuffPassive.new(1),
     ),
     maxAutoskills = listOf(
         SelfNormalBarrierBuffPassive.new(2260,3),
-        ApplyEvasionBuffPassive.new(50),
+        ApplyEvasionBuffPassive.new(1),
     ),
 )
 
@@ -366,10 +366,9 @@ val ConfidantsOnADate = MemoirBlueprint(
         specialDefense = 2050,
     ),
     baseAutoskills = listOf(
-        ApplyEvasionBuffPassive.new(50),
+        ApplyEvasionBuffPassive.new(1),
     ),
     maxAutoskills = listOf(
-        ApplyEvasionBuffPassive.new(50),
-        ApplyEvasionBuffPassive.new(50),
+        ApplyEvasionBuffPassive.new(2),
     ),
 )
