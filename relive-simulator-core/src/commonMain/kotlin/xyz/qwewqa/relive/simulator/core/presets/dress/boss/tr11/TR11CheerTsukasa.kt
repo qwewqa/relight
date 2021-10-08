@@ -24,7 +24,7 @@ val tr11CheerTsukasa = ActorLoadout(
         position = Position.None,
         stats = defaultDressStats.copy(
             hp = 3_500_000,
-            actPower = 2100,
+            actPower = 2300,
             normalDefense = 650,
             specialDefense = 650,
             agility = 1,
@@ -148,7 +148,7 @@ val tr11CheerTsukasa = ActorLoadout(
                     override val category = PassiveEffectCategory.Passive
 
                     override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) = context.run {
-                        listOf(ApUpBuff, ConfusionBuff).forEach {
+                        listOf(ApUpBuff, ConfusionBuff, StopBuff).forEach {
                             self.specificBuffResist[it] = 100
                         }
                         Attribute.values().forEach {
