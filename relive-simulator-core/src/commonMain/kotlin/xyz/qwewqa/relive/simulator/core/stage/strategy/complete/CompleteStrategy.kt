@@ -9,6 +9,15 @@ import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.strategy.*
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
+/**
+ * Check that a strategy arguments list consists only of acts and return the
+ * list unchanged.
+ */
+fun requireActs(args: List<CsObject>): List<CsObject> {
+    if (args.any { it !is CsAct }) csError("Expected all arguments to be acts.")
+    return args
+}
+
 class CompleteStrategy(val script: CsScriptNode) : Strategy {
     lateinit var stage: Stage
     lateinit var team: Team
