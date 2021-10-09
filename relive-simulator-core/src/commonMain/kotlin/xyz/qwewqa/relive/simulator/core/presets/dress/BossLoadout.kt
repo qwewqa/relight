@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr10.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr11.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr12.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr9.tr9FaithMisora
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr9.tr9FaithMisoraStrategy
@@ -14,6 +15,9 @@ val bossLoadouts = listOf(
     BossLoadout(tr10VampireShiori, tr10VampireShioriStrategy),
     BossLoadout(tr10HellsingMichiru, tr10HellsingMichiruStrategy),
     BossLoadout(tr10FaithMisora, tr10FaithMisoraStrategy),
+    BossLoadout(tr11CheerTsukasa, tr11CheerTsukasaStrategy),
+    BossLoadout(tr11CheerYachiyo, tr11CheerYachiyoStrategy),
+    BossLoadout(tr11FaithMisora, tr11FaithMisoraStrategy),
     BossLoadout(tr12Boss2, tr12Boss2Strategy),
     BossLoadout(tr12Boss2Seisho, tr12Boss2SeishoStrategy),
     BossLoadout(tr12TowerHikari, tr12TowerHikariStrategy),
