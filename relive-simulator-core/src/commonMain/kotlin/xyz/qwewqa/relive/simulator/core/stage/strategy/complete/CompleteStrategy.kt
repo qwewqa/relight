@@ -95,6 +95,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         }
         context.addFunction("climax") { args ->
             if (args.isNotEmpty()) csError("Expected zero arguments.")
+            if (!canCx()) csError("Climax unavailable.")
             enterClimax()
             CsNil
         }
@@ -158,7 +159,11 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     ) {
         val capName = name.replaceFirstChar { it.uppercase() }
         context.addFunction(name) { args ->
-            action(args.singleAct())
+            val act = args.singleAct()
+            if (!filter(act)) {
+                csError("Unable to ${name}: ${act.actor.name} ${act.act.type.name}")
+            }
+            action(act)
             CsNil
         }
         context.addFunction("can" + capName) {
@@ -242,7 +247,6 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     private fun canCx() = queued.isEmpty() && team.cxTurns == 0 && team.active.any { it.brilliance >= 100 } && !climax
 
     private fun queue(act: CsAct) {
-        if (!canQueue(act)) csError("Queue ${act.actor.name} ${act.act.type.name} not available.")
         queued += act
         val apCost = act.apCost
         repeat(apCost - 1) { queue += IdleTile }
@@ -251,7 +255,6 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     }
 
     private fun enterClimax() {
-        if (!canCx()) csError("Climax unavailable.")
         stage.log("Hand") { "Climax" }
         climax = true
         drawPile += internalHand
@@ -262,7 +265,6 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     }
 
     private fun hold(act: CsAct) {
-        if (!canHold(act)) csError("Hold unavailable.")
         stage.log("Hand") { "Hold ${formatAct(act)}" }
         held = act
         val newAct = drawCard()
@@ -273,7 +275,6 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     }
 
     private fun discard(act: CsAct) {
-        if (!canDiscard(act)) csError("Discard unavailable.")
         stage.log("Hand") { "Discard ${formatAct(act)}" }
         discardPile += act
         internalHand -= act
