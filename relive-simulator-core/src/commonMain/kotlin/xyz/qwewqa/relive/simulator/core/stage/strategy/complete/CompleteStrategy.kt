@@ -93,6 +93,10 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             stage.random.nextDouble().asCsNumber()
         }
 
+        context.addFunction("list") { args ->
+            CsList(requireActs(args)) // Note: only allows lists of acts
+        }
+
         script.initialize?.execute(context)
 
         registerCardAction("queue", ::canQueue) { act -> queue(act) }
