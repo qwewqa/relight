@@ -31,6 +31,8 @@ enum class ComparisonOperator {
 }
 
 object CsParser : Grammar<CsScriptNode>() {
+    val comment by regexToken("//.*", ignore = true)
+
     val lpar by literalToken("(")
     val rpar by literalToken(")")
     val lsqr by literalToken("[")
@@ -257,7 +259,7 @@ object CsParser : Grammar<CsScriptNode>() {
 
                 pos += matchLength
 
-                if (token != ws) {
+                if (token != ws && token != comment) {
                     lastToken = token
                 }
                 autoSemi?.let {
