@@ -74,7 +74,7 @@ object CsParser : Grammar<CsScriptNode>() {
 
     val num by regexToken("""[0-9]+(\.[0-9]+)?""")
     val ident by regexToken("""([^\W0-9]\w*)|(`[^`]+`)""")
-    val str by regexToken(""" ".*" """.trim { it == ' ' }) // extra spaces for readability
+    val str by regexToken(""" "[^"\v]*" """.trim { it == ' ' }) // extra spaces for readability
     val nl by regexToken("""\r?\n""", ignore = true)
     val ws by regexToken("""[^\S\r\n]+""", ignore = true)
 
@@ -223,7 +223,7 @@ object CsParser : Grammar<CsScriptNode>() {
         private var lastToken: Token? = null
         private var deferredMatch: TokenMatch? = null
 
-        private val autoSemiTokens = setOf(ident, num, rpar, rsqr, rcurl)
+        private val autoSemiTokens = setOf(ident, num, str, rpar, rsqr, rcurl)
 
         override fun nextToken(): TokenMatch? {
             if (deferredMatch != null) {
