@@ -138,6 +138,13 @@ data class CsList(val value: List<CsObject>) : CsObject {
             val arg = args.singleOrNull() ?: csError("Expected one argument.")
             (arg in value).asCsBoolean()
         }
+        "containsAll" -> CsFunction { args ->
+            value.containsAll(requireActs(args)).asCsBoolean()
+        }
+        "containsAny" -> CsFunction { args ->
+            requireActs(args).any { it in value }.asCsBoolean()
+        }
+        "size" -> CsNumber(value.size)
         else -> null
     }
 
