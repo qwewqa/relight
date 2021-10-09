@@ -8,8 +8,8 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
 
 data class CsContext(
     val variables: MutableMap<String, CsObject> = mutableMapOf(
-        "true" to CsBoolean(true),
-        "false" to CsBoolean(false),
+        "true" to CsBoolean.TRUE,
+        "false" to CsBoolean.FALSE,
     ),
 )
 
@@ -38,7 +38,7 @@ object CsNil : CsObject {
 }
 
 fun Number.asCsNumber() = CsNumber(toDouble())
-fun Boolean.asCsBoolean() = CsBoolean(this)
+fun Boolean.asCsBoolean() = if (this) CsBoolean.TRUE else CsBoolean.FALSE
 fun String.asCsString() = CsString(this)
 
 fun CsObject.number() = (this as? CsNumber)?.value ?: csError("Expected a number.")
@@ -53,7 +53,8 @@ data class CsString(val value: String) : CsObject {
     override fun display() = value
 }
 
-data class CsBoolean(val value: Boolean) : CsObject {
+enum class CsBoolean(val value: Boolean) : CsObject {
+    TRUE(true), FALSE(false);
     override fun bool() = value
     override fun display() = value.toString()
 }
