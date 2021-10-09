@@ -107,54 +107,10 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
                 false.asCsBoolean()
             }
         }
-        context.addFunction("canQueue") { args ->
-            canQueue(args.singleAct()).asCsBoolean()
-        }
-        context.addFunction("queue") { args ->
-            queue(args.singleAct())
-            CsNil
-        }
-        context.addFunction("tryQueue") { args ->
-            val act = args.singleAct()
-            if (canQueue(act)) {
-                queue(act)
-                true.asCsBoolean()
-            } else {
-                false.asCsBoolean()
-            }
-        }
-        context.addFunction("canHold") { args ->
-            canHold(args.singleAct()).asCsBoolean()
-        }
-        context.addFunction("hold") { args ->
-            hold(args.singleAct())
-            CsNil
-        }
-        context.addFunction("tryHold") { args ->
-            val act = args.singleAct()
-            if (canHold(act)) {
-                hold(args.singleAct())
-                true.asCsBoolean()
-            } else {
-                false.asCsBoolean()
-            }
-        }
-        context.addFunction("canDiscard") { args ->
-            canDiscard(args.singleAct()).asCsBoolean()
-        }
-        context.addFunction("discard") { args ->
-            discard(args.singleAct())
-            CsNil
-        }
-        context.addFunction("tryDiscard") { args ->
-            val act = args.singleAct()
-            if (canDiscard(act)) {
-                discard(args.singleAct())
-                true.asCsBoolean()
-            } else {
-                false.asCsBoolean()
-            }
-        }
+
+        registerCardAction("queue", ::canQueue) { act -> queue(act) }
+        registerCardAction("hold", ::canHold, ::hold)
+        registerCardAction("discard", ::canDiscard, ::discard)
 
         // Try queuing all the acts. If you can't, queue none.
         context.addFunction("tryQueueAll") { args ->
@@ -183,6 +139,37 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         }
 
         context.variables["hand"] = CsList(hand)
+    }
+
+    /**
+     * Register three functions for an action performed on an act card.
+     *
+     * The three functions are:
+     * - `{name}` accepts one act and performs the action on it.
+     * - `can{Name}` uses the given filter function to determine whether the
+     *   action can be performed on the given act.
+     * - `try{Name}` performs the action on the given act if possible,
+     #   returning whether it did.
+     */
+    private inline fun registerCardAction(
+        name: String,
+        crossinline filter: (CsAct) -> Boolean,
+        crossinline action: (CsAct) -> Unit
+    ) {
+        val capName = name.replaceFirstChar { it.uppercase() }
+        context.addFunction(name) { args ->
+            action(args.singleAct())
+            CsNil
+        }
+        context.addFunction("can" + capName) {
+            filter(it.singleAct()).asCsBoolean()
+        }
+        context.addFunction("try" + capName) { args ->
+            val act = args.singleAct()
+            val canAct = filter(act)
+            if (canAct) action(act)
+            canAct.asCsBoolean()
+        }
     }
 
     override fun getQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
