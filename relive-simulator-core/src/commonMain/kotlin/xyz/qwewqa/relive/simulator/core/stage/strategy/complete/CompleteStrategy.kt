@@ -146,6 +146,33 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
                 false.asCsBoolean()
             }
         }
+
+        // Try queuing all the acts. If you can't, queue none.
+        context.addFunction("tryQueueAll") { args ->
+            val acts = args.map { it.act() }
+            val canQueue = canQueueAll(acts)
+            if (canQueue) {
+                for (act in acts) {
+                    queue(act)
+                }
+            }
+            canQueue.asCsBoolean()
+        }
+
+        // Try queueing each of the acts, one at a time. Return nothing.
+        // TODO: If/when lists are made more-generally usable, maybe return all queued acts.
+        context.addFunction("tryQueueEach") { args ->
+            requireActs(args) // check eagerly in case the loop exits early
+            for (obj in args) {
+                val act = obj as CsAct
+                if (canQueue(act)) {
+                    queue(act)
+                }
+                if (queueSize >= 6) break
+            }
+            CsNil
+        }
+
         context.variables["hand"] = CsList(hand)
     }
 
@@ -207,6 +234,9 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
 
     private fun canQueue(act: CsAct): Boolean {
         return (queueSize + act.apCost) <= 6 && queued.count { it == act } < hand.count { it == act }
+    }
+    private fun canQueueAll(acts : Collection<CsAct>): Boolean {
+        return (queueSize + acts.sumOf { it.apCost }) <= 6 && hand.containsAll(acts)
     }
 
     private fun canHold(act: CsAct) = team.active.size > 1 && held == null && act !in queued && act in hand
