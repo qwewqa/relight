@@ -137,9 +137,9 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         }
 
         // Try queueing each of the acts, one at a time. Return nothing.
-        // TODO: If/when lists are made more-generally usable, maybe return all queued acts.
         context.addFunction("tryQueueEach") { args ->
             requireActs(args) // check eagerly in case the loop exits early
+            val alreadyQueued = queued.size
             for (obj in args) {
                 val act = obj as CsAct
                 if (canQueue(act)) {
@@ -147,7 +147,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
                 }
                 if (queueSize >= 6) break
             }
-            CsNil
+            CsList(queued.drop(alreadyQueued))
         }
 
         context.variables["hand"] = CsList(hand)
