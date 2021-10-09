@@ -68,15 +68,18 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         enemy.actors.forEach { (k, v) ->
             context.variables[k] = CsActor(v)
         }
+
         context.addFunction("ignore") { args ->
             if (args.isNotEmpty()) csError("Expected zero arguments.")
             ignoreRun()
         }
+
         context.addFunction("log") { args ->
             if (args.isEmpty()) csError("Expected at least one argument.")
             stage.log("Strategy Log") { args.joinToString(", ") { it.display() } }
             CsNil
         }
+
         context.addFunction("error") { args ->
             csError(if (args.isEmpty()) {
                 "error()"
@@ -84,11 +87,19 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
                 args.joinToString(", ")
             })
         }
+
         context.addFunction("random") { args ->
             if (args.isNotEmpty()) csError("Expected zero arguments.")
             stage.random.nextDouble().asCsNumber()
         }
+
         script.initialize?.execute(context)
+
+        registerCardAction("queue", ::canQueue) { act -> queue(act) }
+        registerCardAction("hold", ::canHold, ::hold)
+        registerCardAction("discard", ::canDiscard, ::discard)
+        // climax/canClimax/tryClimax are just like queue/hold/discard, but
+        // take no arguments
         context.addFunction("canClimax") { args ->
             if (args.isNotEmpty()) csError("Expected zero arguments.")
             canCx().asCsBoolean()
@@ -108,10 +119,6 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
                 false.asCsBoolean()
             }
         }
-
-        registerCardAction("queue", ::canQueue) { act -> queue(act) }
-        registerCardAction("hold", ::canHold, ::hold)
-        registerCardAction("discard", ::canDiscard, ::discard)
 
         // Try queuing all the acts. If you can't, queue none.
         context.addFunction("tryQueueAll") { args ->
