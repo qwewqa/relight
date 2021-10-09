@@ -18,7 +18,7 @@ data class SimulationParameters(
 
 @Serializable
 data class SimulationOptions(
-    val locales: List<String>,
+    val locales: Map<String, String>,
     val commonText: List<SimulationOption>,
     val dresses: List<SimulationOption>,
     val memoirs: List<SimulationOption>,
@@ -32,8 +32,8 @@ data class SimulationOptions(
 data class SimulationOption(
     val id: String,
     val name: Map<String, String>,
-) {
-    operator fun get(locale: String) = name[locale] ?: id
+) : Map<String, String> by name {
+    override fun get(key: String): String = name[key] ?: id
 }
 
 @Serializable

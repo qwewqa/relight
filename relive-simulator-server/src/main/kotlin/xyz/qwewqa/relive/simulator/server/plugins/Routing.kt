@@ -72,7 +72,7 @@ fun Application.configureRouting() {
         get("/options") {
             call.respond(
                 SimulationOptions(
-                    listOf("en", "zh_hant", "ko"),
+                    mapOf("en" to "English", "zh_hant" to "繁体中文", "ko" to "한국어"),
                     getLocalizationConfig("commmonText.yaml"),
                     getLocalizationConfig("dress.yaml", playerDresses.keys),
                     getLocalizationConfig("memoir.yaml", memoirs.keys),

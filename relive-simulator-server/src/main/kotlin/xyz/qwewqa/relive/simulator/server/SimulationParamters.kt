@@ -94,7 +94,7 @@ data class SimulationParameters(
 
 @Serializable
 data class SimulationOptions(
-    val locales: List<String>,
+    val locales: Map<String, String>,
     val commonText: List<SimulationOption>,
     val dresses: List<SimulationOption>,
     val memoirs: List<SimulationOption>,

@@ -17,26 +17,8 @@ suspend fun main() {
     start(RemoteSimulator(URL("${window.location.protocol}//${window.location.host}")))
 }
 
-val HTMLInputElement.valueOrPlaceholder: String get() = value.ifEmpty { placeholder }
-
 val yaml = Yaml {
     encodeDefaultValues = false
-}
-
-fun HTMLSelectElement.getSelected() = selectedOptions.asList().map {
-    it.asDynamic().value as String
-}
-
-fun HTMLSelectElement.setSelected(selected: List<String>) {
-    this.options.asList().filterIsInstance<HTMLOptionElement>().forEach {
-        it.selected = it.value in selected
-    }
-}
-
-fun HTMLSelectElement.setSelected(selected: String) {
-    this.options.asList().filterIsInstance<HTMLOptionElement>().forEach {
-        it.selected = it.value == selected
-    }
 }
 
 @OptIn(DelicateCoroutinesApi::class, kotlinx.serialization.ExperimentalSerializationApi::class)
@@ -49,98 +31,36 @@ suspend fun start(simulator: Simulator) {
     val commonText = options.commonText.associateBy { it.id }
     val bosses = options.bosses.associateBy { it.id }
     val strategies = options.strategyTypes.associateBy { it.id }
-    val songEffects = options.songEffects.associateBy { it.id }
+    val songEffects = mapOf("none" to SimulationOption("none", emptyMap())) + options.songEffects.associateBy { it.id }
     val conditions = options.conditions.associateBy { it.id }
     val dresses = options.dresses.associateBy { it.id }
     val memoirs = options.memoirs.associateBy { it.id }
 
-    val languageSelect = document.getElementById("language-select") as HTMLSelectElement
+    val languageSelect = document.getElementById("language-select").singleSelect()
     val simulatorOptionsDiv = document.getElementById("simulator-options") as HTMLDivElement
     val shutdownButton = document.getElementById("shutdown-button") as HTMLButtonElement
     val exportButton = document.getElementById("export-button") as HTMLButtonElement
-    val importButton = document.getElementById("import-button") as HTMLButtonElement
     val doImportButton = document.getElementById("do-import-button") as HTMLButtonElement
     val yamlImportCheckbox = document.getElementById("import-yaml-checkbox") as HTMLInputElement
     val importText = document.getElementById("import-text") as HTMLTextAreaElement
     val exportText = document.getElementById("export-text") as HTMLTextAreaElement
-    val seedInput = document.getElementById("seed-input") as HTMLInputElement
+    val seedInput = document.getElementById("seed-input").integerInput(0)
     val seedRandomizeButton = document.getElementById("seed-randomize") as HTMLButtonElement
     val actorSettingsDiv = document.getElementById("actor-settings") as HTMLDivElement
     val addActorButton = document.getElementById("add-actor-button") as HTMLButtonElement
     val removeActorButton = document.getElementById("remove-actor-button") as HTMLButtonElement
     val addActorRow = document.getElementById("add-actor-row") as HTMLDivElement
-    val bossSelect = document.getElementById("boss-select") as HTMLSelectElement
-    val strategyTypeSelect = document.getElementById("strategy-type-select") as HTMLSelectElement
+    val bossSelect = document.getElementById("boss-select").singleSelect()
+    val strategyTypeSelect = document.getElementById("strategy-type-select").singleSelect()
     val strategyContainer = document.getElementById("strategy-container") as HTMLDivElement
     val simulateButton = document.getElementById("simulate-button") as HTMLButtonElement
     val cancelButton = document.getElementById("cancel-button") as HTMLButtonElement
-
+    val eventBonusInput = document.getElementById("event-bonus-input").integerInput(0)
+    val turnsInput = document.getElementById("turns-input").integerInput(3)
+    val iterationsInput = document.getElementById("iterations-input").integerInput(100000)
     val strategyEditor = CodeMirror(strategyContainer, js("{lineNumbers: true, mode: null}"))
 
-    var locale = options.locales[0]
-
-    fun getSetup(): SimulationParameters {
-        val songSettings = document
-            .getElementById("song-settings")!!
-            .getElementsByClassName("song-effect-group").asList().map { options ->
-                SongEffectParameter(
-                    options.getElementsByClassName("song-effect-type")
-                        .asList()
-                        .filterIsInstance<HTMLSelectElement>()
-                        .single().getSelected().single(),
-                    (options.getElementsByClassName("song-effect-value")[0] as HTMLInputElement).valueOrPlaceholder.trim()
-                        .toInt(),
-                    (options.getElementsByClassName("song-effect-condition")
-                        .asList()
-                        .filterIsInstance<HTMLSelectElement>())
-                        .map {
-                            it.getSelected()
-                        }
-                        .filter { it.isNotEmpty() },
-                )
-            }
-        return SimulationParameters(
-            (document.getElementById("turns-input") as HTMLInputElement).valueOrPlaceholder.trim().toInt(),
-            (document.getElementById("iterations-input") as HTMLInputElement).valueOrPlaceholder.trim().toInt(),
-            actorSettingsDiv.getElementsByClassName("actor-options").asList().map { options ->
-                PlayerLoadoutParameters(
-                    (options.getElementsByClassName("actor-name")
-                        .asList()
-                        .single() as HTMLInputElement).value.trim(),
-                    options.getElementsByClassName("actor-dress")
-                        .asList()
-                        .filterIsInstance<HTMLSelectElement>()
-                        .single().getSelected().single(),
-                    options.getElementsByClassName("actor-memoir")
-                        .asList()
-                        .filterIsInstance<HTMLSelectElement>()
-                        .single().getSelected().single(),
-                    (options.getElementsByClassName("actor-memoir-level")
-                        .asList()
-                        .single() as HTMLInputElement).valueOrPlaceholder.trim().toInt(),
-                    options.getElementsByClassName("actor-memoir-unbind")
-                        .asList()
-                        .filterIsInstance<HTMLSelectElement>()
-                        .single().getSelected().single().toInt(),
-                    (options.getElementsByClassName("actor-unit-skill")
-                        .asList()
-                        .single() as HTMLInputElement).valueOrPlaceholder.trim().toInt(),
-                )
-            },
-            null,
-            SongParameters(
-                songSettings.dropLast(1).filter { it.name != "none" },
-                songSettings.last().takeIf { it.name != "none" },
-            ),
-            StrategyParameter(
-                strategyTypeSelect.getSelected().single(),
-                strategyEditor.getValue() as String,
-            ),
-            bossSelect.getSelected().single(),
-            (document.getElementById("event-bonus-input") as HTMLInputElement).valueOrPlaceholder.trim().toInt(),
-            seedInput.valueOrPlaceholder.trim().toInt(),
-        )
-    }
+    var locale = options.locales.keys.first()
 
     fun addActor() {
         val actorCount = actorSettingsDiv.getElementsByClassName("actor-options").length + 1
@@ -255,12 +175,76 @@ suspend fun start(simulator: Simulator) {
         js("$('.selectpicker').selectpicker()")
     }
 
+    fun removeActor() {
+        if (actorSettingsDiv.childElementCount >= 2) {
+            actorSettingsDiv.removeChild(actorSettingsDiv.children[actorSettingsDiv.childElementCount - 2]!!)
+        }
+    }
+
+    fun getSetup(): SimulationParameters {
+        val songSettings = document
+            .getElementById("song-settings")!!
+            .getElementsByClassName("song-effect-group").asList().map { options ->
+                SongEffect(options).parameters
+            }
+        return SimulationParameters(
+            turnsInput.value,
+            iterationsInput.value,
+            actorSettingsDiv.getElementsByClassName("actor-options").asList().map { options ->
+                ActorOptions(options).parameters
+            },
+            null,
+            SongParameters(
+                songSettings.dropLast(1).filterNotNull(),
+                songSettings.last(),
+            ),
+            StrategyParameter(
+                strategyTypeSelect.value,
+                strategyEditor.getValue() as String,
+            ),
+            bossSelect.value,
+            eventBonusInput.value,
+            seedInput.value,
+        )
+    }
+
+    fun setSetup(setup: SimulationParameters) = setup.run {
+        turnsInput.value = maxTurns
+        iterationsInput.value = maxIterations
+        while (actorSettingsDiv.childElementCount >= 2) {
+            removeActor()
+        }
+        repeat(team.size) {
+            addActor()
+        }
+        actorSettingsDiv.children.asList().zip(team).forEach { (options, parameters) ->
+            ActorOptions(options).parameters = parameters
+        }
+        val effects = song.activeEffects.take(2) +
+                List((2 - song.activeEffects.size).coerceAtLeast(0)) { null } +
+                listOf(song.passiveEffect)
+        document
+            .getElementById("song-settings")!!
+            .getElementsByClassName("song-effect-group")
+            .asList()
+            .zip(effects).forEach { (options, parameters) ->
+                SongEffect(options).parameters = parameters
+            }
+        strategyTypeSelect.value = strategy.type
+        strategyEditor.setValue(strategy.value)
+        bossSelect.value = boss
+        eventBonusInput.value = eventBonus
+        seedInput.value = seed
+        refreshSelectPicker()
+    }
+
     shutdownButton.addEventListener("click", {
         MainScope().launch {
             simulator.shutdown()
             simulatorOptionsDiv.remove()
         }
     })
+
     fun updateExportText() {
         try {
             if (yamlImportCheckbox.checked) {
@@ -272,148 +256,53 @@ suspend fun start(simulator: Simulator) {
             exportText.value = e.message ?: "Error"
         }
     }
+
     exportButton.addEventListener("click", {
         updateExportText()
     })
+
     yamlImportCheckbox.addEventListener("click", {
         updateExportText()
     })
+
     exportText.addEventListener("click", {
         exportText.focus()
         exportText.select()
     })
-    doImportButton.addEventListener("click", {
-        val decoded = yaml.decodeFromString<SimulationParameters>(importText.value)
-        decoded.run {
-            (document.getElementById("turns-input") as HTMLInputElement).value = maxTurns.toString()
-            (document.getElementById("iterations-input") as HTMLInputElement).value = maxIterations.toString()
-            while (actorSettingsDiv.childElementCount >= 2) {
-                actorSettingsDiv.removeChild(actorSettingsDiv.firstElementChild!!)
-            }
-            repeat(team.size) {
-                addActor()
-            }
-            actorSettingsDiv.children.asList().zip(team).forEach { (options, actor) ->
-                (options.getElementsByClassName("actor-name")
-                    .asList()
-                    .single() as HTMLInputElement).value = actor.name
-                options.getElementsByClassName("actor-dress")
-                    .asList()
-                    .filterIsInstance<HTMLSelectElement>()
-                    .single().setSelected(actor.dress)
-                options.getElementsByClassName("actor-memoir")
-                    .asList()
-                    .filterIsInstance<HTMLSelectElement>()
-                    .single().setSelected(actor.memoir)
-                (options.getElementsByClassName("actor-memoir-level")
-                    .asList()
-                    .single() as HTMLInputElement).value = actor.memoirLevel.toString()
-                options.getElementsByClassName("actor-memoir-unbind")
-                    .asList()
-                    .filterIsInstance<HTMLSelectElement>()
-                    .single().setSelected(actor.memoirLimitBreak.toString())
-                (options.getElementsByClassName("actor-unit-skill")
-                    .asList()
-                    .single() as HTMLInputElement).value = actor.unitSkillLevel.toString()
-            }
-            val effects = song.activeEffects.take(2) +
-                    List((2 - song.activeEffects.size).coerceAtLeast(0)) { null } +
-                    listOf(song.passiveEffect)
-            document
-                .getElementById("song-settings")!!
-                .getElementsByClassName("song-effect-group")
-                .asList()
-                .zip(effects).forEach { (options, effect) ->
-                    options.getElementsByClassName("song-effect-type")
-                        .asList()
-                        .filterIsInstance<HTMLSelectElement>()
-                        .single().setSelected(effect?.name ?: "none")
-                    (options.getElementsByClassName("song-effect-value")[0] as HTMLInputElement).value =
-                        effect?.value?.toString() ?: ""
-                    (options.getElementsByClassName("song-effect-condition")
-                        .asList()
-                        .filterIsInstance<HTMLSelectElement>())
-                        .forEach { it.setSelected(emptyList()) }
-                    (options.getElementsByClassName("song-effect-condition")
-                        .asList()
-                        .filterIsInstance<HTMLSelectElement>())
-                        .zip(effect?.conditions ?: emptyList())
-                        .forEach { (select, values) ->
-                            select.setSelected(values)
-                        }
-                }
-            strategyTypeSelect.setSelected(strategy.type)
-            strategyEditor.setValue(strategy.value)
-            bossSelect.setSelected(boss)
-            (document.getElementById("event-bonus-input") as HTMLInputElement).value = eventBonus.toString()
-            seedInput.value = seed.toString()
 
-            js("$('.selectpicker').selectpicker('refresh')")
-        }
+    doImportButton.addEventListener("click", {
+        setSetup(yaml.decodeFromString<SimulationParameters>(importText.value))
     })
+
     seedRandomizeButton.addEventListener("click", {
-        seedInput.value = Random.nextInt().toString()
+        seedInput.value = Random.nextInt()
     })
-    removeActorButton.addEventListener("click", {
-        if (actorSettingsDiv.childElementCount >= 2) {
-            actorSettingsDiv.removeChild(actorSettingsDiv.children[actorSettingsDiv.childElementCount - 2]!!)
-        }
-    })
+
     addActorButton.addEventListener("click", {
         addActor()
     })
+
+    removeActorButton.addEventListener("click", {
+        removeActor()
+    })
+
     addActor() // Start with one already here by default
 
-    options.locales.forEach {
-        languageSelect.add(
-            document.create.option {
-                value = it
-                +it
-            }.asDynamic()
-        )
-    }
-    options.bosses.forEach {
-        bossSelect.add(
-            document.create.option {
-                value = it.id
-                +it[locale]
-            }.asDynamic()
-        )
-    }
-    options.strategyTypes.forEach {
-        strategyTypeSelect.add(
-            document.create.option {
-                value = it.id
-                +it[locale]
-            }.asDynamic()
-        )
-    }
-    document.getElementsByClassName("song-effect-type").asList().forEach { select ->
-        (select as? HTMLSelectElement)?.add(
-            document.create.option {
-                value = "none"
-                +(commonText["none"]?.get(locale) ?: "-")
-            }.asDynamic()
-        )
-        options.songEffects.forEach {
-            (select as? HTMLSelectElement)?.add(
-                document.create.option {
-                    value = it.id
-                    +it[locale]
-                }.asDynamic()
-            )
+    languageSelect.populate(options.locales)
+    bossSelect.populate(bosses, locale)
+    strategyTypeSelect.populate(strategies, locale)
+    document.getElementsByClassName("song-effect-type")
+        .asList()
+        .filterIsInstance<HTMLSelectElement>()
+        .forEach { select ->
+            SingleSelect(select).populate(songEffects, locale)
         }
-    }
-    document.getElementsByClassName("song-effect-condition").asList().forEach { select ->
-        options.conditions.forEach {
-            (select as? HTMLSelectElement)?.add(
-                document.create.option {
-                    value = it.id
-                    +it[locale]
-                }.asDynamic()
-            )
+    document.getElementsByClassName("song-effect-condition")
+        .asList()
+        .filterIsInstance<HTMLSelectElement>()
+        .forEach { select ->
+            MultipleSelect(select).populate(conditions, locale)
         }
-    }
 
     simulateButton.addEventListener("click", {
         GlobalScope.launch {
@@ -432,51 +321,41 @@ suspend fun start(simulator: Simulator) {
     })
 
     fun updateLocaleText() {
-        bossSelect.options.asList().filterIsInstance<HTMLOptionElement>().forEach {
-            it.text = bosses[it.value]!![locale]
-        }
-        strategyTypeSelect.options.asList().filterIsInstance<HTMLOptionElement>().forEach {
-            it.text = strategies[it.value]!![locale]
-        }
-        document.getElementsByClassName("song-effect-type").asList().forEach { select ->
-            (select as? HTMLSelectElement)?.options?.asList()?.filterIsInstance<HTMLOptionElement>()?.forEach {
-                if (it.value == "none") {
-                    it.text = commonText["none"]?.get(locale) ?: "-"
-                } else {
-                    it.text = songEffects[it.value]!![locale]
-                }
+        bossSelect.localize(bosses, locale)
+        strategyTypeSelect.localize(strategies, locale)
+        document.getElementsByClassName("song-effect-type")
+            .asList()
+            .filterIsInstance<HTMLSelectElement>()
+            .forEach { select ->
+                SingleSelect(select).localize(songEffects, locale)
             }
-        }
-        document.getElementsByClassName("song-effect-condition").asList().forEach { select ->
-            (select as? HTMLSelectElement)?.options?.asList()?.filterIsInstance<HTMLOptionElement>()?.forEach {
-                it.text = conditions[it.value]!![locale]
+        document.getElementsByClassName("song-effect-condition")
+            .asList()
+            .filterIsInstance<HTMLSelectElement>()
+            .forEach { select ->
+                MultipleSelect(select).localize(conditions, locale)
             }
-        }
         document.getElementsByClassName("actor-dress")
             .asList()
             .filterIsInstance<HTMLSelectElement>()
             .forEach { select ->
-                select.options.asList().filterIsInstance<HTMLOptionElement>().forEach {
-                    it.text = dresses[it.value]!![locale]
-                }
+                SingleSelect(select).localize(dresses, locale)
             }
         document.getElementsByClassName("actor-memoir")
             .asList()
             .filterIsInstance<HTMLSelectElement>()
             .forEach { select ->
-                select.options.asList().filterIsInstance<HTMLOptionElement>().forEach {
-                    it.text = memoirs[it.value]!![locale]
-                }
+                SingleSelect(select).localize(memoirs, locale)
             }
-        js("$('.selectpicker').selectpicker('refresh')")
+        refreshSelectPicker()
     }
 
-    languageSelect.addEventListener("change", {
-        locale = languageSelect.getSelected().single()
+    languageSelect.element.addEventListener("change", {
+        locale = languageSelect.value
         updateLocaleText()
     })
 
-    js("$('.selectpicker').selectpicker('refresh')")
+    refreshSelectPicker()
 
     GlobalScope.launch {
         while (true) {
