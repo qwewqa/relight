@@ -64,39 +64,39 @@ data class CsFunction(val value: (List<CsObject>) -> CsObject) : CsObject {
     override fun invoke(arguments: List<CsObject>) = value(arguments)
 }
 
-class CsActor(val value: Actor) : CsObject {
+class CsActor(val actor: Actor) : CsObject {
     override fun getAttribute(name: String): CsObject? {
         val ktVal: Any? = when (name) {
             // Acts
-            "act1" -> value.acts[ActType.Act1]
-            "act2" -> value.acts[ActType.Act2]
-            "act3" -> value.acts[ActType.Act3]
-            "act4" -> value.acts[ActType.Act4]
-            "act5" -> value.acts[ActType.Act5]
-            "act6" -> value.acts[ActType.Act6]
-            "act7" -> value.acts[ActType.Act7]
-            "act8" -> value.acts[ActType.Act8]
-            "act9" -> value.acts[ActType.Act9]
-            "act10" -> value.acts[ActType.Act10]
-            "cx" -> value.acts[ActType.ClimaxAct]
+            "act1" -> actor.acts[ActType.Act1]
+            "act2" -> actor.acts[ActType.Act2]
+            "act3" -> actor.acts[ActType.Act3]
+            "act4" -> actor.acts[ActType.Act4]
+            "act5" -> actor.acts[ActType.Act5]
+            "act6" -> actor.acts[ActType.Act6]
+            "act7" -> actor.acts[ActType.Act7]
+            "act8" -> actor.acts[ActType.Act8]
+            "act9" -> actor.acts[ActType.Act9]
+            "act10" -> actor.acts[ActType.Act10]
+            "cx" -> actor.acts[ActType.ClimaxAct]
             // Basic info
-            "alive" -> value.isAlive
-            "canCx" -> (value.brilliance >= 100)
-            "inCx" -> value.inCX
+            "alive" -> actor.isAlive
+            "canCx" -> (actor.brilliance >= 100)
+            "inCx" -> actor.inCX
             // Stats
-            "hp" -> value.hp
-            "maxHp" -> value.maxHp
-            "brilliance" -> value.brilliance
+            "hp" -> actor.hp
+            "maxHp" -> actor.maxHp
+            "brilliance" -> actor.brilliance
             // Buff stats
-            "dex", "dexterity" -> value.dexterity
-            "hasApDown" -> (value.apChange < 0)
-            "hasNer" -> (value.negativeEffectResist >= 100)
-            "marked" -> value.buffs.any(MarkBuff)
+            "dex", "dexterity" -> actor.dexterity
+            "hasApDown" -> (actor.apChange < 0)
+            "hasNer" -> (actor.negativeEffectResist >= 100)
+            "marked" -> actor.buffs.any(MarkBuff)
             else -> null
         }
         return when (ktVal) {
             null -> null // attribute not found
-            is ActData -> ktVal.asCsAct(value)
+            is ActData -> ktVal.asCsAct(actor)
             is Boolean -> ktVal.asCsBoolean()
             is Number -> ktVal.asCsNumber()
             is String -> ktVal.asCsString()
@@ -104,7 +104,7 @@ class CsActor(val value: Actor) : CsObject {
             else -> csError("internal error: attribute type not supported")
         }
     }
-    override fun display() = value.name
+    override fun display() = actor.name
 }
 
 data class CsAct(val actor: Actor, val act: ActData) : CsObject, Comparable<CsAct> {
