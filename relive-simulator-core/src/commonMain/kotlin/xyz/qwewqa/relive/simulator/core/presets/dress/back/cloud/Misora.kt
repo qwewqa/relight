@@ -17,7 +17,7 @@ import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val AceMisora = Dress(
-    name = "Ace Misora",
+    name = "Stormy Ace Misora",
     character = Character.Misora,
     attribute = Attribute.Cloud,
     damageType = DamageType.Special,

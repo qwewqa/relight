@@ -112,7 +112,7 @@ val FuMeiFan = Dress(
 )
 
 val FuMeiFan95 = FuMeiFan.copy(
-    name = "Fu Mei Fan [r9.5]",
+    name = "Second Lieutenant Fu Mei Fan [r9.5]",
     stats = FuMeiFan.stats.copy(
         hp = 17633,
         normalDefense = 769,
