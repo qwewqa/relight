@@ -4,6 +4,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActData
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
+import xyz.qwewqa.relive.simulator.core.stage.buff.MarkBuff
 
 
 data class CsContext(
@@ -66,6 +67,7 @@ data class CsFunction(val value: (List<CsObject>) -> CsObject) : CsObject {
 class CsActor(val value: Actor) : CsObject {
     override fun getAttribute(name: String): CsObject? {
         val ktVal: Any? = when (name) {
+            // Acts
             "act1" -> value.acts[ActType.Act1]
             "act2" -> value.acts[ActType.Act2]
             "act3" -> value.acts[ActType.Act3]
@@ -77,12 +79,19 @@ class CsActor(val value: Actor) : CsObject {
             "act9" -> value.acts[ActType.Act9]
             "act10" -> value.acts[ActType.Act10]
             "cx" -> value.acts[ActType.ClimaxAct]
+            // Basic info
             "alive" -> value.isAlive
             "canCx" -> (value.brilliance >= 100)
             "inCx" -> value.inCX
+            // Stats
             "hp" -> value.hp
             "maxHp" -> value.maxHp
             "brilliance" -> value.brilliance
+            // Buff stats
+            "dex", "dexterity" -> value.dexterity
+            "hasApDown" -> (value.apChange < 0)
+            "hasNer" -> (value.negativeEffectResist >= 100)
+            "marked" -> value.buffs.any(MarkBuff)
             else -> null
         }
         return when (ktVal) {
