@@ -110,3 +110,12 @@ val FuMeiFan = Dress(
     ),
     unitSkill = ActCritical30UnitSkill + BackOnlyCondition,
 )
+
+val FuMeiFan95 = FuMeiFan.copy(
+    name = "Fu Mei Fan [r9.5]",
+    stats = FuMeiFan.stats.copy(
+        hp = 17633,
+        normalDefense = 769,
+        specialDefense = 1171,
+    )
+)

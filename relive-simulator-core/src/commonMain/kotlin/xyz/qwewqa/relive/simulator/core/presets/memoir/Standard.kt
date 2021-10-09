@@ -313,3 +313,62 @@ val KappoTomoyesPosterGirl = MemoirBlueprint(
         SelfEffectiveDamageDealtUpBuffPassive.new(12,6),
     ),
 )
+
+val SparklingStageChika = MemoirBlueprint(
+    name = "Sparkling Stage Chika",
+    rarity = 4,
+    baseStats = StatData(
+        actPower = 15,
+    ),
+    growthStats = StatData(
+        actPower = 1708,
+    ),
+    baseAutoskills = listOf(
+        SelfNormalBarrierBuffPassive.new(4000,3),
+        SelfSpecialBarrierBuffPassive.new(4000,3),
+    ),
+    maxAutoskills = listOf(
+        SelfNormalBarrierBuffPassive.new(8000,3),
+        SelfSpecialBarrierBuffPassive.new(8000,3),
+    ),
+)
+
+val TheGreatYearEndCleanup = MemoirBlueprint(
+    name = "The Great Year-End Cleanup",
+    rarity = 4,
+    baseStats = StatData(
+        hp = 210,
+        specialDefense = 18,
+    ),
+    growthStats = StatData(
+        hp = 23924,
+        specialDefense = 2050,
+    ),
+    baseAutoskills = listOf(
+        SelfNormalBarrierBuffPassive.new(560,3),
+        ApplyEvasionBuffPassive.new(1),
+    ),
+    maxAutoskills = listOf(
+        SelfNormalBarrierBuffPassive.new(2260,3),
+        ApplyEvasionBuffPassive.new(1),
+    ),
+)
+
+val ConfidantsOnADate = MemoirBlueprint(
+    name = "Confidants on a Date",
+    rarity = 4,
+    baseStats = StatData(
+        actPower = 9,
+        specialDefense = 18,
+    ),
+    growthStats = StatData(
+        hp = 1025,
+        specialDefense = 2050,
+    ),
+    baseAutoskills = listOf(
+        ApplyEvasionBuffPassive.new(1),
+    ),
+    maxAutoskills = listOf(
+        ApplyEvasionBuffPassive.new(2),
+    ),
+)
