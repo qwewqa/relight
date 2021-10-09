@@ -115,7 +115,7 @@ suspend fun start(simulator: Simulator) {
                                 val selectId = "actor-memoir-$actorCount"
                                 label("form-label text-memoir") {
                                     htmlFor = selectId
-                                    +localized("text-memoir", "Memoir")
+                                    +localized(".text-memoir", "Memoir")
                                 }
                                 select("selectpicker form-control actor-memoir") {
                                     id = selectId
