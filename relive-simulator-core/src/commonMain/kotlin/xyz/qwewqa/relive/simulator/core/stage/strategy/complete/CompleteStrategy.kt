@@ -68,6 +68,13 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             stage.log("Strategy Log") { args.joinToString(", ") { it.display() } }
             CsNil
         }
+        context.addFunction("error") { args ->
+            csError(if (args.isEmpty()) {
+                "error()"
+            } else {
+                args.joinToString(", ")
+            })
+        }
         context.addFunction("random") { args ->
             if (args.isNotEmpty()) csError("Expected zero arguments.")
             stage.random.nextDouble().asCsNumber()
