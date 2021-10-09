@@ -64,25 +64,36 @@ data class CsFunction(val value: (List<CsObject>) -> CsObject) : CsObject {
 }
 
 class CsActor(val value: Actor) : CsObject {
-    override fun getAttribute(name: String) = when (name) {
-        "act1" -> value.acts[ActType.Act1]?.asCsAct(value)
-        "act2" -> value.acts[ActType.Act2]?.asCsAct(value)
-        "act3" -> value.acts[ActType.Act3]?.asCsAct(value)
-        "act4" -> value.acts[ActType.Act4]?.asCsAct(value)
-        "act5" -> value.acts[ActType.Act5]?.asCsAct(value)
-        "act6" -> value.acts[ActType.Act6]?.asCsAct(value)
-        "act7" -> value.acts[ActType.Act7]?.asCsAct(value)
-        "act8" -> value.acts[ActType.Act8]?.asCsAct(value)
-        "act9" -> value.acts[ActType.Act9]?.asCsAct(value)
-        "act10" -> value.acts[ActType.Act10]?.asCsAct(value)
-        "cx" -> value.acts[ActType.ClimaxAct]?.asCsAct(value)
-        "alive" -> value.isAlive.asCsBoolean()
-        "canCx" -> (value.brilliance >= 100).asCsBoolean()
-        "inCx" -> value.inCX.asCsBoolean()
-        "hp" -> value.hp.asCsNumber()
-        "maxHp" -> value.maxHp.asCsNumber()
-        "brilliance" -> value.brilliance.asCsNumber()
-        else -> null
+    override fun getAttribute(name: String): CsObject? {
+        val ktVal: Any? = when (name) {
+            "act1" -> value.acts[ActType.Act1]
+            "act2" -> value.acts[ActType.Act2]
+            "act3" -> value.acts[ActType.Act3]
+            "act4" -> value.acts[ActType.Act4]
+            "act5" -> value.acts[ActType.Act5]
+            "act6" -> value.acts[ActType.Act6]
+            "act7" -> value.acts[ActType.Act7]
+            "act8" -> value.acts[ActType.Act8]
+            "act9" -> value.acts[ActType.Act9]
+            "act10" -> value.acts[ActType.Act10]
+            "cx" -> value.acts[ActType.ClimaxAct]
+            "alive" -> value.isAlive
+            "canCx" -> (value.brilliance >= 100)
+            "inCx" -> value.inCX
+            "hp" -> value.hp
+            "maxHp" -> value.maxHp
+            "brilliance" -> value.brilliance
+            else -> null
+        }
+        return when (ktVal) {
+            null -> null // attribute not found
+            is ActData -> ktVal.asCsAct(value)
+            is Boolean -> ktVal.asCsBoolean()
+            is Number -> ktVal.asCsNumber()
+            is String -> ktVal.asCsString()
+            is CsObject -> ktVal
+            else -> csError("internal error: attribute type not supported")
+        }
     }
     override fun display() = value.name
 }
