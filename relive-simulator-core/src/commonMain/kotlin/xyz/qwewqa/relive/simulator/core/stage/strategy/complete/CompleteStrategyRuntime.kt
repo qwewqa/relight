@@ -39,7 +39,7 @@ object CsNil : CsObject {
 
 fun Number.asCsNumber() = CsNumber(toDouble())
 fun Boolean.asCsBoolean() = CsBoolean(this)
-fun String.asCSString() = CsString(this)
+fun String.asCsString() = CsString(this)
 
 fun CsObject.number() = (this as? CsNumber)?.value ?: csError("Expected a number.")
 

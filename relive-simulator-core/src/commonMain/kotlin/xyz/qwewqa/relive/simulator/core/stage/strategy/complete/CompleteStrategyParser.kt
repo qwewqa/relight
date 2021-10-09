@@ -98,7 +98,7 @@ object CsParser : Grammar<CsScriptNode>() {
     val identifier by ident.use { if (text[0] == '`') text.substring(1 until text.length - 1) else text }
 
     val numLiteral by num.use { CsLiteralNode(text.toDouble().asCsNumber()) }
-    val strLiteral by str.use { CsLiteralNode(text.substring(1 until text.length - 1).asCSString()) }
+    val strLiteral by str.use { CsLiteralNode(text.substring(1 until text.length - 1).asCsString()) }
     val identifierExpression by identifier.map { CsIdentifierNode(it) }
 
     val expressionList by separatedTerms(parser { expression }, comma) or zeroOrMore(parser { expression } * -comma)

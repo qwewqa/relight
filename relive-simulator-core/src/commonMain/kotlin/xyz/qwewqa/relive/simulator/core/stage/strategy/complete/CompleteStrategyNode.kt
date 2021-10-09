@@ -118,7 +118,7 @@ data class CsNumericalInfixOperatorNode(
         return when (op) {
             NumericalInfixOperator.PLUS -> {
                 if (l is CsString || r is CsString) {
-                    (l.display() + r.display()).asCSString()
+                    (l.display() + r.display()).asCsString()
                 } else {
                     (l.number() + r.number()).asCsNumber()
                 }
