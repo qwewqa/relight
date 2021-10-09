@@ -31,7 +31,7 @@ enum class ComparisonOperator {
 }
 
 object CsParser : Grammar<CsScriptNode>() {
-    val comment by regexToken("//.*", ignore = true)
+    val comment by regexToken("""//.*""", ignore = true)
 
     val lpar by literalToken("(")
     val rpar by literalToken(")")
@@ -72,11 +72,11 @@ object CsParser : Grammar<CsScriptNode>() {
     val pos by literalToken("+")
     val neg by literalToken("-")
 
-    val num by regexToken("[0-9]+(\\.[0-9]+)?")
-    val ident by regexToken("([^\\W0-9]\\w*)|(`[^`]+`)")
-    val str by regexToken("\".*\"")
-    val nl by regexToken("\\r?\\n", ignore = true)
-    val ws by regexToken("[^\\S\\r\\n]+", ignore = true)
+    val num by regexToken("""[0-9]+(\.[0-9]+)?""")
+    val ident by regexToken("""([^\W0-9]\w*)|(`[^`]+`)""")
+    val str by regexToken(""" ".*" """.trim { it == ' ' }) // extra spaces for readability
+    val nl by regexToken("""\r?\n""", ignore = true)
+    val ws by regexToken("""[^\S\r\n]+""", ignore = true)
 
     val numericalInfixOperators = mapOf(
         plus to NumericalInfixOperator.PLUS,
