@@ -101,7 +101,7 @@ object CsParser : Grammar<CsScriptNode>() {
     val strLiteral by str.use { CsLiteralNode(text.substring(1 until text.length - 1).asCsString()) }
     val identifierExpression by identifier.map { CsIdentifierNode(it) }
 
-    val expressionList by separatedTerms(parser { expression }, comma) or zeroOrMore(parser { expression } * -comma)
+    val expressionList by separatedTerms(parser { expression }, comma) * -optional(comma)
 
     val atomicExpression by
             numLiteral or
