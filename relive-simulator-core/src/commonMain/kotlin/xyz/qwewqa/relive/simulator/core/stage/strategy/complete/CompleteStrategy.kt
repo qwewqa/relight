@@ -199,11 +199,11 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     }
 
     private fun canQueue(act: CsAct): Boolean {
-        return queued.count { it == act } < hand.count { it == act } && (queueSize + act.apCost) <= 6
+        return (queueSize + act.apCost) <= 6 && queued.count { it == act } < hand.count { it == act }
     }
 
-    private fun canHold(act: CsAct) = team.active.size > 1 && act !in queued && act in hand && held == null
-    private fun canDiscard(act: CsAct) = act !in queued && act in hand && held != null
+    private fun canHold(act: CsAct) = team.active.size > 1 && held == null && act !in queued && act in hand
+    private fun canDiscard(act: CsAct) = held != null && act !in queued && act in hand
     private fun canCx() = queued.isEmpty() && team.cxTurns == 0 && team.active.any { it.brilliance >= 100 } && !climax
 
     private fun queue(act: CsAct) {
