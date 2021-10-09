@@ -103,27 +103,28 @@ object CsParser : Grammar<CsScriptNode>() {
 
     val expressionList by separatedTerms(parser { expression }, comma) or zeroOrMore(parser { expression } * -comma)
 
-    val atomicExpression
-            by numLiteral or
-                    strLiteral or
-                    identifierExpression or
-                    (-lpar * parser { expression } * -rpar)
+    val atomicExpression by
+            numLiteral or
+            strLiteral or
+            identifierExpression or
+            (-lpar * parser { expression } * -rpar)
 
 
     val attributeAccess: Parser<CsExpressionNode> by (parser { atomicExpression } * zeroOrMore(-dot * identifier)).map { (lhs, value) ->
         value.fold(lhs) { a, v -> CsAttributeAccessNode(a, v) }
     }
 
-    val functionCall: Parser<CsExpressionNode> by (parser { attributeAccess } * zeroOrMore(-lpar * optional(
-        expressionList) * -rpar)).map { (lhs, calls) ->
+    val functionCall: Parser<CsExpressionNode> by (
+        parser { attributeAccess } * zeroOrMore(-lpar * optional(expressionList) * -rpar)
+    ).map { (lhs, calls) ->
         calls.fold(lhs) { a, v -> CsCallNode(a, v ?: emptyList()) }
     }
 
-    val unaryExpression
-            by (-plus * functionCall).map { CsPosOperatorNode(it) } or
-                    (-minus * functionCall).map { CsNegOperatorNode(it) } or
-                    (-not * functionCall).map { CsNotOperatorNode(it) } or
-                    functionCall
+    val unaryExpression by
+            (-plus * functionCall).map { CsPosOperatorNode(it) } or
+            (-minus * functionCall).map { CsNegOperatorNode(it) } or
+            (-not * functionCall).map { CsNotOperatorNode(it) } or
+            functionCall
 
     val multiplicationOperator by times or div or mod
     val multiplication by leftAssociative(unaryExpression, multiplicationOperator) { l, o, r ->
