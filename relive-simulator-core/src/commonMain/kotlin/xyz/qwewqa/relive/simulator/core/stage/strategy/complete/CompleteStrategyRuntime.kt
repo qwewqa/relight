@@ -105,7 +105,7 @@ fun ActData.asCsAct(actor: Actor) = CsAct(actor, this)
 data class CsList(val value: List<CsObject>) : CsObject {
     override fun invoke(arguments: List<CsObject>): CsObject {
         val arg = (arguments.singleOrNull() ?: csError("Expected one argument.")).number().let {
-            if (it % 0.0 != 0.0) csError("Expected an integer argument.")
+            if (it % 1.0 != 0.0) csError("Expected an integer argument.")
             it.toInt()
         }
         if (arg !in value.indices) csError("Index out of bounds.")
