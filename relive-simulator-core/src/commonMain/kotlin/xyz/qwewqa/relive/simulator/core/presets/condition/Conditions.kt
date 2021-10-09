@@ -3,7 +3,7 @@ package xyz.qwewqa.relive.simulator.core.presets.condition
 val conditions = listOf(
     FlowerOnlyCondition,
     WindOnlyCondition,
-    IceOnlyCondition,
+    SnowOnlyCondition,
     MoonOnlyCondition,
     SpaceOnlyCondition,
     CloudOnlyCondition,

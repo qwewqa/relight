@@ -1,0 +1,160 @@
+Flower:
+  en: Flower
+  zh_hant: 花屬
+Wind:
+  en: Wind
+  zh_hant: 風屬
+Snow:
+  en: Snow
+  zh_hant: 雪屬
+Moon:
+  en: Moon
+  zh_hant: 月屬
+Space:
+  en: Space
+  zh_hant: 宙屬
+Cloud:
+  en: Cloud
+  zh_hant: 雲屬
+Dream:
+  en: Dream
+  zh_hant: 夢屬
+Normal Damage:
+  en: Normal Damage
+  zh_hant: ACT類型[普通]
+Special Damage:
+  en: Special Damage
+  zh_hant: ACT類型[特殊]
+Front:
+  en: Front
+  zh_hant: 前排
+Middle:
+  en: Middle
+  zh_hant: 中排
+Back:
+  en: Back
+  zh_hant: 後排
+Seisho:
+  en: Seisho
+  zh_hant: 聖翔音樂學院
+Rinmeikan:
+  en: Rinmeikan
+  zh_hant: 凜明館女子學校
+Frontier:
+  en: Frontier
+  zh_hant: 芙羅提亞藝術學校
+Siegfeld:
+  en: Siegfeld
+  zh_hant: 席格菲特音樂學院
+Seiran:
+  en: Seiran
+  zh_hant: 青嵐總合藝術學院
+Akira:
+  en: Akira
+  ko: 아키라
+  zh_hant: 晶
+Aruru:
+  en: Aruru
+  ko: 아루루
+  zh_hant: 艾露露
+Claudine:
+  en: Claudine
+  ko: 클로딘
+  zh_hant: 克洛迪娜
+Fumi:
+  en: Fumi
+  ko: 후미
+  zh_hant: 文
+Futaba:
+  en: Futaba
+  ko: 후타바
+  zh_hant: 雙葉
+Hikari:
+  en: Hikari
+  ko: 히카리
+  zh_hant: 光
+Hisame:
+  en: Hisame
+  ko: 히사메
+  zh_hant: 冰雨
+Ichie:
+  en: Ichie
+  ko: 이치에
+  zh_hant: 一愛
+Junna:
+  en: Junna
+  ko: 준나
+  zh_hant: 純那
+Kaoruko:
+  en: Kaoruko
+  ko: 카오루코
+  zh_hant: 香子
+Karen:
+  en: Karen
+  ko: 카렌
+  zh_hant: 華戀
+Koharu:
+  en: Koharu
+  ko: 코하루
+  zh_hant: 小春
+Lalafin:
+  en: Lalafin
+  ko: 라라핀
+  zh_hant: 菈樂菲
+Mahiru:
+  en: Mahiru
+  ko: 마히루
+  zh_hant: 真晝
+Maya:
+  en: Maya
+  ko: 마야
+  zh_hant: 真矢
+Mei Fan:
+  en: Mei Fan
+  ko: 메이팡
+  zh_hant: 美帆
+Michiru:
+  en: Michiru
+  ko: 미치루
+  zh_hant: 未知留
+Misora:
+  en: Misora
+  ko: 미소라
+  zh_hant: 美空
+Nana:
+  en: Nana
+  ko: 나나
+  zh_hant: 奈奈
+Rui:
+  en: Rui
+  ko: 루이
+  zh_hant: 壘
+Shiori:
+  en: Shiori
+  ko: 시오리
+  zh_hant: 栞
+Shizuha:
+  en: Shizuha
+  ko: 시즈하
+  zh_hant: 靜羽
+Suzu:
+  en: Suzu
+  ko: 스즈
+  zh_hant: 涼
+Tamao:
+  en: Tamao
+  ko: 타마오
+  zh_hant: 珠緒
+Tsukasa:
+  en: Tsukasa
+  ko: 츠카사
+  zh_hant: 司
+Yachiyo:
+  en: Yachiyo
+  ko: 야치요
+  zh_hant: 八千代
+Yuyuko:
+  en: Yuyuko
+  ko: 유유코
+  zh_hant: 悠悠子
+

@@ -3,6 +3,7 @@ package xyz.qwewqa.relive.simulator.client
 import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.coroutines.*
+import kotlinx.dom.isText
 import kotlinx.html.*
 import kotlinx.html.dom.create
 import kotlinx.serialization.decodeFromString
@@ -31,7 +32,8 @@ suspend fun start(simulator: Simulator) {
     val commonText = options.commonText.associateBy { it.id }
     val bosses = options.bosses.associateBy { it.id }
     val strategies = options.strategyTypes.associateBy { it.id }
-    val songEffects = mapOf("none" to SimulationOption("none", emptyMap())) + options.songEffects.associateBy { it.id }
+    val songEffects = mapOf("none" to (commonText["none"] ?: SimulationOption("none",
+        emptyMap()))) + options.songEffects.associateBy { it.id }
     val conditions = options.conditions.associateBy { it.id }
     val dresses = options.dresses.associateBy { it.id }
     val memoirs = options.memoirs.associateBy { it.id }
@@ -62,6 +64,8 @@ suspend fun start(simulator: Simulator) {
 
     var locale = options.locales.keys.first()
 
+    fun localized(value: String, fallback: String) = commonText[value]?.get(locale) ?: fallback
+
     fun addActor() {
         val actorCount = actorSettingsDiv.getElementsByClassName("actor-options").length + 1
         actorSettingsDiv.insertBefore(
@@ -71,9 +75,9 @@ suspend fun start(simulator: Simulator) {
                         div("row m-2") {
                             div("col-12 col-md-8 my-2") {
                                 val inputId = "actor-name-$actorCount"
-                                label("form-label") {
+                                label("form-label text-actor-name") {
                                     htmlFor = inputId
-                                    +"Name"
+                                    +localized(".text-actor-name", "Name")
                                 }
                                 input(InputType.text, classes = "form-control actor-name") {
                                     id = inputId
@@ -81,9 +85,9 @@ suspend fun start(simulator: Simulator) {
                             }
                             div("col-12 col-md-4 my-2") {
                                 val inputId = "actor-unit-skill-$actorCount"
-                                label("form-label") {
+                                label("form-label text-unit-skill-level") {
                                     htmlFor = inputId
-                                    +"Unit Skill Level"
+                                    +localized(".text-unit-skill-level", "Unit Skill Level")
                                 }
                                 input(InputType.text, classes = "form-control actor-unit-skill") {
                                     id = inputId
@@ -92,9 +96,9 @@ suspend fun start(simulator: Simulator) {
                             }
                             div("col-12 my-2") {
                                 val selectId = "actor-dress-$actorCount"
-                                label("form-label") {
+                                label("form-label text-dress") {
                                     htmlFor = selectId
-                                    +"Dress"
+                                    +localized(".text-dress", "Dress")
                                 }
                                 select("selectpicker form-control actor-dress") {
                                     id = selectId
@@ -109,9 +113,9 @@ suspend fun start(simulator: Simulator) {
                             }
                             div("col-12 col-md-6 my-2") {
                                 val selectId = "actor-memoir-$actorCount"
-                                label("form-label") {
+                                label("form-label text-memoir") {
                                     htmlFor = selectId
-                                    +"Memoir"
+                                    +localized("text-memoir", "Memoir")
                                 }
                                 select("selectpicker form-control actor-memoir") {
                                     id = selectId
@@ -126,9 +130,9 @@ suspend fun start(simulator: Simulator) {
                             }
                             div("col-6 col-md-3 my-2") {
                                 val inputId = "actor-memoir-level-$actorCount"
-                                label("form-label") {
+                                label("form-label text-memoir-level") {
                                     htmlFor = inputId
-                                    +"Memoir Level"
+                                    +localized(".text-memoir-level", "Memoir Level")
                                 }
                                 input(InputType.number, classes = "form-control actor-memoir-level") {
                                     id = inputId
@@ -137,9 +141,9 @@ suspend fun start(simulator: Simulator) {
                             }
                             div("col-6 col-md-3 my-2") {
                                 val selectId = "actor-memoir-unbind-$actorCount"
-                                label("form-label") {
+                                label("form-label text-memoir-unbind") {
                                     htmlFor = selectId
-                                    +"Memoir Unbind"
+                                    +localized(".text-memoir-unbind", "Memoir Unbind")
                                 }
                                 select(classes = "form-select actor-memoir-unbind") {
                                     id = selectId
@@ -347,6 +351,11 @@ suspend fun start(simulator: Simulator) {
             .forEach { select ->
                 SingleSelect(select).localize(memoirs, locale)
             }
+        commonText.filter { (k, _) -> k[0] == '.' }.forEach { (k, v) ->
+            document.getElementsByClassName(k.drop(1)).asList().forEach { element ->
+                element.textContent = v[locale]
+            }
+        }
         refreshSelectPicker()
     }
 

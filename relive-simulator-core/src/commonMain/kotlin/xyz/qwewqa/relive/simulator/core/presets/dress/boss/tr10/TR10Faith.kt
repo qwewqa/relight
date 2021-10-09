@@ -19,7 +19,7 @@ val tr10FaithMisora = ActorLoadout(
     Dress(
         name = "Faith Misora",
         character = Character.Misora,
-        attribute = Attribute.Ice,
+        attribute = Attribute.Snow,
         damageType = DamageType.Special,
         position = Position.None,
         stats = defaultDressStats.copy(

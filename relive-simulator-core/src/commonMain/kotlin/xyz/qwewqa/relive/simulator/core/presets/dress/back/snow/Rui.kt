@@ -3,7 +3,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.back.snow
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
-import xyz.qwewqa.relive.simulator.core.presets.condition.IceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SnowOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SpecialDamageOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.TamaoOnlyCondition
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -18,7 +18,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val StageGirlRui = Dress(
     name = "Stage Girl Rui",
     character = Character.Rui,
-    attribute = Attribute.Ice,
+    attribute = Attribute.Snow,
     damageType = DamageType.Normal,
     position = Position.Back,
     stats = defaultDressStats.copy(
@@ -98,7 +98,7 @@ val StageGirlRui = Dress(
         TeamCriticalUpBuffPassive.new(20, turns = 3),
         TeamBrillianceRecoveryPassive.new(20) + TamaoOnlyCondition,
     ),
-    unitSkill = ActCritical50UnitSkill + IceOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
 )
 
 val StageGirlRui95 = StageGirlRui.copy(

@@ -17,7 +17,7 @@ import xyz.qwewqa.relive.simulator.stage.character.Position
 val StageGirlYachiyo = Dress(
     name = "Stage Girl Yachiyo",
     character = Character.Yachiyo,
-    attribute = Attribute.Ice,
+    attribute = Attribute.Snow,
     damageType = DamageType.Special,
     position = Position.Back,
     stats = defaultDressStats.copy(

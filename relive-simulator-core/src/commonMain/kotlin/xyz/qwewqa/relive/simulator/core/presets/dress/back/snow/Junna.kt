@@ -1,6 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.snow
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.IceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SnowOnlyCondition
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
@@ -17,7 +17,7 @@ import xyz.qwewqa.relive.simulator.stage.character.Position
 val StageGirlJunna = Dress(
     name = "Stage Girl Junna",
     character = Character.Junna,
-    attribute = Attribute.Ice,
+    attribute = Attribute.Snow,
     damageType = DamageType.Normal,
     position = Position.Back,
     stats = defaultDressStats.copy(
@@ -89,5 +89,5 @@ val StageGirlJunna = Dress(
         SelfTurnBrillianceRecoveryPassive.new(10),
         TeamDexterityUpBuffPassive.new(20,3),
     ),
-    unitSkill = ActCritical30UnitSkillStageGirl + IceOnlyCondition,
+    unitSkill = ActCritical30UnitSkillStageGirl + SnowOnlyCondition,
 )

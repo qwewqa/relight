@@ -19,7 +19,7 @@ val tr10VampireShiori = ActorLoadout(
     Dress(
         name = "Vampire Shiori",
         character = Character.Shiori,
-        attribute = Attribute.Ice,
+        attribute = Attribute.Snow,
         damageType = DamageType.Normal,
         position = Position.None,
         stats = defaultDressStats.copy(

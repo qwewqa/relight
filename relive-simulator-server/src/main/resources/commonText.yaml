@@ -1,0 +1,103 @@
+'none':
+  en: None
+  zh_hant: 無
+'.text-shutdown':
+  en: Shutdown
+  zh_hant: 關閉
+'.text-import':
+  en: Import
+  zh_hant: 輸入
+'.text-export':
+  en: Export
+  zh_hant: 輸出
+'.text-close-dialog':
+  en: Close
+  zh_hant: 關閉
+'.text-use-yaml':
+  en: YAML
+  zh_hant: YAML
+'.text-stage-configuration':
+  en: Stage Configuration
+  zh_hant: 配置
+'.text-iterations':
+  en: Iterations
+  zh_hant: 測試回數
+'.text-max-turns':
+  en: Max Turns
+  zh_hant: 最多回合
+'.text-seed':
+  en: Seed
+  zh_hant: 隨機種子
+'.text-boss':
+  en: Boss
+  zh_hant: 王
+'.text-event-bonus':
+  en: Event Bonus
+  zh_hant: 活動加成
+'.text-actors':
+  en: Actors (front to back)
+  zh_hant: 角色 (從前到後)
+'.text-actor-name':
+  en: Name
+  zh_hant: (自訂)名稱
+'.text-dress':
+  en: Dress
+  zh_hant: 角色
+'.text-unit-skill-level':
+  en: Unit Skill Level
+  zh_hant: US等級
+'.text-memoir':
+  en: Memoir
+  zh_hant: 回憶
+'.text-memoir-level':
+  en: Memoir Level
+  zh_hant: 回憶等級
+'.text-memoir-unbind':
+  en: Memoir Unbind
+  zh_hant: 回憶突破次數
+'.text-add-actor':
+  en: Add Actor
+  zh_hant: 加角色
+'.text-remove-actor':
+  en: Remove Actor
+  zh_hant: 除角色
+'.text-song':
+  en: Song
+  zh_hant: 歌曲
+'.text-song-effect-1':
+  en: Effect 1
+  zh_hant: 效果一
+'.text-song-effect-2':
+  en: Effect 2
+  zh_hant: 效果二
+'.text-song-effect-3':
+  en: Effect 3 (Passive)
+  zh_hant: 效果三 (永續)
+'.text-song-effect-type':
+  en: Type
+  zh_hant: 類型
+'.text-song-effect-value':
+  en: Value
+  zh_hant: 數值
+'.text-song-condition-1':
+  en: Condition 1
+  zh_hant: 條件一
+'.text-song-condition-2':
+  en: Condition 2
+  zh_hant: 條件二
+'.text-strategy':
+  en: Strategy
+  zh_hant: 策略
+'.text-strategy-type':
+  en: Type
+  zh_hant: 類型
+'.text-strategy-value':
+  en: Value
+  zh_hant: 脚本
+'.text-cancel-simulation':
+  en: Cancel
+  zh_hant: 取消
+'.text-simulate':
+  en: Simulate
+  zh_hant: 模擬
+

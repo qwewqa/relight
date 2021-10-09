@@ -9,9 +9,9 @@
       {"pattern":"\\Qmemoir.yaml\\E"},
       {"pattern":"\\QsongEffect.yaml\\E"},
       {"pattern":"\\Qcondition.yaml\\E"},
-      {"pattern":"\\QbossLoadout.yaml\\E"},
+      {"pattern":"\\Qboss.yaml\\E"},
       {"pattern":"\\Qstrategy.yaml\\E"},
-      {"pattern":"\\QcommmonText.yaml\\E"},
+      {"pattern":"\\QcommonText.yaml\\E"},
       {"pattern":"\\Qorg/slf4j/impl/StaticLoggerBinder.class\\E"}
     ]},
   "bundles":[]

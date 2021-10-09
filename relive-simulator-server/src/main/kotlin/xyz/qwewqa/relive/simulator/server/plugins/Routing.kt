@@ -73,12 +73,12 @@ fun Application.configureRouting() {
             call.respond(
                 SimulationOptions(
                     mapOf("en" to "English", "zh_hant" to "繁体中文", "ko" to "한국어"),
-                    getLocalizationConfig("commmonText.yaml"),
+                    getLocalizationConfig("commonText.yaml"),
                     getLocalizationConfig("dress.yaml", playerDresses.keys),
                     getLocalizationConfig("memoir.yaml", memoirs.keys),
                     getLocalizationConfig("songEffect.yaml", songEffects.keys),
                     getLocalizationConfig("condition.yaml", conditions.keys),
-                    getLocalizationConfig("bossLoadout.yaml", bossLoadouts.keys),
+                    getLocalizationConfig("boss.yaml", bossLoadouts.keys),
                     getLocalizationConfig("strategy.yaml", strategyParsers.keys),
                 )
             )

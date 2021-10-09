@@ -151,8 +151,8 @@ val tr9FaithMisora = ActorLoadout(
                             self.againstAttributeDamageDealtUp[it] = 50
                             self.againstAttributeDamageTakenDown[it] = 50
                         }
-                        self.againstAttributeDamageDealtUp[Attribute.Ice] = 0
-                        self.againstAttributeDamageTakenDown[Attribute.Ice] = 0
+                        self.againstAttributeDamageDealtUp[Attribute.Snow] = 0
+                        self.againstAttributeDamageTakenDown[Attribute.Snow] = 0
                         self.againstAttributeDamageDealtUp[Attribute.Dream] = 0
                         self.againstAttributeDamageTakenDown[Attribute.Dream] = 0
                     }

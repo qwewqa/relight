@@ -3,7 +3,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.back.snow
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
-import xyz.qwewqa.relive.simulator.core.presets.condition.IceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SnowOnlyCondition
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
@@ -16,7 +16,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val DeathTamao = Dress(
     name = "Death Tamao",
     character = Character.Tamao,
-    attribute = Attribute.Ice,
+    attribute = Attribute.Snow,
     damageType = DamageType.Normal,
     position = Position.Back,
     stats = defaultDressStats.copy(
@@ -93,5 +93,5 @@ val DeathTamao = Dress(
         EnemyBack1ConfusionBuffPassive.new(turns = 2),
         ApplyReviveBuffPassive.new(50),
     ),
-    unitSkill = ActCritical50UnitSkill + IceOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
 )

@@ -16,24 +16,24 @@
     <div id="simulator-options">
         <div class="row my-2">
             <div class="col-auto">
-                <button id="shutdown-button" type="button" class="btn btn-danger">Shutdown</button>
+                <button id="shutdown-button" type="button" class="btn btn-danger text-shutdown">Shutdown</button>
             </div>
             <div class="col-auto">
                 <select id="language-select" class="form-select"></select>
             </div>
             <div class="col"></div>
             <div class="col-auto">
-                <button id="import-button" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                <button id="import-button" type="button" class="btn btn-primary text-import" data-bs-toggle="modal"
                         data-bs-target="#import-modal">Import
                 </button>
-                <button id="export-button" type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                <button id="export-button" type="button" class="btn btn-secondary text-export" data-bs-toggle="modal"
                         data-bs-target="#export-modal">Export
                 </button>
                 <div class="modal fade" id="import-modal" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Import</h5>
+                                <h5 class="modal-title text-import">Import</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                             </div>
@@ -41,8 +41,8 @@
                                 <textarea id="import-text" class="form-control text-monospace" rows="8"></textarea>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" id="do-import-button"
+                                <button type="button" class="btn btn-secondary text-close-dialog" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary text-import" id="do-import-button"
                                         data-bs-dismiss="modal">Import
                                 </button>
                             </div>
@@ -53,7 +53,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Export</h5>
+                                <h5 class="modal-title text-export">Export</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                             </div>
@@ -65,11 +65,11 @@
                                 <div class="px-2">
                                     <input class="form-check-input" type="checkbox" value="" id="import-yaml-checkbox"
                                            checked>
-                                    <label class="form-check-label" for="import-yaml-checkbox">
+                                    <label class="form-check-label text-use-yaml" for="import-yaml-checkbox">
                                         Use YAML
                                     </label>
                                 </div>
-                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary text-close-dialog" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
@@ -79,18 +79,18 @@
         <form>
             <div class="row my-2 gy-2">
                 <div class="col-12">
-                    <h4>Stage Configuration</h4>
+                    <h4 class="text-stage-configuration">Stage Configuration</h4>
                 </div>
                 <div class="col-md-4 col-6">
-                    <label for="iterations-input" class="form-label">Iterations</label>
+                    <label for="iterations-input" class="form-label text-iterations">Iterations</label>
                     <input id="iterations-input" class="form-control" type="number" placeholder="100000">
                 </div>
                 <div class="col-md-4 col-6">
-                    <label for="turns-input" class="form-label">Max Turns</label>
+                    <label for="turns-input" class="form-label text-max-turns">Max Turns</label>
                     <input id="turns-input" class="form-control" type="number" placeholder="3">
                 </div>
                 <div class="col-md-4 col-12">
-                    <label for="seed-input" class="form-label">Seed</label>
+                    <label for="seed-input" class="form-label text-seed">Seed</label>
                     <div class="input-group">
                         <input id="seed-input" class="form-control" type="number" placeholder="0">
                         <button id="seed-randomize" class="btn btn-outline-secondary" type="button"><i
@@ -98,24 +98,24 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-12">
-                    <label for="boss-select" class="form-label">Boss</label>
+                    <label for="boss-select" class="form-label text-boss">Boss</label>
                     <select class="selectpicker form-control" id="boss-select" data-live-search="true"></select>
                 </div>
                 <div class="col-md-6 col-12">
-                    <label for="event-bonus-input" class="form-label">Event Bonus</label>
+                    <label for="event-bonus-input" class="form-label text-event-bonus">Event Bonus</label>
                     <input id="event-bonus-input" class="form-control" type="number" placeholder="0">
                 </div>
             </div>
             <div class="row my-4">
                 <div class="col-12">
-                    <h4>Actors (front to back)</h4>
+                    <h4 class="text-actors">Actors (front to back)</h4>
                 </div>
                 <div class="col-12">
                     <div id="actor-settings" class="border border-2 rounded px-3 py-2">
                         <div class="row" id="add-actor-row">
                             <div class="col-auto my-2">
-                                <button id="add-actor-button" type="button" class="btn btn-secondary">Add Actor</button>
-                                <button id="remove-actor-button" type="button" class="btn btn-danger">Remove Actor
+                                <button id="add-actor-button" type="button" class="btn btn-secondary text-add-actor">Add Actor</button>
+                                <button id="remove-actor-button" type="button" class="btn btn-danger text-remove-actor">Remove Actor
                                 </button>
                             </div>
                         </div>
@@ -124,14 +124,14 @@
             </div>
             <div class="row my-4">
                 <div class="col-12">
-                    <h4>Song</h4>
+                    <h4 class="text-song">Song</h4>
                 </div>
                 <div class="col-12">
                     <div id="song-settings" class="accordion">
                         <div class="accordion-item">
                             <div class="accordion-header">
                                 <h5 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    <button class="accordion-button collapsed text-song-effect-1" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#collapse-song-effect-1">
                                         Effect 1
                                     </button>
@@ -142,25 +142,25 @@
                                 <div class="accordion-body song-effect-group">
                                     <div class="row gy-3">
                                         <div class="col-8">
-                                            <label for="song-effect-1-type" class="form-label">Type</label>
+                                            <label for="song-effect-1-type" class="form-label text-song-effect-type">Type</label>
                                             <select id="song-effect-1-type"
                                                     class="selectpicker form-control song-effect-type"
                                                     data-live-search="true"></select>
                                         </div>
                                         <div class="col-4">
-                                            <label for="song-effect-1-value" class="form-label">Value</label>
+                                            <label for="song-effect-1-value" class="form-label text-song-effect-value">Value</label>
                                             <input id="song-effect-1-value" class="form-control song-effect-value"
                                                    type="number" placeholder="0">
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-1-condition-1" class="form-label">Condition
+                                            <label for="song-effect-1-condition-1" class="form-label text-song-condition-1">Condition
                                                 1</label>
                                             <select id="song-effect-1-condition-1"
                                                     class="selectpicker form-control song-effect-condition"
                                                     data-live-search="true" multiple></select>
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-1-condition-2" class="form-label">Condition
+                                            <label for="song-effect-1-condition-2" class="form-label text-song-condition-2">Condition
                                                 2</label>
                                             <select id="song-effect-1-condition-2"
                                                     class="selectpicker form-control song-effect-condition"
@@ -173,7 +173,7 @@
                         <div class="accordion-item">
                             <div class="accordion-header">
                                 <h5 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    <button class="accordion-button collapsed text-song-effect-2" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#collapse-song-effect-2">
                                         Effect 2
                                     </button>
@@ -184,25 +184,25 @@
                                 <div class="accordion-body song-effect-group">
                                     <div class="row gy-3">
                                         <div class="col-8">
-                                            <label for="song-effect-2-type" class="form-label">Type</label>
+                                            <label for="song-effect-2-type" class="form-label text-song-effect-type">Type</label>
                                             <select id="song-effect-2-type"
                                                     class="selectpicker form-control song-effect-type"
                                                     data-live-search="true"></select>
                                         </div>
                                         <div class="col-4">
-                                            <label for="song-effect-2-value" class="form-label">Value</label>
+                                            <label for="song-effect-2-value" class="form-label text-song-effect-value">Value</label>
                                             <input id="song-effect-2-value" class="form-control song-effect-value"
                                                    type="number" placeholder="0">
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-2-condition-1" class="form-label">Condition
+                                            <label for="song-effect-2-condition-1" class="form-label text-song-condition-1">Condition
                                                 1</label>
                                             <select id="song-effect-2-condition-1"
                                                     class="selectpicker form-control song-effect-condition"
                                                     data-live-search="true" multiple></select>
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-2-condition-2" class="form-label">Condition
+                                            <label for="song-effect-2-condition-2" class="form-label text-song-condition-2">Condition
                                                 2</label>
                                             <select id="song-effect-2-condition-2"
                                                     class="selectpicker form-control song-effect-condition"
@@ -215,7 +215,7 @@
                         <div class="accordion-item">
                             <div class="accordion-header">
                                 <h5 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    <button class="accordion-button collapsed text-song-effect-3" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#collapse-song-effect-3">
                                         Effect 3 (Passive)
                                     </button>
@@ -226,25 +226,25 @@
                                 <div class="accordion-body song-effect-group">
                                     <div class="row gy-3">
                                         <div class="col-8">
-                                            <label for="song-effect-3-type" class="form-label">Type</label>
+                                            <label for="song-effect-3-type" class="form-label text-song-effect-type">Type</label>
                                             <select id="song-effect-3-type"
                                                     class="selectpicker form-control song-effect-type"
                                                     data-live-search="true"></select>
                                         </div>
                                         <div class="col-4">
-                                            <label for="song-effect-3-value" class="form-label">Value</label>
+                                            <label for="song-effect-3-value" class="form-label text-song-effect-value">Value</label>
                                             <input id="song-effect-3-value" class="form-control song-effect-value"
                                                    type="number" placeholder="0">
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-3-condition-1" class="form-label">Condition
+                                            <label for="song-effect-3-condition-1" class="form-label text-song-condition-1">Condition
                                                 1</label>
                                             <select id="song-effect-3-condition-1"
                                                     class="selectpicker form-control song-effect-condition"
                                                     data-live-search="true" multiple></select>
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-3-condition-2" class="form-label">Condition
+                                            <label for="song-effect-3-condition-2" class="form-label text-song-condition-2">Condition
                                                 2</label>
                                             <select id="song-effect-3-condition-2"
                                                     class="selectpicker form-control song-effect-condition"
@@ -259,22 +259,22 @@
             </div>
             <div class="row my-2 gy-2">
                 <div class="col-12">
-                    <h4>Strategy</h4>
+                    <h4 class="text-strategy">Strategy</h4>
                 </div>
                 <div class="col-12">
-                    <label for="strategy-type-select" class="form-label">Type</label>
+                    <label for="strategy-type-select" class="form-label text-strategy-type">Type</label>
                     <select class="selectpicker form-control" id="strategy-type-select"
                             data-live-search="true"></select>
                 </div>
                 <div class="col-12">
-                    <label class="form-label">Value</label>
+                    <label class="form-label text-strategy-value">Value</label>
                     <div id="strategy-container"></div>
                 </div>
             </div>
             <div class="row justify-content-end my-2">
                 <div class="col-auto">
-                    <button id="cancel-button" type="button" class="btn btn-danger" disabled>Cancel</button>
-                    <button id="simulate-button" type="button" class="btn btn-success">Simulate</button>
+                    <button id="cancel-button" type="button" class="btn btn-danger text-cancel-simulation" disabled>Cancel</button>
+                    <button id="simulate-button" type="button" class="btn btn-success text-simulate">Simulate</button>
                 </div>
             </div>
         </form>
