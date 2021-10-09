@@ -148,8 +148,8 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
      * - `{name}` accepts one act and performs the action on it.
      * - `can{Name}` uses the given filter function to determine whether the
      *   action can be performed on the given act.
-     * - `try{Name}` performs the action on the given act if possible,
-     #   returning whether it did.
+     * - `try{Name}` performs the action on the first of its arguments that
+     #   passes the filter, returning that act, or false if none passed.
      */
     private inline fun registerCardAction(
         name: String,
@@ -165,10 +165,12 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             filter(it.singleAct()).asCsBoolean()
         }
         context.addFunction("try" + capName) { args ->
-            val act = args.singleAct()
-            val canAct = filter(act)
-            if (canAct) action(act)
-            canAct.asCsBoolean()
+            if (args.isEmpty()) csError("Expected one or more acts.")
+            val act = requireActs(args).firstOrNull { filter(it as CsAct) }
+            if (act != null) {
+                action(act as CsAct)
+            }
+            act ?: false.asCsBoolean()
         }
     }
 
