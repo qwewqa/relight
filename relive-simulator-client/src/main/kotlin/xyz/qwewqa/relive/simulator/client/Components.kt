@@ -151,7 +151,7 @@ class SongEffect(element: Element) {
         get() = SongEffectParameter(
             type.value,
             value.value,
-            conditions.map { it.value },
+            conditions.map { it.value }.filter { it.isNotEmpty() },
         ).takeIf { type.value != "none" }
         set(param) {
             type.value = param?.name ?: "none"
