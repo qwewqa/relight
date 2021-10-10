@@ -1,8 +1,11 @@
 package xyz.qwewqa.relive.simulator.core.stage
 
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
+import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinTarget
 import xyz.qwewqa.relive.simulator.core.stage.strategy.ActionTile
+import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
 import xyz.qwewqa.relive.simulator.core.stage.strategy.IdleTile
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 import kotlin.contracts.ExperimentalContracts
@@ -24,6 +27,7 @@ class Stage(
     var tile = 0
         private set
 
+    var cutinTarget: Actor? = null
 
     fun play(maxTurns: Int = 6): StageResult {
         try {
@@ -44,7 +48,7 @@ class Stage(
                 .shuffled(random)
                 .sortedByDescending { it.agility }
 
-            (autoEffectPriority + listOf(player.guest, enemy.guest).filterNotNull())
+            (autoEffectPriority + listOfNotNull(player.guest, enemy.guest))
                 .map { it to it.dress.unitSkill }.forEach { (actor, us) ->
                     us?.forLevel(actor.unitSkillLevel)?.forEach {
                         log("AutoEffect") { "[${actor.name}] unit skill [${it.name}] activate" }
@@ -76,8 +80,8 @@ class Stage(
                 turn++
                 tile = 0
                 log("Turn") { "Turn $turn begin" }
-                val playerQueue = player.strategy.getQueue(this, player, enemy)
-                val enemyQueue = enemy.strategy.getQueue(this, enemy, player)
+                val playerQueue = player.strategy.nextQueue(this, player, enemy)
+                val enemyQueue = enemy.strategy.nextQueue(this, enemy, player)
                 if (playerQueue.climax) {
                     log("Climax") { "Player Climax" }
                     player.enterCX()
@@ -118,23 +122,47 @@ class Stage(
                         }
                     }.joinToString("\n")
                 }
-                playerTiles.zip(enemyTiles).forEach { (a, b) ->
+                val cutins = (playerQueue.cutins + enemyQueue.cutins).groupBy { it.data.target }
+                cutins[CutinTarget.TurnStart]?.shuffled(random)?.sortedByDescending { it.agility }?.forEach { cutin ->
+                    cutin.execute()
+                    checkEnded()?.let { return it }
+                }
+                var playerActIndex = 0
+                var enemyActIndex = 0
+                playerTiles.zip(enemyTiles).forEach { (playerTile, enemyTile) ->
                     tile++
                     val (first, second) = when {
-                        a.agility > b.agility -> {
-                            a to b
+                        playerTile.agility > enemyTile.agility -> {
+                            playerTile to enemyTile
                         }
-                        b.agility > a.agility -> {
-                            b to a
+                        enemyTile.agility > playerTile.agility -> {
+                            enemyTile to playerTile
                         }
                         else -> {
                             if (random.nextDouble() > 0.5) {
-                                a to b
+                                playerTile to enemyTile
                             } else {
-                                b to a
+                                enemyTile to playerTile
                             }
                         }
                     }
+                    val tileCutins = mutableListOf<Pair<BoundCutin, Actor>>()
+                    if (playerTile is ActionTile) {
+                        playerActIndex++
+                        tileCutins += cutins[CutinTarget.BeforeAllyAct(playerActIndex)]?.map { it to playerTile.actor }
+                            ?: emptyList()
+                    }
+                    if (enemyTile is ActionTile) {
+                        enemyActIndex++
+                        tileCutins += cutins[CutinTarget.BeforeEnemyAct(enemyActIndex)]?.map { it to enemyTile.actor }
+                            ?: emptyList()
+                    }
+                    tileCutins.shuffled(random).sortedByDescending { (cutin, _) -> cutin.agility }.forEach { (cutin, target) ->
+                        cutinTarget = target
+                        cutin.execute()
+                        checkEnded()?.let { return it }
+                    }
+                    cutinTarget = null
                     first.execute()
                     checkEnded()?.let { return it }
                     second.execute()

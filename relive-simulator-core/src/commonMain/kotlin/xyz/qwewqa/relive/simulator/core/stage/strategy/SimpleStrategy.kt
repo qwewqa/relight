@@ -74,7 +74,7 @@ object SimpleStrategyGrammar : Grammar<Map<Int, List<SimpleStrategyCommand>>>() 
 }
 
 class SimpleStrategy(val commands: Map<Int, List<SimpleStrategyCommand>>) : Strategy {
-    override fun getQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
+    override fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
         val queue = mutableListOf<QueueTile>()
         var climax = false
         commands[stage.turn]?.forEach { command ->

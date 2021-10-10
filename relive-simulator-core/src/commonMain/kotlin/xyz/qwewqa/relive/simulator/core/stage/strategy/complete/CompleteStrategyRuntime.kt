@@ -5,17 +5,24 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
 import xyz.qwewqa.relive.simulator.core.stage.buff.MarkBuff
+import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinData
+import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
 
 
 data class CsContext(
-    val variables: MutableMap<String, CsObject> = mutableMapOf(
-        "true" to CsBoolean.TRUE,
-        "false" to CsBoolean.FALSE,
+    val variables: MutableMap<String, CsValue> = mutableMapOf(
+        "true" to CsConstantDescriptor(CsBoolean.TRUE),
+        "false" to CsConstantDescriptor(CsBoolean.FALSE),
+        "nil" to CsConstantDescriptor(CsNil),
     ),
 )
 
 fun CsContext.addFunction(name: String, func: (List<CsObject>) -> CsObject) {
     variables[name] = CsFunction(func)
+}
+
+fun CsContext.bindValue(name: String, accessor: () -> CsObject) {
+    variables[name] = CsReadOnlyDescriptor(accessor)
 }
 
 open class CsRuntimeException(message: String, cause: Throwable? = null) : RuntimeException(message, cause)
@@ -25,11 +32,33 @@ fun csError(message: String, cause: Throwable? = null): Nothing {
     throw CsRuntimeException(message, cause)
 }
 
-interface CsObject {
+sealed interface CsValue
+
+fun CsValue.getValue(context: CsContext) = when (this) {
+    is CsObject -> this
+    is CsDescriptor -> getValue(context)
+}
+
+interface CsObject : CsValue {
     fun getAttribute(name: String): CsObject? = null
     fun invoke(arguments: List<CsObject>): CsObject = csError("Invoke not supported.")
     fun bool(): Boolean = true
     fun display(): String = toString()
+}
+
+interface CsDescriptor : CsValue {
+    fun getValue(context: CsContext): CsObject
+    fun setValue(value: CsValue, context: CsContext) {
+        csError("Value is read-only.")
+    }
+}
+
+data class CsConstantDescriptor(val value: CsObject) : CsDescriptor {
+    override fun getValue(context: CsContext) = value
+}
+
+class CsReadOnlyDescriptor(val accessor: () -> CsObject) : CsDescriptor {
+    override fun getValue(context: CsContext) = accessor()
 }
 
 operator fun CsObject.get(name: String) = getAttribute(name) ?: csError("Attribute $name not found.")
@@ -56,6 +85,7 @@ data class CsString(val value: String) : CsObject {
 
 enum class CsBoolean(val value: Boolean) : CsObject {
     TRUE(true), FALSE(false);
+
     override fun bool() = value
     override fun display() = value.toString()
 }
@@ -79,6 +109,7 @@ class CsActor(val actor: Actor) : CsObject {
             "act9" -> actor.acts[ActType.Act9]
             "act10" -> actor.acts[ActType.Act10]
             "cx" -> actor.acts[ActType.ClimaxAct]
+            "cutin" -> actor.cutin?.let { CsCutin(it) }
             // Basic info
             "alive" -> actor.isAlive
             "canCx" -> (actor.brilliance >= 100)
@@ -104,10 +135,25 @@ class CsActor(val actor: Actor) : CsObject {
             else -> csError("internal error: attribute type not supported")
         }
     }
+
     override fun display() = actor.name
 }
 
+data class CsCutin(val cutin: BoundCutin) : CsObject {
+    override fun getAttribute(name: String) = when (name) {
+        "cost" -> cutin.data.cost.asCsNumber()
+        else -> null
+    }
+
+    override fun display() = "${cutin.actor.name} [cutin]"
+}
+
 data class CsAct(val actor: Actor, val act: ActData) : CsObject, Comparable<CsAct> {
+    override fun getAttribute(name: String) = when (name) {
+        "cost" -> apCost.asCsNumber()
+        else -> null
+    }
+
     val apCost get() = (act.apCost + actor.apChange).coerceAtLeast(1)
 
     val sortPriority = run {
@@ -144,7 +190,7 @@ data class CsList(val value: List<CsObject>) : CsObject {
         "containsAny" -> CsFunction { args ->
             requireActs(args).any { it in value }.asCsBoolean()
         }
-        "size" -> CsNumber(value.size)
+        "size" -> CsNumber(value.size.toDouble())
         else -> null
     }
 

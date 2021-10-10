@@ -35,6 +35,7 @@ class ActionContext(
         TargetContext(this@ActionContext, listOf(this)).act(action)
 
     fun targetSelf() = listOf(self).targetContext()
+    fun targetCutinTarget() = listOf(stage.cutinTarget ?: error("Cutin target not available.")).targetContext()
     fun targetFront(count: Int = 1) = enemy.active.take(count).targetContext()
     fun targetBack(count: Int = 1) = enemy.active.takeLast(count).targetContext()
     fun targetAoe() = enemy.active.targetContext()

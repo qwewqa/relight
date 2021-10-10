@@ -8,6 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
 import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoir
 import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
+import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
 
 class Actor(
     val name: String,
@@ -119,6 +120,8 @@ class Actor(
 
     val isAlive get() = hp > 0
 
+    val cutin = memoir?.cutinData?.let { BoundCutin(this, it) }
+
     fun initializeTurnZero() {
         hp = maxHp
     }
@@ -145,6 +148,9 @@ class Actor(
      * Factors in CC effects and adds brilliance based on ap cost.
      */
     fun execute(act: Act, apCost: Int) {
+        if (!isAlive) {
+            context.log("Act") { "Actor has already exited." }
+        }
         if (buffs.any(StopBuff)) {
             context.log("Abnormal") { "Act prevented by stop." }
             return
@@ -196,6 +202,13 @@ class Actor(
             return
         }
         this.addBrilliance(7 * apCost)
+        act.execute(context)
+    }
+
+    fun executeCutin(act: Act) {
+        if (!isAlive) {
+            context.log("Act") { "Actor has already exited." }
+        }
         act.execute(context)
     }
 

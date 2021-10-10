@@ -46,6 +46,8 @@ class BuffManager(val actor: Actor) {
         }.add(buff)
         buffsByEffect.getOrPut(buffEffect) { LinkedHashSet() }.add(buff)
         actor.context.log("Buff") { "Buff ${buff.name} added." }
+        // Maybe 0t buffs (e.g. fake buffs like apply fortitude) should be removed immediately here?
+        // Should not really affect anything other than log messages though.
         return buff
     }
 

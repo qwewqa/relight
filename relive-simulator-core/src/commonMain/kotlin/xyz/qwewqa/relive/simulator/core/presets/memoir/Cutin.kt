@@ -98,10 +98,10 @@ val UnburnedFlowerUnwitheredFlame = MemoirBlueprint(
         specialDefense = 363,
     ),
     growthStats = StatData(
-      hp = 45000,
-      actPower = 3000,
-      normalDefense = 3000,
-      specialDefense = 3000,
+        hp = 45000,
+        actPower = 3000,
+        normalDefense = 3000,
+        specialDefense = 3000,
     ),
     baseAutoskills = listOf(
         BrillianceRecoveryPassive.new(28)
@@ -118,14 +118,13 @@ val UnburnedFlowerUnwitheredFlame = MemoirBlueprint(
             usageLimit = 1,
             target = CutinTarget.BeforeEnemyAct(1),
             act = {
-                TODO()
-//            targetByLowest { it.EnemyTurnOrder }.act {
-//                applyBuff(
-//                    effect = FreezeBuff,
-//                    turns = 1,
-//                    chance = 100,
-//                )
-//            }
+                targetCutinTarget().act {
+                    applyBuff(
+                        effect = FreezeBuff,
+                        turns = 1,
+                        chance = 100,
+                    )
+                }
             }
         ),
         CutinData(
@@ -135,14 +134,13 @@ val UnburnedFlowerUnwitheredFlame = MemoirBlueprint(
             usageLimit = 1,
             target = CutinTarget.BeforeEnemyAct(1),
             act = {
-                TODO()
-//            targetByLowest { it.EnemyTurnOrder }.act {
-//                applyBuff(
-//                    effect = FreezeBuff,
-//                    turns = 1,
-//                    chance = 100,
-//                )
-//            }
+                targetCutinTarget().act {
+                    applyBuff(
+                        effect = FreezeBuff,
+                        turns = 1,
+                        chance = 100,
+                    )
+                }
             }
         ),
         CutinData(
@@ -152,14 +150,13 @@ val UnburnedFlowerUnwitheredFlame = MemoirBlueprint(
             usageLimit = 1,
             target = CutinTarget.BeforeEnemyAct(1),
             act = {
-                TODO()
-//            targetByLowest { it.EnemyTurnOrder }.act {
-//                applyBuff(
-//                    effect = FreezeBuff,
-//                    turns = 1,
-//                    chance = 100,
-//                )
-//            }
+                targetCutinTarget().act {
+                    applyBuff(
+                        effect = FreezeBuff,
+                        turns = 1,
+                        chance = 100,
+                    )
+                }
             }
         ),
         CutinData(
@@ -169,14 +166,13 @@ val UnburnedFlowerUnwitheredFlame = MemoirBlueprint(
             usageLimit = 2,
             target = CutinTarget.BeforeEnemyAct(1),
             act = {
-                TODO()
-//            targetByLowest { it.EnemyTurnOrder }.act {
-//                applyBuff(
-//                    effect = FreezeBuff,
-//                    turns = 2,
-//                    chance = 100,
-//                )
-//            }
+                targetCutinTarget().act {
+                    applyBuff(
+                        effect = FreezeBuff,
+                        turns = 2,
+                        chance = 100,
+                    )
+                }
             }
         ),
     )

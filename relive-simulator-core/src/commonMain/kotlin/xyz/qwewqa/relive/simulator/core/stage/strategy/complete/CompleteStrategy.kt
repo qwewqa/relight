@@ -3,7 +3,6 @@ package xyz.qwewqa.relive.simulator.core.stage.strategy.complete
 import xyz.qwewqa.relive.simulator.core.stage.Stage
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
-import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
 import xyz.qwewqa.relive.simulator.core.stage.ignoreRun
 import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.strategy.*
@@ -30,6 +29,11 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     private var queueSize: Int = 0
     private var climax = false
 
+    private val queuedCutins = mutableListOf<BoundCutin>()
+    private var cutinEnergy = 2 // one is gained at the start of t1
+    private var cutinUseCounts = mutableMapOf<BoundCutin, Int>().withDefault { 0 }
+    private var cutinLastUseTurns = mutableMapOf<BoundCutin, Int>().withDefault { 1 }
+
     private val discardPile = mutableListOf<CsAct>()
     private val drawPile = ArrayDeque<CsAct>()
     private val hand = mutableListOf<CsAct>()
@@ -37,7 +41,8 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     private val climaxPile = mutableListOf<CsAct>()
     private var held: CsAct? = null
 
-    private fun formatAct(act: CsAct) = "[${act.actor.dress.name} (${act.actor.name})]:[${act.act.name}](${act.act.type.name})"
+    private fun formatAct(act: CsAct) =
+        "[${act.actor.dress.name} (${act.actor.name})]:[${act.act.name}](${act.act.type.name})"
 
     private fun logHand() {
         stage.log("Hand") {
@@ -49,7 +54,8 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
 
     override fun onRevive(actor: Actor) {
         // This does not work if an actor exits and is revived the same turn
-        // Nor has it been tested how that works
+        // Nor has it been tested how that works.
+        // TODO: take another look at this when revive gets implemented
         discardPile += (actor.acts[ActType.Act1]!!.asCsAct(actor))
         discardPile += (actor.acts[ActType.Act2]!!.asCsAct(actor))
         discardPile += (actor.acts[ActType.Act3]!!.asCsAct(actor))
@@ -59,11 +65,11 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         this.stage = stage
         this.team = team
         this.enemy = enemy
-        team.actors.forEach { (k, v) ->
-            context.variables[k] = CsActor(v)
-            discardPile += (v.acts[ActType.Act1]!!.asCsAct(v))
-            discardPile += (v.acts[ActType.Act2]!!.asCsAct(v))
-            discardPile += (v.acts[ActType.Act3]!!.asCsAct(v))
+        team.actors.forEach { (name, actor) ->
+            context.variables[name] = CsActor(actor)
+            discardPile += (actor.acts[ActType.Act1]!!.asCsAct(actor))
+            discardPile += (actor.acts[ActType.Act2]!!.asCsAct(actor))
+            discardPile += (actor.acts[ActType.Act3]!!.asCsAct(actor))
         }
         enemy.actors.forEach { (k, v) ->
             context.variables[k] = CsActor(v)
@@ -124,6 +130,29 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             }
         }
 
+        context.addFunction("canCutin") { args ->
+            val actor = args.singleActor()
+            val cutin = actor.cutin ?: csError("Actor ${actor.name} does not have a cutin.")
+            canActivateCutin(cutin).asCsBoolean()
+        }
+        context.addFunction("cutin") { args ->
+            val actor = args.singleActor()
+            val cutin = actor.cutin ?: csError("Actor ${actor.name} does not have a cutin.")
+            if (!canActivateCutin(cutin)) csError("Cutin for actor ${actor.name} unavailable.")
+            activateCutin(cutin)
+            CsNil
+        }
+        context.addFunction("tryCutin") { args ->
+            val actor = args.singleActor()
+            val cutin = actor.cutin ?: csError("Actor ${actor.name} does not have a cutin.")
+            if (canActivateCutin(cutin)) {
+                activateCutin(cutin)
+                true.asCsBoolean()
+            } else {
+                false.asCsBoolean()
+            }
+        }
+
         // Try queuing all the acts. If you can't, queue none.
         context.addFunction("tryQueueAll") { args ->
             val acts = args.map { it.act() }
@@ -150,6 +179,10 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             CsList(queued.drop(alreadyQueued))
         }
 
+        context.bindValue("held") { held ?: CsNil }
+        context.bindValue("turn") { stage.turn.asCsNumber() }
+        context.bindValue("cutinEnergy") { cutinEnergy.asCsNumber() }
+
         context.variables["hand"] = CsList(hand)
     }
 
@@ -161,12 +194,12 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
      * - `can{Name}` uses the given filter function to determine whether the
      *   action can be performed on the given act.
      * - `try{Name}` performs the action on the first of its arguments that
-     #   passes the filter, returning that act, or false if none passed.
+    #   passes the filter, returning that act, or false if none passed.
      */
     private inline fun registerCardAction(
         name: String,
         crossinline filter: (CsAct) -> Boolean,
-        crossinline action: (CsAct) -> Unit
+        crossinline action: (CsAct) -> Unit,
     ) {
         val capName = name.replaceFirstChar { it.uppercase() }
         context.addFunction(name) { args ->
@@ -177,10 +210,10 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             action(act)
             CsNil
         }
-        context.addFunction("can" + capName) {
+        context.addFunction("can$capName") {
             filter(it.singleAct()).asCsBoolean()
         }
-        context.addFunction("try" + capName) { args ->
+        context.addFunction("try$capName") { args ->
             if (args.isEmpty()) csError("Expected one or more acts.")
             val act = requireActs(args).firstOrNull { filter(it as CsAct) }
             if (act != null) {
@@ -190,23 +223,28 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         }
     }
 
-    override fun getQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
+    override fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
         if (team.cxTurns == 0) {
             climaxPile.clear()
         }
+        hasPerformedHoldAction = false
         climax = false
         queue.clear()
         queued.clear()
+        queuedCutins.clear()
         queueSize = 0
         drawHand()
-        context.variables["turn"] = stage.turn.asCsNumber()
+        cutinEnergy = (cutinEnergy + 1).coerceAtMost(10)
         script.body.execute(context)
         discardHand()
-        return QueueResult(queue, climax)
+        return QueueResult(queue, climax, queuedCutins)
     }
 
     private fun CsObject.act() = (this as? CsAct) ?: csError("Expected an act.")
     private fun List<CsObject>.singleAct() = this.singleOrNull()?.act() ?: csError("Expected a single act.")
+    private fun List<CsObject>.singleActor(): Actor {
+        return (this.singleOrNull() as? CsActor)?.actor ?: csError("Expected a single actor.")
+    }
 
     private fun drawCard(): CsAct {
         if (drawPile.isEmpty()) {
@@ -249,13 +287,27 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     private fun canQueue(act: CsAct): Boolean {
         return (queueSize + act.apCost) <= 6 && queued.count { it == act } < hand.count { it == act }
     }
-    private fun canQueueAll(acts : Collection<CsAct>): Boolean {
+
+    private fun canQueueAll(acts: Collection<CsAct>): Boolean {
         return (queueSize + acts.sumOf { it.apCost }) <= 6 && hand.containsAll(acts)
     }
 
-    private fun canHold(act: CsAct) = team.active.size > 1 && held == null && act !in queued && act in hand
-    private fun canDiscard(act: CsAct) = held != null && act !in queued && act in hand
-    private fun canCx() = queued.isEmpty() && team.cxTurns == 0 && team.active.any { it.brilliance >= 100 } && !climax
+    private var hasPerformedHoldAction = true
+
+    private fun canHold(act: CsAct) = team.active.size > 1 &&
+            held == null &&
+            act !in queued && act in hand &&
+            !hasPerformedHoldAction
+
+    private fun canDiscard(act: CsAct) = held != null &&
+            act !in queued &&
+            act in hand &&
+            !hasPerformedHoldAction
+
+    private fun canCx() = queued.isEmpty() &&
+            team.cxTurns == 0 &&
+            team.active.any { it.brilliance >= 100 } &&
+            !climax
 
     private fun queue(act: CsAct) {
         queued += act
@@ -263,6 +315,30 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         repeat(apCost - 1) { queue += IdleTile }
         queue += ActionTile(act.actor, apCost, act.act)
         queueSize += apCost
+    }
+
+    // Note: implicitly you can't use a cutin twice in one turn since the cooldown gets reset
+    // (though this would break with a zero cooldown cutin, which probably won't happen)
+    private fun canActivateCutin(cutin: BoundCutin): Boolean = cutin.actor.isAlive &&
+            cutin.data.cost <= cutinEnergy &&
+            cutinUseCounts.getValue(cutin) < cutin.data.usageLimit &&
+            stage.turn - cutinLastUseTurns.getValue(cutin) >= cutin.currentCooldown
+
+    private val BoundCutin.currentCooldown
+        get() = if (cutinUseCounts.getValue(this) > 0) {
+            data.cooldown
+        } else {
+            data.cooldownStart
+        }
+
+    private fun activateCutin(cutin: BoundCutin) {
+        stage.log("Strategy") {
+            "Activating cutin for actor ${cutin.actor.name} (prevEnergy = $cutinEnergy, newEnergy = ${cutinEnergy - cutin.data.cost})"
+        }
+        cutinEnergy -= cutin.data.cost
+        cutinLastUseTurns[cutin] = stage.turn
+        cutinUseCounts[cutin] = cutinUseCounts.getValue(cutin) + 1
+        queuedCutins += cutin
     }
 
     private fun enterClimax() {
@@ -282,6 +358,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         internalHand -= act
         internalHand += newAct
         hand[hand.indexOf(act)] = newAct
+        hasPerformedHoldAction = true
         logHand()
     }
 
@@ -292,6 +369,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         internalHand += held!!
         hand[hand.indexOf(act)] = held!!
         held = null
+        hasPerformedHoldAction = true
         logHand()
     }
 }

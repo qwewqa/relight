@@ -22,7 +22,7 @@ sealed interface CsExpressionNode : CsStatementNode {
     fun evaluate(context: CsContext): CsObject
 }
 
-data class CsStatementContainer(val statement: CsStatementNode, val startToken: TokenMatch?) : CsStatementNode{
+data class CsStatementContainer(val statement: CsStatementNode, val startToken: TokenMatch?) : CsStatementNode {
     override fun execute(context: CsContext) {
         try {
             statement.execute(context)
@@ -81,13 +81,18 @@ data class CsBlockNode(val statements: List<CsStatementNode>) : CsStatementNode 
 
 data class CsAssignmentNode(val name: String, val value: CsExpressionNode) : CsStatementNode {
     override fun execute(context: CsContext) {
-        context.variables[name] = value.evaluate(context)
+        val descriptor = context.variables[name] as? CsDescriptor
+        if (descriptor != null) {
+            descriptor.setValue(value.evaluate(context), context)
+        } else {
+            context.variables[name] = value.evaluate(context)
+        }
     }
 }
 
 data class CsIdentifierNode(val name: String) : CsExpressionNode {
     override fun evaluate(context: CsContext): CsObject {
-        return context.variables[name] ?: csError("Value for identifier '$name' not found.")
+        return context.variables[name]?.getValue(context) ?: csError("Value for identifier '$name' not found.")
     }
 }
 

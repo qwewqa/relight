@@ -42,10 +42,6 @@ data class MemoirBlueprint(
     }
 }
 
-enum class MemoirRarity {
-
-}
-
 data class CutinData(
     val cost: Int,
     val cooldownStart: Int,
