@@ -7,6 +7,7 @@ import xyz.qwewqa.relive.simulator.core.presets.condition.BackOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.MisoraOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.FrontierOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.ShizuhaOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.FuMeiFan
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
@@ -85,7 +86,7 @@ val AceMisora = Dress(
                 )
             }
         },
-        ActType.ClimaxAct("Turbulent Shooting Typhoon", 2) {
+        ActType.ClimaxAct("Gatling Typhoon", 2) {
             targetAoe().act {
                 dispelTimed(BuffCategory.Positive)
             }
@@ -109,4 +110,13 @@ val AceMisora = Dress(
         TeamBrillianceRecoveryPassive.new(20) + ShizuhaOnlyCondition,
     ),
     unitSkill = ActCritical30UnitSkill + BackOnlyCondition,
+)
+
+val AceMisora95 = AceMisora.copy(
+    name = "Stormy Ace Misora [r9.5]",
+    stats = AceMisora.stats.copy(
+        hp = 17773,
+        normalDefense = 769,
+        specialDefense = 1153,
+    )
 )

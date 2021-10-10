@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.AceMisora
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.AceMisora95
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.JudgementShizuha
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.StageGirlClaudine
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.flower.StageGirlMeiFan
@@ -44,6 +45,7 @@ val playerDresses = listOf(
     WheelOfFortuneKaren,
     StageGirlYachiyo,
     AceMisora,
+    AceMisora95,
     StageGirlClaudine,
     StageGirlMisora
 ).associateBy { it.name }
