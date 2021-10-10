@@ -15,6 +15,7 @@ data class TurnStatement(val turn: Int) : SimpleStrategyLine()
 sealed class SimpleStrategyCommand : SimpleStrategyLine() {
     object EnterClimax : SimpleStrategyCommand()
     data class QueueAct(val actor: String, val act: ActType) : SimpleStrategyCommand()
+    data class Cutin(val actor: String) : SimpleStrategyCommand()
 }
 
 private val actNameMapping = mapOf(
@@ -47,7 +48,10 @@ object SimpleStrategyGrammar : Grammar<Map<Int, List<SimpleStrategyCommand>>>() 
     val line: Parser<SimpleStrategyLine> by (-turn * number * -colon).map { turn ->
         TurnStatement(turn)
     } or (anyIdentifier * anyIdentifier).map { (actor, act) ->
-        SimpleStrategyCommand.QueueAct(actor, actNameMapping.getValue(act))
+        when (act) {
+            "cutin" -> SimpleStrategyCommand.Cutin(actor)
+            else -> SimpleStrategyCommand.QueueAct(actor, actNameMapping.getValue(act))
+        }
     } or climax.asJust(SimpleStrategyCommand.EnterClimax)
 
     val lines by separatedTerms(line, newlines, acceptZero = true)
@@ -76,6 +80,7 @@ object SimpleStrategyGrammar : Grammar<Map<Int, List<SimpleStrategyCommand>>>() 
 class SimpleStrategy(val commands: Map<Int, List<SimpleStrategyCommand>>) : Strategy {
     override fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
         val queue = mutableListOf<QueueTile>()
+        val cutins = mutableListOf<BoundCutin>()
         var climax = false
         commands[stage.turn]?.forEach { command ->
             when (command) {
@@ -94,9 +99,13 @@ class SimpleStrategy(val commands: Map<Int, List<SimpleStrategyCommand>>) : Stra
                     repeat(cost - 1) { queue += IdleTile }
                     queue += ActionTile(actor, cost, act)
                 }
+                is SimpleStrategyCommand.Cutin -> {
+                    val actor = team.actors[command.actor] ?: error("Unknown actor ${command.actor}")
+                    cutins += actor.cutin ?: error("Cutin for actor ${command.actor} not available.")
+                }
             }
         }
         require(queue.size <= 6) { "Queue must be at most 6 tiles long." }
-        return QueueResult(queue, climax)
+        return QueueResult(queue, climax, cutins)
     }
 }
