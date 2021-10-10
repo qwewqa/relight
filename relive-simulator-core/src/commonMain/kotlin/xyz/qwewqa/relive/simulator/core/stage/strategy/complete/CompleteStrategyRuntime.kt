@@ -4,12 +4,13 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActData
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
+import xyz.qwewqa.relive.simulator.core.stage.buff.MarkBuff
 
 
 data class CsContext(
     val variables: MutableMap<String, CsObject> = mutableMapOf(
-        "true" to CsBoolean(true),
-        "false" to CsBoolean(false),
+        "true" to CsBoolean.TRUE,
+        "false" to CsBoolean.FALSE,
     ),
 )
 
@@ -38,8 +39,8 @@ object CsNil : CsObject {
 }
 
 fun Number.asCsNumber() = CsNumber(toDouble())
-fun Boolean.asCsBoolean() = CsBoolean(this)
-fun String.asCSString() = CsString(this)
+fun Boolean.asCsBoolean() = if (this) CsBoolean.TRUE else CsBoolean.FALSE
+fun String.asCsString() = CsString(this)
 
 fun CsObject.number() = (this as? CsNumber)?.value ?: csError("Expected a number.")
 
@@ -53,7 +54,8 @@ data class CsString(val value: String) : CsObject {
     override fun display() = value
 }
 
-data class CsBoolean(val value: Boolean) : CsObject {
+enum class CsBoolean(val value: Boolean) : CsObject {
+    TRUE(true), FALSE(false);
     override fun bool() = value
     override fun display() = value.toString()
 }
@@ -62,28 +64,47 @@ data class CsFunction(val value: (List<CsObject>) -> CsObject) : CsObject {
     override fun invoke(arguments: List<CsObject>) = value(arguments)
 }
 
-class CsActor(val value: Actor) : CsObject {
-    override fun getAttribute(name: String) = when (name) {
-        "act1" -> value.acts[ActType.Act1]?.asCsAct(value)
-        "act2" -> value.acts[ActType.Act2]?.asCsAct(value)
-        "act3" -> value.acts[ActType.Act3]?.asCsAct(value)
-        "act4" -> value.acts[ActType.Act4]?.asCsAct(value)
-        "act5" -> value.acts[ActType.Act5]?.asCsAct(value)
-        "act6" -> value.acts[ActType.Act6]?.asCsAct(value)
-        "act7" -> value.acts[ActType.Act7]?.asCsAct(value)
-        "act8" -> value.acts[ActType.Act8]?.asCsAct(value)
-        "act9" -> value.acts[ActType.Act9]?.asCsAct(value)
-        "act10" -> value.acts[ActType.Act10]?.asCsAct(value)
-        "cx" -> value.acts[ActType.ClimaxAct]?.asCsAct(value)
-        "alive" -> value.isAlive.asCsBoolean()
-        "canCx" -> (value.brilliance >= 100).asCsBoolean()
-        "inCx" -> value.inCX.asCsBoolean()
-        "hp" -> value.hp.asCsNumber()
-        "maxHp" -> value.maxHp.asCsNumber()
-        "brilliance" -> value.brilliance.asCsNumber()
-        else -> null
+class CsActor(val actor: Actor) : CsObject {
+    override fun getAttribute(name: String): CsObject? {
+        val ktVal: Any? = when (name) {
+            // Acts
+            "act1" -> actor.acts[ActType.Act1]
+            "act2" -> actor.acts[ActType.Act2]
+            "act3" -> actor.acts[ActType.Act3]
+            "act4" -> actor.acts[ActType.Act4]
+            "act5" -> actor.acts[ActType.Act5]
+            "act6" -> actor.acts[ActType.Act6]
+            "act7" -> actor.acts[ActType.Act7]
+            "act8" -> actor.acts[ActType.Act8]
+            "act9" -> actor.acts[ActType.Act9]
+            "act10" -> actor.acts[ActType.Act10]
+            "cx" -> actor.acts[ActType.ClimaxAct]
+            // Basic info
+            "alive" -> actor.isAlive
+            "canCx" -> (actor.brilliance >= 100)
+            "inCx" -> actor.inCX
+            // Stats
+            "hp" -> actor.hp
+            "maxHp" -> actor.maxHp
+            "brilliance" -> actor.brilliance
+            // Buff stats
+            "dex", "dexterity" -> actor.dexterity
+            "hasApDown" -> (actor.apChange < 0)
+            "hasNer" -> (actor.negativeEffectResist >= 100)
+            "marked" -> actor.buffs.any(MarkBuff)
+            else -> null
+        }
+        return when (ktVal) {
+            null -> null // attribute not found
+            is ActData -> ktVal.asCsAct(actor)
+            is Boolean -> ktVal.asCsBoolean()
+            is Number -> ktVal.asCsNumber()
+            is String -> ktVal.asCsString()
+            is CsObject -> ktVal
+            else -> csError("internal error: attribute type not supported")
+        }
     }
-    override fun display() = value.name
+    override fun display() = actor.name
 }
 
 data class CsAct(val actor: Actor, val act: ActData) : CsObject, Comparable<CsAct> {
@@ -105,7 +126,7 @@ fun ActData.asCsAct(actor: Actor) = CsAct(actor, this)
 data class CsList(val value: List<CsObject>) : CsObject {
     override fun invoke(arguments: List<CsObject>): CsObject {
         val arg = (arguments.singleOrNull() ?: csError("Expected one argument.")).number().let {
-            if (it % 0.0 != 0.0) csError("Expected an integer argument.")
+            if (it % 1.0 != 0.0) csError("Expected an integer argument.")
             it.toInt()
         }
         if (arg !in value.indices) csError("Index out of bounds.")
@@ -117,6 +138,13 @@ data class CsList(val value: List<CsObject>) : CsObject {
             val arg = args.singleOrNull() ?: csError("Expected one argument.")
             (arg in value).asCsBoolean()
         }
+        "containsAll" -> CsFunction { args ->
+            value.containsAll(requireActs(args)).asCsBoolean()
+        }
+        "containsAny" -> CsFunction { args ->
+            requireActs(args).any { it in value }.asCsBoolean()
+        }
+        "size" -> CsNumber(value.size)
         else -> null
     }
 

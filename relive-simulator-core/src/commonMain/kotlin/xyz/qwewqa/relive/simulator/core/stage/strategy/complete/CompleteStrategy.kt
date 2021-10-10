@@ -9,6 +9,15 @@ import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.strategy.*
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
+/**
+ * Check that a strategy arguments list consists only of acts and return the
+ * list unchanged.
+ */
+fun requireActs(args: List<CsObject>): List<CsObject> {
+    if (args.any { it !is CsAct }) csError("Expected all arguments to be acts.")
+    return args
+}
+
 class CompleteStrategy(val script: CsScriptNode) : Strategy {
     lateinit var stage: Stage
     lateinit var team: Team
@@ -59,26 +68,49 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         enemy.actors.forEach { (k, v) ->
             context.variables[k] = CsActor(v)
         }
+
         context.addFunction("ignore") { args ->
             if (args.isNotEmpty()) csError("Expected zero arguments.")
             ignoreRun()
         }
+
         context.addFunction("log") { args ->
             if (args.isEmpty()) csError("Expected at least one argument.")
             stage.log("Strategy Log") { args.joinToString(", ") { it.display() } }
             CsNil
         }
+
+        context.addFunction("error") { args ->
+            csError(if (args.isEmpty()) {
+                "error()"
+            } else {
+                args.joinToString(", ")
+            })
+        }
+
         context.addFunction("random") { args ->
             if (args.isNotEmpty()) csError("Expected zero arguments.")
             stage.random.nextDouble().asCsNumber()
         }
+
+        context.addFunction("list") { args ->
+            CsList(requireActs(args)) // Note: only allows lists of acts
+        }
+
         script.initialize?.execute(context)
+
+        registerCardAction("queue", ::canQueue) { act -> queue(act) }
+        registerCardAction("hold", ::canHold, ::hold)
+        registerCardAction("discard", ::canDiscard, ::discard)
+        // climax/canClimax/tryClimax are just like queue/hold/discard, but
+        // take no arguments
         context.addFunction("canClimax") { args ->
             if (args.isNotEmpty()) csError("Expected zero arguments.")
             canCx().asCsBoolean()
         }
         context.addFunction("climax") { args ->
             if (args.isNotEmpty()) csError("Expected zero arguments.")
+            if (!canCx()) csError("Climax unavailable.")
             enterClimax()
             CsNil
         }
@@ -91,55 +123,71 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
                 false.asCsBoolean()
             }
         }
-        context.addFunction("canQueue") { args ->
-            canQueue(args.singleAct()).asCsBoolean()
-        }
-        context.addFunction("queue") { args ->
-            queue(args.singleAct())
-            CsNil
-        }
-        context.addFunction("tryQueue") { args ->
-            val act = args.singleAct()
-            if (canQueue(act)) {
-                queue(act)
-                true.asCsBoolean()
-            } else {
-                false.asCsBoolean()
+
+        // Try queuing all the acts. If you can't, queue none.
+        context.addFunction("tryQueueAll") { args ->
+            val acts = args.map { it.act() }
+            val canQueue = canQueueAll(acts)
+            if (canQueue) {
+                for (act in acts) {
+                    queue(act)
+                }
             }
+            canQueue.asCsBoolean()
         }
-        context.addFunction("canHold") { args ->
-            canHold(args.singleAct()).asCsBoolean()
-        }
-        context.addFunction("hold") { args ->
-            hold(args.singleAct())
-            CsNil
-        }
-        context.addFunction("tryHold") { args ->
-            val act = args.singleAct()
-            if (canHold(act)) {
-                hold(args.singleAct())
-                true.asCsBoolean()
-            } else {
-                false.asCsBoolean()
+
+        // Try queueing each of the acts, one at a time. Return nothing.
+        context.addFunction("tryQueueEach") { args ->
+            requireActs(args) // check eagerly in case the loop exits early
+            val alreadyQueued = queued.size
+            for (obj in args) {
+                val act = obj as CsAct
+                if (canQueue(act)) {
+                    queue(act)
+                }
+                if (queueSize >= 6) break
             }
+            CsList(queued.drop(alreadyQueued))
         }
-        context.addFunction("canDiscard") { args ->
-            canDiscard(args.singleAct()).asCsBoolean()
-        }
-        context.addFunction("discard") { args ->
-            discard(args.singleAct())
-            CsNil
-        }
-        context.addFunction("tryDiscard") { args ->
-            val act = args.singleAct()
-            if (canDiscard(act)) {
-                discard(args.singleAct())
-                true.asCsBoolean()
-            } else {
-                false.asCsBoolean()
-            }
-        }
+
         context.variables["hand"] = CsList(hand)
+    }
+
+    /**
+     * Register three functions for an action performed on an act card.
+     *
+     * The three functions are:
+     * - `{name}` accepts one act and performs the action on it.
+     * - `can{Name}` uses the given filter function to determine whether the
+     *   action can be performed on the given act.
+     * - `try{Name}` performs the action on the first of its arguments that
+     #   passes the filter, returning that act, or false if none passed.
+     */
+    private inline fun registerCardAction(
+        name: String,
+        crossinline filter: (CsAct) -> Boolean,
+        crossinline action: (CsAct) -> Unit
+    ) {
+        val capName = name.replaceFirstChar { it.uppercase() }
+        context.addFunction(name) { args ->
+            val act = args.singleAct()
+            if (!filter(act)) {
+                csError("Unable to ${name}: ${act.actor.name} ${act.act.type.name}")
+            }
+            action(act)
+            CsNil
+        }
+        context.addFunction("can" + capName) {
+            filter(it.singleAct()).asCsBoolean()
+        }
+        context.addFunction("try" + capName) { args ->
+            if (args.isEmpty()) csError("Expected one or more acts.")
+            val act = requireActs(args).firstOrNull { filter(it as CsAct) }
+            if (act != null) {
+                action(act as CsAct)
+            }
+            act ?: false.asCsBoolean()
+        }
     }
 
     override fun getQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
@@ -199,15 +247,17 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     }
 
     private fun canQueue(act: CsAct): Boolean {
-        return queued.count { it == act } < hand.count { it == act } && (queueSize + act.apCost) <= 6
+        return (queueSize + act.apCost) <= 6 && queued.count { it == act } < hand.count { it == act }
+    }
+    private fun canQueueAll(acts : Collection<CsAct>): Boolean {
+        return (queueSize + acts.sumOf { it.apCost }) <= 6 && hand.containsAll(acts)
     }
 
-    private fun canHold(act: CsAct) = team.active.size > 1 && act !in queued && act in hand && held == null
-    private fun canDiscard(act: CsAct) = act !in queued && act in hand && held != null
+    private fun canHold(act: CsAct) = team.active.size > 1 && held == null && act !in queued && act in hand
+    private fun canDiscard(act: CsAct) = held != null && act !in queued && act in hand
     private fun canCx() = queued.isEmpty() && team.cxTurns == 0 && team.active.any { it.brilliance >= 100 } && !climax
 
     private fun queue(act: CsAct) {
-        if (!canQueue(act)) csError("Queue ${act.actor.name} ${act.act.type.name} not available.")
         queued += act
         val apCost = act.apCost
         repeat(apCost - 1) { queue += IdleTile }
@@ -216,7 +266,6 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     }
 
     private fun enterClimax() {
-        if (!canCx()) csError("Climax unavailable.")
         stage.log("Hand") { "Climax" }
         climax = true
         drawPile += internalHand
@@ -227,7 +276,6 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     }
 
     private fun hold(act: CsAct) {
-        if (!canHold(act)) csError("Hold unavailable.")
         stage.log("Hand") { "Hold ${formatAct(act)}" }
         held = act
         val newAct = drawCard()
@@ -238,7 +286,6 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     }
 
     private fun discard(act: CsAct) {
-        if (!canDiscard(act)) csError("Discard unavailable.")
         stage.log("Hand") { "Discard ${formatAct(act)}" }
         discardPile += act
         internalHand -= act

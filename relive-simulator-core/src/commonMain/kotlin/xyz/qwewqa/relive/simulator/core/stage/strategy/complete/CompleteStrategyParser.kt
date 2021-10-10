@@ -31,6 +31,8 @@ enum class ComparisonOperator {
 }
 
 object CsParser : Grammar<CsScriptNode>() {
+    val comment by regexToken("""//.*""", ignore = true)
+
     val lpar by literalToken("(")
     val rpar by literalToken(")")
     val lsqr by literalToken("[")
@@ -70,11 +72,11 @@ object CsParser : Grammar<CsScriptNode>() {
     val pos by literalToken("+")
     val neg by literalToken("-")
 
-    val num by regexToken("[0-9]+(\\.[0-9]+)?")
-    val ident by regexToken("([^\\W0-9]\\w*)|(`[^`]+`)")
-    val str by regexToken("\".*\"")
-    val nl by regexToken("\\r?\\n", ignore = true)
-    val ws by regexToken("[^\\S\\r\\n]+", ignore = true)
+    val num by regexToken("""[0-9]+(\.[0-9]+)?""")
+    val ident by regexToken("""([^\W0-9]\w*)|(`[^`]+`)""")
+    val str by regexToken(""" "[^"\v]*" """.trim { it == ' ' }) // extra spaces for readability
+    val nl by regexToken("""\r?\n""", ignore = true)
+    val ws by regexToken("""[^\S\r\n]+""", ignore = true)
 
     val numericalInfixOperators = mapOf(
         plus to NumericalInfixOperator.PLUS,
@@ -96,32 +98,33 @@ object CsParser : Grammar<CsScriptNode>() {
     val identifier by ident.use { if (text[0] == '`') text.substring(1 until text.length - 1) else text }
 
     val numLiteral by num.use { CsLiteralNode(text.toDouble().asCsNumber()) }
-    val strLiteral by str.use { CsLiteralNode(text.substring(1 until text.length - 1).asCSString()) }
+    val strLiteral by str.use { CsLiteralNode(text.substring(1 until text.length - 1).asCsString()) }
     val identifierExpression by identifier.map { CsIdentifierNode(it) }
 
-    val expressionList by separatedTerms(parser { expression }, comma) or zeroOrMore(parser { expression } * -comma)
+    val expressionList by separatedTerms(parser { expression }, comma) * -optional(comma)
 
-    val atomicExpression
-            by numLiteral or
-                    strLiteral or
-                    identifierExpression or
-                    (-lpar * parser { expression } * -rpar)
+    val atomicExpression by
+            numLiteral or
+            strLiteral or
+            identifierExpression or
+            (-lpar * parser { expression } * -rpar)
 
 
     val attributeAccess: Parser<CsExpressionNode> by (parser { atomicExpression } * zeroOrMore(-dot * identifier)).map { (lhs, value) ->
         value.fold(lhs) { a, v -> CsAttributeAccessNode(a, v) }
     }
 
-    val functionCall: Parser<CsExpressionNode> by (parser { attributeAccess } * zeroOrMore(-lpar * optional(
-        expressionList) * -rpar)).map { (lhs, calls) ->
+    val functionCall: Parser<CsExpressionNode> by (
+        parser { attributeAccess } * zeroOrMore(-lpar * optional(expressionList) * -rpar)
+    ).map { (lhs, calls) ->
         calls.fold(lhs) { a, v -> CsCallNode(a, v ?: emptyList()) }
     }
 
-    val unaryExpression
-            by (-plus * functionCall).map { CsPosOperatorNode(it) } or
-                    (-minus * functionCall).map { CsNegOperatorNode(it) } or
-                    (-not * functionCall).map { CsNotOperatorNode(it) } or
-                    functionCall
+    val unaryExpression by
+            (-plus * functionCall).map { CsPosOperatorNode(it) } or
+            (-minus * functionCall).map { CsNegOperatorNode(it) } or
+            (-not * functionCall).map { CsNotOperatorNode(it) } or
+            functionCall
 
     val multiplicationOperator by times or div or mod
     val multiplication by leftAssociative(unaryExpression, multiplicationOperator) { l, o, r ->
@@ -220,7 +223,7 @@ object CsParser : Grammar<CsScriptNode>() {
         private var lastToken: Token? = null
         private var deferredMatch: TokenMatch? = null
 
-        private val autoSemiTokens = setOf(ident, num, rpar, rsqr, rcurl)
+        private val autoSemiTokens = setOf(ident, num, str, rpar, rsqr, rcurl)
 
         override fun nextToken(): TokenMatch? {
             if (deferredMatch != null) {
@@ -257,7 +260,7 @@ object CsParser : Grammar<CsScriptNode>() {
 
                 pos += matchLength
 
-                if (token != ws) {
+                if (token != ws && token != comment) {
                     lastToken = token
                 }
                 autoSemi?.let {
