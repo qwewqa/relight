@@ -60,10 +60,12 @@ class ActionContext(
     fun Team.forEach(action: (Actor) -> Unit) = active.forEach(action)
 
     fun applyAllyStageEffect(effect: StageEffect, turns: Int) {
+        log("Stage Effect") { "Apply stage effect ${effect.name} (${turns}t) to ally stage." }
         team.stageEffects.add(effect, turns)
     }
 
     fun applyEnemyStageEffect(effect: StageEffect, turns: Int) {
+        log("Stage Effect") { "Apply stage effect ${effect.name} (${turns}t) to enemy stage." }
         enemy.stageEffects.add(effect, turns)
     }
 }
