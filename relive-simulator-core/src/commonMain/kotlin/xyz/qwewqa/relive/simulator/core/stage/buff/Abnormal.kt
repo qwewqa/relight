@@ -53,6 +53,7 @@ object LockedBurnBuff : BurnBuffEffect {
     override val exclusive: Boolean = false
     override val locked: Boolean = true
     override fun formatName(value: Int) = name
+    override val related = BurnBuff
 }
 
 object PoisonBuff : BuffEffect {
@@ -66,6 +67,7 @@ object LockedPoisonBuff : BuffEffect {
     override val exclusive: Boolean = false
     override val locked: Boolean = true
     override fun formatName(value: Int) = name
+    override val related = PoisonBuff
 }
 
 object BlindnessBuff : BuffEffect {

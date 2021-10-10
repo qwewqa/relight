@@ -35,7 +35,7 @@ class Actor(
     var boostMaxHp = 0
 
     val actPower get() = valueActPower * (100 + boostActPower + actBurnFactor) / 100
-    val actBurnFactor get() = if (buffs.count(BurnBuff) + buffs.count(LockedBurnBuff) > 0) -10 else 0
+    val actBurnFactor get() = if (buffs.any(BurnBuff)) -10 else 0
     var valueActPower = 0
     var boostActPower = 0
 
@@ -131,7 +131,7 @@ class Actor(
 
     fun tick() {
         buffs.tick()
-        val burn = (buffs.get(BurnBuff) + buffs.get(LockedBurnBuff)).map { it.value }
+        val burn = buffs.get(BurnBuff).map { it.value }
         val burnFixed = burn.filter { it > 100 }.sum()
         val burnPercent = burn.filter { it <= 100 }.map { maxHp * it / 100 }.sum()
         val burnTotal = burnFixed + burnPercent
@@ -139,7 +139,7 @@ class Actor(
             context.log("Burn") { "Burn tick." }
             damage(burnTotal, additionalEffects = false)
         }
-        val poison = (buffs.get(PoisonBuff) + buffs.get(LockedPoisonBuff)).map { it.value }
+        val poison = buffs.get(PoisonBuff).map { it.value }
         val poisonFixed = poison.filter { it > 100 }.sum()
         val poisonPercent = poison.filter { it <= 100 }.map { maxHp * it / 100 }.sum()
         val poisonTotal = poisonFixed + poisonPercent
@@ -147,7 +147,7 @@ class Actor(
             context.log("Poison") { "Poison tick." }
             damage(poisonTotal, additionalEffects = false)
         }
-        val nightmare = buffs.get(NightmareBuff).map { it.value }.sum()
+        val nightmare = buffs.get(NightmareBuff).sumOf { it.value }
         if (nightmare > 0) {
             context.log("Nightmare") { "Nightmare tick." }
             damage(nightmare, additionalEffects = false)
