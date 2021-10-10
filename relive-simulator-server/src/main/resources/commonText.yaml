@@ -57,10 +57,10 @@
   zh_hant: 回憶突破次數
 '.text-add-actor':
   en: Add Actor
-  zh_hant: 加角色
+  zh_hant: 添加角色
 '.text-remove-actor':
   en: Remove Actor
-  zh_hant: 除角色
+  zh_hant: 移除角色
 '.text-song':
   en: Song
   zh_hant: 歌曲
