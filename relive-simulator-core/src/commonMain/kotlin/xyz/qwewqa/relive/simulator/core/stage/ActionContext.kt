@@ -127,9 +127,9 @@ class TargetContext(
                                 (100 - positiveEffectResist - (specificBuffResist[effect] ?: 0)) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
                             buffs.add(effect, value, turns)
-                            context.log("Effect") { "Positive buff ${effect.formatName(value)} (${turns}t) applied" }
+                            context.log("Effect") { "Positive buff ${effect.formatName(value)} (${turns}t) applied to [$name]." }
                         } else {
-                            context.log("Effect") { "Positive buff ${effect.formatName(value)} (${turns}t) missed" }
+                            context.log("Effect") { "Positive buff ${effect.formatName(value)} (${turns}t) missed to [$name]." }
                         }
                     }
                     BuffCategory.Negative -> {
@@ -137,9 +137,9 @@ class TargetContext(
                                 (100 - negativeEffectResist - (specificBuffResist[effect] ?: 0)) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
                             buffs.add(effect, value, turns)
-                            stage.log("Effect") { "Negative buff ${effect.formatName(value)} (${turns}t) applied" }
+                            stage.log("Effect") { "Negative buff ${effect.formatName(value)} (${turns}t) applied to [$name]." }
                         } else {
-                            stage.log("Effect") { "Negative buff ${effect.formatName(value)} (${turns}t) missed" }
+                            stage.log("Effect") { "Negative buff ${effect.formatName(value)} (${turns}t) missed to [$name]." }
                         }
                     }
                 }
@@ -156,18 +156,18 @@ class TargetContext(
                         val applyChance = chance / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
                             buffs.addCountable(effect, value)
-                            context.log("Effect") { "Positive buff [${effect.name}] (${value}) applied" }
+                            actionContext.log("Effect") { "Positive buff [${effect.name}] (${value}) applied to [$name]." }
                         } else {
-                            context.log("Effect") { "Positive buff [${effect.name}] (${value}) missed" }
+                            actionContext.log("Effect") { "Positive buff [${effect.name}] (${value}) missed to [$name]." }
                         }
                     }
                     BuffCategory.Negative -> {
                         val applyChance = chance / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
                             buffs.addCountable(effect, value)
-                            stage.log("Effect") { "Negative buff [${effect.name}] (${value}) applied" }
+                            actionContext.log("Effect") { "Negative buff [${effect.name}] (${value}) applied to [$name]." }
                         } else {
-                            stage.log("Effect") { "Negative buff [${effect.name}] (${value}) missed" }
+                            actionContext.log("Effect") { "Negative buff [${effect.name}] (${value}) missed to [$name]." }
                         }
                     }
                 }
@@ -179,7 +179,7 @@ class TargetContext(
         if (!self.isAlive) return
         targets.forEach {
             it.apply {
-                stage.log("Dispel") { "Dispel timed ${category.name} effects from ${this.name}" }
+                actionContext.log("Dispel") { "Dispel timed ${category.name} effects from [$name]." }
                 buffs.dispel(category)
             }
         }
@@ -189,7 +189,7 @@ class TargetContext(
         if (!self.isAlive) return
         targets.forEach {
             it.apply {
-                stage.log("Flip") { "Flip last $count timed ${category.name} effects from ${this.name}" }
+                actionContext.log("Flip") { "Flip last $count timed ${category.name} effects from [$name]." }
                 buffs.flip(category, count)
             }
         }
@@ -199,7 +199,7 @@ class TargetContext(
         if (!self.isAlive) return
         targets.forEach {
             it.apply {
-                stage.log("Dispel") { "Dispel countable ${category.name} effects from ${this.name}" }
+                actionContext.log("Dispel") { "Dispel countable ${category.name} effects from [$name]." }
                 buffs.dispelCountable(category)
             }
         }
@@ -209,7 +209,7 @@ class TargetContext(
         if (!self.isAlive) return
         targets.forEach {
             it.apply {
-                stage.log("Heal") { "Heal ${this.name} (percent: $percent, fixed: $fixed)" }
+                actionContext.log("Heal") { "Heal [$name] (percent: $percent, fixed: $fixed)." }
                 this.heal(fixed + (percent * maxHp / 100))
             }
         }
@@ -219,7 +219,7 @@ class TargetContext(
         if (!self.isAlive) return
         targets.forEach {
             it.apply {
-                stage.log("Brilliance") { "Add brilliance to ${this.name} (amount: $amount)" }
+                actionContext.log("Brilliance") { "Add brilliance to [$name] (amount: $amount)." }
                 this.addBrilliance(amount)
             }
         }
@@ -229,7 +229,7 @@ class TargetContext(
         if (!self.isAlive) return
         targets.forEach {
             it.apply {
-                stage.log("Brilliance") { "Remove brilliance from ${this.name} (amount: $amount)" }
+                actionContext.log("Brilliance") { "Remove brilliance from [$name] (amount: $amount)." }
                 this.addBrilliance(-amount)
             }
         }
