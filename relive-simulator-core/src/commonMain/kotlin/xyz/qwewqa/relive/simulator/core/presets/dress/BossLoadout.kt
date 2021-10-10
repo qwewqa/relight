@@ -12,9 +12,11 @@ data class BossLoadout(val loadout: ActorLoadout, val strategy: Strategy)
 
 val bossLoadouts = listOf(
     BossLoadout(tr9FaithMisora, tr9FaithMisoraStrategy),
+    BossLoadout(tr10DraculaClaudine, tr10DraculaClaudineStrategy),
     BossLoadout(tr10VampireShiori, tr10VampireShioriStrategy),
     BossLoadout(tr10HellsingMichiru, tr10HellsingMichiruStrategy),
     BossLoadout(tr10FaithMisora, tr10FaithMisoraStrategy),
+    BossLoadout(tr11CheerAkira, tr11CheerAkiraStrategy),
     BossLoadout(tr11CheerTsukasa, tr11CheerTsukasaStrategy),
     BossLoadout(tr11CheerYachiyo, tr11CheerYachiyoStrategy),
     BossLoadout(tr11FaithMisora, tr11FaithMisoraStrategy),
