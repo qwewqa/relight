@@ -90,7 +90,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             csError(if (args.isEmpty()) {
                 "error()"
             } else {
-                args.joinToString(", ")
+                args.joinToString(", ") { it.display() }
             })
         }
 
