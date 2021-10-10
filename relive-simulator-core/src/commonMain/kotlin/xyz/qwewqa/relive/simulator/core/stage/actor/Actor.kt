@@ -139,6 +139,14 @@ class Actor(
             context.log("Burn") { "Burn tick." }
             damage(burnTotal, additionalEffects = false)
         }
+        val poison = (buffs.get(PoisonBuff) + buffs.get(LockedPoisonBuff)).map { it.value }
+        val poisonFixed = poison.filter { it > 100 }.sum()
+        val poisonPercent = poison.filter { it <= 100 }.map { maxHp * it / 100 }.sum()
+        val poisonTotal = poisonFixed + poisonPercent
+        if (poisonTotal > 0) {
+            context.log("Poison") { "Poison tick." }
+            damage(poisonTotal, additionalEffects = false)
+        }
         val nightmare = buffs.get(NightmareBuff).map { it.value }.sum()
         if (nightmare > 0) {
             context.log("Nightmare") { "Nightmare tick." }

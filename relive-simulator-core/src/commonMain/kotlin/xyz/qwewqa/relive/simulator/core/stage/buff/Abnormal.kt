@@ -55,6 +55,19 @@ object LockedBurnBuff : BurnBuffEffect {
     override fun formatName(value: Int) = name
 }
 
+object PoisonBuff : BuffEffect {
+    override val category = BuffCategory.Negative
+    override val exclusive: Boolean = false
+    override fun formatName(value: Int) = name
+}
+
+object LockedPoisonBuff : BuffEffect {
+    override val category = BuffCategory.Negative
+    override val exclusive: Boolean = false
+    override val locked: Boolean = true
+    override fun formatName(value: Int) = name
+}
+
 object BlindnessBuff : BuffEffect {
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
