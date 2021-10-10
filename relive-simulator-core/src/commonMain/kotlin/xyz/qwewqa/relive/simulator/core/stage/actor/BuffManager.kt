@@ -38,7 +38,7 @@ class BuffManager(val actor: Actor) {
             BuffCategory.Negative -> negativeBuffs
         }.add(buff)
         buffsByEffect.getOrPut(buffEffect) { LinkedHashSet() }.add(buff)
-        actor.context.log("Buff") { "Buff ${buffEffect.formatName(value)} added." }
+        actor.context.log("Buff") { "Buff ${buff.name} added." }
         return buff
     }
 
