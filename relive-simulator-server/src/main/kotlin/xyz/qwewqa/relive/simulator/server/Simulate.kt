@@ -59,10 +59,10 @@ private data class IterationResult(val index: Int, val seed: Int, val result: St
 private val StageResult.resultPriority
     get() = when (this) {
         ExcludedRun -> 0
-        is OutOfTurns -> 1
-        is TeamWipe -> 1
         is Victory -> 1
-        is PlayError -> 2
+        is OutOfTurns -> 2
+        is TeamWipe -> 3
+        is PlayError -> 4
     }
 
 private fun simulateMany(parameters: SimulationParameters, token: String) = CoroutineScope(pool).launch {
