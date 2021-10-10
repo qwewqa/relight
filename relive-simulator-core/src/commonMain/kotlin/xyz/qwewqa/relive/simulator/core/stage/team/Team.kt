@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.core.stage.team
 
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.song.Song
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.StageEffectManager
 import xyz.qwewqa.relive.simulator.core.stage.strategy.Strategy
 
 class Team(
@@ -13,8 +14,11 @@ class Team(
     var cxTurns: Int = 0
         private set
 
+    // Note that actors is sorted (or at least should be) front to back
     val active get() = actors.values.filter { it.isAlive }
     val anyAlive get() = active.isNotEmpty()
+
+    val stageEffects = StageEffectManager(this)
 
     fun finalizeTurnZero() {
         actors.values.forEach {
@@ -30,6 +34,8 @@ class Team(
     }
 
     fun endTurn() {
+        stageEffects.tick()
+        active.forEach { it.tick() }
         if (cxTurns > 0) {
             cxTurns--
             if (active.none { it.inCX }) cxTurns = 0

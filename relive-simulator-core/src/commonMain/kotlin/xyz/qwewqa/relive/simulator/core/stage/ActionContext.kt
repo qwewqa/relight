@@ -7,6 +7,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.StageEffect
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
@@ -57,6 +58,14 @@ class ActionContext(
         team.active.sortedBy(selector).take(count).targetContext()
 
     fun Team.forEach(action: (Actor) -> Unit) = active.forEach(action)
+
+    fun applyAllyStageEffect(effect: StageEffect, turns: Int) {
+        team.stageEffects.add(effect, turns)
+    }
+
+    fun applyEnemyStageEffect(effect: StageEffect, turns: Int) {
+        enemy.stageEffects.add(effect, turns)
+    }
 }
 
 

@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.buff
 
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 
 
 object ActPowerUpBuff : BuffEffect {
@@ -295,5 +296,18 @@ object SpecialReflectBuff : BuffEffect {
 
     override fun onEnd(context: ActionContext, value: Int) = context.run {
         self.valueSpecialReflect -= value
+    }
+}
+
+data class AgainstAttributeDamageDealtUpBuff(val attribute: Attribute) : BuffEffect {
+    override val name = "Against ${attribute.name} Damage Dealt Up"
+    override val category = BuffCategory.Positive
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.againstAttributeDamageDealtUp[attribute] = self.againstAttributeDamageDealtUp.getValue(attribute) + value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.againstAttributeDamageDealtUp[attribute] = self.againstAttributeDamageDealtUp.getValue(attribute) - value
     }
 }

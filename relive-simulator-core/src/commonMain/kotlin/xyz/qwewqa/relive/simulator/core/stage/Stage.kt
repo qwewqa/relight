@@ -29,6 +29,14 @@ class Stage(
 
     var cutinTarget: Actor? = null
 
+    private inline fun withStageEffects(block: () -> Unit) {
+        player.stageEffects.activate()
+        enemy.stageEffects.activate()
+        block()
+        player.stageEffects.deactivate()
+        enemy.stageEffects.deactivate()
+    }
+
     fun play(maxTurns: Int = 6): StageResult {
         try {
             log("Stage") { "Begin" }
@@ -157,23 +165,25 @@ class Stage(
                         tileCutins += cutins[CutinTarget.BeforeEnemyAct(enemyActIndex)]?.map { it to enemyTile.actor }
                             ?: emptyList()
                     }
-                    tileCutins.shuffled(random).sortedByDescending { (cutin, _) -> cutin.agility }.forEach { (cutin, target) ->
-                        cutinTarget = target
-                        cutin.execute()
-                        checkEnded()?.let { return it }
+                    withStageEffects {
+                        tileCutins.shuffled(random).sortedByDescending { (cutin, _) -> cutin.agility }
+                            .forEach { (cutin, target) ->
+                                cutinTarget = target
+                                cutin.execute()
+                                checkEnded()?.let { return it }
+                            }
                     }
                     cutinTarget = null
-                    first.execute()
+                    withStageEffects { first.execute() }
                     checkEnded()?.let { return it }
-                    second.execute()
+                    withStageEffects { second.execute() }
                     checkEnded()?.let { return it }
                 }
-                listOf(player.active, enemy.active).flatten().apply {
-                    log("Effect") { "Turn end tick" }
-                    forEach { sg -> sg.tick() }
+                log("Effect") { "Turn end tick" }
+                withStageEffects {  // dots
+                    player.endTurn()
+                    enemy.endTurn()
                 }
-                player.endTurn()
-                enemy.endTurn()
                 log("Turn") { "Turn $turn end" }
                 checkEnded()?.let { return it }
             }

@@ -9,6 +9,8 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageCloud
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageSnow
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
@@ -81,7 +83,7 @@ val StageGirlJunna = Dress(
                     hitCount = 3,
                 )
             }
-            //Stage Effect "We Are on the Stage (Snow)"  Need to code stage effect(s).
+            applyAllyStageEffect(WeAreOnTheStageSnow, 6)
         }
     ),
     autoSkills = listOf(

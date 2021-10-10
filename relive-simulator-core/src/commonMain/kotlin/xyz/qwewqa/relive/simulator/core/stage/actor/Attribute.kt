@@ -11,6 +11,16 @@ enum class Attribute {
     Dream,
 }
 
+val Attribute.advantaged get() = when(this) {
+    Attribute.Flower -> Attribute.Wind
+    Attribute.Wind -> Attribute.Snow
+    Attribute.Snow -> Attribute.Flower
+    Attribute.Moon -> Attribute.Space
+    Attribute.Space -> Attribute.Cloud
+    Attribute.Cloud -> Attribute.Moon
+    else -> null
+}
+
 val effectiveCoefTable = mutableMapOf<Pair<Attribute, Attribute>, Int>().apply {
     Attribute.values().forEach { a ->
         Attribute.values().forEach { b ->

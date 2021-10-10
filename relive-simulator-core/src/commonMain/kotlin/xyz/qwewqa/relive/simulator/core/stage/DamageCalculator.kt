@@ -5,6 +5,8 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.actor.effectiveCoefTable
+import xyz.qwewqa.relive.simulator.core.stage.buff.BlindnessBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.FreezeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.NormalBarrierBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.SpecialBarrierBuff
 
@@ -107,18 +109,20 @@ class RandomDamageCalculator : DamageCalculator {
         val critCoef = 100 + attacker.critical
         val dex = attacker.dexterity
 
-        val acc = (attacker.accuracy - target.evasion).coerceIn(0, 100)
+        val acc = (attacker.accuracy - target.evasion).coerceIn(0, 100) *
+                (if (attacker.buffs.any(BlindnessBuff)) 0.3 else 1.0)
 
         val dmgDealtCoef = (100 + attacker.damageDealtUp - target.damageTakenDown).coerceAtLeast(0)
 
         // tentative
         val buffDmgDealtCoef = (100 + attacker.damageDealtUpBuff - target.damageTakenDownBuff).coerceAtLeast(10)
 
-        // tentative
-        val eleDmgDealtCoef = 100 +
-                attacker.attributeDamageDealtUp.getValue(attribute) +
-                attacker.againstAttributeDamageDealtUp.getValue(target.dress.attribute) -
-                target.againstAttributeDamageTakenDown.getValue(attribute)
+        val attributeDamageDealtUpCoef = 100 + attacker.attributeDamageDealtUp.getValue(attribute)
+        val againstAttributeDamageDealtUpCoef = 100 + attacker.againstAttributeDamageDealtUp.getValue(target.dress.attribute)
+        val targetAgainstAttributeDamageTakenDownCoef = 100 - target.againstAttributeDamageTakenDown.getValue(attribute)
+        val targetInnateAgainstAttributeDamageTakenDownCoef = 100 - target.innateAgainstAttributeDamageTakenDown.getValue(attribute)
+
+        val freezeCoef = if (target.buffs.any(FreezeBuff)) 130 else 100
 
         // cx damage up
         val cxDmgCoef = if (attacker.inCXAct) {
@@ -134,22 +138,30 @@ class RandomDamageCalculator : DamageCalculator {
         var dmg = base
         dmg = dmg * eleCoef / 100
         dmg = dmg * effEleCoef / 100
+        dmg = dmg * attributeDamageDealtUpCoef / 100
         dmg = dmg * hitAttribute.bonus / 100  // tentative
         dmg = dmg * bonusCoef / 100
+        dmg = dmg * targetAgainstAttributeDamageTakenDownCoef / 100 // tentative
+        dmg = dmg * targetInnateAgainstAttributeDamageTakenDownCoef / 100
+        dmg = dmg * freezeCoef / 100
         dmg = dmg * dmgDealtCoef / 100
-        dmg = dmg * cxDmgCoef / 100 // tentative
-        dmg = dmg * eleDmgDealtCoef / 100  // tentative
+        dmg = dmg * cxDmgCoef / 100
+        dmg = dmg * againstAttributeDamageDealtUpCoef / 100
         dmg = dmg * buffDmgDealtCoef / 100
 
         var criticalDmg = base
         criticalDmg = criticalDmg * eleCoef / 100
         criticalDmg = criticalDmg * effEleCoef / 100
         criticalDmg = criticalDmg * critCoef / 100
+        criticalDmg = criticalDmg * attributeDamageDealtUpCoef / 100
         criticalDmg = criticalDmg * hitAttribute.bonus / 100  // tentative
         criticalDmg = criticalDmg * bonusCoef / 100
+        criticalDmg = criticalDmg * targetAgainstAttributeDamageTakenDownCoef / 100 // tentative
+        criticalDmg = criticalDmg * targetInnateAgainstAttributeDamageTakenDownCoef / 100
+        criticalDmg = criticalDmg * freezeCoef / 100
         criticalDmg = criticalDmg * dmgDealtCoef / 100
         criticalDmg = criticalDmg * cxDmgCoef / 100
-        criticalDmg = criticalDmg * eleDmgDealtCoef / 100
+        criticalDmg = criticalDmg * againstAttributeDamageDealtUpCoef / 100
         criticalDmg = criticalDmg * buffDmgDealtCoef / 100
 
         return DamageResult(

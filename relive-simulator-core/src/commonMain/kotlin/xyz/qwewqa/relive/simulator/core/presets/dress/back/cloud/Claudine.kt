@@ -12,6 +12,7 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageCloud
 
 val StageGirlClaudine = Dress(
     name = "Stage Girl Claudine",
@@ -81,7 +82,7 @@ val StageGirlClaudine = Dress(
                     turns = 1,
                 )
             }
-            //TODO Stage Effect
+            applyAllyStageEffect(WeAreOnTheStageCloud, 6)
         }
     ),
     autoSkills = listOf(

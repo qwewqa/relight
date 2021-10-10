@@ -110,6 +110,9 @@ class Actor(
     val againstAttributeDamageTakenDown = mutableMapOf<Attribute, Int>().withDefault { 0 }
     val attributeDamageDealtUp = mutableMapOf<Attribute, Int>().withDefault { 0 }
 
+    // For bosses
+    val innateAgainstAttributeDamageTakenDown = mutableMapOf<Attribute, Int>().withDefault { 0 }
+
     var perfectAimCounter = 0
 
     var eventBonus: Int = 0
