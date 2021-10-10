@@ -174,9 +174,9 @@ class Stage(
                             }
                     }
                     cutinTarget = null
-                    withStageEffects { first.execute() }
+                    if (first is ActionTile) withStageEffects { first.execute() }
                     checkEnded()?.let { return it }
-                    withStageEffects { second.execute() }
+                    if (second is ActionTile)  { second.execute() }
                     checkEnded()?.let { return it }
                 }
                 log("Effect") { "Turn end tick" }

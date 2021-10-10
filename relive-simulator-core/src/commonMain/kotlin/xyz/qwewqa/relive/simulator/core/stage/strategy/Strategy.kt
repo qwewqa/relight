@@ -47,12 +47,10 @@ data class QueueResult(
 
 sealed class QueueTile {
     abstract val agility: Int
-    abstract fun execute()
 }
 
 object IdleTile : QueueTile() {
     override val agility = 0
-    override fun execute() {}
 }
 
 data class BoundCutin(val actor: Actor, val data: CutinData) {
@@ -67,7 +65,7 @@ data class BoundCutin(val actor: Actor, val data: CutinData) {
 class ActionTile(val actor: Actor, val apCost: Int, val actData: ActData) : QueueTile() {
     override val agility get() = actor.agility
 
-    override fun execute() {
+    fun execute() {
         actor.context.log("Act") { "[${actor.name}] executes act [${actData.name}]" }
         if (actData.type == ActType.ClimaxAct) {
             actor.inCXAct = true
