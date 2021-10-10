@@ -27,7 +27,7 @@ class BuffManager(val actor: Actor) {
 
     /**
      * Adds a buff without normal exclusivity checks or turn expiry.
-     * Intended for stage effects.
+     * Intended for stage effects and locked buffs.
      * Removed like normal buffs using the [remove] method.
      */
     fun addEphemeral(buffEffect: BuffEffect, value: Int): ActiveBuff {
@@ -56,7 +56,10 @@ class BuffManager(val actor: Actor) {
                 }
             }
         }
-        val buff = buffEffect(value, turns)
+        val relatedBuff = buffEffect.related?.let { related ->
+            addEphemeral(related, value)
+        }
+        val buff = buffEffect(value, turns, relatedBuff = relatedBuff)
         buff.start()
         when (buffEffect.category) {
             BuffCategory.Positive -> positiveBuffs
@@ -86,6 +89,9 @@ class BuffManager(val actor: Actor) {
         require(removed) { "Buff is not active." }
         buffsByEffect[buff.effect]!!.remove(buff)
         buff.end()
+        if (buff.relatedBuff != null) {
+            remove(buff.relatedBuff)
+        }
         actor.context.log("Buff") { "Buff ${buff.name} removed." }
     }
 
@@ -97,6 +103,9 @@ class BuffManager(val actor: Actor) {
         actor.context.log("Buff") { "Countable buff ${buff.name} removed." }
     }
 
+    /**
+     * Remove all non-ephemeral buffs.
+     */
     fun clear() {
         dispel(BuffCategory.Positive)
         dispel(BuffCategory.Negative)
@@ -109,12 +118,10 @@ class BuffManager(val actor: Actor) {
     }
 
     fun dispel(category: BuffCategory) {
-        val targets = when (category) {
+        when (category) {
             BuffCategory.Positive -> positiveBuffs
             BuffCategory.Negative -> negativeBuffs
-        }
-        targets.forEach { it.end() }
-        targets.clear()
+        }.filter { !it.ephemeral }.forEach { remove(it) }
     }
 
     fun dispelCountable(category: BuffCategory) {
@@ -162,6 +169,7 @@ class ActiveBuff(
     var value: Int,
     var turns: Int,
     val ephemeral: Boolean = false,
+    val relatedBuff: ActiveBuff? = null, // For buffs like locked buffs, which reference their original
 ) {
     val originalTurns = turns
     val name
@@ -174,8 +182,8 @@ class ActiveBuff(
     override fun toString() = "${effect::class.simpleName}(value = $value, turns = $turns)"
 }
 
-operator fun BuffEffect.invoke(value: Int, turns: Int, ephemeral: Boolean = false) =
-    ActiveBuff(this, value, turns, ephemeral)
+operator fun BuffEffect.invoke(value: Int, turns: Int, ephemeral: Boolean = false, relatedBuff: ActiveBuff? = null) =
+    ActiveBuff(this, value, turns, ephemeral, relatedBuff)
 
 enum class CountableBuff(val category: BuffCategory) {
     Evasion(BuffCategory.Positive),

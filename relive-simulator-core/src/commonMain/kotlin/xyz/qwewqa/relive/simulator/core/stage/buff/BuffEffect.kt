@@ -8,6 +8,15 @@ interface BuffEffect {
     val locked: Boolean get() = false
     val exclusive: Boolean get() = false
 
+    /**
+     * A buff effect to apply at the same time as this buff.
+     * Intended for use with locked buffs, which may simply reference their original version.
+     */
+    val related: BuffEffect? get() = null
+
+    /**
+     * The flipped version of this buff. For example, Act Power Up flipped is Act Power Down.
+     */
     val flipped: BuffEffect? get() = null
 
     fun onStart(context: ActionContext, value: Int) {}
