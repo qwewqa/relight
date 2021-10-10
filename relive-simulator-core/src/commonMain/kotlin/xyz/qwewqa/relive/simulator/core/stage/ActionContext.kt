@@ -179,7 +179,7 @@ class TargetContext(
         if (!self.isAlive) return
         targets.forEach {
             it.apply {
-                stage.log("Dispel") { "[$self] dispels timed ${category.name} effects from ${this.name}" }
+                stage.log("Dispel") { "Dispel timed ${category.name} effects from ${this.name}" }
                 buffs.dispel(category)
             }
         }
@@ -189,7 +189,7 @@ class TargetContext(
         if (!self.isAlive) return
         targets.forEach {
             it.apply {
-                stage.log("Flip") { "[$self] flips last $count timed ${category.name} effects from ${this.name}" }
+                stage.log("Flip") { "Flip last $count timed ${category.name} effects from ${this.name}" }
                 buffs.flip(category, count)
             }
         }
@@ -199,7 +199,7 @@ class TargetContext(
         if (!self.isAlive) return
         targets.forEach {
             it.apply {
-                stage.log("Dispel") { "[$self] dispels countable ${category.name} effects from ${this.name}" }
+                stage.log("Dispel") { "Dispel countable ${category.name} effects from ${this.name}" }
                 buffs.dispelCountable(category)
             }
         }
@@ -209,7 +209,7 @@ class TargetContext(
         if (!self.isAlive) return
         targets.forEach {
             it.apply {
-                stage.log("Heal") { "${self.name} heals ${this.name} (percent: $percent, fixed: $fixed)" }
+                stage.log("Heal") { "Heal ${this.name} (percent: $percent, fixed: $fixed)" }
                 this.heal(fixed + (percent * maxHp / 100))
             }
         }
@@ -219,7 +219,7 @@ class TargetContext(
         if (!self.isAlive) return
         targets.forEach {
             it.apply {
-                stage.log("Brilliance") { "${self.name} gives brilliance to ${this.name} (amount: $amount)" }
+                stage.log("Brilliance") { "Add brilliance to ${this.name} (amount: $amount)" }
                 this.addBrilliance(amount)
             }
         }
@@ -229,7 +229,7 @@ class TargetContext(
         if (!self.isAlive) return
         targets.forEach {
             it.apply {
-                stage.log("Brilliance") { "${self.name} removes brilliance from ${this.name} (amount: $amount)" }
+                stage.log("Brilliance") { "Remove brilliance from ${this.name} (amount: $amount)" }
                 this.addBrilliance(-amount)
             }
         }
