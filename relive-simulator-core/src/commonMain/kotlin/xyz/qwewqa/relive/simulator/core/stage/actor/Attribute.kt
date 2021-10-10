@@ -11,6 +11,8 @@ enum class Attribute {
     Dream,
 }
 
+val nonNeutralAttributes = Attribute.values().filter { it != Attribute.Neutral }
+
 val Attribute.advantaged get() = when(this) {
     Attribute.Flower -> Attribute.Wind
     Attribute.Wind -> Attribute.Snow

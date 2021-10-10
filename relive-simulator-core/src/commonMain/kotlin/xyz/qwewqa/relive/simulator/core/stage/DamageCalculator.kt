@@ -88,9 +88,9 @@ class RandomDamageCalculator : DamageCalculator {
     }
 
     fun calculateDamage(attacker: Actor, target: Actor, hitAttribute: HitAttribute): DamageResult {
-        var atk = 2 * attacker.actPower
+        var atk = attacker.actPower
         if (attacker.inCX) atk = atk * 110 / 100
-        atk = atk * hitAttribute.modifier / 100
+        atk = atk * 2 * hitAttribute.modifier / 100
 
         val def = when (attacker.dress.damageType) {
             DamageType.Normal -> target.normalDefense
@@ -115,7 +115,8 @@ class RandomDamageCalculator : DamageCalculator {
         val dmgDealtCoef = (100 + attacker.damageDealtUp - target.damageTakenDown).coerceAtLeast(0)
 
         // tentative
-        val buffDmgDealtCoef = (100 + attacker.damageDealtUpBuff - target.damageTakenDownBuff).coerceAtLeast(10)
+        val buffDmgDealtUpCoef = 100 + attacker.damageDealtUpBuff
+        val buffDmgTakenDownCoef = (100 - target.damageTakenDownBuff).coerceAtLeast(50)
 
         val attributeDamageDealtUpCoef = 100 + attacker.attributeDamageDealtUp.getValue(attribute)
         val againstAttributeDamageDealtUpCoef = 100 + attacker.againstAttributeDamageDealtUp.getValue(target.dress.attribute)
@@ -143,11 +144,12 @@ class RandomDamageCalculator : DamageCalculator {
         dmg = dmg * bonusCoef / 100
         dmg = dmg * targetAgainstAttributeDamageTakenDownCoef / 100 // tentative
         dmg = dmg * targetInnateAgainstAttributeDamageTakenDownCoef / 100
+        dmg = dmg * buffDmgDealtUpCoef / 100
         dmg = dmg * freezeCoef / 100
         dmg = dmg * dmgDealtCoef / 100
         dmg = dmg * cxDmgCoef / 100
         dmg = dmg * againstAttributeDamageDealtUpCoef / 100
-        dmg = dmg * buffDmgDealtCoef / 100
+        dmg = dmg * buffDmgTakenDownCoef / 100
 
         var criticalDmg = base
         criticalDmg = criticalDmg * eleCoef / 100
@@ -158,11 +160,12 @@ class RandomDamageCalculator : DamageCalculator {
         criticalDmg = criticalDmg * bonusCoef / 100
         criticalDmg = criticalDmg * targetAgainstAttributeDamageTakenDownCoef / 100 // tentative
         criticalDmg = criticalDmg * targetInnateAgainstAttributeDamageTakenDownCoef / 100
+        criticalDmg = criticalDmg * buffDmgDealtUpCoef / 100
         criticalDmg = criticalDmg * freezeCoef / 100
         criticalDmg = criticalDmg * dmgDealtCoef / 100
         criticalDmg = criticalDmg * cxDmgCoef / 100
         criticalDmg = criticalDmg * againstAttributeDamageDealtUpCoef / 100
-        criticalDmg = criticalDmg * buffDmgDealtCoef / 100
+        criticalDmg = criticalDmg * buffDmgTakenDownCoef / 100
 
         return DamageResult(
             base = dmg,

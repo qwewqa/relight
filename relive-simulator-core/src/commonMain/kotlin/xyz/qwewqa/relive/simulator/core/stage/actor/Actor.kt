@@ -34,10 +34,11 @@ class Actor(
     var valueMaxHp = 0
     var boostMaxHp = 0
 
-    val actPower get() = valueActPower * (100 + boostActPower + actBurnFactor) / 100
+    val actPower get() = valueActPower * (100 + boostActPower + actBurnFactor) / 100 + songActPower
     val actBurnFactor get() = if (buffs.any(BurnBuff)) -10 else 0
     var valueActPower = 0
     var boostActPower = 0
+    var songActPower = 0
 
     val normalDefense get() = valueNormalDefense * (100 + boostNormalDefense) / 100
     var valueNormalDefense = 0

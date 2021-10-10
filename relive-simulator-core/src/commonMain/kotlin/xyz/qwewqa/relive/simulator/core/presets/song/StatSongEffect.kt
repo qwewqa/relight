@@ -55,20 +55,36 @@ private data class DamageAgainstAttributeUpSongEffect(val attribute: Attribute) 
     }
 }
 
-
-private data class AttributeDamageDealtUpSongEffect(val attribute: Attribute) : SongEffect {
-    override val name = "t${attribute.name}DamageUpSongEffect"
-    override val displayName = "{attribute.name} Damage Up"
+data class AgainstAttributeDamageDealtUpSongEffect(val attribute: Attribute) : SongEffect {
+    override val name = "Against ${attribute.name}DamageDealtUpSongEffect"
+    override val displayName = "Against ${attribute.name} Damage Dealt Up"
 
     override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.attributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) + value
+            self.againstAttributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) + value
         }
     }
 
     override fun end(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.attributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) - value
+            self.againstAttributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) - value
+        }
+    }
+}
+
+data class AttributeDamageDealtUpSongEffect(val attribute: Attribute) : SongEffect {
+    override val name = "${attribute.name}DamageDealtUpSongEffect"
+    override val displayName = "${attribute.name} Damage Dealt Up"
+
+    override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {
+        condition.applyIfTrue(self) {
+            self.attributeDamageDealtUp[attribute] = (self.attributeDamageDealtUp[attribute] ?: 0) + value
+        }
+    }
+
+    override fun end(context: ActionContext, value: Int, condition: Condition) = context.run {
+        condition.applyIfTrue(self) {
+            self.attributeDamageDealtUp[attribute] = (self.attributeDamageDealtUp[attribute] ?: 0) - value
         }
     }
 }
