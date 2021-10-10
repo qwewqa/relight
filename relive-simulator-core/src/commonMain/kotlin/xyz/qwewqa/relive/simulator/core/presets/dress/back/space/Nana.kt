@@ -126,6 +126,9 @@ val JusticeNana = Dress(
                     hitCount = 2,
                 )
             }
+            targetSelf().act {
+                addBrilliance(20)
+            }
         },
         ActType.Act2("Sword of Justice", 2) {
             targetAoe().act {

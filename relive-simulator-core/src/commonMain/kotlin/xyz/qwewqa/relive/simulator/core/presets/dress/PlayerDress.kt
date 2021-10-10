@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.AceMisora
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.AceMisora95
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.JudgementShizuha
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.StageGirlClaudine
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.flower.StageGirlMeiFan
@@ -15,6 +16,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.back.space.SanadaMahiru
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.MitsuhideKaren
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.StageGirlMisora
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.StageGirlNana
+import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.StageGirlNanaBaby
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower.DevilKaoruko
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.space.WheelOfFortuneKaren
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.TowerHikari
@@ -38,12 +40,14 @@ val playerDresses = listOf(
     FuMeiFan95,
     WorldMaya,
     StageGirlNana,
+    StageGirlNanaBaby,
     StageGirlJunna,
     IzanagiNana,
     JusticeNana,
     WheelOfFortuneKaren,
     StageGirlYachiyo,
     AceMisora,
+    AceMisora95,
     StageGirlClaudine,
     StageGirlMisora
 ).associateBy { it.name }
