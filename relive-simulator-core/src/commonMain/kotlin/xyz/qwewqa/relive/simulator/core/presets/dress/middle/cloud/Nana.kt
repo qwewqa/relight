@@ -83,9 +83,9 @@ val StageGirlNana = Dress(
     unitSkill = ActCritical50UnitSkill + SeishoOnlyCondition,
 )
 
-val StageGirlNanaBaby = AceMisora.copy(
+val StageGirlNanaBaby = StageGirlNana.copy(
     name = "Stage Girl Nana [r1, lv1, bond 9]",
-    stats = AceMisora.stats.copy(
+    stats = StageGirlNana.stats.copy(
         hp = 3853,
         actPower = 269,
         normalDefense = 266,
