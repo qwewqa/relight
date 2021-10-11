@@ -79,6 +79,24 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             if (args.isNotEmpty()) csError("Expected zero arguments.")
             ignoreRun()
         }
+        context.addFunction("require") { args ->
+            if (args.any { !it.bool() }) {
+                ignoreRun()
+            }
+            CsNil
+        }
+        context.addFunction("assert") { args ->
+            args.forEachIndexed { i, arg ->
+                if (!arg.bool()) {
+                    if (args.size > 1) {
+                        csError("Assertion failed on argument ${i + 1}.")
+                    } else {
+                        csError("Assertion failed.")
+                    }
+                }
+            }
+            CsNil
+        }
 
         context.addFunction("log") { args ->
             if (args.isEmpty()) csError("Expected at least one argument.")
