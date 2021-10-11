@@ -20,8 +20,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
     implementation("io.ktor:ktor-client-js:$ktor_version")
     implementation("io.ktor:ktor-client-serialization:$ktor_version")
-    implementation("net.mamoe.yamlkt:yamlkt:0.10.2")
     implementation(npm("codemirror", "5.63.1"))
+    implementation(npm("js-yaml", "4.1.0"))
 }
 
 kotlin {

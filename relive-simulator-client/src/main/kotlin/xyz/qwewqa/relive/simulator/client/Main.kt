@@ -4,14 +4,12 @@ import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.coroutines.*
 import kotlinx.dom.addClass
-import kotlinx.dom.isText
 import kotlinx.dom.removeClass
 import kotlinx.html.*
 import kotlinx.html.dom.create
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import net.mamoe.yamlkt.Yaml
 import org.w3c.dom.*
 import org.w3c.dom.events.Event
 import org.w3c.dom.url.URL
@@ -20,10 +18,6 @@ import kotlin.random.Random
 
 suspend fun main() {
     start(RemoteSimulator(URL("${window.location.protocol}//${window.location.host}")))
-}
-
-val yaml = Yaml {
-    encodeDefaultValues = false
 }
 
 @OptIn(DelicateCoroutinesApi::class, kotlinx.serialization.ExperimentalSerializationApi::class)
@@ -256,7 +250,7 @@ suspend fun start(simulator: Simulator) {
     fun updateExportText() {
         try {
             if (yamlImportCheckbox.checked) {
-                exportText.value = yaml.encodeToString(getSetup())
+                exportText.value = dumpYamlSerialize(getSetup())
             } else {
                 exportText.value = Json.encodeToString(getSetup())
             }
@@ -279,7 +273,7 @@ suspend fun start(simulator: Simulator) {
     })
 
     doImportButton.addEventListener("click", {
-        setSetup(yaml.decodeFromString<SimulationParameters>(importText.value))
+        setSetup(loadYamlDeserialize(importText.value))
     })
 
     seedRandomizeButton.addEventListener("click", {
