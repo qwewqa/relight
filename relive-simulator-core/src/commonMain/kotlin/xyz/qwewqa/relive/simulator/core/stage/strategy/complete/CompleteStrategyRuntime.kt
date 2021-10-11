@@ -65,6 +65,7 @@ operator fun CsObject.get(name: String) = getAttribute(name) ?: csError("Attribu
 
 object CsNil : CsObject {
     override fun bool() = false
+    override fun display() = "nil"
 }
 
 fun Number.asCsNumber() = CsNumber(toDouble())

@@ -3,7 +3,9 @@ package xyz.qwewqa.relive.simulator.client
 import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.coroutines.*
+import kotlinx.dom.addClass
 import kotlinx.dom.isText
+import kotlinx.dom.removeClass
 import kotlinx.html.*
 import kotlinx.html.dom.create
 import kotlinx.serialization.decodeFromString
@@ -373,31 +375,34 @@ suspend fun start(simulator: Simulator) {
                     val result = sim.pollResult()
                     val iterationResults = result.results.associate { it.result to it.count }
                     val excludedCount = iterationResults[SimulationResultType.Excluded] ?: 0
-                    val existingDiv = document.getElementById("results")!!
-                    val newDiv = document.create.div {
-                        id = "results"
-                        p {
-                            iterationResults.forEach { (k, v) ->
-                                if (excludedCount == 0) {
-                                    +"$k: $v (${v * 100.0 / result.currentIterations}%)"
-                                } else {
-                                    if (k == SimulationResultType.Excluded) {
-                                        +"$k: $v (N/A / ${v * 100.0 / result.currentIterations}%)"
-                                    } else {
-                                        +"$k: $v (${v * 100.0 / (result.currentIterations - excludedCount)}% / ${v * 100.0 / result.currentIterations}%)"
-                                    }
-                                }
-                                br { }
-                            }
-                            pre {
-                                +(result.log ?: "")
-                            }
-                            pre {
-                                +(result.error ?: "")
+                    val resultsText = document.getElementById("results-text") as HTMLPreElement
+                    val errorRow = document.getElementById("results-error-row") as HTMLDivElement
+                    val logRow = document.getElementById("results-log-row") as HTMLDivElement
+                    val errorText = document.getElementById("error-text") as HTMLPreElement
+                    val logText = document.getElementById("log-text") as HTMLPreElement
+                    resultsText.textContent = iterationResults.map { (k, v) ->
+                        if (excludedCount == 0) {
+                            "$k: $v (${v * 100.0 / result.currentIterations}%)"
+                        } else {
+                            if (k == SimulationResultType.Excluded) {
+                                "$k: $v (N/A / ${v * 100.0 / result.currentIterations}%)"
+                            } else {
+                                "$k: $v (${v * 100.0 / (result.currentIterations - excludedCount)}% / ${v * 100.0 / result.currentIterations}%)"
                             }
                         }
+                    }.joinToString("\n")
+                    if (result.log != null) {
+                        logText.textContent = result.log
+                        logRow.removeClass("d-none")
+                    } else {
+                        logRow.addClass("d-none")
                     }
-                    existingDiv.replaceWith(newDiv)
+                    if (result.error != null) {
+                        errorText.textContent = result.error
+                        errorRow.removeClass("d-none")
+                    } else {
+                        errorRow.addClass("d-none")
+                    }
                     done = result.done
                     if (result.done) {
                         simulateButton.disabled = false

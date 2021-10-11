@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$/relive-simulator-client/src/main" libraries="{bootstrap, bootstrap-icons, bootstrap-select}" />
+    <file url="file://$PROJECT_DIR$/relive-simulator-client/src/main" libraries="{bootstrap, bootstrap-icons, bootstrap-select, jquery-3.6.0, plotly-2.4.2}" />
     <file url="file://$PROJECT_DIR$/relive-simulator-server/src/main" libraries="{bootstrap, bootstrap-icons, bootstrap-select}" />
   </component>
 </project>

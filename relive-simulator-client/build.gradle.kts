@@ -22,6 +22,7 @@ dependencies {
     implementation("io.ktor:ktor-client-serialization:$ktor_version")
     implementation("net.mamoe.yamlkt:yamlkt:0.10.2")
     implementation(npm("codemirror", "5.63.1"))
+    implementation(npm("plotly.js", "2.5.1"))
 }
 
 kotlin {
