@@ -83,12 +83,14 @@ data class SimulationResultValue(val result: SimulationResultType, val count: In
 @Serializable
 sealed class SimulationResultType : Comparable<SimulationResultType> {
     abstract val order: Int
+    abstract val color: String
     override fun compareTo(other: SimulationResultType) = order.compareTo(other.order)
 
     @Serializable
     @SerialName("wipe")
     data class Wipe(val turn: Int) : SimulationResultType() {
         override val order = 2
+        override val color = "fuchsia"
         override fun compareTo(other: SimulationResultType) = if (other is Wipe) {
             turn.compareTo(other.turn)
         } else super.compareTo(other)
@@ -99,6 +101,7 @@ sealed class SimulationResultType : Comparable<SimulationResultType> {
     @SerialName("victory")
     data class Victory(val turn: Int) : SimulationResultType() {
         override val order = 0
+        override val color = "lime"
         override fun compareTo(other: SimulationResultType) = if (other is Victory) {
             turn.compareTo(other.turn)
         } else super.compareTo(other)
@@ -109,6 +112,7 @@ sealed class SimulationResultType : Comparable<SimulationResultType> {
     @SerialName("end")
     object End : SimulationResultType() {
         override val order = 1
+        override val color = "crimson"
         override fun toString() = "End"
     }
 
@@ -116,6 +120,7 @@ sealed class SimulationResultType : Comparable<SimulationResultType> {
     @SerialName("excluded")
     object Excluded : SimulationResultType() {
         override val order = 4
+        override val color = "gray"
         override fun toString() = "Excluded"
     }
 
@@ -123,6 +128,7 @@ sealed class SimulationResultType : Comparable<SimulationResultType> {
     @SerialName("error")
     object Error : SimulationResultType() {
         override val order = 3
+        override val color = "yellow"
         override fun toString() = "Error"
     }
 }

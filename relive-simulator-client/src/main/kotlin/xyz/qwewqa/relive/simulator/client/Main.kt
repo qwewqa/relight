@@ -13,7 +13,9 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import net.mamoe.yamlkt.Yaml
 import org.w3c.dom.*
+import org.w3c.dom.events.Event
 import org.w3c.dom.url.URL
+import xyz.qwewqa.relive.simulator.client.Plotly.react
 import kotlin.random.Random
 
 suspend fun main() {
@@ -383,11 +385,14 @@ suspend fun start(simulator: Simulator) {
                     val logRow = document.getElementById("results-log-row") as HTMLDivElement
                     val errorText = document.getElementById("error-text") as HTMLPreElement
                     val logText = document.getElementById("log-text") as HTMLPreElement
+                    val resultsPlot = document.getElementById("results-plot")!!
 
                     val currentIterationsText = result.currentIterations.toString()
                     val maxIterationsText = result.maxIterations.toString()
-                    val progressText = "${(result.currentIterations.toDouble() / result.maxIterations * 100).toFixed(5)}%"
-                    val progressDisplay = "Progess: ${" ".repeat(maxIterationsText.length - currentIterationsText.length)}$currentIterationsText/$maxIterationsText ($progressText)"
+                    val progressText =
+                        "${(result.currentIterations.toDouble() / result.maxIterations * 100).toFixed(2)}%"
+                    val progressDisplay =
+                        "Progess: ${" ".repeat(maxIterationsText.length - currentIterationsText.length)}$currentIterationsText/$maxIterationsText ($progressText)"
                     resultsText.textContent = progressDisplay + "\n" + iterationResults.map { (k, v) ->
                         if (excludedCount == 0) {
                             "$k: $v (${(v * 100.0 / result.currentIterations).toFixed(5)}%)"
@@ -395,11 +400,43 @@ suspend fun start(simulator: Simulator) {
                             if (k == SimulationResultType.Excluded) {
                                 "$k: $v (N/A / ${(v * 100.0 / result.currentIterations).toFixed(5)}%)"
                             } else {
-                                "$k: $v (${(v * 100.0 / (result.currentIterations - excludedCount)).toFixed(5)}% / ${(v * 100.0 / result.currentIterations).toFixed(5)}%)"
+                                "$k: $v (${(v * 100.0 / (result.currentIterations - excludedCount)).toFixed(5)}% / ${
+                                    (v * 100.0 / result.currentIterations).toFixed(5)
+                                }%)"
                             }
                         }
                     }.joinToString("\n")
+                    react(
+                        graphDiv = resultsPlot,
+                        data = arrayOf(
+                            jsObject {
+                                type = "bar"
+                                x = iterationResults.values.reversed().toTypedArray()
+                                y = iterationResults.keys.map { it.toString() }.reversed().toTypedArray()
+                                orientation = "h"
+                                marker = jsObject {
+                                    color = iterationResults.keys.map { it.color }.reversed().toTypedArray()
+                                }
+                            } as Any
+                        ),
+                        layout = jsObject {
+                            xaxis = jsObject {
+                                range = arrayOf(0, result.currentIterations)
+                            }
+                            height = 250
+                            margin = jsObject {
+                                b = 40
+                                t = 20
+                            }
+                        } as Any,
+                        config = jsObject {
+                            responsive = true
+                            staticPlot = true
+                        } as Any,
+                    )
+                    window.dispatchEvent(Event("resize")) // Makes plotly resize immediately
                     resultsRow.removeClass("d-none")
+
                     if (result.log != null) {
                         logText.textContent = result.log
                         logRow.removeClass("d-none")
@@ -419,7 +456,13 @@ suspend fun start(simulator: Simulator) {
                     }
                 }
             }
-            delay(200)
+            delay(500)
         }
     }
+}
+
+inline fun jsObject(init: dynamic.() -> Unit): dynamic {
+    val o = js("{}")
+    init(o)
+    return o
 }
