@@ -96,11 +96,21 @@ class BuffManager(val actor: Actor) {
     }
 
     fun remove(buff: CountableBuff) {
-        when (buff.category) {
+        val category = when (buff.category) {
             BuffCategory.Positive -> positiveCountableBuffs
             BuffCategory.Negative -> negativeCountableBuffs
-        }.let { it[buff] = (it[buff] ?: 0) - 1 }
-        actor.context.log("Buff") { "Countable buff ${buff.name} removed." }
+        }
+        val prevCount = count(buff)
+        if (prevCount <= 0) error("Cannot remove countable buff $buff which is already at zero stacks.")
+        category[buff] = prevCount - 1
+        actor.context.log("Buff") { "Countable buff ${buff.name} removed (prev: $prevCount, new: ${prevCount - 1})." }
+    }
+
+    fun tryRemove(buff: CountableBuff) = if (count(buff) > 0) {
+        remove(buff)
+        true
+    } else {
+        false
     }
 
     /**

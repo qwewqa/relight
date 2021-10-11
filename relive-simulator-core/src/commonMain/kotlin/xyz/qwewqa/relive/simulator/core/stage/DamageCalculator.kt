@@ -26,8 +26,7 @@ class RandomDamageCalculator : DamageCalculator {
                         "Possible critical rolls: ${possibleRolls(true)}"
             }
         }
-        if (target.buffs.count(CountableBuff.Evasion) > 0) {
-            target.buffs.remove(CountableBuff.Evasion)
+        if (target.buffs.tryRemove(CountableBuff.Evasion)) {
             if (self.perfectAimCounter <= 0 && !hitAttribute.focus) {
                 log("Hit") { "Miss from Evade" }
                 return@run

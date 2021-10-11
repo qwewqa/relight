@@ -237,6 +237,16 @@ class Actor(
         context.log("Damage") { "Taken damage $amount (prevHp: ${self.hp}, newHp: $newHp)" }
         self.hp = newHp
         if (newHp == 0) {
+            if (self.buffs.tryRemove(CountableBuff.Fortitude)) {
+                self.hp = 1
+                context.log("Damage") { "Fortitude activate (newHp: 1)" }
+                return@run
+            }
+            if (self.buffs.tryRemove(CountableBuff.Revive)) {
+                self.hp = self.maxHp / 2
+                context.log("Damage") { "Revive activate (newHp: ${self.maxHp / 2})" }
+                return@run
+            }
             exit()
             return@run
         }
