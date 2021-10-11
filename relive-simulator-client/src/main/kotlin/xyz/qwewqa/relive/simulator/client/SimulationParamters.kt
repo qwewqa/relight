@@ -81,30 +81,48 @@ data class SimulationResult(
 data class SimulationResultValue(val result: SimulationResultType, val count: Int)
 
 @Serializable
-sealed class SimulationResultType {
+sealed class SimulationResultType : Comparable<SimulationResultType> {
+    abstract val order: Int
+    override fun compareTo(other: SimulationResultType) = order.compareTo(other.order)
+
     @Serializable
     @SerialName("wipe")
-    data class Wipe(val turn: Int) : SimulationResultType()
+    data class Wipe(val turn: Int) : SimulationResultType() {
+        override val order = 2
+        override fun compareTo(other: SimulationResultType) = if (other is Wipe) {
+            turn.compareTo(other.turn)
+        } else super.compareTo(other)
+        override fun toString() = "Wipe (t$turn)"
+    }
 
     @Serializable
     @SerialName("victory")
-    data class Victory(val turn: Int) : SimulationResultType()
+    data class Victory(val turn: Int) : SimulationResultType() {
+        override val order = 0
+        override fun compareTo(other: SimulationResultType) = if (other is Victory) {
+            turn.compareTo(other.turn)
+        } else super.compareTo(other)
+        override fun toString() = "Victory (t$turn)"
+    }
 
     @Serializable
     @SerialName("end")
     object End : SimulationResultType() {
+        override val order = 1
         override fun toString() = "End"
     }
 
     @Serializable
     @SerialName("excluded")
     object Excluded : SimulationResultType() {
+        override val order = 4
         override fun toString() = "Excluded"
     }
 
     @Serializable
     @SerialName("error")
     object Error : SimulationResultType() {
+        override val order = 3
         override fun toString() = "Error"
     }
 }

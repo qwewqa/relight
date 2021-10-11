@@ -368,29 +368,38 @@ suspend fun start(simulator: Simulator) {
 
     refreshSelectPicker()
 
+    fun Double.toFixed(digits: Int) = asDynamic().toFixed(digits) as String
+
     GlobalScope.launch {
         while (true) {
             if (!done) {
                 simulation?.let { sim ->
                     val result = sim.pollResult()
-                    val iterationResults = result.results.associate { it.result to it.count }
+                    val iterationResults = result.results.sortedBy { it.result }.associate { it.result to it.count }
                     val excludedCount = iterationResults[SimulationResultType.Excluded] ?: 0
+                    val resultsRow = document.getElementById("results-row") as HTMLDivElement
                     val resultsText = document.getElementById("results-text") as HTMLPreElement
                     val errorRow = document.getElementById("results-error-row") as HTMLDivElement
                     val logRow = document.getElementById("results-log-row") as HTMLDivElement
                     val errorText = document.getElementById("error-text") as HTMLPreElement
                     val logText = document.getElementById("log-text") as HTMLPreElement
-                    resultsText.textContent = iterationResults.map { (k, v) ->
+
+                    val currentIterationsText = result.currentIterations.toString()
+                    val maxIterationsText = result.maxIterations.toString()
+                    val progressText = "${(result.currentIterations.toDouble() / result.maxIterations * 100).toFixed(5)}%"
+                    val progressDisplay = "Progess: ${" ".repeat(maxIterationsText.length - currentIterationsText.length)}$currentIterationsText/$maxIterationsText ($progressText)"
+                    resultsText.textContent = progressDisplay + "\n" + iterationResults.map { (k, v) ->
                         if (excludedCount == 0) {
-                            "$k: $v (${v * 100.0 / result.currentIterations}%)"
+                            "$k: $v (${(v * 100.0 / result.currentIterations).toFixed(5)}%)"
                         } else {
                             if (k == SimulationResultType.Excluded) {
-                                "$k: $v (N/A / ${v * 100.0 / result.currentIterations}%)"
+                                "$k: $v (N/A / ${(v * 100.0 / result.currentIterations).toFixed(5)}%)"
                             } else {
-                                "$k: $v (${v * 100.0 / (result.currentIterations - excludedCount)}% / ${v * 100.0 / result.currentIterations}%)"
+                                "$k: $v (${(v * 100.0 / (result.currentIterations - excludedCount)).toFixed(5)}% / ${(v * 100.0 / result.currentIterations).toFixed(5)}%)"
                             }
                         }
                     }.joinToString("\n")
+                    resultsRow.removeClass("d-none")
                     if (result.log != null) {
                         logText.textContent = result.log
                         logRow.removeClass("d-none")
