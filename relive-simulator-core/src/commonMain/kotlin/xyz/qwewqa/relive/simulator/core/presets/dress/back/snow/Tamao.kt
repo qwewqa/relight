@@ -4,10 +4,7 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 import xyz.qwewqa.relive.simulator.core.presets.condition.SnowOnlyCondition
-import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
-import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.actor.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
@@ -84,14 +81,14 @@ val DeathTamao = Dress(
                 }
             }
             targetAllyBack(2).act {
-                applyBuff(ApplyReviveBuff)
+                applyCountableBuff(CountableBuff.Revive)
             }
         }
     ),
     autoSkills = listOf(
         EnemyBrillianceDrainPassive.new(20),
-        EnemyBack1ConfusionBuffPassive.new(turns = 2),
-        ApplyReviveBuffPassive.new(50),
+        EnemyBack1ConfusionBuffPassive.new(time = 2),
+        SelfReviveBuffPassive.new(50, time = 1),
     ),
     unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
 )

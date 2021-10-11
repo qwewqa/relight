@@ -97,7 +97,7 @@ val JudgementShizuha = Dress(
         }
     ),
     autoSkills = listOf(
-        ApplyReviveBuffPassive.new(50),
+        SelfReviveBuffPassive.new(50, time = 1),
         TeamHpUpPassive.new(30),
         TeamHpUpPassive.new(30) + FrontierOnlyCondition,
         EnemyFront3NightmareBuffPassive.new(6666,3)

@@ -1,7 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.AceMisora
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
@@ -77,7 +76,7 @@ val StageGirlNana = Dress(
     ),
     autoSkills = listOf(
         SelfStopResistanceBuffPassive.new(50),
-        ApplyFortitudeBuffPassive.new(50),
+        SelfFortitudeBuffPassive.new(time = 1),
         TeamActPowerUpBuffPassive.new(20,3),
     ),
     unitSkill = ActCritical50UnitSkill + SeishoOnlyCondition,

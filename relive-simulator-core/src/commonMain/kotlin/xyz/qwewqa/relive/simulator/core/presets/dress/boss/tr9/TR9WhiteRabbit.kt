@@ -108,7 +108,7 @@ val tr9WhiteRabbitMisora = ActorLoadout(
                     override val name = "Boss"
                     override val category = PassiveEffectCategory.Passive
 
-                    override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) = context.run {
+                    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
                     }
                 }
             )

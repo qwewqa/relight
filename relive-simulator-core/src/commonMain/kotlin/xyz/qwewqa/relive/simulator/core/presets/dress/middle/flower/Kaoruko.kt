@@ -73,8 +73,8 @@ val DevilKaoruko = Dress(
         }
     ),
     autoSkills = listOf(
-        TeamDexterityUpBuffPassive.new(10, turns = 3),
-        TeamCriticalUpBuffPassive.new(20, turns = 3),
+        TeamDexterityUpBuffPassive.new(10, time = 3),
+        TeamCriticalUpBuffPassive.new(20, time = 3),
         // TODO: CX Seal
     ),
     unitSkill = ActCritical50UnitSkill + FlowerOnlyCondition,

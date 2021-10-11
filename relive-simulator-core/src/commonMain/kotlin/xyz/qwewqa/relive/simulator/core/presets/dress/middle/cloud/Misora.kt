@@ -1,10 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.CloudOnlyCondition
-import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
-import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.actor.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
@@ -48,9 +45,9 @@ val StageGirlMisora = Dress(
                     value = 30,
                     turns = 3,
                 )
-                applyBuff(
-                    ApplyEvasionBuff,
-                    value = 1,
+                applyCountableBuff(
+                    CountableBuff.Evasion,
+                    count = 1,
                 )
             }
         },
@@ -80,7 +77,7 @@ val StageGirlMisora = Dress(
     ),
     autoSkills = listOf(
         EnemyBrillianceDrainPassive.new(10),
-        ApplyReviveBuffPassive.new(50),
+        SelfReviveBuffPassive.new(50, time = 1),
         NegativeEffectResistancePassive.new(50),
     ),
     unitSkill = ActCritical50UnitSkill + CloudOnlyCondition,

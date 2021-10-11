@@ -147,27 +147,28 @@ class TargetContext(
         }
     }
 
-    fun applyCountableBuff(effect: CountableBuff, value: Int = 1, chance: Int = 100) {
+    fun applyCountableBuff(effect: CountableBuff, count: Int = 1, chance: Int = 100) {
         if (!self.isAlive) return
         targets.forEach {
             it.apply {
                 when (effect.category) {
                     BuffCategory.Positive -> {
-                        val applyChance = chance / 100.0
+                        // PER works for countable buffs but NER doesn't for countable debuffs for some reason
+                        val applyChance = chance / 100.0 * (100 - positiveEffectResist) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
-                            buffs.addCountable(effect, value)
-                            actionContext.log("Effect") { "Positive buff [${effect.name}] (${value}) applied to [$name]." }
+                            buffs.addCountable(effect, count)
+                            actionContext.log("Effect") { "Positive buff [${effect.name}] (${count}x) applied to [$name]." }
                         } else {
-                            actionContext.log("Effect") { "Positive buff [${effect.name}] (${value}) missed to [$name]." }
+                            actionContext.log("Effect") { "Positive buff [${effect.name}] (${count}x) missed to [$name]." }
                         }
                     }
                     BuffCategory.Negative -> {
                         val applyChance = chance / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
-                            buffs.addCountable(effect, value)
-                            actionContext.log("Effect") { "Negative buff [${effect.name}] (${value}) applied to [$name]." }
+                            buffs.addCountable(effect, count)
+                            actionContext.log("Effect") { "Negative buff [${effect.name}] (${count}x) applied to [$name]." }
                         } else {
-                            actionContext.log("Effect") { "Negative buff [${effect.name}] (${value}) missed to [$name]." }
+                            actionContext.log("Effect") { "Negative buff [${effect.name}] (${count}x) missed to [$name]." }
                         }
                     }
                 }

@@ -86,7 +86,7 @@ val WheelOfFortuneKaren = Dress(
         }
     ),
     autoSkills = listOf(
-        TeamStunResistanceBuffPassive.new(value= 100, turns = 6),
+        TeamStunResistanceBuffPassive.new(value= 100, time = 6),
         TeamDexterityUpBuffPassive.new(10,3),
         SelfClimaxDamageUpBuffPassive.new(10),
     ),

@@ -9,7 +9,7 @@ import xyz.qwewqa.relive.simulator.core.stage.condition.applyIfTrue
 object TeamActPowerUpPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
 
-    override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) = context.run {
+    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
             condition.applyIfTrue(member) {
                 member.boostActPower += value
@@ -21,7 +21,7 @@ object TeamActPowerUpPassive : PassiveEffect {
 object TeamDexterityPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
 
-    override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) = context.run {
+    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
             condition.applyIfTrue(member) {
                 member.valueDexterity += value
@@ -33,7 +33,7 @@ object TeamDexterityPassive : PassiveEffect {
 object TeamCriticalPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
 
-    override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) = context.run {
+    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
             condition.applyIfTrue(member) {
                 member.valueCritical += value
@@ -46,7 +46,7 @@ object TeamCriticalPassive : PassiveEffect {
 object TeamHpUpPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
 
-    override fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition) = context.run {
+    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
             condition.applyIfTrue(member) {
                 member.boostMaxHp += value

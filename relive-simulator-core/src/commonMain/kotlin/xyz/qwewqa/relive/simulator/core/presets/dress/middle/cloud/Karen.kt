@@ -95,7 +95,7 @@ val MitsuhideKaren = Dress(
 */      }
     ),
     autoSkills = listOf(
-        TeamAPDownBuffPassive.new(turns = 1),
+        TeamAPDownBuffPassive.new(time = 1),
         TeamHpUpPassive.new(50),
         EnemyBrillianceDrainPassive.new(50),
     ),

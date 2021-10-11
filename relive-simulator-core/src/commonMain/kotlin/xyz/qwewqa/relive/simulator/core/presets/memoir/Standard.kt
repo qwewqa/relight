@@ -6,7 +6,6 @@ import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SiegfeldOnlyCondition
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoir
 import xyz.qwewqa.relive.simulator.core.stage.memoir.MemoirBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
@@ -143,10 +142,10 @@ val BandsmansGreeting = MemoirBlueprint(
         actPower = 1708,
     ),
     baseAutoskills = listOf(
-        TeamActPowerUpBuffPassive.new(3, turns = 3)
+        TeamActPowerUpBuffPassive.new(3, time = 3)
     ),
     maxAutoskills = listOf(
-        TeamActPowerUpBuffPassive.new(10, turns = 3)
+        TeamActPowerUpBuffPassive.new(10, time = 3)
     ),
 )
 
@@ -203,11 +202,11 @@ val PoolsideIncident = MemoirBlueprint(
     ),
     baseAutoskills = listOf(
         BrillianceRecoveryPassive.new(22),
-        SelfPerfectAimBuffPassive.new(turns = 3),
+        SelfPerfectAimBuffPassive.new(time = 3),
     ),
     maxAutoskills = listOf(
         BrillianceRecoveryPassive.new(32),
-        SelfPerfectAimBuffPassive.new(turns = 3),
+        SelfPerfectAimBuffPassive.new(time = 3),
     ),
 )
 
@@ -346,11 +345,11 @@ val TheGreatYearEndCleanup = MemoirBlueprint(
     ),
     baseAutoskills = listOf(
         SelfNormalBarrierBuffPassive.new(560,3),
-        ApplyEvasionBuffPassive.new(1),
+        SelfEvasionBuffPassive.new(time = 1),
     ),
     maxAutoskills = listOf(
         SelfNormalBarrierBuffPassive.new(2260,3),
-        ApplyEvasionBuffPassive.new(1),
+        SelfEvasionBuffPassive.new(time = 1),
     ),
 )
 
@@ -366,9 +365,9 @@ val ConfidantsOnADate = MemoirBlueprint(
         specialDefense = 2050,
     ),
     baseAutoskills = listOf(
-        ApplyEvasionBuffPassive.new(1),
+        SelfEvasionBuffPassive.new(time = 1),
     ),
     maxAutoskills = listOf(
-        ApplyEvasionBuffPassive.new(2),
+        SelfEvasionBuffPassive.new(time = 2),
     ),
 )

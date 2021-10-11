@@ -94,8 +94,8 @@ val StageGirlRui = Dress(
         }
     ),
     autoSkills = listOf(
-        TeamEffectiveDamageDealtUpBuffPassive.new(20, turns = 3),
-        TeamCriticalUpBuffPassive.new(20, turns = 3),
+        TeamEffectiveDamageDealtUpBuffPassive.new(20, time = 3),
+        TeamCriticalUpBuffPassive.new(20, time = 3),
         TeamBrillianceRecoveryPassive.new(20) + TamaoOnlyCondition,
     ),
     unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,

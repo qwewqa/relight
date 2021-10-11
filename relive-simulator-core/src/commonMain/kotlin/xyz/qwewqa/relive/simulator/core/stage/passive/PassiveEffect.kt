@@ -14,7 +14,7 @@ interface PassiveEffect {
     val name: String get() = this::class.simpleName ?: "Unknown Passive"
     val category: PassiveEffectCategory
 
-    fun activate(context: ActionContext, value: Int, turns: Int, condition: Condition)
+    fun activate(context: ActionContext, value: Int, time: Int, condition: Condition)
     fun formatName(value: Int, condition: Condition): String {
         val formattedValue = if (value != 0) " $value" else ""
         val formattedCondition = (condition as? NamedCondition)?.let { " [${it.displayName}]" } ?: ""
@@ -31,8 +31,8 @@ enum class PassiveEffectCategory {
     TurnStartNegative,
 }
 
-fun PassiveEffect.new(value: Int = 0, turns: Int = 0) = PassiveData(
+fun PassiveEffect.new(value: Int = 0, time: Int = 1) = PassiveData(
     this,
     value,
-    turns,
+    time,
 )

@@ -9,7 +9,6 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
-import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageCloud
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageSnow
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -87,7 +86,7 @@ val StageGirlJunna = Dress(
         }
     ),
     autoSkills = listOf(
-        ApplyFortitudeBuffPassive.new(50),
+        SelfFortitudeBuffPassive.new(time = 1),
         SelfTurnBrillianceRecoveryPassive.new(10),
         TeamDexterityUpBuffPassive.new(20,3),
     ),

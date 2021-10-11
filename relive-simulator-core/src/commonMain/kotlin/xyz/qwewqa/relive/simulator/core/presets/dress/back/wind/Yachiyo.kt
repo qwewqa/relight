@@ -87,7 +87,7 @@ val FoolYachiyo = Dress(
     ),
     autoSkills = listOf(
         TeamHpUpPassive.new(30),
-        ApplyReviveBuffPassive.new(50),
+        SelfReviveBuffPassive.new(50, time = 1),
         EnemyBack1DazeBuffPassive.new(1),
     ),
     unitSkill = ActCritical50UnitSkill + WindOnlyCondition,

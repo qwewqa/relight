@@ -78,21 +78,21 @@ val TowerHikari = Dress(
                 )
             }
             targetAllyAoe().act {
-                applyBuff(
-                    ApplyEvasionBuff,
-                    value = 2
+                applyCountableBuff(
+                    CountableBuff.Evasion,
+                    count = 2,
                 )
-                applyBuff(
-                    ApplyFortitudeBuff,
-                    value = 1,
+                applyCountableBuff(
+                    CountableBuff.Fortitude,
+                    count = 1,
                 )
             }
         }
     ),
     autoSkills = listOf(
-        ApplyFortitudeBuffPassive.new(50),
-        TeamCriticalUpBuffPassive.new(20, turns = 3),
-        TeamDexterityUpBuffPassive.new(10, turns = 3),
+        SelfFortitudeBuffPassive.new(time = 1),
+        TeamCriticalUpBuffPassive.new(20, time = 3),
+        TeamDexterityUpBuffPassive.new(10, time = 3),
     ),
     unitSkill = ActCritical50UnitSkill + WindOnlyCondition,
 )

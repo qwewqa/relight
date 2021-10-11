@@ -97,9 +97,9 @@ val StageGirlMeiFan = Dress(
         }
     ),
     autoSkills = listOf(
-        TeamActPowerUpBuffPassive.new(20, turns = 3),
-        TeamConfusionResistanceBuffPassive.new(100, turns = 6),
-        TeamStopResistanceBuffPassive.new(100, turns = 6),
+        TeamActPowerUpBuffPassive.new(20, time = 3),
+        TeamConfusionResistanceBuffPassive.new(100, time = 6),
+        TeamStopResistanceBuffPassive.new(100, time = 6),
     ),
     unitSkill = ActCritical50UnitSkill + FlowerOnlyCondition,
 )

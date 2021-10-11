@@ -95,9 +95,9 @@ val WorldMaya = Dress(
         }
     ),
     autoSkills = listOf(
-        ApplyReviveBuffPassive.new(50),
+        SelfReviveBuffPassive.new(50, time = 1),
         TeamHpUpPassive.new(30),
-        EnemyBack3StopBuffPassive.new(turns=1),
+        EnemyBack3StopBuffPassive.new(time=1),
     /* This should be a high probability stop, but I'm not sure how to do that without using ApplyBuff
     *  or rewriting buffEffect to have chance as a third argument. Need to remember to give bosses resistance to
     *  stop during TR11 (if they have it).
