@@ -93,7 +93,7 @@ class SimpleStrategy(val commands: Map<Int, List<SimpleStrategyCommand>>) : Stra
                     val actor = team.actors[command.actor] ?: error("Unknown actor ${command.actor}")
                     val act = actor.acts[command.act] ?: error("Unknown act ${command.act} for actor ${command.actor}")
                     val cost = (act.apCost + actor.apChange).coerceAtLeast(1)
-                    if (command.act == ActType.ClimaxAct && !(climax || team.cxTurns > 0 || actor.brilliance < 100)) {
+                    if (command.act == ActType.ClimaxAct && (!(climax || team.cxTurns > 0) || actor.brilliance < 100)) {
                         error("Climax not ready for actor [${actor.name}]")
                     }
                     repeat(cost - 1) { queue += IdleTile }
