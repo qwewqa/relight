@@ -279,6 +279,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             val actor = team.active[0]
             held = null
             discardPile.clear()
+            drawPile.clear()
             drawPile += (actor.acts[ActType.Act1]!!.asCsAct(actor))
             drawPile += (actor.acts[ActType.Act2]!!.asCsAct(actor))
             drawPile += (actor.acts[ActType.Act3]!!.asCsAct(actor))
