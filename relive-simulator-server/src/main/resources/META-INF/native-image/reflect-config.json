@@ -248,5 +248,22 @@
         "parameterTypes": []
       }
     ]
+  },
+  {
+    "name": "xyz.qwewqa.relive.simulator.server.SimulationResultValue",
+    "fields": [
+      {
+        "name": "Companion"
+      }
+    ]
+  },
+  {
+    "name": "xyz.qwewqa.relive.simulator.server.SimulationResultValue$Companion",
+    "methods": [
+      {
+        "name": "serializer",
+        "parameterTypes": []
+      }
+    ]
   }
 ]
