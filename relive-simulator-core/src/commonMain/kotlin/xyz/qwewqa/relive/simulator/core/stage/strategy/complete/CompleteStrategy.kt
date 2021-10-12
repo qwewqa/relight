@@ -52,10 +52,12 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         }
     }
 
+    override fun onExit(actor: Actor) {
+        discardPile.removeAll { it.actor == actor }
+        drawPile.removeAll { it.actor == actor }
+    }
+
     override fun onRevive(actor: Actor) {
-        // This does not work if an actor exits and is revived the same turn
-        // Nor has it been tested how that works.
-        // TODO: take another look at this when revive gets implemented
         discardPile += (actor.acts[ActType.Act1]!!.asCsAct(actor))
         discardPile += (actor.acts[ActType.Act2]!!.asCsAct(actor))
         discardPile += (actor.acts[ActType.Act3]!!.asCsAct(actor))
@@ -291,10 +293,8 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     }
 
     private fun discardHand() {
-        val discarded = mutableSetOf<CsAct>()
         internalHand.forEach {
-            if (it !in discarded && it.actor.isAlive) {
-                discarded += it
+            if (it !in discardPile && it.actor.isAlive) {
                 discardPile += it
             }
         }
