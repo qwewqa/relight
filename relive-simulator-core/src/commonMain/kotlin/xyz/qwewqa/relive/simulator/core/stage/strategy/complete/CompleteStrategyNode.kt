@@ -132,10 +132,20 @@ data class CsNumericalInfixOperatorNode(
         val r = rhs.evaluate(context)
         return when (op) {
             NumericalInfixOperator.PLUS -> {
-                if (l is CsString || r is CsString) {
-                    (l.display() + r.display()).asCsString()
-                } else {
-                    (l.number() + r.number()).asCsNumber()
+                when {
+                    l is CsList -> {
+                        if (r is CsList) {
+                            CsList(l.value + r.value)
+                        } else {
+                            csError("Cannot add a non-list to a list.")
+                        }
+                    }
+                    l is CsString || r is CsString -> {
+                        (l.display() + r.display()).asCsString()
+                    }
+                    else -> {
+                        (l.number() + r.number()).asCsNumber()
+                    }
                 }
             }
             NumericalInfixOperator.MINUS -> (l.number() - r.number()).asCsNumber()

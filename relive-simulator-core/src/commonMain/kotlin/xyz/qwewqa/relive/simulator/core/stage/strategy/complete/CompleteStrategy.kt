@@ -117,8 +117,8 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             stage.random.nextDouble().asCsNumber()
         }
 
-        context.addFunction("list") { args ->
-            CsList(requireActs(args)) // Note: only allows lists of acts
+        context.addFunction("listOf") { args ->
+            CsList(args)
         }
 
         script.initialize?.execute(context)
