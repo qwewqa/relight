@@ -386,7 +386,7 @@ suspend fun start(simulator: Simulator) {
                         "${(result.currentIterations.toDouble() / result.maxIterations * 100).toFixed(2)}%"
                     val runtimeText = if (result.runtime != null) " [${result.runtime.toFixed(5)}s]" else ""
                     val progressDisplay =
-                        "Progess: ${" ".repeat(maxIterationsText.length - currentIterationsText.length)}$currentIterationsText/$maxIterationsText ($progressText)$runtimeText"
+                        "Progress: ${" ".repeat(maxIterationsText.length - currentIterationsText.length)}$currentIterationsText/$maxIterationsText ($progressText)$runtimeText"
                     resultsText.textContent = progressDisplay + "\n" + iterationResults.map { (k, v) ->
                         if (excludedCount == 0) {
                             "$k: $v (${(v * 100.0 / result.currentIterations).toFixed(5)}%)"
