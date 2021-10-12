@@ -417,10 +417,10 @@ suspend fun start(simulator: Simulator) {
                             xaxis = jsObject {
                                 range = arrayOf(0, result.currentIterations)
                             }
-                            height = 300
+                            height = iterationResults.size.coerceAtLeast(1) * 40 + 60
                             margin = jsObject {
-                                l = 180
-                                r = 80
+                                l = 120
+                                r = 60
                                 b = 40
                                 t = 20
                             }
