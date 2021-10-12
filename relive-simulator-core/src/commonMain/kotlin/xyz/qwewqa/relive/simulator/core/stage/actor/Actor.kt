@@ -54,7 +54,7 @@ class Actor(
 
     val dexterity
         get() = (valueDexterity +
-                buffDexterity.coerceAtMost(100) +
+                buffDexterity.coerceAtMost(100) -
                 debuffDexterity.coerceAtMost(100)).coerceIn(0, 100)
     var valueDexterity = 0
     var buffDexterity = 0
