@@ -127,9 +127,9 @@ class TargetContext(
                                 (100 - positiveEffectResist - (specificBuffResist[effect] ?: 0)) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
                             buffs.add(effect, value, turns)
-                            context.log("Effect") { "Positive buff ${effect.formatName(value)} (${turns}t) applied to [$name]." }
+                            actionContext.log("Effect") { "Positive buff ${effect.formatName(value)} (${turns}t) applied to [$name]." }
                         } else {
-                            context.log("Effect") { "Positive buff ${effect.formatName(value)} (${turns}t) missed to [$name]." }
+                            actionContext.log("Effect") { "Positive buff ${effect.formatName(value)} (${turns}t) missed to [$name]." }
                         }
                     }
                     BuffCategory.Negative -> {
@@ -137,9 +137,9 @@ class TargetContext(
                                 (100 - negativeEffectResist - (specificBuffResist[effect] ?: 0)) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
                             buffs.add(effect, value, turns)
-                            stage.log("Effect") { "Negative buff ${effect.formatName(value)} (${turns}t) applied to [$name]." }
+                            actionContext.log("Effect") { "Negative buff ${effect.formatName(value)} (${turns}t) applied to [$name]." }
                         } else {
-                            stage.log("Effect") { "Negative buff ${effect.formatName(value)} (${turns}t) missed to [$name]." }
+                            actionContext.log("Effect") { "Negative buff ${effect.formatName(value)} (${turns}t) missed to [$name]." }
                         }
                     }
                 }
