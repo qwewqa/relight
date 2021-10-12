@@ -96,7 +96,7 @@ class TargetContext(
     ) {
         if (!self.isAlive) return
         repeat(if (autoRepeatHits) hitCount else 1) {
-            targets.forEach { target ->
+            targets.filter { it.isAlive }.forEach { target ->
                 stage.damageCalculator.damage(
                     self,
                     target,
@@ -119,7 +119,7 @@ class TargetContext(
 
     fun applyBuff(effect: BuffEffect, value: Int = 1, turns: Int = 0, chance: Int = 100) {
         if (!self.isAlive) return
-        targets.forEach {
+        targets.filter { it.isAlive }.forEach {
             it.apply {
                 when (effect.category) {
                     BuffCategory.Positive -> {
@@ -149,7 +149,7 @@ class TargetContext(
 
     fun applyCountableBuff(effect: CountableBuff, count: Int = 1, chance: Int = 100) {
         if (!self.isAlive) return
-        targets.forEach {
+        targets.filter { it.isAlive }.forEach {
             it.apply {
                 when (effect.category) {
                     BuffCategory.Positive -> {
@@ -178,7 +178,7 @@ class TargetContext(
 
     fun dispelTimed(category: BuffCategory) {
         if (!self.isAlive) return
-        targets.forEach {
+        targets.filter { it.isAlive }.forEach {
             it.apply {
                 actionContext.log("Dispel") { "Dispel timed ${category.name} effects from [$name]." }
                 buffs.dispel(category)
@@ -188,7 +188,7 @@ class TargetContext(
 
     fun flipTimed(category: BuffCategory, count: Int) {
         if (!self.isAlive) return
-        targets.forEach {
+        targets.filter { it.isAlive }.forEach {
             it.apply {
                 actionContext.log("Flip") { "Flip last $count timed ${category.name} effects from [$name]." }
                 buffs.flip(category, count)
@@ -198,7 +198,7 @@ class TargetContext(
 
     fun dispelCountable(category: BuffCategory) {
         if (!self.isAlive) return
-        targets.forEach {
+        targets.filter { it.isAlive }.forEach {
             it.apply {
                 actionContext.log("Dispel") { "Dispel countable ${category.name} effects from [$name]." }
                 buffs.dispelCountable(category)
@@ -208,7 +208,7 @@ class TargetContext(
 
     fun heal(percent: Int = 0, fixed: Int = 0) {
         if (!self.isAlive) return
-        targets.forEach {
+        targets.filter { it.isAlive }.forEach {
             it.apply {
                 actionContext.log("Heal") { "Heal [$name] (percent: $percent, fixed: $fixed)." }
                 this.heal(fixed + (percent * maxHp / 100))
@@ -218,7 +218,7 @@ class TargetContext(
 
     fun addBrilliance(amount: Int) {
         if (!self.isAlive) return
-        targets.forEach {
+        targets.filter { it.isAlive }.forEach {
             it.apply {
                 actionContext.log("Brilliance") { "Add brilliance to [$name] (amount: $amount)." }
                 this.addBrilliance(amount)
@@ -228,7 +228,7 @@ class TargetContext(
 
     fun removeBrilliance(amount: Int) {
         if (!self.isAlive) return
-        targets.forEach {
+        targets.filter { it.isAlive }.forEach {
             it.apply {
                 actionContext.log("Brilliance") { "Remove brilliance from [$name] (amount: $amount)." }
                 this.addBrilliance(-amount)
