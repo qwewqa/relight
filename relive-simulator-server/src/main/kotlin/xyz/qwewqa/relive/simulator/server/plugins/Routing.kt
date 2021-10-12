@@ -34,6 +34,15 @@ fun Application.configureRouting() {
                 .getResourceAsStream("client/relive-simulator-client.js")!!.bufferedReader().readText(),
                 ContentType.Application.JavaScript)
         }
+        get("/relive-simulator-client.js.map") {
+            val map = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("client/relive-simulator-client.js.map")?.bufferedReader()?.readText()
+            if (map != null) {
+                call.respondText(map, ContentType.Application.Json)
+            } else {
+                call.respond(HttpStatusCode.NotFound)
+            }
+        }
         get("/codemirror.css") {
             call.respondText(Thread.currentThread().getContextClassLoader()
                 .getResourceAsStream("client/codemirror.css")!!.bufferedReader().readText(), ContentType.Text.CSS)

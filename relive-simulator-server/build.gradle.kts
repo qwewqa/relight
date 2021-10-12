@@ -35,5 +35,11 @@ dependencies {
     implementation("com.charleskorn.kaml:kaml:0.36.0")
 }
 
-val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
-compileKotlin.dependsOn(":relive-simulator-client:browserDevelopmentWebpack")
+tasks {
+    getByName("run") {
+        dependsOn(":relive-simulator-client:browserDevelopmentWebpack")
+    }
+    shadowJar {
+        dependsOn(":relive-simulator-client:browserProductionWebpack")
+    }
+}

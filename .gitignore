@@ -153,3 +153,7 @@ gradle-app.setting
 **/build/
 
 # End of https://www.toptal.com/developers/gitignore/api/gradle,kotlin,intellij
+
+relive-simulator-server/src/main/resources/client/index.html
+relive-simulator-server/src/main/resources/client/relive-simulator-client.js
+relive-simulator-server/src/main/resources/client/relive-simulator-client.js.map
