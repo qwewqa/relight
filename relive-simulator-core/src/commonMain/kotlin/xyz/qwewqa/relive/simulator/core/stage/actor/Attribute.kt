@@ -13,13 +13,23 @@ enum class Attribute {
 
 val nonNeutralAttributes = Attribute.values().filter { it != Attribute.Neutral }
 
-val Attribute.advantaged get() = when(this) {
+val Attribute.advantagedAgainst get() = when(this) {
     Attribute.Flower -> Attribute.Wind
     Attribute.Wind -> Attribute.Snow
     Attribute.Snow -> Attribute.Flower
     Attribute.Moon -> Attribute.Space
     Attribute.Space -> Attribute.Cloud
     Attribute.Cloud -> Attribute.Moon
+    else -> null
+}
+
+val Attribute.disadvantagedAgainst get() = when(this) {
+    Attribute.Flower -> Attribute.Snow
+    Attribute.Wind -> Attribute.Flower
+    Attribute.Snow -> Attribute.Wind
+    Attribute.Moon -> Attribute.Cloud
+    Attribute.Space -> Attribute.Moon
+    Attribute.Cloud -> Attribute.Space
     else -> null
 }
 

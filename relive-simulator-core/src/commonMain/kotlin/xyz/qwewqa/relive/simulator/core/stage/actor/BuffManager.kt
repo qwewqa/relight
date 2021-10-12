@@ -1,8 +1,10 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.buff.AbnormalGuardBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.abnormalBuffs
 import xyz.qwewqa.relive.simulator.core.stage.log
 
 class BuffManager(val actor: Actor) {
@@ -14,6 +16,8 @@ class BuffManager(val actor: Actor) {
     private val negativeCountableBuffs = mutableMapOf<CountableBuff, Int>()
 
     private val passiveActions = mutableListOf<ActionContext.() -> Unit>()
+
+    var guardOnAbnormal = false
 
     fun get(buff: BuffEffect) = buffsByEffect[buff] ?: emptySet()
     fun any(vararg buffEffect: BuffEffect) = buffEffect.any { any(it) }
@@ -67,6 +71,10 @@ class BuffManager(val actor: Actor) {
         }.add(buff)
         buffsByEffect.getOrPut(buffEffect) { LinkedHashSet() }.add(buff)
         actor.context.log("Buff") { "Buff ${buff.name} added." }
+        if (guardOnAbnormal && buffEffect in abnormalBuffs) {
+            actor.context.log("Buff") { "Abnormal Guard activated." }
+            add(AbnormalGuardBuff, 100, 9)
+        }
         return buff
     }
 
@@ -75,6 +83,10 @@ class BuffManager(val actor: Actor) {
             BuffCategory.Positive -> positiveCountableBuffs
             BuffCategory.Negative -> negativeCountableBuffs
         }.let { it[buff] = (it[buff] ?: 0) + count }
+        if (guardOnAbnormal && buff in abnormalCountableBuffs) {
+            actor.context.log("Buff") { "Abnormal Guard activated." }
+            add(AbnormalGuardBuff, 100, 9)
+        }
     }
 
     fun addPassive(passive: ActionContext.() -> Unit) {
@@ -201,3 +213,7 @@ enum class CountableBuff(val category: BuffCategory) {
     Revive(BuffCategory.Positive),
     Daze(BuffCategory.Negative),
 }
+
+val abnormalCountableBuffs = setOf(
+    CountableBuff.Daze
+)

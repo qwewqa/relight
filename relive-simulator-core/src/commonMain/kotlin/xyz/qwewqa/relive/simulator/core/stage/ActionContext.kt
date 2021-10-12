@@ -154,7 +154,7 @@ class TargetContext(
                 when (effect.category) {
                     BuffCategory.Positive -> {
                         // PER works for countable buffs but NER doesn't for countable debuffs for some reason
-                        val applyChance = chance / 100.0 * (100 - positiveEffectResist) / 100.0
+                        val applyChance = chance / 100.0 * (100 - positiveEffectResist - (specificCountableBuffResist[effect] ?: 0)) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
                             buffs.addCountable(effect, count)
                             actionContext.log("Effect") { "Positive buff [${effect.name}] (${count}x) applied to [$name]." }
@@ -163,7 +163,7 @@ class TargetContext(
                         }
                     }
                     BuffCategory.Negative -> {
-                        val applyChance = chance / 100.0
+                        val applyChance = chance / 100.0 * (100 - (specificCountableBuffResist[effect] ?: 0)) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
                             buffs.addCountable(effect, count)
                             actionContext.log("Effect") { "Negative buff [${effect.name}] (${count}x) applied to [$name]." }

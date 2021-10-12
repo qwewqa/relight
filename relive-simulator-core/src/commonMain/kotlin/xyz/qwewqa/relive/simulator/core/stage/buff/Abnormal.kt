@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.buff
 
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.actor.abnormalCountableBuffs
 
 object StopBuff : BuffEffect {
     override val category = BuffCategory.Negative
@@ -75,3 +76,39 @@ object BlindnessBuff : BuffEffect {
     override val exclusive: Boolean = true
     override fun formatName(value: Int) = name
 }
+
+object AbnormalGuardBuff : BuffEffect {
+    override val category = BuffCategory.Positive
+    override fun formatName(value: Int) = name
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        abnormalBuffs.forEach { buff ->
+            self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0) + value
+        }
+        abnormalCountableBuffs.forEach { buff ->
+            self.specificCountableBuffResist[buff] = (self.specificCountableBuffResist[buff] ?: 0) + value
+        }
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        abnormalBuffs.forEach { buff ->
+            self.specificBuffResist[buff] = self.specificBuffResist[buff]!! - value
+        }
+        abnormalCountableBuffs.forEach { buff ->
+            self.specificCountableBuffResist[buff] = self.specificCountableBuffResist[buff]!! - value
+        }
+    }
+}
+
+val abnormalBuffs = setOf(
+    StopBuff,
+    SleepBuff,
+    NightmareBuff,
+    ConfusionBuff,
+    FreezeBuff,
+    StunBuff,
+    BurnBuff,
+    LockedBurnBuff,
+    PoisonBuff,
+    LockedPoisonBuff,
+)

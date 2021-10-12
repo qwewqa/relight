@@ -7,10 +7,13 @@ import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffect
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
+import xyz.qwewqa.relive.simulator.core.stage.passive.AbnormalResistPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.BossElementResistPassive
 import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 
@@ -142,26 +145,8 @@ val tr10VampireShiori = ActorLoadout(
             },
         ),
         autoSkills = listOf(
-            PassiveData(
-                object : PassiveEffect {
-                    override val name = "Boss"
-                    override val category = PassiveEffectCategory.Passive
-
-                    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
-                        listOf(ApUpBuff, ConfusionBuff).forEach {
-                            self.specificBuffResist[it] = 100
-                        }
-                        Attribute.values().forEach {
-                            self.againstAttributeDamageDealtUp[it] = 50
-                            self.againstAttributeDamageTakenDown[it] = 50
-                        }
-                        self.againstAttributeDamageDealtUp[Attribute.Wind] = 0
-                        self.againstAttributeDamageTakenDown[Attribute.Wind] = 0
-                        self.againstAttributeDamageDealtUp[Attribute.Dream] = 0
-                        self.againstAttributeDamageTakenDown[Attribute.Dream] = 0
-                    }
-                }
-            )
+            AbnormalResistPassive.new(100),
+            BossElementResistPassive.new(50),
         ),
     ),
 )

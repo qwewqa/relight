@@ -7,10 +7,12 @@ import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffect
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
+import xyz.qwewqa.relive.simulator.core.stage.passive.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 
@@ -149,15 +151,7 @@ val tr10HellsingMichiru = ActorLoadout(
             },
         ),
         autoSkills = listOf(
-            PassiveData(
-                object : PassiveEffect {
-                    override val name = "Boss"
-                    override val category = PassiveEffectCategory.Passive
-
-                    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
-                    }
-                }
-            )
+            AbnormalGuardPassive.new(),
         ),
     ),
 )

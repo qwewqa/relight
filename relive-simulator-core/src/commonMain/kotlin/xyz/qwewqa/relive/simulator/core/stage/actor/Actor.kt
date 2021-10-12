@@ -91,6 +91,7 @@ class Actor(
     var valuePositiveEffectResist = 0
 
     val specificBuffResist = mutableMapOf<BuffEffect, Int>()
+    val specificCountableBuffResist = mutableMapOf<CountableBuff, Int>()
 
     val climaxDamageUp get() = valueClimaxDamageUp
     var valueClimaxDamageUp = 0
