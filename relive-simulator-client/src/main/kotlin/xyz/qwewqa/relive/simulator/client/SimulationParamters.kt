@@ -71,6 +71,7 @@ data class SimulationResult(
     val currentIterations: Int,
     val results: List<SimulationResultValue>,
     val log: String?,
+    val runtime: Double? = null,
     val cancelled: Boolean = false,
     val error: String?,
 ) {

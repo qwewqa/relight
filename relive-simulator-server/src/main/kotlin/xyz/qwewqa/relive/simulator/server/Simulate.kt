@@ -25,10 +25,10 @@ private const val SIMULATE_RESULT_UPDATE_INTERVAL = 10000
 fun simulate(parameters: SimulationParameters): String {
     val token = generateToken()
     simulationResults[token] = SimulationResult(
-        parameters.maxIterations,
-        0,
-        emptyList(),
-        null,
+        maxIterations = parameters.maxIterations,
+        currentIterations = 0,
+        results = emptyList(),
+        log = null,
     )
     if (parameters.maxIterations == 1) {
         simulationJobs[token] = simulateSingle(parameters, token)
@@ -46,10 +46,10 @@ private fun simulateSingle(parameters: SimulationParameters, token: String) = Co
     val result = stage.play(parameters.maxTurns)
     val log = stage.logger.toString()
     simulationResults[token] = SimulationResult(
-        parameters.maxIterations,
-        1,
-        listOf(SimulationResultValue(result.toSimulationResult(), 1)),
-        log,
+        maxIterations = parameters.maxIterations,
+        currentIterations = 1,
+        results = listOf(SimulationResultValue(result.toSimulationResult(), 1)),
+        log = log,
         error = (result as? PlayError)?.exception?.stackTraceToString()
     )
 }
@@ -69,6 +69,7 @@ private fun simulateMany(parameters: SimulationParameters, token: String) = Coro
     val loadout = parameters.createStageLoadoutOrReportError(token) ?: return@launch
     val resultsChannel = Channel<IterationResult>(SIMULATE_CHUNK_SIZE)
     val seedProducer = Random(parameters.seed)
+    val startTime = System.nanoTime()
     (0 until parameters.maxIterations).asSequence().map { it to seedProducer.nextInt() }.chunked(SIMULATE_CHUNK_SIZE)
         .forEach { seeds ->
             launch(pool) {
@@ -102,10 +103,11 @@ private fun simulateMany(parameters: SimulationParameters, token: String) = Coro
         resultCounts[nextResult] = resultCounts.getOrDefault(nextResult, 0) + 1
         if (resultCount % SIMULATE_RESULT_UPDATE_INTERVAL == 0) {
             simulationResults[token] = SimulationResult(
-                parameters.maxIterations,
-                resultCount,
-                resultCounts.map { (k, v) -> SimulationResultValue(k, v) },
-                null
+                maxIterations = parameters.maxIterations,
+                currentIterations = resultCount,
+                results = resultCounts.map { (k, v) -> SimulationResultValue(k, v) },
+                log = null,
+                runtime = (System.nanoTime() - startTime) / 1_000_000_000.0,
             )
         }
     }
@@ -115,12 +117,13 @@ private fun simulateMany(parameters: SimulationParameters, token: String) = Coro
         "Iteration ${it.index + 1}\n${stage.logger}" to playResult
     }
     simulationResults[token] = SimulationResult(
-        parameters.maxIterations,
-        resultCount,
-        resultCounts.map { (k, v) -> SimulationResultValue(k, v) },
-        loggedResult?.first,
-        false,
-        (loggedResult?.second as? PlayError)?.exception?.stackTraceToString(),
+        maxIterations = parameters.maxIterations,
+        currentIterations = resultCount,
+        results = resultCounts.map { (k, v) -> SimulationResultValue(k, v) },
+        log = loggedResult?.first,
+        runtime = (System.nanoTime() - startTime) / 1_000_000_000.0,
+        cancelled = false,
+        error = (loggedResult?.second as? PlayError)?.exception?.stackTraceToString(),
     )
 }
 
