@@ -82,7 +82,9 @@ class RandomDamageCalculator : DamageCalculator {
             return@run
         }
         hitAttribute.removeOnConnect?.let {
-            attacker.buffs.remove(it)
+            if (attacker.isAlive) {
+                attacker.buffs.remove(it)
+            }
         }
     }
 
@@ -118,9 +120,11 @@ class RandomDamageCalculator : DamageCalculator {
         val buffDmgTakenDownCoef = (100 - target.damageTakenDownBuff).coerceAtLeast(50)
 
         val attributeDamageDealtUpCoef = 100 + attacker.attributeDamageDealtUp.getValue(attribute)
-        val againstAttributeDamageDealtUpCoef = 100 + attacker.againstAttributeDamageDealtUp.getValue(target.dress.attribute)
+        val againstAttributeDamageDealtUpCoef =
+            100 + attacker.againstAttributeDamageDealtUp.getValue(target.dress.attribute)
         val targetAgainstAttributeDamageTakenDownCoef = 100 - target.againstAttributeDamageTakenDown.getValue(attribute)
-        val targetInnateAgainstAttributeDamageTakenDownCoef = 100 - target.innateAgainstAttributeDamageTakenDown.getValue(attribute)
+        val targetInnateAgainstAttributeDamageTakenDownCoef =
+            100 - target.innateAgainstAttributeDamageTakenDown.getValue(attribute)
 
         val freezeCoef = if (target.buffs.any(FreezeBuff)) 130 else 100
 

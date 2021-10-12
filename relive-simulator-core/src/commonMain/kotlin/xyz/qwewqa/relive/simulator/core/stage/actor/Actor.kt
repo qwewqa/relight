@@ -162,6 +162,7 @@ class Actor(
     fun execute(act: Act, apCost: Int) {
         if (!isAlive) {
             context.log("Act") { "Actor has already exited." }
+            return
         }
         if (buffs.any(StopBuff)) {
             context.log("Abnormal") { "Act prevented by stop." }
@@ -187,13 +188,11 @@ class Actor(
             context.log("Abnormal") { "Act prevented by daze." }
             Act {
                 targetAllyRandom().act {
-                    targetAllyRandom().act {
-                        attack(
-                            modifier = 71, // TODO: figure out what the actual value is
-                            hitCount = 1,
-                            removeOnConnect = CountableBuff.Daze,
-                        )
-                    }
+                    attack(
+                        modifier = 71, // TODO: figure out what the actual value is
+                        hitCount = 1,
+                        removeOnConnect = CountableBuff.Daze,
+                    )
                 }
             }.execute(context)
             return
