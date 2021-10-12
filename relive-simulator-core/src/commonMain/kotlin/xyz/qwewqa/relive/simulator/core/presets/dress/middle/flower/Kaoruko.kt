@@ -69,7 +69,16 @@ val DevilKaoruko = Dress(
             }
         },
         ActType.ClimaxAct("Flames of Hell", 2) {
-            TODO()
+            targetAllyAoe().act {
+                dispelTimed(BuffCategory.Negative)
+            }
+            targetAoe().act {
+                dispelTimed(BuffCategory.Positive)
+                attack(
+                    modifier = 240,
+                    hitCount = 4,
+                )
+            }
         }
     ),
     autoSkills = listOf(
