@@ -1,6 +1,5 @@
 package xyz.qwewqa.relive.simulator.core.stage.strategy.complete
 
-import com.github.h0tk3y.betterParse.lexer.Token
 import com.github.h0tk3y.betterParse.lexer.TokenMatch
 
 interface CsNode
@@ -113,8 +112,15 @@ data class CsCallNode(
 ) : CsExpressionNode {
     override fun evaluate(context: CsContext): CsObject {
         val arguments = if (spread) {
-            args.dropLast(1).map { it.evaluate(context) } +
-                    (args.last().evaluate(context) as? CsList ?: csError("Expected a list to spread.")).value
+            val spreadArguments = (args.last().evaluate(context) as? CsList ?: csError("Expected a list to spread.")).value
+            if (args.size == 1 ) {
+                spreadArguments
+            } else {
+                ArrayList<CsObject>(args.size + spreadArguments.size - 1).apply {
+                    args.forEach { add(it.evaluate(context)) }
+                    addAll(spreadArguments)
+                }
+            }
         } else {
             args.map { it.evaluate(context) }
         }
