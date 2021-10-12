@@ -1,7 +1,10 @@
 package xyz.qwewqa.relive.simulator.server
 
+import com.charleskorn.kaml.Yaml
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
+import kotlinx.serialization.encodeToString
+import org.slf4j.Logger
 import xyz.qwewqa.relive.simulator.core.stage.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
@@ -22,8 +25,11 @@ private val pool = Executors
 private const val SIMULATE_CHUNK_SIZE = 10000
 private const val SIMULATE_RESULT_UPDATE_INTERVAL = 10000
 
-fun simulate(parameters: SimulationParameters): String {
+fun simulate(parameters: SimulationParameters, logger: Logger? = null): String {
     val token = generateToken()
+    logger?.info(
+        "Performing simulation\nToken: $token\n---\n${Yaml.default.encodeToString(parameters)}",
+    )
     simulationResults[token] = SimulationResult(
         maxIterations = parameters.maxIterations,
         currentIterations = 0,
@@ -31,27 +37,34 @@ fun simulate(parameters: SimulationParameters): String {
         log = null,
     )
     if (parameters.maxIterations == 1) {
-        simulationJobs[token] = simulateSingle(parameters, token)
+        simulationJobs[token] = simulateSingle(parameters, token, logger)
     } else {
-        simulationJobs[token] = simulateMany(parameters, token)
+        simulationJobs[token] = simulateMany(parameters, token, logger)
     }
     return token
 }
 
-private fun simulateSingle(parameters: SimulationParameters, token: String) = CoroutineScope(pool).launch {
+private fun simulateSingle(
+    parameters: SimulationParameters,
+    token: String,
+    logger: Logger? = null,
+) = CoroutineScope(Dispatchers.Default).launch {
     val loadout = parameters.createStageLoadoutOrReportError(token) ?: return@launch
     val stage =
         loadout.create(Random(Random(parameters.seed).nextInt()),
             StageConfiguration(logging = true))  // Seed the same was as one iteration of simulateMany
     val result = stage.play(parameters.maxTurns)
+    val results = listOf(SimulationResultValue(result.toSimulationResult(), 1))
     val log = stage.logger.toString()
     simulationResults[token] = SimulationResult(
         maxIterations = parameters.maxIterations,
         currentIterations = 1,
-        results = listOf(SimulationResultValue(result.toSimulationResult(), 1)),
+        results = results,
         log = log,
         error = (result as? PlayError)?.exception?.stackTraceToString()
-    )
+    ).also {
+        logger?.info("Completed simulation\nToken: $token\n---\n${Yaml.default.encodeToString(results)}")
+    }
 }
 
 private data class IterationResult(val index: Int, val seed: Int, val result: StageResult)
@@ -65,12 +78,19 @@ private val StageResult.resultPriority
         is PlayError -> 4
     }
 
-private fun simulateMany(parameters: SimulationParameters, token: String) = CoroutineScope(pool).launch {
+private fun simulateMany(
+    parameters: SimulationParameters,
+    token: String,
+    logger: Logger? = null,
+) = CoroutineScope(Dispatchers.Default).launch {
     val loadout = parameters.createStageLoadoutOrReportError(token) ?: return@launch
     val resultsChannel = Channel<IterationResult>(SIMULATE_CHUNK_SIZE)
     val seedProducer = Random(parameters.seed)
     val startTime = System.nanoTime()
-    (0 until parameters.maxIterations).asSequence().map { it to seedProducer.nextInt() }.chunked(SIMULATE_CHUNK_SIZE)
+    (0 until parameters.maxIterations)
+        .asSequence()
+        .map { it to seedProducer.nextInt() }
+        .chunked(SIMULATE_CHUNK_SIZE)
         .forEach { seeds ->
             launch(pool) {
                 seeds.map { (index, seed) ->
@@ -116,15 +136,18 @@ private fun simulateMany(parameters: SimulationParameters, token: String) = Coro
         val playResult = stage.play(parameters.maxTurns)
         "Iteration ${it.index + 1}\n${stage.logger}" to playResult
     }
+    val results = resultCounts.map { (k, v) -> SimulationResultValue(k, v) }
     simulationResults[token] = SimulationResult(
         maxIterations = parameters.maxIterations,
         currentIterations = resultCount,
-        results = resultCounts.map { (k, v) -> SimulationResultValue(k, v) },
+        results = results,
         log = loggedResult?.first,
         runtime = (System.nanoTime() - startTime) / 1_000_000_000.0,
         cancelled = false,
         error = (loggedResult?.second as? PlayError)?.exception?.stackTraceToString(),
-    )
+    ).also {
+        logger?.info("Completed simulation\nToken: $token\n---\n${Yaml.default.encodeToString(results)}")
+    }
 }
 
 private fun SimulationParameters.createStageLoadoutOrReportError(token: String) = try {

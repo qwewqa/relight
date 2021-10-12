@@ -9,6 +9,7 @@ import io.ktor.routing.*
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.encodeToString
 import xyz.qwewqa.relive.simulator.core.presets.condition.conditions
 import xyz.qwewqa.relive.simulator.core.presets.dress.bossLoadouts
 import xyz.qwewqa.relive.simulator.core.presets.dress.playerDresses
@@ -39,7 +40,7 @@ fun Application.configureRouting() {
         }
         post("/simulate") {
             val parameters = call.receive<SimulationParameters>()
-            val token = simulate(parameters)
+            val token = simulate(parameters, call.application.environment.log)
             call.respond(SimulateResponse(token))
         }
         get("/result/{token}") {

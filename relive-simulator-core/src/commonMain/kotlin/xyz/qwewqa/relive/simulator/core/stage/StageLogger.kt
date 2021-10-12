@@ -1,6 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage
 
-class Logger {
+class StageLogger {
     private val log = mutableListOf<LogEntry>()
 
     fun log(turn: Int, tile: Int, tag: String = "", value: String) {

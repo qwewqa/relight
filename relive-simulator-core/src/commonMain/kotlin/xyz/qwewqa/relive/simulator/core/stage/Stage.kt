@@ -20,7 +20,7 @@ class Stage(
     val configuration: StageConfiguration = StageConfiguration(),
     val random: Random = Random.Default,
 ) {
-    val logger = Logger()
+    val logger = StageLogger()
 
     var turn = 0
         private set
