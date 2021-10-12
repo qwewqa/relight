@@ -89,24 +89,26 @@ sealed class SimulationResultType : Comparable<SimulationResultType> {
 
     @Serializable
     @SerialName("wipe")
-    data class Wipe(val turn: Int) : SimulationResultType() {
+    data class Wipe(val turn: Int, val tile: Int) : SimulationResultType() {
         override val order = 2
         override val color = "fuchsia"
         override fun compareTo(other: SimulationResultType) = if (other is Wipe) {
-            turn.compareTo(other.turn)
+            compareValuesBy(this, other, { it.turn }, { it.tile })
         } else super.compareTo(other)
-        override fun toString() = "Wipe (t$turn)"
+
+        override fun toString() = "Wipe (t$turn.$tile)"
     }
 
     @Serializable
     @SerialName("victory")
-    data class Victory(val turn: Int) : SimulationResultType() {
+    data class Victory(val turn: Int, val tile: Int) : SimulationResultType() {
         override val order = 0
         override val color = "lime"
         override fun compareTo(other: SimulationResultType) = if (other is Victory) {
-            turn.compareTo(other.turn)
+            compareValuesBy(this, other, { it.turn }, { it.tile })
         } else super.compareTo(other)
-        override fun toString() = "Victory (t$turn)"
+
+        override fun toString() = "Victory (t$turn.$tile)"
     }
 
     @Serializable

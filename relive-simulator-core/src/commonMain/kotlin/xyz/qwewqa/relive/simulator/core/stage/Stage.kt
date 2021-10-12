@@ -205,10 +205,10 @@ class Stage(
 
     private fun checkEnded(): StageResult? {
         if (player.active.isEmpty()) {
-            return TeamWipe(turn)
+            return TeamWipe(turn, tile)
         }
         if (enemy.active.isEmpty()) {
-            return Victory(turn)
+            return Victory(turn, tile)
         }
         return null
     }
@@ -228,9 +228,9 @@ expect class IgnoreRunException : Exception
 expect fun ignoreRun(): Nothing
 
 sealed class StageResult
-data class TeamWipe(val turn: Int) : StageResult()
+data class TeamWipe(val turn: Int, val tile: Int) : StageResult()
 data class OutOfTurns(val margin: Int) : StageResult()
-data class Victory(val turn: Int) : StageResult()
+data class Victory(val turn: Int, val tile: Int) : StageResult()
 data class PlayError(val exception: Exception) : StageResult()
 object ExcludedRun : StageResult()
 

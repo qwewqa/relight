@@ -157,11 +157,11 @@ data class SimulationResultValue(val result: SimulationResultType, val count: In
 sealed class SimulationResultType {
     @Serializable
     @SerialName("wipe")
-    data class Wipe(val turn: Int) : SimulationResultType()
+    data class Wipe(val turn: Int, val tile: Int) : SimulationResultType()
 
     @Serializable
     @SerialName("victory")
-    data class Victory(val turn: Int) : SimulationResultType()
+    data class Victory(val turn: Int, val tile: Int) : SimulationResultType()
 
     @Serializable
     @SerialName("end")

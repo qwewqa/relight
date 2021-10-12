@@ -173,6 +173,6 @@ fun StageResult.toSimulationResult() = when (this) {
     ExcludedRun -> SimulationResultType.Excluded
     is OutOfTurns -> SimulationResultType.End
     is PlayError -> SimulationResultType.Error
-    is TeamWipe -> SimulationResultType.Wipe(turn)
-    is Victory -> SimulationResultType.Victory(turn)
+    is TeamWipe -> SimulationResultType.Wipe(turn, tile)
+    is Victory -> SimulationResultType.Victory(turn, tile)
 }
