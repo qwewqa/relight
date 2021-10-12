@@ -3,6 +3,7 @@ package xyz.qwewqa.relive.simulator.server
 import com.charleskorn.kaml.Yaml
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.encodeToString
 import org.slf4j.Logger
 import xyz.qwewqa.relive.simulator.core.stage.*
@@ -19,7 +20,7 @@ fun generateToken(): String {
 }
 
 private val pool = Executors
-    .newFixedThreadPool((Runtime.getRuntime().availableProcessors() - 2).coerceAtLeast(1))
+    .newFixedThreadPool((Runtime.getRuntime().availableProcessors()))
     .asCoroutineDispatcher()
 
 private const val SIMULATE_CHUNK_SIZE = 10000
@@ -63,7 +64,9 @@ private fun simulateSingle(
         log = log,
         error = (result as? PlayError)?.exception?.stackTraceToString()
     ).also {
-        logger?.info("Completed simulation\nToken: $token\n---\n${Yaml.default.encodeToString(results)}")
+        logger?.info("Completed simulation\nToken: $token\n---\n${
+            Yaml.default.encodeToString(ListSerializer(SimulationResultValue.serializer()), results)
+        }")
     }
 }
 
@@ -146,7 +149,9 @@ private fun simulateMany(
         cancelled = false,
         error = (loggedResult?.second as? PlayError)?.exception?.stackTraceToString(),
     ).also {
-        logger?.info("Completed simulation\nToken: $token\n---\n${Yaml.default.encodeToString(results)}")
+        logger?.info("Completed simulation\nToken: $token\n---\n${
+            Yaml.default.encodeToString(ListSerializer(SimulationResultValue.serializer()), results)
+        }")
     }
 }
 
