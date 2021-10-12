@@ -42,6 +42,7 @@ object CsParser : Grammar<CsScriptNode>() {
 
     val semi by literalToken(";")
     val colon by literalToken(":")
+    val ellipsis by literalToken("...")
     val dot by literalToken(".")
     val comma by literalToken(",")
 
@@ -101,7 +102,7 @@ object CsParser : Grammar<CsScriptNode>() {
     val strLiteral by str.use { CsLiteralNode(text.substring(1 until text.length - 1).asCsString()) }
     val identifierExpression by identifier.map { CsIdentifierNode(it) }
 
-    val expressionList by separatedTerms(parser { expression }, comma) * -optional(comma)
+    val expressionList by separatedTerms(parser { expression }, comma)
 
     val atomicExpression by
             numLiteral or
@@ -115,9 +116,13 @@ object CsParser : Grammar<CsScriptNode>() {
     }
 
     val functionCall: Parser<CsExpressionNode> by (
-        parser { attributeAccess } * zeroOrMore(-lpar * optional(expressionList) * -rpar)
+        parser { attributeAccess } * zeroOrMore(-lpar * optional(expressionList * optional(ellipsis) * -optional(comma)) * -rpar)
     ).map { (lhs, calls) ->
-        calls.fold(lhs) { a, v -> CsCallNode(a, v ?: emptyList()) }
+        calls.fold(lhs) { acc, v ->
+            val args = v?.t1 ?: emptyList()
+            val spread = v?.t2 != null
+            CsCallNode(acc, args, spread)
+        }
     }
 
     val unaryExpression by

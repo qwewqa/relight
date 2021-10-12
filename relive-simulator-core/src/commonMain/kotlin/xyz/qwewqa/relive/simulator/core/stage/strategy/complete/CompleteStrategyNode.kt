@@ -106,9 +106,19 @@ data class CsAttributeAccessNode(val value: CsExpressionNode, val name: String) 
     }
 }
 
-data class CsCallNode(val value: CsExpressionNode, val args: List<CsExpressionNode>) : CsExpressionNode {
+data class CsCallNode(
+    val value: CsExpressionNode,
+    val args: List<CsExpressionNode>,
+    val spread: Boolean,
+) : CsExpressionNode {
     override fun evaluate(context: CsContext): CsObject {
-        return value.evaluate(context).invoke(args.map { it.evaluate(context) })
+        val arguments = if (spread) {
+            args.dropLast(1).map { it.evaluate(context) } +
+                    (args.last().evaluate(context) as? CsList ?: csError("Expected a list to spread.")).value
+        } else {
+            args.map { it.evaluate(context) }
+        }
+        return value.evaluate(context).invoke(arguments)
     }
 }
 
