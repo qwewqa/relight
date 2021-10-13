@@ -38,7 +38,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     private val drawPile = ArrayDeque<CsAct>()
     private val hand = mutableListOf<CsAct>()
     private val internalHand = mutableListOf<CsAct>()
-    private val climaxPile = mutableListOf<CsAct>()
+    private val usedClimaxActs = mutableSetOf<CsAct>()
     private var held: CsAct? = null
 
     private fun formatAct(act: CsAct) =
@@ -248,7 +248,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
 
     override fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
         if (team.cxTurns == 0) {
-            climaxPile.clear()
+            usedClimaxActs.clear()
         }
         hasPerformedHoldAction = false
         climax = false
@@ -260,6 +260,11 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         cutinEnergy = (cutinEnergy + 1).coerceAtMost(10)
         script.body.execute(context)
         discardHand()
+        queued.forEach {
+            if (it.act.type == ActType.ClimaxAct) {
+                usedClimaxActs += it
+            }
+        }
         return QueueResult(queue, climax, queuedCutins)
     }
 
@@ -289,7 +294,12 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             drawPile += (actor.acts[ActType.Act1]!!.asCsAct(actor))
             drawPile += (actor.acts[ActType.Act1]!!.asCsAct(actor))
         }
-        hand += climaxPile
+        if (climax || team.cxTurns > 0) {
+            hand += team.active
+                .filter { it.brilliance >= 100 }
+                .map { it.acts[ActType.ClimaxAct]!!.asCsAct(it) }
+                .filter { it !in usedClimaxActs }
+        }
         while (hand.size < 5) hand += drawCard()
         internalHand += hand
         hand.qsort()
@@ -298,7 +308,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
 
     private fun discardHand() {
         internalHand.forEach {
-            if (it !in discardPile && it.actor.isAlive) {
+            if (it !in discardPile && it.actor.isAlive && it.act.type != ActType.ClimaxAct) {
                 discardPile += it
             }
         }
@@ -319,12 +329,14 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     private fun canHold(act: CsAct) = team.active.size > 1 &&
             held == null &&
             act !in queued && act in hand &&
-            !hasPerformedHoldAction
+            !hasPerformedHoldAction &&
+            act.act.type != ActType.ClimaxAct
 
     private fun canDiscard(act: CsAct) = held != null &&
             act !in queued &&
             act in hand &&
-            !hasPerformedHoldAction
+            !hasPerformedHoldAction &&
+            act.act.type != ActType.ClimaxAct
 
     private fun canCx() = queued.isEmpty() &&
             team.cxTurns == 0 &&
@@ -369,7 +381,6 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         drawPile += internalHand
         hand.clear()
         internalHand.clear()
-        climaxPile += team.active.filter { it.brilliance >= 100 }.map { it.acts[ActType.ClimaxAct]!!.asCsAct(it) }
         drawHand()
     }
 
