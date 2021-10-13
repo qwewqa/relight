@@ -21,6 +21,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower.DevilKaoruko
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.space.WheelOfFortuneKaren
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.TowerHikari
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.HondaFutaba
+import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.HondaFutaba95
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.CatalinaKaoruko
 
 val playerDresses = listOf(
@@ -30,6 +31,7 @@ val playerDresses = listOf(
     TowerHikari,
     FoolYachiyo,
     HondaFutaba,
+    HondaFutaba95,
     CatalinaKaoruko,
     SanadaMahiru,
     DevilKaoruko,

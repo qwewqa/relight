@@ -24,5 +24,7 @@ val memoirs = listOf(
     XVITowerUpright,
     TheGreatYearEndCleanup,
     ConfidantsOnADate,
-    SparklingStageChika
+    SparklingStageChika,
+    StretchingHelp,
+    ReverberatingVoiceTsubasaMaya,
 ).sortedBy { it.name }.sortedBy { it.cutinData.any { cutin -> cutin == null } }.associateBy { it.name }

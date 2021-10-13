@@ -95,3 +95,12 @@ val HondaFutaba = Dress(
     ),
     unitSkill = ActCritical30UnitSkill + MiddleOnlyCondition,
 )
+
+val HondaFutaba95 = HondaFutaba.copy(
+    name = "Honda Tadakatsu Futaba [r9.5]",
+    stats = HondaFutaba.stats.copy(
+        hp = 25167,
+        normalDefense = 1169,
+        specialDefense = 1402,
+    )
+)
