@@ -5,6 +5,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.AceMisora95
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.JudgementShizuha
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.StageGirlClaudine
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.flower.StageGirlMeiFan
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.flower.StageGirlMeiFan95
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.FuMeiFan
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.FuMeiFan95
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.WorldMaya
@@ -36,6 +37,7 @@ val playerDresses = listOf(
     SanadaMahiru,
     DevilKaoruko,
     StageGirlMeiFan,
+    StageGirlMeiFan95,
     JudgementShizuha,
     MitsuhideKaren,
     FuMeiFan,
