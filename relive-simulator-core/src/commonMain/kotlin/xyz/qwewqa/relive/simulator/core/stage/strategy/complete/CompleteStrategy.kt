@@ -203,6 +203,9 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         context.bindValue("turn") { stage.turn.asCsNumber() }
         context.bindValue("cutinEnergy") { cutinEnergy.asCsNumber() }
 
+        val boss = enemy.actors.values.singleOrNull()?.let { CsActor(it) } ?: CsNil
+        context.bindValue("boss") { boss }
+
         context.variables["hand"] = CsList(hand)
     }
 
