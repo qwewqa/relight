@@ -85,6 +85,7 @@ data class SimulationResultValue(val result: SimulationResultType, val count: In
 sealed class SimulationResultType : Comparable<SimulationResultType> {
     abstract val order: Int
     abstract val color: String
+    open val headingName: String get() = toString()
     override fun compareTo(other: SimulationResultType) = order.compareTo(other.order)
 
     @Serializable
@@ -96,6 +97,7 @@ sealed class SimulationResultType : Comparable<SimulationResultType> {
             compareValuesBy(this, other, { it.turn }, { it.tile })
         } else super.compareTo(other)
 
+        override val headingName = "Wipe"
         override fun toString() = "Wipe (t$turn.$tile)"
     }
 
@@ -108,6 +110,7 @@ sealed class SimulationResultType : Comparable<SimulationResultType> {
             compareValuesBy(this, other, { it.turn }, { it.tile })
         } else super.compareTo(other)
 
+        override val headingName = "Victory"
         override fun toString() = "Victory (t$turn.$tile)"
     }
 

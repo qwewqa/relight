@@ -71,7 +71,7 @@ suspend fun start(simulator: Simulator) {
             strong("me-auto") {
                 +name
             }
-            button(type=ButtonType.button, classes="btn-close") {
+            button(type = ButtonType.button, classes = "btn-close") {
                 attributes["data-bs-dismiss"] = "toast"
             }
         }
@@ -416,19 +416,36 @@ suspend fun start(simulator: Simulator) {
                     val runtimeText = if (result.runtime != null) " [${result.runtime.toFixed(5)}s]" else ""
                     val progressDisplay =
                         "Progress: ${" ".repeat(maxIterationsText.length - currentIterationsText.length)}$currentIterationsText/$maxIterationsText ($progressText)$runtimeText"
-                    resultsText.textContent = progressDisplay + "\n" + iterationResults.map { (k, v) ->
+
+                    fun formatEntry(name: String, count: Int, isExcluded: Boolean = false): String =
                         if (excludedCount == 0) {
-                            "$k: $v (${(v * 100.0 / result.currentIterations).toFixed(5)}%)"
+                            "$name: $count (${(count * 100.0 / result.currentIterations).toFixed(5)}%)"
                         } else {
-                            if (k == SimulationResultType.Excluded) {
-                                "$k: $v (N/A / ${(v * 100.0 / result.currentIterations).toFixed(5)}%)"
+                            if (isExcluded) {
+                                "$name: $count (N/A / ${(count * 100.0 / result.currentIterations).toFixed(5)}%)"
                             } else {
-                                "$k: $v (${(v * 100.0 / (result.currentIterations - excludedCount)).toFixed(5)}% / ${
-                                    (v * 100.0 / result.currentIterations).toFixed(5)
+                                "$name: $count (${(count * 100.0 / (result.currentIterations - excludedCount)).toFixed(5)}% / ${
+                                    (count * 100.0 / result.currentIterations).toFixed(5)
                                 }%)"
                             }
                         }
-                    }.joinToString("\n")
+
+                    val iterationResultsText = iterationResults
+                        .map { it.key to it.value }
+                        .groupBy { (result, _) -> result.headingName }
+                        .map { (heading, values) ->
+                            val entries = values.map { (k, v) ->
+                                formatEntry(k.toString(), v, k == SimulationResultType.Excluded)
+                            }
+                            if (values.size > 1) {
+                                formatEntry(heading, values.sumOf { (_, v) -> v }) + "\n" +
+                                        entries.joinToString("\n") { "  $it" }
+                            } else {
+                                entries.joinToString("\n")
+                            }
+                        }
+                        .joinToString("\n")
+                    resultsText.textContent = progressDisplay + "\n\n" + iterationResultsText
                     react(
                         graphDiv = resultsPlot,
                         data = arrayOf(
