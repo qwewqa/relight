@@ -39,9 +39,7 @@ class RemoteSimulator(val baseUrl: URL) : Simulator {
     }
 
     override suspend fun shutdown() {
-        require(client.get<HttpResponse>(URL("/shutdown", baseUrl.href).href) {
-            expectSuccess = false
-        }.status == HttpStatusCode.Gone)
+        client.get<HttpResponse>(URL("/shutdown", baseUrl.href).href) { expectSuccess = false }
     }
 
     inner class RemoteSimulation(val simulator: RemoteSimulator, val token: String) : Simulation {

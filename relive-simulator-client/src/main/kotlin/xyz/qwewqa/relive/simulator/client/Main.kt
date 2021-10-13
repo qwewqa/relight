@@ -63,6 +63,31 @@ suspend fun start(simulator: Simulator) {
 
     fun localized(value: String, fallback: String) = commonText[value]?.get(locale) ?: fallback
 
+    val toastContainer = document.getElementById("toast-container") as HTMLDivElement
+
+    fun toastElement(name: String, value: String) = document.create.div("toast") {
+        attributes["role"] = "alert"
+        div("toast-header") {
+            strong("me-auto") {
+                +name
+            }
+            button(type=ButtonType.button, classes="btn-close") {
+                attributes["data-bs-dismiss"] = "toast"
+            }
+        }
+        div("toast-body") {
+            +value
+        }
+    }
+
+    fun toast(name: String, value: String): bootstrap.Toast {
+        val element = toastElement(name, value)
+        toastContainer.appendChild(element)
+        return bootstrap.Toast(element).also {
+            it.show()
+        }
+    }
+
     fun addActor() {
         val actorCount = actorSettingsDiv.getElementsByClassName("actor-options").length + 1
         actorSettingsDiv.insertBefore(
@@ -241,8 +266,12 @@ suspend fun start(simulator: Simulator) {
 
     shutdownButton.addEventListener("click", {
         MainScope().launch {
-            simulator.shutdown()
-            simulatorOptionsDiv.remove()
+            try {
+                simulator.shutdown()
+                toast("Shutdown", "Successfully shut down server.")
+            } catch (e: Throwable) {
+                toast("Shutdown", "An error occurred when attempting shutdown.")
+            }
         }
     })
 
