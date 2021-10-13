@@ -88,6 +88,7 @@ val StageGirlRui = Dress(
 
                 applyBuff(
                     StopBuff,
+                    turns = 1,
                     chance = 33,
                 )
             }

@@ -117,7 +117,7 @@ class TargetContext(
         }
     }
 
-    fun applyBuff(effect: BuffEffect, value: Int = 1, turns: Int = 0, chance: Int = 100) {
+    fun applyBuff(effect: BuffEffect, value: Int = 1, turns: Int, chance: Int = 100) {
         if (!self.isAlive) return
         targets.filter { it.isAlive }.forEach {
             it.apply {

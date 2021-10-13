@@ -50,6 +50,7 @@ val JudgementShizuha = Dress(
             targetAoe().act {
                 applyBuff(
                     effect = MarkBuff,
+                    turns = 2,
                 )
                 applyBuff(
                     effect = SpecialDefenseDownBuff,

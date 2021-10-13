@@ -89,6 +89,7 @@ val WorldMaya = Dress(
                 )
                 applyBuff(
                     effect = StopBuff,
+                    turns = 1,
                     chance = 80,
                 )
             }

@@ -96,6 +96,7 @@ val FuMeiFan = Dress(
                 )
                 applyBuff(
                     effect = StopBuff,
+                    turns = 1,
                     chance = 33,
                 )
             }
