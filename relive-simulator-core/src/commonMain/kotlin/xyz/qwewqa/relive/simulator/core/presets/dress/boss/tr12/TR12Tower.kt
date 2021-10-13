@@ -40,13 +40,13 @@ val tr12TowerHikari = ActorLoadout(
                         hitCount = 3,
                     )
                 }
-                // TODO targetSelf().act {
-//                    applyBuff(
-//                        effect = NormalReflectBuff,
-//                        value = 30,
-//                        turns = 2,
-//                    )
-//                }
+                targetSelf().act {
+                    applyBuff(
+                        effect = NormalReflectBuff,
+                        value = 30,
+                        turns = 2,
+                    )
+                }
             },
             ActType.Act2("Violent Slash", 2) {
                 targetBack().act {
@@ -142,10 +142,6 @@ val tr12TowerHikari = ActorLoadout(
                     attack(
                         modifier = 200,
                         hitCount = 3,
-                    )
-                    applyBuff(
-                        effect = ConfusionBuff,
-                        turns = 2,
                     )
                 }
                 targetSelf().act {
