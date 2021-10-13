@@ -24,7 +24,8 @@ suspend fun start(simulator: Simulator) {
     var simulation: Simulation? = null
     var done = false
 
-    val options = simulator.getOptions()
+    val version = simulator.version()
+    val options = simulator.options()
 
     val commonText = options.commonText.associateBy { it.id }
     val bosses = options.bosses.associateBy { it.id }
@@ -35,6 +36,7 @@ suspend fun start(simulator: Simulator) {
     val dresses = options.dresses.associateBy { it.id }
     val memoirs = options.memoirs.associateBy { it.id }
 
+    val versionLink = document.getElementById("version-link") as HTMLAnchorElement
     val languageSelect = document.getElementById("language-select").singleSelect()
     val simulatorOptionsDiv = document.getElementById("simulator-options") as HTMLDivElement
     val shutdownButton = document.getElementById("shutdown-button") as HTMLButtonElement
@@ -58,6 +60,8 @@ suspend fun start(simulator: Simulator) {
     val turnsInput = document.getElementById("turns-input").integerInput(3)
     val iterationsInput = document.getElementById("iterations-input").integerInput(100000)
     val strategyEditor = CodeMirror(strategyContainer, js("{lineNumbers: true, mode: null}"))
+
+    versionLink.textContent = version.toString()
 
     var locale = options.locales.keys.first()
 

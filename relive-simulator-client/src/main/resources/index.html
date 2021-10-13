@@ -26,14 +26,16 @@
 <div id="toast-container" class="toast-container position-fixed bottom-0 start-0 p-3" style="z-index: 100000"></div>
 <div class="container">
     <div id="simulator-options">
-        <div class="row my-2">
-            <div class="col-auto">
+        <div class="row my-0 gy-2">
+            <div class="col-auto pe-2">
                 <button id="shutdown-button" type="button" class="btn btn-danger text-shutdown">Shutdown</button>
             </div>
-            <div class="col-auto">
+            <div class="col-auto px-0">
                 <select id="language-select" class="form-select"></select>
             </div>
-            <div class="col"></div>
+            <div class="col-auto ps-2 me-auto">
+                <a id="version-link" role="button" class="btn btn-link" href="https://github.com/qwewqa/relive-simulator"></a>
+            </div>
             <div class="col-auto">
                 <button id="import-button" type="button" class="btn btn-primary text-import" data-bs-toggle="modal"
                         data-bs-target="#import-modal">Import

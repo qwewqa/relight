@@ -93,6 +93,13 @@ data class SimulationParameters(
 }
 
 @Serializable
+data class SimulatorVersion(
+    val version: String,
+    val revision: Int,
+    val hash: String,
+)
+
+@Serializable
 data class SimulationOptions(
     val locales: Map<String, String>,
     val commonText: List<SimulationOption>,

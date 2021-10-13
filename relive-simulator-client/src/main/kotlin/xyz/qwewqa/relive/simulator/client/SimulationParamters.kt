@@ -17,6 +17,15 @@ data class SimulationParameters(
 )
 
 @Serializable
+data class SimulatorVersion(
+    val version: String,
+    val revision: Int,
+    val hash: String,
+) {
+    override fun toString() = "$version ($revision-${hash.take(8)})"
+}
+
+@Serializable
 data class SimulationOptions(
     val locales: Map<String, String>,
     val commonText: List<SimulationOption>,

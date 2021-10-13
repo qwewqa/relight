@@ -2,7 +2,8 @@ package xyz.qwewqa.relive.simulator.client
 
 interface Simulator {
     suspend fun simulate(parameters: SimulationParameters): Simulation
-    suspend fun getOptions(): SimulationOptions
+    suspend fun version(): SimulatorVersion
+    suspend fun options(): SimulationOptions
     suspend fun shutdown()
 }
 
