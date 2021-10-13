@@ -9,6 +9,48 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.memoir.MemoirBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
+val StretchingHelp = MemoirBlueprint(
+    name = "Stretching Help...?",
+    rarity = 3,
+    baseStats = StatData(
+        actPower = 6,
+        specialDefense = 12,
+    ),
+    growthStats = StatData(
+        actPower = 812,
+        specialDefense = 1638,
+    ),
+    baseAutoskills = listOf(
+        EffectiveDamageDealtPassive.new(6),
+        PerfectAimPassive.new(),
+    ),
+    maxAutoskills = listOf(
+        EffectiveDamageDealtPassive.new(9),
+        PerfectAimPassive.new(),
+    ),
+)
+
+val ReverberatingVoiceTsubasaMaya = MemoirBlueprint(
+    name = "Reverberating Voice Tsubasa & Maya",
+    rarity = 4,
+    baseStats = StatData(
+        hp = 300,
+        normalDefense = 50,
+    ),
+    growthStats = StatData(
+        hp = 34177,
+        normalDefense = 5696,
+    ),
+    baseAutoskills = listOf(
+        DexterityPassive.new(11),
+        PerfectAimPassive.new(),
+    ),
+    maxAutoskills = listOf(
+        DexterityPassive.new(16),
+        PerfectAimPassive.new(),
+    ),
+)
+
 val FriendsAtTheAquarium = MemoirBlueprint(
     name = "Friends at the Aquarium",
     rarity = 4,
