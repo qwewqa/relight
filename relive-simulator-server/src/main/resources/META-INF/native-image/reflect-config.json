@@ -265,5 +265,22 @@
         "parameterTypes": []
       }
     ]
+  },
+  {
+    "name": "xyz.qwewqa.relive.simulator.server.SimulatorVersion",
+    "fields": [
+      {
+        "name": "Companion"
+      }
+    ]
+  },
+  {
+    "name": "xyz.qwewqa.relive.simulator.server.SimulatorVersion$Companion",
+    "methods": [
+      {
+        "name": "serializer",
+        "parameterTypes": []
+      }
+    ]
   }
 ]
