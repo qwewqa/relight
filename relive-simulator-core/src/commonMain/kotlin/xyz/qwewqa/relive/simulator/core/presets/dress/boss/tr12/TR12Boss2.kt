@@ -40,7 +40,7 @@ val tr12Boss2 = ActorLoadout(
                         hitCount = 4,
                     )
                     applyBuff(
-                        effect = ConfusionBuff,
+                        effect = BurnBuff,
                         turns = 2,
                     )
                 }
@@ -147,7 +147,7 @@ val tr12Boss2 = ActorLoadout(
                         hitCount = 4,
                     )
                     applyBuff(
-                        effect = ConfusionBuff,
+                        effect = BurnBuff,
                         turns = 2,
                     )
                 }

@@ -103,3 +103,12 @@ val StageGirlMeiFan = Dress(
     ),
     unitSkill = ActCritical50UnitSkill + FlowerOnlyCondition,
 )
+
+val StageGirlMeiFan95 = StageGirlMeiFan.copy(
+    name = "Stage Girl Mei Fan [r9.5]",
+    stats = StageGirlMeiFan.stats.copy(
+        hp = 31836,
+        normalDefense = 1557,
+        specialDefense = 1194,
+    )
+)
