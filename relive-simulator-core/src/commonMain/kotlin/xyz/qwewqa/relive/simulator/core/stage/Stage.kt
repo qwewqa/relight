@@ -27,6 +27,8 @@ class Stage(
     var tile = 0
         private set
 
+    var tags: List<String> = emptyList()
+
     var cutinTarget: Actor? = null
 
     private inline fun withStageEffects(block: () -> Unit) {
@@ -191,13 +193,13 @@ class Stage(
                 log("Turn") { "Turn $turn end" }
                 checkEnded()?.let { return it }
             }
-            return OutOfTurns(enemy.active.sumOf { it.hp })
+            return OutOfTurns(enemy.active.sumOf { it.hp }, tags)
         } catch (e: IgnoreRunException) {
             log("Stage") { "Early run end." }
-            return ExcludedRun
+            return ExcludedRun(tags)
         } catch (e: Exception) {
             log("Error") { e.stackTraceToString() }
-            return PlayError(e)
+            return PlayError(e, tags)
         } finally {
             log("Stage") { "End" }
         }
@@ -205,10 +207,10 @@ class Stage(
 
     private fun checkEnded(): StageResult? {
         if (player.active.isEmpty()) {
-            return TeamWipe(turn, tile)
+            return TeamWipe(turn, tile, tags)
         }
         if (enemy.active.isEmpty()) {
-            return Victory(turn, tile)
+            return Victory(turn, tile, tags)
         }
         return null
     }
@@ -227,12 +229,15 @@ expect class IgnoreRunException : Exception
 
 expect fun ignoreRun(): Nothing
 
-sealed class StageResult
-data class TeamWipe(val turn: Int, val tile: Int) : StageResult()
-data class OutOfTurns(val margin: Int) : StageResult()
-data class Victory(val turn: Int, val tile: Int) : StageResult()
-data class PlayError(val exception: Exception) : StageResult()
-object ExcludedRun : StageResult()
+sealed class StageResult {
+    abstract val tags: List<String>
+}
+
+data class TeamWipe(val turn: Int, val tile: Int, override val tags: List<String>) : StageResult()
+data class OutOfTurns(val margin: Int, override val tags: List<String>) : StageResult()
+data class Victory(val turn: Int, val tile: Int, override val tags: List<String>) : StageResult()
+data class PlayError(val exception: Exception, override val tags: List<String>) : StageResult()
+data class ExcludedRun(override val tags: List<String>) : StageResult()
 
 @OptIn(ExperimentalContracts::class)
 inline fun Stage.log(tag: String = "?", value: () -> String) {

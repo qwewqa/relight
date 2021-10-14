@@ -55,14 +55,15 @@ private fun simulateSingle(
         loadout.create(Random(Random(parameters.seed).nextInt()),
             StageConfiguration(logging = true))  // Seed the same was as one iteration of simulateMany
     val result = stage.play(parameters.maxTurns)
-    val results = listOf(SimulationResultValue(result.toSimulationResult(), 1))
+    val results = listOf(SimulationResultValue(result.tags, result.toSimulationResult(), 1))
     val log = stage.logger.toString()
     simulationResults[token] = SimulationResult(
         maxIterations = parameters.maxIterations,
         currentIterations = 1,
         results = results,
         log = log,
-        error = (result as? PlayError)?.exception?.stackTraceToString()
+        error = (result as? PlayError)?.exception?.stackTraceToString(),
+        complete = true,
     ).also {
         logger?.info("Completed simulation\nToken: $token\n---\n${
             Yaml.default.encodeToString(ListSerializer(SimulationResultValue.serializer()), results)
@@ -74,7 +75,7 @@ private data class IterationResult(val index: Int, val seed: Int, val result: St
 
 private val StageResult.resultPriority
     get() = when (this) {
-        ExcludedRun -> 0
+        is ExcludedRun -> 0
         is Victory -> 1
         is OutOfTurns -> 2
         is TeamWipe -> 3
@@ -108,7 +109,7 @@ private fun simulateMany(
             }
         }
     var resultCount = 0
-    val resultCounts = mutableMapOf<SimulationResultType, Int>()
+    val resultCounts = mutableMapOf<Pair<List<String>, SimulationResultType>, Int>()
     var firstApplicableIteration: IterationResult? = null
     while (resultCount < parameters.maxIterations) {
         val nextIteration = resultsChannel.receive()
@@ -119,16 +120,15 @@ private fun simulateMany(
         ) {
             firstApplicableIteration = nextIteration
         }
-        val nextResult = nextIteration
-            .result
-            .toSimulationResult()
+        val nextResult = nextIteration.result
+        val resultKey = nextResult.tags to nextResult.toSimulationResult()
         resultCount++
-        resultCounts[nextResult] = resultCounts.getOrDefault(nextResult, 0) + 1
+        resultCounts[resultKey] = resultCounts.getOrDefault(resultKey, 0) + 1
         if (resultCount % SIMULATE_RESULT_UPDATE_INTERVAL == 0) {
             simulationResults[token] = SimulationResult(
                 maxIterations = parameters.maxIterations,
                 currentIterations = resultCount,
-                results = resultCounts.map { (k, v) -> SimulationResultValue(k, v) },
+                results = resultCounts.map { (k, v) -> SimulationResultValue(k.first, k.second, v) },
                 log = null,
                 runtime = (System.nanoTime() - startTime) / 1_000_000_000.0,
             )
@@ -139,7 +139,7 @@ private fun simulateMany(
         val playResult = stage.play(parameters.maxTurns)
         "Iteration ${it.index + 1}\n${stage.logger}" to playResult
     }
-    val results = resultCounts.map { (k, v) -> SimulationResultValue(k, v) }
+    val results = resultCounts.map { (k, v) -> SimulationResultValue(k.first, k.second, v) }
     simulationResults[token] = SimulationResult(
         maxIterations = parameters.maxIterations,
         currentIterations = resultCount,
@@ -148,6 +148,7 @@ private fun simulateMany(
         runtime = (System.nanoTime() - startTime) / 1_000_000_000.0,
         cancelled = false,
         error = (loggedResult?.second as? PlayError)?.exception?.stackTraceToString(),
+        complete = true,
     ).also {
         logger?.info("Completed simulation\nToken: $token\n---\n${
             Yaml.default.encodeToString(ListSerializer(SimulationResultValue.serializer()), results)
@@ -170,7 +171,7 @@ private fun SimulationParameters.createStageLoadoutOrReportError(token: String) 
 }
 
 fun StageResult.toSimulationResult() = when (this) {
-    ExcludedRun -> SimulationResultType.Excluded
+    is ExcludedRun -> SimulationResultType.Excluded
     is OutOfTurns -> SimulationResultType.End
     is PlayError -> SimulationResultType.Error
     is TeamWipe -> SimulationResultType.Wipe(turn, tile)

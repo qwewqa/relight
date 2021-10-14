@@ -83,18 +83,32 @@ data class SimulationResult(
     val runtime: Double? = null,
     val cancelled: Boolean = false,
     val error: String?,
+    val complete: Boolean = false,
 ) {
-    val done get() = cancelled || currentIterations >= maxIterations
+    val done get() = cancelled || complete
 }
 
 @Serializable
-data class SimulationResultValue(val result: SimulationResultType, val count: Int)
+data class SimulationResultValue(
+    val tags: List<String>,
+    val result: SimulationResultType,
+    val count: Int,
+) : Comparable<SimulationResultValue> {
+    val totalTags = tags + result.tags
+
+    override fun compareTo(other: SimulationResultValue): Int = sequence {
+        tags.zip(other.tags).forEach { (a, b) ->
+            yield(a.compareTo(b))
+        }
+        yield(tags.size.compareTo(other.tags.size))
+    }.firstOrNull { it != 0 } ?: result.compareTo(other.result)
+}
 
 @Serializable
 sealed class SimulationResultType : Comparable<SimulationResultType> {
     abstract val order: Int
     abstract val color: String
-    open val headingName: String get() = toString()
+    open val tags: List<String> get() = listOf(toString())
     override fun compareTo(other: SimulationResultType) = order.compareTo(other.order)
 
     @Serializable
@@ -106,7 +120,7 @@ sealed class SimulationResultType : Comparable<SimulationResultType> {
             compareValuesBy(this, other, { it.turn }, { it.tile })
         } else super.compareTo(other)
 
-        override val headingName = "Wipe"
+        override val tags = listOf("Wipe", "t$turn.$tile")
         override fun toString() = "Wipe (t$turn.$tile)"
     }
 
@@ -119,7 +133,7 @@ sealed class SimulationResultType : Comparable<SimulationResultType> {
             compareValuesBy(this, other, { it.turn }, { it.tile })
         } else super.compareTo(other)
 
-        override val headingName = "Victory"
+        override val tags = listOf("Victory", "t$turn.$tile")
         override fun toString() = "Victory (t$turn.$tile)"
     }
 

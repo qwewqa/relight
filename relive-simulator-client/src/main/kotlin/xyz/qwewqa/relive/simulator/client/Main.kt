@@ -396,15 +396,12 @@ suspend fun start(simulator: Simulator) {
 
     refreshSelectPicker()
 
-    fun Double.toFixed(digits: Int) = asDynamic().toFixed(digits) as String
-
     GlobalScope.launch {
         while (true) {
             if (!done) {
                 simulation?.let { sim ->
                     val result = sim.pollResult()
-                    val iterationResults = result.results.sortedBy { it.result }.associate { it.result to it.count }
-                    val excludedCount = iterationResults[SimulationResultType.Excluded] ?: 0
+                    val iterationResults = result.results.sorted()
                     val resultsRow = document.getElementById("results-row") as HTMLDivElement
                     val resultsText = document.getElementById("results-text") as HTMLPreElement
                     val errorRow = document.getElementById("results-error-row") as HTMLDivElement
@@ -420,46 +417,27 @@ suspend fun start(simulator: Simulator) {
                     val runtimeText = if (result.runtime != null) " [${result.runtime.toFixed(5)}s]" else ""
                     val progressDisplay =
                         "Progress: ${" ".repeat(maxIterationsText.length - currentIterationsText.length)}$currentIterationsText/$maxIterationsText ($progressText)$runtimeText"
-
-                    fun formatEntry(name: String, count: Int, isExcluded: Boolean = false): String =
-                        if (excludedCount == 0) {
-                            "$name: $count (${(count * 100.0 / result.currentIterations).toFixed(5)}%)"
-                        } else {
-                            if (isExcluded) {
-                                "$name: $count (N/A / ${(count * 100.0 / result.currentIterations).toFixed(5)}%)"
-                            } else {
-                                "$name: $count (${(count * 100.0 / (result.currentIterations - excludedCount)).toFixed(5)}% / ${
-                                    (count * 100.0 / result.currentIterations).toFixed(5)
-                                }%)"
-                            }
+                    val iterationResultsText = ResultEntry().apply {
+                        iterationResults.forEach {
+                            add(it)
                         }
-
-                    val iterationResultsText = iterationResults
-                        .map { it.key to it.value }
-                        .groupBy { (result, _) -> result.headingName }
-                        .map { (heading, values) ->
-                            val entries = values.map { (k, v) ->
-                                formatEntry(k.toString(), v, k == SimulationResultType.Excluded)
-                            }
-                            if (values.size > 1) {
-                                formatEntry(heading, values.sumOf { (_, v) -> v }) + "\n" +
-                                        entries.joinToString("\n") { "  $it" }
-                            } else {
-                                entries.joinToString("\n")
-                            }
-                        }
-                        .joinToString("\n")
+                    }.format()
+                    val simpleResults = iterationResults
+                        .groupBy { it.result }
+                        .map { (result, values) -> result to values.sumOf { it.count } }
+                        .sortedByDescending { (result, _) -> result } // Plotly reverses things
+                        .toMap()
                     resultsText.textContent = progressDisplay + "\n\n" + iterationResultsText
                     react(
                         graphDiv = resultsPlot,
                         data = arrayOf(
                             jsObject {
                                 type = "bar"
-                                x = iterationResults.values.reversed().toTypedArray()
-                                y = iterationResults.keys.map { it.toString() }.reversed().toTypedArray()
+                                x = simpleResults.values.toTypedArray()
+                                y = simpleResults.keys.map { it.toString() }.toTypedArray()
                                 orientation = "h"
                                 marker = jsObject {
-                                    color = iterationResults.keys.map { it.color }.reversed().toTypedArray()
+                                    color = simpleResults.keys.map { it.color }.toTypedArray()
                                 }
                             } as Any
                         ),
@@ -467,7 +445,7 @@ suspend fun start(simulator: Simulator) {
                             xaxis = jsObject {
                                 range = arrayOf(0, result.currentIterations)
                             }
-                            height = iterationResults.size.coerceAtLeast(1) * 30 + 60
+                            height = simpleResults.size.coerceAtLeast(1) * 30 + 60
                             margin = jsObject {
                                 l = 120
                                 r = 60
@@ -506,6 +484,73 @@ suspend fun start(simulator: Simulator) {
         }
     }
 }
+
+fun Double.toFixed(digits: Int) = asDynamic().toFixed(digits) as String
+
+class ResultEntry(
+    val name: String = "All",
+    val parent: ResultEntry? = null,
+    private val children: MutableMap<String, ResultEntry> = mutableMapOf(),
+    private var totalCount: Int = 0,
+    private var excludedCount: Int = 0,
+) {
+    private val root: ResultEntry = parent?.root ?: this
+    private val includedCount: Int get() = totalCount - excludedCount
+
+    fun add(resultValue: SimulationResultValue) {
+        this[resultValue.totalTags].addToSelf(resultValue)
+    }
+
+    private fun addToSelf(resultValue: SimulationResultValue) {
+        totalCount += resultValue.count
+        if (resultValue.result is SimulationResultType.Excluded) {
+            excludedCount += resultValue.count
+        }
+        parent?.addToSelf(resultValue)
+    }
+
+    fun format() = formatRecursive().joinToString("\n")
+
+    private fun formatRecursive(): List<String> = when(children.size) {
+        0 -> listOf(formatSelf())
+        1 -> children.values.single().let {
+            ResultEntry("$name-${it.name}", parent, it.children, totalCount, excludedCount).formatRecursive()
+        }
+        else -> listOf(formatSelf()) + children.values.flatMap { it.formatRecursive() }.indented()
+    }
+
+    private fun formatSelf(): String = if (parent != null) {
+        val percentParent = (includedCount * 100.0 / parent.includedCount).toFixed(3)
+        val percentRoot = (includedCount * 100.0 / root.includedCount).toFixed(3)
+        when (excludedCount) {
+            0 -> {
+                "$name: $includedCount ($percentParent% of parent, $percentRoot% of all)"
+            }
+            totalCount -> {
+                "$name: $excludedCount excluded"
+            }
+            else -> {
+                "$name: $includedCount ($percentParent% of parent, $percentRoot% of all) included, $excludedCount excluded"
+            }
+        }
+    } else {
+        if (excludedCount == 0) {
+            "$name: $totalCount"
+        } else {
+            val percentIncluded = (includedCount * 100.0 / totalCount).toFixed(5)
+            val percentExcluded = (excludedCount * 100.0 / totalCount).toFixed(5)
+            "$name: $includedCount ($percentIncluded%) included, $excludedCount ($percentExcluded%) excluded, $totalCount total"
+        }
+    }
+
+    operator fun get(tags: List<String>): ResultEntry = if (tags.isEmpty()) {
+        this
+    } else {
+        children.getOrPut(tags[0]) { ResultEntry(tags[0], this) }[tags.drop(1)]
+    }
+}
+
+fun List<String>.indented() = map { "  $it" }
 
 inline fun jsObject(init: dynamic.() -> Unit): dynamic {
     val o = js("{}")

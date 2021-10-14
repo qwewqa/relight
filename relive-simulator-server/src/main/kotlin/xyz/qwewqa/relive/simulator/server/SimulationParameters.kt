@@ -155,10 +155,11 @@ data class SimulationResult(
     val runtime: Double? = null,
     val cancelled: Boolean = false,
     val error: String? = null,
+    val complete: Boolean = false,
 )
 
 @Serializable
-data class SimulationResultValue(val result: SimulationResultType, val count: Int)
+data class SimulationResultValue(val tags: List<String>, val result: SimulationResultType, val count: Int)
 
 @Serializable
 sealed class SimulationResultType {
