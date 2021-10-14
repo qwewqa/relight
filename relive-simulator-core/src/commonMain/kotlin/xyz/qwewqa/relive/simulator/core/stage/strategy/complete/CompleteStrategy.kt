@@ -244,6 +244,11 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             }
             act ?: false.asCsBoolean()
         }
+
+        context.addFunction("tag") { args ->
+            stage.tags = args.map { it.display() }
+            CsNil
+        }
     }
 
     override fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {

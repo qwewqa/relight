@@ -100,7 +100,7 @@ data class SimulationResultValue(
         tags.zip(other.tags).forEach { (a, b) ->
             yield(a.compareTo(b))
         }
-        yield(tags.size.compareTo(other.tags.size))
+        yield(-tags.size.compareTo(other.tags.size))
     }.firstOrNull { it != 0 } ?: result.compareTo(other.result)
 }
 
