@@ -123,6 +123,11 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             CsList(args)
         }
 
+        context.addFunction("tag") { args ->
+            stage.tags = args.map { it.display() }
+            CsNil
+        }
+
         script.initialize?.execute(context)
 
         registerCardAction("queue", ::canQueue) { act -> queue(act) }
@@ -247,11 +252,6 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
                 action(act as CsAct)
             }
             act ?: false.asCsBoolean()
-        }
-
-        context.addFunction("tag") { args ->
-            stage.tags = args.map { it.display() }
-            CsNil
         }
     }
 
