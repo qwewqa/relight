@@ -417,7 +417,7 @@ suspend fun start(simulator: Simulator) {
                     val runtimeText = if (result.runtime != null) " [${result.runtime.toFixed(5)}s]" else ""
                     val progressDisplay =
                         "Progress: ${" ".repeat(maxIterationsText.length - currentIterationsText.length)}$currentIterationsText/$maxIterationsText ($progressText)$runtimeText"
-                    val iterationResultsText = ResultEntry().apply {
+                    var iterationResultsText = ResultEntry("All").apply {
                         iterationResults.forEach {
                             add(it)
                         }
@@ -425,19 +425,28 @@ suspend fun start(simulator: Simulator) {
                     val simpleResults = iterationResults
                         .groupBy { it.result }
                         .map { (result, values) -> result to values.sumOf { it.count } }
-                        .sortedByDescending { (result, _) -> result } // Plotly reverses things
-                        .toMap()
+                        .sortedBy { (result, _) -> result }
+                    if (iterationResults.any { it.tags.isNotEmpty() }) {
+                        iterationResultsText += "\n\n" + ResultEntry("All (Simple)").apply {
+                            simpleResults.forEach { (type, count) ->
+                                add(SimulationResultValue(emptyList(), type, count))
+                            }
+                        }.format()
+                    }
                     resultsText.textContent = progressDisplay + "\n\n" + iterationResultsText
+
+                    // Plotly goes upwards from the y-axis, so entries have to be reversed
+                    val plotEntries = simpleResults.reversed().toMap()
                     react(
                         graphDiv = resultsPlot,
                         data = arrayOf(
                             jsObject {
                                 type = "bar"
-                                x = simpleResults.values.toTypedArray()
-                                y = simpleResults.keys.map { it.toString() }.toTypedArray()
+                                x = plotEntries.values.toTypedArray()
+                                y = plotEntries.keys.map { it.toString() }.toTypedArray()
                                 orientation = "h"
                                 marker = jsObject {
-                                    color = simpleResults.keys.map { it.color }.toTypedArray()
+                                    color = plotEntries.keys.map { it.color }.toTypedArray()
                                 }
                             } as Any
                         ),
@@ -488,7 +497,7 @@ suspend fun start(simulator: Simulator) {
 fun Double.toFixed(digits: Int) = asDynamic().toFixed(digits) as String
 
 class ResultEntry(
-    val name: String = "All",
+    val name: String,
     val parent: ResultEntry? = null,
     private val children: MutableMap<String, ResultEntry> = mutableMapOf(),
     private var totalCount: Int = 0,
