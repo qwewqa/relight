@@ -46,6 +46,10 @@ Second Lieutenant Fu Mei Fan [r9.5]:
   en: Second Lieutenant Fu Mei Fan [r9.5]
   ko: 악마 소위 후우 메이팡 [r9.5]
   zh_hant: 鬼少尉傅美帆 [r9.5]
+Stage Girl Hikari [r1, lv1, bond1]:
+  en: Stage Girl Hikari [r1, lv1, bond1]
+  ko: 무대소녀 히카리 [r1, lv1, bond1]
+  zh_hant: 舞台少女光 [r1, lv1, bond1]
 Stage Girl Junna:
   en: Stage Girl Junna
   ko: 무대소녀 준나
@@ -94,7 +98,17 @@ Stormy Ace Misora [r9.5]:
   en: Stormy Ace Misora [r9.5]
   ko: 폭풍 에이스 미소라 [r9.5]
   zh_hant: 暴風艾斯美空 [r9.5]
-Stage Girl Nana [r1, lv1, bond 9]:
-  en: Stage Girl Nana [r1, lv1, bond 9]
-  ko: 무대소녀 나나 [r1, lv1, bond 9]
-  zh_hant: 舞台少女奈奈 [r1, lv1, bond 9]
+Stage Girl Nana [r1, lv1, bond9]:
+  en: Stage Girl Nana [r1, lv1, bond9]
+  ko: 무대소녀 나나 [r1, lv1, bond9]
+  zh_hant: 舞台少女奈奈 [r1, lv1, bond9]
+Stage Girl Misora:
+  en: Stage Girl Misora
+  ko: 무대소녀 미소라
+  zh_hant: 舞台少女 美空
+Judgement Shizuha:
+  en: Judgement Shizuha
+  zh_hant: 審判 靜羽
+World Maya:
+  en: World Maya
+  zh_hant: 世界 真矢

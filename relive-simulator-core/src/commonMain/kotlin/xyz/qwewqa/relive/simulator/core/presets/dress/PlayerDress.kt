@@ -9,6 +9,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.back.flower.StageGirlMeiFa
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.FuMeiFan
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.FuMeiFan95
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.WorldMaya
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.StageGirlHikariBaby
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.snow.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.space.IzanagiNana
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.space.JusticeNana
@@ -53,5 +54,6 @@ val playerDresses = listOf(
     AceMisora,
     AceMisora95,
     StageGirlClaudine,
-    StageGirlMisora
+    StageGirlMisora,
+    StageGirlHikariBaby,
 ).associateBy { it.name }

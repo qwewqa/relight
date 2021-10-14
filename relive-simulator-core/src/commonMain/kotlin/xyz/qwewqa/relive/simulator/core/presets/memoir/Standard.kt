@@ -80,6 +80,23 @@ val FriendsAtTheAquarium = MemoirBlueprint(
     ),
 )
 
+val ChinatownDelicacies = MemoirBlueprint(
+    name = "Chinatown Delicacies",
+    rarity = 4,
+    baseStats = StatData(
+        hp = 300,
+    ),
+    growthStats = StatData(
+        hp = 34177,
+    ),
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(28)
+    ),
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(40)
+    ),
+)
+
 val UrashimaTaroPerformanceFlyer = MemoirBlueprint(
     name = "Urashima Taro Performance Flyer",
     rarity = 4,
