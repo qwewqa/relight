@@ -75,20 +75,75 @@ val StageGirlNana = Dress(
         }
     ),
     autoSkills = listOf(
-        SelfStopResistanceBuffPassive.new(50),
+        SelfStopResistanceBuffPassive.new(100, time = 6),
         SelfFortitudeBuffPassive.new(time = 1),
         TeamActPowerUpBuffPassive.new(20,3),
     ),
     unitSkill = ActCritical50UnitSkill + SeishoOnlyCondition,
 )
 
-val StageGirlNanaBaby = StageGirlNana.copy(
-    name = "Stage Girl Nana [r1, lv1, bond 9]",
-    stats = StageGirlNana.stats.copy(
+val StageGirlNanaBaby = Dress(
+    name = "Stage Girl Nana [r1, lv1, bond9]",
+    character = Character.Nana,
+    attribute = Attribute.Cloud,
+    damageType = DamageType.Normal,
+    position = Position.Middle,
+    stats = defaultDressStats.copy(
         hp = 3853,
         actPower = 269,
         normalDefense = 266,
         specialDefense = 138,
         agility = 216,
-    )
+    ),
+    acts = actsOf(
+        ActType.Act1("Strong Slash", 2) {
+            targetFront().act {
+                attack(
+                    modifier = 147,
+                    hitCount = 2,
+                )
+            }
+        },
+        ActType.Act2("Inspiring Slash", 3) {
+            targetFront().act {
+                attack(
+                    modifier = 165,
+                    hitCount = 2,
+                )
+            }
+            targetAllyAoe().act {
+                applyBuff(
+                    effect = ActPowerUpBuff,
+                    value = 20,
+                    turns = 3,
+                )
+            }
+        },
+        ActType.Act3("Synchro Slash", 3) {
+            targetFront().act {
+                attack(
+                    modifier = 165,
+                    hitCount = 2,
+                )
+            }
+            targetAllyAoe().act {
+                addBrilliance(10)
+            }
+        },
+        ActType.ClimaxAct("I will protect them! Forever... Again and again!", 2) {
+            focus {
+                targetAoe().act {
+                    attack(
+                        modifier = 117,
+                        hitCount = 2,
+                    )
+                }
+            }
+            applyAllyStageEffect(WeAreOnTheStageCloud, 6)
+        }
+    ),
+    autoSkills = listOf(
+        SelfStopResistanceBuffPassive.new(100, time = 6),
+    ),
+    unitSkill = ActCritical50UnitSkill + SeishoOnlyCondition,
 )

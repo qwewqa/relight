@@ -27,4 +27,5 @@ val memoirs = mapOf("None" to EmptyMemoir) + listOf(
     SparklingStageChika,
     StretchingHelp,
     ReverberatingVoiceTsubasaMaya,
+    ChinatownDelicacies,
 ).sortedBy { it.name }.sortedBy { it.cutinData.any { cutin -> cutin == null } }.associateBy { it.name }
