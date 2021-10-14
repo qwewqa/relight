@@ -543,7 +543,7 @@ class ResultEntry(
                 "$name: $excludedCount excluded"
             }
             else -> {
-                "$name: $includedCount ($percentParent% of parent, $percentRoot% of all) included, $excludedCount excluded"
+                "$name: $includedCount ($percentParent% of parent, $percentRoot% of all) included, $excludedCount excluded, $totalCount total"
             }
         }
     } else {
