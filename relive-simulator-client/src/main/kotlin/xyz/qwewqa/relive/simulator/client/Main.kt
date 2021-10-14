@@ -524,7 +524,11 @@ class ResultEntry(
         val percentRoot = (includedCount * 100.0 / root.includedCount).toFixed(3)
         when (excludedCount) {
             0 -> {
-                "$name: $includedCount ($percentParent% of parent, $percentRoot% of all)"
+                if (root.excludedCount > 0) {
+                    "$name: $includedCount ($percentParent% of parent, $percentRoot% of all) included"
+                } else {
+                    "$name: $includedCount ($percentParent% of parent, $percentRoot% of all)"
+                }
             }
             totalCount -> {
                 "$name: $excludedCount excluded"
@@ -550,7 +554,7 @@ class ResultEntry(
     }
 }
 
-fun List<String>.indented() = map { "  $it" }
+fun List<String>.indented() = map { "    $it" }
 
 inline fun jsObject(init: dynamic.() -> Unit): dynamic {
     val o = js("{}")
