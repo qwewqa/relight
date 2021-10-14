@@ -6,8 +6,18 @@ import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SiegfeldOnlyCondition
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoir
 import xyz.qwewqa.relive.simulator.core.stage.memoir.MemoirBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
+
+val EmptyMemoir = MemoirBlueprint(
+    name = "None",
+    rarity = 4,
+    baseStats = StatData(),
+    growthStats = StatData(),
+    baseAutoskills = listOf(),
+    maxAutoskills = listOf(),
+)
 
 val StretchingHelp = MemoirBlueprint(
     name = "Stretching Help...?",

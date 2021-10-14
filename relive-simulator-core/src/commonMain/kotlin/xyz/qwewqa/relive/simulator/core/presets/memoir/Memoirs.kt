@@ -1,6 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.memoir
 
-val memoirs = listOf(
+val memoirs = mapOf("None" to EmptyMemoir) + listOf(
     UnshakableFeelings,
     FriendsAtTheAquarium,
     UrashimaTaroPerformanceFlyer,
