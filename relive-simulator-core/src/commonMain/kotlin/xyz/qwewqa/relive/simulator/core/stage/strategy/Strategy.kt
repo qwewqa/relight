@@ -17,7 +17,13 @@ interface Strategy {
     /**
      * Called once at the start of the first turn before [nextQueue].
      */
+
     fun initialize(stage: Stage, team: Team, enemy: Team) {}
+
+    /**
+     * Called once at the end, after play has ended.
+     */
+    fun finalize(stage: Stage, team: Team, enemy: Team) {}
 
     /**
      * Called at the start of each turn to get a new queue.

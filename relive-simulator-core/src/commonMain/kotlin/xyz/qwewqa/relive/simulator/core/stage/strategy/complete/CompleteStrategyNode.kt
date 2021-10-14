@@ -6,6 +6,7 @@ interface CsNode
 
 data class CsScriptNode(
     val initialize: CsStatementNode?,
+    val finalize: CsStatementNode?,
     val body: CsStatementNode,
 ) : CsNode
 

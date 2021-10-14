@@ -209,6 +209,10 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         context.variables["hand"] = CsList(hand)
     }
 
+    override fun finalize(stage: Stage, team: Team, enemy: Team) {
+        script.finalize?.execute(context)
+    }
+
     /**
      * Register three functions for an action performed on an act card.
      *

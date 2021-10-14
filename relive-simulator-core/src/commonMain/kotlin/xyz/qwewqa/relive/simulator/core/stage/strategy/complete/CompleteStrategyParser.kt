@@ -49,6 +49,7 @@ object CsParser : Grammar<CsScriptNode>() {
     val `if` by literalToken("if")
     val `else` by literalToken("else")
     val `init` by literalToken("init")
+    val `finally` by literalToken("finally")
     val switch by literalToken("switch")
     val case by literalToken("case")
     val default by literalToken("default")
@@ -211,9 +212,10 @@ object CsParser : Grammar<CsScriptNode>() {
             }
 
     val initBlock by -`init` * -lcurl * statementList * -rcurl
+    val finallyBlock by -`finally` * -lcurl * statementList * -rcurl
 
-    override val rootParser by (optional(initBlock) * statementList).map { (initialize, body) ->
-        CsScriptNode(initialize?.let { CsBlockNode(it) }, CsBlockNode(body))
+    override val rootParser by (optional(initBlock) * -zeroOrMore(semi) * optional(finallyBlock) * statementList).map { (initialize, finalize, body) ->
+        CsScriptNode(initialize?.let { CsBlockNode(it) }, finalize?.let { CsBlockNode(it) }, CsBlockNode(body))
     }
 
     private class CsTokenProducer(private val input: CharSequence) : TokenProducer {
