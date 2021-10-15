@@ -95,7 +95,6 @@ data class SimulationParameters(
 @Serializable
 data class SimulatorVersion(
     val version: String,
-    val revision: Int,
     val hash: String,
 )
 

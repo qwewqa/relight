@@ -26,7 +26,7 @@ fun Application.configureRouting() {
                 .bufferedReader().readText(), ContentType.Text.Html)
         }
         get("/version") {
-            call.respond(SimulatorVersion(VERSION, GIT_REVISION, GIT_SHA))
+            call.respond(SimulatorVersion(VERSION, GIT_SHA))
         }
         get("/index.html") {
             call.respondText(Thread.currentThread().getContextClassLoader().getResourceAsStream("client/index.html")!!
