@@ -79,6 +79,7 @@ object BlindnessBuff : BuffEffect {
 
 object AbnormalGuardBuff : BuffEffect {
     override val category = BuffCategory.Positive
+    override val locked = true
     override fun formatName(value: Int) = name
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
