@@ -136,6 +136,7 @@ class RandomDamageCalculator : DamageCalculator {
         }
 
         val bonusCoef = 100 + attacker.eventBonus
+        val eventMultiplier = attacker.eventMultiplier
 
         val base = (atk - def).coerceAtLeast(atk / 10) / hitAttribute.hitCount
 
@@ -153,6 +154,7 @@ class RandomDamageCalculator : DamageCalculator {
         dmg = dmg * cxDmgCoef / 100
         dmg = dmg * againstAttributeDamageDealtUpCoef / 100
         dmg = dmg * buffDmgTakenDownCoef / 100
+        dmg = dmg * eventMultiplier / 100 // tentative
 
         var criticalDmg = base
         criticalDmg = criticalDmg * eleCoef / 100
@@ -169,6 +171,7 @@ class RandomDamageCalculator : DamageCalculator {
         criticalDmg = criticalDmg * cxDmgCoef / 100
         criticalDmg = criticalDmg * againstAttributeDamageDealtUpCoef / 100
         criticalDmg = criticalDmg * buffDmgTakenDownCoef / 100
+        criticalDmg = criticalDmg * eventMultiplier / 100
 
         return DamageResult(
             base = dmg,

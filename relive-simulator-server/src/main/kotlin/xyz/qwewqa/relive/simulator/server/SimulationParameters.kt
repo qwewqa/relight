@@ -98,7 +98,10 @@ data class SimulationParameters(
                 strategy = { bossLoadouts[boss]!!.strategy }
             ),
             {
-                player.actors.values.forEach { it.eventBonus = eventBonus }
+                player.actors.values.forEach {
+                    it.eventBonus = eventBonus
+                    it.eventMultiplier = eventMultiplier
+                }
             },
             RandomDamageCalculator(),
         )
