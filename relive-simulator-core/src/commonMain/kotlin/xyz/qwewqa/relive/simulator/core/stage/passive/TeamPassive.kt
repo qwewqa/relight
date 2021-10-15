@@ -12,36 +12,35 @@ object TeamActPowerUpPassive : PassiveEffect {
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
             condition.applyIfTrue(member) {
-                member.boostActPower += value
+                boostActPower += value
             }
         }
     }
 }
 
-object TeamDexterityPassive : PassiveEffect {
+object TeamDexterityUpPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
             condition.applyIfTrue(member) {
-                member.valueDexterity += value
+                valueDexterity += value
             }
         }
     }
 }
 
-object TeamCriticalPassive : PassiveEffect {
+object TeamCriticalUpPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
             condition.applyIfTrue(member) {
-                member.valueCritical += value
+                valueCritical += value
             }
         }
     }
 }
-
 
 object TeamHpUpPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
@@ -49,7 +48,7 @@ object TeamHpUpPassive : PassiveEffect {
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
             condition.applyIfTrue(member) {
-                member.boostMaxHp += value
+                boostMaxHp += value
             }
         }
     }

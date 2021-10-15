@@ -47,6 +47,7 @@ object LockedPositiveEffectResistanceBuff : BuffEffect {
 
 private data class BuffResistanceBuff(var effects: List<BuffEffect>) : BuffEffect {
     constructor(vararg effects: BuffEffect) : this(effects.toList())
+    override val name = "[${effects.joinToString(", ") {it.name}}] Resistance Buff"
     override val category: BuffCategory = BuffCategory.Positive
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
