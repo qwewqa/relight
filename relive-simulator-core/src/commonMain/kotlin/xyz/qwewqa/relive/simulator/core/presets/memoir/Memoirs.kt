@@ -11,6 +11,7 @@ val memoirs = mapOf("None" to EmptyMemoir) + listOf(
     FirstAnnivFrontierSchoolOfArts,
     BandsmansGreeting,
     CrazyMadScientist,
+    ToTheWonderfulWorldOfRakugo,
     ThePhantomAndChristine,
     PoolsideIncident,
     MerryChristmas2019,

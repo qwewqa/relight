@@ -29,10 +29,13 @@ data class SimulationParameters(
     val song: SongParameters,
     val strategy: StrategyParameter,
     val boss: String,
+    val bossHp: Int? = null,
     val eventBonus: Int,
+    val eventMultiplier: Int = 100,
     val seed: Int,
 ) {
     fun createStageLoadout(): StageLoadout {
+        require(bossHp == null ||bossHp > 0) { "Boss HP positive integer." }
         require(maxTurns > 0) { "Max turns should be a positive integer." }
         require(maxIterations > 0) { "Max iterations should be a positive integer" }
         require(team.isNotEmpty()) { "Team should not be empty." }
@@ -80,7 +83,17 @@ data class SimulationParameters(
             ),
             TeamLoadout(
                 listOf(
-                    bossLoadouts[boss]!!.loadout
+                    bossLoadouts[boss]!!.loadout.let { loadout ->
+                        loadout.copy(
+                            dress = loadout.dress.let { dress ->
+                                dress.copy(
+                                    stats = dress.stats.let { stats ->
+                                        stats.copy(hp = bossHp ?: stats.hp)
+                                    }
+                                )
+                            }
+                        )
+                    }
                 ),
                 strategy = { bossLoadouts[boss]!!.strategy }
             ),

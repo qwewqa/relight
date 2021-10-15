@@ -22,6 +22,10 @@ class IntegerInput(val element: HTMLInputElement, val default: Int) {
         set(value) {
             element.value = value.toString()
         }
+
+    fun clear() {
+        element.value = ""
+    }
 }
 
 class TextInput(val element: HTMLInputElement) {

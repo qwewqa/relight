@@ -57,6 +57,8 @@ suspend fun start(simulator: Simulator) {
     val simulateButton = document.getElementById("simulate-button") as HTMLButtonElement
     val cancelButton = document.getElementById("cancel-button") as HTMLButtonElement
     val eventBonusInput = document.getElementById("event-bonus-input").integerInput(0)
+    val eventMultiplierInput = document.getElementById("event-multiplier-input").integerInput(100)
+    val bossHpInput = document.getElementById("boss-hp-input").integerInput(-1)
     val turnsInput = document.getElementById("turns-input").integerInput(3)
     val iterationsInput = document.getElementById("iterations-input").integerInput(100000)
     val strategyEditor = CodeMirror(strategyContainer, js("{lineNumbers: true, mode: null}"))
@@ -218,23 +220,25 @@ suspend fun start(simulator: Simulator) {
                 SongEffect(options).parameters
             }
         return SimulationParameters(
-            turnsInput.value,
-            iterationsInput.value,
-            actorSettingsDiv.getElementsByClassName("actor-options").asList().map { options ->
+            maxTurns = turnsInput.value,
+            maxIterations = iterationsInput.value,
+            team = actorSettingsDiv.getElementsByClassName("actor-options").asList().map { options ->
                 ActorOptions(options).parameters
             },
-            null,
-            SongParameters(
+            guest = null,
+            song = SongParameters(
                 songSettings.dropLast(1).filterNotNull(),
                 songSettings.last(),
             ),
-            StrategyParameter(
+            strategy = StrategyParameter(
                 strategyTypeSelect.value,
                 strategyEditor.getValue() as String,
             ),
-            bossSelect.value,
-            eventBonusInput.value,
-            seedInput.value,
+            boss = bossSelect.value,
+            bossHp = if (bossHpInput.value > 0) bossHpInput.value else null,
+            eventBonus = eventBonusInput.value,
+            eventMultiplier = eventMultiplierInput.value,
+            seed = seedInput.value,
         )
     }
 
@@ -263,7 +267,13 @@ suspend fun start(simulator: Simulator) {
         strategyTypeSelect.value = strategy.type
         strategyEditor.setValue(strategy.value)
         bossSelect.value = boss
+        if (bossHp != null) {
+            bossHpInput.value = bossHp
+        } else {
+            bossHpInput.clear()
+        }
         eventBonusInput.value = eventBonus
+        eventMultiplierInput.value = eventMultiplier
         seedInput.value = seed
         refreshSelectPicker()
     }
