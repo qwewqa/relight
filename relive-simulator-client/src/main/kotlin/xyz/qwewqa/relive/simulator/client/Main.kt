@@ -43,6 +43,7 @@ suspend fun start(simulator: Simulator) {
     val exportButton = document.getElementById("export-button") as HTMLButtonElement
     val doImportButton = document.getElementById("do-import-button") as HTMLButtonElement
     val yamlImportCheckbox = document.getElementById("import-yaml-checkbox") as HTMLInputElement
+    val guestCheckbox = document.getElementById("guest-checkbox") as HTMLInputElement
     val importText = document.getElementById("import-text") as HTMLTextAreaElement
     val exportText = document.getElementById("export-text") as HTMLTextAreaElement
     val seedInput = document.getElementById("seed-input").integerInput(0)
@@ -91,6 +92,21 @@ suspend fun start(simulator: Simulator) {
         toastContainer.appendChild(element)
         return bootstrap.Toast(element).also {
             it.show()
+        }
+    }
+
+    fun updateGuestStyling() {
+        actorSettingsDiv.children.asList().firstOrNull()?.let { options ->
+            val borderDiv = options.getElementsByClassName("border")[0] as HTMLDivElement
+            if (guestCheckbox.checked) {
+                borderDiv.removeClass("border-2")
+                borderDiv.addClass("border-4")
+                borderDiv.addClass("border-warning")
+            } else {
+                borderDiv.addClass("border-2")
+                borderDiv.removeClass("border-4")
+                borderDiv.removeClass("border-warning")
+            }
         }
     }
 
@@ -204,6 +220,7 @@ suspend fun start(simulator: Simulator) {
             },
             addActorRow,
         )
+        updateGuestStyling()
         js("$('.selectpicker').selectpicker()")
     }
 
@@ -219,13 +236,14 @@ suspend fun start(simulator: Simulator) {
             .getElementsByClassName("song-effect-group").asList().map { options ->
                 SongEffect(options).parameters
             }
+        val actors = actorSettingsDiv.getElementsByClassName("actor-options").asList().map { options ->
+            ActorOptions(options).parameters
+        }
         return SimulationParameters(
             maxTurns = turnsInput.value,
             maxIterations = iterationsInput.value,
-            team = actorSettingsDiv.getElementsByClassName("actor-options").asList().map { options ->
-                ActorOptions(options).parameters
-            },
-            guest = null,
+            team = if (guestCheckbox.checked) actors.drop(1) else actors,
+            guest = if (guestCheckbox.checked) actors.firstOrNull() else null,
             song = SongParameters(
                 songSettings.dropLast(1).filterNotNull(),
                 songSettings.last(),
@@ -248,6 +266,8 @@ suspend fun start(simulator: Simulator) {
         while (actorSettingsDiv.childElementCount >= 2) {
             removeActor()
         }
+        val team = if (guest != null) listOf(guest) + this.team else this.team
+        guestCheckbox.checked = guest != null
         repeat(team.size) {
             addActor()
         }
@@ -275,6 +295,7 @@ suspend fun start(simulator: Simulator) {
         eventBonusInput.value = eventBonus
         eventMultiplierInput.value = eventMultiplier
         seedInput.value = seed
+        updateGuestStyling()
         refreshSelectPicker()
     }
 
@@ -307,6 +328,10 @@ suspend fun start(simulator: Simulator) {
 
     yamlImportCheckbox.addEventListener("click", {
         updateExportText()
+    })
+
+    guestCheckbox.addEventListener("click", {
+        updateGuestStyling()
     })
 
     exportText.addEventListener("click", {
