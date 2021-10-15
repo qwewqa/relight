@@ -75,7 +75,7 @@ val StageGirlNana = Dress(
         }
     ),
     autoSkills = listOf(
-        SelfStopResistanceBuffPassive.new(100, time = 6),
+        StopResistancePassive.new(100),
         SelfFortitudeBuffPassive.new(time = 1),
         TeamActPowerUpBuffPassive.new(20,3),
     ),
@@ -143,7 +143,7 @@ val StageGirlNanaBaby = Dress(
         }
     ),
     autoSkills = listOf(
-        SelfStopResistanceBuffPassive.new(100, time = 6),
+        StopResistancePassive.new(100),
     ),
     unitSkill = ActCritical50UnitSkill + SeishoOnlyCondition,
 )

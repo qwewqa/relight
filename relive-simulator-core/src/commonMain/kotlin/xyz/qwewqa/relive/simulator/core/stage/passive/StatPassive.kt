@@ -48,18 +48,6 @@ object CriticalUpPassive : PassiveEffect {
     }
 }
 
-object TeamCriticalUpPassive : PassiveEffect {
-    override val category = PassiveEffectCategory.Passive
-
-    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
-        team.actors.values.forEach { member ->
-            condition.applyIfTrue(member) {
-                valueCritical += value
-            }
-        }
-    }
-}
-
 object DamageDealtPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
 
@@ -76,16 +64,6 @@ object EffectiveDamageDealtPassive : PassiveEffect {
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
             valueEffectiveDamageUp += value
-        }
-    }
-}
-
-object NegativeEffectResistancePassive : PassiveEffect {
-    override val category = PassiveEffectCategory.Passive
-
-    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
-        condition.applyIfTrue(self) {
-            valueNegativeEffectResist += value
         }
     }
 }

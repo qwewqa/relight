@@ -101,11 +101,15 @@ class Stage(
                         log("Climax") { "enemy Climax" }
                         enemy.enterCX()
                     }
-                    playerQueue.tiles.filterIsInstance<ActionTile>().forEach {
-                        if (it.actData.type == ActType.ClimaxAct) it.actor.enterCX()
+                    if (player.cxTurns > 0) {
+                        playerQueue.tiles.filterIsInstance<ActionTile>().forEach {
+                            if (it.actData.type == ActType.ClimaxAct) it.actor.enterCX()
+                        }
                     }
-                    enemyQueue.tiles.filterIsInstance<ActionTile>().forEach {
-                        if (it.actData.type == ActType.ClimaxAct) it.actor.enterCX()
+                    if (enemy.cxTurns > 0) {
+                        enemyQueue.tiles.filterIsInstance<ActionTile>().forEach {
+                            if (it.actData.type == ActType.ClimaxAct) it.actor.enterCX()
+                        }
                     }
                     val playerTiles = playerQueue.tiles + List(6 - playerQueue.tiles.size) { IdleTile }
                     val enemyTiles = enemyQueue.tiles + List(6 - enemyQueue.tiles.size) { IdleTile }
