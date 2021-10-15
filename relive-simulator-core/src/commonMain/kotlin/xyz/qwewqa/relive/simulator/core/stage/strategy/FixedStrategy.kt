@@ -32,7 +32,14 @@ class FixedStrategyContext(val stage: Stage, val team: Team, val enemy: Team) {
         queue.add(ActionTile(actor, apCost, actData))
     }
 
+    fun BoundAct.tryEnqueue() {
+        if (apCost + queue.size > 6) return
+        repeat(apCost - 1) { queue.add(IdleTile) }
+        queue.add(ActionTile(actor, apCost, actData))
+    }
+
     operator fun BoundAct.unaryPlus() = enqueue()
+    operator fun BoundAct.unaryMinus() = tryEnqueue()
 
     fun get() = QueueResult(queue.take(6), climax)
 }
