@@ -1,5 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr9
 
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.snow.DeathTamao
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
@@ -136,6 +138,7 @@ val tr9FaithMisora = ActorLoadout(
             },
         ),
         autoSkills = listOf(
+            trEventBonusPassive(DeathTamao),
             AbnormalResistPassive.new(100),
             BossElementResistPassive.new(50),
         ),

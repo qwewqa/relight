@@ -1,5 +1,8 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr12
 
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.JudgementShizuha
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.WorldMaya
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
@@ -157,6 +160,7 @@ val tr12Boss2 = ActorLoadout(
             },
         ),
         autoSkills = listOf(
+            trEventBonusPassive(JudgementShizuha),
             AbnormalResistPassive.new(100),
             BossElementResistPassive.new(50),
         ),
