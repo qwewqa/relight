@@ -124,7 +124,10 @@ suspend fun start(simulator: Simulator) {
                 div("col-12 my-2") {
                     div("border border-2 rounded") {
                         div ("row mx-1 mt-1") {
-                            div("col-auto ms-auto px-1") {
+                            div("col px-2 py-1 actor-drag-handle") {
+                                i("bi bi-arrows-move")
+                            }
+                            div("col-auto px-1") {
                                 button(type = ButtonType.button, classes = "btn-close") {
                                     id = "actor-delete-$actorId"
                                 }
@@ -448,6 +451,7 @@ suspend fun start(simulator: Simulator) {
         actorSettingsDiv,
         jsObject {
             animation = 150
+            handle = ".actor-drag-handle"
             onEnd = ::updateGuestStyling
         }
     )
