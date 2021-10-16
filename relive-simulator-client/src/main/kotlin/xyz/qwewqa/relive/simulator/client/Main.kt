@@ -43,6 +43,7 @@ suspend fun start(simulator: Simulator) {
     val exportButton = document.getElementById("export-button") as HTMLButtonElement
     val doImportButton = document.getElementById("do-import-button") as HTMLButtonElement
     val yamlImportCheckbox = document.getElementById("import-yaml-checkbox") as HTMLInputElement
+    val guestCheckbox = document.getElementById("guest-checkbox") as HTMLInputElement
     val importText = document.getElementById("import-text") as HTMLTextAreaElement
     val exportText = document.getElementById("export-text") as HTMLTextAreaElement
     val seedInput = document.getElementById("seed-input").integerInput(0)
@@ -57,6 +58,8 @@ suspend fun start(simulator: Simulator) {
     val simulateButton = document.getElementById("simulate-button") as HTMLButtonElement
     val cancelButton = document.getElementById("cancel-button") as HTMLButtonElement
     val eventBonusInput = document.getElementById("event-bonus-input").integerInput(0)
+    val eventMultiplierInput = document.getElementById("event-multiplier-input").integerInput(100)
+    val bossHpInput = document.getElementById("boss-hp-input").integerInput(-1)
     val turnsInput = document.getElementById("turns-input").integerInput(3)
     val iterationsInput = document.getElementById("iterations-input").integerInput(100000)
     val strategyEditor = CodeMirror(strategyContainer, js("{lineNumbers: true, mode: null}"))
@@ -89,6 +92,21 @@ suspend fun start(simulator: Simulator) {
         toastContainer.appendChild(element)
         return bootstrap.Toast(element).also {
             it.show()
+        }
+    }
+
+    fun updateGuestStyling() {
+        actorSettingsDiv.children.asList().firstOrNull()?.let { options ->
+            val borderDiv = options.getElementsByClassName("border")[0] as HTMLDivElement
+            if (guestCheckbox.checked) {
+                borderDiv.removeClass("border-2")
+                borderDiv.addClass("border-4")
+                borderDiv.addClass("border-warning")
+            } else {
+                borderDiv.addClass("border-2")
+                borderDiv.removeClass("border-4")
+                borderDiv.removeClass("border-warning")
+            }
         }
     }
 
@@ -202,6 +220,7 @@ suspend fun start(simulator: Simulator) {
             },
             addActorRow,
         )
+        updateGuestStyling()
         js("$('.selectpicker').selectpicker()")
     }
 
@@ -217,24 +236,27 @@ suspend fun start(simulator: Simulator) {
             .getElementsByClassName("song-effect-group").asList().map { options ->
                 SongEffect(options).parameters
             }
+        val actors = actorSettingsDiv.getElementsByClassName("actor-options").asList().map { options ->
+            ActorOptions(options).parameters
+        }
         return SimulationParameters(
-            turnsInput.value,
-            iterationsInput.value,
-            actorSettingsDiv.getElementsByClassName("actor-options").asList().map { options ->
-                ActorOptions(options).parameters
-            },
-            null,
-            SongParameters(
+            maxTurns = turnsInput.value,
+            maxIterations = iterationsInput.value,
+            team = if (guestCheckbox.checked) actors.drop(1) else actors,
+            guest = if (guestCheckbox.checked) actors.firstOrNull() else null,
+            song = SongParameters(
                 songSettings.dropLast(1).filterNotNull(),
                 songSettings.last(),
             ),
-            StrategyParameter(
+            strategy = StrategyParameter(
                 strategyTypeSelect.value,
                 strategyEditor.getValue() as String,
             ),
-            bossSelect.value,
-            eventBonusInput.value,
-            seedInput.value,
+            boss = bossSelect.value,
+            bossHp = if (bossHpInput.value > 0) bossHpInput.value else null,
+            eventBonus = eventBonusInput.value,
+            eventMultiplier = eventMultiplierInput.value,
+            seed = seedInput.value,
         )
     }
 
@@ -244,6 +266,8 @@ suspend fun start(simulator: Simulator) {
         while (actorSettingsDiv.childElementCount >= 2) {
             removeActor()
         }
+        val team = if (guest != null) listOf(guest) + this.team else this.team
+        guestCheckbox.checked = guest != null
         repeat(team.size) {
             addActor()
         }
@@ -263,8 +287,15 @@ suspend fun start(simulator: Simulator) {
         strategyTypeSelect.value = strategy.type
         strategyEditor.setValue(strategy.value)
         bossSelect.value = boss
+        if (bossHp != null) {
+            bossHpInput.value = bossHp
+        } else {
+            bossHpInput.clear()
+        }
         eventBonusInput.value = eventBonus
+        eventMultiplierInput.value = eventMultiplier
         seedInput.value = seed
+        updateGuestStyling()
         refreshSelectPicker()
     }
 
@@ -297,6 +328,10 @@ suspend fun start(simulator: Simulator) {
 
     yamlImportCheckbox.addEventListener("click", {
         updateExportText()
+    })
+
+    guestCheckbox.addEventListener("click", {
+        updateGuestStyling()
     })
 
     exportText.addEventListener("click", {

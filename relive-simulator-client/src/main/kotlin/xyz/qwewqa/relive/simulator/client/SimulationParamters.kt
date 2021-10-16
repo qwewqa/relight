@@ -12,17 +12,18 @@ data class SimulationParameters(
     val song: SongParameters = SongParameters(),
     val strategy: StrategyParameter = StrategyParameter("Simple", ""),
     val boss: String,
+    val bossHp: Int? = null,
     val eventBonus: Int,
+    val eventMultiplier: Int = 100,
     val seed: Int = 0,
 )
 
 @Serializable
 data class SimulatorVersion(
     val version: String,
-    val revision: Int,
     val hash: String,
 ) {
-    override fun toString() = "$version ($revision-${hash.take(8)})"
+    override fun toString() = "$version (${hash.take(8)})"
 }
 
 @Serializable

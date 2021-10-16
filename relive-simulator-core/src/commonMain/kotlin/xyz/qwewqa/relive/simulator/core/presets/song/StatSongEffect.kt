@@ -6,6 +6,22 @@ import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.condition.applyIfTrue
 import xyz.qwewqa.relive.simulator.core.stage.song.SongEffect
 
+object ActPowerUpSongEffect : SongEffect {
+    override val displayName = "Act Power Up"
+
+    override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {
+        condition.applyIfTrue(self) {
+            self.songActPower += value
+        }
+    }
+
+    override fun end(context: ActionContext, value: Int, condition: Condition) = context.run {
+        condition.applyIfTrue(self) {
+            self.songActPower -= value
+        }
+    }
+}
+
 object DexterityUpSongEffect : SongEffect {
     override val displayName = "Dexterity Up"
 

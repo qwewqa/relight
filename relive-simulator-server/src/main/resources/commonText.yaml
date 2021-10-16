@@ -100,4 +100,9 @@
 '.text-simulate':
   en: Simulate
   zh_hant: 模擬
-
+'.text-boss-hp':
+  en: Boss HP Override
+'.text-event-multiplier':
+  en: Event Multiplier
+'.text-first-is-guest':
+  en: First is guest

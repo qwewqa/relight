@@ -239,6 +239,27 @@ val CrazyMadScientist = MemoirBlueprint(
     ),
 )
 
+val ToTheWonderfulWorldOfRakugo = MemoirBlueprint(
+    name = "To the Wonderful World of Rakugo",
+    rarity = 4,
+    baseStats = StatData(
+        normalDefense = 50,
+        specialDefense = 50,
+    ),
+    growthStats = StatData(
+        normalDefense = 5696,
+        specialDefense = 5696,
+    ),
+    baseAutoskills = listOf(
+        CriticalUpPassive.new(21),
+        DexterityPassive.new(11)
+    ),
+    maxAutoskills = listOf(
+        CriticalUpPassive.new(30),
+        DexterityPassive.new(16)
+    ),
+)
+
 val ThePhantomAndChristine = MemoirBlueprint(
     name = "The Phantom and Christine",
     rarity = 4,
