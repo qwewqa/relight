@@ -13,7 +13,9 @@ import org.w3c.dom.*
 import org.w3c.dom.events.Event
 import org.w3c.dom.url.URL
 import xyz.qwewqa.relive.simulator.client.bootstrap.Bootstrap
+import xyz.qwewqa.relive.simulator.client.codemirror.CodeMirror
 import xyz.qwewqa.relive.simulator.client.plotly.Plotly.react
+import xyz.qwewqa.relive.simulator.client.sortable.Sortable
 import xyz.qwewqa.relive.simulator.client.yaml.dumpYamlSerialize
 import xyz.qwewqa.relive.simulator.client.yaml.loadYamlDeserialize
 import kotlin.random.Random
@@ -53,7 +55,6 @@ suspend fun start(simulator: Simulator) {
     val actorSettingsDiv = document.getElementById("actor-settings") as HTMLDivElement
     val addActorButton = document.getElementById("add-actor-button") as HTMLButtonElement
     val removeActorButton = document.getElementById("remove-actor-button") as HTMLButtonElement
-    val addActorRow = document.getElementById("add-actor-row") as HTMLDivElement
     val bossSelect = document.getElementById("boss-select").singleSelect()
     val strategyTypeSelect = document.getElementById("strategy-type-select").singleSelect()
     val strategyContainer = document.getElementById("strategy-container") as HTMLDivElement
@@ -97,29 +98,41 @@ suspend fun start(simulator: Simulator) {
     }
 
     fun updateGuestStyling() {
-        actorSettingsDiv.children.asList().firstOrNull()?.let { options ->
+        val optionDivs = actorSettingsDiv.children.asList()
+        optionDivs.forEach { options ->
             val borderDiv = options.getElementsByClassName("border")[0] as HTMLDivElement
-            if (guestCheckbox.checked) {
+            borderDiv.addClass("border-2")
+            borderDiv.removeClass("border-4")
+            borderDiv.removeClass("border-warning")
+        }
+        if (guestCheckbox.checked) {
+            optionDivs.firstOrNull()?.let { options ->
+                val borderDiv = options.getElementsByClassName("border")[0] as HTMLDivElement
                 borderDiv.removeClass("border-2")
                 borderDiv.addClass("border-4")
                 borderDiv.addClass("border-warning")
-            } else {
-                borderDiv.addClass("border-2")
-                borderDiv.removeClass("border-4")
-                borderDiv.removeClass("border-warning")
             }
         }
     }
 
+    var actorIdCounter = 0
     fun addActor() {
-        val actorCount = actorSettingsDiv.getElementsByClassName("actor-options").length + 1
-        actorSettingsDiv.insertBefore(
+        val actorId = actorIdCounter++
+        actorSettingsDiv.appendChild(
             document.create.div("row actor-options") {
+                id = "actor-options-$actorId"
                 div("col-12 my-2") {
                     div("border border-2 rounded") {
-                        div("row m-2") {
+                        div ("row mx-1 mt-1") {
+                            div("col-auto ms-auto px-1") {
+                                button(type = ButtonType.button, classes = "btn-close") {
+                                    id = "actor-delete-$actorId"
+                                }
+                            }
+                        }
+                        div("row mx-2 mb-2") {
                             div("col-12 col-md-8 my-2") {
-                                val inputId = "actor-name-$actorCount"
+                                val inputId = "actor-name-$actorId"
                                 label("form-label text-actor-name") {
                                     htmlFor = inputId
                                     +localized(".text-actor-name", "Name")
@@ -129,7 +142,7 @@ suspend fun start(simulator: Simulator) {
                                 }
                             }
                             div("col-12 col-md-4 my-2") {
-                                val inputId = "actor-unit-skill-$actorCount"
+                                val inputId = "actor-unit-skill-$actorId"
                                 label("form-label text-unit-skill-level") {
                                     htmlFor = inputId
                                     +localized(".text-unit-skill-level", "Unit Skill Level")
@@ -140,7 +153,7 @@ suspend fun start(simulator: Simulator) {
                                 }
                             }
                             div("col-12 my-2") {
-                                val selectId = "actor-dress-$actorCount"
+                                val selectId = "actor-dress-$actorId"
                                 label("form-label text-dress") {
                                     htmlFor = selectId
                                     +localized(".text-dress", "Dress")
@@ -157,7 +170,7 @@ suspend fun start(simulator: Simulator) {
                                 }
                             }
                             div("col-12 col-md-6 my-2") {
-                                val selectId = "actor-memoir-$actorCount"
+                                val selectId = "actor-memoir-$actorId"
                                 label("form-label text-memoir") {
                                     htmlFor = selectId
                                     +localized(".text-memoir", "Memoir")
@@ -174,7 +187,7 @@ suspend fun start(simulator: Simulator) {
                                 }
                             }
                             div("col-6 col-md-3 my-2") {
-                                val inputId = "actor-memoir-level-$actorCount"
+                                val inputId = "actor-memoir-level-$actorId"
                                 label("form-label text-memoir-level") {
                                     htmlFor = inputId
                                     +localized(".text-memoir-level", "Memoir Level")
@@ -185,7 +198,7 @@ suspend fun start(simulator: Simulator) {
                                 }
                             }
                             div("col-6 col-md-3 my-2") {
-                                val selectId = "actor-memoir-unbind-$actorCount"
+                                val selectId = "actor-memoir-unbind-$actorId"
                                 label("form-label text-memoir-unbind") {
                                     htmlFor = selectId
                                     +localized(".text-memoir-unbind", "Memoir Unbind")
@@ -219,10 +232,13 @@ suspend fun start(simulator: Simulator) {
                     }
                 }
             },
-            addActorRow,
         )
         updateGuestStyling()
         js("$('.selectpicker').selectpicker()")
+        (document.getElementById("actor-delete-$actorId") as HTMLButtonElement).addEventListener("click", {
+            (document.getElementById("actor-options-$actorId") as HTMLDivElement).remove()
+            updateGuestStyling()
+        })
     }
 
     fun removeActor() {
@@ -428,6 +444,14 @@ suspend fun start(simulator: Simulator) {
         updateLocaleText()
     })
 
+    Sortable.Sortable.create(
+        actorSettingsDiv,
+        jsObject {
+            animation = 150
+            onEnd = ::updateGuestStyling
+        }
+    )
+
     updateLocaleText()
     refreshSelectPicker()
 
@@ -555,7 +579,7 @@ class ResultEntry(
 
     fun format() = formatRecursive().joinToString("\n")
 
-    private fun formatRecursive(): List<String> = when(children.size) {
+    private fun formatRecursive(): List<String> = when (children.size) {
         0 -> listOf(formatSelf())
         1 -> children.values.single().let {
             ResultEntry("$name-${it.name}", parent, it.children, totalCount, excludedCount).formatRecursive()

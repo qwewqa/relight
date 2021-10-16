@@ -22,6 +22,7 @@ dependencies {
     implementation("io.ktor:ktor-client-serialization:$ktor_version")
     implementation(npm("codemirror", "5.63.1"))
     implementation(npm("js-yaml", "4.1.0"))
+    implementation(npm("sortablejs", "1.14.0"))
 }
 
 kotlin {
