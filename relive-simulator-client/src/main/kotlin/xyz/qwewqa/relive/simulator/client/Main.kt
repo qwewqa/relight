@@ -245,9 +245,7 @@ suspend fun start(simulator: Simulator) {
     }
 
     fun removeActor() {
-        if (actorSettingsDiv.childElementCount >= 2) {
-            actorSettingsDiv.removeChild(actorSettingsDiv.children[actorSettingsDiv.childElementCount - 2]!!)
-        }
+        actorSettingsDiv.lastChild?.let { actorSettingsDiv.removeChild(it) }
     }
 
     fun getSetup(): SimulationParameters {
@@ -282,7 +280,7 @@ suspend fun start(simulator: Simulator) {
     fun setSetup(setup: SimulationParameters) = setup.run {
         turnsInput.value = maxTurns
         iterationsInput.value = maxIterations
-        while (actorSettingsDiv.childElementCount >= 2) {
+        while (actorSettingsDiv.lastChild != null) {
             removeActor()
         }
         val team = if (guest != null) listOf(guest) + this.team else this.team
