@@ -19,6 +19,61 @@ val EmptyMemoir = MemoirBlueprint(
     maxAutoskills = listOf(),
 )
 
+val ADayInTheGodessesLife = MemoirBlueprint(
+    name = "A Day in the Goddesses' Life",
+    rarity = 4,
+    baseStats = StatData(
+        actPower = 15,
+    ),
+    growthStats = StatData(
+        actPower = 1708,
+    ),
+    baseAutoskills = listOf(
+        EffectiveDamageDealtPassive.new(10),
+    ),
+    maxAutoskills = listOf(
+        EffectiveDamageDealtPassive.new(15),
+    ),
+)
+
+val TurbulentNinja  = MemoirBlueprint(
+    name = "Turbulent Ninja",
+    rarity = 4,
+    baseStats = StatData(
+        actPower = 15,
+    ),
+    growthStats = StatData(
+        actPower = 1708,
+    ),
+    baseAutoskills = listOf(
+        ClimaxActPowerPassive.new(8),
+        EffectiveDamageDealtPassive.new(8),
+    ),
+    maxAutoskills = listOf(
+        ClimaxActPowerPassive.new(12),
+        EffectiveDamageDealtPassive.new(12),
+    ),
+)
+
+val EnjoyingWinter = MemoirBlueprint(
+    name = "Enjoying Winter",
+    rarity = 4,
+    baseStats = StatData(
+        hp = 300,
+    ),
+    growthStats = StatData(
+        hp = 34177,
+    ),
+    baseAutoskills = listOf(
+        CriticalUpPassive.new(21),
+        PerfectAimPassive.new(),
+    ),
+    maxAutoskills = listOf(
+        CriticalUpPassive.new(30),
+        PerfectAimPassive.new(),
+    ),
+)
+
 val StretchingHelp = MemoirBlueprint(
     name = "Stretching Help...?",
     rarity = 3,
@@ -27,8 +82,8 @@ val StretchingHelp = MemoirBlueprint(
         specialDefense = 12,
     ),
     growthStats = StatData(
-        actPower = 812,
-        specialDefense = 1638,
+        actPower = 822,
+        specialDefense = 1645,
     ),
     baseAutoskills = listOf(
         EffectiveDamageDealtPassive.new(6),
@@ -260,6 +315,27 @@ val ToTheWonderfulWorldOfRakugo = MemoirBlueprint(
     ),
 )
 
+val DeuxJunoJuneBride = MemoirBlueprint(
+    name = "Deux JUNO!? -June Bride-",
+    rarity = 4,
+    baseStats = StatData(
+        actPower = 7,
+        hp = 150,
+    ),
+    growthStats = StatData(
+        actPower = 860,
+        hp = 17088,
+    ),
+    baseAutoskills = listOf(
+        CriticalUpPassive.new(21),
+        DexterityPassive.new(11)
+    ),
+    maxAutoskills = listOf(
+        CriticalUpPassive.new(30),
+        DexterityPassive.new(16)
+    ),
+)
+
 val ThePhantomAndChristine = MemoirBlueprint(
     name = "The Phantom and Christine",
     rarity = 4,
@@ -451,7 +527,7 @@ val ConfidantsOnADate = MemoirBlueprint(
         specialDefense = 18,
     ),
     growthStats = StatData(
-        hp = 1025,
+        actPower = 1025,
         specialDefense = 2050,
     ),
     baseAutoskills = listOf(
