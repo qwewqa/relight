@@ -32,8 +32,8 @@
   en: Boss
   zh_hant: 王
 '.text-event-bonus':
-  en: Event Bonus
-  zh_hant: 活動加成
+  en: Additional Event Bonus (Chest Reward)
+  zh_hant: 額外活動傷害加乘 [爬塔箱子]
 '.text-actors':
   en: Actors (front to back)
   zh_hant: 角色 (從前到後)
@@ -102,8 +102,10 @@
   zh_hant: 模擬
 '.text-boss-hp':
   en: Boss HP Override
+  zh_hant: 自訂敵人血量
 '.text-event-multiplier':
   en: Event Multiplier (RP)
-  zh_hant: 活動乘数 【爬塔】
+  zh_hant: 活動乘数 [爬塔RP]
 '.text-first-is-guest':
   en: First is guest
+  zh_hant: 最前方角色為來賓角色
