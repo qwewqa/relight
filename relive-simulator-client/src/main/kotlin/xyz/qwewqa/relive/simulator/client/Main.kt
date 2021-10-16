@@ -451,6 +451,7 @@ suspend fun start(simulator: Simulator) {
         actorSettingsDiv,
         jsObject {
             animation = 150
+            swapThreshold = 0.75
             handle = ".actor-drag-handle"
             onEnd = ::updateGuestStyling
         }
