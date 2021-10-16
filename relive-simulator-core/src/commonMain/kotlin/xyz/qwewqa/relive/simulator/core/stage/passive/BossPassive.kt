@@ -11,7 +11,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.log
 
 object AbnormalGuardPassive : PassiveEffect {
-    override val category = PassiveEffectCategory.TurnStartPositive
+    override val category = PassiveEffectCategory.Passive
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         self.buffs.guardOnAbnormal = true
@@ -19,7 +19,7 @@ object AbnormalGuardPassive : PassiveEffect {
 }
 
 object AbnormalResistPassive : PassiveEffect {
-    override val category = PassiveEffectCategory.TurnStartPositive
+    override val category = PassiveEffectCategory.Passive
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         abnormalBuffs.forEach { buff ->
@@ -29,7 +29,7 @@ object AbnormalResistPassive : PassiveEffect {
 }
 
 object BossElementResistPassive : PassiveEffect {
-    override val category = PassiveEffectCategory.TurnStartPositive
+    override val category = PassiveEffectCategory.Passive
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         Attribute.values().forEach {
@@ -49,7 +49,7 @@ object BossElementResistPassive : PassiveEffect {
  * A passive which sets the event bonuses against the boss which has this passive.
  */
 class EventBonusPassive(val values: Map<Dress, Int>) : PassiveEffect {
-    override val category = PassiveEffectCategory.TurnStartPositive
+    override val category = PassiveEffectCategory.Passive
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         enemy.actors.values.forEach { actor ->
