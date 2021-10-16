@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SimulationParameters(
     val maxTurns: Int = 3,
-    val maxIterations: Int = 1000000,
+    val maxIterations: Int = 100000,
     val team: List<PlayerLoadoutParameters>,
     val guest: PlayerLoadoutParameters? = null,
     val song: SongParameters = SongParameters(),
