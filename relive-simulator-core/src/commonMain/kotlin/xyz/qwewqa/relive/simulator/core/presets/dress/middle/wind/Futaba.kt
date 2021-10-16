@@ -5,7 +5,7 @@ import xyz.qwewqa.relive.simulator.core.presets.condition.NormalDamageOnlyCondit
 import xyz.qwewqa.relive.simulator.core.stage.actor.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -102,5 +102,6 @@ val HondaFutaba95 = HondaFutaba.copy(
         hp = 25167,
         normalDefense = 1169,
         specialDefense = 1402,
-    )
+    ),
+    base = HondaFutaba,
 )

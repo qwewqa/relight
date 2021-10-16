@@ -7,14 +7,13 @@ import xyz.qwewqa.relive.simulator.core.presets.condition.BackOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.MisoraOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.FrontierOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.ShizuhaOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.FuMeiFan
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
 import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val AceMisora = Dress(
@@ -118,5 +117,6 @@ val AceMisora95 = AceMisora.copy(
         hp = 17773,
         normalDefense = 769,
         specialDefense = 1153,
-    )
+    ),
+    base = AceMisora,
 )

@@ -13,7 +13,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
 import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val FuMeiFan = Dress(
@@ -118,5 +118,6 @@ val FuMeiFan95 = FuMeiFan.copy(
         hp = 17633,
         normalDefense = 769,
         specialDefense = 1171,
-    )
+    ),
+    base = FuMeiFan,
 )

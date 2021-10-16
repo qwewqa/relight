@@ -1,19 +1,14 @@
-package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr9
+package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr9
 
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
-import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.*
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffect
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.passive.AbnormalGuardPassive
-import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 
 val tr9WhiteRabbitMisora = ActorLoadout(

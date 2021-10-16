@@ -1,4 +1,4 @@
-package xyz.qwewqa.relive.simulator.core.stage.loadout
+package xyz.qwewqa.relive.simulator.core.stage.dress
 
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -20,4 +20,5 @@ data class Dress(
     val acts: Map<ActType, ActData>,
     val autoSkills: List<PassiveData>,
     val unitSkill: UnitSkill? = null,
+    val base: Dress? = null
 )

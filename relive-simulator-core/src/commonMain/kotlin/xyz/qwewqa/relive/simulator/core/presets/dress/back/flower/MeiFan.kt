@@ -11,7 +11,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
 import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.loadout.Dress
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val StageGirlMeiFan = Dress(
@@ -110,5 +110,6 @@ val StageGirlMeiFan95 = StageGirlMeiFan.copy(
         hp = 31836,
         normalDefense = 1557,
         specialDefense = 1194,
-    )
+    ),
+    base = StageGirlMeiFan,
 )

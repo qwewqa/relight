@@ -1,10 +1,10 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr10.*
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr11.*
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr12.*
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr9.tr9FaithMisora
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr9.tr9FaithMisoraStrategy
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr10.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr11.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr12.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr9.tr9FaithMisora
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr9.tr9FaithMisoraStrategy
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.Strategy
 
