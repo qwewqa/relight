@@ -30,7 +30,6 @@ data class SimulationParameters(
     val strategy: StrategyParameter,
     val boss: String,
     val bossHp: Int? = null,
-    val eventBonus: Int,
     val eventMultiplier: Int = 100,
     val seed: Int,
 ) {
@@ -99,7 +98,6 @@ data class SimulationParameters(
             ),
             {
                 player.actors.values.forEach {
-                    it.eventBonus = eventBonus
                     it.eventMultiplier = eventMultiplier
                 }
             },

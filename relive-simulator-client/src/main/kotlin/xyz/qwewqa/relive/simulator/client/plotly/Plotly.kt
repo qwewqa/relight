@@ -1,4 +1,4 @@
-package xyz.qwewqa.relive.simulator.client
+package xyz.qwewqa.relive.simulator.client.plotly
 
 external object Plotly {
     fun newPlot(

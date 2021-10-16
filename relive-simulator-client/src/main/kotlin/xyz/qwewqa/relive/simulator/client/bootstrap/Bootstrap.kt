@@ -1,7 +1,8 @@
-package xyz.qwewqa.relive.simulator.client
+package xyz.qwewqa.relive.simulator.client.bootstrap
 
 @Suppress("ClassName")
-external object bootstrap {
+@JsName("bootstrap")
+external object Bootstrap {
     class Toast(element: dynamic, options: dynamic = definedExternally) {
         fun show()
         fun hide()

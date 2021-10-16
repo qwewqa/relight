@@ -103,6 +103,7 @@
 '.text-boss-hp':
   en: Boss HP Override
 '.text-event-multiplier':
-  en: Event Multiplier
+  en: Event Multiplier (RP)
+  zh_hant: 活動乘数 【爬塔】
 '.text-first-is-guest':
   en: First is guest

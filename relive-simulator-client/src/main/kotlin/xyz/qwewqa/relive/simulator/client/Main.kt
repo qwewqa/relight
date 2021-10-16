@@ -12,7 +12,10 @@ import kotlinx.serialization.json.Json
 import org.w3c.dom.*
 import org.w3c.dom.events.Event
 import org.w3c.dom.url.URL
-import xyz.qwewqa.relive.simulator.client.Plotly.react
+import xyz.qwewqa.relive.simulator.client.bootstrap.Bootstrap
+import xyz.qwewqa.relive.simulator.client.plotly.Plotly.react
+import xyz.qwewqa.relive.simulator.client.yaml.dumpYamlSerialize
+import xyz.qwewqa.relive.simulator.client.yaml.loadYamlDeserialize
 import kotlin.random.Random
 
 suspend fun main() {
@@ -38,7 +41,6 @@ suspend fun start(simulator: Simulator) {
 
     val versionLink = document.getElementById("version-link") as HTMLAnchorElement
     val languageSelect = document.getElementById("language-select").singleSelect()
-    val simulatorOptionsDiv = document.getElementById("simulator-options") as HTMLDivElement
     val shutdownButton = document.getElementById("shutdown-button") as HTMLButtonElement
     val exportButton = document.getElementById("export-button") as HTMLButtonElement
     val doImportButton = document.getElementById("do-import-button") as HTMLButtonElement
@@ -57,7 +59,6 @@ suspend fun start(simulator: Simulator) {
     val strategyContainer = document.getElementById("strategy-container") as HTMLDivElement
     val simulateButton = document.getElementById("simulate-button") as HTMLButtonElement
     val cancelButton = document.getElementById("cancel-button") as HTMLButtonElement
-    val eventBonusInput = document.getElementById("event-bonus-input").integerInput(0)
     val eventMultiplierInput = document.getElementById("event-multiplier-input").integerInput(100)
     val bossHpInput = document.getElementById("boss-hp-input").integerInput(-1)
     val turnsInput = document.getElementById("turns-input").integerInput(3)
@@ -87,10 +88,10 @@ suspend fun start(simulator: Simulator) {
         }
     }
 
-    fun toast(name: String, value: String): bootstrap.Toast {
+    fun toast(name: String, value: String): Bootstrap.Toast {
         val element = toastElement(name, value)
         toastContainer.appendChild(element)
-        return bootstrap.Toast(element).also {
+        return Bootstrap.Toast(element).also {
             it.show()
         }
     }
@@ -254,7 +255,6 @@ suspend fun start(simulator: Simulator) {
             ),
             boss = bossSelect.value,
             bossHp = if (bossHpInput.value > 0) bossHpInput.value else null,
-            eventBonus = eventBonusInput.value,
             eventMultiplier = eventMultiplierInput.value,
             seed = seedInput.value,
         )
@@ -292,7 +292,6 @@ suspend fun start(simulator: Simulator) {
         } else {
             bossHpInput.clear()
         }
-        eventBonusInput.value = eventBonus
         eventMultiplierInput.value = eventMultiplier
         seedInput.value = seed
         updateGuestStyling()
@@ -429,6 +428,7 @@ suspend fun start(simulator: Simulator) {
         updateLocaleText()
     })
 
+    updateLocaleText()
     refreshSelectPicker()
 
     GlobalScope.launch {

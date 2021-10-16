@@ -1,4 +1,4 @@
-package xyz.qwewqa.relive.simulator.client
+package xyz.qwewqa.relive.simulator.client.yaml
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromString
@@ -18,6 +18,10 @@ external object Yaml {
 // 2. Performance doesn't matter
 // 3. Multiline strings are nice to have (otherwise yamlkt would be fine)
 
+val json = Json {
+    ignoreUnknownKeys = true
+}
+
 @OptIn(ExperimentalSerializationApi::class)
 inline fun <reified T> dumpYamlSerialize(obj: T): String {
     return Yaml.dump(Yaml.load(Json.encodeToString(obj))) as String
@@ -25,5 +29,5 @@ inline fun <reified T> dumpYamlSerialize(obj: T): String {
 
 @OptIn(ExperimentalSerializationApi::class)
 inline fun <reified T> loadYamlDeserialize(document: String): T {
-    return Json.decodeFromString(JSON.stringify(Yaml.load(document)))
+    return json.decodeFromString(JSON.stringify(Yaml.load(document)))
 }
