@@ -60,6 +60,7 @@ suspend fun start(simulator: Simulator) {
     val strategyContainer = document.getElementById("strategy-container") as HTMLDivElement
     val simulateButton = document.getElementById("simulate-button") as HTMLButtonElement
     val cancelButton = document.getElementById("cancel-button") as HTMLButtonElement
+    val eventBonusInput = document.getElementById("event-bonus-input").integerInput(0)
     val eventMultiplierInput = document.getElementById("event-multiplier-input").integerInput(100)
     val bossHpInput = document.getElementById("boss-hp-input").integerInput(-1)
     val turnsInput = document.getElementById("turns-input").integerInput(3)
@@ -272,6 +273,7 @@ suspend fun start(simulator: Simulator) {
             ),
             boss = bossSelect.value,
             bossHp = if (bossHpInput.value > 0) bossHpInput.value else null,
+            additionalEventBonus = eventBonusInput.value,
             eventMultiplier = eventMultiplierInput.value,
             seed = seedInput.value,
         )
@@ -309,6 +311,7 @@ suspend fun start(simulator: Simulator) {
         } else {
             bossHpInput.clear()
         }
+        eventBonusInput.value = additionalEventBonus
         eventMultiplierInput.value = eventMultiplier
         seedInput.value = seed
         updateGuestStyling()

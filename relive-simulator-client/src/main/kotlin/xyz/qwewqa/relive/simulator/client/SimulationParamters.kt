@@ -13,6 +13,7 @@ data class SimulationParameters(
     val strategy: StrategyParameter = StrategyParameter("Simple", ""),
     val boss: String,
     val bossHp: Int? = null,
+    val additionalEventBonus: Int = 0,
     val eventMultiplier: Int = 100,
     val seed: Int = 0,
 )

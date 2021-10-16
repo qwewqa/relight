@@ -31,6 +31,7 @@ data class SimulationParameters(
     val boss: String,
     val bossHp: Int? = null,
     val eventMultiplier: Int = 100,
+    val additionalEventBonus: Int = 0,
     val seed: Int,
 ) {
     fun createStageLoadout(): StageLoadout {
@@ -98,6 +99,7 @@ data class SimulationParameters(
             ),
             {
                 player.actors.values.forEach {
+                    it.eventBonus += additionalEventBonus
                     it.eventMultiplier = eventMultiplier
                 }
             },
