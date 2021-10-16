@@ -215,6 +215,9 @@ class Stage(
             } finally {
                 log("Stage") { "End" }
             }
+        } catch (e: IgnoreRunException) {
+            log("Stage") { "Run ignored in finalizer." }
+            return ExcludedRun(tags)
         } catch (e: Exception) {
             log("Finalizer Error") { e.stackTraceToString() }
             return PlayError(e, tags)
