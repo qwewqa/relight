@@ -68,6 +68,16 @@ object EffectiveDamageDealtPassive : PassiveEffect {
     }
 }
 
+object ClimaxActPowerPassive : PassiveEffect {
+    override val category = PassiveEffectCategory.Passive
+
+    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+        condition.applyIfTrue(self) {
+            valueClimaxDamageUp += value
+        }
+    }
+}
+
 object PerfectAimPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
 
