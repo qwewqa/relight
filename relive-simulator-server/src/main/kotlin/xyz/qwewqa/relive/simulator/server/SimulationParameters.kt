@@ -166,6 +166,7 @@ data class SimulationResult(
     val maxIterations: Int,
     val currentIterations: Int,
     val results: List<SimulationResultValue>,
+    val marginResults: Map<SimulationMarginResultType, Map<Int, Int>>,
     val log: String?,
     val runtime: Double? = null,
     val cancelled: Boolean = false,
@@ -197,6 +198,12 @@ sealed class SimulationResultType {
     @Serializable
     @SerialName("error")
     object Error : SimulationResultType()
+}
+
+@Serializable
+enum class SimulationMarginResultType {
+    Wipe,
+    End,
 }
 
 @Serializable

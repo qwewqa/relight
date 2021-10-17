@@ -474,6 +474,8 @@ suspend fun start(simulator: Simulator) {
                     val errorText = document.getElementById("error-text") as HTMLPreElement
                     val logText = document.getElementById("log-text") as HTMLPreElement
                     val resultsPlot = document.getElementById("results-plot")!!
+                    val endPlot = document.getElementById("end-plot")!!
+                    val wipePlot = document.getElementById("wipe-plot")!!
 
                     val currentIterationsText = result.currentIterations.toString()
                     val maxIterationsText = result.maxIterations.toString()
@@ -532,6 +534,37 @@ suspend fun start(simulator: Simulator) {
                             staticPlot = true
                         } as Any,
                     )
+                    listOf(
+                        SimulationMarginResultType.End to endPlot,
+                        SimulationMarginResultType.Wipe to wipePlot,
+                    ).forEach { (resultType, element) ->
+                        val data = result.marginResults[resultType] ?: emptyMap()
+                        react(
+                            graphDiv = element,
+                            data = arrayOf(
+                                jsObject {
+                                    type = "bar"
+                                    x = data.keys.toTypedArray()
+                                    y = data.values.toTypedArray()
+                                    marker = jsObject {
+                                        color = resultType.color
+                                    }
+                                } as Any
+                            ),
+                            layout = jsObject {
+                                title = "${resultType.name} Margin"
+                                height = 400
+                                margin = jsObject {
+                                    l = 60
+                                    r = 60
+                                }
+                                bargap = 0
+                            } as Any,
+                            config = jsObject {
+                                responsive = true
+                            } as Any,
+                        )
+                    }
                     window.dispatchEvent(Event("resize")) // Makes plotly resize immediately
                     resultsRow.removeClass("d-none")
 
@@ -554,7 +587,7 @@ suspend fun start(simulator: Simulator) {
                     }
                 }
             }
-            delay(500)
+            delay(1000)
         }
     }
 }

@@ -26,6 +26,8 @@ private val pool = Executors
 private const val SIMULATE_CHUNK_SIZE = 10000
 private const val SIMULATE_RESULT_UPDATE_INTERVAL = 10000
 
+private const val RESULT_MARGIN_ROUNDING_FACTOR = 10000
+
 fun simulate(parameters: SimulationParameters, logger: Logger? = null): String {
     val token = generateToken()
     logger?.info(
@@ -35,6 +37,7 @@ fun simulate(parameters: SimulationParameters, logger: Logger? = null): String {
         maxIterations = parameters.maxIterations,
         currentIterations = 0,
         results = emptyList(),
+        marginResults = emptyMap(),
         log = null,
     )
     if (parameters.maxIterations == 1) {
@@ -61,6 +64,7 @@ private fun simulateSingle(
         maxIterations = parameters.maxIterations,
         currentIterations = 1,
         results = results,
+        marginResults = emptyMap(),
         log = log,
         error = (result as? PlayError)?.exception?.stackTraceToString(),
         complete = true,
@@ -110,6 +114,7 @@ private fun simulateMany(
         }
     var resultCount = 0
     val resultCounts = mutableMapOf<Pair<List<String>, SimulationResultType>, Int>()
+    val marginResults = mutableMapOf<SimulationMarginResultType, MutableMap<Int, Int>>()
     var firstApplicableIteration: IterationResult? = null
     while (resultCount < parameters.maxIterations) {
         val nextIteration = resultsChannel.receive()
@@ -122,6 +127,11 @@ private fun simulateMany(
         }
         val nextResult = nextIteration.result
         val resultKey = nextResult.tags to nextResult.toSimulationResult()
+        (nextResult as? MarginStageResult)?.marginResultType()?.let { marginResultType ->
+            val roundedMargin = nextResult.margin / RESULT_MARGIN_ROUNDING_FACTOR * RESULT_MARGIN_ROUNDING_FACTOR
+            val typeResults = marginResults.getOrPut(marginResultType) { mutableMapOf() }
+            typeResults[roundedMargin] = (typeResults[roundedMargin] ?: 0) + 1
+        }
         resultCount++
         resultCounts[resultKey] = resultCounts.getOrDefault(resultKey, 0) + 1
         if (resultCount % SIMULATE_RESULT_UPDATE_INTERVAL == 0) {
@@ -129,6 +139,7 @@ private fun simulateMany(
                 maxIterations = parameters.maxIterations,
                 currentIterations = resultCount,
                 results = resultCounts.map { (k, v) -> SimulationResultValue(k.first, k.second, v) },
+                marginResults = marginResults.mapValues { (_, v) -> v.toMap() },
                 log = null,
                 runtime = (System.nanoTime() - startTime) / 1_000_000_000.0,
             )
@@ -144,6 +155,7 @@ private fun simulateMany(
         maxIterations = parameters.maxIterations,
         currentIterations = resultCount,
         results = results,
+        marginResults = marginResults,
         log = loggedResult?.first,
         runtime = (System.nanoTime() - startTime) / 1_000_000_000.0,
         cancelled = false,
@@ -160,10 +172,11 @@ private fun SimulationParameters.createStageLoadoutOrReportError(token: String) 
     createStageLoadout()
 } catch (e: Exception) {
     simulationResults[token] = SimulationResult(
-        maxIterations,
-        0,
-        emptyList(),
-        "Error occurred during setup.",
+        maxIterations = maxIterations,
+        currentIterations = 0,
+        results = emptyList(),
+        marginResults = emptyMap(),
+        log = "Error occurred during setup.",
         cancelled = true,
         error = e.stackTraceToString(),
     )
@@ -176,4 +189,9 @@ fun StageResult.toSimulationResult() = when (this) {
     is PlayError -> SimulationResultType.Error
     is TeamWipe -> SimulationResultType.Wipe(turn, tile)
     is Victory -> SimulationResultType.Victory(turn, tile)
+}
+
+fun MarginStageResult.marginResultType() = when (this) {
+    is OutOfTurns -> SimulationMarginResultType.End
+    is TeamWipe -> SimulationMarginResultType.Wipe
 }

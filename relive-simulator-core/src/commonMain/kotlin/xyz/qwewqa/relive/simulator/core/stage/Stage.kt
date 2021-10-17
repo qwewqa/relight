@@ -230,7 +230,7 @@ class Stage(
         if (player.active.isEmpty()) {
             player.strategy.finalize(this, player, enemy)
             enemy.strategy.finalize(this, enemy, player)
-            return TeamWipe(turn, tile, tags)
+            return TeamWipe(enemy.active.sumOf { it.hp }, turn, tile, tags)
         }
         if (enemy.active.isEmpty()) {
             player.strategy.finalize(this, player, enemy)
@@ -258,8 +258,12 @@ sealed class StageResult {
     abstract val tags: List<String>
 }
 
-data class TeamWipe(val turn: Int, val tile: Int, override val tags: List<String>) : StageResult()
-data class OutOfTurns(val margin: Int, override val tags: List<String>) : StageResult()
+sealed class MarginStageResult : StageResult() {
+    abstract val margin: Int
+}
+
+data class TeamWipe(override val margin: Int, val turn: Int, val tile: Int, override val tags: List<String>) : MarginStageResult()
+data class OutOfTurns(override val margin: Int, override val tags: List<String>) : MarginStageResult()
 data class Victory(val turn: Int, val tile: Int, override val tags: List<String>) : StageResult()
 data class PlayError(val exception: Exception, override val tags: List<String>) : StageResult()
 data class ExcludedRun(override val tags: List<String>) : StageResult()

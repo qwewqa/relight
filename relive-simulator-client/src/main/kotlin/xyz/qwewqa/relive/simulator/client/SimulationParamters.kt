@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.client
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 @Serializable
 data class SimulationParameters(
@@ -80,6 +81,7 @@ data class SimulationResult(
     val maxIterations: Int,
     val currentIterations: Int,
     val results: List<SimulationResultValue>,
+    val marginResults: Map<SimulationMarginResultType, Map<Int, Int>>,
     val log: String?,
     val runtime: Double? = null,
     val cancelled: Boolean = false,
@@ -161,6 +163,12 @@ sealed class SimulationResultType : Comparable<SimulationResultType> {
         override val color = "Orange"
         override fun toString() = "Error"
     }
+}
+
+@Serializable
+enum class SimulationMarginResultType(val color: String = "Black") {
+    Wipe("DarkMagenta"),
+    End("FireBrick"),
 }
 
 @Serializable
