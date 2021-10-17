@@ -564,6 +564,11 @@ suspend fun start(simulator: Simulator) {
                                 responsive = true
                             } as Any,
                         )
+                        if (data.isEmpty()) {
+                            element.addClass("d-none")
+                        } else {
+                            element.removeClass("d-none")
+                        }
                     }
                     window.dispatchEvent(Event("resize")) // Makes plotly resize immediately
                     resultsRow.removeClass("d-none")
