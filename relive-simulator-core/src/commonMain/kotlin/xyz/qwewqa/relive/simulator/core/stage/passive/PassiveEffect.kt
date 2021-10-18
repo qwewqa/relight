@@ -77,6 +77,7 @@ enum class EffectTag {
     PerfectAim,
     ApDown,
     ApUp,
+    Cutin,
 }
 
 /**

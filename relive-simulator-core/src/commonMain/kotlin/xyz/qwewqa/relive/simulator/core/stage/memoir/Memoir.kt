@@ -38,6 +38,16 @@ data class MemoirBlueprint(
         cutinData,
         additionalTags)
 
+    val tags: List<EffectTag> = mutableSetOf<EffectTag>().apply {
+        addAll(additionalTags)
+        autoskills.last().forEach { passive ->
+            addAll(passive.effect.tags)
+        }
+        if (cutinData.any { it != null }) {
+            add(EffectTag.Cutin)
+        }
+    }.sortedBy { it.ordinal }
+
     fun maxLevel(limitBreak: Int) = (rarity + 2) * 10 + limitBreak * 5
 
     fun create(level: Int, limitBreak: Int): Memoir {

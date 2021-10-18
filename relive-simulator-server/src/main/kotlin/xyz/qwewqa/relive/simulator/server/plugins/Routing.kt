@@ -103,13 +103,7 @@ fun Application.configureRouting() {
                 getLocalizationConfig("commonText.yaml"),
                 getLocalizationConfig("dress.yaml", playerDresses.keys),
                 getLocalizationConfig("memoir.yaml", memoirs.keys).map { option ->
-                    val memoir = memoirs[option.id]!!
-                    val tags = mutableSetOf<EffectTag>().apply {
-                        addAll(memoir.additionalTags)
-                        memoir.autoskills.last().forEach { passive ->
-                            addAll(passive.effect.tags)
-                        }
-                    }.sortedBy { it.ordinal }
+                    val tags = memoirs[option.id]!!.tags
                     option.copy(
                         description = option.name.keys.associateWith { locale ->
                             tags.joinToString(", ") { tag -> tagConfig[tag.name]?.get(locale)?.first() ?: tag.name }
