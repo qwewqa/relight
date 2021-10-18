@@ -128,7 +128,8 @@ private fun simulateMany(
         val nextResult = nextIteration.result
         val resultKey = nextResult.tags to nextResult.toSimulationResult()
         (nextResult as? MarginStageResult)?.marginResultType()?.let { marginResultType ->
-            val roundedMargin = nextResult.margin / RESULT_MARGIN_ROUNDING_FACTOR * RESULT_MARGIN_ROUNDING_FACTOR
+            val roundedMargin = (nextResult.margin + RESULT_MARGIN_ROUNDING_FACTOR - 1) /
+                    RESULT_MARGIN_ROUNDING_FACTOR * RESULT_MARGIN_ROUNDING_FACTOR
             val typeResults = marginResults.getOrPut(marginResultType) { mutableMapOf() }
             typeResults[roundedMargin] = (typeResults[roundedMargin] ?: 0) + 1
         }
