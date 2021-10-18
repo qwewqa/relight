@@ -9,10 +9,10 @@ Damage:
   zh_hant: ['傷害提升', '傷', '傷害', '增傷', 'dmg']
 Defense:
   en: ['Def', 'Defense', 'Defence']
-    zh_hant: ['防', '防禦', 'def']
+  zh_hant: ['防', '防禦', 'def']
 Agility:
   en: ['Agil', 'Agility', 'Speed']
-    zh_hant: ['速度', '速', '敏捷', 'agi']
+  zh_hant: ['速度', '速', '敏捷', 'agi']
 Dexterity:
   en: ['Dex', 'Dexterity']
   zh_hant: ['暴率', '暴', '會心率', '會', 'dex']
