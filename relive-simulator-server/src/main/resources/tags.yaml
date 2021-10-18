@@ -1,0 +1,92 @@
+HP:
+  en: ['HP']
+Act:
+  en: ['Act', 'Act Power']
+Damage:
+  en: ['Dmg', 'Damage', 'Damage Dealt']
+Defense:
+  en: ['Def', 'Defense', 'Defence']
+Agility:
+  en: ['Agil', 'Agility', 'Speed']
+Dexterity:
+  en: ['Dex', 'Dexterity']
+Critical:
+  en: ['Crit', 'Critical']
+Regeneration:
+  en: ['Regen', 'Regeneration', 'HP Regeneration']
+BrillianceRegeneration:
+  en: ['Brill Regen', 'Kiragen', 'Kira Regen', 'Brilliance Regeneration']
+NormalBarrier:
+  en: ['Norm Barrier', 'Normal Barrier']
+SpecialBarrier:
+  en: ['Spec Barrier', 'Special Barrier']
+Evasion:
+  en: ['Evade', 'Evasion']
+Fortitude:
+  en: ['Fort', 'Fortitude']
+Daze:
+  en: ['Daze']
+EffectiveDamage:
+  en: ['Eff Dmg', 'Effective Damage']
+ClimaxDamage:
+  en: ['CX Dmg', 'Climax Damage', 'Climax Act Damage']
+Brilliance:
+  en: ['Brill', 'Kira', 'Brilliance']
+BrillianceDown:
+  en: ['Brill Down', 'Kira Down', 'Brilliance Down', 'Brilliance Drain', 'Kira Drain', 'Kiradrain']
+Poison:
+  en: ['Poison']
+Stun:
+  en: ['Stun']
+Sleep:
+  en: ['Sleep']
+Nightmare:
+  en: ['Nightmare']
+Confusion:
+  en: ['Confusion']
+Stop:
+  en: ['Stop']
+Freeze:
+  en: ['Freeze']
+Blindness:
+  en: ['Blindness']
+Mark:
+  en: ['Mark']
+PoisonResistance:
+  en: ['Poison Res', 'Poison Resistance']
+BurnResistance:
+  en: ['Burn Res', 'Burn Resistance']
+StunResistance:
+  en: ['Stun Res', 'Stun Resistance']
+SleepResistance:
+  en: ['Sleep Res', 'Sleep Resistance']
+ConfusionResistance:
+  en: ['Confusion Res', 'Confusion Resistance']
+StopResistance:
+  en: ['Stop Res', 'Stop Resistance']
+FreezeResistance:
+  en: ['Freeze Res', 'Freeze Resistance']
+BlindnessResistance:
+  en: ['Blindness Res', 'Blindness Resistance']
+MarkResistance:
+  en: ['Mark Res', 'Mark Resistance']
+Seisho:
+  en: ['Seisho']
+Rinmeikan:
+  en: ['Rinmeikan']
+Frontier:
+  en: ['Frontier']
+Siegfeld:
+  en: ['Siegfeld']
+Seiran:
+  en: ['Seiran']
+NegativeEffectResistance:
+  en: ['NER', 'Negative Effect Resistance']
+PerfectAim:
+  en: ['Perfect Aim']
+ApDown:
+  en: ['Ap Down']
+ApUp:
+  en: ['Ap Up']
+Cutin:
+  en: ['Cutin', 'Cutin Skill']
