@@ -130,6 +130,8 @@ data class SimulationOptions(
 data class SimulationOption(
     val id: String,
     val name: Map<String, String>,
+    val description: Map<String, String>? = null,
+    val tags: Map<String, List<String>>? = null,
 )
 
 @Serializable

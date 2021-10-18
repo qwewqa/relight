@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.core.stage.memoir
 
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.EffectTag
 import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
 
 data class Memoir(
@@ -18,6 +19,7 @@ data class MemoirBlueprint(
     val growthStats: StatData,
     val autoskills: List<List<PassiveData>>,
     val cutinData: List<CutinData?> = listOf(null, null, null, null, null),
+    val additionalTags: List<EffectTag> = emptyList(),
 ) {
     constructor(
         name: String,
@@ -27,7 +29,14 @@ data class MemoirBlueprint(
         baseAutoskills: List<PassiveData>,
         maxAutoskills: List<PassiveData>,
         cutinData: List<CutinData?> = listOf(null, null, null, null, null),
-    ) : this(name, rarity, baseStats, growthStats, List(4) { baseAutoskills } + listOf(maxAutoskills), cutinData)
+        additionalTags: List<EffectTag> = emptyList(),
+    ) : this(name,
+        rarity,
+        baseStats,
+        growthStats,
+        List(4) { baseAutoskills } + listOf(maxAutoskills),
+        cutinData,
+        additionalTags)
 
     fun maxLevel(limitBreak: Int) = (rarity + 2) * 10 + limitBreak * 5
 

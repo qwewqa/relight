@@ -7,48 +7,60 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import kotlinx.coroutines.cancelAndJoin
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
-import kotlinx.serialization.encodeToString
 import xyz.qwewqa.relive.simulator.core.presets.condition.conditions
 import xyz.qwewqa.relive.simulator.core.presets.dress.bossLoadouts
 import xyz.qwewqa.relive.simulator.core.presets.dress.playerDresses
 import xyz.qwewqa.relive.simulator.core.presets.memoir.memoirs
 import xyz.qwewqa.relive.simulator.core.presets.song.songEffects
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.EffectTag
 import xyz.qwewqa.relive.simulator.core.stage.strategy.strategyParsers
 import xyz.qwewqa.relive.simulator.server.*
 
 fun Application.configureRouting() {
     routing {
         // Static doesn't seem to work with GraalVM properly :(
+        val index by lazy {
+            Thread.currentThread().contextClassLoader
+                .getResourceAsStream("client/index.html")!!.bufferedReader().readText()
+        }
+        val jsMap by lazy {
+            Thread.currentThread().contextClassLoader
+                .getResourceAsStream("client/relive-simulator-client.js.map")?.bufferedReader()?.readText()
+        }
+        val codemirrorCss by lazy {
+            Thread.currentThread().contextClassLoader
+                .getResourceAsStream("client/codemirror.css")!!.bufferedReader().readText()
+        }
+
+
         get("/") {
-            call.respondText(Thread.currentThread().getContextClassLoader().getResourceAsStream("client/index.html")!!
-                .bufferedReader().readText(), ContentType.Text.Html)
+            call.respondText(index, ContentType.Text.Html)
         }
         get("/version") {
             call.respond(SimulatorVersion(VERSION, GIT_SHA))
         }
         get("/index.html") {
-            call.respondText(Thread.currentThread().getContextClassLoader().getResourceAsStream("client/index.html")!!
-                .bufferedReader().readText(), ContentType.Text.Html)
+            call.respondText(index, ContentType.Text.Html)
+        }
+        val clientJs by lazy {
+            Thread.currentThread().contextClassLoader
+                .getResourceAsStream("client/relive-simulator-client.js")!!.bufferedReader().readText()
         }
         get("/relive-simulator-client.js") {
-            call.respondText(Thread.currentThread().getContextClassLoader()
-                .getResourceAsStream("client/relive-simulator-client.js")!!.bufferedReader().readText(),
-                ContentType.Application.JavaScript)
+            call.respondText(clientJs, ContentType.Application.JavaScript)
         }
         get("/relive-simulator-client.js.map") {
-            val map = Thread.currentThread().getContextClassLoader()
-                .getResourceAsStream("client/relive-simulator-client.js.map")?.bufferedReader()?.readText()
-            if (map != null) {
-                call.respondText(map, ContentType.Application.Json)
+            if (jsMap != null) {
+                call.respondText(jsMap!!, ContentType.Application.Json)
             } else {
                 call.respond(HttpStatusCode.NotFound)
             }
         }
         get("/codemirror.css") {
-            call.respondText(Thread.currentThread().getContextClassLoader()
-                .getResourceAsStream("client/codemirror.css")!!.bufferedReader().readText(), ContentType.Text.CSS)
+            call.respondText(codemirrorCss, ContentType.Text.CSS)
         }
         post("/simulate") {
             val parameters = call.receive<SimulationParameters>()
@@ -82,28 +94,51 @@ fun Application.configureRouting() {
                 call.respond(HttpStatusCode.NoContent)
             }
         }
-        get("/options") {
-            call.respond(
-                SimulationOptions(
-                    mapOf("en" to "English", "zh_hant" to "繁体中文", "ko" to "한국어"),
-                    getLocalizationConfig("commonText.yaml"),
-                    getLocalizationConfig("dress.yaml", playerDresses.keys),
-                    getLocalizationConfig("memoir.yaml", memoirs.keys),
-                    getLocalizationConfig("songEffect.yaml", songEffects.keys),
-                    getLocalizationConfig("condition.yaml", conditions.keys),
-                    getLocalizationConfig("boss.yaml", bossLoadouts.keys),
-                    getLocalizationConfig("strategy.yaml", strategyParsers.keys),
-                )
+
+        val options by lazy {
+            val locales = mapOf("en" to "English", "zh_hant" to "繁体中文", "ko" to "한국어")
+            val tagConfig = getTagConfig("tags.yaml")
+            SimulationOptions(
+                locales,
+                getLocalizationConfig("commonText.yaml"),
+                getLocalizationConfig("dress.yaml", playerDresses.keys),
+                getLocalizationConfig("memoir.yaml", memoirs.keys).map { option ->
+                    val memoir = memoirs[option.id]!!
+                    val tags = mutableSetOf<EffectTag>().apply {
+                        addAll(memoir.additionalTags)
+                        memoir.autoskills.last().forEach { passive ->
+                            addAll(passive.effect.tags)
+                        }
+                    }.sortedBy { it.ordinal }
+                    option.copy(
+                        description = option.name.keys.associateWith { locale ->
+                            tags.joinToString(", ") { tag -> tagConfig[tag.name]?.get(locale)?.first() ?: tag.name }
+                        },
+                        tags = option.name.keys.associateWith { locale ->
+                            tags.flatMap { tag -> tagConfig[tag.name]?.get(locale) ?: listOf(tag.name) }
+                        },
+                    )
+                },
+                getLocalizationConfig("songEffect.yaml", songEffects.keys),
+                getLocalizationConfig("condition.yaml", conditions.keys),
+                getLocalizationConfig("boss.yaml", bossLoadouts.keys),
+                getLocalizationConfig("strategy.yaml", strategyParsers.keys),
             )
+        }
+        get("/options") {
+            call.respond(options)
         }
     }
 }
 
 private fun loadResourceText(path: String) =
-    Thread.currentThread().getContextClassLoader().getResourceAsStream(path)?.bufferedReader()?.readText()
+    Thread.currentThread().contextClassLoader.getResourceAsStream(path)?.bufferedReader()?.readText()
 
 private val configSerializer =
     MapSerializer(String.serializer(), MapSerializer(String.serializer(), String.serializer()))
+
+private val tagConfigSerializer =
+    MapSerializer(String.serializer(), MapSerializer(String.serializer(), ListSerializer(String.serializer())))
 
 private fun decodeLocalizationConfig(text: String, options: Iterable<String>): List<SimulationOption> {
     val localized = Yaml.default.decodeFromString(configSerializer, text)
@@ -116,6 +151,10 @@ private fun decodeLocalizationConfig(text: String): List<SimulationOption> {
     return Yaml.default.decodeFromString(configSerializer, text).map { (id, localized) ->
         SimulationOption(id, localized)
     }
+}
+
+private fun getTagConfig(path: String): Map<String, Map<String, List<String>>> {
+    return Yaml.default.decodeFromString(tagConfigSerializer, loadResourceText(path) ?: "{}")
 }
 
 private fun getLocalizationConfig(path: String, options: Iterable<String>) =

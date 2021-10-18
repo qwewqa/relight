@@ -94,9 +94,34 @@ sealed class Select(val element: HTMLSelectElement) {
         }
     }
 
+    fun populate(mapping: Map<String, SimulationOption>, locale: String) {
+        mapping.forEach { (id, option) ->
+            element.add(
+                document.create.option {
+                    value = id
+                    attributes["data-subtext"] = option.description?.get(locale) ?: ""
+                    attributes["data-tokens"] = option.tags?.get(locale)?.joinToString(" ") ?: ""
+                    +option[locale]
+                } as UnionHTMLOptGroupElementOrHTMLOptionElement
+            )
+        }
+    }
+
     fun localize(mapping: Map<String, Map<String, String>>, locale: String) {
         element.options.asList().filterIsInstance<HTMLOptionElement>().forEach { option ->
-            option.text = mapping[option.value]?.get(locale) ?: option.value
+            option.run {
+                text = mapping[option.value]?.get(locale) ?: option.value
+            }
+        }
+    }
+
+    fun localize(mapping: Map<String, SimulationOption>, locale: String) {
+        element.options.asList().filterIsInstance<HTMLOptionElement>().forEach { option ->
+            option.run {
+                setAttribute("data-subtext", mapping[option.value]?.description?.get(locale) ?: "")
+                setAttribute("data-tokens", mapping[option.value]?.tags?.get(locale)?.joinToString(" ") ?: "")
+                text = mapping[option.value]?.get(locale) ?: option.value
+            }
         }
     }
 }

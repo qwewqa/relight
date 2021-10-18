@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.passive
 
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.EffectTag
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffect
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
@@ -8,6 +9,7 @@ import xyz.qwewqa.relive.simulator.core.stage.condition.applyIfTrue
 
 object TeamActPowerUpPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
+    override val tags = listOf(EffectTag.Act)
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
@@ -20,6 +22,7 @@ object TeamActPowerUpPassive : PassiveEffect {
 
 object TeamDexterityUpPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
+    override val tags = listOf(EffectTag.Dexterity)
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
@@ -32,6 +35,7 @@ object TeamDexterityUpPassive : PassiveEffect {
 
 object TeamCriticalUpPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
+    override val tags = listOf(EffectTag.Critical)
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
@@ -44,6 +48,7 @@ object TeamCriticalUpPassive : PassiveEffect {
 
 object TeamHpUpPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
+    override val tags = listOf(EffectTag.HP)
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
