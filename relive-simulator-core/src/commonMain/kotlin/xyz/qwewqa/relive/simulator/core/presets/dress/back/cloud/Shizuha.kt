@@ -101,7 +101,7 @@ val JudgementShizuha = Dress(
         SelfReviveBuffPassive.new(50, time = 1),
         TeamHpUpPassive.new(30),
         TeamHpUpPassive.new(30) + FrontierOnlyCondition,
-        EnemyFront3NightmareBuffPassive.new(6666,3)
+        EnemyFront3NightmareBuffPassive.new(6666,1)
     /* This should be a high probability nightmare, but I'm not sure how to do that without using ApplyBuff
     *  or rewriting buffEffect to have chance as a third argument. Need to remember to give bosses resistance to
     *  nightmare during TR12 (if they have it).
