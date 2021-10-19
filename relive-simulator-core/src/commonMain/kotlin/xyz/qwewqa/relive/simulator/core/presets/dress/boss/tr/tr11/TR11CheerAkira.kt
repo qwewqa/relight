@@ -137,12 +137,12 @@ val tr11CheerAkiraStrategy = FixedStrategy {
         1 -> {
             +boss[ActType.Act1]
             +boss[ActType.Act3]
-            +boss[ActType.Act6]
+            +boss[ActType.Act7]
         }
         2 -> {
             +boss[ActType.Act3]
             +boss[ActType.Act3]
-            +boss[ActType.Act6]
+            +boss[ActType.Act7]
         }
         3 -> {
             +boss[ActType.ClimaxAct]
