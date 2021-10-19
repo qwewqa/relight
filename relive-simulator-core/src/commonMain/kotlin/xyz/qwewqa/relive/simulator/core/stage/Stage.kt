@@ -191,12 +191,15 @@ class Stage(
                         }
                         checkEnded()?.let { return it }
                     }
-                    log("Effect") { "Turn end tick" }
+                    log("Effect") { "Turn end tick." }
                     withStageEffects {  // dots
                         player.endTurn()
                         enemy.endTurn()
                     }
-                    log("Turn") { "Turn $turn end" }
+                    log("Turn") { "End strategy turns." }
+                    player.strategy.endTurn(this, player, enemy, playerQueue, enemyQueue)
+                    enemy.strategy.endTurn(this, enemy, player, enemyQueue, playerQueue)
+                    log("Turn") { "Turn $turn end." }
                     checkEnded()?.let { return it }
                 }
                 player.strategy.finalize(this, player, enemy)

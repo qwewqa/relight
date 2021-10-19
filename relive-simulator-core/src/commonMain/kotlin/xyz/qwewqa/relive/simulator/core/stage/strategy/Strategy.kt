@@ -30,6 +30,11 @@ interface Strategy {
      */
     fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult
 
+    /**
+     * Called at the end of each turn.
+     */
+    fun endTurn(stage: Stage, team: Team, enemy: Team, teamQueue: QueueResult, enemyQueue: QueueResult) {}
+
     fun onExit(actor: Actor) {}
     fun onRevive(actor: Actor) {}
 }

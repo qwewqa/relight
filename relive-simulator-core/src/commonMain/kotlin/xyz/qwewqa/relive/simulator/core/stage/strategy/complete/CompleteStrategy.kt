@@ -29,6 +29,11 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     private var queueSize: Int = 0
     private var climax = false
 
+    private var lastTeamQueue: List<CsQueuedAct> = emptyList()
+    private var lastEnemyQueue: List<CsQueuedAct> = emptyList()
+    private var lastTeamActs: List<CsAct> = emptyList()
+    private var lastEnemyActs: List<CsAct> = emptyList()
+
     private val queuedCutins = mutableListOf<BoundCutin>()
     private var cutinEnergy = 2 // one is gained at the start of t1
     private var cutinUseCounts = mutableMapOf<BoundCutin, Int>().withDefault { 0 }
@@ -41,13 +46,10 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     private val usedClimaxActs = mutableSetOf<CsAct>()
     private var held: CsAct? = null
 
-    private fun formatAct(act: CsAct) =
-        "[${act.actor.dress.name} (${act.actor.name})]:[${act.act.name}](${act.act.type.name})"
-
     private fun logHand() {
         stage.log("Hand") {
             hand.joinToString("\n") {
-                formatAct(it)
+                it.display()
             }
         }
     }
@@ -207,11 +209,37 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         context.bindValue("held") { held ?: CsNil }
         context.bindValue("turn") { stage.turn.asCsNumber() }
         context.bindValue("cutinEnergy") { cutinEnergy.asCsNumber() }
+        context.bindValue("lastTeamQueue") { CsList(lastTeamQueue) }
+        context.bindValue("lastEnemyQueue") { CsList(lastEnemyQueue) }
+        context.bindValue("lastTeamActs") { CsList(lastTeamActs) }
+        context.bindValue("lastEnemyActs") { CsList(lastEnemyActs) }
 
         val boss = enemy.actors.values.singleOrNull()?.let { CsActor(it) } ?: CsNil
         context.bindValue("boss") { boss }
 
         context.variables["hand"] = CsList(hand)
+    }
+
+    override fun endTurn(stage: Stage, team: Team, enemy: Team, teamQueue: QueueResult, enemyQueue: QueueResult) {
+        lastTeamQueue = teamQueue.toQueueTileList()
+        lastEnemyQueue = enemyQueue.toQueueTileList()
+        lastTeamActs = lastTeamQueue.map { it.act }
+        lastEnemyActs = lastEnemyQueue.map { it.act }
+    }
+
+    private fun QueueResult.toQueueTileList() = mutableListOf<CsQueuedAct>().also { result ->
+        var cost = 0
+        tiles.forEachIndexed { i, tile ->
+            when (tile) {
+                is IdleTile -> {
+                    cost++
+                }
+                is ActionTile -> {
+                    result.add(CsQueuedAct(CsAct(tile.actor, tile.actData), i + 1, cost + 1))
+                    cost = 0
+                }
+            }
+        }
     }
 
     override fun finalize(stage: Stage, team: Team, enemy: Team) {
@@ -394,7 +422,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     }
 
     private fun hold(act: CsAct) {
-        stage.log("Hand") { "Hold ${formatAct(act)}" }
+        stage.log("Hand") { "Hold ${act.display()}" }
         held = act
         val newAct = drawCard()
         internalHand -= act
@@ -405,7 +433,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     }
 
     private fun discard(act: CsAct) {
-        stage.log("Hand") { "Discard ${formatAct(act)}" }
+        stage.log("Hand") { "Discard ${act.display()}" }
         discardPile += act
         internalHand -= act
         internalHand += held!!

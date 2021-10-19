@@ -166,6 +166,21 @@ data class CsAct(val actor: Actor, val act: ActData) : CsObject, Comparable<CsAc
     override fun compareTo(other: CsAct): Int {
         return sortPriority.compareTo(other.sortPriority)
     }
+
+    override fun display(): String {
+        return "[${actor.dress.name} (${actor.name})]:[${act.name}](${act.type.name})"
+    }
+}
+
+data class CsQueuedAct(val act: CsAct, val tile: Int, val cost: Int) : CsObject {
+    override fun getAttribute(name: String) = when (name) {
+        "cost" -> cost.asCsNumber()
+        "tile" -> tile.asCsNumber()
+        "act" -> act
+        else -> null
+    }
+
+    override fun display() = "${act.display()}(tile: $tile, cost: $cost)"
 }
 
 fun ActData.asCsAct(actor: Actor) = CsAct(actor, this)
@@ -196,5 +211,5 @@ data class CsList(val value: List<CsObject>) : CsObject {
     }
 
     override fun bool() = value.isNotEmpty()
-    override fun display() = value.toString()
+    override fun display() = if (value.isEmpty()) "[]" else "[\n${value.joinToString("\n") { it.display().prependIndent("    ") }}\n]"
 }
