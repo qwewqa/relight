@@ -68,7 +68,7 @@ val DevilKaoruko = Dress(
                 dispelCountable(BuffCategory.Positive)
             }
         },
-        ActType.ClimaxAct("Flames of Hell", 2) {
+        ActType.ClimaxAct("Flames of Hell", 3) {
             targetAllyAoe().act {
                 dispelTimed(BuffCategory.Negative)
             }
