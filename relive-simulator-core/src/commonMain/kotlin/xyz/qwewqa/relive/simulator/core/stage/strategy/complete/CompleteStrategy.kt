@@ -209,6 +209,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         context.bindValue("held") { held ?: CsNil }
         context.bindValue("turn") { stage.turn.asCsNumber() }
         context.bindValue("cutinEnergy") { cutinEnergy.asCsNumber() }
+        context.bindValue("queuedActs") { CsList(queued) }
         context.bindValue("lastTeamQueue") { CsList(lastTeamQueue) }
         context.bindValue("lastEnemyQueue") { CsList(lastEnemyQueue) }
         context.bindValue("lastTeamActs") { CsList(lastTeamActs) }
