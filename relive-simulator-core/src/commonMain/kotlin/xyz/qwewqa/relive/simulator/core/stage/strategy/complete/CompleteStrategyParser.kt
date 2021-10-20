@@ -106,31 +106,33 @@ object CsParser : Grammar<CsScriptNode>() {
     val expressionList by separatedTerms(parser { expression }, comma)
 
     val atomicExpression by
-            numLiteral or
+    numLiteral or
             strLiteral or
             identifierExpression or
             (-lpar * parser { expression } * -rpar)
 
 
-    val attributeAccess: Parser<CsExpressionNode> by (parser { atomicExpression } * zeroOrMore(-dot * identifier)).map { (lhs, value) ->
-        value.fold(lhs) { a, v -> CsAttributeAccessNode(a, v) }
+    val attributeAccess by (-dot * identifier).map { value ->
+        { lhs: CsExpressionNode ->
+            CsAttributeAccessNode(lhs, value)
+        }
     }
-
-    val functionCall: Parser<CsExpressionNode> by (
-        parser { attributeAccess } * zeroOrMore(-lpar * optional(expressionList * optional(ellipsis) * -optional(comma)) * -rpar)
-    ).map { (lhs, calls) ->
-        calls.fold(lhs) { acc, v ->
-            val args = v?.t1 ?: emptyList()
-            val spread = v?.t2 != null
-            CsCallNode(acc, args, spread)
+    val callArguments by (-lpar * optional(expressionList * optional(ellipsis) * -optional(comma)) * -rpar).map { value ->
+        { lhs: CsExpressionNode ->
+            CsCallNode(lhs, value?.t1 ?: emptyList(), value?.t2 != null)
         }
     }
 
+    val primaryExpression: Parser<CsExpressionNode> by
+    (atomicExpression * zeroOrMore(attributeAccess or callArguments)).map { (lhs, ops) ->
+        ops.fold(lhs) { a, v -> v(a) }
+    }
+
     val unaryExpression by
-            (-plus * functionCall).map { CsPosOperatorNode(it) } or
-            (-minus * functionCall).map { CsNegOperatorNode(it) } or
-            (-not * functionCall).map { CsNotOperatorNode(it) } or
-            functionCall
+    (-plus * primaryExpression).map { CsPosOperatorNode(it) } or
+            (-minus * primaryExpression).map { CsNegOperatorNode(it) } or
+            (-not * primaryExpression).map { CsNotOperatorNode(it) } or
+            primaryExpression
 
     val multiplicationOperator by times or div or mod
     val multiplication by leftAssociative(unaryExpression, multiplicationOperator) { l, o, r ->
