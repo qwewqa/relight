@@ -131,10 +131,10 @@ class BuffManager(val actor: Actor) {
      * Remove all non-ephemeral buffs.
      */
     fun clear() {
-        dispel(BuffCategory.Positive)
-        dispel(BuffCategory.Negative)
-        dispelCountable(BuffCategory.Positive)
-        dispelCountable(BuffCategory.Negative)
+        positiveBuffs.filter { !it.ephemeral }.forEach { remove(it) }
+        negativeBuffs.filter { !it.ephemeral }.forEach { remove(it) }
+        positiveCountableBuffs.clear()
+        negativeCountableBuffs.clear()
     }
 
     fun removeAll(buffEffect: BuffEffect) {
@@ -145,7 +145,7 @@ class BuffManager(val actor: Actor) {
         when (category) {
             BuffCategory.Positive -> positiveBuffs
             BuffCategory.Negative -> negativeBuffs
-        }.filter { !it.ephemeral }.forEach { remove(it) }
+        }.filter { !it.ephemeral && !it.effect.locked }.forEach { remove(it) }
     }
 
     fun dispelCountable(category: BuffCategory) {
