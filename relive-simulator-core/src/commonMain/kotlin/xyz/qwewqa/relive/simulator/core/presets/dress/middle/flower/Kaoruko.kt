@@ -58,7 +58,7 @@ val DevilKaoruko = Dress(
                 )
             }
         },
-        ActType.Act3("Devil's Whisper", 2) {
+        ActType.Act3("Devil's Whisper", 3) {
             targetBack().act {
                 attack(
                     modifier = 198,
@@ -68,7 +68,7 @@ val DevilKaoruko = Dress(
                 dispelCountable(BuffCategory.Positive)
             }
         },
-        ActType.ClimaxAct("Flames of Hell", 3) {
+        ActType.ClimaxAct("Flames of Hell", 2) {
             targetAllyAoe().act {
                 dispelTimed(BuffCategory.Negative)
             }

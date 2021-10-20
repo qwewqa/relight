@@ -2,10 +2,10 @@ package xyz.qwewqa.relive.simulator.core.stage.strategy.complete
 
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActData
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActiveBuff
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
 import xyz.qwewqa.relive.simulator.core.stage.buff.MarkBuff
-import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinData
 import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
 
 
@@ -124,6 +124,20 @@ class CsActor(val actor: Actor) : CsObject {
             "hasApDown" -> (actor.apChange < 0)
             "hasNer" -> (actor.negativeEffectResist >= 100)
             "marked" -> actor.buffs.any(MarkBuff)
+            "buffs" -> CsFunction { args ->
+                if (args.isEmpty()) {
+                    CsList(actor.buffs.effectNameMapping.keys.map { it.asCsString() })
+                } else {
+                    val buffName = (args.singleOrNull() as? CsString)?.value
+                        ?: csError("Expected a single string argument.")
+                    val buffEffect = actor.buffs.effectNameMapping[buffName]
+                    if (buffEffect != null) {
+                        CsBuffList(actor.buffs.get(buffEffect).map { CsActiveBuff((it)) })
+                    } else {
+                        CsBuffList(emptyList())
+                    }
+                }
+            }
             else -> null
         }
         return when (ktVal) {
@@ -185,7 +199,7 @@ data class CsQueuedAct(val act: CsAct, val tile: Int, val cost: Int) : CsObject 
 
 fun ActData.asCsAct(actor: Actor) = CsAct(actor, this)
 
-data class CsList(val value: List<CsObject>) : CsObject {
+open class CsList(val value: List<CsObject>) : CsObject {
     override fun invoke(arguments: List<CsObject>): CsObject {
         val arg = (arguments.singleOrNull() ?: csError("Expected one argument.")).number().let {
             if (it % 1.0 != 0.0) csError("Expected an integer argument.")
@@ -211,5 +225,48 @@ data class CsList(val value: List<CsObject>) : CsObject {
     }
 
     override fun bool() = value.isNotEmpty()
-    override fun display() = if (value.isEmpty()) "[]" else "[\n${value.joinToString("\n") { it.display().prependIndent("    ") }}\n]"
+    override fun display() =
+        when (value.size) {
+            0 -> "[]"
+            1 -> "[${value.single().display()}]"
+            else -> "[\n${value.joinToString(",\n") { it.display().prependIndent("    ") }}\n]"
+        }
+
+    override fun equals(other: Any?): Boolean {
+        return other is CsList && value == other.value
+    }
+
+    override fun hashCode(): Int {
+        return value.hashCode()
+    }
+}
+
+data class CsActiveBuff(val buff: ActiveBuff) : CsObject {
+    override fun getAttribute(name: String): CsObject? = when (name) {
+        "turns" -> buff.turns.asCsNumber()
+        "value" -> buff.value.asCsNumber()
+        "ephemeral" -> buff.ephemeral.asCsBoolean()
+        "name" -> buff.effect.name.asCsString()
+        else -> null
+    }
+
+    override fun display() = buff.toString()
+}
+
+class CsBuffList(private val buffs: List<CsActiveBuff>) : CsList(buffs) {
+    // Note: ephemeral buffs are currently counted the same as normal buffs.
+    // It may be worth revisiting this in the future if this ends up posing a problem.
+
+    private val values by lazy { CsList(buffs.map { it.buff.value.asCsNumber() }) }
+    private val turns by lazy { CsList(buffs.map { it.buff.turns.asCsNumber() }) }
+    private val totalValue by lazy { buffs.sumOf { it.buff.value }.asCsNumber() }
+    private val maxTurns by lazy { (buffs.maxOfOrNull { it.buff.turns } ?: 0).asCsNumber() }
+
+    override fun getAttribute(name: String) = when (name) {
+        "values" -> values
+        "turns" -> turns
+        "totalValue" -> totalValue
+        "maxTurns" -> maxTurns
+        else -> super.getAttribute(name)
+    }
 }

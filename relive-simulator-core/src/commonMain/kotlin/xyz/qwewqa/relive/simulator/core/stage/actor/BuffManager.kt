@@ -12,6 +12,9 @@ class BuffManager(val actor: Actor) {
     private val negativeBuffs = LinkedHashSet<ActiveBuff>()
     private val buffsByEffect = mutableMapOf<BuffEffect, LinkedHashSet<ActiveBuff>>()
 
+    private val _effectNameMapping = mutableMapOf<String, BuffEffect>()
+    val effectNameMapping: Map<String, BuffEffect> get() = _effectNameMapping
+
     private val positiveCountableBuffs = mutableMapOf<CountableBuff, Int>()
     private val negativeCountableBuffs = mutableMapOf<CountableBuff, Int>()
 
@@ -29,21 +32,27 @@ class BuffManager(val actor: Actor) {
         BuffCategory.Negative -> negativeCountableBuffs[buff]
     } ?: 0
 
+    fun BuffEffect.activate(value: Int, turns: Int, ephemeral: Boolean = false, relatedBuff: ActiveBuff? = null) =
+        ActiveBuff(this, value, turns, ephemeral, relatedBuff).also { activeBuff ->
+            activeBuff.start()
+            when (category) {
+                BuffCategory.Positive -> positiveBuffs
+                BuffCategory.Negative -> negativeBuffs
+            }.add(activeBuff)
+            buffsByEffect.getOrPut(this) {
+                _effectNameMapping[name] = this
+                LinkedHashSet()
+            }.add(activeBuff)
+            actor.context.log("Buff") { "Buff ${activeBuff.name} added." }
+        }
+
     /**
      * Adds a buff without normal exclusivity checks or turn expiry.
      * Intended for stage effects and locked buffs.
      * Removed like normal buffs using the [remove] method.
      */
     fun addEphemeral(buffEffect: BuffEffect, value: Int): ActiveBuff {
-        val buff = buffEffect(value, -1, true)
-        buff.start()
-        when (buffEffect.category) {
-            BuffCategory.Positive -> positiveBuffs
-            BuffCategory.Negative -> negativeBuffs
-        }.add(buff)
-        buffsByEffect.getOrPut(buffEffect) { LinkedHashSet() }.add(buff)
-        actor.context.log("Buff") { "Buff ${buff.name} added." }
-        return buff
+        return buffEffect.activate(value, -1, true)
     }
 
     fun add(buffEffect: BuffEffect, value: Int, turns: Int): ActiveBuff? {
@@ -63,14 +72,7 @@ class BuffManager(val actor: Actor) {
         val relatedBuff = buffEffect.related?.let { related ->
             addEphemeral(related, value)
         }
-        val buff = buffEffect(value, turns, relatedBuff = relatedBuff)
-        buff.start()
-        when (buffEffect.category) {
-            BuffCategory.Positive -> positiveBuffs
-            BuffCategory.Negative -> negativeBuffs
-        }.add(buff)
-        buffsByEffect.getOrPut(buffEffect) { LinkedHashSet() }.add(buff)
-        actor.context.log("Buff") { "Buff ${buff.name} added." }
+        val buff = buffEffect.activate(value, turns, relatedBuff = relatedBuff)
         if (guardOnAbnormal && buffEffect in abnormalBuffs) {
             actor.context.log("Buff") { "Abnormal Guard activated." }
             add(AbnormalGuardBuff, 100, 9)
@@ -201,7 +203,7 @@ class ActiveBuff(
             "${effect.formatName(value)} (${turns}/${originalTurns}t)"
         }
 
-    override fun toString() = "${effect::class.simpleName}(value = $value, turns = $turns)"
+    override fun toString() = "[${effect.name}](value = $value, turns = $turns)"
 }
 
 operator fun BuffEffect.invoke(value: Int, turns: Int, ephemeral: Boolean = false, relatedBuff: ActiveBuff? = null) =

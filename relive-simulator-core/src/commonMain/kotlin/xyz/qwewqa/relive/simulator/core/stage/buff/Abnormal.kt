@@ -4,30 +4,35 @@ import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.abnormalCountableBuffs
 
 object StopBuff : BuffEffect {
+    override val name = "Stop"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
     override fun formatName(value: Int) = name
 }
 
 object SleepBuff : BuffEffect {
+    override val name = "Sleep"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
     override fun formatName(value: Int) = name
 }
 
 object NightmareBuff : BuffEffect {
+    override val name = "Nightmare"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
     override fun formatName(value: Int) = name
 }
 
 object ConfusionBuff : BuffEffect {
+    override val name = "Confusion"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
     override fun formatName(value: Int) = name
 }
 
 object FreezeBuff : BuffEffect {
+    override val name = "Freeze"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
     override fun formatName(value: Int) = name
@@ -36,20 +41,21 @@ object FreezeBuff : BuffEffect {
 }
 
 object StunBuff : BuffEffect {
+    override val name = "Stun"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
     override fun formatName(value: Int) = name
 }
 
-sealed interface BurnBuffEffect : BuffEffect
-
-object BurnBuff : BurnBuffEffect {
+object BurnBuff : BuffEffect {
+    override val name = "Burn"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = false
     override fun formatName(value: Int) = name
 }
 
-object LockedBurnBuff : BurnBuffEffect {
+object LockedBurnBuff : BuffEffect {
+    override val name = "Locked Burn"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = false
     override val locked: Boolean = true
@@ -58,12 +64,14 @@ object LockedBurnBuff : BurnBuffEffect {
 }
 
 object PoisonBuff : BuffEffect {
+    override val name = "Poison"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = false
     override fun formatName(value: Int) = name
 }
 
 object LockedPoisonBuff : BuffEffect {
+    override val name = "Locked Poison"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = false
     override val locked: Boolean = true
@@ -72,12 +80,14 @@ object LockedPoisonBuff : BuffEffect {
 }
 
 object BlindnessBuff : BuffEffect {
+    override val name = "Blindness"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
     override fun formatName(value: Int) = name
 }
 
 object AbnormalGuardBuff : BuffEffect {
+    override val name = "Abnormal Guard"
     override val category = BuffCategory.Positive
     override val locked = true
     override fun formatName(value: Int) = name

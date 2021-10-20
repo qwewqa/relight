@@ -3,6 +3,7 @@ package xyz.qwewqa.relive.simulator.core.stage.buff
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 
 object MarkBuff : BuffEffect {
+    override val name = "Mark"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
     override val flipped get() = AntiMarkBuff
@@ -17,6 +18,7 @@ object MarkBuff : BuffEffect {
 }
 
 object AntiMarkBuff : BuffEffect {
+    override val name = "Anti-Mark"
     override val category = BuffCategory.Positive
     override val exclusive: Boolean = true
     override val flipped get() = MarkBuff

@@ -8,6 +8,7 @@ val StunResistanceBuff: BuffEffect = BuffResistanceBuff(StunBuff)
 val BurnResistanceBuff: BuffEffect = BuffResistanceBuff(listOf(BurnBuff, LockedBurnBuff))
 
 object NegativeEffectResistanceBuff : BuffEffect {
+    override val name = "Negative Effect Resistance"
     override val category = BuffCategory.Positive
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
@@ -20,6 +21,7 @@ object NegativeEffectResistanceBuff : BuffEffect {
 }
 
 object PositiveEffectResistanceBuff : BuffEffect {
+    override val name = "Positive Effect Resistance"
     override val category = BuffCategory.Negative
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
@@ -32,6 +34,7 @@ object PositiveEffectResistanceBuff : BuffEffect {
 }
 
 object LockedPositiveEffectResistanceBuff : BuffEffect {
+    override val name = "Locked Positive Effect Resistance"
     override val category = BuffCategory.Negative
     override val locked: Boolean = true
 

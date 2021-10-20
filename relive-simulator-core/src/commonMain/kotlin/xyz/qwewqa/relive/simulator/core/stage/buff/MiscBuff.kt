@@ -3,6 +3,7 @@ package xyz.qwewqa.relive.simulator.core.stage.buff
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 
 object PerfectAim : BuffEffect {
+    override val name = "Perfect Aim"
     override val category = BuffCategory.Positive
     override val exclusive: Boolean = true
 

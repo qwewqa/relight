@@ -3,7 +3,7 @@ package xyz.qwewqa.relive.simulator.core.stage.buff
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 
 interface BuffEffect {
-    val name: String get() = this::class.simpleName ?: "Unknown Buff"
+    val name: String
     val category: BuffCategory
     val locked: Boolean get() = false
     val exclusive: Boolean get() = false
