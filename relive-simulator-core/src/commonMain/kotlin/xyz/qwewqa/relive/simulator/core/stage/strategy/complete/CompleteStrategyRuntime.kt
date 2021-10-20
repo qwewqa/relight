@@ -260,7 +260,7 @@ class CsBuffList(private val buffs: List<CsActiveBuff>) : CsList(buffs) {
     private val values by lazy { CsList(buffs.map { it.buff.value.asCsNumber() }) }
     private val turns by lazy { CsList(buffs.map { it.buff.turns.asCsNumber() }) }
     private val totalValue by lazy { buffs.sumOf { it.buff.value }.asCsNumber() }
-    private val maxTurns by lazy { (buffs.maxOfOrNull { it.buff.turns } ?: 0).asCsNumber() }
+    private val maxTurns by lazy { (buffs.maxOfOrNull { it.buff.turns } ?: 0).coerceAtLeast(0).asCsNumber() }
 
     override fun getAttribute(name: String) = when (name) {
         "values" -> values
