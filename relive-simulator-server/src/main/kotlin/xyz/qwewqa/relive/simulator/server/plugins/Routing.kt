@@ -16,6 +16,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.playerDresses
 import xyz.qwewqa.relive.simulator.core.presets.memoir.memoirs
 import xyz.qwewqa.relive.simulator.core.presets.song.songEffects
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.EffectTag
+import xyz.qwewqa.relive.simulator.core.stage.strategy.bossStrategyParsers
 import xyz.qwewqa.relive.simulator.core.stage.strategy.strategyParsers
 import xyz.qwewqa.relive.simulator.server.*
 
@@ -117,6 +118,7 @@ fun Application.configureRouting() {
                 getLocalizationConfig("condition.yaml", conditions.keys),
                 getLocalizationConfig("boss.yaml", bossLoadouts.keys),
                 getLocalizationConfig("strategy.yaml", strategyParsers.keys),
+                getLocalizationConfig("strategy.yaml", bossStrategyParsers.keys),
             )
         }
         get("/options") {

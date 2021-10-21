@@ -18,6 +18,7 @@ import xyz.qwewqa.relive.simulator.core.stage.loadout.TeamLoadout
 import xyz.qwewqa.relive.simulator.core.stage.song.Song
 import xyz.qwewqa.relive.simulator.core.stage.song.SongEffectData
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
+import xyz.qwewqa.relive.simulator.core.stage.strategy.bossStrategyParsers
 import xyz.qwewqa.relive.simulator.core.stage.strategy.strategyParsers
 
 @Serializable
@@ -28,6 +29,7 @@ data class SimulationParameters(
     val guest: PlayerLoadoutParameters?,
     val song: SongParameters,
     val strategy: StrategyParameter,
+    val bossStrategy: StrategyParameter? = null,
     val boss: String,
     val bossHp: Int? = null,
     val eventMultiplier: Int = 100,
@@ -35,7 +37,7 @@ data class SimulationParameters(
     val seed: Int,
 ) {
     fun createStageLoadout(): StageLoadout {
-        require(bossHp == null ||bossHp > 0) { "Boss HP positive integer." }
+        require(bossHp == null || bossHp > 0) { "Boss HP positive integer." }
         require(maxTurns > 0) { "Max turns should be a positive integer." }
         require(maxIterations > 0) { "Max iterations should be a positive integer" }
         require(team.isNotEmpty()) { "Team should not be empty." }
@@ -95,7 +97,11 @@ data class SimulationParameters(
                         )
                     }
                 ),
-                strategy = { bossLoadouts[boss]!!.strategy }
+                strategy = if (bossStrategy != null) {
+                    bossStrategyParsers[bossStrategy.type]!!.parse(bossStrategy.value)
+                } else {
+                    { bossLoadouts[boss]!!.strategy }
+                }
             ),
             {
                 player.actors.values.forEach {
@@ -124,6 +130,7 @@ data class SimulationOptions(
     val conditions: List<SimulationOption>,
     val bosses: List<SimulationOption>,
     val strategyTypes: List<SimulationOption>,
+    val bossStrategyTypes: List<SimulationOption>,
 )
 
 @Serializable

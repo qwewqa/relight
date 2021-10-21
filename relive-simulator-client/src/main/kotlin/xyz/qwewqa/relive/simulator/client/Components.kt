@@ -1,6 +1,9 @@
 package xyz.qwewqa.relive.simulator.client
 
 import kotlinx.browser.document
+import kotlinx.dom.addClass
+import kotlinx.dom.hasClass
+import kotlinx.dom.removeClass
 import kotlinx.html.dom.create
 import kotlinx.html.option
 import org.w3c.dom.*
@@ -9,10 +12,12 @@ fun HTMLInputElement.integerInput(default: Int) = IntegerInput(this, default)
 fun HTMLInputElement.textInput() = TextInput(this)
 fun HTMLSelectElement.singleSelect() = SingleSelect(this)
 fun HTMLSelectElement.multipleSelect() = MultipleSelect(this)
+fun HTMLDivElement.collapse() = Collapse(this)
 fun Element?.integerInput(default: Int) = IntegerInput(this as HTMLInputElement, default)
 fun Element?.textInput() = TextInput(this as HTMLInputElement)
 fun Element?.singleSelect() = SingleSelect(this as HTMLSelectElement)
 fun Element?.multipleSelect() = MultipleSelect(this as HTMLSelectElement)
+fun Element?.collapse() = Collapse(this as HTMLDivElement)
 
 val HTMLInputElement.valueOrPlaceholder: String get() = value.ifEmpty { placeholder }
 
@@ -41,6 +46,18 @@ inline fun <reified T> HTMLCollection.multiple(): List<T> = asList().filterIsIns
 
 fun refreshSelectPicker() {
     js("$('.selectpicker').selectpicker('refresh')")
+}
+
+class Collapse(val element: HTMLDivElement) {
+    var show: Boolean
+        get() = element.hasClass("show")
+        set(value) {
+            if (value) {
+                element.addClass("show")
+            } else {
+                element.removeClass("show")
+            }
+        }
 }
 
 @Suppress("UNCHECKED_CAST_TO_EXTERNAL_INTERFACE")

@@ -12,6 +12,7 @@ data class SimulationParameters(
     val guest: PlayerLoadoutParameters? = null,
     val song: SongParameters = SongParameters(),
     val strategy: StrategyParameter = StrategyParameter("Simple", ""),
+    val bossStrategy: StrategyParameter? = null,
     val boss: String,
     val bossHp: Int? = null,
     val additionalEventBonus: Int = 0,
@@ -37,6 +38,7 @@ data class SimulationOptions(
     val conditions: List<SimulationOption>,
     val bosses: List<SimulationOption>,
     val strategyTypes: List<SimulationOption>,
+    val bossStrategyTypes: List<SimulationOption>,
 )
 
 @Serializable

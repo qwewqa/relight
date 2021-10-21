@@ -109,3 +109,6 @@
 '.text-first-is-guest':
   en: First is guest
   zh_hant: 最前方角色為來賓角色
+'.text-boss-strategy':
+  en: Boss Strategy Override
+  zh_hant: 自訂敵人策略

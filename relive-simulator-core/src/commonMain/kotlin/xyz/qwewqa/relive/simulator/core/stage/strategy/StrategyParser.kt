@@ -18,3 +18,10 @@ val strategyParsers = mapOf(
         return@StrategyParser { CompleteStrategy(script) }
     },
 )
+
+val bossStrategyParsers = mapOf(
+    "Simple" to StrategyParser {
+        val strategy = BossSimpleStrategy(SimpleStrategyGrammar.parseToEnd(it))
+        return@StrategyParser { strategy }
+    },
+)

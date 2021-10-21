@@ -91,10 +91,18 @@ class SimpleStrategy(val commands: Map<Int, List<SimpleStrategyCommand>>) : Stra
                 }
                 is SimpleStrategyCommand.QueueAct -> {
                     val actor = team.actors[command.actor] ?: error("Unknown actor ${command.actor}")
+                    if (!actor.isAlive) {
+                        error("Actor [${actor.name}] has already exited.")
+                    }
                     val act = actor.acts[command.act] ?: error("Unknown act ${command.act} for actor ${command.actor}")
                     val cost = (act.apCost + actor.apChange).coerceAtLeast(1)
-                    if (command.act == ActType.ClimaxAct && (!(climax || team.cxTurns > 0) || actor.brilliance < 100)) {
-                        error("Climax not ready for actor [${actor.name}]")
+                    if (command.act == ActType.ClimaxAct) {
+                        if (!(climax || team.cxTurns > 0)) {
+                            error("Climax has not been activated and is not already active.")
+                        }
+                        if (actor.brilliance < 100) {
+                            error("Climax not ready for actor [${actor.name}] due to insufficient brilliance.")
+                        }
                     }
                     repeat(cost - 1) { queue += IdleTile }
                     queue += ActionTile(actor, cost, act)
@@ -102,6 +110,35 @@ class SimpleStrategy(val commands: Map<Int, List<SimpleStrategyCommand>>) : Stra
                 is SimpleStrategyCommand.Cutin -> {
                     val actor = team.actors[command.actor] ?: error("Unknown actor ${command.actor}")
                     cutins += actor.cutin ?: error("Cutin for actor ${command.actor} not available.")
+                }
+            }
+        }
+        require(queue.size <= 6) { "Queue must be at most 6 tiles long." }
+        return QueueResult(queue, climax, cutins)
+    }
+}
+
+class BossSimpleStrategy(val commands: Map<Int, List<SimpleStrategyCommand>>) : Strategy {
+    override fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
+        val queue = mutableListOf<QueueTile>()
+        val cutins = mutableListOf<BoundCutin>()
+        val climax = false
+        val boss = team.actors.values.singleOrNull()
+        commands[stage.turn]?.forEach { command ->
+            when (command) {
+                SimpleStrategyCommand.EnterClimax -> {
+                    error("Bosses cannot enter climax and climax acts should be used without activating climax.")
+                }
+                is SimpleStrategyCommand.QueueAct -> {
+                    val actor = (if (command.actor == "Boss") boss else team.actors[command.actor])
+                        ?: error("Unknown actor ${command.actor}")
+                    val act = actor.acts[command.act] ?: error("Unknown act ${command.act} for actor ${command.actor}")
+                    val cost = (act.apCost + actor.apChange).coerceAtLeast(1)
+                    repeat(cost - 1) { queue += IdleTile }
+                    queue += ActionTile(actor, cost, act)
+                }
+                is SimpleStrategyCommand.Cutin -> {
+                    error("Bosses cannot use cutins.")
                 }
             }
         }

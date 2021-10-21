@@ -4,6 +4,7 @@ import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.coroutines.*
 import kotlinx.dom.addClass
+import kotlinx.dom.hasClass
 import kotlinx.dom.removeClass
 import kotlinx.html.*
 import kotlinx.html.dom.create
@@ -35,6 +36,7 @@ suspend fun start(simulator: Simulator) {
     val commonText = options.commonText.associateBy { it.id }
     val bosses = options.bosses.associateBy { it.id }
     val strategies = options.strategyTypes.associateBy { it.id }
+    val bossStrategies = options.bossStrategyTypes.associateBy { it.id }
     val songEffects = mapOf("none" to (commonText["none"] ?: SimulationOption("none",
         emptyMap()))) + options.songEffects.associateBy { it.id }
     val conditions = options.conditions.associateBy { it.id }
@@ -58,6 +60,7 @@ suspend fun start(simulator: Simulator) {
     val bossSelect = document.getElementById("boss-select").singleSelect()
     val strategyTypeSelect = document.getElementById("strategy-type-select").singleSelect()
     val strategyContainer = document.getElementById("strategy-container") as HTMLDivElement
+    val bossStrategyContainer = document.getElementById("boss-strategy-container") as HTMLDivElement
     val simulateButton = document.getElementById("simulate-button") as HTMLButtonElement
     val cancelButton = document.getElementById("cancel-button") as HTMLButtonElement
     val eventBonusInput = document.getElementById("event-bonus-input").integerInput(0)
@@ -66,6 +69,13 @@ suspend fun start(simulator: Simulator) {
     val turnsInput = document.getElementById("turns-input").integerInput(3)
     val iterationsInput = document.getElementById("iterations-input").integerInput(100000)
     val strategyEditor = CodeMirror(strategyContainer, js("{lineNumbers: true, mode: null}"))
+    val bossStrategyTypeSelect = document.getElementById("boss-strategy-type-select").singleSelect()
+    val bossStrategyCollapse = document.getElementById("boss-strategy-collapse").collapse()
+
+    // Will not display properly otherwise
+    bossStrategyCollapse.show = true
+    val bossStrategyEditor = CodeMirror(bossStrategyContainer, js("{lineNumbers: true, mode: null}"))
+    bossStrategyCollapse.show = false
 
     versionLink.textContent = version.toString()
 
@@ -271,6 +281,10 @@ suspend fun start(simulator: Simulator) {
                 strategyTypeSelect.value,
                 strategyEditor.getValue() as String,
             ),
+            bossStrategy = StrategyParameter(
+                bossStrategyTypeSelect.value,
+                bossStrategyEditor.getValue() as String,
+            ).takeIf { bossStrategyCollapse.show },
             boss = bossSelect.value,
             bossHp = if (bossHpInput.value > 0) bossHpInput.value else null,
             additionalEventBonus = eventBonusInput.value,
@@ -305,6 +319,13 @@ suspend fun start(simulator: Simulator) {
             }
         strategyTypeSelect.value = strategy.type
         strategyEditor.setValue(strategy.value)
+        if (bossStrategy != null) {
+            bossStrategyCollapse.show = true
+            bossStrategyTypeSelect.value = bossStrategy.type
+            bossStrategyEditor.setValue(bossStrategy.value)
+        } else {
+            bossStrategyCollapse.show = false
+        }
         bossSelect.value = boss
         if (bossHp != null) {
             bossHpInput.value = bossHp
@@ -379,6 +400,7 @@ suspend fun start(simulator: Simulator) {
     languageSelect.populate(options.locales)
     bossSelect.populate(bosses, locale)
     strategyTypeSelect.populate(strategies, locale)
+    bossStrategyTypeSelect.populate(bossStrategies, locale)
     document.getElementsByClassName("song-effect-type")
         .asList()
         .filterIsInstance<HTMLSelectElement>()
@@ -411,6 +433,7 @@ suspend fun start(simulator: Simulator) {
     fun updateLocaleText() {
         bossSelect.localize(bosses, locale)
         strategyTypeSelect.localize(strategies, locale)
+        bossStrategyTypeSelect.localize(bossStrategies, locale)
         document.getElementsByClassName("song-effect-type")
             .asList()
             .filterIsInstance<HTMLSelectElement>()
