@@ -134,18 +134,19 @@ suspend fun start(simulator: Simulator) {
                 id = "actor-options-$actorId"
                 div("col-12 my-2") {
                     div("border border-2 rounded") {
-                        div ("row mx-1 mt-1") {
-                            div("col px-2 py-1 actor-drag-handle") {
+                        div("row mx-1 mt-1") {
+                            div("col px-1 mb-2 actor-drag-handle") {
                                 i("bi bi-arrows-move")
                             }
-                            div("col-auto px-1") {
+                            div("col-auto px-1 pb-1") {
                                 button(type = ButtonType.button, classes = "btn-close") {
                                     id = "actor-delete-$actorId"
                                 }
                             }
                         }
+                        val collapseId = "actor-details-collapse-$actorId"
                         div("row mx-2 mb-2") {
-                            div("col-12 col-md-8 my-2") {
+                            div("col-9 col-md-10 my-2") {
                                 val inputId = "actor-name-$actorId"
                                 label("form-label text-actor-name") {
                                     htmlFor = inputId
@@ -155,90 +156,102 @@ suspend fun start(simulator: Simulator) {
                                     id = inputId
                                 }
                             }
-                            div("col-12 col-md-4 my-2") {
-                                val inputId = "actor-unit-skill-$actorId"
-                                label("form-label text-unit-skill-level") {
-                                    htmlFor = inputId
-                                    +localized(".text-unit-skill-level", "Unit Skill Level")
-                                }
-                                input(InputType.text, classes = "form-control actor-unit-skill") {
-                                    id = inputId
-                                    placeholder = "21"
+                            div("col-3 col-md-2 my-2 d-grid") {
+                                button(type = ButtonType.button, classes = "btn btn-outline-secondary") {
+                                    attributes["data-bs-toggle"] = "collapse"
+                                    attributes["data-bs-target"] = "#$collapseId"
+                                    +localized(".text-actor-details", "Details")
                                 }
                             }
-                            div("col-12 my-2") {
-                                val selectId = "actor-dress-$actorId"
-                                label("form-label text-dress") {
-                                    htmlFor = selectId
-                                    +localized(".text-dress", "Dress")
+                        }
+                        div("collapse show") {
+                            id = collapseId
+                            div("row mx-2 mb-2") {
+                                div("col-12 col-md-12 my-2") {
+                                    val inputId = "actor-unit-skill-$actorId"
+                                    label("form-label text-unit-skill-level") {
+                                        htmlFor = inputId
+                                        +localized(".text-unit-skill-level", "Unit Skill Level")
+                                    }
+                                    input(InputType.text, classes = "form-control actor-unit-skill") {
+                                        id = inputId
+                                        placeholder = "21"
+                                    }
                                 }
-                                select("selectpicker form-control actor-dress") {
-                                    id = selectId
-                                    attributes["data-live-search"] = "true"
-                                    options.dresses.forEach {
-                                        option {
-                                            value = it.id
-                                            +it[locale]
+                                div("col-12 my-2") {
+                                    val selectId = "actor-dress-$actorId"
+                                    label("form-label text-dress") {
+                                        htmlFor = selectId
+                                        +localized(".text-dress", "Dress")
+                                    }
+                                    select("selectpicker form-control actor-dress") {
+                                        id = selectId
+                                        attributes["data-live-search"] = "true"
+                                        options.dresses.forEach {
+                                            option {
+                                                value = it.id
+                                                +it[locale]
+                                            }
                                         }
                                     }
                                 }
-                            }
-                            div("col-12 col-md-6 my-2") {
-                                val selectId = "actor-memoir-$actorId"
-                                label("form-label text-memoir") {
-                                    htmlFor = selectId
-                                    +localized(".text-memoir", "Memoir")
-                                }
-                                select("selectpicker form-control actor-memoir") {
-                                    id = selectId
-                                    attributes["data-live-search"] = "true"
-                                    options.memoirs.forEach {
-                                        option {
-                                            value = it.id
-                                            +it[locale]
+                                div("col-12 col-md-6 my-2") {
+                                    val selectId = "actor-memoir-$actorId"
+                                    label("form-label text-memoir") {
+                                        htmlFor = selectId
+                                        +localized(".text-memoir", "Memoir")
+                                    }
+                                    select("selectpicker form-control actor-memoir") {
+                                        id = selectId
+                                        attributes["data-live-search"] = "true"
+                                        options.memoirs.forEach {
+                                            option {
+                                                value = it.id
+                                                +it[locale]
+                                            }
                                         }
                                     }
                                 }
-                            }
-                            div("col-6 col-md-3 my-2") {
-                                val inputId = "actor-memoir-level-$actorId"
-                                label("form-label text-memoir-level") {
-                                    htmlFor = inputId
-                                    +localized(".text-memoir-level", "Memoir Level")
+                                div("col-6 col-md-3 my-2") {
+                                    val inputId = "actor-memoir-level-$actorId"
+                                    label("form-label text-memoir-level") {
+                                        htmlFor = inputId
+                                        +localized(".text-memoir-level", "Memoir Level")
+                                    }
+                                    input(InputType.number, classes = "form-control actor-memoir-level") {
+                                        id = inputId
+                                        placeholder = "1"
+                                    }
                                 }
-                                input(InputType.number, classes = "form-control actor-memoir-level") {
-                                    id = inputId
-                                    placeholder = "1"
-                                }
-                            }
-                            div("col-6 col-md-3 my-2") {
-                                val selectId = "actor-memoir-unbind-$actorId"
-                                label("form-label text-memoir-unbind") {
-                                    htmlFor = selectId
-                                    +localized(".text-memoir-unbind", "Memoir Unbind")
-                                }
-                                select(classes = "form-select actor-memoir-unbind") {
-                                    id = selectId
-                                    option {
-                                        value = "0"
-                                        label = "0"
+                                div("col-6 col-md-3 my-2") {
+                                    val selectId = "actor-memoir-unbind-$actorId"
+                                    label("form-label text-memoir-unbind") {
+                                        htmlFor = selectId
+                                        +localized(".text-memoir-unbind", "Memoir Unbind")
                                     }
-                                    option {
-                                        value = "1"
-                                        label = "1"
-                                    }
-                                    option {
-                                        value = "2"
-                                        label = "2"
-                                    }
-                                    option {
-                                        value = "3"
-                                        label = "3"
-                                    }
-                                    option {
-                                        value = "4"
-                                        label = "4"
-                                        selected = true
+                                    select(classes = "form-select actor-memoir-unbind") {
+                                        id = selectId
+                                        option {
+                                            value = "0"
+                                            label = "0"
+                                        }
+                                        option {
+                                            value = "1"
+                                            label = "1"
+                                        }
+                                        option {
+                                            value = "2"
+                                            label = "2"
+                                        }
+                                        option {
+                                            value = "3"
+                                            label = "3"
+                                        }
+                                        option {
+                                            value = "4"
+                                            label = "4"
+                                            selected = true
+                                        }
                                     }
                                 }
                             }
