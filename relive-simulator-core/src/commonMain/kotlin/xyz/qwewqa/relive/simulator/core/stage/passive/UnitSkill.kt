@@ -25,6 +25,11 @@ data class UnitSkill(
     )
 }
 
+val EmptyUnitSkill = UnitSkill(
+    listOf(),
+    listOf(),
+)
+
 val ActCritical50UnitSkill = UnitSkill(
     listOf(
         listOf(

@@ -110,7 +110,7 @@ class RandomDamageCalculator : DamageCalculator {
         val critCoef = 100 + attacker.critical
         val dex = attacker.dexterity
 
-        val acc = (attacker.accuracy - target.evasion).coerceIn(0, 100) *
+        val acc = (100 + attacker.accuracy - target.evasion).coerceIn(0, 100) *
                 (if (attacker.buffs.any(BlindnessBuff)) 0.3 else 1.0)
 
         val dmgDealtCoef = (100 + attacker.damageDealtUp - target.damageTakenDown).coerceAtLeast(0)

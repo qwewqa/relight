@@ -4,6 +4,7 @@ import xyz.qwewqa.relive.simulator.stage.character.School.*
 
 enum class Character(val school: School) {
     None(School.None),
+    Unknown(School.None),
     Karen(Seisho),
     Hikari(Seisho),
     Mahiru(Seisho),
@@ -31,4 +32,7 @@ enum class Character(val school: School) {
     Koharu(Seiran),
     Suzu(Seiran),
     Hisame(Seiran),
+    Sakura(School.None),
+    Erika(School.None),
+    Gemie(School.None),
 }
