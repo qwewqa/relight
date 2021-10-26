@@ -48,7 +48,15 @@ data class SimulationParameters(
                 team.map {
                     ActorLoadout(
                         it.name,
-                        playerDresses[it.dress]!!,
+                        playerDresses[it.dress]!!.create(
+                            rarity = it.rarity,
+                            level = it.level,
+                            friendship = it.friendship,
+                            rank = it.rank,
+                            rankPanelLayout = it.rankPanelLayout,
+                            remake = it.remake,
+                            unitSkillLevel = it.unitSkillLevel,
+                        ),
                         memoirs[it.memoir]!!.create(it.memoirLevel, it.memoirLimitBreak),
                         it.unitSkillLevel,
                     )
@@ -56,7 +64,15 @@ data class SimulationParameters(
                 guest?.let {
                     ActorLoadout(
                         it.name,
-                        playerDresses[it.dress]!!,
+                        playerDresses[it.dress]!!.create(
+                            rarity = it.rarity,
+                            level = it.level,
+                            friendship = it.friendship,
+                            rank = it.rank,
+                            rankPanelLayout = it.rankPanelLayout,
+                            remake = it.remake,
+                            unitSkillLevel = it.unitSkillLevel,
+                        ),
                         memoirs[it.memoir]!!.create(it.memoirLevel, it.memoirLimitBreak),
                         it.unitSkillLevel,
                     )
@@ -162,6 +178,12 @@ data class PlayerLoadoutParameters(
     val memoirLevel: Int,
     val memoirLimitBreak: Int,
     val unitSkillLevel: Int,
+    val level: Int,
+    val rarity: Int,
+    val friendship: Int,
+    val rank: Int,
+    val rankPanelLayout: List<Boolean>,
+    val remake: Int,
 )
 
 @Serializable

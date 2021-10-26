@@ -19,8 +19,9 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.middle.space.WheelOfFortun
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.CatalinaKaoruko
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.HondaFutaba
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.TowerHikari
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressBlueprint
 
-val playerDresses = listOf(
+val playerDresses = listOf<DressBlueprint>(
     AceMisora,
     CatalinaKaoruko,
     DeathTamao,

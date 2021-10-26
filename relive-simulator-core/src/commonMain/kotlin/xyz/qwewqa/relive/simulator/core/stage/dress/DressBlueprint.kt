@@ -34,7 +34,7 @@ data class DressBlueprint(
         level: Int,
         friendship: Int,
         rank: Int,
-        highestRankPanels: List<Boolean>,
+        rankPanelLayout: List<Boolean>,
         remake: Int,
         unitSkillLevel: Int,
     ): Dress {
@@ -47,7 +47,7 @@ data class DressBlueprint(
                 (100 + rankGrowths[9] + rarityGrowths[6]) / 100
         val panels = friendshipPanels.take(friendship) + // intentionally not friendship - 1
                 rankPanels.take(rank - 1).flatten() +
-                rankPanels[rank - 1].filterIndexed { i, _ -> highestRankPanels[i] }
+                rankPanels[rank - 1].filterIndexed { i, _ -> rankPanelLayout[i] }
         var panelHp = 0
         var panelActPower = 0
         var panelNormalDefense = 0
@@ -74,7 +74,7 @@ data class DressBlueprint(
         val autoSkillCount = autoSkillRanks.zip(autoSkillPanels).count { (rankNumber, panelNumber) ->
             rankNumber != null &&
                     (rankNumber < rank ||
-                            (rankNumber == rank && (panelNumber == 0 || highestRankPanels[panelNumber - 1])))
+                            (rankNumber == rank && (panelNumber == 0 || rankPanelLayout[panelNumber - 1])))
         }
         val rankLevelStats = (stats + growthStats * (level - 1) / 1000) *
                 (100 + rankGrowths[rank] + rarityGrowths[level]) / 100

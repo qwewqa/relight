@@ -72,6 +72,12 @@ data class PlayerLoadoutParameters(
     val memoirLevel: Int = 1,
     val memoirLimitBreak: Int = 4,
     val unitSkillLevel: Int,
+    val level: Int = 80,
+    val rarity: Int = 6,
+    val friendship: Int = 30,
+    val rank: Int = 9,
+    val rankPanelLayout: List<Boolean> = listOf(true, true, true, true, true, true, true, true, true),
+    val remake: Int = 0,
 )
 
 @Serializable
