@@ -63,7 +63,7 @@ class EventBonusPassive(val values: Map<Dress, Int>) : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         (enemy.actors.values + listOfNotNull(enemy.guest)).forEach { actor ->
-            val bonus = values[actor.dress.base ?: actor.dress]
+            val bonus = values[actor.dress.blueprint ?: actor.dress]
             if (bonus != null) {
                 actor.context.run {
                     team.actors.values.forEach { member ->
