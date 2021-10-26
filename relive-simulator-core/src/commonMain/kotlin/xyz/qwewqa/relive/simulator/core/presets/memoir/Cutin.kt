@@ -269,7 +269,7 @@ val VILoversReverse = MemoirBlueprint(
         actPower = 105,
     ),
     growthStats = StatData(
-        actPower = 3417,
+        actPower = 5000,
     ),
     baseAutoskills = listOf(
         DexterityPassive.new(14)
