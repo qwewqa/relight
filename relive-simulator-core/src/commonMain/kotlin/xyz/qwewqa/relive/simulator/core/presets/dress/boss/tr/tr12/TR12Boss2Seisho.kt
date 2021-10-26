@@ -10,7 +10,7 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
-import xyz.qwewqa.relive.simulator.core.stage.passive.AbnormalResistPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.AbnormalResistPassiveA
 import xyz.qwewqa.relive.simulator.core.stage.passive.BossElementResistPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 
@@ -160,7 +160,7 @@ val tr12Boss2Seisho = ActorLoadout(
         ),
         autoSkills = listOf(
             trEventBonusPassive(JudgementShizuha),
-            AbnormalResistPassive.new(100),
+            AbnormalResistPassiveA.new(100),
             BossElementResistPassive.new(50),
         ),
     ),

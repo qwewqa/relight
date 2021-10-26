@@ -5,7 +5,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.disadvantagedAgainst
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffect
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
-import xyz.qwewqa.relive.simulator.core.stage.buff.abnormalBuffs
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.log
@@ -18,11 +18,21 @@ object AbnormalGuardPassive : PassiveEffect {
     }
 }
 
-object AbnormalResistPassive : PassiveEffect {
+object AbnormalResistPassiveA : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
-        abnormalBuffs.forEach { buff ->
+        listOf(
+            StopBuff,
+            SleepBuff,
+            ConfusionBuff,
+            FreezeBuff,
+            StunBuff,
+            BurnBuff,
+            LockedBurnBuff,
+            PoisonBuff,
+            LockedPoisonBuff,
+        ).forEach { buff ->
             self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0) + value
         }
     }
