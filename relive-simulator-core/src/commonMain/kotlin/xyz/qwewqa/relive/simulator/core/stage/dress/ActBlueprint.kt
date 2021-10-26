@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.dress
 
 import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActData
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 
 data class ActBlueprint(
@@ -10,12 +11,17 @@ data class ActBlueprint(
     val parameters: List<ActParameters>,
     val value: ActBlueprintContext.() -> Act,
 ) {
-    fun make(level: Int): Act {
-        return ActBlueprintContext(
-            level,
-            parameters.map { it.values[level - 1] },
-            parameters.map { it.times[level - 1] },
-        ).value()
+    fun create(level: Int): ActData {
+        return ActData(
+            name,
+            type,
+            apCost,
+            ActBlueprintContext(
+                level,
+                parameters.map { it.values[level - 1] },
+                parameters.map { it.times[level - 1] },
+            ).value()
+        )
     }
 }
 

@@ -28,7 +28,90 @@ data class DressBlueprint(
     val friendshipPanels: List<StatBoost>,
     val remakeParameters: List<StatData>,
     val unitSkill: UnitSkill,
-)
+) {
+    fun create(
+        rarity: Int,
+        level: Int,
+        friendship: Int,
+        rank: Int,
+        highestRankPanels: List<Boolean>,
+        remake: Int,
+        unitSkillLevel: Int,
+    ): Dress {
+        require(rarity in baseRarity..6) { "Invalid rarity $rarity." }
+        require(rank in 1..9) { "Invalid rank $rank." }
+        require(remake in 0..remakeParameters.size) { "Invalid remake level $remake." }
+        require(level in 1..(20 + 10 * rarity + 5 * remake)) { "Invalid level $level." }
+        require(friendship in 1..(rarity * 5 + remake * 5)) { "Invalid friendship level $level" }
+        val maxRankLevelStats = (stats + growthStats * (level - 1) / 1000) *
+                (100 + rankGrowths[9] + rarityGrowths[6]) / 100
+        val panels = friendshipPanels.take(friendship) +
+                rankPanels.take(rank - 1).flatten() +
+                rankPanels[rank - 1].filterIndexed { i, _ -> highestRankPanels[i] }
+        var panelHp = 0
+        var panelActPower = 0
+        var panelNormalDefense = 0
+        var panelSpecialDefense = 0
+        var panelAgility = 0
+        var act1Level = 1
+        var act2Level = 1
+        var act3Level = 1
+        var climaxActLevel = 1
+        panels.forEach { (type, value) ->
+            when (type) {
+                StatBoostType.None -> Unit
+                StatBoostType.Hp -> panelHp += maxRankLevelStats.hp * value / 100
+                StatBoostType.ActPower -> panelActPower += maxRankLevelStats.actPower * value / 100
+                StatBoostType.NormalDefense -> panelNormalDefense += maxRankLevelStats.normalDefense * value / 100
+                StatBoostType.SpecialDefense -> panelSpecialDefense += maxRankLevelStats.specialDefense * value / 100
+                StatBoostType.Agility -> panelAgility += maxRankLevelStats.agility * value / 100
+                StatBoostType.Act1Level -> act1Level++
+                StatBoostType.Act2Level -> act2Level++
+                StatBoostType.Act3Level -> act3Level++
+                StatBoostType.ClimaxActLevel -> climaxActLevel++
+            }
+        }
+        val autoSkillCount = autoSkillRanks.zip(autoSkillPanels).count { (rankNumber, panelNumber) ->
+            rankNumber != null &&
+                    (rankNumber < rank ||
+                            (rankNumber == rank && (panelNumber == 0 || highestRankPanels[panelNumber - 1])))
+        }
+        val rankLevelStats = (stats + growthStats * (level - 1) / 1000) *
+                (100 + rankGrowths[rank] + rarityGrowths[level]) / 100
+        val panelStats = StatData(
+            hp = panelHp,
+            actPower = panelActPower,
+            normalDefense = panelNormalDefense,
+            specialDefense = panelSpecialDefense,
+            agility = panelAgility,
+        )
+        val remakeStats = if (remake > 0) remakeParameters[remake] else StatData()
+        return Dress(
+            id,
+            name,
+            character,
+            attribute,
+            damageType,
+            position,
+            positionValue,
+            rankLevelStats + panelStats + remakeStats,
+            acts.associate {
+                it.type to it.create(
+                    when (it.type) {
+                        ActType.Act1 -> act1Level
+                        ActType.Act2 -> act2Level
+                        ActType.Act3 -> act3Level
+                        ActType.ClimaxAct -> climaxActLevel
+                        else -> error("Unsupported dress act type.")
+                    }
+                )
+            },
+            autoSkills.take(autoSkillCount).flatten(),
+            unitSkill.forLevel(unitSkillLevel),
+            this,
+        )
+    }
+}
 
 data class PartialDressBlueprint(
     val id: Int,
@@ -84,6 +167,10 @@ enum class StatBoostType {
     NormalDefense,
     SpecialDefense,
     Agility,
+    Act1Level,
+    Act2Level,
+    Act3Level,
+    ClimaxActLevel,
 }
 
 val rarityGrowths = listOf(

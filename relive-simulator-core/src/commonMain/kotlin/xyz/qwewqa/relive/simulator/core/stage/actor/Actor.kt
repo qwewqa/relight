@@ -14,7 +14,6 @@ class Actor(
     val name: String,
     val dress: Dress,
     val memoir: Memoir?,
-    val unitSkillLevel: Int,
 ) {
     val passives = mutableListOf<PassiveData>().apply {
         addAll(dress.autoSkills)

@@ -11,14 +11,16 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
 import xyz.qwewqa.relive.simulator.core.stage.passive.UnitSkill
 
 data class Dress(
+    val id: Int,
     val name: String,
     val character: Character,
     val attribute: Attribute,
     val damageType: DamageType,
     val position: Position,
+    val positionValue: Int,
     val stats: StatData,
     val acts: Map<ActType, ActData>,
     val autoSkills: List<PassiveData>,
-    val unitSkill: UnitSkill? = null,
-    val base: Dress? = null
+    val unitSkill: List<PassiveData>,
+    val blueprint: DressBlueprint? = null,
 )
