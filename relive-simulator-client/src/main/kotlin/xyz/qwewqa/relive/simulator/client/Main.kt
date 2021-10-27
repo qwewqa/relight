@@ -156,7 +156,7 @@ suspend fun start(simulator: Simulator) {
                                     id = inputId
                                 }
                             }
-                            div("col-3 col-md-2 my-2 d-grid") {
+                            div("col-3 col-md-2 my-2 pt-3 d-grid") {
                                 button(type = ButtonType.button, classes = "btn btn-outline-secondary") {
                                     attributes["data-bs-toggle"] = "collapse"
                                     attributes["data-bs-target"] = "#$collapseId"

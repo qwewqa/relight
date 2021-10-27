@@ -3,6 +3,7 @@ package xyz.qwewqa.relive.simulator.server
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.http.*
+import io.ktor.http.content.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
 import xyz.qwewqa.relive.simulator.server.plugins.configureAdministration
@@ -16,6 +17,11 @@ fun main() {
         install(CORS) {
             anyHost()
             header(HttpHeaders.ContentType)
+        }
+        install(CachingHeaders) {
+            options {
+                CachingOptions(CacheControl.NoCache(null))
+            }
         }
         configureAdministration()
         configureRouting()
