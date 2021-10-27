@@ -11,6 +11,21 @@ data class StatData(
     val accuracy: Int = 0,
     val evasion: Int = 0,
 ) {
+    fun growthPart() = StatData(
+        hp = hp,
+        actPower = actPower,
+        normalDefense = normalDefense,
+        specialDefense = specialDefense,
+        agility = agility,
+    )
+
+    fun fixedPart() = StatData(
+        dexterity = dexterity,
+        critical = critical,
+        accuracy = accuracy,
+        evasion = evasion
+    )
+
     fun display() = """{
         |  hp: $hp,
         |  actPower: $actPower,
