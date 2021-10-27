@@ -50,13 +50,13 @@ class ActBlueprintContext(
 ) {
     // To match up with Karth more easily
     val values1 get() = values[0]
-    val times1 get() = values[0]
+    val times1 get() = times[0]
     val values2 get() = values[1]
-    val times2 get() = values[1]
+    val times2 get() = times[1]
     val values3 get() = values[2]
-    val times3 get() = values[2]
+    val times3 get() = times[2]
     val values4 get() = values[3]
-    val times4 get() = values[3]
+    val times4 get() = times[3]
     val values5 get() = values[4]
-    val times5 get() = values[4]
+    val times5 get() = times[4]
 }

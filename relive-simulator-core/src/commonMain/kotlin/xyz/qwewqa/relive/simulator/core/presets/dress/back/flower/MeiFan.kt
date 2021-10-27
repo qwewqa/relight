@@ -56,7 +56,7 @@ val StageGirlMeiFan = dress4030017(
             Act {
                 targetByHighest { it.actPower }.act {
                     attack(
-                        modifier = values3,
+                        modifier = values1,
                         hitCount = 2,
                     )
                 }
