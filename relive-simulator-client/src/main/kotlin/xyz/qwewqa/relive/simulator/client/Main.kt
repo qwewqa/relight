@@ -167,17 +167,6 @@ suspend fun start(simulator: Simulator) {
                         div("collapse show") {
                             id = collapseId
                             div("row mx-2 mb-2") {
-                                div("col-12 col-md-12 my-2") {
-                                    val inputId = "actor-unit-skill-$actorId"
-                                    label("form-label text-unit-skill-level") {
-                                        htmlFor = inputId
-                                        +localized(".text-unit-skill-level", "Unit Skill Level")
-                                    }
-                                    input(InputType.text, classes = "form-control actor-unit-skill") {
-                                        id = inputId
-                                        placeholder = "21"
-                                    }
-                                }
                                 div("col-12 my-2") {
                                     val selectId = "actor-dress-$actorId"
                                     label("form-label text-dress") {
@@ -192,6 +181,175 @@ suspend fun start(simulator: Simulator) {
                                                 value = it.id
                                                 +it[locale]
                                             }
+                                        }
+                                    }
+                                }
+                                div("col-6 col-md-4 my-2") {
+                                    val inputId = "actor-level-$actorId"
+                                    label("form-label text-actor-level") {
+                                        htmlFor = inputId
+                                        +localized(".text-actor-level", "Actor Level")
+                                    }
+                                    input(InputType.text, classes = "form-control actor-level") {
+                                        id = inputId
+                                        placeholder = "80"
+                                    }
+                                }
+                                div("col-6 col-md-4 my-2") {
+                                    val selectId = "actor-rarity-$actorId"
+                                    label("form-label text-actor-rarity") {
+                                        htmlFor = selectId
+                                        +localized(".text-actor-rarity", "Stars")
+                                    }
+                                    select(classes = "form-select actor-rarity") {
+                                        id = selectId
+                                        option {
+                                            value = "6"
+                                            label = "6"
+                                            selected = true
+                                        }
+                                        option {
+                                            value = "5"
+                                            label = "5"
+                                        }
+                                        option {
+                                            value = "4"
+                                            label = "4"
+                                        }
+                                        option {
+                                            value = "3"
+                                            label = "3"
+                                        }
+                                        option {
+                                            value = "2"
+                                            label = "2"
+                                        }
+                                    }
+                                }
+                                div("col-12 col-md-4 my-2") {
+                                    val selectId = "actor-remake-$actorId"
+                                    label("form-label text-actor-remake") {
+                                        htmlFor = selectId
+                                        +localized(".text-actor-remake", "Remake Level")
+                                    }
+                                    select(classes = "form-select actor-remake") {
+                                        id = selectId
+                                        option {
+                                            value = "0"
+                                            label = "0"
+                                            selected = true
+                                        }
+                                        option {
+                                            value = "1"
+                                            label = "1"
+                                        }
+                                        option {
+                                            value = "2"
+                                            label = "2"
+                                        }
+                                        option {
+                                            value = "3"
+                                            label = "3"
+                                        }
+                                        option {
+                                            value = "4"
+                                            label = "4"
+                                        }
+                                    }
+                                }
+                                div("col-6 col-md-6 my-2") {
+                                    val inputId = "actor-unit-skill-$actorId"
+                                    label("form-label text-unit-skill-level") {
+                                        htmlFor = inputId
+                                        +localized(".text-unit-skill-level", "Unit Skill Level")
+                                    }
+                                    input(InputType.text, classes = "form-control actor-unit-skill") {
+                                        id = inputId
+                                        placeholder = "21"
+                                    }
+                                }
+                                div("col-6 col-md-6 my-2") {
+                                    val inputId = "actor-friendship-$actorId"
+                                    label("form-label text-actor-friendship") {
+                                        htmlFor = inputId
+                                        +localized(".text-actor-friendship", "Bond Level")
+                                    }
+                                    input(InputType.text, classes = "form-control actor-friendship") {
+                                        id = inputId
+                                        placeholder = "30"
+                                    }
+                                }
+                                div("col-6 col-md-6 my-2") {
+                                    val selectId = "actor-rank-$actorId"
+                                    label("form-label text-actor-rank") {
+                                        htmlFor = selectId
+                                        +localized(".text-actor-rank", "Rank")
+                                    }
+                                    select(classes = "form-select actor-rank") {
+                                        id = selectId
+                                        option {
+                                            value = "9"
+                                            label = "9"
+                                            selected = true
+                                        }
+                                        option {
+                                            value = "8"
+                                            label = "8"
+                                        }
+                                        option {
+                                            value = "7"
+                                            label = "7"
+                                        }
+                                        option {
+                                            value = "6"
+                                            label = "6"
+                                        }
+                                        option {
+                                            value = "5"
+                                            label = "5"
+                                        }
+                                        option {
+                                            value = "4"
+                                            label = "4"
+                                        }
+                                        option {
+                                            value = "3"
+                                            label = "3"
+                                        }
+                                        option {
+                                            value = "2"
+                                            label = "2"
+                                        }
+                                        option {
+                                            value = "1"
+                                            label = "1"
+                                        }
+                                    }
+                                }
+                                div("col-6 col-md-6 my-2") {
+                                    val selectId = "actor-rank-panel-pattern-$actorId"
+                                    label("form-label text-actor-rank-panel-pattern") {
+                                        htmlFor = selectId
+                                        +localized(".text-actor-rank-panel-pattern", "Rank Panel Pattern")
+                                    }
+                                    select(classes = "form-select actor-rank-panel-pattern") {
+                                        id = selectId
+                                        option {
+                                            value = "Full"
+                                            label = "Full"
+                                            selected = true
+                                        }
+                                        option {
+                                            value = "Upper"
+                                            label = "Upper"
+                                        }
+                                        option {
+                                            value = "Lower"
+                                            label = "Lower"
+                                        }
+                                        option {
+                                            value = "None"
+                                            label = "None"
                                         }
                                     }
                                 }

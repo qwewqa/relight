@@ -112,3 +112,15 @@
 '.text-boss-strategy':
   en: Boss Strategy Override
   zh_hant: 自訂敵人策略
+'.text-actor-level':
+  en: Actor Level
+'.text-actor-rarity':
+  en: Stars
+'.text-actor-remake':
+  en: Remake Level
+'.text-actor-friendship':
+  en: Bond Level
+'.text-actor-rank':
+  en: Rank
+'.text-actor-rank-panel-pattern':
+  en: Rank Panel Pattern
