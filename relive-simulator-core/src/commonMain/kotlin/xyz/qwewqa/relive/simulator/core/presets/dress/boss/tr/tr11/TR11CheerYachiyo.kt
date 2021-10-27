@@ -146,7 +146,7 @@ val tr11CheerYachiyoStrategy = FixedStrategy {
         2 -> {
             +boss[ActType.Act4]
             +boss[ActType.Act6]
-            +boss[ActType.Act8]
+            +boss[ActType.Act7]
         }
         3 -> {
             +boss[ActType.Act9]
