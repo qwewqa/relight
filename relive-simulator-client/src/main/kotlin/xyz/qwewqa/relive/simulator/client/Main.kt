@@ -30,7 +30,7 @@ suspend fun start(simulator: Simulator) {
     var simulation: Simulation? = null
     var done = false
 
-    val version = simulator.version()
+    var version = simulator.version()
     val options = simulator.options()
 
     val commonText = options.commonText.associateBy { it.id }
@@ -565,8 +565,12 @@ suspend fun start(simulator: Simulator) {
     })
 
     doImportButton.addEventListener("click", {
-        setSetup(loadYamlDeserialize(importText.value))
-        toast("Import", "Import completed.", "green")
+        try {
+            setSetup(loadYamlDeserialize(importText.value))
+            toast("Import", "Import completed.", "green")
+        } catch (e: Throwable) {
+            toast("Import", "Import failed.", "red")
+        }
     })
 
     seedRandomizeButton.addEventListener("click", {
@@ -604,7 +608,19 @@ suspend fun start(simulator: Simulator) {
         GlobalScope.launch {
             simulateButton.disabled = true
             cancelButton.disabled = false
-            simulation = simulator.simulate(getSetup())
+            val serverVersion = simulator.version()
+            if (version != serverVersion) {
+                version = serverVersion
+                toast("Warning", "Server version has changed. Reload page if errors occur.", "yellow")
+            }
+            try {
+                simulation = simulator.simulate(getSetup())
+            } catch (e: Throwable) {
+                toast("Simulate", "Simulation failed to start.", "red")
+                simulateButton.disabled = false
+                cancelButton.disabled = true
+                return@launch
+            }
             toast("Simulate", "Simulation started.", "green")
             done = false
         }
@@ -670,6 +686,8 @@ suspend fun start(simulator: Simulator) {
 
     updateLocaleText()
     refreshSelectPicker()
+
+    toast("Ready", "Initialization complete.")
 
     GlobalScope.launch {
         while (true) {
