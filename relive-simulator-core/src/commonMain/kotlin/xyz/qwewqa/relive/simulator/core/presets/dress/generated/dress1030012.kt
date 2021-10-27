@@ -277,28 +277,28 @@ val dress1030012 = PartialDressBlueprint(
   remakeParameters = listOf(
     StatData(
       hp = 6600,
-      actPower = 6600,
+      actPower = 360,
       normalDefense = 150,
       specialDefense = 330,
       agility = 180,
     ),
     StatData(
       hp = 11000,
-      actPower = 11000,
+      actPower = 600,
       normalDefense = 250,
       specialDefense = 550,
       agility = 300,
     ),
     StatData(
       hp = 17600,
-      actPower = 17600,
+      actPower = 960,
       normalDefense = 400,
       specialDefense = 880,
       agility = 480,
     ),
     StatData(
       hp = 22000,
-      actPower = 22000,
+      actPower = 1200,
       normalDefense = 500,
       specialDefense = 1100,
       agility = 600,
