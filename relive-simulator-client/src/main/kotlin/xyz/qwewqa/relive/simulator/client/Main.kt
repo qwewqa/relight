@@ -71,6 +71,7 @@ suspend fun start(simulator: Simulator) {
     val strategyEditor = CodeMirror(strategyContainer, js("{lineNumbers: true, mode: null}"))
     val bossStrategyTypeSelect = document.getElementById("boss-strategy-type-select").singleSelect()
     val bossStrategyCollapse = document.getElementById("boss-strategy-collapse").collapse()
+    val toastsCheckbox = document.getElementById("toasts-checkbox") as HTMLInputElement
 
     // Will not display properly otherwise
     bossStrategyCollapse.show = true
@@ -85,9 +86,21 @@ suspend fun start(simulator: Simulator) {
 
     val toastContainer = document.getElementById("toast-container") as HTMLDivElement
 
-    fun toastElement(name: String, value: String) = document.create.div("toast") {
+    fun toastElement(name: String, value: String, color: String = "grey") = document.create.div("toast") {
         attributes["role"] = "alert"
         div("toast-header") {
+            svg("rounded me-2") {
+                attributes["width"] = "20"
+                attributes["height"] = "20"
+                attributes["xmlns"] = "http://www.w3.org/2000/svg"
+                attributes["preserveAspectRatio"] = "xMidYMid slice"
+                attributes["focusable"] = "false"
+                HTMLTag("rect", consumer, mapOf(), "http://www.w3.org/2000/svg", true, false).visit {
+                    attributes["width"] = "100%"
+                    attributes["height"] = "100%"
+                    attributes["fill"] = color
+                }
+            }
             strong("me-auto") {
                 +name
             }
@@ -100,8 +113,9 @@ suspend fun start(simulator: Simulator) {
         }
     }
 
-    fun toast(name: String, value: String): Bootstrap.Toast {
-        val element = toastElement(name, value)
+    fun toast(name: String, value: String, color: String = "grey"): Bootstrap.Toast? {
+        if (!toastsCheckbox.checked) return null
+        val element = toastElement(name, value, color)
         toastContainer.appendChild(element)
         return Bootstrap.Toast(element).also {
             it.show()
@@ -552,6 +566,7 @@ suspend fun start(simulator: Simulator) {
 
     doImportButton.addEventListener("click", {
         setSetup(loadYamlDeserialize(importText.value))
+        toast("Import", "Import completed.", "green")
     })
 
     seedRandomizeButton.addEventListener("click", {
@@ -590,6 +605,7 @@ suspend fun start(simulator: Simulator) {
             simulateButton.disabled = true
             cancelButton.disabled = false
             simulation = simulator.simulate(getSetup())
+            toast("Simulate", "Simulation started.", "green")
             done = false
         }
     })
@@ -783,6 +799,13 @@ suspend fun start(simulator: Simulator) {
                     if (result.done) {
                         simulateButton.disabled = false
                         cancelButton.disabled = true
+                        if (result.error != null) {
+                            toast("Simulate", "Simulation completed with errors.", "orange")
+                        } else if (result.cancelled) {
+                            toast("Cancel", "Simulation cancelled.", "yellow")
+                        } else {
+                            toast("Simulate", "Simulation completed successfully.", "green")
+                        }
                     }
                 }
             }
