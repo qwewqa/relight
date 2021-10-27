@@ -76,7 +76,7 @@ data class PlayerLoadoutParameters(
     val rarity: Int = 6,
     val friendship: Int = 30,
     val rank: Int = 9,
-    val rankPanelLayout: List<Boolean> = listOf(true, true, true, true, true, true, true, true, true),
+    val rankPanelPattern: List<Boolean> = listOf(true, true, true, true, true, true, true, true),
     val remake: Int = 0,
 )
 

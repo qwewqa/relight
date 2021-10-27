@@ -53,7 +53,7 @@ data class SimulationParameters(
                             level = it.level,
                             friendship = it.friendship,
                             rank = it.rank,
-                            rankPanelLayout = it.rankPanelLayout,
+                            rankPanelPattern = it.rankPanelPattern,
                             remake = it.remake,
                             unitSkillLevel = it.unitSkillLevel,
                         ),
@@ -68,7 +68,7 @@ data class SimulationParameters(
                             level = it.level,
                             friendship = it.friendship,
                             rank = it.rank,
-                            rankPanelLayout = it.rankPanelLayout,
+                            rankPanelPattern = it.rankPanelPattern,
                             remake = it.remake,
                             unitSkillLevel = it.unitSkillLevel,
                         ),
@@ -180,7 +180,7 @@ data class PlayerLoadoutParameters(
     val rarity: Int,
     val friendship: Int,
     val rank: Int,
-    val rankPanelLayout: List<Boolean>,
+    val rankPanelPattern: List<Boolean>,
     val remake: Int,
 )
 

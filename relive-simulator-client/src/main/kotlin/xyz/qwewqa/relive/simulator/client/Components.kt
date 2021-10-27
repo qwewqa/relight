@@ -166,6 +166,23 @@ class ActorOptions(element: Element) {
     private val memoirLevel = IntegerInput(element.getElementsByClassName("actor-memoir-level").single(), 1)
     private val memoirUnbind = SingleSelect(element.getElementsByClassName("actor-memoir-unbind").single())
     private val unitSkillLevel = IntegerInput(element.getElementsByClassName("actor-unit-skill").single(), 21)
+    private val level = IntegerInput(element.getElementsByClassName("actor-level").single(), 80)
+    private val rarity = SingleSelect(element.getElementsByClassName("actor-rarity").single())
+    private val friendship = IntegerInput(element.getElementsByClassName("actor-friendship").single(), 30)
+    private val rank = SingleSelect(element.getElementsByClassName("actor-rank").single())
+    private val rankPanelPattern = SingleSelect(element.getElementsByClassName("actor-rank-panel-pattern").single())
+    private val remake = SingleSelect(element.getElementsByClassName("actor-remake").single())
+
+
+    companion object {
+        val rankPanelPatterns = mapOf(
+            "Full" to listOf(true, true, true, true, true, true, true, true),
+            "Upper" to listOf(true, true, true, true, true, false, false, false),
+            "Lower" to listOf(true, false, false, false, true, true, true, true),
+            "None" to listOf(false, false, false, false, false, false, false, false),
+        )
+        val inverseRankPanelPatterns = rankPanelPatterns.map { (k, v) -> v to k }.toMap()
+    }
 
     var parameters: PlayerLoadoutParameters
         get() = PlayerLoadoutParameters(
@@ -175,6 +192,12 @@ class ActorOptions(element: Element) {
             memoirLevel.value,
             memoirUnbind.value.toInt(),
             unitSkillLevel.value,
+            level.value,
+            rarity.value.toInt(),
+            friendship.value,
+            rank.value.toInt(),
+            rankPanelPatterns[rankPanelPattern.value]!!,
+            remake.value.toInt(),
         )
         set(param) {
             name.value = param.name
@@ -183,6 +206,12 @@ class ActorOptions(element: Element) {
             memoirLevel.value = param.memoirLevel
             memoirUnbind.value = param.memoirLimitBreak.toString()
             unitSkillLevel.value = param.unitSkillLevel
+            level.value = param.level
+            rarity.value = param.rarity.toString()
+            friendship.value = param.friendship
+            rank.value = param.rank.toString()
+            rankPanelPattern.value = inverseRankPanelPatterns[param.rankPanelPattern] ?: "Full"
+            remake.value = param.remake.toString()
         }
 }
 

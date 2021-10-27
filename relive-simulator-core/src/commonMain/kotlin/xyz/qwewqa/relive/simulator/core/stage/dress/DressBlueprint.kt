@@ -34,7 +34,7 @@ data class DressBlueprint(
         level: Int,
         friendship: Int,
         rank: Int,
-        rankPanelLayout: List<Boolean>,
+        rankPanelPattern: List<Boolean>,
         remake: Int,
         unitSkillLevel: Int,
     ): Dress {
@@ -42,12 +42,13 @@ data class DressBlueprint(
         require(rank in 1..9) { "Invalid rank $rank." }
         require(remake in 0..remakeParameters.size) { "Invalid remake level $remake." }
         require(level in 1..(20 + 10 * rarity + 5 * remake)) { "Invalid level $level." }
-        require(friendship in 1..(rarity * 5 + remake * 5)) { "Invalid friendship level $level" }
+        require(friendship in 1..(rarity * 5 + remake * 5)) { "Invalid friendship level $friendship" }
+        require(rankPanelPattern.size == 8) { "Invalid rank panel pattern." }
         val maxRankLevelStats = (stats + growthStats * (level - 1) / 1000) *
                 (100 + rankGrowths[9] + rarityGrowths[6]) / 100
         val panels = friendshipPanels.take(friendship) + // intentionally not friendship - 1
                 rankPanels.take(rank - 1).flatten() +
-                rankPanels[rank - 1].filterIndexed { i, _ -> rankPanelLayout[i] }
+                rankPanels[rank - 1].filterIndexed { i, _ -> rankPanelPattern[i] }
         var panelHp = 0
         var panelActPower = 0
         var panelNormalDefense = 0
@@ -74,7 +75,7 @@ data class DressBlueprint(
         val autoSkillCount = autoSkillRanks.zip(autoSkillPanels).count { (rankNumber, panelNumber) ->
             rankNumber != null &&
                     (rankNumber < rank ||
-                            (rankNumber == rank && (panelNumber == 0 || rankPanelLayout[panelNumber - 1])))
+                            (rankNumber == rank && (panelNumber == 0 || rankPanelPattern[panelNumber - 1])))
         }
         val rankLevelStats = (stats + growthStats * (level - 1) / 1000) *
                 (100 + rankGrowths[rank] + rarityGrowths[rarity]) / 100
@@ -85,7 +86,7 @@ data class DressBlueprint(
             specialDefense = panelSpecialDefense,
             agility = panelAgility,
         )
-        val remakeStats = if (remake > 0) remakeParameters[remake] else StatData()
+        val remakeStats = if (remake > 0) remakeParameters[remake - 1] else StatData()
         return Dress(
             id,
             name,
