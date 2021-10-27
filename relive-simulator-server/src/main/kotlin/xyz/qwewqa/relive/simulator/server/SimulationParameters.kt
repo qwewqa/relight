@@ -58,7 +58,6 @@ data class SimulationParameters(
                             unitSkillLevel = it.unitSkillLevel,
                         ),
                         memoirs[it.memoir]!!.create(it.memoirLevel, it.memoirLimitBreak),
-                        it.unitSkillLevel,
                     )
                 },
                 guest?.let {
@@ -74,7 +73,6 @@ data class SimulationParameters(
                             unitSkillLevel = it.unitSkillLevel,
                         ),
                         memoirs[it.memoir]!!.create(it.memoirLevel, it.memoirLimitBreak),
-                        it.unitSkillLevel,
                     )
                 },
                 Song(

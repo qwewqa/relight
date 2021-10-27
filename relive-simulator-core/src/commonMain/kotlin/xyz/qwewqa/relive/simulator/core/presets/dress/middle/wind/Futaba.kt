@@ -2,106 +2,102 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.MiddleOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.NormalDamageOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1080013
+import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
-val HondaFutaba = Dress(
+val HondaFutaba = dress1080013(
     name = "Honda Tadakatsu Futaba",
-    character = Character.Futaba,
-    attribute = Attribute.Wind,
-    damageType = DamageType.Special,
-    position = Position.Middle,
-    stats = defaultDressStats.copy(
-        hp = 26154,
-        actPower = 2432,
-        normalDefense = 1213,
-        specialDefense = 1455,
-        agility = 1923,
-    ),
-    acts = actsOf(
-        ActType.Act1("Strong Slash", 2) {
-            targetFront().act {
-                attack(
-                    modifier = 176,
-                    hitCount = 1,
-                )
+    acts = listOf(
+        ActType.Act1.blueprint("Strong Slash", 2) {
+            Act {
+                targetFront().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1,
+                    )
+                }
             }
         },
-        ActType.Act2("Victory Battle", 2) {
-            targetBack().act {
-                attack(
-                    modifier = 155,
-                    hitCount = 2,
-                )
-            }
-            targetAllyAoe().act {
-                applyBuff(
-                    ActPowerUpBuff,
-                    value = 30,
-                    turns = 3
-                )
-                applyBuff(
-                    EffectiveDamageDealtUpBuff,
-                    value = 30,
-                    turns = 3
-                )
-            }
-        },
-        ActType.Act3("Furious War", 3) {
-            targetBack().act {
-                attack(
-                    modifier = 198,
-                    hitCount = 2,
-                )
-            }
-            targetAllyAoe().act {
-                applyBuff(
-                    DexterityUpBuff,
-                    value = 20,
-                    turns = 3
-                )
-                applyBuff(
-                    EffectiveDamageDealtUpBuff,
-                    value = 30,
-                    turns = 3
-                )
+        ActType.Act2.blueprint("Victory Battle", 2) {
+            Act {
+                targetBack().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 2,
+                    )
+                }
+                targetAllyAoe().act {
+                    applyBuff(
+                        ActPowerUpBuff,
+                        value = values2,
+                        turns = times2,
+                    )
+                    applyBuff(
+                        EffectiveDamageDealtUpBuff,
+                        value = values3,
+                        turns = times3,
+                    )
+                }
             }
         },
-        ActType.ClimaxAct("Invincible Spear", 2) {
-            targetBack().act {
-                flipTimed(
-                    category = BuffCategory.Positive,
-                    count = 5
-                )
-                attack(
-                    modifier = 369,
-                    hitCount = 3,
-                    bonusMultiplier = 150,
-                    bonusCondition = NormalDamageOnlyCondition
-                )
+        ActType.Act3.blueprint("Furious War", 3) {
+            Act {
+                targetBack().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 2,
+                    )
+                }
+                targetAllyAoe().act {
+                    applyBuff(
+                        DexterityUpBuff,
+                        value = values2,
+                        turns = times2,
+                    )
+                    applyBuff(
+                        EffectiveDamageDealtUpBuff,
+                        value = values3,
+                        turns = times3,
+                    )
+                }
+            }
+        },
+        ActType.ClimaxAct.blueprint("Invincible Spear", 2) {
+            Act {
+                targetBack().act {
+                    flipTimed(
+                        category = BuffCategory.Positive,
+                        count = values1
+                    )
+                    attack(
+                        modifier = values2,
+                        hitCount = 3,
+                        bonusMultiplier = 150,
+                        bonusCondition = NormalDamageOnlyCondition
+                    )
+                }
             }
         }
     ),
     autoSkills = listOf(
-        TeamDexterityUpBuffPassive.new(10, time = 3),
-        TeamCriticalUpBuffPassive.new(20, time = 3),
-        EffectiveDamageDealtPassive.new(20),
+        listOf(
+            TeamDexterityUpBuffPassive.new(10, time = 3),
+        ),
+        listOf(
+            TeamCriticalUpBuffPassive.new(20, time = 3),
+        ),
+        listOf(
+            EffectiveDamageDealtPassive.new(20),
+        ),
     ),
     unitSkill = ActCritical30UnitSkill + MiddleOnlyCondition,
-)
-
-val HondaFutaba95 = HondaFutaba.copy(
-    name = "Honda Tadakatsu Futaba [r9.5]",
-    stats = HondaFutaba.stats.copy(
-        hp = 25167,
-        normalDefense = 1169,
-        specialDefense = 1402,
-    ),
-    base = HondaFutaba,
 )

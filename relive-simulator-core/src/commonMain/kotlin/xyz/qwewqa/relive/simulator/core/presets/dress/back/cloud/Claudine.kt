@@ -19,10 +19,7 @@ import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageCloud
 val StageGirlClaudine = dress1040017(
     name = "Stage Girl Claudine",
     acts = listOf(
-        ActType.Act1.blueprint(
-            "Marked Slash",
-            2,
-        ) {
+        ActType.Act1.blueprint("Marked Slash", 2) {
             Act {
                 targetFront().act {
                     attack(
@@ -36,10 +33,7 @@ val StageGirlClaudine = dress1040017(
                 }
             }
         },
-        ActType.Act2.blueprint(
-            "Purifying Slash",
-            2,
-        ) {
+        ActType.Act2.blueprint("Purifying Slash", 2) {
             Act {
                 targetFront().act {
                     attack(
@@ -52,10 +46,7 @@ val StageGirlClaudine = dress1040017(
                 }
             }
         },
-        ActType.Act3.blueprint(
-            "Synchro of Brilliance",
-            2,
-        ) {
+        ActType.Act3.blueprint("Synchro of Brilliance", 2) {
             Act {
                 targetFront().act {
                     attack(
@@ -68,10 +59,7 @@ val StageGirlClaudine = dress1040017(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint(
-            "C'est moi! la star!",
-            1,
-        ) {
+        ActType.ClimaxAct.blueprint("C'est moi! la star!", 1) {
             Act {
                 targetFront().act {
                     dispelTimed(BuffCategory.Positive)

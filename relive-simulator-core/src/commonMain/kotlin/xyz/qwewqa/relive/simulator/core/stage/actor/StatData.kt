@@ -11,6 +11,18 @@ data class StatData(
     val accuracy: Int = 0,
     val evasion: Int = 0,
 ) {
+    fun display() = """{
+        |  hp: $hp,
+        |  actPower: $actPower,
+        |  normalDefense: $normalDefense,
+        |  specialDefense: $specialDefense,
+        |  agility: $agility,
+        |  dexterity: $dexterity,
+        |  critical: $critical,
+        |  accuracy: $accuracy,
+        |  evasion: $evasion,
+        |}""".trimMargin()
+
     fun addToActor(actor: Actor) {
         actor.valueMaxHp += hp
         actor.valueActPower += actPower

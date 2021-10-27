@@ -129,8 +129,8 @@ class Actor(
 
     fun initializeTurnZero() {
         hp = maxHp
-        context.log("Init") { "Dress Stats: ${dress.stats}." }
-        context.log("Init") { "Memoir Stats: ${memoir?.stats}." }
+        context.log("Init") { "Dress Stats: ${dress.stats.display()}." }
+        context.log("Init") { "Memoir Stats: ${memoir?.stats?.display()}." }
     }
 
     fun tick() {

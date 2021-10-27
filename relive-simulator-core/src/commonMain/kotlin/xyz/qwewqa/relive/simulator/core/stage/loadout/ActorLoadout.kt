@@ -8,7 +8,6 @@ data class ActorLoadout(
     val name: String,
     val dress: Dress,
     val memoir: Memoir? = null,
-    val unitSkillLevel: Int = 21,
 ) {
-    fun create() = Actor(name, dress, memoir, unitSkillLevel)
+    fun create() = Actor(name, dress, memoir)
 }

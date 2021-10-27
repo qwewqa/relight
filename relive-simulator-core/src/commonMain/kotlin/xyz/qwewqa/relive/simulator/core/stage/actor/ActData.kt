@@ -22,8 +22,8 @@ enum class ActType {
     Act10,
     ClimaxAct,
     ConfusionAct;
-}
 
-operator fun ActType.invoke(name: String, apCost: Int, act: Act) = ActData(name, this, apCost, act)
+    operator fun invoke(name: String, apCost: Int, act: Act) = ActData(name, this, apCost, act)
+}
 
 fun actsOf(vararg acts: ActData) = acts.associateBy { it.type }

@@ -77,7 +77,7 @@ data class DressBlueprint(
                             (rankNumber == rank && (panelNumber == 0 || rankPanelLayout[panelNumber - 1])))
         }
         val rankLevelStats = (stats + growthStats * (level - 1) / 1000) *
-                (100 + rankGrowths[rank] + rarityGrowths[level]) / 100
+                (100 + rankGrowths[rank] + rarityGrowths[rarity]) / 100
         val panelStats = StatData(
             hp = panelHp,
             actPower = panelActPower,

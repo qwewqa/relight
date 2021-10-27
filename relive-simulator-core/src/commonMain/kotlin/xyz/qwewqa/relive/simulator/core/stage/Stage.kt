@@ -61,7 +61,7 @@ class Stage(
 
                 (autoEffectPriority + listOfNotNull(player.guest, enemy.guest))
                     .map { it to it.dress.unitSkill }.forEach { (actor, us) ->
-                        us?.forLevel(actor.unitSkillLevel)?.forEach {
+                        us.forEach {
                             log("AutoEffect") { "[${actor.name}] unit skill [${it.name}] activate" }
                             it.activate(actor.context)
                         }

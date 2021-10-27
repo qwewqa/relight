@@ -1,6 +1,8 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.FlowerOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1090013
+import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
@@ -8,83 +10,87 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
-val DevilKaoruko = Dress(
+val DevilKaoruko = dress1090013(
     name = "Devil Kaoruko",
-    character = Character.Kaoruko,
-    attribute = Attribute.Flower,
-    damageType = DamageType.Special,
-    position = Position.Middle,
-    stats = defaultDressStats.copy(
-        hp = 38597,
-        actPower = 3020,
-        normalDefense = 1213,
-        specialDefense = 1827,
-        agility = 2113,
-    ),
-    acts = actsOf(
-        ActType.Act1("Brilliance Slash", 2) {
-            targetBack().act {
-                attack(
-                    modifier = 112,
-                    hitCount = 1,
-                )
-            }
-            targetSelf().act {
-                addBrilliance(20)
+    acts = listOf(
+        ActType.Act1.blueprint("Brilliance Slash", 2) {
+            Act {
+                targetBack().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1,
+                    )
+                }
+                targetSelf().act {
+                    addBrilliance(values2)
+                }
             }
         },
-        ActType.Act2("Soul Contract", 2) {
-            targetBack().act {
-                attack(
-                    modifier = 155,
-                    hitCount = 2,
-                )
-            }
-            targetAllyAoe().act {
-                applyBuff(
-                    ActPowerUpBuff,
-                    value = 30,
-                    turns = 3,
-                )
-                applyBuff(
-                    EffectiveDamageDealtUpBuff,
-                    value = 30,
-                    turns = 3,
-                )
-            }
-        },
-        ActType.Act3("Devil's Whisper", 3) {
-            targetBack().act {
-                attack(
-                    modifier = 198,
-                    hitCount = 2,
-                )
-                dispelTimed(BuffCategory.Positive)
-                dispelCountable(BuffCategory.Positive)
+        ActType.Act2.blueprint("Soul Contract", 2) {
+            Act {
+                targetBack().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 2,
+                    )
+                }
+                targetAllyAoe().act {
+                    applyBuff(
+                        ActPowerUpBuff,
+                        value = values2,
+                        turns = times2,
+                    )
+                    applyBuff(
+                        EffectiveDamageDealtUpBuff,
+                        value = values3,
+                        turns = times3,
+                    )
+                }
             }
         },
-        ActType.ClimaxAct("Flames of Hell", 2) {
-            targetAllyAoe().act {
-                dispelTimed(BuffCategory.Negative)
+        ActType.Act3.blueprint("Devil's Whisper", 3) {
+            Act {
+                targetBack().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 2,
+                    )
+                    dispelTimed(BuffCategory.Positive)
+                    dispelCountable(BuffCategory.Positive)
+                }
             }
-            targetAoe().act {
-                dispelTimed(BuffCategory.Positive)
-                attack(
-                    modifier = 240,
-                    hitCount = 4,
-                )
+        },
+        ActType.ClimaxAct.blueprint("Flames of Hell", 2) {
+            Act {
+                targetAllyAoe().act {
+                    dispelTimed(BuffCategory.Negative)
+                }
+                targetAoe().act {
+                    dispelTimed(BuffCategory.Positive)
+                    attack(
+                        modifier = values3,
+                        hitCount = 4,
+                    )
+                }
             }
         }
     ),
     autoSkills = listOf(
-        TeamDexterityUpBuffPassive.new(10, time = 3),
-        TeamCriticalUpBuffPassive.new(20, time = 3),
-        // TODO: CX Seal
+        listOf(
+            TeamDexterityUpBuffPassive.new(10, time = 3),
+        ),
+        listOf(
+            TeamCriticalUpBuffPassive.new(20, time = 3),
+        ),
+        listOf(
+
+        ), // TODO: CX Seal
     ),
     unitSkill = ActCritical50UnitSkill + FlowerOnlyCondition,
 )

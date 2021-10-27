@@ -4,91 +4,100 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 import xyz.qwewqa.relive.simulator.core.presets.condition.SnowOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2010015
+import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
-val DeathTamao = Dress(
+val DeathTamao = dress2010015(
     name = "Death Tamao",
-    character = Character.Tamao,
-    attribute = Attribute.Snow,
-    damageType = DamageType.Normal,
-    position = Position.Back,
-    stats = defaultDressStats.copy(
-        hp = 32391,
-        actPower = 3338,
-        normalDefense = 1616,
-        specialDefense = 1076,
-        agility = 2113,
-    ),
-    acts = actsOf(
-        ActType.Act1("Ardent Slash", 2) {
-            targetBack().act {
-                attack(
-                    modifier = 176,
-                    hitCount = 2,
-                )
-            }
-        },
-        ActType.Act2("Soul Rebirth", 2) {
-            targetBack().act {
-                attack(
-                    modifier = 155,
-                    hitCount = 2,
-                )
-            }
-            targetAllyAoe().act {
-                applyBuff(
-                    DexterityUpBuff,
-                    value = 30,
-                    turns = 3,
-                )
-                applyBuff(
-                    NegativeEffectResistanceBuff,
-                    value = 100,
-                    turns = 3,
-                )
-            }
-        },
-        ActType.Act3("Death's Whisper", 2) {
-            targetBack().act {
-                attack(
-                    modifier = 198,
-                    hitCount = 2,
-                )
-            }
-            targetAoe().act {
-                applyBuff(
-                    MarkBuff,
-                    turns = 2,
-                )
-                applyBuff(
-                    NormalDefenseDownBuff,
-                    value = 30,
-                    turns = 3,
-                )
-            }
-        },
-        ActType.ClimaxAct("Memento Mori", 2) {
-            focus {
-                targetAoe().act {
+    acts = listOf(
+        ActType.Act1.blueprint("Ardent Slash", 2) {
+            Act {
+                targetBack().act {
                     attack(
-                        modifier = 240,
-                        hitCount = 3,
+                        modifier = values1,
+                        hitCount = 2,
                     )
                 }
             }
-            targetAllyBack(2).act {
-                applyCountableBuff(CountableBuff.Revive)
+        },
+        ActType.Act2.blueprint("Soul Rebirth", 2) {
+            Act {
+                targetBack().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 2,
+                    )
+                }
+                targetAllyAoe().act {
+                    applyBuff(
+                        DexterityUpBuff,
+                        value = values2,
+                        turns = times2,
+                    )
+                    applyBuff(
+                        NegativeEffectResistanceBuff,
+                        value = values3,
+                        turns = times3,
+                    )
+                }
+            }
+        },
+        ActType.Act3.blueprint("Death's Whisper", 2) {
+            Act {
+                targetBack().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 2,
+                    )
+                }
+                targetAoe().act {
+                    applyBuff(
+                        MarkBuff,
+                        turns = times2,
+                    )
+                    applyBuff(
+                        NormalDefenseDownBuff,
+                        value = values3,
+                        turns = times3,
+                    )
+                }
+            }
+        },
+        ActType.ClimaxAct.blueprint("Memento Mori", 2) {
+            Act {
+                focus {
+                    targetAoe().act {
+                        attack(
+                            modifier = values1,
+                            hitCount = 3,
+                        )
+                    }
+                }
+                targetAllyBack(2).act {
+                    applyCountableBuff(
+                        CountableBuff.Revive,
+                        count = times2,
+                    )
+                }
             }
         }
     ),
     autoSkills = listOf(
-        EnemyBrillianceDrainPassive.new(20),
-        EnemyBack1ConfusionBuffPassive.new(time = 2),
-        SelfReviveBuffPassive.new(50, time = 1),
+        listOf(
+            EnemyBrillianceDrainPassive.new(20),
+        ),
+        listOf(
+            EnemyBack1ConfusionBuffPassive.new(time = 2),
+        ),
+        listOf(
+            SelfReviveBuffPassive.new(50, time = 1),
+        ),
     ),
     unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
 )
