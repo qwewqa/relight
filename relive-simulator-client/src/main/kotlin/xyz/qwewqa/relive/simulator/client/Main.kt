@@ -271,7 +271,7 @@ suspend fun start(simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-6 col-md-6 my-2") {
+                                div("col-6 col-md-6 col-lg-3 my-2") {
                                     val inputId = "actor-unit-skill-$actorId"
                                     label("form-label text-unit-skill-level") {
                                         htmlFor = inputId
@@ -282,7 +282,7 @@ suspend fun start(simulator: Simulator) {
                                         placeholder = "21"
                                     }
                                 }
-                                div("col-6 col-md-6 my-2") {
+                                div("col-6 col-md-6 col-lg-3 my-2") {
                                     val inputId = "actor-friendship-$actorId"
                                     label("form-label text-actor-friendship") {
                                         htmlFor = inputId
@@ -293,7 +293,7 @@ suspend fun start(simulator: Simulator) {
                                         placeholder = "30"
                                     }
                                 }
-                                div("col-6 col-md-6 my-2") {
+                                div("col-6 col-md-6 col-lg-3 my-2") {
                                     val selectId = "actor-rank-$actorId"
                                     label("form-label text-actor-rank") {
                                         htmlFor = selectId
@@ -340,7 +340,7 @@ suspend fun start(simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-6 col-md-6 my-2") {
+                                div("col-6 col-md-6 col-lg-3 my-2") {
                                     val selectId = "actor-rank-panel-pattern-$actorId"
                                     label("form-label text-actor-rank-panel-pattern") {
                                         htmlFor = selectId
