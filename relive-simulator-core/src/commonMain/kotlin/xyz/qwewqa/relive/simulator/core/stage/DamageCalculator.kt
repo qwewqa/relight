@@ -9,6 +9,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.BlindnessBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.FreezeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.NormalBarrierBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.SpecialBarrierBuff
+import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 
 interface DamageCalculator {
     fun damage(attacker: Actor, target: Actor, hitAttribute: HitAttribute)
@@ -99,6 +100,12 @@ class RandomDamageCalculator : DamageCalculator {
             else -> 0
         }.coerceAtLeast(0)
 
+        val bonusCoef = if (hitAttribute.bonusCondition != null && hitAttribute.bonusCondition.evaluate(target)) {
+            hitAttribute.bonusModifier
+        } else {
+            100
+        }
+
         val attribute = hitAttribute.attribute
         val eleCoef = effectiveCoefTable[attribute to target.dress.attribute]!!
         val effEleCoef = if (eleCoef > 100) {
@@ -135,7 +142,7 @@ class RandomDamageCalculator : DamageCalculator {
             100
         }
 
-        val bonusCoef = 100 + attacker.eventBonus
+        val eventBonusCoef = 100 + attacker.eventBonus
         val eventMultiplier = attacker.eventMultiplier
 
         val base = (atk - def).coerceAtLeast(atk / 10) / hitAttribute.hitCount
@@ -144,8 +151,8 @@ class RandomDamageCalculator : DamageCalculator {
         dmg = dmg * eleCoef / 100
         dmg = dmg * effEleCoef / 100
         dmg = dmg * attributeDamageDealtUpCoef / 100
-        dmg = dmg * hitAttribute.bonus / 100  // tentative
-        dmg = dmg * bonusCoef / 100
+        dmg = dmg * bonusCoef / 100  // tentative
+        dmg = dmg * eventBonusCoef / 100
         dmg = dmg * targetAgainstAttributeDamageTakenDownCoef / 100 // tentative
         dmg = dmg * targetInnateAgainstAttributeDamageTakenDownCoef / 100
         dmg = dmg * buffDmgDealtUpCoef / 100
@@ -161,8 +168,8 @@ class RandomDamageCalculator : DamageCalculator {
         criticalDmg = criticalDmg * effEleCoef / 100
         criticalDmg = criticalDmg * critCoef / 100
         criticalDmg = criticalDmg * attributeDamageDealtUpCoef / 100
-        criticalDmg = criticalDmg * hitAttribute.bonus / 100  // tentative
-        criticalDmg = criticalDmg * bonusCoef / 100
+        criticalDmg = criticalDmg * bonusCoef / 100  // tentative
+        criticalDmg = criticalDmg * eventBonusCoef / 100
         criticalDmg = criticalDmg * targetAgainstAttributeDamageTakenDownCoef / 100 // tentative
         criticalDmg = criticalDmg * targetInnateAgainstAttributeDamageTakenDownCoef / 100
         criticalDmg = criticalDmg * buffDmgDealtUpCoef / 100
@@ -199,10 +206,11 @@ data class HitAttribute(
     val hitCount: Int = 1,
     val attribute: Attribute = Attribute.Neutral,
     val damageType: DamageType = DamageType.Neutral,
-    val bonus: Int = 0,
+    val bonusModifier: Int = 100,
+    val bonusCondition: Condition? = null,
     val addBrilliance: Boolean = true,
     val focus: Boolean = false,
     val noReflect: Boolean = false,
     val noVariance: Boolean = false,
-    val removeOnConnect: CountableBuff?,
+    val removeOnConnect: CountableBuff? = null,
 )
