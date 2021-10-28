@@ -22,9 +22,13 @@ suspend fun main() {
             client.start()
         } else {
             val client = SimulatorClient(simulator)
-            client.toast("Info", "Incompatible server found. Redirecting to local simulator.")
-            delay(1000)
-            window.location.href = "http://localhost:8080/${window.location.search}"
+            client.toast("Error", "red", autohide = false) {
+                +"Incompatible server found."
+                br()
+                a(href = "https://github.com/qwewqa/relive-simulator") { +"Update server" }
+                +" or "
+                a(href = "http://localhost:8080/${window.location.search}") { +"switch to the local client version." }
+            }
         }
     } else {
         val client = SimulatorClient(simulator)

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="relive-simulator-core-jvm-0.1.0-SNAPSHOT">
+    <output-path>$PROJECT_DIR$/relive-simulator-core/build/libs</output-path>
+    <root id="archive" name="relive-simulator-core-jvm-0.1.0-SNAPSHOT.jar">
+      <element id="module-output" name="relive-simulator.relive-simulator-core.jvmMain" />
+    </root>
+  </artifact>
+</component>
