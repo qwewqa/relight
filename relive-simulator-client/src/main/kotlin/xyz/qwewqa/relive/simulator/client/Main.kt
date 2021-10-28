@@ -21,11 +21,11 @@ import xyz.qwewqa.relive.simulator.client.yaml.loadYamlDeserialize
 import kotlin.random.Random
 
 suspend fun main() {
-    start(RemoteSimulator(URL("${window.location.protocol}//${window.location.host}")))
+    SimulatorClient(RemoteSimulator(URL("${window.location.protocol}//${window.location.host}"))).start()
 }
 
 @OptIn(DelicateCoroutinesApi::class, kotlinx.serialization.ExperimentalSerializationApi::class)
-suspend fun start(simulator: Simulator) {
+class SimulatorClient(val simulator: Simulator) {
     var simulation: Simulation? = null
     var done = false
 
@@ -58,15 +58,16 @@ suspend fun start(simulator: Simulator) {
     val bossStrategyTypeSelect = document.getElementById("boss-strategy-type-select").singleSelect()
     val bossStrategyCollapse = document.getElementById("boss-strategy-collapse").collapse()
     val toastsCheckbox = document.getElementById("toasts-checkbox") as HTMLInputElement
-
-    // Will not display properly otherwise
-    bossStrategyCollapse.show = true
-    val bossStrategyEditor = CodeMirror(bossStrategyContainer, js("{lineNumbers: true, mode: null}"))
-    bossStrategyCollapse.show = false
-
     val toastContainer = document.getElementById("toast-container") as HTMLDivElement
+    val bossStrategyEditor = run {
+        // Will not display properly otherwise
+        bossStrategyCollapse.show = true
+        val value = CodeMirror(bossStrategyContainer, js("{lineNumbers: true, mode: null}"))
+        bossStrategyCollapse.show = false
+        value
+    }
 
-    fun toastElement(name: String, value: String, color: String = "grey") = document.create.div("toast") {
+    private fun toastElement(name: String, value: String, color: String = "grey") = document.create.div("toast") {
         attributes["role"] = "alert"
         div("toast-header") {
             svg("rounded me-2") {
@@ -93,18 +94,18 @@ suspend fun start(simulator: Simulator) {
         }
     }
 
-    fun toast(name: String, value: String, color: String = "grey"): Bootstrap.Toast? {
+    fun toast(name: String, value: String, color: String = "grey", autohide: Boolean = true): Bootstrap.Toast? {
         if (!toastsCheckbox.checked) return null
         val element = toastElement(name, value, color)
         toastContainer.appendChild(element)
-        return Bootstrap.Toast(element).also {
+        return Bootstrap.Toast(element, jsObject { this.autohide = autohide }).also {
             it.show()
         }
     }
 
     val clientVersion = SimulatorVersion(VERSION, GIT_SHA)
 
-    suspend fun warnIfServerVersionMismatched() {
+    private suspend fun warnIfServerVersionMismatched() {
         val serverVersion = simulator.version()
         if (clientVersion != serverVersion) {
             toast("Warning", "Client version does not match server version.", "yellow")
@@ -114,726 +115,728 @@ suspend fun start(simulator: Simulator) {
         }
     }
 
-    warnIfServerVersionMismatched()
+    suspend fun start() {
+        warnIfServerVersionMismatched()
 
-    val options = simulator.options()
+        val options = simulator.options()
 
-    val commonText = options.commonText.associateBy { it.id }
-    val bosses = options.bosses.associateBy { it.id }
-    val strategies = options.strategyTypes.associateBy { it.id }
-    val bossStrategies = options.bossStrategyTypes.associateBy { it.id }
-    val songEffects = mapOf("none" to (commonText["none"] ?: SimulationOption("none",
-        emptyMap()))) + options.songEffects.associateBy { it.id }
-    val conditions = options.conditions.associateBy { it.id }
-    val dresses = options.dresses.associateBy { it.id }
-    val memoirs = options.memoirs.associateBy { it.id }
+        val commonText = options.commonText.associateBy { it.id }
+        val bosses = options.bosses.associateBy { it.id }
+        val strategies = options.strategyTypes.associateBy { it.id }
+        val bossStrategies = options.bossStrategyTypes.associateBy { it.id }
+        val songEffects = mapOf("none" to (commonText["none"] ?: SimulationOption("none",
+            emptyMap()))) + options.songEffects.associateBy { it.id }
+        val conditions = options.conditions.associateBy { it.id }
+        val dresses = options.dresses.associateBy { it.id }
+        val memoirs = options.memoirs.associateBy { it.id }
 
-    var locale = options.locales.keys.first()
+        var locale = options.locales.keys.first()
 
-    fun localized(value: String, fallback: String) = commonText[value]?.get(locale) ?: fallback
+        fun localized(value: String, fallback: String) = commonText[value]?.get(locale) ?: fallback
 
-    fun updateGuestStyling() {
-        val optionDivs = actorSettingsDiv.children.asList()
-        optionDivs.forEach { options ->
-            val borderDiv = options.getElementsByClassName("border")[0] as HTMLDivElement
-            borderDiv.addClass("border-2")
-            borderDiv.removeClass("border-4")
-            borderDiv.removeClass("border-warning")
-        }
-        if (guestCheckbox.checked) {
-            optionDivs.firstOrNull()?.let { options ->
+        fun updateGuestStyling() {
+            val optionDivs = actorSettingsDiv.children.asList()
+            optionDivs.forEach { options ->
                 val borderDiv = options.getElementsByClassName("border")[0] as HTMLDivElement
-                borderDiv.removeClass("border-2")
-                borderDiv.addClass("border-4")
-                borderDiv.addClass("border-warning")
+                borderDiv.addClass("border-2")
+                borderDiv.removeClass("border-4")
+                borderDiv.removeClass("border-warning")
+            }
+            if (guestCheckbox.checked) {
+                optionDivs.firstOrNull()?.let { options ->
+                    val borderDiv = options.getElementsByClassName("border")[0] as HTMLDivElement
+                    borderDiv.removeClass("border-2")
+                    borderDiv.addClass("border-4")
+                    borderDiv.addClass("border-warning")
+                }
             }
         }
-    }
 
-    var actorIdCounter = 0
-    fun addActor() {
-        val actorId = actorIdCounter++
-        actorSettingsDiv.appendChild(
-            document.create.div("row actor-options") {
-                id = "actor-options-$actorId"
-                div("col-12 my-2") {
-                    div("border border-2 rounded") {
-                        div("row mx-1 mt-1") {
-                            div("col px-1 mb-2 actor-drag-handle") {
-                                i("bi bi-arrows-move")
-                            }
-                            div("col-auto px-1 pb-1") {
-                                button(type = ButtonType.button, classes = "btn-close") {
-                                    id = "actor-delete-$actorId"
+        var actorIdCounter = 0
+        fun addActor() {
+            val actorId = actorIdCounter++
+            actorSettingsDiv.appendChild(
+                document.create.div("row actor-options") {
+                    id = "actor-options-$actorId"
+                    div("col-12 my-2") {
+                        div("border border-2 rounded") {
+                            div("row mx-1 mt-1") {
+                                div("col px-1 mb-2 actor-drag-handle") {
+                                    i("bi bi-arrows-move")
+                                }
+                                div("col-auto px-1 pb-1") {
+                                    button(type = ButtonType.button, classes = "btn-close") {
+                                        id = "actor-delete-$actorId"
+                                    }
                                 }
                             }
-                        }
-                        val collapseId = "actor-details-collapse-$actorId"
-                        div("row mx-2 mb-2") {
-                            div("col-9 col-md-10 my-2") {
-                                val inputId = "actor-name-$actorId"
-                                label("form-label text-actor-name") {
-                                    htmlFor = inputId
-                                    +localized(".text-actor-name", "Name")
-                                }
-                                input(InputType.text, classes = "form-control actor-name") {
-                                    id = inputId
-                                }
-                            }
-                            div("col-3 col-md-2 my-2 pt-3 d-grid") {
-                                button(type = ButtonType.button, classes = "btn btn-outline-secondary") {
-                                    attributes["data-bs-toggle"] = "collapse"
-                                    attributes["data-bs-target"] = "#$collapseId"
-                                    +localized(".text-actor-details", "Details")
-                                }
-                            }
-                        }
-                        div("collapse show") {
-                            id = collapseId
+                            val collapseId = "actor-details-collapse-$actorId"
                             div("row mx-2 mb-2") {
-                                div("col-12 my-2") {
-                                    val selectId = "actor-dress-$actorId"
-                                    label("form-label text-dress") {
-                                        htmlFor = selectId
-                                        +localized(".text-dress", "Dress")
+                                div("col-9 col-md-10 my-2") {
+                                    val inputId = "actor-name-$actorId"
+                                    label("form-label text-actor-name") {
+                                        htmlFor = inputId
+                                        +localized(".text-actor-name", "Name")
                                     }
-                                    select("selectpicker form-control actor-dress") {
-                                        id = selectId
-                                        attributes["data-live-search"] = "true"
-                                        options.dresses.forEach {
-                                            option {
-                                                value = it.id
-                                                +it[locale]
+                                    input(InputType.text, classes = "form-control actor-name") {
+                                        id = inputId
+                                    }
+                                }
+                                div("col-3 col-md-2 my-2 pt-3 d-grid") {
+                                    button(type = ButtonType.button, classes = "btn btn-outline-secondary") {
+                                        attributes["data-bs-toggle"] = "collapse"
+                                        attributes["data-bs-target"] = "#$collapseId"
+                                        +localized(".text-actor-details", "Details")
+                                    }
+                                }
+                            }
+                            div("collapse show") {
+                                id = collapseId
+                                div("row mx-2 mb-2") {
+                                    div("col-12 my-2") {
+                                        val selectId = "actor-dress-$actorId"
+                                        label("form-label text-dress") {
+                                            htmlFor = selectId
+                                            +localized(".text-dress", "Dress")
+                                        }
+                                        select("selectpicker form-control actor-dress") {
+                                            id = selectId
+                                            attributes["data-live-search"] = "true"
+                                            options.dresses.forEach {
+                                                option {
+                                                    value = it.id
+                                                    +it[locale]
+                                                }
                                             }
                                         }
                                     }
-                                }
-                                div("col-6 col-md-4 my-2") {
-                                    val inputId = "actor-level-$actorId"
-                                    label("form-label text-actor-level") {
-                                        htmlFor = inputId
-                                        +localized(".text-actor-level", "Actor Level")
-                                    }
-                                    input(InputType.text, classes = "form-control actor-level") {
-                                        id = inputId
-                                        placeholder = "80"
-                                    }
-                                }
-                                div("col-6 col-md-4 my-2") {
-                                    val selectId = "actor-rarity-$actorId"
-                                    label("form-label text-actor-rarity") {
-                                        htmlFor = selectId
-                                        +localized(".text-actor-rarity", "Stars")
-                                    }
-                                    select(classes = "form-select actor-rarity") {
-                                        id = selectId
-                                        option {
-                                            value = "6"
-                                            label = "6"
-                                            selected = true
+                                    div("col-6 col-md-4 my-2") {
+                                        val inputId = "actor-level-$actorId"
+                                        label("form-label text-actor-level") {
+                                            htmlFor = inputId
+                                            +localized(".text-actor-level", "Actor Level")
                                         }
-                                        option {
-                                            value = "5"
-                                            label = "5"
-                                        }
-                                        option {
-                                            value = "4"
-                                            label = "4"
-                                        }
-                                        option {
-                                            value = "3"
-                                            label = "3"
-                                        }
-                                        option {
-                                            value = "2"
-                                            label = "2"
+                                        input(InputType.text, classes = "form-control actor-level") {
+                                            id = inputId
+                                            placeholder = "80"
                                         }
                                     }
-                                }
-                                div("col-12 col-md-4 my-2") {
-                                    val selectId = "actor-remake-$actorId"
-                                    label("form-label text-actor-remake") {
-                                        htmlFor = selectId
-                                        +localized(".text-actor-remake", "Remake Level")
-                                    }
-                                    select(classes = "form-select actor-remake") {
-                                        id = selectId
-                                        option {
-                                            value = "0"
-                                            label = "0"
-                                            selected = true
+                                    div("col-6 col-md-4 my-2") {
+                                        val selectId = "actor-rarity-$actorId"
+                                        label("form-label text-actor-rarity") {
+                                            htmlFor = selectId
+                                            +localized(".text-actor-rarity", "Stars")
                                         }
-                                        option {
-                                            value = "1"
-                                            label = "1"
-                                        }
-                                        option {
-                                            value = "2"
-                                            label = "2"
-                                        }
-                                        option {
-                                            value = "3"
-                                            label = "3"
-                                        }
-                                        option {
-                                            value = "4"
-                                            label = "4"
-                                        }
-                                    }
-                                }
-                                div("col-6 col-md-6 col-lg-3 my-2") {
-                                    val inputId = "actor-unit-skill-$actorId"
-                                    label("form-label text-unit-skill-level") {
-                                        htmlFor = inputId
-                                        +localized(".text-unit-skill-level", "Unit Skill Level")
-                                    }
-                                    input(InputType.text, classes = "form-control actor-unit-skill") {
-                                        id = inputId
-                                        placeholder = "21"
-                                    }
-                                }
-                                div("col-6 col-md-6 col-lg-3 my-2") {
-                                    val inputId = "actor-friendship-$actorId"
-                                    label("form-label text-actor-friendship") {
-                                        htmlFor = inputId
-                                        +localized(".text-actor-friendship", "Bond Level")
-                                    }
-                                    input(InputType.text, classes = "form-control actor-friendship") {
-                                        id = inputId
-                                        placeholder = "30"
-                                    }
-                                }
-                                div("col-6 col-md-6 col-lg-3 my-2") {
-                                    val selectId = "actor-rank-$actorId"
-                                    label("form-label text-actor-rank") {
-                                        htmlFor = selectId
-                                        +localized(".text-actor-rank", "Rank")
-                                    }
-                                    select(classes = "form-select actor-rank") {
-                                        id = selectId
-                                        option {
-                                            value = "9"
-                                            label = "9"
-                                            selected = true
-                                        }
-                                        option {
-                                            value = "8"
-                                            label = "8"
-                                        }
-                                        option {
-                                            value = "7"
-                                            label = "7"
-                                        }
-                                        option {
-                                            value = "6"
-                                            label = "6"
-                                        }
-                                        option {
-                                            value = "5"
-                                            label = "5"
-                                        }
-                                        option {
-                                            value = "4"
-                                            label = "4"
-                                        }
-                                        option {
-                                            value = "3"
-                                            label = "3"
-                                        }
-                                        option {
-                                            value = "2"
-                                            label = "2"
-                                        }
-                                        option {
-                                            value = "1"
-                                            label = "1"
-                                        }
-                                    }
-                                }
-                                div("col-6 col-md-6 col-lg-3 my-2") {
-                                    val selectId = "actor-rank-panel-pattern-$actorId"
-                                    label("form-label text-actor-rank-panel-pattern") {
-                                        htmlFor = selectId
-                                        +localized(".text-actor-rank-panel-pattern", "Rank Panel Pattern")
-                                    }
-                                    select(classes = "form-select actor-rank-panel-pattern") {
-                                        id = selectId
-                                        option {
-                                            value = "Full"
-                                            label = "Full"
-                                            selected = true
-                                        }
-                                        option {
-                                            value = "Upper"
-                                            label = "Upper"
-                                        }
-                                        option {
-                                            value = "Lower"
-                                            label = "Lower"
-                                        }
-                                        option {
-                                            value = "None"
-                                            label = "None"
-                                        }
-                                    }
-                                }
-                                div("col-12 col-md-6 my-2") {
-                                    val selectId = "actor-memoir-$actorId"
-                                    label("form-label text-memoir") {
-                                        htmlFor = selectId
-                                        +localized(".text-memoir", "Memoir")
-                                    }
-                                    select("selectpicker form-control actor-memoir") {
-                                        id = selectId
-                                        attributes["data-live-search"] = "true"
-                                        options.memoirs.forEach {
+                                        select(classes = "form-select actor-rarity") {
+                                            id = selectId
                                             option {
-                                                value = it.id
-                                                +it[locale]
+                                                value = "6"
+                                                label = "6"
+                                                selected = true
+                                            }
+                                            option {
+                                                value = "5"
+                                                label = "5"
+                                            }
+                                            option {
+                                                value = "4"
+                                                label = "4"
+                                            }
+                                            option {
+                                                value = "3"
+                                                label = "3"
+                                            }
+                                            option {
+                                                value = "2"
+                                                label = "2"
                                             }
                                         }
                                     }
-                                }
-                                div("col-6 col-md-3 my-2") {
-                                    val inputId = "actor-memoir-level-$actorId"
-                                    label("form-label text-memoir-level") {
-                                        htmlFor = inputId
-                                        +localized(".text-memoir-level", "Memoir Level")
+                                    div("col-12 col-md-4 my-2") {
+                                        val selectId = "actor-remake-$actorId"
+                                        label("form-label text-actor-remake") {
+                                            htmlFor = selectId
+                                            +localized(".text-actor-remake", "Remake Level")
+                                        }
+                                        select(classes = "form-select actor-remake") {
+                                            id = selectId
+                                            option {
+                                                value = "0"
+                                                label = "0"
+                                                selected = true
+                                            }
+                                            option {
+                                                value = "1"
+                                                label = "1"
+                                            }
+                                            option {
+                                                value = "2"
+                                                label = "2"
+                                            }
+                                            option {
+                                                value = "3"
+                                                label = "3"
+                                            }
+                                            option {
+                                                value = "4"
+                                                label = "4"
+                                            }
+                                        }
                                     }
-                                    input(InputType.number, classes = "form-control actor-memoir-level") {
-                                        id = inputId
-                                        placeholder = "1"
+                                    div("col-6 col-md-6 col-lg-3 my-2") {
+                                        val inputId = "actor-unit-skill-$actorId"
+                                        label("form-label text-unit-skill-level") {
+                                            htmlFor = inputId
+                                            +localized(".text-unit-skill-level", "Unit Skill Level")
+                                        }
+                                        input(InputType.text, classes = "form-control actor-unit-skill") {
+                                            id = inputId
+                                            placeholder = "21"
+                                        }
                                     }
-                                }
-                                div("col-6 col-md-3 my-2") {
-                                    val selectId = "actor-memoir-unbind-$actorId"
-                                    label("form-label text-memoir-unbind") {
-                                        htmlFor = selectId
-                                        +localized(".text-memoir-unbind", "Memoir Unbind")
+                                    div("col-6 col-md-6 col-lg-3 my-2") {
+                                        val inputId = "actor-friendship-$actorId"
+                                        label("form-label text-actor-friendship") {
+                                            htmlFor = inputId
+                                            +localized(".text-actor-friendship", "Bond Level")
+                                        }
+                                        input(InputType.text, classes = "form-control actor-friendship") {
+                                            id = inputId
+                                            placeholder = "30"
+                                        }
                                     }
-                                    select(classes = "form-select actor-memoir-unbind") {
-                                        id = selectId
-                                        option {
-                                            value = "0"
-                                            label = "0"
+                                    div("col-6 col-md-6 col-lg-3 my-2") {
+                                        val selectId = "actor-rank-$actorId"
+                                        label("form-label text-actor-rank") {
+                                            htmlFor = selectId
+                                            +localized(".text-actor-rank", "Rank")
                                         }
-                                        option {
-                                            value = "1"
-                                            label = "1"
+                                        select(classes = "form-select actor-rank") {
+                                            id = selectId
+                                            option {
+                                                value = "9"
+                                                label = "9"
+                                                selected = true
+                                            }
+                                            option {
+                                                value = "8"
+                                                label = "8"
+                                            }
+                                            option {
+                                                value = "7"
+                                                label = "7"
+                                            }
+                                            option {
+                                                value = "6"
+                                                label = "6"
+                                            }
+                                            option {
+                                                value = "5"
+                                                label = "5"
+                                            }
+                                            option {
+                                                value = "4"
+                                                label = "4"
+                                            }
+                                            option {
+                                                value = "3"
+                                                label = "3"
+                                            }
+                                            option {
+                                                value = "2"
+                                                label = "2"
+                                            }
+                                            option {
+                                                value = "1"
+                                                label = "1"
+                                            }
                                         }
-                                        option {
-                                            value = "2"
-                                            label = "2"
+                                    }
+                                    div("col-6 col-md-6 col-lg-3 my-2") {
+                                        val selectId = "actor-rank-panel-pattern-$actorId"
+                                        label("form-label text-actor-rank-panel-pattern") {
+                                            htmlFor = selectId
+                                            +localized(".text-actor-rank-panel-pattern", "Rank Panel Pattern")
                                         }
-                                        option {
-                                            value = "3"
-                                            label = "3"
+                                        select(classes = "form-select actor-rank-panel-pattern") {
+                                            id = selectId
+                                            option {
+                                                value = "Full"
+                                                label = "Full"
+                                                selected = true
+                                            }
+                                            option {
+                                                value = "Upper"
+                                                label = "Upper"
+                                            }
+                                            option {
+                                                value = "Lower"
+                                                label = "Lower"
+                                            }
+                                            option {
+                                                value = "None"
+                                                label = "None"
+                                            }
                                         }
-                                        option {
-                                            value = "4"
-                                            label = "4"
-                                            selected = true
+                                    }
+                                    div("col-12 col-md-6 my-2") {
+                                        val selectId = "actor-memoir-$actorId"
+                                        label("form-label text-memoir") {
+                                            htmlFor = selectId
+                                            +localized(".text-memoir", "Memoir")
+                                        }
+                                        select("selectpicker form-control actor-memoir") {
+                                            id = selectId
+                                            attributes["data-live-search"] = "true"
+                                            options.memoirs.forEach {
+                                                option {
+                                                    value = it.id
+                                                    +it[locale]
+                                                }
+                                            }
+                                        }
+                                    }
+                                    div("col-6 col-md-3 my-2") {
+                                        val inputId = "actor-memoir-level-$actorId"
+                                        label("form-label text-memoir-level") {
+                                            htmlFor = inputId
+                                            +localized(".text-memoir-level", "Memoir Level")
+                                        }
+                                        input(InputType.number, classes = "form-control actor-memoir-level") {
+                                            id = inputId
+                                            placeholder = "1"
+                                        }
+                                    }
+                                    div("col-6 col-md-3 my-2") {
+                                        val selectId = "actor-memoir-unbind-$actorId"
+                                        label("form-label text-memoir-unbind") {
+                                            htmlFor = selectId
+                                            +localized(".text-memoir-unbind", "Memoir Unbind")
+                                        }
+                                        select(classes = "form-select actor-memoir-unbind") {
+                                            id = selectId
+                                            option {
+                                                value = "0"
+                                                label = "0"
+                                            }
+                                            option {
+                                                value = "1"
+                                                label = "1"
+                                            }
+                                            option {
+                                                value = "2"
+                                                label = "2"
+                                            }
+                                            option {
+                                                value = "3"
+                                                label = "3"
+                                            }
+                                            option {
+                                                value = "4"
+                                                label = "4"
+                                                selected = true
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
+                },
+            )
+            updateGuestStyling()
+            js("$('.selectpicker').selectpicker()")
+            (document.getElementById("actor-delete-$actorId") as HTMLButtonElement).addEventListener("click", {
+                (document.getElementById("actor-options-$actorId") as HTMLDivElement).remove()
+                updateGuestStyling()
+            })
+        }
+
+        fun removeActor() {
+            actorSettingsDiv.lastChild?.let { actorSettingsDiv.removeChild(it) }
+        }
+
+        fun getSetup(): SimulationParameters {
+            val songSettings = document
+                .getElementById("song-settings")!!
+                .getElementsByClassName("song-effect-group").asList().map { options ->
+                    SongEffect(options).parameters
                 }
-            },
-        )
-        updateGuestStyling()
-        js("$('.selectpicker').selectpicker()")
-        (document.getElementById("actor-delete-$actorId") as HTMLButtonElement).addEventListener("click", {
-            (document.getElementById("actor-options-$actorId") as HTMLDivElement).remove()
+            val actors = actorSettingsDiv.getElementsByClassName("actor-options").asList().map { options ->
+                ActorOptions(options).parameters
+            }
+            return SimulationParameters(
+                maxTurns = turnsInput.value,
+                maxIterations = iterationsInput.value,
+                team = if (guestCheckbox.checked) actors.drop(1) else actors,
+                guest = if (guestCheckbox.checked) actors.firstOrNull() else null,
+                song = SongParameters(
+                    songSettings.dropLast(1).filterNotNull(),
+                    songSettings.last(),
+                ),
+                strategy = StrategyParameter(
+                    strategyTypeSelect.value,
+                    strategyEditor.getValue() as String,
+                ),
+                bossStrategy = StrategyParameter(
+                    bossStrategyTypeSelect.value,
+                    bossStrategyEditor.getValue() as String,
+                ).takeIf { bossStrategyCollapse.show },
+                boss = bossSelect.value,
+                bossHp = if (bossHpInput.value > 0) bossHpInput.value else null,
+                additionalEventBonus = eventBonusInput.value,
+                eventMultiplier = eventMultiplierInput.value,
+                seed = seedInput.value,
+            )
+        }
+
+        fun setSetup(setup: SimulationParameters) = setup.run {
+            turnsInput.value = maxTurns
+            iterationsInput.value = maxIterations
+            while (actorSettingsDiv.lastChild != null) {
+                removeActor()
+            }
+            val team = if (guest != null) listOf(guest) + this.team else this.team
+            guestCheckbox.checked = guest != null
+            repeat(team.size) {
+                addActor()
+            }
+            actorSettingsDiv.children.asList().zip(team).forEach { (options, parameters) ->
+                ActorOptions(options).parameters = parameters
+            }
+            val effects = song.activeEffects.take(2) +
+                    List((2 - song.activeEffects.size).coerceAtLeast(0)) { null } +
+                    listOf(song.passiveEffect)
+            document
+                .getElementById("song-settings")!!
+                .getElementsByClassName("song-effect-group")
+                .asList()
+                .zip(effects).forEach { (options, parameters) ->
+                    SongEffect(options).parameters = parameters
+                }
+            strategyTypeSelect.value = strategy.type
+            strategyEditor.setValue(strategy.value)
+            if (bossStrategy != null) {
+                bossStrategyCollapse.show = true
+                bossStrategyTypeSelect.value = bossStrategy.type
+                bossStrategyEditor.setValue(bossStrategy.value)
+            } else {
+                bossStrategyCollapse.show = false
+            }
+            bossSelect.value = boss
+            if (bossHp != null) {
+                bossHpInput.value = bossHp
+            } else {
+                bossHpInput.clear()
+            }
+            eventBonusInput.value = additionalEventBonus
+            eventMultiplierInput.value = eventMultiplier
+            seedInput.value = seed
+            updateGuestStyling()
+            refreshSelectPicker()
+        }
+
+        shutdownButton.addEventListener("click", {
+            MainScope().launch {
+                try {
+                    simulator.shutdown()
+                    toast("Shutdown", "Successfully shut down server.")
+                } catch (e: Throwable) {
+                    toast("Shutdown", "An error occurred when attempting shutdown.")
+                }
+            }
+        })
+
+        fun updateExportText() {
+            try {
+                if (yamlImportCheckbox.checked) {
+                    exportText.value = dumpYamlSerialize(getSetup())
+                } else {
+                    exportText.value = Json.encodeToString(getSetup())
+                }
+            } catch (e: Exception) {
+                exportText.value = e.message ?: "Error"
+            }
+        }
+
+        exportButton.addEventListener("click", {
+            updateExportText()
+        })
+
+        yamlImportCheckbox.addEventListener("click", {
+            updateExportText()
+        })
+
+        guestCheckbox.addEventListener("click", {
             updateGuestStyling()
         })
-    }
 
-    fun removeActor() {
-        actorSettingsDiv.lastChild?.let { actorSettingsDiv.removeChild(it) }
-    }
+        exportText.addEventListener("click", {
+            exportText.focus()
+            exportText.select()
+        })
 
-    fun getSetup(): SimulationParameters {
-        val songSettings = document
-            .getElementById("song-settings")!!
-            .getElementsByClassName("song-effect-group").asList().map { options ->
-                SongEffect(options).parameters
+        doImportButton.addEventListener("click", {
+            try {
+                setSetup(loadYamlDeserialize(importText.value))
+                toast("Import", "Import completed.", "green")
+            } catch (e: Throwable) {
+                toast("Import", "Import failed.", "red")
             }
-        val actors = actorSettingsDiv.getElementsByClassName("actor-options").asList().map { options ->
-            ActorOptions(options).parameters
-        }
-        return SimulationParameters(
-            maxTurns = turnsInput.value,
-            maxIterations = iterationsInput.value,
-            team = if (guestCheckbox.checked) actors.drop(1) else actors,
-            guest = if (guestCheckbox.checked) actors.firstOrNull() else null,
-            song = SongParameters(
-                songSettings.dropLast(1).filterNotNull(),
-                songSettings.last(),
-            ),
-            strategy = StrategyParameter(
-                strategyTypeSelect.value,
-                strategyEditor.getValue() as String,
-            ),
-            bossStrategy = StrategyParameter(
-                bossStrategyTypeSelect.value,
-                bossStrategyEditor.getValue() as String,
-            ).takeIf { bossStrategyCollapse.show },
-            boss = bossSelect.value,
-            bossHp = if (bossHpInput.value > 0) bossHpInput.value else null,
-            additionalEventBonus = eventBonusInput.value,
-            eventMultiplier = eventMultiplierInput.value,
-            seed = seedInput.value,
-        )
-    }
+        })
 
-    fun setSetup(setup: SimulationParameters) = setup.run {
-        turnsInput.value = maxTurns
-        iterationsInput.value = maxIterations
-        while (actorSettingsDiv.lastChild != null) {
-            removeActor()
-        }
-        val team = if (guest != null) listOf(guest) + this.team else this.team
-        guestCheckbox.checked = guest != null
-        repeat(team.size) {
+        seedRandomizeButton.addEventListener("click", {
+            seedInput.value = Random.nextInt()
+        })
+
+        addActorButton.addEventListener("click", {
             addActor()
-        }
-        actorSettingsDiv.children.asList().zip(team).forEach { (options, parameters) ->
-            ActorOptions(options).parameters = parameters
-        }
-        val effects = song.activeEffects.take(2) +
-                List((2 - song.activeEffects.size).coerceAtLeast(0)) { null } +
-                listOf(song.passiveEffect)
-        document
-            .getElementById("song-settings")!!
-            .getElementsByClassName("song-effect-group")
-            .asList()
-            .zip(effects).forEach { (options, parameters) ->
-                SongEffect(options).parameters = parameters
-            }
-        strategyTypeSelect.value = strategy.type
-        strategyEditor.setValue(strategy.value)
-        if (bossStrategy != null) {
-            bossStrategyCollapse.show = true
-            bossStrategyTypeSelect.value = bossStrategy.type
-            bossStrategyEditor.setValue(bossStrategy.value)
-        } else {
-            bossStrategyCollapse.show = false
-        }
-        bossSelect.value = boss
-        if (bossHp != null) {
-            bossHpInput.value = bossHp
-        } else {
-            bossHpInput.clear()
-        }
-        eventBonusInput.value = additionalEventBonus
-        eventMultiplierInput.value = eventMultiplier
-        seedInput.value = seed
-        updateGuestStyling()
-        refreshSelectPicker()
-    }
+        })
 
-    shutdownButton.addEventListener("click", {
-        MainScope().launch {
-            try {
-                simulator.shutdown()
-                toast("Shutdown", "Successfully shut down server.")
-            } catch (e: Throwable) {
-                toast("Shutdown", "An error occurred when attempting shutdown.")
-            }
-        }
-    })
+        removeActorButton.addEventListener("click", {
+            removeActor()
+        })
 
-    fun updateExportText() {
-        try {
-            if (yamlImportCheckbox.checked) {
-                exportText.value = dumpYamlSerialize(getSetup())
-            } else {
-                exportText.value = Json.encodeToString(getSetup())
-            }
-        } catch (e: Exception) {
-            exportText.value = e.message ?: "Error"
-        }
-    }
+        addActor() // Start with one already here by default
 
-    exportButton.addEventListener("click", {
-        updateExportText()
-    })
-
-    yamlImportCheckbox.addEventListener("click", {
-        updateExportText()
-    })
-
-    guestCheckbox.addEventListener("click", {
-        updateGuestStyling()
-    })
-
-    exportText.addEventListener("click", {
-        exportText.focus()
-        exportText.select()
-    })
-
-    doImportButton.addEventListener("click", {
-        try {
-            setSetup(loadYamlDeserialize(importText.value))
-            toast("Import", "Import completed.", "green")
-        } catch (e: Throwable) {
-            toast("Import", "Import failed.", "red")
-        }
-    })
-
-    seedRandomizeButton.addEventListener("click", {
-        seedInput.value = Random.nextInt()
-    })
-
-    addActorButton.addEventListener("click", {
-        addActor()
-    })
-
-    removeActorButton.addEventListener("click", {
-        removeActor()
-    })
-
-    addActor() // Start with one already here by default
-
-    languageSelect.populate(options.locales)
-    bossSelect.populate(bosses, locale)
-    strategyTypeSelect.populate(strategies, locale)
-    bossStrategyTypeSelect.populate(bossStrategies, locale)
-    document.getElementsByClassName("song-effect-type")
-        .asList()
-        .filterIsInstance<HTMLSelectElement>()
-        .forEach { select ->
-            SingleSelect(select).populate(songEffects, locale)
-        }
-    document.getElementsByClassName("song-effect-condition")
-        .asList()
-        .filterIsInstance<HTMLSelectElement>()
-        .forEach { select ->
-            MultipleSelect(select).populate(conditions, locale)
-        }
-
-    simulateButton.addEventListener("click", {
-        GlobalScope.launch {
-            simulateButton.disabled = true
-            cancelButton.disabled = false
-            warnIfServerVersionMismatched()
-            try {
-                simulation = simulator.simulate(getSetup())
-            } catch (e: Throwable) {
-                toast("Simulate", "Simulation failed to start.", "red")
-                simulateButton.disabled = false
-                cancelButton.disabled = true
-                return@launch
-            }
-            toast("Simulate", "Simulation started.", "green")
-            done = false
-        }
-    })
-    cancelButton.addEventListener("click", {
-        GlobalScope.launch {
-            simulation?.cancel()
-            simulateButton.disabled = false
-            cancelButton.disabled = true
-        }
-    })
-
-    fun updateLocaleText() {
-        bossSelect.localize(bosses, locale)
-        strategyTypeSelect.localize(strategies, locale)
-        bossStrategyTypeSelect.localize(bossStrategies, locale)
+        languageSelect.populate(options.locales)
+        bossSelect.populate(bosses, locale)
+        strategyTypeSelect.populate(strategies, locale)
+        bossStrategyTypeSelect.populate(bossStrategies, locale)
         document.getElementsByClassName("song-effect-type")
             .asList()
             .filterIsInstance<HTMLSelectElement>()
             .forEach { select ->
-                SingleSelect(select).localize(songEffects, locale)
+                SingleSelect(select).populate(songEffects, locale)
             }
         document.getElementsByClassName("song-effect-condition")
             .asList()
             .filterIsInstance<HTMLSelectElement>()
             .forEach { select ->
-                MultipleSelect(select).localize(conditions, locale)
+                MultipleSelect(select).populate(conditions, locale)
             }
-        document.getElementsByClassName("actor-dress")
-            .asList()
-            .filterIsInstance<HTMLSelectElement>()
-            .forEach { select ->
-                SingleSelect(select).localize(dresses, locale)
-            }
-        document.getElementsByClassName("actor-memoir")
-            .asList()
-            .filterIsInstance<HTMLSelectElement>()
-            .forEach { select ->
-                SingleSelect(select).localize(memoirs, locale)
-            }
-        commonText.filter { (k, _) -> k[0] == '.' }.forEach { (k, v) ->
-            document.getElementsByClassName(k.drop(1)).asList().forEach { element ->
-                element.textContent = v[locale]
-            }
-        }
-        refreshSelectPicker()
-    }
 
-    languageSelect.element.addEventListener("change", {
-        locale = languageSelect.value
+        simulateButton.addEventListener("click", {
+            GlobalScope.launch {
+                simulateButton.disabled = true
+                cancelButton.disabled = false
+                warnIfServerVersionMismatched()
+                try {
+                    simulation = simulator.simulate(getSetup())
+                } catch (e: Throwable) {
+                    toast("Simulate", "Simulation failed to start.", "red")
+                    simulateButton.disabled = false
+                    cancelButton.disabled = true
+                    return@launch
+                }
+                toast("Simulate", "Simulation started.", "green")
+                done = false
+            }
+        })
+        cancelButton.addEventListener("click", {
+            GlobalScope.launch {
+                simulation?.cancel()
+                simulateButton.disabled = false
+                cancelButton.disabled = true
+            }
+        })
+
+        fun updateLocaleText() {
+            bossSelect.localize(bosses, locale)
+            strategyTypeSelect.localize(strategies, locale)
+            bossStrategyTypeSelect.localize(bossStrategies, locale)
+            document.getElementsByClassName("song-effect-type")
+                .asList()
+                .filterIsInstance<HTMLSelectElement>()
+                .forEach { select ->
+                    SingleSelect(select).localize(songEffects, locale)
+                }
+            document.getElementsByClassName("song-effect-condition")
+                .asList()
+                .filterIsInstance<HTMLSelectElement>()
+                .forEach { select ->
+                    MultipleSelect(select).localize(conditions, locale)
+                }
+            document.getElementsByClassName("actor-dress")
+                .asList()
+                .filterIsInstance<HTMLSelectElement>()
+                .forEach { select ->
+                    SingleSelect(select).localize(dresses, locale)
+                }
+            document.getElementsByClassName("actor-memoir")
+                .asList()
+                .filterIsInstance<HTMLSelectElement>()
+                .forEach { select ->
+                    SingleSelect(select).localize(memoirs, locale)
+                }
+            commonText.filter { (k, _) -> k[0] == '.' }.forEach { (k, v) ->
+                document.getElementsByClassName(k.drop(1)).asList().forEach { element ->
+                    element.textContent = v[locale]
+                }
+            }
+            refreshSelectPicker()
+        }
+
+        languageSelect.element.addEventListener("change", {
+            locale = languageSelect.value
+            updateLocaleText()
+        })
+
+        Sortable.Sortable.create(
+            actorSettingsDiv,
+            jsObject {
+                animation = 150
+                swapThreshold = 0.75
+                handle = ".actor-drag-handle"
+                onEnd = ::updateGuestStyling
+            }
+        )
+
         updateLocaleText()
-    })
+        refreshSelectPicker()
 
-    Sortable.Sortable.create(
-        actorSettingsDiv,
-        jsObject {
-            animation = 150
-            swapThreshold = 0.75
-            handle = ".actor-drag-handle"
-            onEnd = ::updateGuestStyling
-        }
-    )
+        toast("Ready", "Initialization complete.")
 
-    updateLocaleText()
-    refreshSelectPicker()
+        GlobalScope.launch {
+            while (true) {
+                if (!done) {
+                    simulation?.let { sim ->
+                        val result = sim.pollResult()
+                        val iterationResults = result.results.sorted()
+                        val resultsRow = document.getElementById("results-row") as HTMLDivElement
+                        val resultsText = document.getElementById("results-text") as HTMLPreElement
+                        val errorRow = document.getElementById("results-error-row") as HTMLDivElement
+                        val logRow = document.getElementById("results-log-row") as HTMLDivElement
+                        val errorText = document.getElementById("error-text") as HTMLPreElement
+                        val logText = document.getElementById("log-text") as HTMLPreElement
+                        val resultsPlot = document.getElementById("results-plot")!!
+                        val endPlot = document.getElementById("end-plot")!!
+                        val wipePlot = document.getElementById("wipe-plot")!!
 
-    toast("Ready", "Initialization complete.")
-
-    GlobalScope.launch {
-        while (true) {
-            if (!done) {
-                simulation?.let { sim ->
-                    val result = sim.pollResult()
-                    val iterationResults = result.results.sorted()
-                    val resultsRow = document.getElementById("results-row") as HTMLDivElement
-                    val resultsText = document.getElementById("results-text") as HTMLPreElement
-                    val errorRow = document.getElementById("results-error-row") as HTMLDivElement
-                    val logRow = document.getElementById("results-log-row") as HTMLDivElement
-                    val errorText = document.getElementById("error-text") as HTMLPreElement
-                    val logText = document.getElementById("log-text") as HTMLPreElement
-                    val resultsPlot = document.getElementById("results-plot")!!
-                    val endPlot = document.getElementById("end-plot")!!
-                    val wipePlot = document.getElementById("wipe-plot")!!
-
-                    val currentIterationsText = result.currentIterations.toString()
-                    val maxIterationsText = result.maxIterations.toString()
-                    val progressText =
-                        "${(result.currentIterations.toDouble() / result.maxIterations * 100).toFixed(2)}%"
-                    val runtimeText = if (result.runtime != null) " [${result.runtime.toFixed(5)}s]" else ""
-                    val progressDisplay =
-                        "Progress: ${" ".repeat(maxIterationsText.length - currentIterationsText.length)}$currentIterationsText/$maxIterationsText ($progressText)$runtimeText"
-                    var iterationResultsText = ResultEntry("All").apply {
-                        iterationResults.forEach {
-                            add(it)
-                        }
-                    }.format()
-                    val simpleResults = iterationResults
-                        .groupBy { it.result }
-                        .map { (result, values) -> result to values.sumOf { it.count } }
-                        .sortedBy { (result, _) -> result }
-                    if (iterationResults.any { it.tags.isNotEmpty() }) {
-                        iterationResultsText += "\n\n" + ResultEntry("All (Simple)").apply {
-                            simpleResults.forEach { (type, count) ->
-                                add(SimulationResultValue(emptyList(), type, count))
+                        val currentIterationsText = result.currentIterations.toString()
+                        val maxIterationsText = result.maxIterations.toString()
+                        val progressText =
+                            "${(result.currentIterations.toDouble() / result.maxIterations * 100).toFixed(2)}%"
+                        val runtimeText = if (result.runtime != null) " [${result.runtime.toFixed(5)}s]" else ""
+                        val progressDisplay =
+                            "Progress: ${" ".repeat(maxIterationsText.length - currentIterationsText.length)}$currentIterationsText/$maxIterationsText ($progressText)$runtimeText"
+                        var iterationResultsText = ResultEntry("All").apply {
+                            iterationResults.forEach {
+                                add(it)
                             }
                         }.format()
-                    }
-                    resultsText.textContent = progressDisplay + "\n\n" + iterationResultsText
-
-                    // Plotly goes upwards from the y-axis, so entries have to be reversed
-                    val plotEntries = simpleResults.reversed().toMap()
-                    react(
-                        graphDiv = resultsPlot,
-                        data = arrayOf(
-                            jsObject {
-                                type = "bar"
-                                x = plotEntries.values.toTypedArray()
-                                y = plotEntries.keys.map { it.toString() }.toTypedArray()
-                                orientation = "h"
-                                marker = jsObject {
-                                    color = plotEntries.keys.map { it.color }.toTypedArray()
+                        val simpleResults = iterationResults
+                            .groupBy { it.result }
+                            .map { (result, values) -> result to values.sumOf { it.count } }
+                            .sortedBy { (result, _) -> result }
+                        if (iterationResults.any { it.tags.isNotEmpty() }) {
+                            iterationResultsText += "\n\n" + ResultEntry("All (Simple)").apply {
+                                simpleResults.forEach { (type, count) ->
+                                    add(SimulationResultValue(emptyList(), type, count))
                                 }
-                            } as Any
-                        ),
-                        layout = jsObject {
-                            xaxis = jsObject {
-                                range = arrayOf(0, result.currentIterations)
-                            }
-                            height = simpleResults.size.coerceAtLeast(1) * 30 + 60
-                            margin = jsObject {
-                                l = 120
-                                r = 60
-                                b = 40
-                                t = 20
-                            }
-                        } as Any,
-                        config = jsObject {
-                            responsive = true
-                            staticPlot = true
-                        } as Any,
-                    )
-                    listOf(
-                        SimulationMarginResultType.End to endPlot,
-                        SimulationMarginResultType.Wipe to wipePlot,
-                    ).forEach { (resultType, element) ->
-                        val data = result.marginResults[resultType] ?: emptyMap()
+                            }.format()
+                        }
+                        resultsText.textContent = progressDisplay + "\n\n" + iterationResultsText
+
+                        // Plotly goes upwards from the y-axis, so entries have to be reversed
+                        val plotEntries = simpleResults.reversed().toMap()
                         react(
-                            graphDiv = element,
+                            graphDiv = resultsPlot,
                             data = arrayOf(
                                 jsObject {
                                     type = "bar"
-                                    x = data.keys.toTypedArray()
-                                    y = data.values.toTypedArray()
+                                    x = plotEntries.values.toTypedArray()
+                                    y = plotEntries.keys.map { it.toString() }.toTypedArray()
+                                    orientation = "h"
                                     marker = jsObject {
-                                        color = resultType.color
+                                        color = plotEntries.keys.map { it.color }.toTypedArray()
                                     }
                                 } as Any
                             ),
                             layout = jsObject {
-                                title = "${resultType.name} Margin"
-                                height = 400
-                                margin = jsObject {
-                                    l = 60
-                                    r = 60
+                                xaxis = jsObject {
+                                    range = arrayOf(0, result.currentIterations)
                                 }
-                                bargap = 0
+                                height = simpleResults.size.coerceAtLeast(1) * 30 + 60
+                                margin = jsObject {
+                                    l = 120
+                                    r = 60
+                                    b = 40
+                                    t = 20
+                                }
                             } as Any,
                             config = jsObject {
                                 responsive = true
+                                staticPlot = true
                             } as Any,
                         )
-                        if (data.isEmpty()) {
-                            element.addClass("d-none")
-                        } else {
-                            element.removeClass("d-none")
+                        listOf(
+                            SimulationMarginResultType.End to endPlot,
+                            SimulationMarginResultType.Wipe to wipePlot,
+                        ).forEach { (resultType, element) ->
+                            val data = result.marginResults[resultType] ?: emptyMap()
+                            react(
+                                graphDiv = element,
+                                data = arrayOf(
+                                    jsObject {
+                                        type = "bar"
+                                        x = data.keys.toTypedArray()
+                                        y = data.values.toTypedArray()
+                                        marker = jsObject {
+                                            color = resultType.color
+                                        }
+                                    } as Any
+                                ),
+                                layout = jsObject {
+                                    title = "${resultType.name} Margin"
+                                    height = 400
+                                    margin = jsObject {
+                                        l = 60
+                                        r = 60
+                                    }
+                                    bargap = 0
+                                } as Any,
+                                config = jsObject {
+                                    responsive = true
+                                } as Any,
+                            )
+                            if (data.isEmpty()) {
+                                element.addClass("d-none")
+                            } else {
+                                element.removeClass("d-none")
+                            }
                         }
-                    }
-                    window.dispatchEvent(Event("resize")) // Makes plotly resize immediately
-                    resultsRow.removeClass("d-none")
+                        window.dispatchEvent(Event("resize")) // Makes plotly resize immediately
+                        resultsRow.removeClass("d-none")
 
-                    if (result.log != null) {
-                        logText.textContent = result.log
-                        logRow.removeClass("d-none")
-                    } else {
-                        logRow.addClass("d-none")
-                    }
-                    if (result.error != null) {
-                        errorText.textContent = result.error
-                        errorRow.removeClass("d-none")
-                    } else {
-                        errorRow.addClass("d-none")
-                    }
-                    done = result.done
-                    if (result.done) {
-                        simulateButton.disabled = false
-                        cancelButton.disabled = true
-                        if (result.error != null) {
-                            toast("Simulate", "Simulation completed with errors.", "orange")
-                        } else if (result.cancelled) {
-                            toast("Cancel", "Simulation cancelled.", "yellow")
+                        if (result.log != null) {
+                            logText.textContent = result.log
+                            logRow.removeClass("d-none")
                         } else {
-                            toast("Simulate", "Simulation completed successfully.", "green")
+                            logRow.addClass("d-none")
+                        }
+                        if (result.error != null) {
+                            errorText.textContent = result.error
+                            errorRow.removeClass("d-none")
+                        } else {
+                            errorRow.addClass("d-none")
+                        }
+                        done = result.done
+                        if (result.done) {
+                            simulateButton.disabled = false
+                            cancelButton.disabled = true
+                            if (result.error != null) {
+                                toast("Simulate", "Simulation completed with errors.", "orange")
+                            } else if (result.cancelled) {
+                                toast("Cancel", "Simulation cancelled.", "yellow")
+                            } else {
+                                toast("Simulate", "Simulation completed successfully.", "green")
+                            }
                         }
                     }
                 }
+                delay(1000)
             }
-            delay(1000)
         }
     }
 }
