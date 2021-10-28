@@ -95,24 +95,28 @@ class TargetContext(
         removeOnConnect: CountableBuff? = null,
     ) {
         if (!self.isAlive) return
+        val hitAttribute = HitAttribute(
+            modifier = modifier,
+            hitCount = hitCount,
+            attribute = attribute,
+            damageType = damageType,
+            bonusModifier = bonusMultiplier,
+            bonusCondition = bonusCondition,
+            addBrilliance = addBrilliance,
+            focus = focus,
+            noReflect = noReflect,
+            noVariance = noVariance,
+            removeOnConnect = removeOnConnect,
+        )
         repeat(if (autoRepeatHits) hitCount else 1) {
-            targets.filter { it.isAlive }.forEach { target ->
-                stage.damageCalculator.damage(
-                    self,
-                    target,
-                    HitAttribute(
-                        modifier = modifier,
-                        hitCount = hitCount,
-                        attribute = attribute,
-                        damageType = damageType,
-                        bonus = if (bonusCondition.evaluate(target)) bonusMultiplier else 100,
-                        addBrilliance = addBrilliance,
-                        focus = focus,
-                        noReflect = noReflect,
-                        noVariance = noVariance,
-                        removeOnConnect = removeOnConnect,
+            targets.forEach { target ->
+                if (target.isAlive) {
+                    stage.damageCalculator.damage(
+                        self,
+                        target,
+                        hitAttribute,
                     )
-                )
+                }
             }
         }
     }
