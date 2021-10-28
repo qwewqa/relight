@@ -1,14 +1,13 @@
 package xyz.qwewqa.relive.simulator.core.stage.passive
 
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.disadvantagedAgainst
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffect
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
-import xyz.qwewqa.relive.simulator.core.stage.dress.DressBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.log
 
 object AbnormalGuardPassive : PassiveEffect {
@@ -59,19 +58,22 @@ object BossElementResistPassive : PassiveEffect {
 /**
  * A passive which sets the event bonuses against the boss which has this passive.
  */
-class EventBonusPassive(val values: Map<DressBlueprint, Int>) : PassiveEffect {
+class EventBonusPassive(val values: Map<Int, Int>) : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
-        (enemy.actors.values + listOfNotNull(enemy.guest)).forEach { actor ->
-            val bonus = values[actor.dress.blueprint ?: actor.dress]
-            if (bonus != null) {
-                actor.context.run {
-                    team.actors.values.forEach { member ->
-                        member.eventBonus += bonus
-                    }
-                    log("Event Bonus") { "Team event bonus $bonus." }
+        enemy.guest?.applyBonus()
+        enemy.actors.values.forEach { it.applyBonus() }
+    }
+
+    private fun Actor.applyBonus() {
+        val bonus = values[dress.id]
+        if (bonus != null) {
+            context.run {
+                team.actors.values.forEach { member ->
+                    member.eventBonus += bonus
                 }
+                log("Event Bonus") { "Team event bonus $bonus." }
             }
         }
     }
