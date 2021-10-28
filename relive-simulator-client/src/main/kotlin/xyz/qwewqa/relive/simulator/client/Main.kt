@@ -709,16 +709,24 @@ class SimulatorClient(val simulator: Simulator) {
         updateLocaleText()
         refreshSelectPicker()
 
-        try {
+        fun updateSetupFromUrl() {
             val urlOptions = window.location.search.substring(1).split("&").firstOrNull {
                 it.matches("options=.*")
-            }?.split("=")?.last()
+            }?.split("=")?.lastOrNull()
             if (urlOptions != null) {
-                setSetup(json.decodeFromString(compressor.decompressFromEncodedURIComponent(urlOptions)))
-                toast("Import", "Updated configuration from url.", "green")
+                try {
+                    setSetup(json.decodeFromString(compressor.decompressFromEncodedURIComponent(urlOptions)))
+                    toast("Import", "Updated configuration from url.", "green")
+                } catch (e: Throwable) {
+                    toast("Error", "Failed to update configuration from url.", "red")
+                }
             }
-        } catch (e: Throwable) {
+        }
 
+        updateSetupFromUrl()
+
+        window.onpopstate = {
+            updateSetupFromUrl()
         }
 
         toast("Ready", "Initialization complete.", "green")
