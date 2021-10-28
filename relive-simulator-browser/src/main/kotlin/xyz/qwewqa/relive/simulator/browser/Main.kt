@@ -11,21 +11,23 @@ import xyz.qwewqa.relive.simulator.client.SimulatorVersion
 
 suspend fun main() {
     val simulator = RemoteSimulator(URL("http://localhost:8080"))
-    val client = SimulatorClient(simulator)
     val version = try {
         simulator.version()
     } catch (e: Throwable) {
         null
     }
     if (version != null) {
-        if (client.version.compatibleWith(version)) {
+        if (version.compatibleWith(SimulatorClient.version)) {
+            val client = SimulatorClient(simulator)
             client.start()
         } else {
+            val client = SimulatorClient(simulator)
             client.toast("Info", "Incompatible server found. Redirecting to local simulator.")
             delay(1000)
             window.location.href = "http://localhost:8080/${window.location.search}"
         }
     } else {
+        val client = SimulatorClient(simulator)
         client.toast("Error", "red", autohide = false) {
             +"No running local simulator or incompatible version found."
             br()
@@ -34,7 +36,7 @@ suspend fun main() {
     }
 }
 
-private fun SimulatorVersion.compatibleWith(serverVersion: SimulatorVersion): Boolean {
-    return name == serverVersion.name &&
-            version.split(".").take(2) == serverVersion.version.split(".").take(2)
+private fun SimulatorVersion.compatibleWith(clientVersion: SimulatorVersion): Boolean {
+    return name == clientVersion.name &&
+            version.split(".").take(2) == clientVersion.version.split(".").take(2)
 }

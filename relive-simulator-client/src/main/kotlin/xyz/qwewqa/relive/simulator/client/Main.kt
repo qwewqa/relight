@@ -25,8 +25,6 @@ class SimulatorClient(val simulator: Simulator) {
     var simulation: Simulation? = null
     var done = false
 
-    val version = SimulatorVersion(MAVEN_GROUP, VERSION, GIT_SHA)
-
     val versionLink = document.getElementById("version-link") as HTMLAnchorElement
     val languageSelect = document.getElementById("language-select").singleSelect()
     val shutdownContainer = document.getElementById("shutdown-container") as HTMLDivElement
@@ -111,11 +109,11 @@ class SimulatorClient(val simulator: Simulator) {
 
     private suspend fun warnIfServerVersionMismatched() {
         val serverVersion = simulator.version()
-        if (version != serverVersion) {
+        if (Companion.version != serverVersion) {
             toast("Warning", "Client version does not match server version.", "yellow")
-            versionLink.textContent = "client $version / server $serverVersion"
+            versionLink.textContent = "client ${Companion.version} / server $serverVersion"
         } else {
-            versionLink.textContent = version.toString()
+            versionLink.textContent = Companion.version.toString()
         }
     }
 
@@ -885,6 +883,10 @@ class SimulatorClient(val simulator: Simulator) {
                 delay(1000)
             }
         }
+    }
+
+    companion object {
+        val version = SimulatorVersion(MAVEN_GROUP, VERSION, GIT_SHA)
     }
 }
 
