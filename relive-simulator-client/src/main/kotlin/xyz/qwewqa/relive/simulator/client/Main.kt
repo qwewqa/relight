@@ -25,7 +25,7 @@ class SimulatorClient(val simulator: Simulator) {
     var simulation: Simulation? = null
     var done = false
 
-    val clientVersion = SimulatorVersion(MAVEN_GROUP, VERSION, GIT_SHA)
+    val version = SimulatorVersion(MAVEN_GROUP, VERSION, GIT_SHA)
 
     val versionLink = document.getElementById("version-link") as HTMLAnchorElement
     val languageSelect = document.getElementById("language-select").singleSelect()
@@ -65,7 +65,7 @@ class SimulatorClient(val simulator: Simulator) {
         value
     }
 
-    private fun toastElement(name: String, value: String, color: String = "grey") = document.create.div("toast") {
+    private fun toastElement(name: String, color: String = "grey", value: DIV.() -> Unit) = document.create.div("toast") {
         attributes["role"] = "alert"
         div("toast-header") {
             svg("rounded me-2") {
@@ -87,14 +87,21 @@ class SimulatorClient(val simulator: Simulator) {
                 attributes["data-bs-dismiss"] = "toast"
             }
         }
-        div("toast-body") {
-            +value
-        }
+        div("toast-body", value)
     }
 
     fun toast(name: String, value: String, color: String = "grey", autohide: Boolean = true): Bootstrap.Toast? {
         if (!toastsCheckbox.checked) return null
-        val element = toastElement(name, value, color)
+        val element = toastElement(name, color) { +value }
+        toastContainer.appendChild(element)
+        return Bootstrap.Toast(element, jsObject { this.autohide = autohide }).also {
+            it.show()
+        }
+    }
+
+    fun toast(name: String, color: String = "grey", autohide: Boolean = true, block: DIV.() -> Unit): Bootstrap.Toast? {
+        if (!toastsCheckbox.checked) return null
+        val element = toastElement(name, color, block)
         toastContainer.appendChild(element)
         return Bootstrap.Toast(element, jsObject { this.autohide = autohide }).also {
             it.show()
@@ -103,11 +110,11 @@ class SimulatorClient(val simulator: Simulator) {
 
     private suspend fun warnIfServerVersionMismatched() {
         val serverVersion = simulator.version()
-        if (clientVersion != serverVersion) {
+        if (version != serverVersion) {
             toast("Warning", "Client version does not match server version.", "yellow")
-            versionLink.textContent = "client $clientVersion / server $serverVersion"
+            versionLink.textContent = "client $version / server $serverVersion"
         } else {
-            versionLink.textContent = clientVersion.toString()
+            versionLink.textContent = version.toString()
         }
     }
 

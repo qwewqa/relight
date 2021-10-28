@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="relive-simulator-browser-0.1.0">
+    <output-path>$PROJECT_DIR$/relive-simulator-browser/build/libs</output-path>
+    <root id="archive" name="relive-simulator-browser-0.1.0.jar">
+      <element id="module-output" name="relive-simulator.relive-simulator-browser.main" />
+    </root>
+  </artifact>
+</component>
