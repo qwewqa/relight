@@ -3,10 +3,18 @@ val ktor_version: String by project
 plugins {
     kotlin("js")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.5.31"
+    id("com.peterabeles.gversion")
 }
 
 group = "xyz.qwewqa.relive.simulator"
-version = "0.0.1"
+version = "0.1.0"
+
+gversion {
+    srcDir = "src/main/kotlin"
+    classPackage = "xyz.qwewqa.relive.simulator.client"
+    language = "kotlin"
+    indent = "    "
+}
 
 repositories {
     maven { url = uri("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven") }
@@ -56,7 +64,8 @@ kotlin {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile::class) {
+    dependsOn("createVersionFile")
     kotlinOptions.run {
         freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
     }

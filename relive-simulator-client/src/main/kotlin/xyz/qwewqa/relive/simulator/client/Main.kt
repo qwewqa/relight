@@ -4,7 +4,6 @@ import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.coroutines.*
 import kotlinx.dom.addClass
-import kotlinx.dom.hasClass
 import kotlinx.dom.removeClass
 import kotlinx.html.*
 import kotlinx.html.dom.create
@@ -29,19 +28,6 @@ suspend fun main() {
 suspend fun start(simulator: Simulator) {
     var simulation: Simulation? = null
     var done = false
-
-    var version = simulator.version()
-    val options = simulator.options()
-
-    val commonText = options.commonText.associateBy { it.id }
-    val bosses = options.bosses.associateBy { it.id }
-    val strategies = options.strategyTypes.associateBy { it.id }
-    val bossStrategies = options.bossStrategyTypes.associateBy { it.id }
-    val songEffects = mapOf("none" to (commonText["none"] ?: SimulationOption("none",
-        emptyMap()))) + options.songEffects.associateBy { it.id }
-    val conditions = options.conditions.associateBy { it.id }
-    val dresses = options.dresses.associateBy { it.id }
-    val memoirs = options.memoirs.associateBy { it.id }
 
     val versionLink = document.getElementById("version-link") as HTMLAnchorElement
     val languageSelect = document.getElementById("language-select").singleSelect()
@@ -77,12 +63,6 @@ suspend fun start(simulator: Simulator) {
     bossStrategyCollapse.show = true
     val bossStrategyEditor = CodeMirror(bossStrategyContainer, js("{lineNumbers: true, mode: null}"))
     bossStrategyCollapse.show = false
-
-    versionLink.textContent = version.toString()
-
-    var locale = options.locales.keys.first()
-
-    fun localized(value: String, fallback: String) = commonText[value]?.get(locale) ?: fallback
 
     val toastContainer = document.getElementById("toast-container") as HTMLDivElement
 
@@ -121,6 +101,36 @@ suspend fun start(simulator: Simulator) {
             it.show()
         }
     }
+
+    val clientVersion = SimulatorVersion(VERSION, GIT_SHA)
+
+    suspend fun warnIfServerVersionMismatched() {
+        val serverVersion = simulator.version()
+        if (clientVersion != serverVersion) {
+            toast("Warning", "Client version does not match server version.", "yellow")
+            versionLink.textContent = "client $clientVersion / server $serverVersion"
+        } else {
+            versionLink.textContent = clientVersion.toString()
+        }
+    }
+
+    warnIfServerVersionMismatched()
+
+    val options = simulator.options()
+
+    val commonText = options.commonText.associateBy { it.id }
+    val bosses = options.bosses.associateBy { it.id }
+    val strategies = options.strategyTypes.associateBy { it.id }
+    val bossStrategies = options.bossStrategyTypes.associateBy { it.id }
+    val songEffects = mapOf("none" to (commonText["none"] ?: SimulationOption("none",
+        emptyMap()))) + options.songEffects.associateBy { it.id }
+    val conditions = options.conditions.associateBy { it.id }
+    val dresses = options.dresses.associateBy { it.id }
+    val memoirs = options.memoirs.associateBy { it.id }
+
+    var locale = options.locales.keys.first()
+
+    fun localized(value: String, fallback: String) = commonText[value]?.get(locale) ?: fallback
 
     fun updateGuestStyling() {
         val optionDivs = actorSettingsDiv.children.asList()
@@ -608,11 +618,7 @@ suspend fun start(simulator: Simulator) {
         GlobalScope.launch {
             simulateButton.disabled = true
             cancelButton.disabled = false
-            val serverVersion = simulator.version()
-            if (version != serverVersion) {
-                version = serverVersion
-                toast("Warning", "Server version has changed. Reload page if errors occur.", "yellow")
-            }
+            warnIfServerVersionMismatched()
             try {
                 simulation = simulator.simulate(getSetup())
             } catch (e: Throwable) {

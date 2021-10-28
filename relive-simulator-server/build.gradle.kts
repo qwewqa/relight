@@ -7,7 +7,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.0.0"
     kotlin("jvm")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.5.31"
-    id("com.peterabeles.gversion") version "1.10"
+    id("com.peterabeles.gversion")
 }
 
 group = "xyz.qwewqa.relive.simulator"

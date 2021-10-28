@@ -158,3 +158,4 @@ relive-simulator-server/src/main/resources/client/index.html
 relive-simulator-server/src/main/resources/client/relive-simulator-client.js
 relive-simulator-server/src/main/resources/client/relive-simulator-client.js.map
 relive-simulator-server/src/main/kotlin/xyz/qwewqa/relive/simulator/server/GVersion.kt
+relive-simulator-client/src/main/kotlin/xyz/qwewqa/relive/simulator/client/GVersion.kt
