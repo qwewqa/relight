@@ -38,7 +38,7 @@ fun Application.configureRouting() {
             call.respondText(index, ContentType.Text.Html)
         }
         get("/version") {
-            call.respond(SimulatorVersion(VERSION, GIT_SHA))
+            call.respond(SimulatorVersion(MAVEN_GROUP, VERSION, GIT_SHA))
         }
         get("/index.html") {
             call.respondText(index, ContentType.Text.Html)

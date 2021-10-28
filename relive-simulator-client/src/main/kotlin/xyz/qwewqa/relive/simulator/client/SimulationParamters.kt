@@ -22,6 +22,7 @@ data class SimulationParameters(
 
 @Serializable
 data class SimulatorVersion(
+    val name: String,
     val version: String,
     val hash: String,
 ) {
