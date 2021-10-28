@@ -118,7 +118,7 @@ class SimulatorClient(val simulator: Simulator) {
         val baseHref = "${window.location.protocol}//${window.location.host}${window.location.pathname}"
 
         fun updateUrlForSetup(setup: SimulationParameters) {
-            val newUrl = "$baseHref?options=${Base64.encodeURI(compressor.compress(json.encodeToString(setup)))}"
+            val newUrl = "$baseHref?options=${compressor.compressToEncodedURIComponent(json.encodeToString(setup))}"
             if (newUrl != window.location.href) {
                 if (newUrl.length <= 8192) {
                     window.history.pushState(null, "", newUrl)
@@ -714,7 +714,7 @@ class SimulatorClient(val simulator: Simulator) {
                 it.matches("options=.*")
             }?.split("=")?.last()
             if (urlOptions != null) {
-                setSetup(json.decodeFromString(compressor.decompress(Base64.decodeURI(urlOptions))))
+                setSetup(json.decodeFromString(compressor.decompressFromEncodedURIComponent(urlOptions)))
                 toast("Import", "Updated configuration from url.", "green")
             }
         } catch (e: Throwable) {
