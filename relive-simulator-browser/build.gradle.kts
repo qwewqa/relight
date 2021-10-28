@@ -1,3 +1,4 @@
+val project_version: String by project
 val ktor_version: String by project
 
 plugins {
@@ -6,7 +7,7 @@ plugins {
 }
 
 group = "xyz.qwewqa.relive.simulator"
-version = "0.1.0"
+version = project_version
 
 repositories {
     maven { url = uri("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven") }

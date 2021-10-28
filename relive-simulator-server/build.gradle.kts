@@ -1,6 +1,7 @@
 val ktor_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
+val project_version: String by project
 
 plugins {
     application
@@ -11,7 +12,7 @@ plugins {
 }
 
 group = "xyz.qwewqa.relive.simulator"
-version = "0.1.0"
+version = project_version
 application {
     mainClass.set("xyz.qwewqa.relive.simulator.server.ApplicationKt")
 }

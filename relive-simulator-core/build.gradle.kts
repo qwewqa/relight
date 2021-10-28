@@ -1,9 +1,11 @@
+val project_version: String by project
+
 plugins {
     kotlin("multiplatform")
 }
 
 group = "xyz.qwewqa.relive.simulator"
-version = "0.1.0"
+version = project_version
 
 repositories {
     mavenCentral()
