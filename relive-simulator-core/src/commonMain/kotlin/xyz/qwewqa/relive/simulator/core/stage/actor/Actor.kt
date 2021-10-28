@@ -15,10 +15,7 @@ class Actor(
     val dress: Dress,
     val memoir: Memoir?,
 ) {
-    val passives = mutableListOf<PassiveData>().apply {
-        addAll(dress.autoSkills)
-        if (memoir != null) addAll(memoir.autoskills)
-    }
+    val passives = if (memoir != null) { dress.autoSkills + memoir.autoskills } else dress.autoSkills
     val acts = dress.acts.toMutableMap()
 
     var hp = 1
