@@ -17,6 +17,7 @@ interface DamageCalculator {
 
 class RandomDamageCalculator : DamageCalculator {
     override fun damage(attacker: Actor, target: Actor, hitAttribute: HitAttribute): Unit = attacker.context.run {
+        if (!attacker.isAlive) return@run
         log("Hit") { "[${attacker.name}] attempts to hit [${target.name}]" }
         val result = calculateDamage(attacker, target, hitAttribute)
         result.apply {
