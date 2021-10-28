@@ -42,6 +42,14 @@ class RemoteSimulator(val baseUrl: URL) : Simulator {
         return client.get(URL("/options", baseUrl.href).href)
     }
 
+    override suspend fun features(): SimulatorFeatures {
+        return try {
+            client.get(URL("/features", baseUrl.href).href)
+        } catch (e: Throwable) {
+            SimulatorFeatures.MINIMAL
+        }
+    }
+
     override suspend fun shutdown() {
         client.get<HttpResponse>(URL("/shutdown", baseUrl.href).href) {
             expectSuccess = false

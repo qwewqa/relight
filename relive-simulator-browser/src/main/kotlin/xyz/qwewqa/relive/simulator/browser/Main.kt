@@ -7,6 +7,7 @@ import kotlinx.html.br
 import org.w3c.dom.url.URL
 import xyz.qwewqa.relive.simulator.client.RemoteSimulator
 import xyz.qwewqa.relive.simulator.client.SimulatorClient
+import xyz.qwewqa.relive.simulator.client.SimulatorVersion
 
 suspend fun main() {
     val simulator = RemoteSimulator(URL("http://localhost:8080"))
@@ -16,11 +17,11 @@ suspend fun main() {
     } catch (e: Throwable) {
         null
     }
-    if (version != null && version.name == "xyz.qwewqa.relive.simulator") {
-        if (version == client.version) {
+    if (version != null) {
+        if (client.version.compatibleWith(version)) {
             client.start()
         } else {
-            client.toast("Info", "Redirecting to local simulator.")
+            client.toast("Info", "Incompatible server found. Redirecting to local simulator.")
             delay(1000)
             window.location.href = "http://localhost:8080/${window.location.search}"
         }
@@ -31,4 +32,9 @@ suspend fun main() {
             a(href = "https://github.com/qwewqa/relive-simulator") { +"Download from GitHub." }
         }
     }
+}
+
+private fun SimulatorVersion.compatibleWith(serverVersion: SimulatorVersion): Boolean {
+    return name == serverVersion.name &&
+            version.split(".").take(2) == serverVersion.version.split(".").take(2)
 }

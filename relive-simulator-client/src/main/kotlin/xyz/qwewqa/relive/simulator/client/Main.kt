@@ -29,6 +29,7 @@ class SimulatorClient(val simulator: Simulator) {
 
     val versionLink = document.getElementById("version-link") as HTMLAnchorElement
     val languageSelect = document.getElementById("language-select").singleSelect()
+    val shutdownContainer = document.getElementById("shutdown-container") as HTMLDivElement
     val shutdownButton = document.getElementById("shutdown-button") as HTMLButtonElement
     val exportButton = document.getElementById("export-button") as HTMLButtonElement
     val doImportButton = document.getElementById("do-import-button") as HTMLButtonElement
@@ -135,6 +136,7 @@ class SimulatorClient(val simulator: Simulator) {
             }
         }
 
+        val features = simulator.features()
         val options = simulator.options()
 
         val commonText = options.commonText.associateBy { it.id }
@@ -552,6 +554,10 @@ class SimulatorClient(val simulator: Simulator) {
             updateGuestStyling()
             refreshSelectPicker()
             updateUrlForSetup(setup)
+        }
+
+        if (features.shutdown) {
+            shutdownContainer.removeClass("d-none")
         }
 
         shutdownButton.addEventListener("click", {

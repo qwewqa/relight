@@ -53,6 +53,17 @@ data class SimulationOption(
 }
 
 @Serializable
+data class SimulatorFeatures(
+    val shutdown: Boolean,
+) {
+    companion object {
+        val MINIMAL = SimulatorFeatures(
+            shutdown = false,
+        )
+    }
+}
+
+@Serializable
 data class SongParameters(
     val activeEffects: List<SongEffectParameter> = emptyList(),
     val passiveEffect: SongEffectParameter? = null,

@@ -157,6 +157,11 @@ data class SimulationOption(
 )
 
 @Serializable
+data class SimulatorFeatures(
+    val shutdown: Boolean = false
+)
+
+@Serializable
 data class SongParameters(
     val activeEffects: List<SongEffectParameter>,
     val passiveEffect: SongEffectParameter?,
