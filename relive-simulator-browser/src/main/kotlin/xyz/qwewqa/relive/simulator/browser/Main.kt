@@ -1,3 +1,5 @@
+package xyz.qwewqa.relive.simulator.browser
+
 import kotlinx.browser.window
 import kotlinx.coroutines.delay
 import kotlinx.html.a
