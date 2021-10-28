@@ -1,4 +1,4 @@
-package xyz.qwewqa.relive.simulator.client.codemirror
+package xyz.qwewqa.relive.simulator.client
 
 @JsModule("codemirror")
 @JsNonModule

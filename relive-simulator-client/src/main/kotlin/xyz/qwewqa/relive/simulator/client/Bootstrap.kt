@@ -1,4 +1,4 @@
-package xyz.qwewqa.relive.simulator.client.bootstrap
+package xyz.qwewqa.relive.simulator.client
 
 @Suppress("ClassName")
 @JsName("bootstrap")

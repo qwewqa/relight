@@ -15,7 +15,6 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.bossLoadouts
 import xyz.qwewqa.relive.simulator.core.presets.dress.playerDresses
 import xyz.qwewqa.relive.simulator.core.presets.memoir.memoirs
 import xyz.qwewqa.relive.simulator.core.presets.song.songEffects
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.EffectTag
 import xyz.qwewqa.relive.simulator.core.stage.strategy.bossStrategyParsers
 import xyz.qwewqa.relive.simulator.core.stage.strategy.strategyParsers
 import xyz.qwewqa.relive.simulator.server.*
@@ -35,8 +34,6 @@ fun Application.configureRouting() {
             Thread.currentThread().contextClassLoader
                 .getResourceAsStream("client/codemirror.css")!!.bufferedReader().readText()
         }
-
-
         get("/") {
             call.respondText(index, ContentType.Text.Html)
         }
@@ -123,6 +120,27 @@ fun Application.configureRouting() {
         }
         get("/options") {
             call.respond(options)
+        }
+
+        val resourceCache = mutableMapOf<String, ByteArray>()
+        get("/{path}") {
+            val path = call.parameters["path"]!!
+            val value = resourceCache[path]
+                ?: Thread.currentThread().contextClassLoader.getResourceAsStream("client/$path")?.readBytes()?.also {
+                    resourceCache[path] = it
+                }
+            if (value != null) {
+                when {
+                    path.endsWith(".wasm") -> call.respondBytes(value, ContentType.Application.Wasm)
+                    path.endsWith(".js") -> call.respondText(value.decodeToString(),
+                        ContentType.Application.JavaScript)
+                    path.endsWith(".css") -> call.respondText(value.decodeToString(), ContentType.Text.CSS)
+                    path.endsWith(".html") -> call.respondText(value.decodeToString(), ContentType.Text.Html)
+                    else -> call.respondText(value.decodeToString())
+                }
+            } else {
+                call.respond(HttpStatusCode.NotFound)
+            }
         }
     }
 }

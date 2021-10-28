@@ -13,13 +13,7 @@ import kotlinx.serialization.json.Json
 import org.w3c.dom.*
 import org.w3c.dom.events.Event
 import org.w3c.dom.url.URL
-import xyz.qwewqa.relive.simulator.client.bootstrap.Bootstrap
-import xyz.qwewqa.relive.simulator.client.codemirror.CodeMirror
-import xyz.qwewqa.relive.simulator.client.plotly.Plotly.react
-import xyz.qwewqa.relive.simulator.client.sortable.Sortable
-import xyz.qwewqa.relive.simulator.client.yaml.dumpYamlSerialize
-import xyz.qwewqa.relive.simulator.client.yaml.json
-import xyz.qwewqa.relive.simulator.client.yaml.loadYamlDeserialize
+import xyz.qwewqa.relive.simulator.client.Plotly.react
 import kotlin.random.Random
 
 suspend fun main() {
@@ -120,12 +114,17 @@ class SimulatorClient(val simulator: Simulator) {
     suspend fun start() {
         warnIfServerVersionMismatched()
 
+        val compressor = LZString
         val baseHref = "${window.location.protocol}//${window.location.host}${window.location.pathname}"
 
         fun updateUrlForSetup(setup: SimulationParameters) {
-            val newUrl = "$baseHref?options=${encodeURIComponent(json.encodeToString(setup))}"
+            val newUrl = "$baseHref?options=${Base64.encodeURI(compressor.compress(json.encodeToString(setup)))}"
             if (newUrl != window.location.href) {
-                window.history.pushState(null, "", newUrl)
+                if (newUrl.length <= 8192) {
+                    window.history.pushState(null, "", newUrl)
+                } else {
+                    toast("Warning", "Url not updated due to high configuration size.", "yellow")
+                }
             }
         }
 
@@ -715,7 +714,7 @@ class SimulatorClient(val simulator: Simulator) {
                 it.matches("options=.*")
             }?.split("=")?.last()
             if (urlOptions != null) {
-                setSetup(json.decodeFromString(decodeURIComponent(urlOptions)))
+                setSetup(json.decodeFromString(compressor.decompress(Base64.decodeURI(urlOptions))))
                 toast("Import", "Updated configuration from url.", "green")
             }
         } catch (e: Throwable) {
@@ -944,6 +943,3 @@ inline fun jsObject(init: dynamic.() -> Unit): dynamic {
     init(o)
     return o
 }
-
-private external fun decodeURIComponent(encodedURI: String): String
-private external fun encodeURIComponent(encodedURI: String): String

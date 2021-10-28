@@ -1,4 +1,4 @@
-package xyz.qwewqa.relive.simulator.client.sortable
+package xyz.qwewqa.relive.simulator.client
 
 import org.w3c.dom.Element
 

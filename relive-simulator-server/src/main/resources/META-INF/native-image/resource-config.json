@@ -2,18 +2,8 @@
   "resources":{
     "includes":[
       {"pattern":"\\QMETA-INF/services/kotlin.reflect.jvm.internal.impl.resolve.ExternalOverridabilityCondition\\E"},
-      {"pattern":"\\Qclient/index.html\\E"},
-      {"pattern":"\\Qclient/relive-simulator-client.js\\E"},
-      {"pattern":"\\Qclient/relive-simulator-client.js.map\\E"},
-      {"pattern":"\\Qclient/codemirror.css\\E"},
-      {"pattern":"\\Qdress.yaml\\E"},
-      {"pattern":"\\Qmemoir.yaml\\E"},
-      {"pattern":"\\QsongEffect.yaml\\E"},
-      {"pattern":"\\Qcondition.yaml\\E"},
-      {"pattern":"\\Qboss.yaml\\E"},
-      {"pattern":"\\Qstrategy.yaml\\E"},
-      {"pattern":"\\QcommonText.yaml\\E"},
-      {"pattern":"\\Qtags.yaml\\E"},
+      {"pattern":"\\Qclient/.*\\E"},
+      {"pattern":"\\.*.yaml\\E"},
       {"pattern":"\\Qorg/slf4j/impl/StaticLoggerBinder.class\\E"}
     ]},
   "bundles":[]

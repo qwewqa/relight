@@ -1,4 +1,4 @@
-package xyz.qwewqa.relive.simulator.client.yaml
+package xyz.qwewqa.relive.simulator.client
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromString

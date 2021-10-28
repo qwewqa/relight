@@ -31,6 +31,8 @@ dependencies {
     implementation(npm("codemirror", "5.63.1"))
     implementation(npm("js-yaml", "4.1.0"))
     implementation(npm("sortablejs", "1.14.0"))
+    implementation(npm("lz-string", "1.4.4"))
+    implementation(npm("js-base64", "3.7.2"))
 }
 
 kotlin {
