@@ -110,6 +110,7 @@ class TargetContext(
         )
         repeat(if (autoRepeatHits) hitCount else 1) {
             targets.forEach { target ->
+                if (!self.isAlive) return
                 if (target.isAlive) {
                     stage.damageCalculator.damage(
                         self,
