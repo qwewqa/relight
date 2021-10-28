@@ -7,6 +7,7 @@ import kotlinx.dom.addClass
 import kotlinx.dom.removeClass
 import kotlinx.html.*
 import kotlinx.html.dom.create
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.w3c.dom.*
@@ -17,6 +18,7 @@ import xyz.qwewqa.relive.simulator.client.codemirror.CodeMirror
 import xyz.qwewqa.relive.simulator.client.plotly.Plotly.react
 import xyz.qwewqa.relive.simulator.client.sortable.Sortable
 import xyz.qwewqa.relive.simulator.client.yaml.dumpYamlSerialize
+import xyz.qwewqa.relive.simulator.client.yaml.json
 import xyz.qwewqa.relive.simulator.client.yaml.loadYamlDeserialize
 import kotlin.random.Random
 
@@ -117,6 +119,15 @@ class SimulatorClient(val simulator: Simulator) {
 
     suspend fun start() {
         warnIfServerVersionMismatched()
+
+        val baseHref = "${window.location.protocol}//${window.location.host}${window.location.pathname}"
+
+        fun updateUrlForSetup(setup: SimulationParameters) {
+            val newUrl = "$baseHref?options=${encodeURIComponent(json.encodeToString(setup))}"
+            if (newUrl != window.location.href) {
+                window.history.pushState(null, "", newUrl)
+            }
+        }
 
         val options = simulator.options()
 
@@ -534,6 +545,7 @@ class SimulatorClient(val simulator: Simulator) {
             seedInput.value = seed
             updateGuestStyling()
             refreshSelectPicker()
+            updateUrlForSetup(setup)
         }
 
         shutdownButton.addEventListener("click", {
@@ -561,6 +573,7 @@ class SimulatorClient(val simulator: Simulator) {
 
         exportButton.addEventListener("click", {
             updateExportText()
+            updateUrlForSetup(getSetup())
         })
 
         yamlImportCheckbox.addEventListener("click", {
@@ -622,7 +635,9 @@ class SimulatorClient(val simulator: Simulator) {
                 cancelButton.disabled = false
                 warnIfServerVersionMismatched()
                 try {
-                    simulation = simulator.simulate(getSetup())
+                    val setup = getSetup()
+                    simulation = simulator.simulate(setup)
+                    updateUrlForSetup(setup)
                 } catch (e: Throwable) {
                     toast("Simulate", "Simulation failed to start.", "red")
                     simulateButton.disabled = false
@@ -695,7 +710,19 @@ class SimulatorClient(val simulator: Simulator) {
         updateLocaleText()
         refreshSelectPicker()
 
-        toast("Ready", "Initialization complete.")
+        try {
+            val urlOptions = window.location.search.substring(1).split("&").firstOrNull {
+                it.matches("options=.*")
+            }?.split("=")?.last()
+            if (urlOptions != null) {
+                setSetup(json.decodeFromString(decodeURIComponent(urlOptions)))
+                toast("Import", "Updated configuration from url.", "green")
+            }
+        } catch (e: Throwable) {
+
+        }
+
+        toast("Ready", "Initialization complete.", "green")
 
         GlobalScope.launch {
             while (true) {
@@ -917,3 +944,6 @@ inline fun jsObject(init: dynamic.() -> Unit): dynamic {
     init(o)
     return o
 }
+
+private external fun decodeURIComponent(encodedURI: String): String
+private external fun encodeURIComponent(encodedURI: String): String
