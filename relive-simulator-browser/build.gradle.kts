@@ -18,6 +18,8 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-js"))
     implementation(project(":relive-simulator-client"))
+    implementation("io.ktor:ktor-client-js:$ktor_version")
+    implementation("io.ktor:ktor-client-serialization:$ktor_version")
     implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.7.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
 }

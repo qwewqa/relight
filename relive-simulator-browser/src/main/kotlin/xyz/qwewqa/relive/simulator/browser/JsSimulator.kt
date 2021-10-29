@@ -1,8 +1,8 @@
 package xyz.qwewqa.relive.simulator.browser
 
 import io.ktor.client.*
-import io.ktor.client.features.*
-import io.ktor.client.features.get
+import io.ktor.client.features.json.*
+import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
 import kotlinx.browser.window
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -11,7 +11,23 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.w3c.dom.Worker
+import org.w3c.dom.url.URL
 import xyz.qwewqa.relive.simulator.client.*
+import kotlin.collections.List
+import kotlin.collections.MutableMap
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.emptyList
+import kotlin.collections.emptyMap
+import kotlin.collections.forEach
+import kotlin.collections.getOrPut
+import kotlin.collections.listOf
+import kotlin.collections.map
+import kotlin.collections.mapValues
+import kotlin.collections.mutableMapOf
+import kotlin.collections.set
+import kotlin.collections.single
+import kotlin.collections.toMap
 import kotlin.random.Random
 
 class JsSimulator : Simulator {
@@ -23,11 +39,24 @@ class JsSimulator : Simulator {
         return SimulatorClient.version
     }
 
-    private val httpClient = HttpClient()
+    private val httpClient = HttpClient {
+        install(JsonFeature) {
+            serializer = KotlinxSerializer(
+                kotlinx.serialization.json.Json {
+                    isLenient = false
+                    ignoreUnknownKeys = false
+                    allowSpecialFloatingPointValues = true
+                    useArrayPolymorphism = false
+                    encodeDefaults = true
+                }
+            )
+        }
+    }
 
     // This is a hack where the response from server is just copied here until I think of something better
-    @OptIn(ExperimentalSerializationApi::class)
-    override suspend fun options(): SimulationOptions = httpClient.get("options.json")
+    override suspend fun options(): SimulationOptions {
+        return httpClient.get(URL("options.json", "${window.location.protocol}//${window.location.host}${window.location.pathname}").href)
+    }
 
     override suspend fun shutdown() {
         error("Not supported")
@@ -38,7 +67,7 @@ class JsSimulator : Simulator {
     }
 }
 
-const val BATCH_SIZE = 1000
+const val BATCH_SIZE = 500
 
 class JsSimulation(val parameters: SimulationParameters) : Simulation {
     var resultCount = 0
@@ -70,7 +99,7 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
                     val result = results.single()
                     overallResult = overallResult.copy(
                         error = result.error,
-                        log = result.log,
+                        log = result.log?.let { "Iteration ${result.request.index + 1}\n$it" },
                         runtime = (window.performance.now() - startTime) / 1_000.0,
                         complete = true,
                     )
