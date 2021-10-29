@@ -107,7 +107,7 @@ data class SimulationResult(
     val log: String?,
     val runtime: Double? = null,
     val cancelled: Boolean = false,
-    val error: String?,
+    val error: String? = null,
     val complete: Boolean = false,
 ) {
     val done get() = cancelled || complete

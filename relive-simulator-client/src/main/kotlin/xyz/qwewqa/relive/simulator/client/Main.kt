@@ -107,13 +107,15 @@ class SimulatorClient(val simulator: Simulator) {
         }
     }
 
+    private var hasShownVersionWarning = false
     private suspend fun warnIfServerVersionMismatched() {
         val serverVersion = simulator.version()
-        if (Companion.version != serverVersion) {
-            toast("Warning", "Client version does not match server version.", "yellow")
-            versionLink.textContent = "client ${Companion.version} / server $serverVersion"
+        if (version != serverVersion && !hasShownVersionWarning) {
+            toast("Warning", "Client version does not match server version.", "yellow", autohide = false)
+            versionLink.textContent = "client ${version} / server $serverVersion"
+            hasShownVersionWarning = true
         } else {
-            versionLink.textContent = Companion.version.toString()
+            versionLink.textContent = version.toString()
         }
     }
 

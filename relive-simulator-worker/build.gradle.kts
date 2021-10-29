@@ -18,11 +18,16 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-js"))
     implementation(project(":relive-simulator-core"))
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
 }
 
 kotlin {
     js(IR) {
         browser {
+            distribution {
+                directory = File("${project(":relive-simulator-browser").projectDir}/src/main/resources")
+            }
+
             webpackTask {
                 cssSupport.enabled = true
             }
@@ -39,16 +44,15 @@ kotlin {
             }
         }
         compilations.all {
-            kotlinOptions {
-                freeCompilerArgs += "-Xir-property-lazy-initialization"
-            }
+            kotlinOptions.freeCompilerArgs += "-Xir-property-lazy-initialization"
         }
         binaries.executable()
     }
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile::class) {
-    kotlinOptions.run {
-        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
-    }
+    kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+}
+tasks.withType<org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink> {
+    kotlinOptions.freeCompilerArgs += "-Xir-property-lazy-initialization"
 }
