@@ -73,6 +73,11 @@ class ActionContext(
 
 class TargetContext(
     val actionContext: ActionContext,
+    /**
+     * The targeted actors. Could be either allies or enemies.
+     * Note that since multiple actions can be taken within a single TargetContext,
+     * there's no guarantee all targets are alive at the start of a particular action.
+     */
     val targets: List<Actor>,
     val autoRepeatHits: Boolean = true,
 ) {
@@ -124,8 +129,9 @@ class TargetContext(
 
     fun applyBuff(effect: BuffEffect, value: Int = 1, turns: Int, chance: Int = 100) {
         if (!self.isAlive) return
-        targets.filter { it.isAlive }.forEach {
-            it.apply {
+        for (target in targets) {
+            if (!target.isAlive) continue
+            target.apply {
                 when (effect.category) {
                     BuffCategory.Positive -> {
                         val applyChance = chance / 100.0 *
@@ -154,8 +160,9 @@ class TargetContext(
 
     fun applyCountableBuff(effect: CountableBuff, count: Int = 1, chance: Int = 100) {
         if (!self.isAlive) return
-        targets.filter { it.isAlive }.forEach {
-            it.apply {
+        for (target in targets) {
+            if (!target.isAlive) continue
+            target.apply {
                 when (effect.category) {
                     BuffCategory.Positive -> {
                         // PER works for countable buffs but NER doesn't for countable debuffs for some reason
@@ -183,8 +190,9 @@ class TargetContext(
 
     fun dispelTimed(category: BuffCategory) {
         if (!self.isAlive) return
-        targets.filter { it.isAlive }.forEach {
-            it.apply {
+        for (target in targets) {
+            if (!target.isAlive) continue
+            target.apply {
                 actionContext.log("Dispel") { "Dispel timed ${category.name} effects from [$name]." }
                 buffs.dispel(category)
             }
@@ -193,8 +201,9 @@ class TargetContext(
 
     fun flipTimed(category: BuffCategory, count: Int) {
         if (!self.isAlive) return
-        targets.filter { it.isAlive }.forEach {
-            it.apply {
+        for (target in targets) {
+            if (!target.isAlive) continue
+            target.apply {
                 actionContext.log("Flip") { "Flip last $count timed ${category.name} effects from [$name]." }
                 buffs.flip(category, count)
             }
@@ -203,8 +212,9 @@ class TargetContext(
 
     fun dispelCountable(category: BuffCategory) {
         if (!self.isAlive) return
-        targets.filter { it.isAlive }.forEach {
-            it.apply {
+        for (target in targets) {
+            if (!target.isAlive) continue
+            target.apply {
                 actionContext.log("Dispel") { "Dispel countable ${category.name} effects from [$name]." }
                 buffs.dispelCountable(category)
             }
@@ -213,8 +223,9 @@ class TargetContext(
 
     fun heal(percent: Int = 0, fixed: Int = 0) {
         if (!self.isAlive) return
-        targets.filter { it.isAlive }.forEach {
-            it.apply {
+        for (target in targets) {
+            if (!target.isAlive) continue
+            target.apply {
                 actionContext.log("Heal") { "Heal [$name] (percent: $percent, fixed: $fixed)." }
                 this.heal(fixed + (percent * maxHp / 100))
             }
@@ -223,8 +234,9 @@ class TargetContext(
 
     fun addBrilliance(amount: Int) {
         if (!self.isAlive) return
-        targets.filter { it.isAlive }.forEach {
-            it.apply {
+        for (target in targets) {
+            if (!target.isAlive) continue
+            target.apply {
                 actionContext.log("Brilliance") { "Add brilliance to [$name] (amount: $amount)." }
                 this.addBrilliance(amount)
             }
@@ -233,8 +245,9 @@ class TargetContext(
 
     fun removeBrilliance(amount: Int) {
         if (!self.isAlive) return
-        targets.filter { it.isAlive }.forEach {
-            it.apply {
+        for (target in targets) {
+            if (!target.isAlive) continue
+            target.apply {
                 actionContext.log("Brilliance") { "Remove brilliance from [$name] (amount: $amount)." }
                 this.addBrilliance(-amount)
             }
