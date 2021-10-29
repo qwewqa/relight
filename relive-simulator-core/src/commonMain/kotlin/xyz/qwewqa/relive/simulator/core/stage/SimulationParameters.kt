@@ -1,14 +1,13 @@
-package xyz.qwewqa.relive.simulator.server
+package xyz.qwewqa.relive.simulator.core.stage
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+
+import xyz.qwewqa.relive.simulator.common.SimulationParameters
 import xyz.qwewqa.relive.simulator.core.presets.condition.conditions
 import xyz.qwewqa.relive.simulator.core.presets.dress.bossLoadouts
 import xyz.qwewqa.relive.simulator.core.presets.dress.playerDresses
 import xyz.qwewqa.relive.simulator.core.presets.memoir.memoirs
 import xyz.qwewqa.relive.simulator.core.presets.song.songEffects
 import xyz.qwewqa.relive.simulator.core.stage.RandomDamageCalculator
-import xyz.qwewqa.relive.simulator.core.stage.StageConfiguration
 import xyz.qwewqa.relive.simulator.core.stage.condition.NamedCondition
 import xyz.qwewqa.relive.simulator.core.stage.condition.or
 import xyz.qwewqa.relive.simulator.core.stage.condition.plus
@@ -17,27 +16,11 @@ import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.loadout.TeamLoadout
 import xyz.qwewqa.relive.simulator.core.stage.song.Song
 import xyz.qwewqa.relive.simulator.core.stage.song.SongEffectData
-import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.core.stage.strategy.bossStrategyParsers
 import xyz.qwewqa.relive.simulator.core.stage.strategy.strategyParsers
 
-@Serializable
-data class SimulationParameters(
-    val maxTurns: Int,
-    val maxIterations: Int,
-    val team: List<PlayerLoadoutParameters>,
-    val guest: PlayerLoadoutParameters?,
-    val song: SongParameters,
-    val strategy: StrategyParameter,
-    val bossStrategy: StrategyParameter? = null,
-    val boss: String,
-    val bossHp: Int? = null,
-    val eventMultiplier: Int = 100,
-    val additionalEventBonus: Int = 0,
-    val seed: Int,
-) {
-    fun createStageLoadout(): StageLoadout {
-        require(bossHp == null || bossHp > 0) { "Boss HP positive integer." }
+fun SimulationParameters.createStageLoadout(): StageLoadout {
+        require(bossHp == null || bossHp!! > 0) { "Boss HP positive integer." }
         require(maxTurns > 0) { "Max turns should be a positive integer." }
         require(maxIterations > 0) { "Max iterations should be a positive integer" }
         require(team.isNotEmpty()) { "Team should not be empty." }
@@ -112,7 +95,7 @@ data class SimulationParameters(
                     }
                 ),
                 strategy = if (bossStrategy != null) {
-                    bossStrategyParsers[bossStrategy.type]!!.parse(bossStrategy.value)
+                    bossStrategyParsers[bossStrategy!!.type]!!.parse(bossStrategy!!.value)
                 } else {
                     { bossLoadouts[boss]!!.strategy }
                 }
@@ -126,120 +109,3 @@ data class SimulationParameters(
             RandomDamageCalculator(),
         )
     }
-}
-
-@Serializable
-data class SimulatorVersion(
-    val name: String,
-    val version: String,
-    val hash: String,
-)
-
-@Serializable
-data class SimulationOptions(
-    val locales: Map<String, String>,
-    val commonText: List<SimulationOption>,
-    val dresses: List<SimulationOption>,
-    val memoirs: List<SimulationOption>,
-    val songEffects: List<SimulationOption>,
-    val conditions: List<SimulationOption>,
-    val bosses: List<SimulationOption>,
-    val strategyTypes: List<SimulationOption>,
-    val bossStrategyTypes: List<SimulationOption>,
-)
-
-@Serializable
-data class SimulationOption(
-    val id: String,
-    val name: Map<String, String>,
-    val description: Map<String, String>? = null,
-    val tags: Map<String, List<String>>? = null,
-)
-
-@Serializable
-data class SimulatorFeatures(
-    val shutdown: Boolean = false
-)
-
-@Serializable
-data class SongParameters(
-    val activeEffects: List<SongEffectParameter>,
-    val passiveEffect: SongEffectParameter?,
-)
-
-@Serializable
-data class SongEffectParameter(
-    val name: String,
-    val value: Int,
-    val conditions: List<List<String>>,
-)
-
-@Serializable
-data class PlayerLoadoutParameters(
-    val name: String,
-    val dress: String,
-    val memoir: String,
-    val memoirLevel: Int,
-    val memoirLimitBreak: Int,
-    val unitSkillLevel: Int,
-    val level: Int,
-    val rarity: Int,
-    val friendship: Int,
-    val rank: Int,
-    val rankPanelPattern: List<Boolean>,
-    val remake: Int,
-)
-
-@Serializable
-data class StrategyParameter(
-    val type: String,
-    val value: String,
-)
-
-@Serializable
-data class SimulationResult(
-    val maxIterations: Int,
-    val currentIterations: Int,
-    val results: List<SimulationResultValue>,
-    val marginResults: Map<SimulationMarginResultType, Map<Int, Int>>,
-    val log: String?,
-    val runtime: Double? = null,
-    val cancelled: Boolean = false,
-    val error: String? = null,
-    val complete: Boolean = false,
-)
-
-@Serializable
-data class SimulationResultValue(val tags: List<String>, val result: SimulationResultType, val count: Int)
-
-@Serializable
-sealed class SimulationResultType {
-    @Serializable
-    @SerialName("wipe")
-    data class Wipe(val turn: Int, val tile: Int) : SimulationResultType()
-
-    @Serializable
-    @SerialName("victory")
-    data class Victory(val turn: Int, val tile: Int) : SimulationResultType()
-
-    @Serializable
-    @SerialName("end")
-    object End : SimulationResultType()
-
-    @Serializable
-    @SerialName("excluded")
-    object Excluded : SimulationResultType()
-
-    @Serializable
-    @SerialName("error")
-    object Error : SimulationResultType()
-}
-
-@Serializable
-enum class SimulationMarginResultType {
-    Wipe,
-    End,
-}
-
-@Serializable
-data class SimulateResponse(val token: String)

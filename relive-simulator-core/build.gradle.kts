@@ -17,6 +17,7 @@ kotlin {
 
 dependencies {
     "commonMainImplementation"(kotlin("stdlib"))
+    "commonMainApi"(project(":relive-simulator-common"))
     "commonMainImplementation"("com.github.h0tk3y.betterParse:better-parse:0.4.2")
 }
 
