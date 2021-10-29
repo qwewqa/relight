@@ -170,18 +170,21 @@ class BuffManager(val actor: Actor) {
 
     fun tick() {
         passiveActions.forEach { it(actor.context) }
-        negativeBuffs.toList().forEach {
-            if (!it.ephemeral) {
-                it.turns--
-                if (it.turns <= 0) remove(it)
+        negativeBuffs.tick()
+        positiveBuffs.tick()
+    }
+
+    private fun Collection<ActiveBuff>.tick() {
+        if (isEmpty()) return
+        val toRemove = mutableListOf<ActiveBuff>()
+        for (buff in this) {
+            if (!buff.ephemeral) {
+                if (--buff.turns <= 0) {
+                    toRemove += buff
+                }
             }
         }
-        positiveBuffs.toList().forEach {
-            if (!it.ephemeral) {
-                it.turns--
-                if (it.turns <= 0) remove(it)
-            }
-        }
+        toRemove.forEach { remove(it) }
     }
 
     private fun ActiveBuff.start() = effect.onStart(actor.context, value)
