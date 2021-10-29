@@ -7,6 +7,8 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.abnormalBuffs
 import xyz.qwewqa.relive.simulator.core.stage.log
 
+expect fun countableBuffMap(): MutableMap<CountableBuff, Int>
+
 class BuffManager(val actor: Actor) {
     private val positiveBuffs = LinkedHashSet<ActiveBuff>()
     private val negativeBuffs = LinkedHashSet<ActiveBuff>()
@@ -15,8 +17,8 @@ class BuffManager(val actor: Actor) {
     private val _effectNameMapping = mutableMapOf<String, BuffEffect>()
     val effectNameMapping: Map<String, BuffEffect> get() = _effectNameMapping
 
-    private val positiveCountableBuffs = mutableMapOf<CountableBuff, Int>()
-    private val negativeCountableBuffs = mutableMapOf<CountableBuff, Int>()
+    private val positiveCountableBuffs = countableBuffMap()
+    private val negativeCountableBuffs = countableBuffMap()
 
     private val passiveActions = mutableListOf<ActionContext.() -> Unit>()
 
