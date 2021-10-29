@@ -16,10 +16,17 @@ kotlin {
     jvm()
     js(IR) {
         browser()
+        compilations.all {
+            kotlinOptions.freeCompilerArgs += "-Xir-property-lazy-initialization"
+        }
     }
 }
 
 dependencies {
     "commonMainImplementation"(kotlin("stdlib"))
     "commonMainImplementation"("org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.0")
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink> {
+    kotlinOptions.freeCompilerArgs += "-Xir-property-lazy-initialization"
 }

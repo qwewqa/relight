@@ -51,6 +51,7 @@ kotlin {
 
 tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile::class) {
     // TODO: Automate replacing js library url from client html?
+    dependsOn(":relive-simulator-worker:browserProductionWebpack")
     kotlinOptions.run {
         freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
     }

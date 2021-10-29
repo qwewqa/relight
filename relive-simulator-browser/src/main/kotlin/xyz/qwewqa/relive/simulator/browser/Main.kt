@@ -31,12 +31,13 @@ suspend fun main() {
             }
         }
     } else {
-        val client = SimulatorClient(simulator)
-        client.toast("Error", "red", autohide = false) {
-            +"No running local simulator or incompatible version found."
+        val client = SimulatorClient(JsSimulator())
+        client.toast("Info", autohide = false) {
+            +"No running local simulator server or incompatible version found. Falling back to JS simulator. For best performance, a local server is recommended."
             br()
             a(href = "https://github.com/qwewqa/relive-simulator") { +"Download from GitHub." }
         }
+        client.start()
     }
 }
 
