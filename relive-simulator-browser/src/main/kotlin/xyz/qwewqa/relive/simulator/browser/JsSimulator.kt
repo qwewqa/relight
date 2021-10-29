@@ -66,6 +66,7 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
                         error = result.error,
                         log = result.log,
                         runtime = (window.performance.now() - startTime) / 1_000.0,
+                        complete = true,
                     )
                 } else {
                     results.forEach { result ->
