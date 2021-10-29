@@ -182,7 +182,7 @@
     "allDeclaredConstructors": true
   },
   {
-    "name": "xyz.qwewqa.relive.simulator.server.SimulateResponse",
+    "name": "xyz.qwewqa.relive.simulator.common.SimulateResponse",
     "fields": [
       {
         "name": "Companion"
@@ -190,7 +190,7 @@
     ]
   },
   {
-    "name": "xyz.qwewqa.relive.simulator.server.SimulateResponse$Companion",
+    "name": "xyz.qwewqa.relive.simulator.common.SimulateResponse$Companion",
     "methods": [
       {
         "name": "serializer",
@@ -199,7 +199,7 @@
     ]
   },
   {
-    "name": "xyz.qwewqa.relive.simulator.server.SimulationOptions",
+    "name": "xyz.qwewqa.relive.simulator.common.SimulationOptions",
     "fields": [
       {
         "name": "Companion"
@@ -207,7 +207,7 @@
     ]
   },
   {
-    "name": "xyz.qwewqa.relive.simulator.server.SimulationOptions$Companion",
+    "name": "xyz.qwewqa.relive.simulator.common.SimulationOptions$Companion",
     "methods": [
       {
         "name": "serializer",
@@ -216,7 +216,7 @@
     ]
   },
   {
-    "name": "xyz.qwewqa.relive.simulator.server.SimulationParameters",
+    "name": "xyz.qwewqa.relive.simulator.common.SimulationParameters",
     "fields": [
       {
         "name": "Companion"
@@ -224,7 +224,7 @@
     ]
   },
   {
-    "name": "xyz.qwewqa.relive.simulator.server.SimulationParameters$Companion",
+    "name": "xyz.qwewqa.relive.simulator.common.SimulationParameters$Companion",
     "methods": [
       {
         "name": "serializer",
@@ -233,7 +233,7 @@
     ]
   },
   {
-    "name": "xyz.qwewqa.relive.simulator.server.SimulationResult",
+    "name": "xyz.qwewqa.relive.simulator.common.SimulationResult",
     "fields": [
       {
         "name": "Companion"
@@ -241,7 +241,7 @@
     ]
   },
   {
-    "name": "xyz.qwewqa.relive.simulator.server.SimulationResult$Companion",
+    "name": "xyz.qwewqa.relive.simulator.common.SimulationResult$Companion",
     "methods": [
       {
         "name": "serializer",
@@ -250,7 +250,7 @@
     ]
   },
   {
-    "name": "xyz.qwewqa.relive.simulator.server.SimulationResultValue",
+    "name": "xyz.qwewqa.relive.simulator.common.SimulationResultValue",
     "fields": [
       {
         "name": "Companion"
@@ -258,7 +258,7 @@
     ]
   },
   {
-    "name": "xyz.qwewqa.relive.simulator.server.SimulationResultValue$Companion",
+    "name": "xyz.qwewqa.relive.simulator.common.SimulationResultValue$Companion",
     "methods": [
       {
         "name": "serializer",
@@ -267,7 +267,7 @@
     ]
   },
   {
-    "name": "xyz.qwewqa.relive.simulator.server.SimulatorVersion",
+    "name": "xyz.qwewqa.relive.simulator.common.SimulatorVersion",
     "fields": [
       {
         "name": "Companion"
@@ -275,7 +275,7 @@
     ]
   },
   {
-    "name": "xyz.qwewqa.relive.simulator.server.SimulatorVersion$Companion",
+    "name": "xyz.qwewqa.relive.simulator.common.SimulatorVersion$Companion",
     "methods": [
       {
         "name": "serializer",
@@ -284,7 +284,7 @@
     ]
   },
   {
-    "name": "xyz.qwewqa.relive.simulator.server.SimulatorFeatures",
+    "name": "xyz.qwewqa.relive.simulator.common.SimulatorFeatures",
     "fields": [
       {
         "name": "Companion"
@@ -292,7 +292,7 @@
     ]
   },
   {
-    "name": "xyz.qwewqa.relive.simulator.server.SimulatorFeatures$Companion",
+    "name": "xyz.qwewqa.relive.simulator.common.SimulatorFeatures$Companion",
     "methods": [
       {
         "name": "serializer",
