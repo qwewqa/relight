@@ -34,6 +34,8 @@ class JsSimulator : Simulator {
     }
 }
 
+const val BATCH_SIZE = 1000
+
 class JsSimulation(val parameters: SimulationParameters) : Simulation {
     var resultCount = 0
     val resultCounts = mutableMapOf<Pair<List<String>, SimulationResultType>, Int>()
@@ -53,7 +55,7 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
 
     @OptIn(ExperimentalSerializationApi::class)
     val workers = List(
-        window.navigator.hardwareConcurrency.toInt().coerceAtMost(parameters.maxIterations).coerceAtLeast(1)
+        window.navigator.hardwareConcurrency.toInt().coerceAtMost(parameters.maxIterations / BATCH_SIZE).coerceAtLeast(1)
     ) {
         Worker("relive-simulator-worker.js").also { worker ->
             worker.onmessage = { ev ->
@@ -98,7 +100,7 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
                         log = null,
                         runtime = (window.performance.now() - startTime) / 1_000.0,
                     )
-                    val batchSize = (parameters.maxIterations - requestCount).coerceAtMost(1000)
+                    val batchSize = (parameters.maxIterations - requestCount).coerceAtMost(BATCH_SIZE)
                     if (batchSize > 0) {
                         worker.postMessage(Json.encodeToString(List(batchSize) {
                             IterationRequest(
@@ -115,7 +117,7 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
                 }
             }
             worker.postMessage(Json.encodeToString(parameters))
-            val batchSize = (parameters.maxIterations - requestCount).coerceAtMost(1000)
+            val batchSize = (parameters.maxIterations - requestCount).coerceAtMost(BATCH_SIZE)
             if (batchSize > 0) {
                 worker.postMessage(Json.encodeToString(List(batchSize) {
                     IterationRequest(
