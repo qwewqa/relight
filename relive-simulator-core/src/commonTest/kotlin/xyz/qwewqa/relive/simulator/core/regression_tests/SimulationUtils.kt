@@ -8,6 +8,16 @@ import xyz.qwewqa.relive.simulator.core.stage.StageResult
 import xyz.qwewqa.relive.simulator.core.stage.createStageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.toSimulationResult
 import kotlin.random.Random
+import kotlin.test.assertEquals
+
+fun assertSimulationResults(
+    config: String,
+    results: Map<SimulationResultType, Int>,
+) = assertEquals(
+    // Sorting just makes diffs easier to read
+    results.map { (k, v) -> k to v }.sortedBy { it.first.toString() },
+    simulationConfig(config).simulate().aggregate().map { (k, v) -> k to v }.sortedBy { it.first.toString() },
+)
 
 fun simulationConfig(value: String): SimulationParameters = Json.decodeFromString(value)
 
