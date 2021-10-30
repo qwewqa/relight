@@ -2,6 +2,8 @@ val project_version: String by project
 
 plugins {
     kotlin("multiplatform")
+    id("java-library")
+    jacoco
 }
 
 group = "xyz.qwewqa.relive.simulator"
@@ -24,6 +26,34 @@ kotlin {
                 freeCompilerArgs += "-Xir-property-lazy-initialization"
             }
         }
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+tasks.jacocoTestReport {
+    dependsOn("jvmTest")
+
+    val coverageSourceDirs = arrayOf(
+        "src/commonMain",
+        "src/jvmMain"
+    )
+
+    sourceDirectories.setFrom(files(coverageSourceDirs))
+
+    classDirectories.setFrom(
+        fileTree("${buildDir}/classes/kotlin/jvm/") {
+            exclude("**/generated/")
+        }
+    )
+
+    executionData.setFrom(files("${buildDir}/jacoco/jvmTest.exec"))
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
     }
 }
 
