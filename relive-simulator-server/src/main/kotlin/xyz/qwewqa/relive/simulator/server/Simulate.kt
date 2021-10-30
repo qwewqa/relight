@@ -184,16 +184,3 @@ private fun SimulationParameters.createStageLoadoutOrReportError(token: String) 
     )
     null
 }
-
-fun StageResult.toSimulationResult() = when (this) {
-    is ExcludedRun -> SimulationResultType.Excluded
-    is OutOfTurns -> SimulationResultType.End
-    is PlayError -> SimulationResultType.Error
-    is TeamWipe -> SimulationResultType.Wipe(turn, tile)
-    is Victory -> SimulationResultType.Victory(turn, tile)
-}
-
-fun MarginStageResult.marginResultType() = when (this) {
-    is OutOfTurns -> SimulationMarginResultType.End
-    is TeamWipe -> SimulationMarginResultType.Wipe
-}

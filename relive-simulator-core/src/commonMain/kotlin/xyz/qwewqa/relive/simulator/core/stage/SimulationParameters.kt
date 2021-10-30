@@ -1,7 +1,9 @@
 package xyz.qwewqa.relive.simulator.core.stage
 
 
+import xyz.qwewqa.relive.simulator.common.SimulationMarginResultType
 import xyz.qwewqa.relive.simulator.common.SimulationParameters
+import xyz.qwewqa.relive.simulator.common.SimulationResultType
 import xyz.qwewqa.relive.simulator.core.presets.condition.conditions
 import xyz.qwewqa.relive.simulator.core.presets.dress.bossLoadouts
 import xyz.qwewqa.relive.simulator.core.presets.dress.playerDresses
@@ -109,3 +111,16 @@ fun SimulationParameters.createStageLoadout(): StageLoadout {
             RandomDamageCalculator(),
         )
     }
+
+fun StageResult.toSimulationResult() = when (this) {
+    is ExcludedRun -> SimulationResultType.Excluded
+    is OutOfTurns -> SimulationResultType.End
+    is PlayError -> SimulationResultType.Error
+    is TeamWipe -> SimulationResultType.Wipe(turn, tile)
+    is Victory -> SimulationResultType.Victory(turn, tile)
+}
+
+fun MarginStageResult.marginResultType() = when (this) {
+    is OutOfTurns -> SimulationMarginResultType.End
+    is TeamWipe -> SimulationMarginResultType.Wipe
+}

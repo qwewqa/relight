@@ -92,11 +92,3 @@ data class IterationResult(
     val log: String? = null,
     val error: String? = null,
 )
-
-fun StageResult.toSimulationResult() = when (this) {
-    is ExcludedRun -> SimulationResultType.Excluded
-    is OutOfTurns -> SimulationResultType.End
-    is PlayError -> SimulationResultType.Error
-    is TeamWipe -> SimulationResultType.Wipe(turn, tile)
-    is Victory -> SimulationResultType.Victory(turn, tile)
-}

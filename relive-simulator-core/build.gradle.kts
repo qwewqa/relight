@@ -12,7 +12,11 @@ repositories {
 }
 
 kotlin {
-    jvm()
+    jvm {
+        testRuns["test"].executionTask.configure {
+            useJUnitPlatform()
+        }
+    }
     js(IR) {
         browser()
         compilations.all {
@@ -25,8 +29,10 @@ kotlin {
 
 dependencies {
     "commonMainImplementation"(kotlin("stdlib"))
+    "commonTestImplementation"(kotlin("test"))
     "commonMainApi"(project(":relive-simulator-common"))
     "commonMainImplementation"("com.github.h0tk3y.betterParse:better-parse:0.4.2")
+    "commonTestImplementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
