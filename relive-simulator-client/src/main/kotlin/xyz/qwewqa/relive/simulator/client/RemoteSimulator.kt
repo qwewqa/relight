@@ -8,6 +8,7 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import org.w3c.dom.url.URL
+import xyz.qwewqa.relive.simulator.common.*
 
 class RemoteSimulator(val baseUrl: URL) : Simulator {
     private val client = HttpClient {
@@ -46,7 +47,7 @@ class RemoteSimulator(val baseUrl: URL) : Simulator {
         return try {
             client.get(URL("/features", baseUrl.href).href)
         } catch (e: Throwable) {
-            SimulatorFeatures.MINIMAL
+            SimulatorFeatures()
         }
     }
 

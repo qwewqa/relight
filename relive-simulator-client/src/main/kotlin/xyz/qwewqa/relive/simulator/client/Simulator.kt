@@ -1,5 +1,7 @@
 package xyz.qwewqa.relive.simulator.client
 
+import xyz.qwewqa.relive.simulator.common.*
+
 interface Simulator {
     suspend fun simulate(parameters: SimulationParameters): Simulation
     suspend fun version(): SimulatorVersion

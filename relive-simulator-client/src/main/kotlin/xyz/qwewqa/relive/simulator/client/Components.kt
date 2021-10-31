@@ -7,6 +7,9 @@ import kotlinx.dom.removeClass
 import kotlinx.html.dom.create
 import kotlinx.html.option
 import org.w3c.dom.*
+import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
+import xyz.qwewqa.relive.simulator.common.SimulationOption
+import xyz.qwewqa.relive.simulator.common.SongEffectParameter
 
 fun HTMLInputElement.integerInput(default: Int) = IntegerInput(this, default)
 fun HTMLInputElement.textInput() = TextInput(this)

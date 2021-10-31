@@ -14,6 +14,7 @@ import org.w3c.dom.*
 import org.w3c.dom.events.Event
 import org.w3c.dom.url.URL
 import xyz.qwewqa.relive.simulator.client.Plotly.react
+import xyz.qwewqa.relive.simulator.common.*
 import kotlin.random.Random
 
 suspend fun main() {
@@ -516,7 +517,7 @@ class SimulatorClient(val simulator: Simulator) {
             while (actorSettingsDiv.lastChild != null) {
                 removeActor()
             }
-            val team = if (guest != null) listOf(guest) + this.team else this.team
+            val team = listOfNotNull(guest) + this.team
             guestCheckbox.checked = guest != null
             repeat(team.size) {
                 addActor()
@@ -538,14 +539,14 @@ class SimulatorClient(val simulator: Simulator) {
             strategyEditor.setValue(strategy.value)
             if (bossStrategy != null) {
                 bossStrategyCollapse.show = true
-                bossStrategyTypeSelect.value = bossStrategy.type
-                bossStrategyEditor.setValue(bossStrategy.value)
+                bossStrategyTypeSelect.value = bossStrategy!!.type
+                bossStrategyEditor.setValue(bossStrategy!!.value)
             } else {
                 bossStrategyCollapse.show = false
             }
             bossSelect.value = boss
             if (bossHp != null) {
-                bossHpInput.value = bossHp
+                bossHpInput.value = bossHp!!
             } else {
                 bossHpInput.clear()
             }
@@ -763,7 +764,7 @@ class SimulatorClient(val simulator: Simulator) {
                 if (!done) {
                     simulation?.let { sim ->
                         val result = sim.pollResult()
-                        val iterationResults = result.results.sorted()
+                        val iterationResults = result.results.sortedWith(simulationResultValueComparator)
                         val resultsRow = document.getElementById("results-row") as HTMLDivElement
                         val resultsText = document.getElementById("results-text") as HTMLPreElement
                         val errorRow = document.getElementById("results-error-row") as HTMLDivElement
@@ -778,7 +779,7 @@ class SimulatorClient(val simulator: Simulator) {
                         val maxIterationsText = result.maxIterations.toString()
                         val progressText =
                             "${(result.currentIterations.toDouble() / result.maxIterations * 100).toFixed(2)}%"
-                        val runtimeText = if (result.runtime != null) " [${result.runtime.toFixed(5)}s]" else ""
+                        val runtimeText = if (result.runtime != null) " [${result.runtime!!.toFixed(5)}s]" else ""
                         val progressDisplay =
                             "Progress: ${" ".repeat(maxIterationsText.length - currentIterationsText.length)}$currentIterationsText/$maxIterationsText ($progressText)$runtimeText"
                         var iterationResultsText = ResultEntry("All").apply {
@@ -789,7 +790,7 @@ class SimulatorClient(val simulator: Simulator) {
                         val simpleResults = iterationResults
                             .groupBy { it.result }
                             .map { (result, values) -> result to values.sumOf { it.count } }
-                            .sortedBy { (result, _) -> result }
+                            .sortedWith { a, b -> simulationResultTypeComparator.compare(a.first, b.first) }
                         if (iterationResults.any { it.tags.isNotEmpty() }) {
                             iterationResultsText += "\n\n" + ResultEntry("All (Simple)").apply {
                                 simpleResults.forEach { (type, count) ->
@@ -807,7 +808,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 jsObject {
                                     type = "bar"
                                     x = plotEntries.values.toTypedArray()
-                                    y = plotEntries.keys.map { it.toString() }.toTypedArray()
+                                    y = plotEntries.keys.map { it.displayName }.toTypedArray()
                                     orientation = "h"
                                     marker = jsObject {
                                         color = plotEntries.keys.map { it.color }.toTypedArray()
