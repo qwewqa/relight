@@ -114,13 +114,34 @@
   zh_hant: 自訂敵人策略
 '.text-actor-level':
   en: Actor Level
+  zh_hant: 角色等級
 '.text-actor-rarity':
   en: Stars
+  zh_hant: 星數
 '.text-actor-remake':
   en: Remake Level
+  zh_hant: 再生產等級
 '.text-actor-friendship':
   en: Bond Level
+  zh_hant: 羈絆等級
 '.text-actor-rank':
   en: Rank
+  zh_hant: 技能拼圖
 '.text-actor-rank-panel-pattern':
   en: Rank Panel Pattern
+  zh_hant: 技能拼圖點法
+'full-rank-panels':
+  en: Full
+  zh_hant: 全滿
+'upper-rank-panels':
+  en: Upper
+  zh_hant: 上路5格
+'lower-rank-panels':
+  en: Lower
+  zh_hant: 下路5格
+'none-rank-panels':
+  en: None
+  zh_hant: 空盤
+'.text-actor-details':
+  en: Details
+  zh_hant: 設置

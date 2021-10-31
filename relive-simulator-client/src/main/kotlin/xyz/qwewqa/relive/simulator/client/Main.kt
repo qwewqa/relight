@@ -64,30 +64,31 @@ class SimulatorClient(val simulator: Simulator) {
         value
     }
 
-    private fun toastElement(name: String, color: String = "grey", value: DIV.() -> Unit) = document.create.div("toast") {
-        attributes["role"] = "alert"
-        div("toast-header") {
-            svg("rounded me-2") {
-                attributes["width"] = "20"
-                attributes["height"] = "20"
-                attributes["xmlns"] = "http://www.w3.org/2000/svg"
-                attributes["preserveAspectRatio"] = "xMidYMid slice"
-                attributes["focusable"] = "false"
-                HTMLTag("rect", consumer, mapOf(), "http://www.w3.org/2000/svg", true, false).visit {
-                    attributes["width"] = "100%"
-                    attributes["height"] = "100%"
-                    attributes["fill"] = color
+    private fun toastElement(name: String, color: String = "grey", value: DIV.() -> Unit) =
+        document.create.div("toast") {
+            attributes["role"] = "alert"
+            div("toast-header") {
+                svg("rounded me-2") {
+                    attributes["width"] = "20"
+                    attributes["height"] = "20"
+                    attributes["xmlns"] = "http://www.w3.org/2000/svg"
+                    attributes["preserveAspectRatio"] = "xMidYMid slice"
+                    attributes["focusable"] = "false"
+                    HTMLTag("rect", consumer, mapOf(), "http://www.w3.org/2000/svg", true, false).visit {
+                        attributes["width"] = "100%"
+                        attributes["height"] = "100%"
+                        attributes["fill"] = color
+                    }
+                }
+                strong("me-auto") {
+                    +name
+                }
+                button(type = ButtonType.button, classes = "btn-close") {
+                    attributes["data-bs-dismiss"] = "toast"
                 }
             }
-            strong("me-auto") {
-                +name
-            }
-            button(type = ButtonType.button, classes = "btn-close") {
-                attributes["data-bs-dismiss"] = "toast"
-            }
+            div("toast-body", value)
         }
-        div("toast-body", value)
-    }
 
     fun toast(name: String, value: String, color: String = "grey", autohide: Boolean = true): Bootstrap.Toast? {
         if (!toastsCheckbox.checked) return null
@@ -202,7 +203,7 @@ class SimulatorClient(val simulator: Simulator) {
                                     }
                                 }
                                 div("col-3 col-md-2 my-2 pt-3 d-grid") {
-                                    button(type = ButtonType.button, classes = "btn btn-outline-secondary") {
+                                    button(type = ButtonType.button, classes = "btn btn-outline-secondary text-actor-details") {
                                         attributes["data-bs-toggle"] = "collapse"
                                         attributes["data-bs-target"] = "#$collapseId"
                                         +localized(".text-actor-details", "Details")
@@ -250,24 +251,24 @@ class SimulatorClient(val simulator: Simulator) {
                                             id = selectId
                                             option {
                                                 value = "6"
-                                                label = "6"
+                                                +"6"
                                                 selected = true
                                             }
                                             option {
                                                 value = "5"
-                                                label = "5"
+                                                +"5"
                                             }
                                             option {
                                                 value = "4"
-                                                label = "4"
+                                                +"4"
                                             }
                                             option {
                                                 value = "3"
-                                                label = "3"
+                                                +"3"
                                             }
                                             option {
                                                 value = "2"
-                                                label = "2"
+                                                +"2"
                                             }
                                         }
                                     }
@@ -281,24 +282,24 @@ class SimulatorClient(val simulator: Simulator) {
                                             id = selectId
                                             option {
                                                 value = "0"
-                                                label = "0"
+                                                +"0"
                                                 selected = true
                                             }
                                             option {
                                                 value = "1"
-                                                label = "1"
+                                                +"1"
                                             }
                                             option {
                                                 value = "2"
-                                                label = "2"
+                                                +"2"
                                             }
                                             option {
                                                 value = "3"
-                                                label = "3"
+                                                +"3"
                                             }
                                             option {
                                                 value = "4"
-                                                label = "4"
+                                                +"4"
                                             }
                                         }
                                     }
@@ -334,40 +335,40 @@ class SimulatorClient(val simulator: Simulator) {
                                             id = selectId
                                             option {
                                                 value = "9"
-                                                label = "9"
+                                                +"9"
                                                 selected = true
                                             }
                                             option {
                                                 value = "8"
-                                                label = "8"
+                                                +"8"
                                             }
                                             option {
                                                 value = "7"
-                                                label = "7"
+                                                +"7"
                                             }
                                             option {
                                                 value = "6"
-                                                label = "6"
+                                                +"6"
                                             }
                                             option {
                                                 value = "5"
-                                                label = "5"
+                                                +"5"
                                             }
                                             option {
                                                 value = "4"
-                                                label = "4"
+                                                +"4"
                                             }
                                             option {
                                                 value = "3"
-                                                label = "3"
+                                                +"3"
                                             }
                                             option {
                                                 value = "2"
-                                                label = "2"
+                                                +"2"
                                             }
                                             option {
                                                 value = "1"
-                                                label = "1"
+                                                +"1"
                                             }
                                         }
                                     }
@@ -381,20 +382,20 @@ class SimulatorClient(val simulator: Simulator) {
                                             id = selectId
                                             option {
                                                 value = "Full"
-                                                label = "Full"
+                                                +localized("full-rank-panels", "Full")
                                                 selected = true
                                             }
                                             option {
                                                 value = "Upper"
-                                                label = "Upper"
+                                                +localized("upper-rank-panels", "Upper")
                                             }
                                             option {
                                                 value = "Lower"
-                                                label = "Lower"
+                                                +localized("lower-rank-panels", "Lower")
                                             }
                                             option {
                                                 value = "None"
-                                                label = "None"
+                                                +localized("none-rank-panels", "None")
                                             }
                                         }
                                     }
@@ -436,23 +437,23 @@ class SimulatorClient(val simulator: Simulator) {
                                             id = selectId
                                             option {
                                                 value = "0"
-                                                label = "0"
+                                                +"0"
                                             }
                                             option {
                                                 value = "1"
-                                                label = "1"
+                                                +"1"
                                             }
                                             option {
                                                 value = "2"
-                                                label = "2"
+                                                +"2"
                                             }
                                             option {
                                                 value = "3"
-                                                label = "3"
+                                                +"3"
                                             }
                                             option {
                                                 value = "4"
-                                                label = "4"
+                                                +"4"
                                                 selected = true
                                             }
                                         }
@@ -669,9 +670,22 @@ class SimulatorClient(val simulator: Simulator) {
         })
 
         fun updateLocaleText() {
+            val rankPanelOptions = listOfNotNull(
+                commonText["full-rank-panels"]?.let { "Full" to it },
+                commonText["upper-rank-panels"]?.let { "Upper" to it },
+                commonText["lower-rank-panels"]?.let { "Lower" to it },
+                commonText["none-rank-panels"]?.let { "None" to it },
+            ).toMap()
+
             bossSelect.localize(bosses, locale)
             strategyTypeSelect.localize(strategies, locale)
             bossStrategyTypeSelect.localize(bossStrategies, locale)
+            document.getElementsByClassName("actor-rank-panel-pattern")
+                .asList()
+                .filterIsInstance<HTMLSelectElement>()
+                .forEach { select ->
+                    SingleSelect(select).localize(rankPanelOptions, locale)
+                }
             document.getElementsByClassName("song-effect-type")
                 .asList()
                 .filterIsInstance<HTMLSelectElement>()
@@ -719,9 +733,6 @@ class SimulatorClient(val simulator: Simulator) {
             }
         )
 
-        updateLocaleText()
-        refreshSelectPicker()
-
         fun updateSetupFromUrl() {
             val urlOptions = window.location.search.substring(1).split("&").firstOrNull {
                 it.matches("options=.*")
@@ -737,6 +748,9 @@ class SimulatorClient(val simulator: Simulator) {
         }
 
         updateSetupFromUrl()
+
+        updateLocaleText()
+        refreshSelectPicker()
 
         window.onpopstate = {
             updateSetupFromUrl()
