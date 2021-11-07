@@ -400,7 +400,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         get() = if (cutinUseCounts.getValue(this) > 0) {
             data.cooldown
         } else {
-            data.cooldownStart
+            data.startCooldown
         }
 
     private fun activateCutin(cutin: BoundCutin) {
