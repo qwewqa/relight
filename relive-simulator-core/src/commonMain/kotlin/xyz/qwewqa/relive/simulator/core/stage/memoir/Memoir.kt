@@ -44,13 +44,13 @@ data class MemoirBlueprint(
         additionalTags)
 
     val tags: List<EffectTag> = mutableSetOf<EffectTag>().apply {
-        addAll(additionalTags)
         autoskills.last().forEach { passive ->
             addAll(passive.effect.tags)
         }
         if (cutinData != null) {
             add(EffectTag.Cutin)
         }
+        addAll(additionalTags)
     }.sortedBy { it.ordinal }
 
     fun maxLevel(limitBreak: Int) = (rarity + 2) * 10 + limitBreak * 5
@@ -73,6 +73,7 @@ data class PartialMemoirBlueprint(
     val baseStats: StatData,
     val growthStats: StatData,
     val cutinData: CutinBlueprint? = null,
+    val additionalTags: List<EffectTag> = emptyList(),
 ) {
     operator fun invoke(
         name: String,
@@ -89,7 +90,7 @@ data class PartialMemoirBlueprint(
         baseAutoskills,
         maxAutoskills,
         cutinData?.copy(act = cutinAct, target = cutinTarget),
-        additionalTags,
+        this.additionalTags + additionalTags,
     )
 }
 
