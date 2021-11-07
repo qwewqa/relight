@@ -1,0 +1,24 @@
+package xyz.qwewqa.relive.simulator.core.presets.memoir.generated
+
+import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
+import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
+import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
+import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
+
+val equip2000025 = PartialMemoirBlueprint(
+  id = 2000025,
+  name = "The Star Knows",
+  rarity = 2,
+  baseStats = StatData(
+    hp = 105,
+    actPower = 0,
+    normalDefense = 9,
+    specialDefense = 0,
+  ),
+  growthStats = StatData(
+    hp = 16016,
+    actPower = 0,
+    normalDefense = 1372,
+    specialDefense = 0,
+  ),
+)
