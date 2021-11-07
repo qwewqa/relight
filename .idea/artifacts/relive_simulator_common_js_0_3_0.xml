@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="relive-simulator-common-js-0.3.0">
-    <output-path>$PROJECT_DIR$/relive-simulator-common/build/libs</output-path>
-    <root id="archive" name="relive-simulator-common-js-0.3.0.jar">
-      <element id="module-output" name="relive-simulator.relive-simulator-common.jsMain" />
-    </root>
-  </artifact>
-</component>
