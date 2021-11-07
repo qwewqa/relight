@@ -4,6 +4,7 @@ import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.condition.NamedCondition
 import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
+import xyz.qwewqa.relive.simulator.stage.character.School
 
 /**
  * Autoskill effects.
@@ -78,6 +79,36 @@ enum class EffectTag {
     ApDown,
     ApUp,
     Cutin,
+    Karen,
+    Hikari,
+    Mahiru,
+    Claudine,
+    Maya,
+    Junna,
+    Nana,
+    Futaba,
+    Kaoruko,
+    Tamao,
+    Ichie,
+    Fumi,
+    Rui,
+    Yuyuko,
+    Aruru,
+    Misora,
+    Lalafin,
+    Tsukasa,
+    Shizuha,
+    Akira,
+    Michiru,
+    MeiFan,
+    Shiori,
+    Yachiyo,
+    Koharu,
+    Suzu,
+    Hisame,
+    Sakura,
+    Erika,
+    Gemie,
 }
 
 /**
