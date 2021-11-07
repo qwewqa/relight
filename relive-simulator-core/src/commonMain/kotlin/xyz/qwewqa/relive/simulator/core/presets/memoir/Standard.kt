@@ -4,6 +4,7 @@ import xyz.qwewqa.relive.simulator.core.presets.condition.FrontierOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.RinmeikanOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SiegfeldOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.memoir.generated.*
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoir
@@ -19,15 +20,8 @@ val EmptyMemoir = MemoirBlueprint(
     maxAutoskills = listOf(),
 )
 
-val ADayInTheGodessesLife = MemoirBlueprint(
+val ADayInTheGodessesLife = equip4000009(
     name = "A Day in the Goddesses' Life",
-    rarity = 4,
-    baseStats = StatData(
-        actPower = 15,
-    ),
-    growthStats = StatData(
-        actPower = 1708,
-    ),
     baseAutoskills = listOf(
         EffectiveDamageDealtPassive.new(10),
     ),
@@ -36,15 +30,8 @@ val ADayInTheGodessesLife = MemoirBlueprint(
     ),
 )
 
-val TurbulentNinja  = MemoirBlueprint(
+val TurbulentNinja  = equip4000056(
     name = "Turbulent Ninja",
-    rarity = 4,
-    baseStats = StatData(
-        actPower = 15,
-    ),
-    growthStats = StatData(
-        actPower = 1708,
-    ),
     baseAutoskills = listOf(
         ClimaxActPowerPassive.new(8),
         EffectiveDamageDealtPassive.new(8),
@@ -55,15 +42,8 @@ val TurbulentNinja  = MemoirBlueprint(
     ),
 )
 
-val EnjoyingWinter = MemoirBlueprint(
+val EnjoyingWinter = equip4000026(
     name = "Enjoying Winter",
-    rarity = 4,
-    baseStats = StatData(
-        hp = 300,
-    ),
-    growthStats = StatData(
-        hp = 34177,
-    ),
     baseAutoskills = listOf(
         CriticalUpPassive.new(21),
         PerfectAimPassive.new(),
@@ -74,17 +54,8 @@ val EnjoyingWinter = MemoirBlueprint(
     ),
 )
 
-val StretchingHelp = MemoirBlueprint(
+val StretchingHelp = equip3000054(
     name = "Stretching Help...?",
-    rarity = 3,
-    baseStats = StatData(
-        actPower = 6,
-        specialDefense = 12,
-    ),
-    growthStats = StatData(
-        actPower = 822,
-        specialDefense = 1645,
-    ),
     baseAutoskills = listOf(
         EffectiveDamageDealtPassive.new(6),
         PerfectAimPassive.new(),
@@ -95,17 +66,8 @@ val StretchingHelp = MemoirBlueprint(
     ),
 )
 
-val ReverberatingVoiceTsubasaMaya = MemoirBlueprint(
+val ReverberatingVoiceTsubasaMaya = equip4000118(
     name = "Reverberating Voice Tsubasa & Maya",
-    rarity = 4,
-    baseStats = StatData(
-        hp = 300,
-        normalDefense = 50,
-    ),
-    growthStats = StatData(
-        hp = 34177,
-        normalDefense = 5696,
-    ),
     baseAutoskills = listOf(
         DexterityPassive.new(11),
         PerfectAimPassive.new(),
@@ -116,17 +78,8 @@ val ReverberatingVoiceTsubasaMaya = MemoirBlueprint(
     ),
 )
 
-val FriendsAtTheAquarium = MemoirBlueprint(
+val FriendsAtTheAquarium = equip4000011(
     name = "Friends at the Aquarium",
-    rarity = 4,
-    baseStats = StatData(
-        hp = 210,
-        normalDefense = 18,
-    ),
-    growthStats = StatData(
-        hp = 23924,
-        normalDefense = 2050,
-    ),
     baseAutoskills = listOf(
         BrillianceRecoveryPassive.new(28)
     ),
@@ -135,15 +88,8 @@ val FriendsAtTheAquarium = MemoirBlueprint(
     ),
 )
 
-val ChinatownDelicacies = MemoirBlueprint(
+val ChinatownDelicacies = equip4000111(
     name = "Chinatown Delicacies",
-    rarity = 4,
-    baseStats = StatData(
-        hp = 300,
-    ),
-    growthStats = StatData(
-        hp = 34177,
-    ),
     baseAutoskills = listOf(
         BrillianceRecoveryPassive.new(28)
     ),
@@ -152,15 +98,8 @@ val ChinatownDelicacies = MemoirBlueprint(
     ),
 )
 
-val UrashimaTaroPerformanceFlyer = MemoirBlueprint(
+val UrashimaTaroPerformanceFlyer = equip4000075(
     name = "Urashima Taro Performance Flyer",
-    rarity = 4,
-    baseStats = StatData(
-        actPower = 15,
-    ),
-    growthStats = StatData(
-        actPower = 1708,
-    ),
     baseAutoskills = listOf(
         DamageDealtPassive.new(5),
         DexterityPassive.new(11),
@@ -171,15 +110,8 @@ val UrashimaTaroPerformanceFlyer = MemoirBlueprint(
     ),
 )
 
-val CoStarringWithHatsuneMiku = MemoirBlueprint(
+val CoStarringWithHatsuneMiku = equip4000098(
     name = "Co-starring with Hatsune Miku!",
-    rarity = 4,
-    baseStats = StatData(
-        actPower = 15,
-    ),
-    growthStats = StatData(
-        actPower = 1708,
-    ),
     baseAutoskills = listOf(
         BrillianceRecoveryPassive.new(28)
     ),
@@ -188,15 +120,8 @@ val CoStarringWithHatsuneMiku = MemoirBlueprint(
     ),
 )
 
-val FirstAnnivSiegfeldInstituteOfMusic = MemoirBlueprint(
+val FirstAnnivSiegfeldInstituteOfMusic = equip4000087(
     name = "(1st Anniv.) Siegfeld Institute of Music",
-    rarity = 4,
-    baseStats = StatData(
-        hp = 300,
-    ),
-    growthStats = StatData(
-        hp = 34177,
-    ),
     baseAutoskills = listOf(
         TeamActPowerUpPassive.new(5) + SiegfeldOnlyCondition
     ),
@@ -205,15 +130,8 @@ val FirstAnnivSiegfeldInstituteOfMusic = MemoirBlueprint(
     )
 )
 
-val FirstAnnivSeishoMusicAcademy = MemoirBlueprint(
+val FirstAnnivSeishoMusicAcademy = equip4000086(
     name = "(1st Anniv.) Seisho Music Academy",
-    rarity = 4,
-    baseStats = StatData(
-        hp = 300,
-    ),
-    growthStats = StatData(
-        hp = 34177,
-    ),
     baseAutoskills = listOf(
         TeamActPowerUpPassive.new(5) + SeishoOnlyCondition
     ),
@@ -222,15 +140,8 @@ val FirstAnnivSeishoMusicAcademy = MemoirBlueprint(
     )
 )
 
-val FirstAnnivRinmeikanGirlsSchool = MemoirBlueprint(
+val FirstAnnivRinmeikanGirlsSchool = equip4000088(
     name = "(1st Anniv.) Rinmeikan Girls School",
-    rarity = 4,
-    baseStats = StatData(
-        hp = 300,
-    ),
-    growthStats = StatData(
-        hp = 34177,
-    ),
     baseAutoskills = listOf(
         TeamActPowerUpPassive.new(5) + RinmeikanOnlyCondition
     ),
@@ -239,15 +150,8 @@ val FirstAnnivRinmeikanGirlsSchool = MemoirBlueprint(
     )
 )
 
-val FirstAnnivFrontierSchoolOfArts = MemoirBlueprint(
+val FirstAnnivFrontierSchoolOfArts = equip4000089(
     name = "(1st Anniv.) Frontier School of Arts",
-    rarity = 4,
-    baseStats = StatData(
-        hp = 300,
-    ),
-    growthStats = StatData(
-        hp = 34177,
-    ),
     baseAutoskills = listOf(
         TeamActPowerUpPassive.new(5) + FrontierOnlyCondition
     ),
@@ -256,15 +160,8 @@ val FirstAnnivFrontierSchoolOfArts = MemoirBlueprint(
     )
 )
 
-val BandsmansGreeting = MemoirBlueprint(
+val BandsmansGreeting = equip4000101(
     name = "Bandsman's Greeting",
-    rarity = 4,
-    baseStats = StatData(
-        actPower = 15,
-    ),
-    growthStats = StatData(
-        actPower = 1708,
-    ),
     baseAutoskills = listOf(
         TeamActPowerUpBuffPassive.new(3, time = 3)
     ),
@@ -273,17 +170,8 @@ val BandsmansGreeting = MemoirBlueprint(
     ),
 )
 
-val CrazyMadScientist = MemoirBlueprint(
+val CrazyMadScientist = equip4000123(
     name = "Crazy Mad Scientist",
-    rarity = 4,
-    baseStats = StatData(
-        actPower = 30,
-        normalDefense = 50,
-    ),
-    growthStats = StatData(
-        actPower = 3417,
-        normalDefense = 5696,
-    ),
     baseAutoskills = listOf(
         CriticalUpPassive.new(21),
         DexterityPassive.new(11)
@@ -294,17 +182,8 @@ val CrazyMadScientist = MemoirBlueprint(
     ),
 )
 
-val ToTheWonderfulWorldOfRakugo = MemoirBlueprint(
+val ToTheWonderfulWorldOfRakugo = equip4000135(
     name = "To the Wonderful World of Rakugo",
-    rarity = 4,
-    baseStats = StatData(
-        normalDefense = 50,
-        specialDefense = 50,
-    ),
-    growthStats = StatData(
-        normalDefense = 5696,
-        specialDefense = 5696,
-    ),
     baseAutoskills = listOf(
         CriticalUpPassive.new(21),
         DexterityPassive.new(11)
@@ -315,17 +194,8 @@ val ToTheWonderfulWorldOfRakugo = MemoirBlueprint(
     ),
 )
 
-val DeuxJunoJuneBride = MemoirBlueprint(
+val DeuxJunoJuneBride = equip4000059(
     name = "Deux JUNO!? -June Bride-",
-    rarity = 4,
-    baseStats = StatData(
-        actPower = 7,
-        hp = 150,
-    ),
-    growthStats = StatData(
-        actPower = 860,
-        hp = 17088,
-    ),
     baseAutoskills = listOf(
         CriticalUpPassive.new(21),
         DexterityPassive.new(11)
@@ -336,17 +206,8 @@ val DeuxJunoJuneBride = MemoirBlueprint(
     ),
 )
 
-val ThePhantomAndChristine = MemoirBlueprint(
+val ThePhantomAndChristine = equip4000018(
     name = "The Phantom and Christine",
-    rarity = 4,
-    baseStats = StatData(
-        actPower = 9,
-        normalDefense = 18,
-    ),
-    growthStats = StatData(
-        actPower = 1025,
-        normalDefense = 2050,
-    ),
     baseAutoskills = listOf(
         DamageDealtPassive.new(5),
         CriticalUpPassive.new(21),
@@ -357,15 +218,8 @@ val ThePhantomAndChristine = MemoirBlueprint(
     ),
 )
 
-val PoolsideIncident = MemoirBlueprint(
+val PoolsideIncident = equip4000077(
     name = "Poolside Incident",
-    rarity = 4,
-    baseStats = StatData(
-        actPower = 15,
-    ),
-    growthStats = StatData(
-        actPower = 1708,
-    ),
     baseAutoskills = listOf(
         BrillianceRecoveryPassive.new(22),
         SelfPerfectAimBuffPassive.new(time = 3),
@@ -376,15 +230,8 @@ val PoolsideIncident = MemoirBlueprint(
     ),
 )
 
-val MerryChristmas2019 = MemoirBlueprint(
+val MerryChristmas2019 = equip4000093(
     name = "Merry Christmas 2019",
-    rarity = 4,
-    baseStats = StatData(
-        actPower = 15,
-    ),
-    growthStats = StatData(
-        actPower = 1708,
-    ),
     baseAutoskills = listOf(
         BrillianceRecoveryPassive.new(22),
         SelfDexterityUpBuffPassive.new(11,3),
@@ -395,15 +242,8 @@ val MerryChristmas2019 = MemoirBlueprint(
     ),
 )
 
-val PrinceAndPrincessEtude = MemoirBlueprint(
+val PrinceAndPrincessEtude = equip4000097(
     name = "Prince and Princess Etude",
-    rarity = 4,
-    baseStats = StatData(
-        actPower = 15,
-    ),
-    growthStats = StatData(
-        actPower = 1708,
-    ),
     baseAutoskills = listOf(
         DexterityPassive.new(11),
         EffectiveDamageDealtPassive.new(8),
@@ -414,17 +254,8 @@ val PrinceAndPrincessEtude = MemoirBlueprint(
     ),
 )
 
-val SunsetLabMemBadge = MemoirBlueprint(
+val SunsetLabMemBadge = equip4000125(
     name = "Sunset Lab Mem Badge",
-    rarity = 4,
-    baseStats = StatData(
-        actPower = 30,
-        specialDefense = 50,
-    ),
-    growthStats = StatData(
-        actPower = 3417,
-        specialDefense = 5696,
-    ),
     baseAutoskills = listOf(
         BrillianceRecoveryPassive.new(28)
     ),
@@ -433,17 +264,8 @@ val SunsetLabMemBadge = MemoirBlueprint(
     ),
 )
 
-val ReminiscenceMelody = MemoirBlueprint(
+val ReminiscenceMelody = equip4000129(
     name = "Reminiscence Melody",
-    rarity = 4,
-    baseStats = StatData(
-        actPower = 30,
-        specialDefense = 50,
-    ),
-    growthStats = StatData(
-        actPower = 3417,
-        specialDefense = 5696,
-    ),
     baseAutoskills = listOf(
         BrillianceRecoveryPassive.new(22),
         SelfCriticalUpBuffPassive.new(21,6),
@@ -456,17 +278,8 @@ val ReminiscenceMelody = MemoirBlueprint(
     ),
 )
 
-val KappoTomoyesPosterGirl = MemoirBlueprint(
+val KappoTomoyesPosterGirl = equip4000136(
     name = "Kappo Tomoye's Poster Girl",
-    rarity = 4,
-    baseStats = StatData(
-        hp = 300,
-        actPower = 30,
-    ),
-    growthStats = StatData(
-        hp = 34177,
-        actPower = 3417,
-    ),
     baseAutoskills = listOf(
         BrillianceRecoveryPassive.new(22),
         SelfDexterityUpBuffPassive.new(11,6),
@@ -479,15 +292,8 @@ val KappoTomoyesPosterGirl = MemoirBlueprint(
     ),
 )
 
-val SparklingStageChika = MemoirBlueprint(
+val SparklingStageChika = equip4000107(
     name = "Sparkling Stage Chika",
-    rarity = 4,
-    baseStats = StatData(
-        actPower = 15,
-    ),
-    growthStats = StatData(
-        actPower = 1708,
-    ),
     baseAutoskills = listOf(
         SelfNormalBarrierBuffPassive.new(4000,3),
         SelfSpecialBarrierBuffPassive.new(4000,3),
@@ -498,17 +304,8 @@ val SparklingStageChika = MemoirBlueprint(
     ),
 )
 
-val TheGreatYearEndCleanup = MemoirBlueprint(
+val TheGreatYearEndCleanup = equip4000029(
     name = "The Great Year-End Cleanup",
-    rarity = 4,
-    baseStats = StatData(
-        hp = 210,
-        specialDefense = 18,
-    ),
-    growthStats = StatData(
-        hp = 23924,
-        specialDefense = 2050,
-    ),
     baseAutoskills = listOf(
         SelfNormalBarrierBuffPassive.new(560,3),
         SelfEvasionBuffPassive.new(time = 1),
@@ -519,17 +316,8 @@ val TheGreatYearEndCleanup = MemoirBlueprint(
     ),
 )
 
-val ConfidantsOnADate = MemoirBlueprint(
+val ConfidantsOnADate = equip4000014(
     name = "Confidants on a Date",
-    rarity = 4,
-    baseStats = StatData(
-        actPower = 9,
-        specialDefense = 18,
-    ),
-    growthStats = StatData(
-        actPower = 1025,
-        specialDefense = 2050,
-    ),
     baseAutoskills = listOf(
         SelfEvasionBuffPassive.new(time = 1),
     ),
