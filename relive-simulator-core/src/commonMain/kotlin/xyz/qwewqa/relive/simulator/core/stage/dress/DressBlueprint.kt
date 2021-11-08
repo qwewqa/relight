@@ -44,7 +44,7 @@ data class DressBlueprint(
         require(level in 1..(20 + 10 * rarity + 5 * remake)) { "Invalid level $level." }
         require(friendship in 1..(rarity * 5 + remake * 5)) { "Invalid friendship level $friendship" }
         require(rankPanelPattern.size == 8) { "Invalid rank panel pattern." }
-        val maxRankLevelStats = (stats + growthStats * (level - 1) / 1000) *
+        val maxRankLevelStats = (stats + growthStats * (80 + 5 * remake - 1) / 1000) *
                 (100 + rankGrowths[9] + rarityGrowths[6]) / 100
         val panels = friendshipPanels.take(friendship) + // intentionally not friendship - 1
                 rankPanels.take(rank - 1).flatten() +
