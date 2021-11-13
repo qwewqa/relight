@@ -14,7 +14,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.EffectiveDamageDealtPassiv
 import xyz.qwewqa.relive.simulator.core.stage.passive.SelfActCritical50UnitSkill
 
 val NewYorkCombatRevueGemie = dress9030001(
-    name = "New York Combat Revue: Star Division Gemie Sunrise",
+    name = "New York Combat Revue: Star Division Gemie",
     acts = listOf(
         ActType.Act1.blueprint("Strong Slash", 2) {
             Act {
