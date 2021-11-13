@@ -1,20 +1,20 @@
-package xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind
+package xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.SpecialDamageOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1090022
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress9030001
 import xyz.qwewqa.relive.simulator.core.stage.Act
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.buff.BlindnessBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.EffectiveDamageDealtUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
-import xyz.qwewqa.relive.simulator.stage.character.Character
-import xyz.qwewqa.relive.simulator.stage.character.DamageType
-import xyz.qwewqa.relive.simulator.stage.character.Position
+import xyz.qwewqa.relive.simulator.core.stage.passive.DamageDealtPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.DexterityPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.EffectiveDamageDealtPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfActCritical50UnitSkill
 
-val CatalinaKaoruko = dress1090022(
-    name = "Rebellious General Catalina Kaoruko",
+val NewYorkCombatRevueGemie = dress9030001(
+    name = "New York Combat Revue: Star Division Gemie Sunrise",
     acts = listOf(
         ActType.Act1.blueprint("Strong Slash", 2) {
             Act {
@@ -38,7 +38,7 @@ val CatalinaKaoruko = dress1090022(
                 }
             }
         },
-        ActType.Act3.blueprint("General's Oath", 2) {
+        ActType.Act3.blueprint("Victory Oath", 2) {
             Act {
                 targetFront().act {
                     attack(
@@ -55,14 +55,17 @@ val CatalinaKaoruko = dress1090022(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Black Lion's Scratch Encore", 2) {
+        ActType.ClimaxAct.blueprint("Rambling Wheel", 2) {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetAnyRandom(10).act {
                     attack(
                         modifier = values1,
-                        hitCount = 2,
-                        bonusMultiplier = 150,
-                        bonusCondition = SpecialDamageOnlyCondition,
+                        hitCount = 10,
+                    )
+                    applyBuff(
+                        BlindnessBuff,
+                        turns = 1,
+                        chance = 33,
                     )
                 }
             }
