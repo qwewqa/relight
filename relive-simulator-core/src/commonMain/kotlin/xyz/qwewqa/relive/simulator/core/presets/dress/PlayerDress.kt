@@ -16,6 +16,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.MitsuhideKare
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.StageGirlMisora
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.StageGirlNana
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower.DevilKaoruko
+import xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower.NewYorkCombatRevueGemie
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.space.WheelOfFortuneKaren
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.CatalinaKaoruko
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.HondaFutaba
@@ -34,6 +35,7 @@ val playerDresses = listOf<DressBlueprint>(
     JudgementShizuha,
     JusticeNana,
     MitsuhideKaren,
+    NewYorkCombatRevueGemie,
     SanadaMahiru,
     StageGirlClaudine,
     StageGirlHikari,
