@@ -18,7 +18,7 @@ import xyz.qwewqa.relive.simulator.core.stage.stageeffect.AngelicSmile
 
 // Note: JP calls her Erika even though EN has her as Erica
 val ParisCombatRevueFlowerDivisionErika = dress9020001(
-    name = "Paris Combat Revue: Flower Division Erika Fontaine",
+    name = "Paris Combat Revue: Flower Division Erika",
     acts = listOf(
         ActType.Act1.blueprint("Gust of Brilliance", 2) {
             Act {
