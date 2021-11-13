@@ -23,6 +23,7 @@ val SelfDexterityUpBuffPassive: PassiveEffect = GenericBuffPassive(DexterityUpBu
 val SelfEffectiveDamageDealtUpBuffPassive: PassiveEffect =
     GenericBuffPassive(EffectiveDamageDealtUpBuff, EffectTag.EffectiveDamage) { targetSelf() }
 val SelfCriticalUpBuffPassive: PassiveEffect = GenericBuffPassive(CriticalUpBuff, EffectTag.Critical) { targetSelf() }
+val TeamAgilityUpBuffPassive: PassiveEffect = GenericBuffPassive(AgilityUpBuff, EffectTag.Agility,"Team") { targetAllyAoe() }
 val TeamAPDownBuffPassive: PassiveEffect = GenericBuffPassive(ApDownBuff, EffectTag.ApDown, "Team") { targetAllyAoe() }
 val SelfClimaxDamageUpBuffPassive: PassiveEffect = GenericBuffPassive(ClimaxDamageUpBuff, EffectTag.ClimaxDamage) { targetSelf() }
 val SelfNormalBarrierBuffPassive: PassiveEffect = GenericBuffPassive(NormalBarrierBuff, EffectTag.NormalBarrier) { targetSelf() }
