@@ -145,3 +145,6 @@
 '.text-actor-details':
   en: Details
   zh_hant: 設置
+'.text-donate':
+  en: Donate
+  zh_hant: 捐款
