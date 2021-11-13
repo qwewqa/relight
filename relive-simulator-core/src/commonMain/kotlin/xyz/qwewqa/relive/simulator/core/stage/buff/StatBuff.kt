@@ -144,6 +144,34 @@ object SpecialDefenseDownBuff : BuffEffect {
     }
 }
 
+object AgilityUpBuff : BuffEffect {
+    override val name = "Agility Up"
+    override val category = BuffCategory.Positive
+    override val flipped get() = AgilityDownBuff
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.boostAgility += value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.boostAgility -= value
+    }
+}
+
+object AgilityDownBuff : BuffEffect {
+    override val name = "Agility Down"
+    override val category = BuffCategory.Negative
+    override val flipped get() = AgilityUpBuff
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.boostAgility -= value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.boostAgility += value
+    }
+}
+
 object EffectiveDamageDealtUpBuff : BuffEffect {
     override val name = "Effective Damage Dealt Up"
     override val category = BuffCategory.Positive
@@ -161,7 +189,7 @@ object EffectiveDamageDealtUpBuff : BuffEffect {
 object BrillianceGainDownBuff : BuffEffect {
     override val name = "Brilliance Gain Down"
     override val category = BuffCategory.Negative
-    override val flipped get() = BrillianceGainUpBuff
+//    override val flipped get() = BrillianceGainUpBuff
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.valueBrillianceGainUp -= value
@@ -172,7 +200,7 @@ object BrillianceGainDownBuff : BuffEffect {
     }
 }
 
-
+// Note: does not exist at the moment
 object BrillianceGainUpBuff : BuffEffect {
     override val name = "Brilliance Gain Up"
     override val category = BuffCategory.Positive
