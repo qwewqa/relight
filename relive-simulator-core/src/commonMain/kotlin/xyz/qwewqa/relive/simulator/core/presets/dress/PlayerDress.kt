@@ -12,6 +12,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.back.space.IzanagiNana
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.space.JusticeNana
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.space.SanadaMahiru
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.wind.FoolYachiyo
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.wind.ImperialCombatRevueFlowerDivisionSakura
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.MitsuhideKaren
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.StageGirlMisora
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.StageGirlNana
@@ -21,9 +22,8 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.middle.space.WheelOfFortun
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.CatalinaKaoruko
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.HondaFutaba
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.TowerHikari
-import xyz.qwewqa.relive.simulator.core.stage.dress.DressBlueprint
 
-val playerDresses = listOf<DressBlueprint>(
+val playerDresses = listOf(
     AceMisora,
     CatalinaKaoruko,
     DeathTamao,
@@ -31,6 +31,7 @@ val playerDresses = listOf<DressBlueprint>(
     FoolYachiyo,
     FuMeiFan,
     HondaFutaba,
+    ImperialCombatRevueFlowerDivisionSakura,
     IzanagiNana,
     JudgementShizuha,
     JusticeNana,
