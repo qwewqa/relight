@@ -26,7 +26,7 @@ class Actor(
 
     lateinit var context: ActionContext
 
-    val maxHp get() = valueMaxHp * (100 + boostMaxHp) / 100
+    val maxHp get() = (valueMaxHp.toLong() * (100 + boostMaxHp) / 100).toInt()
     var valueMaxHp = 0
     var boostMaxHp = 0
 
@@ -210,7 +210,6 @@ class Actor(
             confusionAct.execute(context)
             return
         }
-        addBrilliance(7 * apCost)
         if (inCXAct && !inCX) {
             // Relevant for bosses
             brilliance = 0
@@ -223,6 +222,9 @@ class Actor(
                 }
             }.execute(context)
             return
+        }
+        if (!inCXAct) {
+            addBrilliance(7 * apCost)
         }
         act.execute(context)
     }
