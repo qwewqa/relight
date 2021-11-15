@@ -323,6 +323,7 @@ class Actor(
         team.song.effects.forEach {
             it.end(context)
         }
+        brilliance = 0
         inCX = false
     }
 
