@@ -151,6 +151,7 @@ class RandomDamageCalculator : DamageCalculator {
         dmg = dmg * eleCoef / 100
         dmg = dmg * effEleCoef / 100
         dmg = dmg * attributeDamageDealtUpCoef / 100
+        dmg = dmg * againstAttributeDamageDealtUpCoef / 100
         dmg = dmg * bonusCoef / 100  // tentative
         dmg = dmg * eventBonusCoef / 100
         dmg = dmg * targetAgainstAttributeDamageTakenDownCoef / 100 // tentative
@@ -158,7 +159,6 @@ class RandomDamageCalculator : DamageCalculator {
         dmg = dmg * freezeCoef / 100
         dmg = dmg * dmgDealtCoef / 100
         dmg = dmg * cxDmgCoef / 100
-        dmg = dmg * againstAttributeDamageDealtUpCoef / 100
         dmg = dmg * buffDmgTakenDownCoef / 100
         dmg = dmg * eventMultiplier / 100 // tentative
 
@@ -167,6 +167,7 @@ class RandomDamageCalculator : DamageCalculator {
         criticalDmg = criticalDmg * effEleCoef / 100
         criticalDmg = criticalDmg * critCoef / 100
         criticalDmg = criticalDmg * attributeDamageDealtUpCoef / 100
+        criticalDmg = criticalDmg * againstAttributeDamageDealtUpCoef / 100
         criticalDmg = criticalDmg * bonusCoef / 100  // tentative
         criticalDmg = criticalDmg * eventBonusCoef / 100
         criticalDmg = criticalDmg * targetAgainstAttributeDamageTakenDownCoef / 100 // tentative
@@ -174,7 +175,6 @@ class RandomDamageCalculator : DamageCalculator {
         criticalDmg = criticalDmg * freezeCoef / 100
         criticalDmg = criticalDmg * dmgDealtCoef / 100
         criticalDmg = criticalDmg * cxDmgCoef / 100
-        criticalDmg = criticalDmg * againstAttributeDamageDealtUpCoef / 100
         criticalDmg = criticalDmg * buffDmgTakenDownCoef / 100
         criticalDmg = criticalDmg * eventMultiplier / 100
 
