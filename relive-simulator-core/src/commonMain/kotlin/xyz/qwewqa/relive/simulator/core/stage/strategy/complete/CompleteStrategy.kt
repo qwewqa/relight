@@ -57,6 +57,9 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     override fun onExit(actor: Actor) {
         discardPile.removeAll { it.actor == actor }
         drawPile.removeAll { it.actor == actor }
+        if (held?.actor == actor) {
+            held = null
+        }
     }
 
     override fun onRevive(actor: Actor) {
