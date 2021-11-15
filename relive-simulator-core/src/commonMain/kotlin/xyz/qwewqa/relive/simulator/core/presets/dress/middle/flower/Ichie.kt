@@ -7,10 +7,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
-import xyz.qwewqa.relive.simulator.core.stage.passive.TeamCriticalUpBuffPassive
-import xyz.qwewqa.relive.simulator.core.stage.passive.TeamDexterityUpBuffPassive
-import xyz.qwewqa.relive.simulator.core.stage.passive.TeamHpUpPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val SunIchie = dress2020003(
     name = "Sun Ichie",
@@ -79,8 +76,7 @@ val SunIchie = dress2020003(
                     attack(
                         modifier = values3,
                         hitCount = 4,
-                        //bonusMultiplier = 150,
-                        //bonusCondition = BurnOnlyCondition,
+                        //TODO: bonusMultiplier = 150, bonusCondition = BurnOnlyCondition,
                     )
                 }
             }
@@ -91,10 +87,10 @@ val SunIchie = dress2020003(
             TeamHpUpPassive.new(50),
         ),
         listOf(
-            //EnemyActPowerDownBuffPassive.new(20,3),
+            EnemyActPowerDownBuffPassive.new(20,3),
         ),
         listOf(
-            //EnemyDexterityDownBuffPassive.new(10,3),
+            EnemyDexterityDownBuffPassive.new(10,3),
         ),
     ),
     unitSkill = ActCritical50UnitSkill + FlowerOnlyCondition,
