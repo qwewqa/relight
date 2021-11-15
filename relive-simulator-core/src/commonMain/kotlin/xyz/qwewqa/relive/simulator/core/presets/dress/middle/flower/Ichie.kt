@@ -7,6 +7,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val SunIchie = dress2020003(
@@ -62,6 +63,7 @@ val SunIchie = dress2020003(
         },
         ActType.ClimaxAct.blueprint("Brilliant☆Sunshine!", 2) {
             Act {
+                log ("TODO") { "Burn Amp not implemented" }
                 targetAoe().act {
                     applyBuff(
                         LockedBurnBuff,
