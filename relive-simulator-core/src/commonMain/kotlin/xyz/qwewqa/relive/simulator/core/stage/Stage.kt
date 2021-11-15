@@ -46,7 +46,7 @@ class Stage(
 
                 log("AutoEffect") { "Begin" }
 
-                listOf(player, enemy).forEach { team ->
+                arrayOf(player, enemy).forEach { team ->
                     if (team.song.passive != null) {
                         team.active.forEach {
                             it.context.log("Song") { "Apply passive ${team.song.passive.name}" }
@@ -55,31 +55,45 @@ class Stage(
                     }
                 }
 
-                var autoEffectPriority = (player.actors.values + enemy.actors.values)
-                    .shuffled(random)
-                    .sortedByDescending { it.agility }
+                // for consistent results with earlier versions which performed two rounds of shuffling
+                repeat(player.actors.size + enemy.actors.size - 1) {
+                    random.nextInt()
+                }
 
-                (autoEffectPriority + listOfNotNull(player.guest, enemy.guest))
-                    .map { it to it.dress.unitSkill }.forEach { (actor, us) ->
+                val allActors = player.actors.values + enemy.actors.values + listOfNotNull(player.guest, enemy.guest)
+
+                allActors
+                    .map { it to it.dress.unitSkill }
+                    .forEach { (actor, us) ->
                         us.forEach {
                             log("AutoEffect") { "[${actor.name}] unit skill [${it.name}] activate" }
                             it.activate(actor.context)
                         }
                     }
 
-                PassiveEffectCategory.values().forEach { category ->
-                    autoEffectPriority.forEach { sg ->
-                        sg.passives.filter { it.effect.category == category }.forEach {
-                            sg.context.log("AutoEffect") { "${category.name} auto effect [${it.name}] activate" }
+                allActors
+                    .forEach { sg ->
+                        sg.passives.filter { it.effect.category == PassiveEffectCategory.Passive }.forEach {
+                            sg.context.log("AutoEffect") { "Passive auto effect [${it.name}] activate" }
                             it.activate(sg.context)
                         }
                     }
-                    if (category == PassiveEffectCategory.Passive) {
-                        autoEffectPriority = autoEffectPriority
-                            .shuffled(random)
-                            .sortedByDescending { it.agility }
+
+                val autoEffectPriority = (player.actors.values + enemy.actors.values)
+                    .shuffled(random)
+                    .sortedByDescending { it.agility }
+
+                PassiveEffectCategory
+                    .values()
+                    .drop(1) // skip passive
+                    .forEach { category ->
+                        autoEffectPriority.forEach { sg ->
+                            sg.passives.filter { it.effect.category == category }.forEach {
+                                sg.context.log("AutoEffect") { "${category.name} auto effect [${it.name}] activate" }
+                                it.activate(sg.context)
+                            }
+                        }
                     }
-                }
 
                 log("AutoEffect") { "End" }
 
@@ -267,7 +281,9 @@ sealed class MarginStageResult : StageResult() {
     abstract val margin: Int
 }
 
-data class TeamWipe(override val margin: Int, val turn: Int, val tile: Int, override val tags: List<String>) : MarginStageResult()
+data class TeamWipe(override val margin: Int, val turn: Int, val tile: Int, override val tags: List<String>) :
+    MarginStageResult()
+
 data class OutOfTurns(override val margin: Int, override val tags: List<String>) : MarginStageResult()
 data class Victory(val turn: Int, val tile: Int, override val tags: List<String>) : StageResult()
 data class PlayError(val exception: Exception, override val tags: List<String>) : StageResult()
