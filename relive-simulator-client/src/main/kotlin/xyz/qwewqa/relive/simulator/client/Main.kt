@@ -413,6 +413,8 @@ class SimulatorClient(val simulator: Simulator) {
                                                 option {
                                                     value = it.id
                                                     +it[locale]
+                                                    attributes["data-subtext"] = it.description?.get(locale) ?: ""
+                                                    attributes["data-tokens"] = it.tags?.get(locale)?.joinToString(" ") ?: ""
                                                 }
                                             }
                                         }
