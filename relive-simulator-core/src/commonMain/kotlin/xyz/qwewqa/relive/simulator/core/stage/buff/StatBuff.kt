@@ -339,3 +339,31 @@ data class AgainstAttributeDamageDealtUpBuff(val attribute: Attribute) : BuffEff
         self.againstAttributeDamageDealtUp[attribute] = self.againstAttributeDamageDealtUp.getValue(attribute) - value
     }
 }
+
+object AccuracyRateDownBuff : BuffEffect {
+    override val name = "Accuracy Rate Down"
+    override val category = BuffCategory.Negative
+    override val flipped get() = AccuracyRateUpBuff
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueAccuracy -= value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueAccuracy += value
+    }
+}
+
+object AccuracyRateUpBuff : BuffEffect {
+    override val name = "Accuracy Rate Up"
+    override val category = BuffCategory.Positive
+    override val flipped get() = AccuracyRateDownBuff
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueAccuracy += value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueAccuracy -= value
+    }
+}
