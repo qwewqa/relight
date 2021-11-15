@@ -201,18 +201,29 @@ class Actor(
             context.log("Abnormal") { "Act prevented by confuse." }
             val confusionAct = acts[ActType.ConfusionAct]?.act ?: Act {
                 targetAllyRandom().act {
-                    targetAllyRandom().act {
-                        attack(
-                            modifier = 105,
-                            hitCount = 1,
-                        )
-                    }
+                    attack(
+                        modifier = 105,
+                        hitCount = 1,
+                    )
                 }
             }
             confusionAct.execute(context)
             return
         }
-        this.addBrilliance(7 * apCost)
+        addBrilliance(7 * apCost)
+        if (inCXAct && !inCX) {
+            // Relevant for bosses
+            brilliance = 0
+        }
+        if (buffs.tryRemove(CountableBuff.Pride)) {
+            context.log("Abnormal") { "Act prevented by pride." }
+            Act {
+                targetRandom().act {
+                    heal(fixed = 5000)
+                }
+            }.execute(context)
+            return
+        }
         act.execute(context)
     }
 
