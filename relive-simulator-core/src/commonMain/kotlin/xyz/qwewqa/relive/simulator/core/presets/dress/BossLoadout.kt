@@ -1,5 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress
 
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.seesaw.sakurataisen.sakuraTaisenStageGirlKarenBoss
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.seesaw.seesawStrategy
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr10.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr11.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr12.*
@@ -23,4 +25,5 @@ val bossLoadouts = listOf(
     BossLoadout(tr12Boss2, tr12Boss2Strategy),
     BossLoadout(tr12Boss2Seisho, tr12Boss2SeishoStrategy),
     BossLoadout(tr12TowerHikari, tr12TowerHikariStrategy),
+    BossLoadout(sakuraTaisenStageGirlKarenBoss, seesawStrategy),
 ).associateBy { it.loadout.name }

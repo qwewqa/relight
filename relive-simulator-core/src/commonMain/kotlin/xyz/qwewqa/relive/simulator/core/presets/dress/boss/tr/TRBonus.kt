@@ -42,5 +42,5 @@ private val stageGirlDresses = listOf(
 )
 
 fun trEventBonusPassive(dress: DressBlueprint) = EventBonusPassive(
-    trArcanaDresses.associate { it.id to 10 } + stageGirlDresses.associate { it.id to 40 } + mapOf(dress.id to 100),
+    dresses = trArcanaDresses.associate { it.id to 10 } + stageGirlDresses.associate { it.id to 40 } + mapOf(dress.id to 100),
 ).new()

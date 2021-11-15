@@ -247,9 +247,11 @@ class Stage(
         player.actors.values.forEach {
             it.context = ActionContext(it, this, player, enemy)
         }
+        player.guest?.let { it.context = ActionContext(it, this, player, enemy) }
         enemy.actors.values.forEach {
             it.context = ActionContext(it, this, enemy, player)
         }
+        enemy.guest?.let { it.context = ActionContext(it, this, enemy, player) }
     }
 }
 
