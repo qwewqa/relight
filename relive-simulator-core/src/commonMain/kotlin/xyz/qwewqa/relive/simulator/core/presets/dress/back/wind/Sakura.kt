@@ -13,7 +13,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.NegativeEffectResistancePa
 import xyz.qwewqa.relive.simulator.core.stage.passive.TeamHpUpPassive
 
 val ImperialCombatRevueFlowerDivisionSakura = dress9010001(
-    name = " Imperial Combat Revue: Flower Division Sakura",
+    name = "Imperial Combat Revue: Flower Division Sakura",
     acts = listOf(
         ActType.Act1.blueprint("Sword of Prayer", 2) {
             Act {
