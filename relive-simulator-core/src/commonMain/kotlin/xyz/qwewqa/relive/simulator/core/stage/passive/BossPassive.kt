@@ -9,6 +9,7 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.log
+import xyz.qwewqa.relive.simulator.stage.character.Character
 
 object AbnormalGuardPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
@@ -58,7 +59,10 @@ object BossElementResistPassive : PassiveEffect {
 /**
  * A passive which sets the event bonuses against the boss which has this passive.
  */
-class EventBonusPassive(val values: Map<Int, Int>) : PassiveEffect {
+class EventBonusPassive(
+    val dresses: Map<Int, Int> = emptyMap(),
+    val characters: Map<Character, Int> = emptyMap(),
+) : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
@@ -67,7 +71,7 @@ class EventBonusPassive(val values: Map<Int, Int>) : PassiveEffect {
     }
 
     private fun Actor.applyBonus() {
-        val bonus = values[dress.id]
+        val bonus = dresses[dress.id] ?: characters[dress.character]
         if (bonus != null) {
             context.run {
                 team.actors.values.forEach { member ->
