@@ -4,16 +4,11 @@ import xyz.qwewqa.relive.simulator.core.presets.memoir.generated.*
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.DexterityUpBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.EffectiveDamageDealtUpBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.FreezeBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.MarkBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinData
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinTarget
 import xyz.qwewqa.relive.simulator.core.stage.memoir.MemoirBlueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.BrillianceRecoveryPassive
-import xyz.qwewqa.relive.simulator.core.stage.passive.DexterityPassive
-import xyz.qwewqa.relive.simulator.core.stage.passive.EffectiveDamageDealtPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val UnshakableFeelings = equip4000147(
     name = "Unshakable Feelings",
@@ -113,6 +108,54 @@ val XVITowerUpright = equip4000173(
             targetBack(1).act {
                 applyBuff(
                     effect = MarkBuff,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val CleaningTogether = equip4000182(
+    name = "Cleaning Together",
+    baseAutoskills = listOf(
+        DexterityPassive.new(14)
+    ),
+    maxAutoskills = listOf(
+        DexterityPassive.new(20)
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyBack(5).act {
+                applyBuff(
+                    effect = DexterityUpBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val RareCoStar = equip4000183(
+    name = "Rare Co-star",
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(22),
+        SelfNormalDefenseUpBuffPassive.new(5, time = 1),
+        SelfSpecialDefenseUpBuffPassive.new(5, time = 1),
+    ),
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(32),
+        SelfNormalDefenseUpBuffPassive.new(10, time = 2),
+        SelfSpecialDefenseUpBuffPassive.new(10, time = 2),
+    ),
+    cutinTarget = CutinTarget.BeforeEnemyAct(2),
+    cutinAct = {
+        Act {
+            targetCutinTarget().act {
+                applyBuff(
+                    ActPowerDownBuff,
+                    value = values1,
                     turns = times1,
                 )
             }
