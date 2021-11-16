@@ -187,14 +187,14 @@ class Stage(
                             tileCutins += cutins[CutinTarget.BeforeEnemyAct(enemyActIndex)]?.map { it to enemyTile.actor }
                                 ?: emptyList()
                         }
-                        withStageEffects {
-                            tileCutins.shuffled(random).sortedByDescending { (cutin, _) -> cutin.agility }
-                                .forEach { (cutin, target) ->
+                        tileCutins.shuffled(random).sortedByDescending { (cutin, _) -> cutin.agility }
+                            .forEach { (cutin, target) ->
+                                withStageEffects {
                                     cutinTarget = target
                                     cutin.execute()
                                     checkEnded()?.let { return it }
                                 }
-                        }
+                            }
                         cutinTarget = null
                         if (first is ActionTile) withStageEffects {
                             first.execute()
