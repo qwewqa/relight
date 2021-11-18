@@ -23,6 +23,7 @@ val memoirs = mapOf("None" to EmptyMemoir) + listOf(
     XIIHangedManReverse,
     VILoversReverse,
     XVITowerUpright,
+    XVITowerReverse,
     TheGreatYearEndCleanup,
     ConfidantsOnADate,
     SparklingStageChika,
