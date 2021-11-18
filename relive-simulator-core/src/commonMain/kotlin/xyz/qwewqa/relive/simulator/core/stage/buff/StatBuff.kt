@@ -185,6 +185,18 @@ object EffectiveDamageDealtUpBuff : BuffEffect {
     }
 }
 
+object DamageDealtUpBuff : BuffEffect {
+    override val name = "Damage Dealt Up"
+    override val category = BuffCategory.Positive
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueDamageDealtUpBuff += value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueDamageDealtUpBuff -= value
+    }
+}
 
 object BrillianceGainDownBuff : BuffEffect {
     override val name = "Brilliance Gain Down"

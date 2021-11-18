@@ -121,10 +121,12 @@ class RandomDamageCalculator : DamageCalculator {
         val acc = (100 + attacker.accuracy - target.evasion).coerceIn(0, 100) *
                 (if (attacker.buffs.any(BlindnessBuff)) 0.3 else 1.0)
 
-        val dmgDealtCoef = (100 + attacker.damageDealtUp - target.damageTakenDown).coerceAtLeast(0)
+        val dmgDealtUpCoef = (100 + attacker.damageDealtUp).coerceAtLeast(0)
+        val dmgDealtDownCoef = (100 - target.damageTakenDown).coerceAtLeast(0)
 
         // tentative
-        val buffDmgTakenDownCoef = (100 - target.damageTakenDownBuff).coerceAtLeast(50) +  + attacker.damageDealtUpBuff
+        val buffDmgTakenDownCoef = (100 - target.damageTakenDownBuff).coerceAtLeast(50)
+        val buffDmgDealtUpCoef = 100 + attacker.damageDealtUpBuff
 
         val attributeDamageDealtUpCoef = 100 + attacker.attributeDamageDealtUp.getValue(attribute)
         val againstAttributeDamageDealtUpCoef =
@@ -157,9 +159,11 @@ class RandomDamageCalculator : DamageCalculator {
         dmg = dmg * targetAgainstAttributeDamageTakenDownCoef / 100 // tentative
         dmg = dmg * targetInnateAgainstAttributeDamageTakenDownCoef / 100
         dmg = dmg * freezeCoef / 100
-        dmg = dmg * dmgDealtCoef / 100
+        dmg = dmg * dmgDealtUpCoef / 100
         dmg = dmg * cxDmgCoef / 100
+        dmg = dmg * dmgDealtDownCoef / 100
         dmg = dmg * buffDmgTakenDownCoef / 100
+        dmg = dmg * buffDmgDealtUpCoef / 100
         dmg = dmg * eventMultiplier / 100 // tentative
 
         var criticalDmg = base
@@ -173,9 +177,11 @@ class RandomDamageCalculator : DamageCalculator {
         criticalDmg = criticalDmg * targetAgainstAttributeDamageTakenDownCoef / 100 // tentative
         criticalDmg = criticalDmg * targetInnateAgainstAttributeDamageTakenDownCoef / 100
         criticalDmg = criticalDmg * freezeCoef / 100
-        criticalDmg = criticalDmg * dmgDealtCoef / 100
+        criticalDmg = criticalDmg * dmgDealtUpCoef / 100
         criticalDmg = criticalDmg * cxDmgCoef / 100
+        criticalDmg = criticalDmg * dmgDealtDownCoef / 100
         criticalDmg = criticalDmg * buffDmgTakenDownCoef / 100
+        criticalDmg = criticalDmg * buffDmgDealtUpCoef / 100
         criticalDmg = criticalDmg * eventMultiplier / 100
 
         return DamageResult(

@@ -115,6 +115,28 @@ val XVITowerUpright = equip4000173(
     },
 )
 
+val XVITowerReverse = equip4000174(
+    name = "XVI Tower [Reverse]",
+    baseAutoskills = listOf(
+        DamageDealtPassive.new(10)
+    ),
+    maxAutoskills = listOf(
+        DamageDealtPassive.new(15)
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyFront(5).act {
+                applyBuff(
+                    effect = DamageDealtUpBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
 val CleaningTogether = equip4000182(
     name = "Cleaning Together",
     baseAutoskills = listOf(
