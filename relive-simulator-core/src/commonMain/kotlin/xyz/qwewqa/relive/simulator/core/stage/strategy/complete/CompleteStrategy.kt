@@ -385,9 +385,21 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             // Cards fit in queue, are in hand, and are all different -> queueable
             return true
         }
-        for ((act, count) in acts.groupingBy { it }.eachCount()) {
-            if (count + queued.count { it == act } > hand.count { it == act }) {
-                // Too many copies of a card; can't queue
+        if (team.active.size > 1) {
+            // Can't have duplicate cards with more than one unit
+            return false
+        }
+        // The card that's duplicated when you have one unit left
+        val dupe = internalHand.last()
+        val counts = acts.groupingBy { it }.eachCount()
+        val dupes = counts[dupe] ?: 0
+        if (dupes + queued.count { it == dupe } > hand.count { it == dupe }) {
+            // too many copies of the duplicated card
+            return false
+        }
+        for ((act, count) in counts) {
+            if (act != dupe && count > 1) {
+                // wrong card is duplicated
                 return false
             }
         }
