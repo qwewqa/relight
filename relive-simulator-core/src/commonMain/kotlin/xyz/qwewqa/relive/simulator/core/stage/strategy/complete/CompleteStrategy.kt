@@ -377,7 +377,21 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     }
 
     private fun canQueueAll(acts: Collection<CsAct>): Boolean {
-        return (queueSize + acts.sumOf { it.apCost }) <= 6 && hand.containsAll(acts)
+        // If cards don't fit in queue or aren't in hand, can't queue them
+        if ((queueSize + acts.sumOf { it.apCost }) > 6 || !hand.containsAll(acts)) {
+            return false
+        }
+        if (acts == acts.distinct()) {
+            // Cards fit in queue, are in hand, and are all different -> queueable
+            return true
+        }
+        for ((act, count) in acts.groupingBy { it }.eachCount()) {
+            if (count + queued.count { it == act } > hand.count { it == act }) {
+                // Too many copies of a card; can't queue
+                return false
+            }
+        }
+        return true
     }
 
     private var hasPerformedHoldAction = true
