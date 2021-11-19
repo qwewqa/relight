@@ -183,6 +183,21 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             }
         }
 
+        
+        // Try queuing all the acts. If you can't, error.
+        context.addFunction("queueAll") { args ->
+            val acts = args.map { it.act() }
+            val canQueue = canQueueAll(acts)
+            if (canQueue) {
+                for (act in acts) {
+                    queue(act)
+                }
+            } else {
+                csError("Could not queue all acts.")
+            }
+            CsNil
+        }
+
         // Try queuing all the acts. If you can't, queue none.
         context.addFunction("tryQueueAll") { args ->
             val acts = args.map { it.act() }
