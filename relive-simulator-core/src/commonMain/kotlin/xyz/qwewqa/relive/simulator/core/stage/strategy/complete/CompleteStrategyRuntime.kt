@@ -220,6 +220,10 @@ open class CsList(val value: List<CsObject>) : CsObject {
         "containsAny" -> CsFunction { args ->
             requireActs(args).any { it in value }.asCsBoolean()
         }
+        "count" -> CsFunction { args ->
+            val acts = requireActs(args)
+            value.count { it in acts }.asCsNumber()
+        }
         "size" -> CsNumber(value.size.toDouble())
         else -> null
     }
