@@ -195,7 +195,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             canQueue.asCsBoolean()
         }
 
-        // Try queueing each of the acts, one at a time. Return nothing.
+        // Try queueing each of the acts, one at a time. Return a list of the queued acts.
         context.addFunction("tryQueueEach") { args ->
             requireActs(args) // check eagerly in case the loop exits early
             val alreadyQueued = queued.size
@@ -258,7 +258,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
      * - `can{Name}` uses the given filter function to determine whether the
      *   action can be performed on the given act.
      * - `try{Name}` performs the action on the first of its arguments that
-    #   passes the filter, returning that act, or false if none passed.
+     *   passes the filter, returning that act, or false if none passed.
      */
     private inline fun registerCardAction(
         name: String,
