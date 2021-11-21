@@ -36,4 +36,5 @@ val memoirs = mapOf("None" to EmptyMemoir) + listOf(
     ADayInTheGodessesLife,
     CleaningTogether,
     RareCoStar,
+    OneForAll
 ).sortedBy { it.name }.sortedBy { it.cutinData == null }.associateBy { it.name }

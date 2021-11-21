@@ -7,6 +7,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.StageGirlHikari
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.WorldMaya
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.snow.DeathTamao
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.snow.StageGirlJunna
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.snow.StageGirlMichiru
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.snow.StageGirlRui
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.snow.StageGirlYachiyo
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.space.JusticeNana
@@ -14,6 +15,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.back.wind.FoolYachiyo
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.StageGirlMisora
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.StageGirlNana
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower.DevilKaoruko
+import xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow.HopeLalafin
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.space.WheelOfFortuneKaren
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
@@ -28,6 +30,7 @@ private val trArcanaDresses = listOf(
     JusticeNana,
     WheelOfFortuneKaren,
     WorldMaya,
+    HopeLalafin,
 )
 
 private val stageGirlDresses = listOf(
@@ -35,6 +38,7 @@ private val stageGirlDresses = listOf(
     StageGirlHikari,
     StageGirlJunna,
     StageGirlMeiFan,
+    StageGirlMichiru,
     StageGirlMisora,
     StageGirlNana,
     StageGirlRui,
