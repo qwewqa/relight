@@ -325,3 +325,13 @@ val ConfidantsOnADate = equip4000014(
         SelfEvasionBuffPassive.new(time = 2),
     ),
 )
+
+val OneForAll = equip4000006(
+    name = "One for All",
+    baseAutoskills = listOf(
+        CriticalUpPassive.new(26),
+    ),
+    maxAutoskills = listOf(
+        CriticalUpPassive.new(37),
+    ),
+)
