@@ -23,7 +23,7 @@ val tr13SetsunaIchieDiff4 = ActorLoadout(
         position = Position.None,
         stats = defaultDressStats.copy(
             hp = 120_000_000,
-            actPower = 2300,
+            actPower = 10000,
             normalDefense = 650,
             specialDefense = 650,
             agility = 1,
@@ -102,7 +102,7 @@ val tr13SetsunaIchieDiff4 = ActorLoadout(
             ActType.ClimaxAct("Flower Festival Type 3 NEO", 2) {
                 targetAoe().act{
                     attack(
-                        modifier = 8000,
+                        modifier = 500, //TODO() Fixed 99,999 damage
                         hitCount = 4,
                     )
                     applyBuff(
@@ -131,7 +131,7 @@ val tr13SetsunaIchieDiff4 = ActorLoadout(
 val tr13SetsunaIchieDiff4Strategy = FixedStrategy {
     val boss = this.team.actors.values.first()
 
-    when (turn) {
+    when (turn) { //TODO() Actual moveset
         1 -> {
             +boss[ActType.Act6]
             +boss[ActType.Act1]
@@ -146,6 +146,15 @@ val tr13SetsunaIchieDiff4Strategy = FixedStrategy {
             +boss[ActType.ClimaxAct]
             +boss[ActType.Act6]
             +boss[ActType.Act3]
+        }
+        4 ->{
+
+        }
+        5 ->{
+
+        }
+        6 ->{
+
         }
         else -> error("Not supported.")
     }
