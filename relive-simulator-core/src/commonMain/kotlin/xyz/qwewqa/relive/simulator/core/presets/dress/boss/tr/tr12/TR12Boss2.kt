@@ -30,27 +30,7 @@ val tr12Boss2 = ActorLoadout(
             agility = 1,
         ),
         acts = actsOf(
-            ActType.Act1("Counter Concerto", 2) {
-                targetAoe().act {
-                    attack(
-                        modifier = 150,
-                        hitCount = 4,
-                    )
-                    applyBuff(
-                        effect = BurnBuff,
-                        turns = 2,
-                    )
-                }
-            },
-            ActType.Act2("Strike", 2) {
-                targetFront().act {
-                    attack(
-                        modifier = 100,
-                        hitCount = 1,
-                    )
-                }
-            },
-            ActType.Act3("Strong Slash", 2) {
+            ActType.Act1("Violent Slash", 2) {
                 targetFront().act {
                     attack(
                         modifier = 150,
@@ -58,7 +38,7 @@ val tr12Boss2 = ActorLoadout(
                     )
                 }
             },
-            ActType.Act4("Triple Slash", 2) {
+            ActType.Act2("Triple Slash", 2) {
                 targetBack(3).act {
                     attack(
                         modifier = 70,
@@ -66,7 +46,7 @@ val tr12Boss2 = ActorLoadout(
                     )
                 }
             },
-            ActType.Act5("Strong Triple Slash", 2) {
+            ActType.Act3("Violent Triple Thrust", 2) {
                 targetBack(3).act {
                     attack(
                         modifier = 100,
@@ -74,15 +54,45 @@ val tr12Boss2 = ActorLoadout(
                     )
                 }
             },
-            ActType.Act6("Counter Concerto", 2) {
+            ActType.Act4("Counter Concerto", 2) {
+                targetAoe().act {
+                    attack(
+                        modifier = 120,
+                        hitCount = 3,
+                    )
+                }
+            },
+            ActType.Act5("Pursuit Concerto", 2) {
                 targetAoe().act {
                     attack(
                         modifier = 150,
+                        hitCount = 4,
+                    )
+                }
+            },
+            ActType.Act6("Perfect Aim Concerto", 2) {
+                targetSelf().act {
+                    applyBuff(
+                        PerfectAim,
+                        turns = 1,
+                    )
+                }
+                targetAoe().act {
+                    attack(
+                        modifier = 120,
                         hitCount = 2,
                     )
                 }
             },
-            ActType.Act7("Ironclad Dance", 2) {
+            ActType.Act7("Purifying Dance", 2) {
+                targetSelf().act {
+                    dispelTimed(BuffCategory.Negative)
+                }
+                targetAoe().act {
+                    dispelTimed(BuffCategory.Positive)
+                }
+            },
+            ActType.Act8("Ironclad Dance", 2) {
                 targetSelf().act {
                     applyBuff(
                         effect = NormalBarrierBuff,
@@ -96,60 +106,33 @@ val tr12Boss2 = ActorLoadout(
                     )
                 }
             },
-            ActType.Act8("Perfect Aim Concerto", 2) {
-                targetSelf().act {
-                    applyBuff(
-                        effect = PerfectAim,
-                        turns = 1,
-                    )
-                }
+            ActType.Act9("Fierce Dance", 2) {
                 targetAoe().act {
                     attack(
                         modifier = 150,
-                        hitCount = 3,
-                    )
-                }
-            },
-            ActType.Act9("Purifying Dance", 2) {
-                targetSelf().act {
-                    dispelTimed(BuffCategory.Negative)
-                }
-                targetAoe().act {
-                    dispelTimed(BuffCategory.Positive)
-                }
-            },
-            ActType.Act10("Inspiring Gust", 2) {
-                targetSelf().act {
-                    applyBuff(
-                        effect = ActPowerUpBuff,
-                        value = 50,
-                        turns = 3,
-                    )
-                    applyBuff(
-                        effect = NormalDefenseUpBuff,
-                        value = 50,
-                        turns = 3,
-                    )
-                    applyBuff(
-                        effect = SpecialDefenseUpBuff,
-                        value = 50,
-                        turns = 3,
-                    )
-                }
-            },
-            ActType.ClimaxAct("Dreaming Bell NEO", 2) {
-                targetAoe().act {
-                    attack(
-                        modifier = 200,
                         hitCount = 4,
                     )
                     applyBuff(
                         effect = BurnBuff,
-                        turns = 2,
+                        value = 7000,
+                        turns = 3,
                     )
                 }
             },
-            ActType.ConfusionAct("Strike", 2) {
+            ActType.ClimaxAct("Bloody Full Moon NEO", 2) {
+                targetAoe().act {
+                    attack(
+                        modifier = 200,
+                        hitCount = 3,
+                    )
+                    applyBuff(
+                        effect = BurnBuff,
+                        value = 7000,
+                        turns = 3,
+                    )
+                }
+            },
+            ActType.ConfusionAct("Thrust", 2) {
                 targetAllyRandom().act {
                     attack(
                         modifier = 105,
@@ -171,19 +154,19 @@ val tr12Boss2Strategy = FixedStrategy {
 
     when (turn) {
         1 -> {
-            +boss[ActType.Act7]
-            +boss[ActType.Act3]
-            +boss[ActType.Act4]
+            +boss[ActType.Act8]
+            +boss[ActType.Act1]
+            +boss[ActType.Act2]
         }
         2 -> {
-            +boss[ActType.Act10]
+            +boss[ActType.Act8]
+            +boss[ActType.Act1]
             +boss[ActType.Act3]
-            +boss[ActType.Act5]
         }
         3 -> {
             +boss[ActType.ClimaxAct]
-            +boss[ActType.Act8]
             +boss[ActType.Act6]
+            +boss[ActType.Act4]
         }
         else -> {
             error("Unsupported.")
