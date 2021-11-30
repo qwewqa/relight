@@ -220,7 +220,7 @@ enum class CountableBuff(val category: BuffCategory) {
     Revive(BuffCategory.Positive),
     Daze(BuffCategory.Negative),
     Pride(BuffCategory.Negative),  // TODO: Implement behavior
-    Hope(BuffCategory.Positive),
+    Hope(BuffCategory.Positive), //TODO: Implement behavior
 }
 
 val abnormalCountableBuffs = setOf(
