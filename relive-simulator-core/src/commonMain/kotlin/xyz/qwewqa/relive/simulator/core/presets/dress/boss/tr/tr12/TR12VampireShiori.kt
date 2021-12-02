@@ -14,11 +14,11 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.AbnormalResistPassiveA
 import xyz.qwewqa.relive.simulator.core.stage.passive.BossElementResistPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 
-val tr12Boss2 = ActorLoadout(
-    "TR12 Boss 2",
+val tr12VampireShiori = ActorLoadout(
+    "TR12 Vampire Shiori",
     Dress(
-        name = "Boss 2",
-        character = Character.Yuyuko,
+        name = "Vampire Shiori",
+        character = Character.Shiori,
         attribute = Attribute.Moon,
         damageType = DamageType.Special,
         position = Position.None,
@@ -149,7 +149,7 @@ val tr12Boss2 = ActorLoadout(
     ),
 )
 
-val tr12Boss2Strategy = FixedStrategy {
+val tr12VampireShioriStrategy = FixedStrategy {
     val boss = this.team.actors.values.first()
 
     when (turn) {
