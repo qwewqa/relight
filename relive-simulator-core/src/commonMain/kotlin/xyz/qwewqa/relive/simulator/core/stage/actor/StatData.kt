@@ -38,6 +38,14 @@ data class StatData(
         |  evasion: $evasion,
         |}""".trimMargin()
 
+    fun displayGrowth() = """{
+        |  hp: $hp,
+        |  actPower: $actPower,
+        |  normalDefense: $normalDefense,
+        |  specialDefense: $specialDefense,
+        |  agility: $agility,
+        |}""".trimMargin()
+
     fun addToActor(actor: Actor) {
         actor.valueMaxHp += hp
         actor.valueActPower += actPower
