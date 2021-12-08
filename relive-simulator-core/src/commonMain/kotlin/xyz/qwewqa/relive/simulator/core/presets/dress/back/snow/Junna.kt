@@ -10,6 +10,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageSnow
@@ -96,4 +97,5 @@ val StageGirlJunna = dress1060017(
         )
     ),
     unitSkill = ActCritical30UnitSkillStageGirl + SnowOnlyCondition,
+    category = DressCategory.StageGirl,
 )

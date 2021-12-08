@@ -28,6 +28,7 @@ data class DressBlueprint(
     val friendshipPanels: List<StatBoost>,
     val remakeParameters: List<StatData>,
     val unitSkill: UnitSkill,
+    val category: DressCategory,
 ) {
     fun create(
         rarity: Int,
@@ -110,10 +111,18 @@ data class DressBlueprint(
             },
             autoSkills.take(autoSkillCount).flatten(),
             unitSkill.forLevel(unitSkillLevel),
+            category,
             this,
         )
     }
 }
+
+enum class DressCategory {
+    Default,
+    Arcana,
+    StageGirl,
+}
+
 
 data class PartialDressBlueprint(
     val id: Int,
@@ -138,6 +147,7 @@ data class PartialDressBlueprint(
         acts: List<ActBlueprint>,
         autoSkills: List<List<PassiveData>>,
         unitSkill: UnitSkill,
+        category: DressCategory = DressCategory.Default,
     ) = DressBlueprint(
         id,
         name,
@@ -157,6 +167,7 @@ data class PartialDressBlueprint(
         friendshipPanels,
         remakeParameters,
         unitSkill,
+        category,
     )
 }
 

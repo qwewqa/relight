@@ -7,6 +7,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.stage.character.Character
@@ -87,4 +88,5 @@ val StageGirlMisora = dress3020017(
         ),
     ),
     unitSkill = ActCritical50UnitSkill + CloudOnlyCondition,
+    category = DressCategory.StageGirl,
 )

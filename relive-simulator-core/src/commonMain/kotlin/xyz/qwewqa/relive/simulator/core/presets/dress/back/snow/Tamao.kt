@@ -10,6 +10,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
@@ -100,4 +101,5 @@ val DeathTamao = dress2010015(
         ),
     ),
     unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
+    category = DressCategory.Arcana,
 )

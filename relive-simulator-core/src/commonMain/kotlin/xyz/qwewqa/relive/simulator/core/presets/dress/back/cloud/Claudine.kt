@@ -9,6 +9,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.MarkBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.NormalReflectBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.SpecialReflectBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical30UnitSkillStageGirl
 import xyz.qwewqa.relive.simulator.core.stage.passive.TeamBurnResistanceBuffPassive
@@ -96,4 +97,5 @@ val StageGirlClaudine = dress1040017(
         ),
     ),
     unitSkill = ActCritical30UnitSkillStageGirl + CloudOnlyCondition,
+    category = DressCategory.StageGirl,
 )

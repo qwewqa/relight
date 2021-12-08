@@ -7,6 +7,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.stage.character.Character
@@ -97,4 +98,5 @@ val FoolYachiyo = dress4050015(
         )
     ),
     unitSkill = ActCritical50UnitSkill + WindOnlyCondition,
+    category = DressCategory.Arcana,
 )

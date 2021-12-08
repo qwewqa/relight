@@ -22,5 +22,6 @@ data class Dress(
     val acts: Map<ActType, ActData>,
     val autoSkills: List<PassiveData>,
     val unitSkill: List<PassiveData> = emptyList(),
+    val category: DressCategory = DressCategory.Default,
     val blueprint: DressBlueprint? = null,
 )

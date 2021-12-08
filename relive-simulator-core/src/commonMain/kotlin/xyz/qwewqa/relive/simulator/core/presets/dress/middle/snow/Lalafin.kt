@@ -7,6 +7,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
@@ -82,4 +83,5 @@ val HopeLalafin = dress3030015(
         ),
     ),
     unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
+    category = DressCategory.Arcana,
 )

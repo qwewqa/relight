@@ -15,6 +15,7 @@ import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageMoon
 import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1020017
 import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 
 val StageGirlHikari = dress1020017(
@@ -101,4 +102,5 @@ val StageGirlHikari = dress1020017(
         ),
     ),
     unitSkill = ActCritical50UnitSkill + SeishoOnlyCondition,
+    category = DressCategory.StageGirl,
 )
