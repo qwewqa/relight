@@ -41,7 +41,7 @@ val MoonAruru = dress3010015(
                 }
             }
         },
-        ActType.Act3.blueprint("Moon Halo", 2) {
+        ActType.Act3.blueprint("Moon Halo", 4) {
             Act {
                 targetAllyBack(5).act {
                     addBrilliance(values1)
