@@ -1,22 +1,22 @@
-package xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow
+package xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.*
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3030015
+import xyz.qwewqa.relive.simulator.core.presets.condition.ArcanaOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.MoonOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3010015
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
-val HopeLalafin = dress3030015(
-    name = "Hope Lalafin",
+val MoonAruru = dress3010015(
+    name = "Moon Aruru",
     acts = listOf(
-        ActType.Act1.blueprint("Smash of Brilliance", 2) {
+        ActType.Act1.blueprint("Moonlight's Brilliance", 2) {
             Act {
-                targetBack().act {
+                targetByHighest { it.actPower }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -27,23 +27,21 @@ val HopeLalafin = dress3030015(
                 }
             }
         },
-        ActType.Act2.blueprint("Road to Hope", 2) {
+        ActType.Act2.blueprint("Moonlight Madness", 2) {
             Act {
-                targetFront().act {
+                targetByHighest { it.actPower }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
                     )
-                }
-                targetSelf().act {
-                    applyCountableBuff(
-                        CountableBuff.Hope,
-                        count = times2,
+                    applyBuff(
+                        effect = ConfusionBuff,
+                        turns = times2,
                     )
                 }
             }
         },
-        ActType.Act3.blueprint("Skyward Leap", 2) {
+        ActType.Act3.blueprint("Moon Halo", 2) {
             Act {
                 targetAllyBack(5).act {
                     addBrilliance(values1)
@@ -54,18 +52,18 @@ val HopeLalafin = dress3030015(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Hope becomes light", 2) {
+        ActType.ClimaxAct.blueprint("Rising Moon☆Rampage！", 2) {
             Act {
                 targetAoe().act {
+                    dispelTimed(BuffCategory.Positive)
                     attack(
-                        modifier = 240,
-                        hitCount = 5,
+                        modifier = values2,
+                        hitCount = 3,
                     )
-                }
-                targetAllyBack(3).act {
-                    applyCountableBuff(
-                        CountableBuff.Hope,
-                        count = times2,
+                    applyBuff(
+                        effect = LockedPositiveEffectResistanceBuff,
+                        value = values3,
+                        turns = times3,
                     )
                 }
             }
@@ -73,15 +71,15 @@ val HopeLalafin = dress3030015(
     ),
     autoSkills = listOf(
         listOf(
-            SelfReviveBuffPassive.new(50, time = 1),
+            EnemyBrillianceDrainPassive.new(50) + ArcanaOnlyCondition,
         ),
         listOf(
-            EnemyBack2APUpBuffPassive.new(), //TODO() locked version of buff
+            TeamEvasionBuffPassive.new(time = 5) + ArcanaOnlyCondition,
         ),
         listOf(
-            //TODO() locked CX seal front 3, 2t
-        ),
+            TeamReviveBuffPassive.new(50, time = 2) + ArcanaOnlyCondition,
+        )
     ),
-    unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + MoonOnlyCondition,
     category = DressCategory.Arcana,
 )

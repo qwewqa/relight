@@ -12,6 +12,8 @@ import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 val SelfFortitudeBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Fortitude, EffectTag.Fortitude) { targetSelf() }
 val SelfEvasionBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Evasion, EffectTag.Evasion) { targetSelf() }
 val SelfReviveBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Revive, EffectTag.Revive) { targetSelf() }
+val TeamEvasionBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Evasion, EffectTag.Evasion) { targetAllyAoe() }
+val TeamReviveBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Revive, EffectTag.Revive) { targetAllyAoe() }
 
 val TeamActPowerUpBuffPassive: PassiveEffect = GenericBuffPassive(ActPowerUpBuff, EffectTag.Act,"Team") { targetAllyAoe() }
 val TeamDexterityUpBuffPassive: PassiveEffect = GenericBuffPassive(DexterityUpBuff, EffectTag.Dexterity, "Team") { targetAllyAoe() }
@@ -44,6 +46,8 @@ val EnemyFront3NightmareBuffPassive: PassiveEffect = DebuffPassive(NightmareBuff
 val EnemyBack3StopBuffPassive: PassiveEffect = DebuffPassive(StopBuff, EffectTag.Stop, "Enemy Back 3", 80) { targetBack(3) }
 val EnemyActPowerDownBuffPassive: PassiveEffect = GenericBuffPassive(ActPowerDownBuff, EffectTag.Act, "Enemy AoE") { targetAoe() }
 val EnemyDexterityDownBuffPassive: PassiveEffect = GenericBuffPassive(DexterityDownBuff, EffectTag.Dexterity, "Enemy AoE") { targetAoe() }
+val EnemyBack2APUpBuffPassive : PassiveEffect = GenericBuffPassive(ApUpBuff, EffectTag.ApUp, "Enemy Back 2") { targetBack(2) }
+val EnemyBack3APUpBuffPassive : PassiveEffect = GenericBuffPassive(ApUpBuff, EffectTag.ApUp, "Enemy Back 3") { targetBack(3) }
 
 private data class GenericBuffPassive(
     val buffEffect: BuffEffect,
