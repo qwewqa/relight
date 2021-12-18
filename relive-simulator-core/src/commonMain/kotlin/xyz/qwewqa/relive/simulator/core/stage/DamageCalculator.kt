@@ -79,14 +79,9 @@ class RandomDamageCalculator : DamageCalculator {
             if (reflected > 0) {
                 self.damage(reflected, additionalEffects = false)
             }
+            actionLog.successfulHits++
         } else {
             attacker.context.log("Hit") { "Miss" }
-            return@run
-        }
-        hitAttribute.removeOnConnect?.let {
-            if (attacker.isAlive) {
-                attacker.buffs.remove(it)
-            }
         }
     }
 
@@ -238,7 +233,6 @@ data class HitAttribute(
     val focus: Boolean = false,
     val noReflect: Boolean = false,
     val noVariance: Boolean = false,
-    val removeOnConnect: CountableBuff? = null,
     val mode: HitMode = HitMode.NORMAL,
 )
 

@@ -13,6 +13,10 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
+data class ActionLog(
+    var successfulHits: Int = 0
+)
+
 class ActionContext(
     val self: Actor,
     val stage: Stage,
@@ -21,6 +25,8 @@ class ActionContext(
 ) {
     private var focus = 0
     val focusEnabled get() = focus > 0
+
+    var actionLog = ActionLog()
 
     fun focus(block: () -> Unit) {
         focus++
@@ -97,7 +103,6 @@ class TargetContext(
         focus: Boolean = actionContext.focusEnabled,
         noVariance: Boolean = false,
         noReflect: Boolean = false,
-        removeOnConnect: CountableBuff? = null,
         mode: HitMode = HitMode.NORMAL,
     ) {
         if (!self.isAlive) return
@@ -112,7 +117,6 @@ class TargetContext(
             focus = focus,
             noReflect = noReflect,
             noVariance = noVariance,
-            removeOnConnect = removeOnConnect,
             mode = mode,
         )
         repeat(if (autoRepeatHits) hitCount else 1) {

@@ -3,11 +3,10 @@ package xyz.qwewqa.relive.simulator.core.stage.actor
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.execute
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.execute
 import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoir
-import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
 import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
 
 class Actor(
@@ -15,7 +14,9 @@ class Actor(
     val dress: Dress,
     val memoir: Memoir?,
 ) {
-    val passives = if (memoir != null) { dress.autoSkills + memoir.autoskills } else dress.autoSkills
+    val passives = if (memoir != null) {
+        dress.autoSkills + memoir.autoskills
+    } else dress.autoSkills
     val acts = dress.acts.toMutableMap()
 
     var hp = 1
@@ -30,7 +31,9 @@ class Actor(
     var valueMaxHp = 0
     var boostMaxHp = 0
 
-    val actPower get() = valueActPower * (100 + boostActPower + actBurnFactor) / 100 + songActPower
+    val hopeFactor get() = if (buffs.any(CountableBuff.Hope)) 20 else 0
+
+    val actPower get() = valueActPower * (100 + boostActPower + actBurnFactor + hopeFactor) / 100 + songActPower
     val actBurnFactor get() = if (buffs.any(BurnBuff)) -10 else 0
     var valueActPower = 0
     var boostActPower = 0
@@ -44,19 +47,20 @@ class Actor(
     var valueSpecialDefense = 0
     var boostSpecialDefense = 0
 
-    val agility get() = valueAgility * (100 + boostAgility) / 100
+    val agility get() = valueAgility * (100 + boostAgility + hopeFactor) / 100
     var valueAgility = 0
     var boostAgility = 0
 
     val dexterity
         get() = (valueDexterity +
                 buffDexterity.coerceAtMost(100) -
-                debuffDexterity.coerceAtMost(100)).coerceIn(0, 100)
+                debuffDexterity.coerceAtMost(100) +
+                hopeFactor).coerceIn(0, 100)
     var valueDexterity = 0
     var buffDexterity = 0
     var debuffDexterity = 0
 
-    val critical get() = valueCritical.coerceAtLeast(0)
+    val critical get() = (valueCritical + hopeFactor).coerceAtLeast(0)
     var valueCritical = 0
 
     val accuracy get() = valueAccuracy
@@ -160,73 +164,80 @@ class Actor(
      * Factors in CC effects and adds brilliance based on ap cost.
      */
     fun execute(act: Act, apCost: Int) {
-        if (!isAlive) {
-            context.log("Act") { "Actor has already exited." }
-            return
-        }
-        if (buffs.any(StopBuff)) {
-            context.log("Abnormal") { "Act prevented by stop." }
-            return
-        }
-        if (buffs.any(FreezeBuff)) {
-            context.log("Abnormal") { "Act prevented by freeze." }
-            return
-        }
-        if (buffs.any(SleepBuff)) {
-            context.log("Abnormal") { "Act prevented by sleep." }
-            return
-        }
-        if (buffs.any(NightmareBuff)) {
-            context.log("Abnormal") { "Act prevented by nightmare." }
-            return
-        }
-        if (buffs.any(StunBuff) && context.stage.random.nextDouble() < 0.5) {
-            context.log("Abnormal") { "Act prevented by stun." }
-            return
-        }
-        if (buffs.any(CountableBuff.Daze)) {
-            context.log("Abnormal") { "Act prevented by daze." }
-            Act {
-                targetAllyRandom().act {
-                    attack(
-                        modifier = 71, // TODO: figure out what the actual value is
-                        hitCount = 1,
-                        removeOnConnect = CountableBuff.Daze,
-                    )
-                }
-            }.execute(context)
-            return
-        }
-        if (buffs.any(ConfusionBuff) && context.stage.random.nextDouble() < 0.3) {
-            context.log("Abnormal") { "Act prevented by confuse." }
-            val confusionAct = acts[ActType.ConfusionAct]?.act ?: Act {
-                targetAllyRandom().act {
-                    attack(
-                        modifier = 105,
-                        hitCount = 1,
-                    )
-                }
+        val startLog = context.actionLog.copy()
+        try {
+            if (!isAlive) {
+                context.log("Act") { "Actor has already exited." }
+                return
             }
-            confusionAct.execute(context)
-            return
-        }
-        if (inCXAct && !inCX) {
-            // Relevant for bosses
-            brilliance = 0
-        }
-        if (buffs.tryRemove(CountableBuff.Pride)) {
-            context.log("Abnormal") { "Act prevented by pride." }
-            Act {
-                targetRandom().act {
-                    heal(fixed = 5000)
+            if (buffs.any(StopBuff)) {
+                context.log("Abnormal") { "Act prevented by stop." }
+                return
+            }
+            if (buffs.any(FreezeBuff)) {
+                context.log("Abnormal") { "Act prevented by freeze." }
+                return
+            }
+            if (buffs.any(SleepBuff)) {
+                context.log("Abnormal") { "Act prevented by sleep." }
+                return
+            }
+            if (buffs.any(NightmareBuff)) {
+                context.log("Abnormal") { "Act prevented by nightmare." }
+                return
+            }
+            if (buffs.any(StunBuff) && context.stage.random.nextDouble() < 0.5) {
+                context.log("Abnormal") { "Act prevented by stun." }
+                return
+            }
+            if (buffs.any(CountableBuff.Daze)) {
+                context.log("Abnormal") { "Act prevented by daze." }
+                Act {
+                    targetAllyRandom().act {
+                        attack(
+                            modifier = 71, // TODO: figure out what the actual value is
+                            hitCount = 1,
+                        )
+                    }
+                }.execute(context)
+                return
+            }
+            if (buffs.any(ConfusionBuff) && context.stage.random.nextDouble() < 0.3) {
+                context.log("Abnormal") { "Act prevented by confuse." }
+                val confusionAct = acts[ActType.ConfusionAct]?.act ?: Act {
+                    targetAllyRandom().act {
+                        attack(
+                            modifier = 105,
+                            hitCount = 1,
+                        )
+                    }
                 }
-            }.execute(context)
-            return
+                confusionAct.execute(context)
+                return
+            }
+            if (inCXAct && !inCX) {
+                // Relevant for bosses
+                brilliance = 0
+            }
+            if (buffs.tryRemove(CountableBuff.Pride)) {
+                context.log("Abnormal") { "Act prevented by pride." }
+                Act {
+                    targetRandom().act {
+                        heal(fixed = 5000)
+                    }
+                }.execute(context)
+                return
+            }
+            if (!inCXAct) {
+                addBrilliance(7 * apCost)
+            }
+            act.execute(context)
+        } finally {
+            if (context.actionLog.successfulHits > startLog.successfulHits) {
+                buffs.tryRemove(CountableBuff.Daze)
+                buffs.tryRemove(CountableBuff.Hope)
+            }
         }
-        if (!inCXAct) {
-            addBrilliance(7 * apCost)
-        }
-        act.execute(context)
     }
 
     fun executeCutin(act: Act) {
