@@ -35,7 +35,7 @@ class RandomDamageCalculator : DamageCalculator {
             }
         }
         if (self.perfectAimCounter > 0 || hitAttribute.focus || stage.random.nextDouble() < result.hitChance) {
-            val n = if (hitAttribute.noVariance) 0 else stage.random.nextInt(-8, 9)
+            val n = if (result.variance) stage.random.nextInt(-8, 9) else 0
             val isCritical = stage.random.nextDouble() < result.criticalChance
             val damage = if (isCritical) {
                 result.critical * (100 + n) / 100
@@ -91,15 +91,36 @@ class RandomDamageCalculator : DamageCalculator {
     }
 
     fun calculateDamage(attacker: Actor, target: Actor, hitAttribute: HitAttribute): DamageResult {
-        var atk = attacker.actPower
-        if (attacker.inCX) atk = atk * 110 / 100
-        atk = atk * 2 * hitAttribute.modifier / 100
+        val acc = (100 + attacker.accuracy - target.evasion).coerceIn(0, 100) *
+                (if (attacker.buffs.any(BlindnessBuff)) 0.3 else 1.0)
 
-        val def = when (attacker.dress.damageType) {
-            DamageType.Normal -> target.normalDefense
-            DamageType.Special -> target.specialDefense
-            else -> 0
-        }.coerceAtLeast(0)
+        if (hitAttribute.mode == HitMode.FIXED) {
+            return DamageResult(
+                base = hitAttribute.modifier / hitAttribute.hitCount,
+                critical = hitAttribute.modifier / hitAttribute.hitCount,
+                criticalChance = 0.0,
+                hitChance = acc / 100.0,
+                variance = false,
+            )
+        }
+
+        val base: Int
+
+        if (hitAttribute.mode == HitMode.ELEMENTAL_FIXED) {
+            base = hitAttribute.modifier / hitAttribute.hitCount
+        } else {
+            var atk = attacker.actPower
+            if (attacker.inCX) atk = atk * 110 / 100
+            atk = atk * 2 * hitAttribute.modifier / 100
+
+            val def = when (attacker.dress.damageType) {
+                DamageType.Normal -> target.normalDefense
+                DamageType.Special -> target.specialDefense
+                else -> 0
+            }.coerceAtLeast(0)
+
+            base = (atk - def).coerceAtLeast(atk / 10) / hitAttribute.hitCount
+        }
 
         val bonusCoef = if (hitAttribute.bonusCondition != null && hitAttribute.bonusCondition.evaluate(target)) {
             hitAttribute.bonusModifier
@@ -117,9 +138,6 @@ class RandomDamageCalculator : DamageCalculator {
 
         val critCoef = 100 + attacker.critical
         val dex = attacker.dexterity
-
-        val acc = (100 + attacker.accuracy - target.evasion).coerceIn(0, 100) *
-                (if (attacker.buffs.any(BlindnessBuff)) 0.3 else 1.0)
 
         val dmgDealtUpCoef = (100 + attacker.damageDealtUp).coerceAtLeast(0)
         val dmgDealtDownCoef = (100 - target.damageTakenDown).coerceAtLeast(0)
@@ -146,8 +164,6 @@ class RandomDamageCalculator : DamageCalculator {
 
         val eventBonusCoef = 100 + attacker.eventBonus
         val eventMultiplier = attacker.eventMultiplier
-
-        val base = (atk - def).coerceAtLeast(atk / 10) / hitAttribute.hitCount
 
         var dmg = base
         dmg = dmg * eleCoef / 100
@@ -189,6 +205,7 @@ class RandomDamageCalculator : DamageCalculator {
             critical = criticalDmg,
             criticalChance = dex / 100.0,
             hitChance = acc / 100.0,
+            variance = true,
         )
     }
 }
@@ -198,9 +215,14 @@ data class DamageResult(
     val critical: Int,
     val criticalChance: Double,
     val hitChance: Double,
+    val variance: Boolean,
 ) {
-    fun possibleRolls(critical: Boolean = false) = (-8..8).map {
-        ((if (critical) this.critical else this.base) * (100 + it) / 100)
+    fun possibleRolls(critical: Boolean = false) = if (variance) {
+        (-8..8).map {
+            ((if (critical) this.critical else this.base) * (100 + it) / 100)
+        }
+    } else {
+        listOf(if (critical) this.critical else this.base)
     }
 }
 
@@ -217,4 +239,11 @@ data class HitAttribute(
     val noReflect: Boolean = false,
     val noVariance: Boolean = false,
     val removeOnConnect: CountableBuff? = null,
+    val mode: HitMode = HitMode.NORMAL,
 )
+
+enum class HitMode {
+    NORMAL,
+    FIXED,
+    ELEMENTAL_FIXED,
+}

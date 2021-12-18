@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr13
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.JudgementShizuha
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
+import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
@@ -257,8 +258,9 @@ val tr13SuirenYuyukoDiff4 = ActorLoadout(
             ActType.ClimaxAct("Moonlight Rain NEO", 2) {
                 targetAoe().act {
                     attack(
-                        modifier = 200, // TODO() Fixed Damage CX
+                        modifier = 99999,
                         hitCount = 4,
+                        mode = HitMode.FIXED,
                     )
                     applyBuff(
                         effect = ConfusionBuff,

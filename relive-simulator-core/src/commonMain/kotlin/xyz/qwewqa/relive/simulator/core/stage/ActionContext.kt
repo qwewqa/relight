@@ -98,6 +98,7 @@ class TargetContext(
         noVariance: Boolean = false,
         noReflect: Boolean = false,
         removeOnConnect: CountableBuff? = null,
+        mode: HitMode = HitMode.NORMAL,
     ) {
         if (!self.isAlive) return
         val hitAttribute = HitAttribute(
@@ -112,6 +113,7 @@ class TargetContext(
             noReflect = noReflect,
             noVariance = noVariance,
             removeOnConnect = removeOnConnect,
+            mode = mode,
         )
         repeat(if (autoRepeatHits) hitCount else 1) {
             targets.forEach { target ->
