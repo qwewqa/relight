@@ -10,7 +10,7 @@ object ApDownBuff : BuffEffect {
 
 object ApUpBuff : BuffEffect {
     override val name = "AP Up"
-    override val category = BuffCategory.Positive
+    override val category = BuffCategory.Negative
     override val flipped get() = ApDownBuff
 }
 
