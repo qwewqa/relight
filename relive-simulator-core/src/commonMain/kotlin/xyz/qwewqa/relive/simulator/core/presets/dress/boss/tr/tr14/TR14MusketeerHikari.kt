@@ -15,39 +15,59 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.AbnormalResistPassiveA
 import xyz.qwewqa.relive.simulator.core.stage.passive.BossElementResistPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 
-val tr14EmperorAkira = ActorLoadout(
-    "TR14 Emperor Akira",
+val tr14MusketeerHikari = ActorLoadout(
+    "TR14 Musketeer Hikari",
     Dress(
-        name = "Emperor Akira",
-        character = Character.Akira,
+        name = "Musketeer Hikari",
+        character = Character.Hikari,
         attribute = Attribute.Space,
-        damageType = DamageType.Normal,
+        damageType = DamageType.Special,
         position = Position.None,
         stats = defaultDressStats.copy(
-            hp = 5_000_000,
+            hp = 3_500_000,
             actPower = 2300,
             normalDefense = 650,
             specialDefense = 650,
             agility = 1,
         ),
         acts = actsOf(
-            ActType.Act1("Violent Slash", 2) {
-                targetBack().act {
+            ActType.Act1("Confusing Concerto", 2) {
+                targetAoe().act {
+                    attack(
+                        modifier = 150,
+                        hitCount = 4,
+                    )
+                    applyBuff(
+                        effect = ConfusionBuff,
+                        turns = 2,
+                    )
+                }
+            },
+            ActType.Act2("Single Slash", 2) {
+                targetFront().act {
+                    attack(
+                        modifier = 100,
+                        hitCount = 1,
+                    )
+                }
+            },
+            ActType.Act3("Violent Slash", 2) {
+                targetFront().act {
                     attack(
                         modifier = 150,
                         hitCount = 1,
                     )
                 }
             },
-            ActType.Act2("Violent Dual Slash", 2) {
-                targetBack(2).act {
+            ActType.Act4("Triple Slash", 2) {
+                targetBack(3).act {
                     attack(
-                        modifier = 120,
-                        hitCount = 2,
+                        modifier = 70,
+                        hitCount = 3,
                     )
                 }
             },
-            ActType.Act3("Violent Triple Slash", 2) {
+            ActType.Act5("Violent Triple Slash", 2) {
                 targetBack(3).act {
                     attack(
                         modifier = 100,
@@ -55,79 +75,78 @@ val tr14EmperorAkira = ActorLoadout(
                     )
                 }
             },
-            ActType.Act4("Counter Concerto", 2) {
+            ActType.Act6("Counter Concerto", 2) {
                 targetAoe().act {
                     attack(
-                        modifier = 120,
+                        modifier = 150,
                         hitCount = 2,
                     )
                 }
             },
-            ActType.Act5("Defense Concerto", 2) {
-                targetAoe().act {
-                    attack(
-                        modifier = 120,
-                        hitCount = 4,
-                    )
-                }
+            ActType.Act7("Ironclad Dance", 2) {
                 targetSelf().act {
                     applyBuff(
-                        effect = DamageTakenDownBuff,
-                        value = 30,
-                        turns = 2,
-                    )
-                }
-            },
-            ActType.Act6("Blind Fire Flower", 2) {
-                targetAoe().act {
-                    attack(
-                        modifier = 120,
-                        hitCount = 4,
-                    )
-                    applyBuff(
-                        effect = ConfusionBuff,
+                        effect = NormalBarrierBuff,
+                        value = 10000,
                         turns = 3,
                     )
                     applyBuff(
-                        effect = BurnBuff,
-                        value = 5000,
+                        effect = SpecialBarrierBuff,
+                        value = 10000,
                         turns = 3,
                     )
                 }
             },
-            ActType.Act7("Inspiring Gust", 2) {
+            ActType.Act8("Accuracy Concerto", 2) {
                 targetSelf().act {
                     applyBuff(
-                        effect = ActPowerUpBuff,
-                        value = 30,
-                        turns = 3,
-                    )
-                    applyBuff(
-                        effect = DexterityUpBuff,
-                        value = 20,
-                        turns = 3,
-                    )
-                    applyBuff(
-                        effect = CriticalUpBuff,
-                        value = 20,
-                        turns = 3,
+                        effect = PerfectAim,
+                        turns = 1,
                     )
                 }
-            },
-            ActType.ClimaxAct("Galactic Kaiser-Walzer NEO", 2) {
                 targetAoe().act {
                     attack(
                         modifier = 150,
+                        hitCount = 3,
+                    )
+                }
+            },
+            ActType.Act9("Purifying Dance", 2) {
+                targetSelf().act{
+                    dispelTimed(BuffCategory.Negative)
+                }
+                targetAoe().act{
+                    dispelTimed(BuffCategory.Positive)
+                }
+            },
+            ActType.Act10("Inspiring Gust", 2) {
+                targetSelf().act {
+                    applyBuff(
+                        effect = ActPowerUpBuff,
+                        value = 50,
+                        turns = 3,
+                    )
+                    applyBuff(
+                        effect = NormalDefenseUpBuff,
+                        value = 50,
+                        turns = 3,
+                    )
+                    applyBuff(
+                        effect = SpecialDefenseUpBuff,
+                        value = 50,
+                        turns = 3,
+                    )
+                }
+            },
+            ActType.ClimaxAct("Blue Days Pierce NEO", 2) {
+                targetAoe().act {
+                    attack(
+                        modifier = 200,
                         hitCount = 4,
                     )
                     applyBuff(
                         effect = ConfusionBuff,
-                        turns = 3,
-                    )
-                    applyBuff(
-                        effect = BurnBuff,
-                        value = 5000,
-                        turns = 3,
+                        turns = 2,
                     )
                 }
             },
@@ -148,39 +167,39 @@ val tr14EmperorAkira = ActorLoadout(
     ),
 )
 
-val tr14EmperorAkiraStrategy = FixedStrategy {
+val tr14MusketeerHikariStrategy = FixedStrategy {
     val boss = this.team.actors.values.first()
 
     when (turn) {
         1 -> {
-            +boss[ActType.Act1]
-            +boss[ActType.Act2]
             +boss[ActType.Act7]
+            +boss[ActType.Act3]
+            +boss[ActType.Act4]
         }
         2 -> {
-            +boss[ActType.Act5]
-            +boss[ActType.Act2]
+            +boss[ActType.Act10]
             +boss[ActType.Act3]
+            +boss[ActType.Act5]
         }
         3 -> {
             +boss[ActType.ClimaxAct]
-            +boss[ActType.Act3]
-            +boss[ActType.Act4]
+            +boss[ActType.Act8]
+            +boss[ActType.Act6]
         }
         4 -> {
-            +boss[ActType.Act7]
-            +boss[ActType.Act2]
-            +boss[ActType.Act4]
+            +boss[ActType.Act9]
+            +boss[ActType.Act3]
+            +boss[ActType.Act5]
         }
         5 -> {
+            +boss[ActType.Act10]
+            +boss[ActType.Act1]
             +boss[ActType.Act6]
-            +boss[ActType.Act5]
-            +boss[ActType.Act4]
         }
         6 -> {
             +boss[ActType.Act7]
-            +boss[ActType.Act3]
-            +boss[ActType.Act4]
+            +boss[ActType.Act8]
+            +boss[ActType.Act6]
         }
         else -> {
             error("Unsupported.")
@@ -188,39 +207,59 @@ val tr14EmperorAkiraStrategy = FixedStrategy {
     }
 }
 
-val tr14EmperorAkiraDiff4 = ActorLoadout(
-    "TR14 Emperor Akira Difficulty 4",
+val tr14MusketeerHikariDiff4 = ActorLoadout(
+    "TR14 Musketeer Hikari Difficulty 4",
     Dress(
-        name = "Emperor Akira",
-        character = Character.Akira,
+        name = "Musketeer Hikari",
+        character = Character.Hikari,
         attribute = Attribute.Space,
-        damageType = DamageType.Normal,
+        damageType = DamageType.Special,
         position = Position.None,
         stats = defaultDressStats.copy(
-            hp = 200_000_000,
+            hp = 150_000_000,
             actPower = 10000,
             normalDefense = 650,
             specialDefense = 650,
             agility = 1,
         ),
         acts = actsOf(
-            ActType.Act1("Violent Slash", 2) {
-                targetBack().act {
+            ActType.Act1("Confusing Concerto", 2) {
+                targetAoe().act {
+                    attack(
+                        modifier = 150,
+                        hitCount = 4,
+                    )
+                    applyBuff(
+                        effect = ConfusionBuff,
+                        turns = 2,
+                    )
+                }
+            },
+            ActType.Act2("Single Slash", 2) {
+                targetFront().act {
+                    attack(
+                        modifier = 100,
+                        hitCount = 1,
+                    )
+                }
+            },
+            ActType.Act3("Violent Slash", 2) {
+                targetFront().act {
                     attack(
                         modifier = 150,
                         hitCount = 1,
                     )
                 }
             },
-            ActType.Act2("Violent Dual Slash", 2) {
-                targetBack(2).act {
+            ActType.Act4("Triple Slash", 2) {
+                targetBack(3).act {
                     attack(
-                        modifier = 120,
-                        hitCount = 2,
+                        modifier = 70,
+                        hitCount = 3,
                     )
                 }
             },
-            ActType.Act3("Violent Triple Slash", 2) {
+            ActType.Act5("Violent Triple Slash", 2) {
                 targetBack(3).act {
                     attack(
                         modifier = 100,
@@ -228,66 +267,70 @@ val tr14EmperorAkiraDiff4 = ActorLoadout(
                     )
                 }
             },
-            ActType.Act4("Counter Concerto", 2) {
+            ActType.Act6("Counter Concerto", 2) {
                 targetAoe().act {
                     attack(
-                        modifier = 120,
+                        modifier = 150,
                         hitCount = 2,
                     )
                 }
             },
-            ActType.Act5("Defense Concerto", 2) {
-                targetAoe().act {
-                    attack(
-                        modifier = 120,
-                        hitCount = 4,
-                    )
-                }
+            ActType.Act7("Ironclad Dance", 2) {
                 targetSelf().act {
                     applyBuff(
-                        effect = DamageTakenDownBuff,
-                        value = 30,
-                        turns = 2,
+                        effect = NormalBarrierBuff,
+                        value = 10000,
+                        turns = 3,
+                    )
+                    applyBuff(
+                        effect = SpecialBarrierBuff,
+                        value = 10000,
+                        turns = 3,
                     )
                 }
             },
-            ActType.Act6("Blind Fire Flower", 2) {
+            ActType.Act8("Accuracy Concerto", 2) {
+                targetSelf().act {
+                    applyBuff(
+                        effect = PerfectAim,
+                        turns = 1,
+                    )
+                }
                 targetAoe().act {
                     attack(
-                        modifier = 120,
-                        hitCount = 4,
-                    )
-                    applyBuff(
-                        effect = ConfusionBuff,
-                        turns = 3,
-                    )
-                    applyBuff(
-                        effect = BurnBuff,
-                        value = 99999,
-                        turns = 3,
+                        modifier = 150,
+                        hitCount = 3,
                     )
                 }
             },
-            ActType.Act7("Inspiring Gust", 2) {
+            ActType.Act9("Purifying Dance", 2) {
+                targetSelf().act{
+                    dispelTimed(BuffCategory.Negative)
+                }
+                targetAoe().act{
+                    dispelTimed(BuffCategory.Positive)
+                }
+            },
+            ActType.Act10("Inspiring Gust", 2) {
                 targetSelf().act {
                     applyBuff(
                         effect = ActPowerUpBuff,
-                        value = 30,
+                        value = 50,
                         turns = 3,
                     )
                     applyBuff(
-                        effect = DexterityUpBuff,
-                        value = 20,
+                        effect = NormalDefenseUpBuff,
+                        value = 50,
                         turns = 3,
                     )
                     applyBuff(
-                        effect = CriticalUpBuff,
-                        value = 20,
+                        effect = SpecialDefenseUpBuff,
+                        value = 50,
                         turns = 3,
                     )
                 }
             },
-            ActType.ClimaxAct("Galactic Kaiser-Walzer NEO", 2) {
+            ActType.ClimaxAct("Blue Days Pierce NEO", 2) {
                 targetAoe().act {
                     attack(
                         modifier = 99999,
@@ -296,12 +339,7 @@ val tr14EmperorAkiraDiff4 = ActorLoadout(
                     )
                     applyBuff(
                         effect = ConfusionBuff,
-                        turns = 3,
-                    )
-                    applyBuff(
-                        effect = BurnBuff,
-                        value = 99999,
-                        turns = 3,
+                        turns = 2,
                     )
                 }
             },
@@ -322,39 +360,39 @@ val tr14EmperorAkiraDiff4 = ActorLoadout(
     ),
 )
 
-val tr14EmperorAkiraDiff4Strategy = FixedStrategy {
+val tr14MusketeerHikariDiff4Strategy = FixedStrategy {
     val boss = this.team.actors.values.first()
 
     when (turn) {
         1 -> {
-            +boss[ActType.Act1]
-            +boss[ActType.Act2]
             +boss[ActType.Act7]
+            +boss[ActType.Act3]
+            +boss[ActType.Act4]
         }
         2 -> {
-            +boss[ActType.Act5]
-            +boss[ActType.Act2]
+            +boss[ActType.Act10]
             +boss[ActType.Act3]
+            +boss[ActType.Act5]
         }
         3 -> {
             +boss[ActType.ClimaxAct]
-            +boss[ActType.Act3]
-            +boss[ActType.Act4]
+            +boss[ActType.Act8]
+            +boss[ActType.Act6]
         }
         4 -> {
-            +boss[ActType.Act7]
-            +boss[ActType.Act2]
-            +boss[ActType.Act4]
+            +boss[ActType.Act9]
+            +boss[ActType.Act3]
+            +boss[ActType.Act5]
         }
         5 -> {
+            +boss[ActType.Act10]
+            +boss[ActType.Act1]
             +boss[ActType.Act6]
-            +boss[ActType.Act5]
-            +boss[ActType.Act4]
         }
         6 -> {
             +boss[ActType.Act7]
-            +boss[ActType.Act3]
-            +boss[ActType.Act4]
+            +boss[ActType.Act8]
+            +boss[ActType.Act6]
         }
         else -> {
             error("Unsupported.")
