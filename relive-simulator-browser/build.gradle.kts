@@ -51,8 +51,18 @@ kotlin {
     }
 }
 
+tasks.register<Copy>("copyResources") {
+    from("${project(":relive-simulator-client").projectDir}/src/main/resources/index.html")
+    into("$projectDir/src/main/resources/")
+    filter { line ->
+        line
+            .replace("<!DOCTYPE html>", "<!DOCTYPE html>\n<!-- DO NOT EDIT. Generated from client file. -->")
+            .replace("relive-simulator-client.js", "relive-simulator-browser.js")
+    }
+}
+
 tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile::class) {
-    // TODO: Automate replacing js library url from client html?
+    dependsOn("copyResources")
     dependsOn(":relive-simulator-worker:browserProductionWebpack")
     kotlinOptions.run {
         freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
