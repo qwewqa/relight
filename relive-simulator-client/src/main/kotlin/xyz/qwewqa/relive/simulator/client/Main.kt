@@ -738,7 +738,7 @@ class SimulatorClient(val simulator: Simulator) {
 
         fun updateSetupFromUrl() {
             val urlOptions = window.location.search.substring(1).split("&").firstOrNull {
-                it.matches("options=.*")
+                "options=.*".toRegex().matches(it)
             }?.split("=")?.lastOrNull()
             if (urlOptions != null) {
                 try {

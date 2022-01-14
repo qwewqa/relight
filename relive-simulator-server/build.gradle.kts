@@ -7,7 +7,7 @@ plugins {
     application
     id("com.github.johnrengelman.shadow") version "7.0.0"
     kotlin("jvm")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.5.31"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
     id("com.peterabeles.gversion")
 }
 
@@ -25,13 +25,12 @@ gversion {
 
 repositories {
     mavenCentral()
-    maven { url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap") }
 }
 
 dependencies {
     implementation(project(":relive-simulator-core"))
     implementation(kotlin("stdlib"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
     implementation("io.ktor:ktor-server-core:$ktor_version")
     implementation("io.ktor:ktor-serialization:$ktor_version")
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.3")
@@ -40,7 +39,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logback_version")
     testImplementation("io.ktor:ktor-server-tests:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlin_version")
-    implementation("com.charleskorn.kaml:kaml:0.36.0")
+    implementation("com.charleskorn.kaml:kaml:0.39.0")
 }
 
 tasks {

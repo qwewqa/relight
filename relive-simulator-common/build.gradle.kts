@@ -2,7 +2,7 @@ val project_version: String by project
 
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.5.31"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
 }
 
 group = "xyz.qwewqa.relive.simulator"
@@ -24,7 +24,7 @@ kotlin {
 
 dependencies {
     "commonMainImplementation"(kotlin("stdlib"))
-    "commonMainImplementation"("org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.0")
+    "commonMainImplementation"("org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.2")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink> {

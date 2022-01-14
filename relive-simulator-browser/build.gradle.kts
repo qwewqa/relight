@@ -3,7 +3,7 @@ val ktor_version: String by project
 
 plugins {
     kotlin("js")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.5.31"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
 }
 
 group = "xyz.qwewqa.relive.simulator"
@@ -12,7 +12,6 @@ version = project_version
 repositories {
     maven { url = uri("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven") }
     mavenCentral()
-    maven { url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap") }
 }
 
 dependencies {
@@ -20,8 +19,8 @@ dependencies {
     implementation(project(":relive-simulator-client"))
     implementation("io.ktor:ktor-client-js:$ktor_version")
     implementation("io.ktor:ktor-client-serialization:$ktor_version")
-    implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.7.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
 }
 
 kotlin {
