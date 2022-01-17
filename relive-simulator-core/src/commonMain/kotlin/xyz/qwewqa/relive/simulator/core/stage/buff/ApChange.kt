@@ -14,6 +14,22 @@ object ApUpBuff : BuffEffect {
     override val flipped get() = ApDownBuff
 }
 
+// TODO: Test if locked buffs are flippable
+
+object LockedApDownBuff : BuffEffect {
+    override val name = "Locked AP Down"
+    override val category = BuffCategory.Positive
+    override val related = ApDownBuff
+    override val locked = true
+}
+
+object LockedApUpBuff : BuffEffect {
+    override val name = "Locked AP Up"
+    override val category = BuffCategory.Negative
+    override val related = ApUpBuff
+    override val locked = true
+}
+
 val Actor.apChange: Int
     get() {
         var result = 0

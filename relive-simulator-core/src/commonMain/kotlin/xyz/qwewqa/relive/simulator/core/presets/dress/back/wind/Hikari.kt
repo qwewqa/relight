@@ -4,6 +4,7 @@ import xyz.qwewqa.relive.simulator.core.presets.condition.WindOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1020019
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.ApDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.ApUpBuff
@@ -14,6 +15,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
 import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyBrillianceDrainPassive
 import xyz.qwewqa.relive.simulator.core.stage.passive.TeamAgilityUpBuffPassive
 import xyz.qwewqa.relive.simulator.core.stage.passive.TeamHpUpPassive
+import xyz.qwewqa.relive.simulator.stage.character.Position
 
 val SakuraShingujiHikari = dress1020019(
     name = "Sakura Shinguji Hikari",
@@ -73,7 +75,9 @@ val SakuraShingujiHikari = dress1020019(
                         )
                     }
                 }
-                // TODO: Daze
+                targetAoe { it.dress.position == Position.Back }.act {
+                    applyCountableBuff(CountableBuff.Daze)
+                }
             }
         }
     ),

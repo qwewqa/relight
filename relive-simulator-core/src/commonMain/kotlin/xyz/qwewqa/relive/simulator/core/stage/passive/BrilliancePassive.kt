@@ -13,9 +13,7 @@ object SelfTurnBrillianceRecoveryPassive : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            buffs.addPassive {
-                addBrilliance(value)
-            }
+            brillianceRegen += value
         }
     }
 }

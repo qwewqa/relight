@@ -71,7 +71,16 @@ val HeroHikari = dress1020023(
                     )
                 }
                 targetAllyAoe().act {
-                    //TODO() Kira regen and Counterheal
+                    applyBuff(
+                        effect = BrillianceRegenBuff,
+                        value = values2,
+                        turns = times2,
+                    )
+                    applyBuff(
+                        effect = CounterHeal,
+                        value = values3,
+                        turns = times3,
+                    )
                 }
             }
         }

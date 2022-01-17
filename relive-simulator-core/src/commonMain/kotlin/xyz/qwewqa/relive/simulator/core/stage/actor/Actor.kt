@@ -118,10 +118,17 @@ class Actor(
     // For bosses
     val innateAgainstAttributeDamageTakenDown = mutableMapOf<Attribute, Int>().withDefault { 0 }
 
+    var brillianceRegen = 0
+
+    var counterHeal = 0
+
     var perfectAimCounter = 0
 
     var eventBonus: Int = 0
     var eventMultiplier: Int = 100
+
+    var aggroTarget: Actor? = null
+    var provokeTarget: Actor? = null
 
     var inCX = false
         private set
@@ -139,27 +146,6 @@ class Actor(
 
     fun tick() {
         buffs.tick()
-        val burn = buffs.get(BurnBuff).map { it.value }
-        val burnFixed = burn.filter { it > 100 }.sum()
-        val burnPercent = burn.filter { it <= 100 }.map { maxHp * it / 100 }.sum()
-        val burnTotal = burnFixed + burnPercent
-        if (burnTotal > 0) {
-            context.log("Burn") { "Burn tick." }
-            damage(burnTotal, additionalEffects = false)
-        }
-        val poison = buffs.get(PoisonBuff).map { it.value }
-        val poisonFixed = poison.filter { it > 100 }.sum()
-        val poisonPercent = poison.filter { it <= 100 }.map { maxHp * it / 100 }.sum()
-        val poisonTotal = poisonFixed + poisonPercent
-        if (poisonTotal > 0) {
-            context.log("Poison") { "Poison tick." }
-            damage(poisonTotal, additionalEffects = false)
-        }
-        val nightmare = buffs.get(NightmareBuff).sumOf { it.value }
-        if (nightmare > 0) {
-            context.log("Nightmare") { "Nightmare tick." }
-            damage(nightmare, additionalEffects = false)
-        }
     }
 
     /**
@@ -286,6 +272,9 @@ class Actor(
             if (self.buffs.count(NightmareBuff) > 0 && stage.random.nextDouble() > 0.2) {
                 self.buffs.removeAll(NightmareBuff)
             }
+            if (self.counterHeal > 0) {
+                self.heal(self.counterHeal * self.hp / 100)
+            }
         }
 
     }
@@ -294,6 +283,14 @@ class Actor(
         team.strategy.onExit(self)
         buffs.clear()
         self.exitCX()
+        enemy.forEach {
+            if (it.aggroTarget == self) {
+                it.buffs.removeAll(Aggro)
+            }
+            if (it.provokeTarget == self) {
+                it.buffs.removeAll(Provoke)
+            }
+        }
         log("Exit") { "Exited" }
     }
 

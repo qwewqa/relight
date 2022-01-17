@@ -22,6 +22,6 @@ sealed class StageEffectTarget {
 
 data class StageBuff(val effect: BuffEffect, val value: Int) {
     fun activate(actor: Actor): ActiveBuff {
-        return actor.buffs.addEphemeral(effect, value)
+        return actor.buffs.addEphemeral(null, effect, value)
     }
 }
