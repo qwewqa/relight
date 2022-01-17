@@ -23,6 +23,7 @@ val TeamEffectiveDamageDealtUpBuffPassive: PassiveEffect =
 val SelfNormalDefenseUpBuffPassive: PassiveEffect = GenericBuffPassive(NormalDefenseUpBuff, EffectTag.Defense) { targetSelf() }
 val SelfSpecialDefenseUpBuffPassive: PassiveEffect = GenericBuffPassive(SpecialDefenseUpBuff, EffectTag.Defense) { targetSelf() }
 val SelfPerfectAimBuffPassive: PassiveEffect = GenericBuffPassive(PerfectAim, EffectTag.PerfectAim) { targetSelf() }
+val TeamPerfectAimBuffPassive: PassiveEffect = GenericBuffPassive(PerfectAim, EffectTag.PerfectAim) { targetAllyAoe(it) }
 val SelfDexterityUpBuffPassive: PassiveEffect = GenericBuffPassive(DexterityUpBuff, EffectTag.Dexterity) { targetSelf() }
 val SelfEffectiveDamageDealtUpBuffPassive: PassiveEffect =
     GenericBuffPassive(EffectiveDamageDealtUpBuff, EffectTag.EffectiveDamage) { targetSelf() }

@@ -221,6 +221,7 @@ enum class CountableBuff(val category: BuffCategory) {
     Daze(BuffCategory.Negative),
     Pride(BuffCategory.Negative),
     Hope(BuffCategory.Positive),
+    WeakSpot(BuffCategory.Negative),
 }
 
 val abnormalCountableBuffs = setOf(

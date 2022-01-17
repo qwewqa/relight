@@ -1,21 +1,26 @@
-package xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon
+package xyz.qwewqa.relive.simulator.core.presets.dress.back.flower
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.*
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1060021
+import xyz.qwewqa.relive.simulator.stage.character.Character
+import xyz.qwewqa.relive.simulator.stage.character.DamageType
+import xyz.qwewqa.relive.simulator.stage.character.Position
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3030017
 import xyz.qwewqa.relive.simulator.core.stage.Act
-import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.actor.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
-val AnastasiaJunna = dress1060021(
-    name = "Anastasia Junna",
+val StageGirlLalafin = dress3030017(
+    name = "Stage Girl Lalafin",
     acts = listOf(
-        ActType.Act1.blueprint("Purifying Strike", 2) {
+        ActType.Act1.blueprint("Purifying Smash", 2) {
             Act {
                 targetAllyAoe().act {
+                    dispelTimed(BuffCategory.Negative)
                     applyBuff(
                         effect = NegativeEffectResistanceBuff,
                         value = values2,
@@ -30,7 +35,7 @@ val AnastasiaJunna = dress1060021(
                 }
             }
         },
-        ActType.Act2.blueprint("Relaxing Strike", 2) {
+        ActType.Act2.blueprint("Relaxing Smash", 2) {
             Act {
                 targetBack().act {
                     dispelTimed(BuffCategory.Positive)
@@ -51,7 +56,7 @@ val AnastasiaJunna = dress1060021(
                 }
             }
         },
-        ActType.Act3.blueprint("Carefree Strike", 2) {
+        ActType.Act3.blueprint("Carefree Smash", 2) {
             Act {
                 targetBack().act {
                     attack(
@@ -65,7 +70,7 @@ val AnastasiaJunna = dress1060021(
                         turns = times2,
                     )
                     applyBuff(
-                        effect = DexterityUpBuff,
+                        effect = CriticalUpBuff,
                         value = values3,
                         turns = times3,
                     )
@@ -77,7 +82,7 @@ val AnastasiaJunna = dress1060021(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Flower of Recollection", 2) {
+        ActType.ClimaxAct.blueprint("With love and courage, to Frontier!", 2) {
             Act {
                 targetSelf().act {
                     applyCountableBuff(
@@ -98,6 +103,9 @@ val AnastasiaJunna = dress1060021(
                         chance = 33,
                     )
                 }
+                targetAoe().act {
+                    applyCountableBuff(CountableBuff.WeakSpot)
+                }
             }
         }
     ),
@@ -107,12 +115,13 @@ val AnastasiaJunna = dress1060021(
             TeamCriticalUpBuffPassive.new(20, 3),
         ),
         listOf(
-            TeamHpUpPassive.new(50),
-            TeamHpUpPassive.new(30) + SeishoOnlyCondition,
+            TeamBrillianceRecoveryPassive.new(10),
+            TeamBrillianceRecoveryPassive.new(10) + FrontierOnlyCondition,
         ),
         listOf(
             EnemyBack3APUpBuffPassive.new(time = 3),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + MoonOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + FlowerOnlyCondition,
+    category = DressCategory.StageGirl,
 )

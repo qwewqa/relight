@@ -11,6 +11,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.SpecialDefenseUpBuff
 val WeAreOnTheStageSnow = attributeStageEffect(Attribute.Snow)
 val WeAreOnTheStageCloud = attributeStageEffect(Attribute.Cloud)
 val WeAreOnTheStageMoon = attributeStageEffect(Attribute.Moon)
+val WeAreOnTheStageFlower = attributeStageEffect(Attribute.Flower)
 
 private fun attributeStageEffect(attribute: Attribute) = StageEffect(
     "We Are on the Stage (${attribute.name})",

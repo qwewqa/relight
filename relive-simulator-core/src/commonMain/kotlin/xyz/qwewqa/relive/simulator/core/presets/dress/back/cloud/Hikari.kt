@@ -1,0 +1,92 @@
+package xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud
+
+import xyz.qwewqa.relive.simulator.stage.character.Character
+import xyz.qwewqa.relive.simulator.stage.character.DamageType
+import xyz.qwewqa.relive.simulator.stage.character.Position
+import xyz.qwewqa.relive.simulator.core.presets.condition.CloudOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.FrontierOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1020023
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+
+val HeroHikari = dress1020023(
+    name = "Hero Hikari",
+    acts = listOf(
+        ActType.Act1.blueprint("Strike of Brilliance", 1) {
+            Act {
+                targetBack().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1,
+                    )
+                }
+                targetSelf().act {
+                    addBrilliance(values2)
+                }
+            }
+        },
+        ActType.Act2.blueprint("Strike of Weakness", 2) {
+            Act {
+                targetBack().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1,
+                    )
+                }
+                targetBack(2).act {
+                    applyCountableBuff(CountableBuff.WeakSpot)
+                }
+            }
+        },
+        ActType.Act3.blueprint("Weakening Strike", 3) {
+            Act {
+                targetBack().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1,
+                    )
+                }
+                targetAoe().act {
+                    applyBuff(
+                        effect = ClimaxDamageDownBuff,
+                        value = values2,
+                        turns = times2,
+                    )
+                }
+            }
+        },
+        ActType.ClimaxAct.blueprint("Legendary Hero", 2) {
+            Act {
+                targetAoe().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1,
+                    )
+                }
+                targetAllyAoe().act {
+                    //TODO() Kira regen and Counterheal
+                }
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+            SelfEvasionBuffPassive.new(time = 5),
+        ),
+        listOf(
+            SelfReviveBuffPassive.new(50, time = 1),
+        ),
+        listOf(
+            TeamCriticalUpBuffPassive.new(30,3),
+        ),
+    ),
+    unitSkill = ActCritical50UnitSkill + CloudOnlyCondition,
+    category = DressCategory.Premium2022,
+)

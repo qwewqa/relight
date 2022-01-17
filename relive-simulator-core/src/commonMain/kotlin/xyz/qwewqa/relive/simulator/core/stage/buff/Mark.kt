@@ -9,11 +9,11 @@ object MarkBuff : BuffEffect {
     override val flipped get() = AntiMarkBuff
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.valueDamageTakenDownBuff -= 30
+        self.valueDamageTakenDownDebuff -= 30
     }
 
     override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.valueDamageTakenDownBuff += 30
+        self.valueDamageTakenDownDebuff += 30
     }
 }
 
