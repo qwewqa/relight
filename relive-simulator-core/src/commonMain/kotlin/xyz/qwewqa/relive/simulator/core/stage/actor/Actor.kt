@@ -108,6 +108,9 @@ class Actor(
     val damageTakenDownBuff get() = valueDamageTakenDownBuff
     var valueDamageTakenDownBuff = 0
 
+    val damageTakenDownDebuff get() = valueDamageTakenDownDebuff
+    var valueDamageTakenDownDebuff = 0
+
     val againstAttributeDamageDealtUp = mutableMapOf<Attribute, Int>().withDefault { 0 }
     val againstAttributeDamageTakenDown = mutableMapOf<Attribute, Int>().withDefault { 0 }
     val attributeDamageDealtUp = mutableMapOf<Attribute, Int>().withDefault { 0 }
@@ -276,6 +279,7 @@ class Actor(
         if (additionalEffects) {
             self.addBrilliance(amount * 70 / self.maxHp)
             self.buffs.removeAll(FreezeBuff)
+            self.buffs.tryRemove(CountableBuff.WeakSpot)
             if (self.buffs.count(SleepBuff) > 0 && stage.random.nextDouble() > 0.2) {
                 self.buffs.removeAll(SleepBuff)
             }

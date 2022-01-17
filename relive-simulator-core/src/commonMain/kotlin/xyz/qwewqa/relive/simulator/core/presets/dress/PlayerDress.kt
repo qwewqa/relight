@@ -1,9 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.AceMisora
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.JudgementShizuha
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.StageGirlClaudine
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.flower.StageGirlMeiFan
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.flower.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.FuMeiFan
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.StageGirlHikari
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.WorldMaya
@@ -18,7 +16,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.MitsuhideKare
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.StageGirlMisora
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.StageGirlNana
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower.*
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow.HopeLalafin
+import xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.space.WheelOfFortuneKaren
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.CatalinaKaoruko
@@ -33,6 +31,7 @@ val playerDresses = listOf(
     DevilKaoruko,
     FoolYachiyo,
     FuMeiFan,
+    HeroHikari,
     HondaFutaba,
     HopeLalafin,
     ImperialCombatRevueFlowerDivisionSakura,
@@ -44,10 +43,13 @@ val playerDresses = listOf(
     NewYorkCombatRevueGemie,
     ParisCombatRevueFlowerDivisionErika,
     SakuraShingujiHikari,
+    SakuyahimeMahiru,
     SanadaMahiru,
     StageGirlClaudine,
     StageGirlHikari,
     StageGirlJunna,
+    StageGirlLalafin,
+    StageGirlMahiru,
     StageGirlMeiFan,
     StageGirlMichiru,
     StageGirlMisora,
@@ -58,4 +60,5 @@ val playerDresses = listOf(
     TowerHikari,
     WheelOfFortuneKaren,
     WorldMaya,
+    YellowTsukasa,
 ).associateBy { it.name }

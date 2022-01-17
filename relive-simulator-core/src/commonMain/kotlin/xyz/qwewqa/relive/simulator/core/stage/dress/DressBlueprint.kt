@@ -121,6 +121,7 @@ enum class DressCategory {
     Default,
     Arcana,
     StageGirl,
+    Premium2022,
 }
 
 

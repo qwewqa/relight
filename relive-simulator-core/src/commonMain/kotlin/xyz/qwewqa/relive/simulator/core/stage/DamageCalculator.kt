@@ -138,7 +138,8 @@ class RandomDamageCalculator : DamageCalculator {
         val dmgDealtDownCoef = (100 - target.damageTakenDown).coerceAtLeast(0)
 
         // tentative
-        val buffDmgTakenDownCoef = (100 - target.damageTakenDownBuff).coerceAtLeast(50)
+        var buffDmgTakenDownCoef = (100 - (target.damageTakenDownBuff).coerceAtMost(50) - target.damageTakenDownDebuff)
+        if (target.buffs.any(CountableBuff.WeakSpot)) buffDmgTakenDownCoef += 60
         val buffDmgDealtUpCoef = 100 + attacker.damageDealtUpBuff
 
         val attributeDamageDealtUpCoef = 100 + attacker.attributeDamageDealtUp.getValue(attribute)
