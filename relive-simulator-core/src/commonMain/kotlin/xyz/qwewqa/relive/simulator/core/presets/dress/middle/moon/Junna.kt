@@ -94,7 +94,7 @@ val AnastasiaJunna = dress1060021(
                         hitCount = 10,
                     )
                     applyCountableBuff(
-                        CountableBuff.Daze,
+                        CountableBuff.Pride,
                         chance = 33,
                     )
                 }
