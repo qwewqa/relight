@@ -76,7 +76,7 @@ val HopeLalafin = dress3030015(
             SelfReviveBuffPassive.new(50, time = 1),
         ),
         listOf(
-            EnemyBack2APUpBuffPassive.new( time = 3), //TODO() locked version of buff
+            EnemyBack2LockedAPUpBuffPassive.new(time = 3),
         ),
         listOf(
             //TODO() locked CX seal front 3, 2t

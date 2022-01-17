@@ -34,32 +34,61 @@ class ActionContext(
         focus--
     }
 
-    private fun List<Actor>.targetContext(autoRepeatHits: Boolean = true): TargetContext {
-        return TargetContext(this@ActionContext, this, autoRepeatHits)
+    private fun List<Actor>.targetContext(
+        affectedByAggro: Boolean = false,
+        autoRepeatHits: Boolean = true
+    ): TargetContext {
+        return TargetContext(
+            this@ActionContext,
+            this,
+            self.aggroTarget.takeIf { affectedByAggro },
+            autoRepeatHits,
+        )
     }
 
     inline fun Actor.act(action: TargetContext.() -> Unit) =
         TargetContext(this@ActionContext, listOf(this)).act(action)
 
+    private fun provokable(selector: () -> List<Actor>) = self.provokeTarget?.let { listOf(it) } ?: selector()
+
     fun targetSelf() = listOf(self).targetContext()
-    fun targetCutinTarget() = listOf(stage.cutinTarget ?: error("Cutin target not available.")).targetContext()
-    fun targetFront(count: Int = 1) = enemy.active.take(count).targetContext()
-    fun targetBack(count: Int = 1) = enemy.active.takeLast(count).targetContext()
-    fun targetAoe() = enemy.active.targetContext()
-    fun targetAoe(condition: Condition) = enemy.active.filter { condition.evaluate(it) }.targetContext()
-    fun targetRandom(count: Int = 1) = List(count) { enemy.active.random(stage.random) }.targetContext()
-    fun targetAnyRandom(count: Int) = List(count) { enemy.active.random(stage.random) }.targetContext(false)
+
+    fun targetCutinTarget(): TargetContext {
+        val target = stage.cutinTarget ?: error("Cutin target not available.")
+        return if (target in enemy.actors.values) {
+            provokable { listOf(target) }.targetContext(true)
+        } else {
+            listOf(target).targetContext()
+        }
+    }
+
+    fun targetFront(count: Int = 1) = provokable { enemy.active.take(count) }.targetContext(true)
+    fun targetBack(count: Int = 1) = provokable { enemy.active.takeLast(count) }.targetContext(true)
+    fun targetAoe() = enemy.active.targetContext(true)
+    fun targetAoe(condition: Condition) = enemy.active.filter { condition.evaluate(it) }.targetContext(true)
+
+    // TODO: Check if pride is affected by provoke / aggro
+    fun targetRandom(count: Int = 1) = provokable { List(count) { enemy.active.random(stage.random) } }
+        .targetContext(true)
+
+    fun targetAnyRandom(count: Int) = provokable { List(count) { enemy.active.random(stage.random) } }
+        .targetContext(true, autoRepeatHits = false)
+
     fun targetAllyAoe() = team.active.targetContext()
     fun targetAllyAoe(condition: Condition) = team.active.filter { condition.evaluate(it) }.targetContext()
     fun targetAllyFront(count: Int = 1) = team.active.take(count).targetContext()
     fun targetAllyBack(count: Int = 1) = team.active.takeLast(count).targetContext()
     fun targetAllyRandom(count: Int = 1) = List(count) { team.active.random(stage.random) }.targetContext()
-    fun <T : Comparable<T>>  targetByHighest(count: Int = 1, condition: (Actor) -> T) =
-        enemy.active.sortedBy(condition).takeLast(count).targetContext()
-    fun <T : Comparable<T>>  targetByLowest(count: Int = 1, condition: (Actor) -> T) =
-        enemy.active.sortedBy(condition).take(count).targetContext()
+
+    fun <T : Comparable<T>> targetByHighest(count: Int = 1, condition: (Actor) -> T) =
+        provokable { enemy.active.sortedBy(condition).takeLast(count) }.targetContext(true)
+
+    fun <T : Comparable<T>> targetByLowest(count: Int = 1, condition: (Actor) -> T) =
+        provokable { enemy.active.sortedBy(condition).take(count) }.targetContext(true)
+
     fun <T : Comparable<T>> targetAllyByHighest(count: Int = 1, selector: (Actor) -> T) =
         team.active.sortedBy(selector).takeLast(count).targetContext()
+
     fun <T : Comparable<T>> targetAllyByLowest(count: Int = 1, selector: (Actor) -> T) =
         team.active.sortedBy(selector).take(count).targetContext()
 
@@ -85,6 +114,7 @@ class TargetContext(
      * there's no guarantee all targets are alive at the start of a particular action.
      */
     val targets: List<Actor>,
+    val aggroTarget: Actor? = null,
     val autoRepeatHits: Boolean = true,
 ) {
     val stage get() = actionContext.stage
@@ -120,7 +150,8 @@ class TargetContext(
             mode = mode,
         )
         repeat(if (autoRepeatHits) hitCount else 1) {
-            targets.forEach { target ->
+            for (originalTarget in targets) {
+                val target = aggroTarget ?: originalTarget
                 if (!self.isAlive) return
                 if (target.isAlive) {
                     stage.damageCalculator.damage(
@@ -135,7 +166,8 @@ class TargetContext(
 
     fun applyBuff(effect: BuffEffect, value: Int = 1, turns: Int, chance: Int = 100) {
         if (!self.isAlive) return
-        for (target in targets) {
+        for (originalTarget in targets) {
+            val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
                 when (effect.category) {
@@ -143,7 +175,7 @@ class TargetContext(
                         val applyChance = chance / 100.0 *
                                 (100 - positiveEffectResist - (specificBuffResist[effect] ?: 0)) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
-                            buffs.add(effect, value, turns)
+                            buffs.add(self, effect, value, turns)
                             actionContext.log("Effect") { "Positive buff ${effect.formatName(value)} (${turns}t) applied to [$name]." }
                         } else {
                             actionContext.log("Effect") { "Positive buff ${effect.formatName(value)} (${turns}t) missed to [$name]." }
@@ -153,7 +185,7 @@ class TargetContext(
                         val applyChance = chance / 100.0 *
                                 (100 - negativeEffectResist - (specificBuffResist[effect] ?: 0)) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
-                            buffs.add(effect, value, turns)
+                            buffs.add(self, effect, value, turns)
                             actionContext.log("Effect") { "Negative buff ${effect.formatName(value)} (${turns}t) applied to [$name]." }
                         } else {
                             actionContext.log("Effect") { "Negative buff ${effect.formatName(value)} (${turns}t) missed to [$name]." }
@@ -166,13 +198,16 @@ class TargetContext(
 
     fun applyCountableBuff(effect: CountableBuff, count: Int = 1, chance: Int = 100) {
         if (!self.isAlive) return
-        for (target in targets) {
+        for (originalTarget in targets) {
+            val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
                 when (effect.category) {
                     BuffCategory.Positive -> {
                         // PER works for countable buffs but NER doesn't for countable debuffs for some reason
-                        val applyChance = chance / 100.0 * (100 - positiveEffectResist - (specificCountableBuffResist[effect] ?: 0)) / 100.0
+                        val applyChance =
+                            chance / 100.0 * (100 - positiveEffectResist - (specificCountableBuffResist[effect]
+                                ?: 0)) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
                             buffs.addCountable(effect, count)
                             actionContext.log("Effect") { "Positive buff [${effect.name}] (${count}x) applied to [$name]." }
@@ -196,7 +231,8 @@ class TargetContext(
 
     fun dispelTimed(category: BuffCategory) {
         if (!self.isAlive) return
-        for (target in targets) {
+        for (originalTarget in targets) {
+            val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
                 actionContext.log("Dispel") { "Dispel timed ${category.name} effects from [$name]." }
@@ -207,7 +243,8 @@ class TargetContext(
 
     fun flipTimed(category: BuffCategory, count: Int) {
         if (!self.isAlive) return
-        for (target in targets) {
+        for (originalTarget in targets) {
+            val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
                 actionContext.log("Flip") { "Flip last $count timed ${category.name} effects from [$name]." }
@@ -218,7 +255,8 @@ class TargetContext(
 
     fun dispelCountable(category: BuffCategory) {
         if (!self.isAlive) return
-        for (target in targets) {
+        for (originalTarget in targets) {
+            val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
                 actionContext.log("Dispel") { "Dispel countable ${category.name} effects from [$name]." }
@@ -229,7 +267,8 @@ class TargetContext(
 
     fun heal(percent: Int = 0, fixed: Int = 0) {
         if (!self.isAlive) return
-        for (target in targets) {
+        for (originalTarget in targets) {
+            val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
                 actionContext.log("Heal") { "Heal [$name] (percent: $percent, fixed: $fixed)." }
@@ -240,7 +279,8 @@ class TargetContext(
 
     fun addBrilliance(amount: Int) {
         if (!self.isAlive) return
-        for (target in targets) {
+        for (originalTarget in targets) {
+            val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
                 actionContext.log("Brilliance") { "Add brilliance to [$name] (amount: $amount)." }
@@ -251,7 +291,8 @@ class TargetContext(
 
     fun removeBrilliance(amount: Int) {
         if (!self.isAlive) return
-        for (target in targets) {
+        for (originalTarget in targets) {
+            val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
                 actionContext.log("Brilliance") { "Remove brilliance from [$name] (amount: $amount)." }

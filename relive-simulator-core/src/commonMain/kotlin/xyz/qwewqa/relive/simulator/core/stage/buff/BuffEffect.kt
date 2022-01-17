@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.buff
 
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 
 interface BuffEffect {
     val name: String
@@ -19,6 +20,7 @@ interface BuffEffect {
      */
     val flipped: BuffEffect? get() = null
 
+    fun onApply(source: Actor?, target: Actor) {}
     fun onStart(context: ActionContext, value: Int) {}
     fun onEnd(context: ActionContext, value: Int) {}
     fun formatName(value: Int): String = if (value != 0) {

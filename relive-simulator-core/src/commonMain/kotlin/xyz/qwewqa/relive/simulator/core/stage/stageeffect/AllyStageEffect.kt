@@ -1,9 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage.stageeffect
 
-import xyz.qwewqa.relive.simulator.core.stage.buff.DamageTakenDownBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.DexterityUpBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.NormalDefenseUpBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.SpecialDefenseUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
 
 val AngelicSmile = StageEffect(
     "Angelic Smile",
@@ -29,23 +26,23 @@ val HyakkaRyoran = StageEffect(
     listOf(
         listOf(
             StageBuff(DexterityUpBuff, 100),
-            // StageBuff(HPRegenBuff,15000),
+            StageBuff(HpRegenBuff, 15000),
         ),
         listOf(
             StageBuff(DexterityUpBuff, 100),
-            // StageBuff(HPRegenBuff,17000),
+            StageBuff(HpRegenBuff, 17000),
         ),
         listOf(
             StageBuff(DexterityUpBuff, 100),
-            // StageBuff(HPRegenBuff,19000),
+            StageBuff(HpRegenBuff, 19000),
         ),
         listOf(
             StageBuff(DexterityUpBuff, 100),
-            // StageBuff(HPRegenBuff,22000),
+            StageBuff(HpRegenBuff, 22000),
         ),
         listOf(
             StageBuff(DexterityUpBuff, 100),
-            // StageBuff(HPRegenBuff,25000),
+            StageBuff(HpRegenBuff, 25000),
         ),
     ),
     StageEffectTarget.All,

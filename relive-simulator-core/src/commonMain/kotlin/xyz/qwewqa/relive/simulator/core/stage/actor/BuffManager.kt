@@ -1,10 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
-import xyz.qwewqa.relive.simulator.core.stage.buff.AbnormalGuardBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
-import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
-import xyz.qwewqa.relive.simulator.core.stage.buff.abnormalBuffs
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.log
 
 expect fun countableBuffMap(): MutableMap<CountableBuff, Int>
@@ -20,8 +17,6 @@ class BuffManager(val actor: Actor) {
     private val positiveCountableBuffs = countableBuffMap()
     private val negativeCountableBuffs = countableBuffMap()
 
-    private val passiveActions = mutableListOf<ActionContext.() -> Unit>()
-
     var guardOnAbnormal = false
 
     fun get(buff: BuffEffect) = buffsByEffect[buff] ?: emptySet()
@@ -34,8 +29,9 @@ class BuffManager(val actor: Actor) {
         BuffCategory.Negative -> negativeCountableBuffs[buff]
     } ?: 0
 
-    fun BuffEffect.activate(value: Int, turns: Int, ephemeral: Boolean = false, relatedBuff: ActiveBuff? = null) =
+    fun BuffEffect.activate(source: Actor?, value: Int, turns: Int, ephemeral: Boolean = false, relatedBuff: ActiveBuff? = null) =
         ActiveBuff(this, value, turns, ephemeral, relatedBuff).also { activeBuff ->
+            onApply(source, actor)
             activeBuff.start()
             when (category) {
                 BuffCategory.Positive -> positiveBuffs
@@ -53,11 +49,11 @@ class BuffManager(val actor: Actor) {
      * Intended for stage effects and locked buffs.
      * Removed like normal buffs using the [remove] method.
      */
-    fun addEphemeral(buffEffect: BuffEffect, value: Int): ActiveBuff {
-        return buffEffect.activate(value, -1, true)
+    fun addEphemeral(source: Actor?, buffEffect: BuffEffect, value: Int): ActiveBuff {
+        return buffEffect.activate(source, value, -1, true)
     }
 
-    fun add(buffEffect: BuffEffect, value: Int, turns: Int): ActiveBuff? {
+    fun add(source: Actor?, buffEffect: BuffEffect, value: Int, turns: Int): ActiveBuff? {
         require(turns >= 0) { "Buff turns should not be negative." }
         if (buffEffect.exclusive) {
             val existing = get(buffEffect).singleOrNull { !it.ephemeral }
@@ -72,12 +68,12 @@ class BuffManager(val actor: Actor) {
             }
         }
         val relatedBuff = buffEffect.related?.let { related ->
-            addEphemeral(related, value)
+            addEphemeral(source, related, value)
         }
-        val buff = buffEffect.activate(value, turns, relatedBuff = relatedBuff)
+        val buff = buffEffect.activate(source, value, turns, relatedBuff = relatedBuff)
         if (guardOnAbnormal && buffEffect in abnormalBuffs) {
             actor.context.log("Buff") { "Abnormal Guard activated." }
-            add(AbnormalGuardBuff, 100, 9)
+            add(null, AbnormalGuardBuff, 100, 9)
         }
         return buff
     }
@@ -89,12 +85,8 @@ class BuffManager(val actor: Actor) {
         }.let { it[buff] = (it[buff] ?: 0) + count }
         if (guardOnAbnormal && buff in abnormalCountableBuffs) {
             actor.context.log("Buff") { "Abnormal Guard activated." }
-            add(AbnormalGuardBuff, 100, 9)
+            add(null, AbnormalGuardBuff, 100, 9)
         }
-    }
-
-    fun addPassive(passive: ActionContext.() -> Unit) {
-        passiveActions += passive
     }
 
     fun remove(buff: ActiveBuff) {
@@ -166,14 +158,51 @@ class BuffManager(val actor: Actor) {
         affected.forEach {
             actor.context.log("Buff") { "Flipping buff ${it.name}." }
             remove(it)
-            add(it.effect.flipped!!, it.value, it.turns)
+            add(null, it.effect.flipped!!, it.value, it.turns)
         }
     }
 
-    fun tick() {
-        passiveActions.forEach { it(actor.context) }
-        negativeBuffs.tick()
+    private fun hpSlipTotal(effect: BuffEffect): Int {
+        val values = get(effect).map { it.value }
+        val fixed = values.filter { it > 100 }.sum()
+        val percent = values.filter { it <= 100 }.sumOf { actor.maxHp * it / 100 }
+        return fixed + percent
+    }
+
+    fun tick() = actor.run {
+        val hpRegen = hpSlipTotal(HpRegenBuff)
+        if (hpRegen > 0) {
+            context.log("HP Regen") { "HP Regen tick." }
+            heal(hpRegen)
+        }
+
+        val brillianceRegen = actor.brillianceRegen
+        if (brillianceRegen > 0) {
+            context.log("Brilliance Regen") { "Brilliance Regen tick." }
+            addBrilliance(hpRegen)
+        }
+
         positiveBuffs.tick()
+
+        val burn = hpSlipTotal(BurnBuff)
+        if (burn > 0) {
+            context.log("Burn") { "Burn tick." }
+            damage(burn, additionalEffects = false)
+        }
+
+        val poison = hpSlipTotal(PoisonBuff)
+        if (poison > 0) {
+            context.log("Poison") { "Poison tick." }
+            damage(poison, additionalEffects = false)
+        }
+
+        val nightmare = hpSlipTotal(NightmareBuff)
+        if (nightmare > 0) {
+            context.log("Nightmare") { "Nightmare tick." }
+            damage(nightmare, additionalEffects = false)
+        }
+
+        negativeBuffs.tick()
     }
 
     private fun Collection<ActiveBuff>.tick() {
