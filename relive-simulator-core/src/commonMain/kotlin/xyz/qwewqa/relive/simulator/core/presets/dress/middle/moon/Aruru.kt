@@ -27,7 +27,7 @@ val MoonAruru = dress3010015(
                 }
             }
         },
-        ActType.Act2.blueprint("Moonlight Madness", 2) {
+        ActType.Act2.blueprint("Moonlight Madness", 3) {
             Act {
                 targetByHighest { it.actPower }.act {
                     attack(
