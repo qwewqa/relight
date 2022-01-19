@@ -64,11 +64,13 @@ kotlin {
         }
         binaries.executable()
     }
+    sourceSets.all {
+        languageSettings {
+            optIn("kotlin.RequiresOptIn")
+        }
+    }
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile::class) {
     dependsOn("createVersionFile")
-    kotlinOptions.run {
-        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
-    }
 }

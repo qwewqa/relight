@@ -17,7 +17,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-js"))
     implementation(project(":relive-simulator-core"))
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
 }
 
 kotlin {
@@ -47,11 +47,13 @@ kotlin {
         }
         binaries.executable()
     }
+    sourceSets.all {
+        languageSettings {
+            optIn("kotlin.RequiresOptIn")
+        }
+    }
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile::class) {
-    kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
-}
 tasks.withType<org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink> {
     kotlinOptions.freeCompilerArgs += "-Xir-property-lazy-initialization"
 }

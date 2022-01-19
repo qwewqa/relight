@@ -39,7 +39,7 @@ class Stage(
         enemy.stageEffects.deactivate()
     }
 
-    fun play(maxTurns: Int = 6): StageResult {
+    suspend fun play(maxTurns: Int = 6): StageResult {
         try {
             try {
                 log("Stage") { "Begin" }
@@ -243,7 +243,7 @@ class Stage(
         }
     }
 
-    private fun checkEnded(): StageResult? {
+    private suspend fun checkEnded(): StageResult? {
         if (player.active.isEmpty()) {
             player.strategy.finalize(this, player, enemy)
             enemy.strategy.finalize(this, enemy, player)

@@ -48,6 +48,11 @@ kotlin {
         }
         binaries.executable()
     }
+    sourceSets.all {
+        languageSettings {
+            optIn("kotlin.RequiresOptIn")
+        }
+    }
 }
 
 tasks.register<Copy>("copyResources") {
@@ -63,7 +68,4 @@ tasks.register<Copy>("copyResources") {
 tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile::class) {
     dependsOn("copyResources")
     dependsOn(":relive-simulator-worker:browserProductionWebpack")
-    kotlinOptions.run {
-        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
-    }
 }

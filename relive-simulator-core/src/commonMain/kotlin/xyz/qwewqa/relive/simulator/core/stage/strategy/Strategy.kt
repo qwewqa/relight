@@ -4,7 +4,6 @@ import xyz.qwewqa.relive.simulator.core.stage.Stage
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActData
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
-import xyz.qwewqa.relive.simulator.core.stage.execute
 import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinData
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
@@ -18,17 +17,17 @@ interface Strategy {
      * Called once at the start of the first turn before [nextQueue].
      */
 
-    fun initialize(stage: Stage, team: Team, enemy: Team) {}
+    suspend fun initialize(stage: Stage, team: Team, enemy: Team) {}
 
     /**
      * Called once at the end, after play has ended.
      */
-    fun finalize(stage: Stage, team: Team, enemy: Team) {}
+    suspend fun finalize(stage: Stage, team: Team, enemy: Team) {}
 
     /**
      * Called at the start of each turn to get a new queue.
      */
-    fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult
+    suspend fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult
 
     /**
      * Called at the end of each turn.
@@ -89,5 +88,5 @@ class ActionTile(val actor: Actor, val apCost: Int, val actData: ActData) : Queu
 }
 
 object EmptyStrategy : Strategy {
-    override fun nextQueue(stage: Stage, team: Team, enemy: Team) = QueueResult(mutableListOf(), false)
+    override suspend fun nextQueue(stage: Stage, team: Team, enemy: Team) = QueueResult(mutableListOf(), false)
 }

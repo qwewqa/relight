@@ -8,7 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
 class FixedStrategy(val strategy: FixedStrategyContext.() -> Unit) : Strategy {
-    override fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
+    override suspend fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
         return FixedStrategyContext(stage, team, enemy).apply(strategy).get()
     }
 }
