@@ -10,7 +10,7 @@ import xyz.qwewqa.relive.simulator.core.stage.toSimulationResult
 import kotlin.random.Random
 import kotlin.test.assertEquals
 
-fun assertSimulationResults(
+suspend fun assertSimulationResults(
     config: String,
     results: Map<SimulationResultType, Int>,
 ) = assertEquals(
@@ -21,15 +21,15 @@ fun assertSimulationResults(
 
 fun simulationConfig(value: String): SimulationParameters = Json.decodeFromString(value)
 
-fun SimulationParameters.simulate(): List<StageResult> {
+suspend fun SimulationParameters.simulate(): List<StageResult> {
     val seedProducer = Random(seed)
     val loadout = createStageLoadout()
     return generateSequence { seedProducer.nextInt() }
         .take(maxIterations)
+        .toList()
         .map { seed ->
             loadout.create(Random(seed)).play(maxTurns)
         }
-        .toList()
 }
 
 fun List<StageResult>.aggregate() = mutableMapOf<SimulationResultType, Int>().also {

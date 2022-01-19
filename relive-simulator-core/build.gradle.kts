@@ -25,18 +25,19 @@ kotlin {
             }
         }
     }
+    sourceSets.all {
+        languageSettings {
+            optIn("kotlin.RequiresOptIn")
+        }
+    }
 }
 
 dependencies {
-    "commonMainImplementation"(kotlin("stdlib"))
-    "commonTestImplementation"(kotlin("test"))
     "commonMainApi"(project(":relive-simulator-common"))
+    "commonMainImplementation"(kotlin("stdlib"))
     "commonMainImplementation"("com.github.h0tk3y.betterParse:better-parse:0.4.3")
+    "commonMainImplementation"("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+    "commonTestImplementation"(kotlin("test"))
+    "commonTestImplementation"("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
     "commonTestImplementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.run {
-        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
-    }
 }

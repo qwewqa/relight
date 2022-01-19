@@ -78,7 +78,7 @@ object SimpleStrategyGrammar : Grammar<Map<Int, List<SimpleStrategyCommand>>>() 
 }
 
 class SimpleStrategy(val commands: Map<Int, List<SimpleStrategyCommand>>) : Strategy {
-    override fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
+    override suspend fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
         val queue = mutableListOf<QueueTile>()
         val cutins = mutableListOf<BoundCutin>()
         var climax = false
@@ -119,7 +119,7 @@ class SimpleStrategy(val commands: Map<Int, List<SimpleStrategyCommand>>) : Stra
 }
 
 class BossSimpleStrategy(val commands: Map<Int, List<SimpleStrategyCommand>>) : Strategy {
-    override fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
+    override suspend fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
         val queue = mutableListOf<QueueTile>()
         val cutins = mutableListOf<BoundCutin>()
         val climax = false

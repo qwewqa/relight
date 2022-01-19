@@ -1,12 +1,13 @@
 package xyz.qwewqa.relive.simulator.worker
 
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.promise
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.w3c.dom.DedicatedWorkerGlobalScope
-import org.w3c.dom.MessageEvent
-import xyz.qwewqa.relive.simulator.common.SimulationMarginResultType
 import xyz.qwewqa.relive.simulator.common.SimulationParameters
 import xyz.qwewqa.relive.simulator.common.SimulationResultType
 import xyz.qwewqa.relive.simulator.core.stage.*
@@ -15,6 +16,7 @@ import kotlin.random.Random
 
 external val self: DedicatedWorkerGlobalScope
 
+@OptIn(DelicateCoroutinesApi::class)
 fun main() {
     var initialized = false
     var turns = 0
@@ -34,31 +36,33 @@ fun main() {
             val requests: List<IterationRequest> = Json.decodeFromString(ev.data as String)
             val ld = loadout
             if (ld != null) {
-                self.postMessage(Json.encodeToString(requests.map { request ->
-                    if (request.log) {
-                        val stage = ld.create(
-                            random = Random(request.seed),
-                            configuration = StageConfiguration(logging = true)
-                        )
-                        val result = stage.play(turns)
-                        IterationResult(
-                            request,
-                            result.toSimulationResult(),
-                            result.tags,
-                            (result as? MarginStageResult)?.margin,
-                            error = (result as? PlayError)?.exception?.stackTraceToString(),
-                            log = stage.logger.toString(),
-                        )
-                    } else {
-                        val result = ld.create(random = Random(request.seed)).play(turns)
-                        IterationResult(
-                            request,
-                            result.toSimulationResult(),
-                            result.tags,
-                            (result as? MarginStageResult)?.margin,
-                        )
-                    }
-                }))
+                GlobalScope.promise {
+                    Json.encodeToString(requests.map { request ->
+                        if (request.log) {
+                            val stage = ld.create(
+                                random = Random(request.seed),
+                                configuration = StageConfiguration(logging = true)
+                            )
+                            val result = stage.play(turns)
+                            IterationResult(
+                                request,
+                                result.toSimulationResult(),
+                                result.tags,
+                                (result as? MarginStageResult)?.margin,
+                                error = (result as? PlayError)?.exception?.stackTraceToString(),
+                                log = stage.logger.toString(),
+                            )
+                        } else {
+                            val result = ld.create(random = Random(request.seed)).play(turns)
+                            IterationResult(
+                                request,
+                                result.toSimulationResult(),
+                                result.tags,
+                                (result as? MarginStageResult)?.margin,
+                            )
+                        }
+                    })
+                }.then(self::postMessage)
             } else {
                 self.postMessage(Json.encodeToString(requests.map { request ->
                     if (request.log) {

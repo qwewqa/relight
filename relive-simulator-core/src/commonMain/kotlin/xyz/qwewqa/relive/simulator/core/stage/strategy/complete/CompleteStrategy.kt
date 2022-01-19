@@ -68,7 +68,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         discardPile += (actor.acts[ActType.Act3]!!.asCsAct(actor))
     }
 
-    override fun initialize(stage: Stage, team: Team, enemy: Team) {
+    override suspend fun initialize(stage: Stage, team: Team, enemy: Team) {
         this.stage = stage
         this.team = team
         this.enemy = enemy
@@ -246,7 +246,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         }
     }
 
-    override fun finalize(stage: Stage, team: Team, enemy: Team) {
+    override suspend fun finalize(stage: Stage, team: Team, enemy: Team) {
         script.finalize?.execute(context)
     }
 
@@ -287,7 +287,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         }
     }
 
-    override fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
+    override suspend fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
         if (team.cxTurns == 0) {
             usedClimaxActs.clear()
         }
