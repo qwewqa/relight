@@ -14,7 +14,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val MoonAruru = dress3010015(
     name = "Moon Aruru",
     acts = listOf(
-        ActType.Act1.blueprint("Moonlight's Brilliance", 2) {
+        ActType.Act1.blueprint("Moonlight's Brilliance", 1) {
             Act {
                 targetByHighest { it.actPower }.act {
                     attack(
@@ -27,7 +27,7 @@ val MoonAruru = dress3010015(
                 }
             }
         },
-        ActType.Act2.blueprint("Moonlight Madness", 2) {
+        ActType.Act2.blueprint("Moonlight Madness", 3) {
             Act {
                 targetByHighest { it.actPower }.act {
                     attack(
