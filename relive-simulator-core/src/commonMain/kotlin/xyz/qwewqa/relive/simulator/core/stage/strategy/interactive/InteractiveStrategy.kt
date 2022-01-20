@@ -218,6 +218,10 @@ ${
                 if (command?.type == InteractiveStrategyCommand.GO) break
             }
             discardHand()
+            cutinQueue.forEach { cutin ->
+                cutinLastUseTurns[cutin] = stage.turn
+                cutinUseCounts[cutin] = cutinUseCounts.getValue(cutin) + 1
+            }
             return QueueResult(
                 buildList {
                     queue.forEach {
@@ -284,7 +288,7 @@ ${(InteractiveStrategyCommand.values().joinToString("\n") { it.title }).prependI
                     try {
                         val args = data.split("\\s+".toRegex())
                         val acts = when {
-                            args.all { it.toInt() - 1 in hand.indices } -> {
+                            args.all { it.toIntOrNull()?.minus(1) in hand.indices } -> {
                                 args.map { hand[it.toInt() - 1] }
                             }
                             args.size == 2 && args[0] in teamActors && args[1] in actNameMapping -> {
@@ -450,9 +454,13 @@ ${(InteractiveStrategyCommand.values().joinToString("\n") { it.title }).prependI
                     } else if (stage.turn - cutinLastUseTurns.getValue(cutin) < cutin.currentCooldown) {
                         log("Cutin") { "Error: Cutin is on cooldown." }
                     } else {
-                        cutinLastUseTurns[cutin] = stage.turn
-                        cutinUseCounts[cutin] = cutinUseCounts.getValue(cutin) + 1
-                        cutinQueue += cutin
+                        if (cutin in cutinQueue) {
+                            cutinQueue -= cutin
+                            log("Cutin") { "Unqueued cutin" }
+                        } else {
+                            cutinQueue += cutin
+                            log("Cutin") { "Queued cutin" }
+                        }
                     }
                 }
                 InteractiveStrategyCommand.CLIMAX -> {
@@ -470,6 +478,7 @@ ${(InteractiveStrategyCommand.values().joinToString("\n") { it.title }).prependI
                         hand.clear()
                         internalHand.clear()
                         drawHand()
+                        log("Climax") { "Entered climax.\n\nHand:\n${hand.numbered().prependIndent()}" }
                     }
                 }
                 InteractiveStrategyCommand.STATUS -> {
@@ -560,7 +569,7 @@ ${
     private fun List<BoundAct>.numbered() = mapIndexed { index, act -> "${index + 1}. $act" }.joinToString("\n")
 
     private data class BoundAct(val actor: Actor, val type: ActType) : Comparable<BoundAct> {
-        val act = actor.acts[type]!!
+        val act = actor.acts[type] ?: error("Actor '${actor.name}' does not have an act with type '${type.name}'")
         val apCost get() = (act.apCost + actor.apChange).coerceAtLeast(1)
 
         val sortPriority = run {
