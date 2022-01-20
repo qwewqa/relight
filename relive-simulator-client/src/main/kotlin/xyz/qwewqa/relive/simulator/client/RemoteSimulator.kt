@@ -35,6 +35,16 @@ class RemoteSimulator(val baseUrl: URL) : Simulator {
         )
     }
 
+    override suspend fun simulateInteractive(parameters: SimulationParameters): InteractiveSimulation {
+        return RemoteInteractiveSimulation(
+            this,
+            client.post<SimulateResponse>(URL("/simulate_interactive", baseUrl.href).href) {
+                contentType(ContentType.Application.Json)
+                body = parameters
+            }.token
+        )
+    }
+
     override suspend fun version(): SimulatorVersion {
         return client.get(URL("/version", baseUrl.href).href)
     }
@@ -64,6 +74,23 @@ class RemoteSimulator(val baseUrl: URL) : Simulator {
 
         override suspend fun cancel() {
             client.get<HttpResponse>(URL("/result/$token/cancel", baseUrl.href).href)
+        }
+    }
+
+    inner class RemoteInteractiveSimulation(val simulator: RemoteSimulator, val token: String) : InteractiveSimulation {
+        override suspend fun getLog(): String {
+            return client.get<InteractiveLog>(URL("/interactive/$token", baseUrl.href).href).contents
+        }
+
+        override suspend fun sendCommand(text: String) {
+            client.post<String>(URL("/interactive/$token", baseUrl.href).href) {
+                contentType(ContentType.Application.Json)
+                body = InteractiveCommand(text)
+            }
+        }
+
+        override suspend fun end() {
+            client.get<HttpResponse>(URL("/result/$token/end", baseUrl.href).href)
         }
     }
 }

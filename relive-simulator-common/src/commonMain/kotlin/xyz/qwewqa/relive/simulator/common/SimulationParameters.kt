@@ -29,6 +29,12 @@ data class SimulatorVersion(
 }
 
 @Serializable
+data class InteractiveLog(val contents: String)
+
+@Serializable
+data class InteractiveCommand(val text: String)
+
+@Serializable
 data class SimulationOptions(
     val locales: Map<String, String>,
     val commonText: List<SimulationOption>,

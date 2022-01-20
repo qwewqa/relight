@@ -18,7 +18,7 @@ class Stage(
     val enemy: Team,
     val damageCalculator: DamageCalculator = RandomDamageCalculator(),
     val configuration: StageConfiguration = StageConfiguration(),
-    val random: Random = Random.Default,
+    var random: Random = Random.Default,
 ) {
     val logger = StageLogger()
 
