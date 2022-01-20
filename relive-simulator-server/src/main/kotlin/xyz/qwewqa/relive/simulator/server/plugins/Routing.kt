@@ -6,6 +6,7 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
@@ -68,6 +69,56 @@ fun Application.configureRouting() {
             val parameters = call.receive<SimulationParameters>()
             val token = simulate(parameters, call.application.environment.log)
             call.respond(SimulateResponse(token))
+        }
+        post("/simulate_interactive") {
+            val parameters = call.receive<SimulationParameters>()
+            val token = simulateInteractive(parameters, call.application.environment.log)
+            call.respond(SimulateResponse(token))
+        }
+        get("/interactive/{token}") {
+            val token = call.parameters["token"]!!
+            val controller = interactiveSimulations[token]
+            if (controller == null) {
+                val errorMessage = interactiveSimulationErrors[token]
+                if (errorMessage != null) {
+                    call.respond(errorMessage)
+                } else {
+                    call.respond(HttpStatusCode.NotFound)
+                }
+            } else {
+                call.respond(InteractiveLog(controller.getLog()))
+            }
+        }
+        post("/interactive/{token}") {
+            val token = call.parameters["token"]!!
+            val command = call.receive<InteractiveCommand>()
+            val controller = interactiveSimulations[token]
+            if (controller == null) {
+                val errorMessage = interactiveSimulationErrors[token]
+                if (errorMessage != null) {
+                    call.respond(errorMessage)
+                } else {
+                    call.respond(HttpStatusCode.NotFound)
+                }
+            } else {
+                controller.sendCommand(command.text)
+                call.respond(controller.getLog())
+            }
+        }
+        get("/interactive/{token}/end") {
+            val token = call.parameters["token"]!!
+            val controller = interactiveSimulations[token]
+            if (controller == null) {
+                val errorMessage = interactiveSimulationErrors[token]
+                if (errorMessage != null) {
+                    interactiveSimulationErrors.remove(token)
+                } else {
+                    call.respond(HttpStatusCode.NotFound)
+                }
+            } else {
+                controller.end()
+                call.respond(HttpStatusCode.NoContent)
+            }
         }
         get("/result/{token}") {
             val token = call.parameters["token"]!!

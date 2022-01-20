@@ -18,7 +18,7 @@ sealed class SimpleStrategyCommand : SimpleStrategyLine() {
     data class Cutin(val actor: String) : SimpleStrategyCommand()
 }
 
-private val actNameMapping = mapOf(
+val actNameMapping = mapOf(
     "1" to ActType.Act1,
     "2" to ActType.Act2,
     "3" to ActType.Act3,

@@ -63,15 +63,6 @@ object IdleTile : QueueTile() {
     override val agility = 0
 }
 
-data class BoundCutin(val actor: Actor, val data: CutinData) {
-    val agility get() = actor.agility
-
-    fun execute() {
-        actor.context.log("Act") { "Executing cutin act." }
-        actor.executeCutin(data.act)
-    }
-}
-
 class ActionTile(val actor: Actor, val apCost: Int, val actData: ActData) : QueueTile() {
     override val agility get() = actor.agility
 
@@ -85,6 +76,17 @@ class ActionTile(val actor: Actor, val apCost: Int, val actData: ActData) : Queu
             actor.execute(actData.act, apCost)
         }
     }
+}
+
+data class BoundCutin(val actor: Actor, val data: CutinData) {
+    val agility get() = actor.agility
+
+    fun execute() {
+        actor.context.log("Act") { "Executing cutin act." }
+        actor.executeCutin(data.act)
+    }
+
+    override fun toString() = "[${actor.dress.name} (${actor.name})]:[${actor.memoir?.name}]"
 }
 
 object EmptyStrategy : Strategy {

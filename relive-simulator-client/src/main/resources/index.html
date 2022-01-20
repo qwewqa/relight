@@ -5,7 +5,7 @@
     <title>Relive Damage Simulator</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css">
@@ -20,6 +20,15 @@
         .CodeMirror-scroll {
             height: auto;
             max-height: 500px;
+        }
+
+        #interactive-input {
+            font-family: monospace;
+        }
+
+        #interactive-log-container {
+            overflow-y: scroll;
+            height: 500px;
         }
     </style>
 </head>
@@ -351,6 +360,9 @@
                     </a>
                 </div>
                 <div class="col-auto">
+                    <button id="interactive-button" type="button" class="btn btn-secondary text-interactive">
+                        Interactive
+                    </button>
                     <button id="cancel-button" type="button" class="btn btn-danger text-cancel-simulation" disabled>
                         Cancel
                     </button>
@@ -358,6 +370,22 @@
                 </div>
             </div>
         </form>
+        <div class="border border-2 rounded px-3 py-2 my-3" id="interactive">
+            <div class="row" id="interactive-display-row">
+                <div class="col-12">
+                    <div id="interactive-log-container">
+                        <pre id="interactive-log">Log</pre>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="interactive-input-row">
+                <div class="input-group">
+                    <input id="interactive-input" class="form-control" type="text">
+                    <button id="interactive-send-button" class="btn btn-outline-secondary" type="button"><i
+                            class="bi-send"></i></button>
+                </div>
+            </div>
+        </div>
         <div id="results">
             <div class="row d-none" id="results-row">
                 <div class="col-12">

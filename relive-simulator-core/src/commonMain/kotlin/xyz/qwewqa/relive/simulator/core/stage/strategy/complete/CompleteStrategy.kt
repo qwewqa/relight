@@ -35,7 +35,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     private var lastEnemyActs: List<CsAct> = emptyList()
 
     private val queuedCutins = mutableListOf<BoundCutin>()
-    private var cutinEnergy = 2 // one is gained at the start of t1
+    private var cutinEnergy = 0
     private var cutinUseCounts = mutableMapOf<BoundCutin, Int>().withDefault { 0 }
     private var cutinLastUseTurns = mutableMapOf<BoundCutin, Int>().withDefault { 1 }
 
@@ -298,7 +298,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         queuedCutins.clear()
         queueSize = 0
         drawHand()
-        cutinEnergy = (cutinEnergy + 1).coerceAtMost(10)
+        cutinEnergy = stage.turn + 2
         script.body.execute(context)
         discardHand()
         queued.forEach {
@@ -460,7 +460,7 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-private fun <T : Comparable<T>> MutableList<T>.qsort() {
+fun <T : Comparable<T>> MutableList<T>.qsort() {
     if (size <= 1) return
     auxsort(this, 0, size - 1)
 }

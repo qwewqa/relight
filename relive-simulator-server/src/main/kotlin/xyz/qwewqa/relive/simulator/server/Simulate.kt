@@ -8,12 +8,15 @@ import kotlinx.serialization.encodeToString
 import org.slf4j.Logger
 import xyz.qwewqa.relive.simulator.common.*
 import xyz.qwewqa.relive.simulator.core.stage.*
+import xyz.qwewqa.relive.simulator.core.stage.strategy.interactive.InteractiveSimulationController
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
 import kotlin.random.Random
 
 val simulationResults = ConcurrentHashMap<String, SimulationResult>()
 val simulationJobs = ConcurrentHashMap<String, Job>()
+val interactiveSimulations = ConcurrentHashMap<String, InteractiveSimulationController>()
+val interactiveSimulationErrors = ConcurrentHashMap<String, String>()
 
 private val tokenChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
 fun generateToken(): String {
@@ -46,6 +49,23 @@ fun simulate(parameters: SimulationParameters, logger: Logger? = null): String {
     } else {
         simulationJobs[token] = simulateMany(parameters, token, logger)
     }
+    return token
+}
+
+fun simulateInteractive(parameters: SimulationParameters, logger: Logger? = null): String {
+    val token = generateToken()
+    logger?.info(
+        "Performing interactive simulation\nToken: $token\n---\n${Yaml.default.encodeToString(parameters)}",
+    )
+    val loadout = try {
+        parameters.createStageLoadout()
+    } catch (e: Exception) {
+        interactiveSimulationErrors[token] = e.stackTraceToString()
+        return token
+    }
+    val controller = InteractiveSimulationController(parameters.seed, loadout)
+    interactiveSimulations[token] = controller
+    controller.play()
     return token
 }
 

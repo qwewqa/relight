@@ -12,6 +12,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.w3c.dom.*
 import org.w3c.dom.events.Event
+import org.w3c.dom.events.KeyboardEvent
 import org.w3c.dom.url.URL
 import xyz.qwewqa.relive.simulator.client.Plotly.react
 import xyz.qwewqa.relive.simulator.common.*
@@ -25,6 +26,8 @@ suspend fun main() {
 class SimulatorClient(val simulator: Simulator) {
     var simulation: Simulation? = null
     var done = false
+
+    var interactiveSimulation: InteractiveSimulation? = null
 
     val versionLink = document.getElementById("version-link") as HTMLAnchorElement
     val languageSelect = document.getElementById("language-select").singleSelect()
@@ -47,6 +50,7 @@ class SimulatorClient(val simulator: Simulator) {
     val bossStrategyContainer = document.getElementById("boss-strategy-container") as HTMLDivElement
     val simulateButton = document.getElementById("simulate-button") as HTMLButtonElement
     val cancelButton = document.getElementById("cancel-button") as HTMLButtonElement
+    val interactiveButton = document.getElementById("interactive-button") as HTMLButtonElement
     val eventBonusInput = document.getElementById("event-bonus-input").integerInput(0)
     val eventMultiplierInput = document.getElementById("event-multiplier-input").integerInput(100)
     val bossHpInput = document.getElementById("boss-hp-input").integerInput(-1)
@@ -64,6 +68,10 @@ class SimulatorClient(val simulator: Simulator) {
         bossStrategyCollapse.show = false
         value
     }
+    val interactiveLog = document.getElementById("interactive-log") as HTMLPreElement
+    val interactiveLogContainer = document.getElementById("interactive-log-container") as HTMLDivElement
+    val interactiveInput = document.getElementById("interactive-input").textInput()
+    val interactiveSendButton = document.getElementById("interactive-send-button") as HTMLButtonElement
 
     private fun toastElement(name: String, color: String = "grey", value: DIV.() -> Unit) =
         document.create.div("toast") {
@@ -145,8 +153,12 @@ class SimulatorClient(val simulator: Simulator) {
         val bosses = options.bosses.associateBy { it.id }
         val strategies = options.strategyTypes.associateBy { it.id }
         val bossStrategies = options.bossStrategyTypes.associateBy { it.id }
-        val songEffects = mapOf("none" to (commonText["none"] ?: SimulationOption("none",
-            emptyMap()))) + options.songEffects.associateBy { it.id }
+        val songEffects = mapOf(
+            "none" to (commonText["none"] ?: SimulationOption(
+                "none",
+                emptyMap()
+            ))
+        ) + options.songEffects.associateBy { it.id }
         val conditions = options.conditions.associateBy { it.id }
         val dresses = options.dresses.associateBy { it.id }
         val memoirs = options.memoirs.associateBy { it.id }
@@ -204,7 +216,10 @@ class SimulatorClient(val simulator: Simulator) {
                                     }
                                 }
                                 div("col-3 col-md-2 my-2 pt-3 d-grid") {
-                                    button(type = ButtonType.button, classes = "btn btn-outline-secondary text-actor-details") {
+                                    button(
+                                        type = ButtonType.button,
+                                        classes = "btn btn-outline-secondary text-actor-details"
+                                    ) {
                                         attributes["data-bs-toggle"] = "collapse"
                                         attributes["data-bs-target"] = "#$collapseId"
                                         +localized(".text-actor-details", "Details")
@@ -414,7 +429,8 @@ class SimulatorClient(val simulator: Simulator) {
                                                     value = it.id
                                                     +it[locale]
                                                     attributes["data-subtext"] = it.description?.get(locale) ?: ""
-                                                    attributes["data-tokens"] = it.tags?.get(locale)?.joinToString(" ") ?: ""
+                                                    attributes["data-tokens"] =
+                                                        it.tags?.get(locale)?.joinToString(" ") ?: ""
                                                 }
                                             }
                                         }
@@ -671,6 +687,39 @@ class SimulatorClient(val simulator: Simulator) {
                 cancelButton.disabled = true
             }
         })
+        interactiveButton.addEventListener("click", {
+            GlobalScope.launch {
+                warnIfServerVersionMismatched()
+                try {
+                    val setup = getSetup()
+                    interactiveSimulation = simulator.simulateInteractive(setup)
+                    updateUrlForSetup(setup)
+                } catch (e: Throwable) {
+                    toast("Simulate", "Interactive simulation failed to start.", "red")
+                    return@launch
+                }
+                toast("Simulate", "Interactive simulation started.", "green")
+                done = false
+            }
+        })
+
+        suspend fun sendInteractiveCommand() {
+            interactiveSimulation?.sendCommand(interactiveInput.value)
+            interactiveInput.value = ""
+        }
+
+        interactiveSendButton.addEventListener("click", {
+            GlobalScope.launch {
+                sendInteractiveCommand()
+            }
+        })
+        interactiveInput.element.addEventListener("keypress", {
+            if ((it as KeyboardEvent).key == "Enter") {
+                GlobalScope.launch {
+                    sendInteractiveCommand()
+                }
+            }
+        })
 
         fun updateLocaleText() {
             val rankPanelOptions = listOfNotNull(
@@ -760,6 +809,23 @@ class SimulatorClient(val simulator: Simulator) {
         }
 
         toast("Ready", "Initialization complete.", "green")
+
+        GlobalScope.launch {
+            while (true) {
+                delay(50)
+                interactiveSimulation?.let { sim ->
+                    val isScrolledDown = interactiveLogContainer.let {
+                        it.scrollHeight - it.offsetHeight - it.scrollTop < 1.0
+                    }
+                    interactiveLog.textContent = sim.getLog()
+                    if (isScrolledDown) {
+                        interactiveLogContainer.let {
+                            it.scrollTop = (it.scrollHeight - it.offsetHeight).toDouble()
+                        }
+                    }
+                }
+            }
+        }
 
         GlobalScope.launch {
             while (true) {
