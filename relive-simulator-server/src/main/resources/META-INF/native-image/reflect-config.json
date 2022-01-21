@@ -284,6 +284,40 @@
     ]
   },
   {
+    "name": "xyz.qwewqa.relive.simulator.common.InteractiveLog",
+    "fields": [
+      {
+        "name": "Companion"
+      }
+    ]
+  },
+  {
+    "name": "xyz.qwewqa.relive.simulator.common.InteractiveLog$Companion",
+    "methods": [
+      {
+        "name": "serializer",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "xyz.qwewqa.relive.simulator.common.InteractiveCommand",
+    "fields": [
+      {
+        "name": "Companion"
+      }
+    ]
+  },
+  {
+    "name": "xyz.qwewqa.relive.simulator.common.InteractiveCommand$Companion",
+    "methods": [
+      {
+        "name": "serializer",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
     "name": "xyz.qwewqa.relive.simulator.common.SimulatorFeatures",
     "fields": [
       {
