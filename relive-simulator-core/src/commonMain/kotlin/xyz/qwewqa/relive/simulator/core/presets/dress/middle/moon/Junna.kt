@@ -16,6 +16,7 @@ val AnastasiaJunna = dress1060021(
         ActType.Act1.blueprint("Purifying Strike", 2) {
             Act {
                 targetAllyAoe().act {
+                    dispelTimed(BuffCategory.Negative)
                     applyBuff(
                         effect = NegativeEffectResistanceBuff,
                         value = values2,

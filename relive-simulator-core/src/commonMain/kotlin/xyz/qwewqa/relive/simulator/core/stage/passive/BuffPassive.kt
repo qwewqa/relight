@@ -40,6 +40,9 @@ val TeamStopResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(StopRes
 val SelfStopResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(StopResistanceBuff, EffectTag.StopResistance) { targetSelf() }
 val TeamStunResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(StunResistanceBuff, EffectTag.StunResistance, "Team") { targetAllyAoe(it) }
 val TeamBurnResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(BurnResistanceBuff, EffectTag.BurnResistance, "Team") { targetAllyAoe(it) }
+val TeamFreezeResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(FreezeResistanceBuff, EffectTag.FreezeResistance, "Team") { targetAllyAoe(it) }
+val TeamBlindnessResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(BlindnessResistanceBuff, EffectTag.BlindnessResistance, "Team") { targetAllyAoe(it) }
+val TeamSleepResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(SleepResistanceBuff, EffectTag.SleepResistance, "Team") { targetAllyAoe(it) }
 
 val EnemyBack1ConfusionBuffPassive: PassiveEffect = DebuffPassive(ConfusionBuff, EffectTag.Confusion, "Enemy Back 1") { targetBack(1) }
 val EnemyBack1DazeBuffPassive: PassiveEffect = CountableDebuffPassive(CountableBuff.Daze, EffectTag.Daze, "Enemy Back 1") { targetBack(1) }
@@ -51,6 +54,8 @@ val EnemyBack2APUpBuffPassive : PassiveEffect = GenericBuffPassive(ApUpBuff, Eff
 val EnemyBack3APUpBuffPassive : PassiveEffect = GenericBuffPassive(ApUpBuff, EffectTag.ApUp, "Enemy Back 3") { targetBack(3) }
 val EnemyBack2LockedAPUpBuffPassive : PassiveEffect = GenericBuffPassive(LockedApUpBuff, EffectTag.ApUp, "Enemy Back 2") { targetBack(2) }
 val EnemyBack3LockedAPUpBuffPassive : PassiveEffect = GenericBuffPassive(LockedApUpBuff, EffectTag.ApUp, "Enemy Back 3") { targetBack(3) }
+val EnemyProvokeBuffPassive: PassiveEffect = GenericBuffPassive(Provoke, EffectTag.Provoke, "Enemy AoE") { targetAoe() }
+val EnemyAggroBuffPassive: PassiveEffect = GenericBuffPassive(Aggro, EffectTag.Aggro, "Enemy AoE") { targetAoe() }
 
 private data class GenericBuffPassive(
     val buffEffect: BuffEffect,

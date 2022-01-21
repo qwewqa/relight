@@ -58,3 +58,29 @@ object TeamHpUpPassive : PassiveEffect {
         }
     }
 }
+
+object TeamNormalDefenseUpPassive : PassiveEffect {
+    override val category = PassiveEffectCategory.Passive
+    override val tags = listOf(EffectTag.Defense)
+
+    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+        team.actors.values.forEach { member ->
+            condition.applyIfTrue(member) {
+                boostNormalDefense += value
+            }
+        }
+    }
+}
+
+object TeamSpecialDefenseUpPassive : PassiveEffect {
+    override val category = PassiveEffectCategory.Passive
+    override val tags = listOf(EffectTag.SpecialDefense)
+
+    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+        team.actors.values.forEach { member ->
+            condition.applyIfTrue(member) {
+                boostSpecialDefense += value
+            }
+        }
+    }
+}
