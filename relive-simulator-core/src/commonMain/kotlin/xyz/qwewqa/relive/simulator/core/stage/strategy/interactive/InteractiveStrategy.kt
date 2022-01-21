@@ -567,10 +567,6 @@ ${
                     }
                 }
                 InteractiveStrategyCommand.INFO -> {
-                    if (!queuing) {
-                        log("Info") { "Error: Not in a turn." }
-                        return@run
-                    }
                     log("Info") {
                         hierarchicalString("Info") {
                             "Team" {
