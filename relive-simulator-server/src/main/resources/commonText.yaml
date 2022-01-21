@@ -130,15 +130,24 @@
 '.text-actor-rank-panel-pattern':
   en: Rank Panel Pattern
   zh_hant: 技能拼圖點法
-'full-rank-panels':
-  en: Full
+'all-rank-panels':
+  en: All
   zh_hant: 全滿
-'upper-rank-panels':
-  en: Upper
+'left-7-rank-panels':
+  en: Left 7
+  zh_hant: 左路7格
+'upper-5-rank-panels':
+  en: Upper 5
   zh_hant: 上路5格
-'lower-rank-panels':
-  en: Lower
+'lower-5-rank-panels':
+  en: Lower 5
   zh_hant: 下路5格
+'upper-3-rank-panels':
+  en: Upper 3
+  zh_hant: 上路3格
+'lower-3-rank-panels':
+  en: Lower 3
+  zh_hant: 下路3格
 'none-rank-panels':
   en: None
   zh_hant: 空盤

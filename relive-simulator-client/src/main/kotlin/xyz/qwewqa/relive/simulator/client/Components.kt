@@ -179,11 +179,17 @@ class ActorOptions(element: Element) {
 
     companion object {
         val rankPanelPatterns = mapOf(
-            "Full" to listOf(true, true, true, true, true, true, true, true),
-            "Upper" to listOf(true, true, true, true, true, false, false, false),
-            "Lower" to listOf(true, false, false, false, true, true, true, true),
+            "All" to listOf(true, true, true, true, true, true, true, true),
+            "Left 7" to listOf(true, true, true, true, false, true, true, true),
+            "Upper 5" to listOf(true, true, true, true, true, false, false, false),
+            "Lower 5" to listOf(true, false, false, false, true, true, true, true),
+            "Upper 3" to listOf(true, true, true, false, false, false, false, false),
+            "Lower 3" to listOf(true, false, false, false, false, false, true, true),
             "None" to listOf(false, false, false, false, false, false, false, false),
         )
+        val rankPanelIds = rankPanelPatterns.keys.associateWith {
+            "${it.lowercase().replace(" ", "-")}-rank-panels"
+        }
         val inverseRankPanelPatterns = rankPanelPatterns.map { (k, v) -> v to k }.toMap()
     }
 

@@ -14,6 +14,7 @@ import org.w3c.dom.*
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.KeyboardEvent
 import org.w3c.dom.url.URL
+import xyz.qwewqa.relive.simulator.client.ActorOptions.Companion.rankPanelIds
 import xyz.qwewqa.relive.simulator.client.Plotly.react
 import xyz.qwewqa.relive.simulator.common.*
 import kotlin.random.Random
@@ -396,22 +397,12 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                         select(classes = "form-select actor-rank-panel-pattern") {
                                             id = selectId
-                                            option {
-                                                value = "Full"
-                                                +localized("full-rank-panels", "Full")
-                                                selected = true
-                                            }
-                                            option {
-                                                value = "Upper"
-                                                +localized("upper-rank-panels", "Upper")
-                                            }
-                                            option {
-                                                value = "Lower"
-                                                +localized("lower-rank-panels", "Lower")
-                                            }
-                                            option {
-                                                value = "None"
-                                                +localized("none-rank-panels", "None")
+                                            rankPanelIds.entries.forEachIndexed { i, (name, id) ->
+                                                option {
+                                                    value = name
+                                                    +localized(id, name)
+                                                    selected = i == 0
+                                                }
                                             }
                                         }
                                     }
@@ -723,12 +714,9 @@ class SimulatorClient(val simulator: Simulator) {
         })
 
         fun updateLocaleText() {
-            val rankPanelOptions = listOfNotNull(
-                commonText["full-rank-panels"]?.let { "Full" to it },
-                commonText["upper-rank-panels"]?.let { "Upper" to it },
-                commonText["lower-rank-panels"]?.let { "Lower" to it },
-                commonText["none-rank-panels"]?.let { "None" to it },
-            ).toMap()
+            val rankPanelOptions = rankPanelIds.mapNotNull { (name, id) ->
+                commonText[id]?.let { name to it }
+            }.toMap()
 
             bossSelect.localize(bosses, locale)
             strategyTypeSelect.localize(strategies, locale)
