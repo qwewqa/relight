@@ -689,6 +689,7 @@ class SimulatorClient(val simulator: Simulator) {
         })
         interactiveButton.addEventListener("click", {
             interactiveContainer.removeClass("d-none")
+            interactiveContainer.scrollIntoView()
             GlobalScope.launch {
                 warnIfServerVersionMismatched()
                 try {

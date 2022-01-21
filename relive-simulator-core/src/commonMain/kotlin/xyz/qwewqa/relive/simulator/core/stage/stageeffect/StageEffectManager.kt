@@ -15,6 +15,8 @@ class StageEffectManager(val team: Team) {
 
     private val activeBuffs = mutableListOf<Pair<ActiveBuff, Actor>>()
 
+    fun values() = levels.mapNotNull { (k, v) -> (k to v).takeIf { v > 9 } }
+
     fun add(effect: StageEffect, turns: Int) {
         if (turns <= 0) return
         activeStacks += ActiveStageEffect(effect, turns)

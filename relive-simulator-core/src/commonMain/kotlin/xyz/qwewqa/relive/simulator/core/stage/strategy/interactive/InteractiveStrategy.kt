@@ -9,6 +9,7 @@ import xyz.qwewqa.relive.simulator.core.stage.StageConfiguration
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
+import xyz.qwewqa.relive.simulator.core.stage.hierarchicalString
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.strategy.*
@@ -45,15 +46,15 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout:
         when (command.type) {
             InteractiveStrategyCommand.SAVE -> {
                 saves[command.data] = history.toList()
-                stage.log("Command / Save") { "Saved state as '${command.data}'."}
+                stage.log("Command / Save") { "Saved state as '${command.data}'." }
             }
             InteractiveStrategyCommand.LOAD -> {
                 val save = saves[command.data]
                 if (save == null) {
-                    stage.log("Command / Load") { "No save state with name '${command.data}' found."}
+                    stage.log("Command / Load") { "No save state with name '${command.data}' found." }
                 } else {
                     loadSave(save)
-                    stage.log("Command / Load") { "Loaded save state with name '${command.data}'."}
+                    stage.log("Command / Load") { "Loaded save state with name '${command.data}'." }
                 }
             }
             InteractiveStrategyCommand.UNDO -> {
@@ -113,6 +114,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout:
         }
         return InteractiveStrategyCommandInvocation(command, data, trimmed)
     }
+
     fun play() {
         runningJob = launch {
             stage.play(maxTurns)
@@ -303,7 +305,7 @@ ${
                         if (data == "all") {
                             log("Help") {
                                 InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n\n") {
-                                    "${it.title}\n\n${it.helpBody.prependIndent()}"
+                                    "${it.title}:\n\n${it.helpBody.prependIndent()}"
                                 }
                             }
                         } else {
@@ -539,7 +541,7 @@ ${(InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n") 
 Act Queue:
 ${(if (queue.isEmpty()) "Empty" else queue.joinToString("\n")).prependIndent()}
 
-Cutin queue:
+Cutin Queue:
 ${(if (cutinQueue.isEmpty()) "Empty" else cutinQueue.joinToString("\n")).prependIndent()}
 
 Hand:
@@ -547,12 +549,12 @@ ${hand.numbered().prependIndent()}
 
 Cutins (${cutinEnergy} Energy):
 ${
-    (teamActors.values
-        .filter { it.isAlive }
-        .mapNotNull { it.cutin }
-        .joinToString("\n") { it.formatted() }
-        .takeIf { it.isNotEmpty() } ?: "Empty").prependIndent()
-}
+                            (teamActors.values
+                                .filter { it.isAlive }
+                                .mapNotNull { it.cutin }
+                                .joinToString("\n") { it.formatted() }
+                                .takeIf { it.isNotEmpty() } ?: "Empty").prependIndent()
+                        }
 """.trimIndent()
                     }
                 }
@@ -561,8 +563,34 @@ ${
                         log("Info") { "Error: Not in a turn." }
                         return@run
                     }
-                    // TODO
-                    log("Info") { "TODO" }
+                    log("Info") {
+                        hierarchicalString("Info") {
+                            "Team" {
+                                "Climax Turns: ${team.cxTurns}"
+                                "Stage Effects" {
+                                    team.stageEffects.values()
+                                        .map { (effect, level) -> "[${effect.name}] lv$level" }
+                                        .sorted()
+                                        .joinToString("\n")
+                                }
+                                team.actors.values.forEach {
+                                    +it.formattedStatus()
+                                }
+                            }
+                            "Enemy" {
+                                "Climax Turns: ${enemy.cxTurns}"
+                                "Stage Effects" {
+                                    enemy.stageEffects.values()
+                                        .map { (effect, level) -> "[${effect.name}] lv$level" }
+                                        .sorted()
+                                        .joinToString("\n")
+                                }
+                                enemy.actors.values.forEach {
+                                    +it.formattedStatus()
+                                }
+                            }
+                        }
+                    }
                 }
                 InteractiveStrategyCommand.HISTORY -> {
                     log("History") { history.joinToString("\n") }
@@ -621,6 +649,57 @@ ${
             discardPile += BoundAct(actor, ActType.Act1)
             discardPile += BoundAct(actor, ActType.Act2)
             discardPile += BoundAct(actor, ActType.Act3)
+        }
+
+        private fun String.blankOrWithHeader(header: String) = if (isBlank()) "" else "$header\n${prependIndent()}"
+
+        private fun Actor.formattedStatus() = hierarchicalString("${dress.name} (${name})") {
+            "Status" {
+                +"HP: $hp/$maxHp"
+                +"Brilliance: $brilliance/$brilliance"
+            }
+            "Stats" {
+                +"Act Power: $actPower"
+                +"Normal Defense: $normalDefense"
+                +"Special Defense: $specialDefense"
+                +"Agility: $agility"
+                +"Dexterity: $dexterity"
+                +"Critical: $critical"
+                +"Accuracy: $accuracy"
+                +"Evasion: $evasion"
+            }
+            "Buffs" {
+                "Timed" {
+                    "Positive" {
+                        buffs.timedPositive()
+                            .map { it.toString() }
+                            .sorted()
+                            .forEach { +it }
+                    }
+                    "Negative" {
+                        buffs.timedNegative()
+                            .map { it.toString() }
+                            .sorted()
+                            .forEach { +it }
+                    }
+                }
+                "Countable" {
+                    "Positive" {
+                        buffs.countablePositive()
+                            .filter { (_, v) -> v > 0 }
+                            .map { (k, v) -> "[$k] x$v" }
+                            .sorted()
+                            .forEach { +it }
+                    }
+                    "Negative" {
+                        buffs.countableNegative()
+                            .filter { (_, v) -> v > 0 }
+                            .map { (k, v) -> "[$k] x$v" }
+                            .sorted()
+                            .forEach { +it }
+                    }
+                }
+            }
         }
 
         private fun BoundCutin.formatted() =
@@ -969,11 +1048,11 @@ enum class InteractiveStrategyCommand(
     ;
 
     val helpBody = listOfNotNull(
-        "Aliases\n${aliases.joinToString(", ").prependIndent()}"
+        "Aliases:\n${aliases.joinToString(", ").prependIndent()}"
             .takeIf { aliases.isNotEmpty() },
-        "Synopsis\n${synopsis.prependIndent()}",
-        "Description\n${description.prependIndent()}",
-        "Examples\n${examples.prependIndent()}"
+        "Synopsis:\n${synopsis.prependIndent()}",
+        "Description:\n${description.prependIndent()}",
+        "Examples:\n${examples.prependIndent()}"
     ).joinToString("\n\n")
 
     val helpText = "$title\n\n$helpBody"
