@@ -12,6 +12,12 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.back.space.SanadaMahiru
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.wind.FoolYachiyo
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.wind.ImperialCombatRevueFlowerDivisionSakura
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.wind.SakuraShingujiHikari
+import xyz.qwewqa.relive.simulator.core.presets.dress.front.cloud.EmpressMeiFan
+import xyz.qwewqa.relive.simulator.core.presets.dress.front.flower.EmperorAkira
+import xyz.qwewqa.relive.simulator.core.presets.dress.front.moon.FaithMisora
+import xyz.qwewqa.relive.simulator.core.presets.dress.front.snow.HierophantMichiru
+import xyz.qwewqa.relive.simulator.core.presets.dress.front.space.CharityTsukasa
+import xyz.qwewqa.relive.simulator.core.presets.dress.front.wind.StrengthFutaba
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.MitsuhideKaren
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.StageGirlMisora
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.StageGirlNana
@@ -27,11 +33,16 @@ val playerDresses = listOf(
     AceMisora,
     AnastasiaJunna,
     CatalinaKaoruko,
+    CharityTsukasa,
     DeathTamao,
     DevilKaoruko,
+    EmperorAkira,
+    EmpressMeiFan,
+    FaithMisora,
     FoolYachiyo,
     FuMeiFan,
     HeroHikari,
+    HierophantMichiru,
     HondaFutaba,
     HopeLalafin,
     ImperialCombatRevueFlowerDivisionSakura,
@@ -56,6 +67,7 @@ val playerDresses = listOf(
     StageGirlNana,
     StageGirlRui,
     StageGirlYachiyo,
+    StrengthFutaba,
     SunIchie,
     TowerHikari,
     WheelOfFortuneKaren,
