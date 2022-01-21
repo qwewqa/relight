@@ -37,7 +37,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     private val queuedCutins = mutableListOf<BoundCutin>()
     private var cutinEnergy = 0
     private var cutinUseCounts = mutableMapOf<BoundCutin, Int>().withDefault { 0 }
-    private var cutinLastUseTurns = mutableMapOf<BoundCutin, Int>().withDefault { 1 }
+    private var cutinLastUseTurns = mutableMapOf<BoundCutin, Int>().withDefault { 0 }
 
     private val discardPile = mutableListOf<CsAct>()
     private val drawPile = ArrayDeque<CsAct>()
@@ -397,9 +397,9 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     private fun canActivateCutin(cutin: BoundCutin): Boolean = cutin.actor.isAlive &&
             cutin.data.cost <= cutinEnergy &&
             cutinUseCounts.getValue(cutin) < cutin.data.usageLimit &&
-            stage.turn - cutinLastUseTurns.getValue(cutin) >= cutin.currentCooldown
+            stage.turn - cutinLastUseTurns.getValue(cutin) > cutin.currentCooldownValue
 
-    private val BoundCutin.currentCooldown
+    private val BoundCutin.currentCooldownValue
         get() = if (cutinUseCounts.getValue(this) > 0) {
             data.cooldown
         } else {

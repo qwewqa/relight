@@ -18,19 +18,7 @@ sealed class SimpleStrategyCommand : SimpleStrategyLine() {
     data class Cutin(val actor: String) : SimpleStrategyCommand()
 }
 
-val actNameMapping = mapOf(
-    "1" to ActType.Act1,
-    "2" to ActType.Act2,
-    "3" to ActType.Act3,
-    "4" to ActType.Act4,
-    "5" to ActType.Act5,
-    "6" to ActType.Act6,
-    "7" to ActType.Act7,
-    "8" to ActType.Act8,
-    "9" to ActType.Act9,
-    "10" to ActType.Act10,
-    "cx" to ActType.ClimaxAct,
-)
+val actNameMapping = ActType.values().associateBy { it.shortName }
 
 object SimpleStrategyGrammar : Grammar<Map<Int, List<SimpleStrategyCommand>>>() {
     val num by regexToken("""\d+""")

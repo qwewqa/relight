@@ -26,7 +26,7 @@
             font-family: monospace;
         }
 
-        #interactive-log-container {
+        #interactive-log {
             overflow-y: scroll;
             height: 500px;
         }
@@ -370,12 +370,10 @@
                 </div>
             </div>
         </form>
-        <div class="border border-2 rounded px-3 py-2 my-3" id="interactive">
+        <div class="border border-2 rounded px-3 py-2 my-3 d-none" id="interactive-container">
             <div class="row" id="interactive-display-row">
                 <div class="col-12">
-                    <div id="interactive-log-container">
-                        <pre id="interactive-log">Log</pre>
-                    </div>
+                    <pre id="interactive-log"></pre>
                 </div>
             </div>
             <div class="row" id="interactive-input-row">
