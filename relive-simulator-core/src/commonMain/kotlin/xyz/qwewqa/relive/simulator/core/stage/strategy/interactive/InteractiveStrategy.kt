@@ -16,19 +16,60 @@ import xyz.qwewqa.relive.simulator.core.stage.strategy.complete.qsort
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 import kotlin.random.Random
 
-class InteractiveSimulationController(val seed: Int, loadout: StageLoadout) : CoroutineScope by CoroutineScope(Dispatchers.Default) {
-    private val channel = Channel<InteractiveStrategyCommandInvocation?>()
+class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout: StageLoadout) :
+    CoroutineScope by CoroutineScope(Dispatchers.Default) {
     private val mutex = Mutex()
 
     private var strategy = InteractiveStrategy()
     private val loadout = loadout.copy(player = loadout.player.copy(strategy = ::strategy))
+    private val channel get() = strategy.channel
 
     private var stage = newStage()
 
     private val history = mutableListOf<String>()
     private val fullHistory = mutableListOf<String>()
+    private val saves = mutableMapOf<String, List<String>>()
 
     private var runningJob: Job? = null
+
+    suspend fun getLog() = mutex.withLock {
+        // Ensures that we only obtain the log when control is handed over to the strategy.
+        // The strategy just ignores this, but this function will suspend until the strategy is ready.
+        channel.send(null)
+        stage.logger.toString()
+    }
+
+    suspend fun sendCommand(text: String) = mutex.withLock {
+        val command = parseCommand(text) ?: return
+        fullHistory += command.raw
+        when (command.type) {
+            InteractiveStrategyCommand.SAVE -> {
+                saves[command.data] = history.toList()
+                stage.log("Command / Save") { "Saved state as '${command.data}'."}
+            }
+            InteractiveStrategyCommand.LOAD -> {
+                val save = saves[command.data]
+                if (save == null) {
+                    stage.log("Command / Load") { "No save state with name '${command.data}' found."}
+                } else {
+                    loadSave(save)
+                    stage.log("Command / Load") { "Loaded save state with name '${command.data}'."}
+                }
+            }
+            InteractiveStrategyCommand.UNDO -> {
+                if (history.isEmpty()) {
+                    stage.log("Command / Undo") { "Error: History is empty." }
+                } else {
+                    loadSave(history.dropLast(1))
+                    stage.log("Command / Undo") { "Successfully undid command." }
+                }
+            }
+            else -> {
+                history += command.raw
+                channel.send(command)
+            }
+        }
+    }
 
     private fun newStage() = this.loadout.create(
         random = Random(Random(seed).nextInt()),
@@ -40,22 +81,27 @@ class InteractiveSimulationController(val seed: Int, loadout: StageLoadout) : Co
         strategy = InteractiveStrategy()
         stage = newStage()
         runningJob = launch {
-            stage.play()
+            stage.play(maxTurns)
         }
     }
 
-    suspend fun getLog() = mutex.withLock {
-        // Ensures that we only obtain the log when control is handed over to the strategy.
-        // The strategy just ignores this, but this function will suspend until the strategy is ready.
+    private suspend fun loadSave(lines: List<String>) {
+        resetStage()
+        history.clear()
+        history += lines
+        lines.forEach { line ->
+            parseCommand(line)?.let { command -> channel.send(command) }
+        }
+
+        // This is necessary because if lines is empty, a race condition might occur (such as with logging)
         channel.send(null)
-        stage.logger.toString()
     }
 
-    suspend fun sendCommand(text: String) = mutex.withLock {
+    private fun parseCommand(text: String): InteractiveStrategyCommandInvocation? {
         val trimmed = text.trim()
         if (trimmed.isEmpty()) {
-            stage.log("Command") { "Error: Empty command." }
-            return@withLock
+            stage.log("Command") { "Error: Empty command. Use 'help' for information." }
+            return null
         }
         val strings = trimmed.split("\\s+".toRegex(), 2)
         val title = strings[0]
@@ -63,16 +109,13 @@ class InteractiveSimulationController(val seed: Int, loadout: StageLoadout) : Co
         val command = interactiveCommands[title]
         if (command == null) {
             stage.log("Command") { "Error: Unknown command." }
-            return@withLock
+            return null
         }
-        history += trimmed
-        fullHistory += trimmed
-        channel.send(InteractiveStrategyCommandInvocation(command, data, trimmed))
+        return InteractiveStrategyCommandInvocation(command, data, trimmed)
     }
-
     fun play() {
         runningJob = launch {
-            stage.play()
+            stage.play(maxTurns)
         }
     }
 
@@ -81,7 +124,9 @@ class InteractiveSimulationController(val seed: Int, loadout: StageLoadout) : Co
         channel.close()
     }
 
-    inner class InteractiveStrategy : Strategy {
+    private inner class InteractiveStrategy : Strategy {
+        val channel = Channel<InteractiveStrategyCommandInvocation?>()
+
         private var queuing = false  // true in nextQueue, false otherwise
 
         lateinit var stage: Stage
@@ -95,7 +140,7 @@ class InteractiveSimulationController(val seed: Int, loadout: StageLoadout) : Co
         private val cutinQueue = mutableListOf<BoundCutin>()
         private var cutinEnergy = 0
         private var cutinUseCounts = mutableMapOf<BoundCutin, Int>().withDefault { 0 }
-        private var cutinLastUseTurns = mutableMapOf<BoundCutin, Int>().withDefault { 1 }
+        private var cutinLastUseTurns = mutableMapOf<BoundCutin, Int>().withDefault { 0 }
 
         private val discardPile = mutableListOf<BoundAct>()
         private val drawPile = ArrayDeque<BoundAct>()
@@ -106,6 +151,8 @@ class InteractiveSimulationController(val seed: Int, loadout: StageLoadout) : Co
         private var hasPerformedHoldAction = true
 
         private val teamActors = mutableMapOf<String, Actor>()
+
+        private val queueHistory = mutableListOf<QueueResult>()
 
         private inline fun log(value: () -> String) = stage.log("Command", value)
         private inline fun log(tag: String, value: () -> String) = stage.log("Command / $tag", value)
@@ -182,7 +229,7 @@ class InteractiveSimulationController(val seed: Int, loadout: StageLoadout) : Co
             internalHand.clear()
         }
 
-        private val BoundCutin.currentCooldown
+        private val BoundCutin.currentCooldownValue
             get() = if (cutinUseCounts.getValue(this) > 0) {
                 data.cooldown
             } else {
@@ -202,7 +249,7 @@ class InteractiveSimulationController(val seed: Int, loadout: StageLoadout) : Co
 Hand:
 ${hand.numbered().prependIndent()}
 
-Cutins:
+Cutins (${cutinEnergy} Energy):
 ${
                     (teamActors.values
                         .filter { it.isAlive }
@@ -231,8 +278,8 @@ ${
                     }
                 },
                 climax,
-                cutinQueue,
-            )
+                cutinQueue.toList(),
+            ).also { queueHistory += it }
         }
 
         private fun String.parseSingleAct(): BoundAct? {
@@ -255,7 +302,7 @@ ${
                     if (data.isNotEmpty()) {
                         if (data == "all") {
                             log("Help") {
-                                InteractiveStrategyCommand.values().joinToString("\n\n") {
+                                InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n\n") {
                                     "${it.title}\n\n${it.helpBody.prependIndent()}"
                                 }
                             }
@@ -269,12 +316,12 @@ ${
                         }
                     } else {
                         log("Help") {
-"""
+                            """
 Use 'help all' to list information on all commands.
 Use 'help <name_of_command>' to get information on a particular command.
 
 Available Commands:
-${(InteractiveStrategyCommand.values().joinToString("\n") { it.title }).prependIndent()}
+${(InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n") { it.title }).prependIndent()}
 """.trimIndent()
                         }
                     }
@@ -322,7 +369,7 @@ ${(InteractiveStrategyCommand.values().joinToString("\n") { it.title }).prependI
                 }
                 InteractiveStrategyCommand.HOLD -> {
                     if (!queuing) {
-                        log("Queue") { "Error: Not in a turn." }
+                        log("Hold") { "Error: Not in a turn." }
                         return@run
                     }
                     val act = data.parseSingleAct()
@@ -361,7 +408,7 @@ ${(InteractiveStrategyCommand.values().joinToString("\n") { it.title }).prependI
                 }
                 InteractiveStrategyCommand.DISCARD -> {
                     if (!queuing) {
-                        log("Queue") { "Error: Not in a turn." }
+                        log("Discard") { "Error: Not in a turn." }
                         return@run
                     }
                     val act = data.parseSingleAct()
@@ -401,7 +448,7 @@ ${(InteractiveStrategyCommand.values().joinToString("\n") { it.title }).prependI
                 }
                 InteractiveStrategyCommand.UNQUEUE -> {
                     if (!queuing) {
-                        log("Queue") { "Error: Not in a turn." }
+                        log("Unqueue") { "Error: Not in a turn." }
                         return@run
                     }
                     if (data.isEmpty()) {
@@ -410,6 +457,7 @@ ${(InteractiveStrategyCommand.values().joinToString("\n") { it.title }).prependI
                         } else {
                             queue.removeLast()
                         }
+                        return@run
                     }
                     val act = data.parseSingleAct()
                     when (act) {
@@ -427,7 +475,7 @@ ${(InteractiveStrategyCommand.values().joinToString("\n") { it.title }).prependI
                 }
                 InteractiveStrategyCommand.CLEAR -> {
                     if (!queuing) {
-                        log("Queue") { "Error: Not in a turn." }
+                        log("Clear") { "Error: Not in a turn." }
                         return@run
                     }
                     queue.clear()
@@ -436,7 +484,7 @@ ${(InteractiveStrategyCommand.values().joinToString("\n") { it.title }).prependI
                 }
                 InteractiveStrategyCommand.CUTIN -> {
                     if (!queuing) {
-                        log("Queue") { "Error: Not in a turn." }
+                        log("Cutin") { "Error: Not in a turn." }
                         return@run
                     }
                     if (data !in teamActors) {
@@ -451,7 +499,7 @@ ${(InteractiveStrategyCommand.values().joinToString("\n") { it.title }).prependI
                         log("Cutin") { "Error: Not enough cutin energy." }
                     } else if (cutinUseCounts.getValue(cutin) >= cutin.data.usageLimit) {
                         log("Cutin") { "Error: Cutin usage limit exceeded." }
-                    } else if (stage.turn - cutinLastUseTurns.getValue(cutin) < cutin.currentCooldown) {
+                    } else if (stage.turn - cutinLastUseTurns.getValue(cutin) <= cutin.currentCooldownValue) {
                         log("Cutin") { "Error: Cutin is on cooldown." }
                     } else {
                         if (cutin in cutinQueue) {
@@ -465,7 +513,7 @@ ${(InteractiveStrategyCommand.values().joinToString("\n") { it.title }).prependI
                 }
                 InteractiveStrategyCommand.CLIMAX -> {
                     if (!queuing) {
-                        log("Queue") { "Error: Not in a turn." }
+                        log("Climax") { "Error: Not in a turn." }
                         return@run
                     }
                     if (team.cxTurns > 0 || climax) {
@@ -483,11 +531,11 @@ ${(InteractiveStrategyCommand.values().joinToString("\n") { it.title }).prependI
                 }
                 InteractiveStrategyCommand.STATUS -> {
                     if (!queuing) {
-                        log("Queue") { "Error: Not in a turn." }
+                        log("Status") { "Error: Not in a turn." }
                         return@run
                     }
                     log("Status") {
-"""
+                        """
 Act Queue:
 ${(if (queue.isEmpty()) "Empty" else queue.joinToString("\n")).prependIndent()}
 
@@ -497,7 +545,7 @@ ${(if (cutinQueue.isEmpty()) "Empty" else cutinQueue.joinToString("\n")).prepend
 Hand:
 ${hand.numbered().prependIndent()}
 
-Cutins:
+Cutins (${cutinEnergy} Energy):
 ${
     (teamActors.values
         .filter { it.isAlive }
@@ -509,28 +557,27 @@ ${
                     }
                 }
                 InteractiveStrategyCommand.INFO -> {
+                    if (!queuing) {
+                        log("Info") { "Error: Not in a turn." }
+                        return@run
+                    }
                     // TODO
                     log("Info") { "TODO" }
                 }
                 InteractiveStrategyCommand.HISTORY -> {
-                    // TODO
-                    log("History") { "TODO" }
+                    log("History") { history.joinToString("\n") }
                 }
                 InteractiveStrategyCommand.FULL_HISTORY -> {
-                    // TODO
-                    log("Full History") { "TODO" }
+                    log("Full History") { fullHistory.joinToString("\n") }
                 }
-                InteractiveStrategyCommand.SAVE -> {
-                    // Handled by controller
-                    log("Save") { "Saved '${data}'." }
-                }
-                InteractiveStrategyCommand.LOAD -> {
-                    // Handled by controller
-                    log("Load") { "Loaded '${data}'." }
-                }
-                InteractiveStrategyCommand.UNDO -> {
-                    // Handled by controller
-                    log("Undo") { "Undo." }
+
+                // These are handled by the controller
+                InteractiveStrategyCommand.SAVE -> {}
+                InteractiveStrategyCommand.LOAD -> {}
+                InteractiveStrategyCommand.UNDO -> {}
+
+                InteractiveStrategyCommand.LIST_SAVES -> {
+                    log("List Saves") { saves.keys.joinToString("\n") }
                 }
                 InteractiveStrategyCommand.SEED -> {
                     try {
@@ -540,6 +587,23 @@ ${
                         log("Seed") { "Updated seed." }
                     } catch (e: NumberFormatException) {
                         log("Seed") { "Error: Invalid seed." }
+                    }
+                }
+                InteractiveStrategyCommand.EXPORT -> {
+                    log("Export") {
+                        queueHistory.mapIndexed { index, queueResult ->
+                            val turn = index + 1
+                            "Turn $turn:\n${
+                                if (queueResult.climax) "climax\n" else ""
+                            }${
+                                queueResult.cutins
+                                    .joinToString("") { "${it.actor.name} cutin\n" }
+                            }${
+                                queueResult.tiles
+                                    .filterIsInstance<ActionTile>()
+                                    .joinToString("") { "${it.actor.name} ${it.actData.type.shortName}\n" }
+                            }"
+                        }.joinToString("\n").trimEnd()
                     }
                 }
             }
@@ -561,8 +625,8 @@ ${
 
         private fun BoundCutin.formatted() =
             "[${actor.dress.name} (${actor.name})]:[${actor.memoir?.name}](Cost: ${data.cost}, Cooldown: ${
-                (currentCooldown - (stage.turn - cutinLastUseTurns.getValue(this))).coerceAtLeast(0)
-            })"
+                (1 + currentCooldownValue - (stage.turn - cutinLastUseTurns.getValue(this))).coerceAtLeast(0)
+            }, Remaining Uses: ${data.usageLimit - cutinUseCounts.getValue(this)}/${data.usageLimit})"
 
     }
 
@@ -844,6 +908,20 @@ enum class InteractiveStrategyCommand(
                 load x
         """.trimIndent(),
     ),
+    LIST_SAVES(
+        title = "list_saves",
+        aliases = listOf("listsaves", "lsv"),
+        synopsis = """
+            list_saves
+        """.trimIndent(),
+        description = """
+            List the name of all saves.
+        """.trimIndent(),
+        examples = """
+            Lists the name of all saves:
+                list_saves
+        """.trimIndent(),
+    ),
     UNDO(
         title = "undo",
         aliases = listOf("ud"),
@@ -869,8 +947,23 @@ enum class InteractiveStrategyCommand(
             Set the rng seed to the given value.
         """.trimIndent(),
         examples = """
-            Sets the seed to the 123.
+            Sets the seed to 123.
                 seed 123
+        """.trimIndent(),
+    ),
+    EXPORT(
+        title = "export",
+        aliases = listOf("exp"),
+        synopsis = """
+            export
+        """.trimIndent(),
+        description = """
+            Export the current run as a simple strategy.
+            Note that the current turn is not recorded until using 'go'.
+        """.trimIndent(),
+        examples = """
+            Exports the current run as a simple strategy.
+                export
         """.trimIndent(),
     ),
     ;
@@ -887,7 +980,7 @@ enum class InteractiveStrategyCommand(
 }
 
 val interactiveCommands = buildMap {
-    InteractiveStrategyCommand.values().forEach { command ->
+    InteractiveStrategyCommand.values().sortedBy { it.title }.forEach { command ->
         this[command.title] = command
         command.aliases.forEach { alias ->
             this[alias] = command

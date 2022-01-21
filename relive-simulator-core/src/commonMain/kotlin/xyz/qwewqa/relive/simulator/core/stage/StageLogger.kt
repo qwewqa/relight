@@ -11,7 +11,7 @@ class StageLogger {
         return log.joinToString("\n") { entry ->
             entry.run {
                 if ("\n" in value) {
-                    "$turn.$tile <$tag>\n${value.prependIndent("    ")}"
+                    "$turn.$tile <$tag>\n${value}"
                 } else {
                     "$turn.$tile <$tag> $value"
                 }

@@ -68,8 +68,8 @@ class SimulatorClient(val simulator: Simulator) {
         bossStrategyCollapse.show = false
         value
     }
+    val interactiveContainer = document.getElementById("interactive-container") as HTMLDivElement
     val interactiveLog = document.getElementById("interactive-log") as HTMLPreElement
-    val interactiveLogContainer = document.getElementById("interactive-log-container") as HTMLDivElement
     val interactiveInput = document.getElementById("interactive-input").textInput()
     val interactiveSendButton = document.getElementById("interactive-send-button") as HTMLButtonElement
 
@@ -688,6 +688,7 @@ class SimulatorClient(val simulator: Simulator) {
             }
         })
         interactiveButton.addEventListener("click", {
+            interactiveContainer.removeClass("d-none")
             GlobalScope.launch {
                 warnIfServerVersionMismatched()
                 try {
@@ -814,13 +815,16 @@ class SimulatorClient(val simulator: Simulator) {
             while (true) {
                 delay(50)
                 interactiveSimulation?.let { sim ->
-                    val isScrolledDown = interactiveLogContainer.let {
-                        it.scrollHeight - it.offsetHeight - it.scrollTop < 1.0
-                    }
-                    interactiveLog.textContent = sim.getLog()
-                    if (isScrolledDown) {
-                        interactiveLogContainer.let {
-                            it.scrollTop = (it.scrollHeight - it.offsetHeight).toDouble()
+                    val log = sim.getLog()
+                    if (log != this@SimulatorClient.interactiveLog.textContent) {
+                        val isScrolledDown = this@SimulatorClient.interactiveLog.let {
+                            it.scrollHeight - it.offsetHeight - it.scrollTop < 1.0
+                        }
+                        this@SimulatorClient.interactiveLog.textContent = sim.getLog()
+                        if (isScrolledDown) {
+                            this@SimulatorClient.interactiveLog.let {
+                                it.scrollTop = it.scrollHeight.toDouble()
+                            }
                         }
                     }
                 }
