@@ -701,7 +701,6 @@ class SimulatorClient(val simulator: Simulator) {
                     return@launch
                 }
                 toast("Simulate", "Interactive simulation started.", "green")
-                done = false
             }
         })
 

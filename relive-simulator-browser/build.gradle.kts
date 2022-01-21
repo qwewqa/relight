@@ -17,6 +17,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-js"))
     implementation(project(":relive-simulator-client"))
+    implementation(project(":relive-simulator-core"))
     implementation("io.ktor:ktor-client-js:$ktor_version")
     implementation("io.ktor:ktor-client-serialization:$ktor_version")
     implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.7.3")
@@ -68,4 +69,8 @@ tasks.register<Copy>("copyResources") {
 tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile::class) {
     dependsOn("copyResources")
     dependsOn(":relive-simulator-worker:browserProductionWebpack")
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink> {
+    kotlinOptions.freeCompilerArgs += "-Xir-property-lazy-initialization"
 }

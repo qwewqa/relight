@@ -4,7 +4,10 @@ import io.ktor.client.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
 import kotlinx.browser.window
+import kotlinx.coroutines.cancel
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -14,6 +17,8 @@ import org.w3c.dom.Worker
 import org.w3c.dom.url.URL
 import xyz.qwewqa.relive.simulator.client.*
 import xyz.qwewqa.relive.simulator.common.*
+import xyz.qwewqa.relive.simulator.core.stage.createStageLoadout
+import xyz.qwewqa.relive.simulator.core.stage.strategy.interactive.InteractiveSimulationController
 import kotlin.collections.List
 import kotlin.collections.MutableMap
 import kotlin.collections.component1
@@ -36,6 +41,10 @@ class JsSimulator : Simulator {
         return JsSimulation(parameters)
     }
 
+    override suspend fun simulateInteractive(parameters: SimulationParameters): InteractiveSimulation {
+        return JsInteractiveSimulation(parameters)
+    }
+
     override suspend fun version(): SimulatorVersion {
         return SimulatorClient.version
     }
@@ -56,7 +65,12 @@ class JsSimulator : Simulator {
 
     // This is a hack where the response from server is just copied here until I think of something better
     override suspend fun options(): SimulationOptions {
-        return httpClient.get(URL("options.json", "${window.location.protocol}//${window.location.host}${window.location.pathname}").href)
+        return httpClient.get(
+            URL(
+                "options.json",
+                "${window.location.protocol}//${window.location.host}${window.location.pathname}"
+            ).href
+        )
     }
 
     override suspend fun shutdown() {
@@ -89,7 +103,8 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
 
     @OptIn(ExperimentalSerializationApi::class)
     val workers = List(
-        window.navigator.hardwareConcurrency.toInt().coerceAtMost(parameters.maxIterations / BATCH_SIZE).coerceAtLeast(1)
+        window.navigator.hardwareConcurrency.toInt().coerceAtMost(parameters.maxIterations / BATCH_SIZE)
+            .coerceAtLeast(1)
     ) {
         Worker("relive-simulator-worker.js").also { worker ->
             worker.onmessage = { ev ->
@@ -144,9 +159,13 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
                         }))
                     }
                     if (resultCount == parameters.maxIterations) {
-                        worker.postMessage(Json.encodeToString(listOf(
-                            firstApplicableIteration!!.request.copy(log = true)
-                        )))
+                        worker.postMessage(
+                            Json.encodeToString(
+                                listOf(
+                                    firstApplicableIteration!!.request.copy(log = true)
+                                )
+                            )
+                        )
                     }
                 }
             }
@@ -167,6 +186,30 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
     override suspend fun cancel() {
         workers.forEach { it.terminate() }
         overallResult = overallResult.copy(cancelled = true)
+    }
+}
+
+class JsInteractiveSimulation(val parameters: SimulationParameters) : InteractiveSimulation {
+    private var error: String? = null
+    private val controller = try {
+        InteractiveSimulationController(parameters.maxTurns, parameters.seed, parameters.createStageLoadout()).also {
+            it.play()
+        }
+    } catch (e: Exception) {
+        error = e.message
+        null
+    }
+
+    override suspend fun getLog(): String {
+        return controller?.getLog() ?: error!!
+    }
+
+    override suspend fun sendCommand(text: String) {
+        controller?.sendCommand(text)
+    }
+
+    override suspend fun end() {
+        controller?.cancel()
     }
 }
 
