@@ -285,10 +285,10 @@ class Actor(
         self.exitCX()
         enemy.forEach {
             if (it.aggroTarget == self) {
-                it.buffs.removeAll(Aggro)
+                it.buffs.removeAll(AggroBuff)
             }
             if (it.provokeTarget == self) {
-                it.buffs.removeAll(Provoke)
+                it.buffs.removeAll(ProvokeBuff)
             }
         }
         log("Exit") { "Exited" }

@@ -6,12 +6,8 @@ import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
-import xyz.qwewqa.relive.simulator.stage.character.Character
-import xyz.qwewqa.relive.simulator.stage.character.DamageType
-import xyz.qwewqa.relive.simulator.stage.character.Position
 
 val TowerHikari = dress1020004(
     name = "Tower Hikari",
@@ -37,7 +33,7 @@ val TowerHikari = dress1020004(
             Act {
                 targetAllyAoe().act {
                     applyBuff(
-                        PerfectAim,
+                        PerfectAimBuff,
                         turns = times1,
                     )
                     applyBuff(

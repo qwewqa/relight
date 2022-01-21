@@ -1,7 +1,7 @@
-package xyz.qwewqa.relive.simulator.core.presets.dress.front.moon
+package xyz.qwewqa.relive.simulator.core.presets.dress.front.space
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.MoonOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3020015
+import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3040005
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
@@ -10,12 +10,12 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
-val FaithMisora = dress3020015(
-    name = "Faith Misora",
+val CharityTsukasa = dress3040005(
+    name = "Charity Tsukasa",
     acts = listOf(
-        ActType.Act1.blueprint("Strong Thrust", 2) {
+        ActType.Act1.blueprint("Ardent Slash", 2) {
             Act {
-                targetFront().act {
+                targetBack().act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -23,55 +23,41 @@ val FaithMisora = dress3020015(
                 }
             }
         },
-        ActType.Act2.blueprint("Healing Prayer", 2) {
+        ActType.Act2.blueprint("Heart of Affection", 2) {
             Act {
-                targetFront().act {
+                targetAoe().act {
                     attack(
                         modifier = values1,
                         hitCount = 2,
                     )
+                    applyBuff(
+                        effect = ApUpBuff,
+                        turns = times2,
+                    )
                 }
                 targetAllyAoe().act {
                     applyBuff(
-                        effect = CounterHeal,
-                        value = values2,
-                        turns = times2,
-                    )
-                }
-            }
-        },
-        ActType.Act3.blueprint("Solid Shield", 1) {
-            Act {
-                targetAoe().act {
-                    applyBuff(
-                        effect = Aggro,
-                        turns = times1,
-                    )
-                }
-                targetSelf().act {
-                    applyBuff(
                         effect = NormalBarrierBuff,
-                        value = values2,
-                        turns = times2,
-                    )
-                    applyBuff(
-                        effect = SpecialBarrierBuff,
                         value = values3,
                         turns = times3,
                     )
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Moonlight Sacrament", 2) {
+        ActType.Act3.blueprint("Relief of Light", 1) {
             Act {
-                targetByHighest { it.actPower }.act {
-                    attack(
-                        modifier = values1,
-                        hitCount = 4,
-                    )
+                targetAoe().act {
+                    applyBuff(
+                        effect = AggroBuff,
+                        turns = times1,
+                        )
                 }
-                targetAllyAoe().act {
-                    // TODO() Absorb
+                targetSelf().act {
+                    applyBuff(
+                        effect = CounterHealBuff,
+                        value = values2,
+                        turns = times2,
+                    )
                     applyBuff(
                         effect = DamageTakenDownBuff,
                         value = values3,
@@ -79,19 +65,45 @@ val FaithMisora = dress3020015(
                     )
                 }
             }
+        },
+        ActType.ClimaxAct.blueprint("Show Me the Right Path, Mirror", 1) {
+            Act {
+                targetByHighest { it.actPower }.act {
+                    applyBuff(
+                        effect = MarkBuff,
+                        turns = times1,
+                    )
+                    attack(
+                        modifier = values2,
+                        hitCount = 4,
+                    )
+                }
+                targetAllyAoe().act {
+                    applyBuff(
+                        effect = NormalReflectBuff,
+                        value = values3,
+                        turns = times3,
+                    )
+                    applyBuff(
+                        effect = NormalReflectBuff,
+                        value = values4,
+                        turns = times4,
+                    )
+                }
+            }
         }
     ),
     autoSkills = listOf(
         listOf(
-            TeamConfusionResistanceBuffPassive.new(time = 6),
+            TeamHpUpPassive.new(20),
         ),
         listOf(
-            TeamStunResistanceBuffPassive.new(time = 6),
+            EnemyAggroBuffPassive.new(time = 1),
         ),
         listOf(
-            TeamStopResistanceBuffPassive.new(time = 6),
+            SelfReviveBuffPassive.new(50, time = 1),
         ),
     ),
-    unitSkill = HPDef75UnitSkill + MoonOnlyCondition,
+    unitSkill = HPDef75UnitSkill + SpaceOnlyCondition,
     category = DressCategory.Arcana,
 )

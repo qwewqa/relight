@@ -79,6 +79,9 @@ class RandomDamageCalculator : DamageCalculator {
             if (reflected > 0) {
                 self.damage(reflected, additionalEffects = false)
             }
+            if (self.absorb > 0) {
+                self.heal(afterBarrier * self.absorb / 100)
+            }
             actionLog.successfulHits++
         } else {
             attacker.context.log("Hit") { "Miss" }

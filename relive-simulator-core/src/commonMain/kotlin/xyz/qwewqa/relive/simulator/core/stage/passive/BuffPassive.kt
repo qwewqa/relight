@@ -22,8 +22,8 @@ val TeamEffectiveDamageDealtUpBuffPassive: PassiveEffect =
     GenericBuffPassive(EffectiveDamageDealtUpBuff, EffectTag.EffectiveDamage, "Team") { targetAllyAoe(it) }
 val SelfNormalDefenseUpBuffPassive: PassiveEffect = GenericBuffPassive(NormalDefenseUpBuff, EffectTag.Defense) { targetSelf() }
 val SelfSpecialDefenseUpBuffPassive: PassiveEffect = GenericBuffPassive(SpecialDefenseUpBuff, EffectTag.Defense) { targetSelf() }
-val SelfPerfectAimBuffPassive: PassiveEffect = GenericBuffPassive(PerfectAim, EffectTag.PerfectAim) { targetSelf() }
-val TeamPerfectAimBuffPassive: PassiveEffect = GenericBuffPassive(PerfectAim, EffectTag.PerfectAim) { targetAllyAoe(it) }
+val SelfPerfectAimBuffPassive: PassiveEffect = GenericBuffPassive(PerfectAimBuff, EffectTag.PerfectAim) { targetSelf() }
+val TeamPerfectAimBuffPassive: PassiveEffect = GenericBuffPassive(PerfectAimBuff, EffectTag.PerfectAim) { targetAllyAoe(it) }
 val SelfDexterityUpBuffPassive: PassiveEffect = GenericBuffPassive(DexterityUpBuff, EffectTag.Dexterity) { targetSelf() }
 val SelfEffectiveDamageDealtUpBuffPassive: PassiveEffect =
     GenericBuffPassive(EffectiveDamageDealtUpBuff, EffectTag.EffectiveDamage) { targetSelf() }
@@ -54,8 +54,8 @@ val EnemyBack2APUpBuffPassive : PassiveEffect = GenericBuffPassive(ApUpBuff, Eff
 val EnemyBack3APUpBuffPassive : PassiveEffect = GenericBuffPassive(ApUpBuff, EffectTag.ApUp, "Enemy Back 3") { targetBack(3) }
 val EnemyBack2LockedAPUpBuffPassive : PassiveEffect = GenericBuffPassive(LockedApUpBuff, EffectTag.ApUp, "Enemy Back 2") { targetBack(2) }
 val EnemyBack3LockedAPUpBuffPassive : PassiveEffect = GenericBuffPassive(LockedApUpBuff, EffectTag.ApUp, "Enemy Back 3") { targetBack(3) }
-val EnemyProvokeBuffPassive: PassiveEffect = GenericBuffPassive(Provoke, EffectTag.Provoke, "Enemy AoE") { targetAoe() }
-val EnemyAggroBuffPassive: PassiveEffect = GenericBuffPassive(Aggro, EffectTag.Aggro, "Enemy AoE") { targetAoe() }
+val EnemyProvokeBuffPassive: PassiveEffect = GenericBuffPassive(ProvokeBuff, EffectTag.Provoke, "Enemy AoE") { targetAoe() }
+val EnemyAggroBuffPassive: PassiveEffect = GenericBuffPassive(AggroBuff, EffectTag.Aggro, "Enemy AoE") { targetAoe() }
 
 private data class GenericBuffPassive(
     val buffEffect: BuffEffect,

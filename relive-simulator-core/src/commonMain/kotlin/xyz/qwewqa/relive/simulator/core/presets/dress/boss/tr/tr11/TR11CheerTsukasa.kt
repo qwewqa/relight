@@ -73,7 +73,7 @@ val tr11CheerTsukasa = ActorLoadout(
             ActType.Act6("Perfect Aim Flurry", 2) {
                 targetSelf().act {
                     applyBuff(
-                        PerfectAim,
+                        PerfectAimBuff,
                         turns = 1,
                     )
                 }

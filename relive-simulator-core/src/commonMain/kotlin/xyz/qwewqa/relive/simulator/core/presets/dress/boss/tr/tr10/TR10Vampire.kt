@@ -73,7 +73,7 @@ val tr10VampireShiori = ActorLoadout(
             ActType.Act6("Perfect Aim Concerto", 2) {
                 targetSelf().act {
                     applyBuff(
-                        PerfectAim,
+                        PerfectAimBuff,
                         turns = 1,
                     )
                 }

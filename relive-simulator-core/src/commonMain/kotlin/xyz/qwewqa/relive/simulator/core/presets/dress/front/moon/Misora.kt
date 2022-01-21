@@ -1,8 +1,7 @@
-package xyz.qwewqa.relive.simulator.core.presets.dress.front.snow
+package xyz.qwewqa.relive.simulator.core.presets.dress.front.moon
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.FreezeOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.SnowOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4020004
+import xyz.qwewqa.relive.simulator.core.presets.condition.MoonOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3020015
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
@@ -11,10 +10,10 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
-val HierophantMichiru = dress4020004(
-    name = "Hierophant Michiru",
+val FaithMisora = dress3020015(
+    name = "Faith Misora",
     acts = listOf(
-        ActType.Act1.blueprint("Slash of Brilliance", 2) {
+        ActType.Act1.blueprint("Strong Thrust", 2) {
             Act {
                 targetFront().act {
                     attack(
@@ -22,45 +21,58 @@ val HierophantMichiru = dress4020004(
                         hitCount = 1,
                     )
                 }
-                targetSelf().act {
-                    addBrilliance(values2)
-                }
             }
         },
-        ActType.Act2.blueprint("Trustworthy Light", 2) {
+        ActType.Act2.blueprint("Healing Prayer", 2) {
             Act {
                 targetFront().act {
                     attack(
                         modifier = values1,
-                        hitCount = 1,
+                        hitCount = 2,
                     )
                 }
                 targetAllyAoe().act {
                     applyBuff(
-                        effect = DexterityUpBuff,
+                        effect = CounterHealBuff,
+                        value = values2,
+                        turns = times2,
+                    )
+                }
+            }
+        },
+        ActType.Act3.blueprint("Solid Shield", 1) {
+            Act {
+                targetAoe().act {
+                    applyBuff(
+                        effect = AggroBuff,
+                        turns = times1,
+                    )
+                }
+                targetSelf().act {
+                    applyBuff(
+                        effect = NormalBarrierBuff,
                         value = values2,
                         turns = times2,
                     )
                     applyBuff(
-                        effect = CriticalUpBuff,
+                        effect = SpecialBarrierBuff,
                         value = values3,
                         turns = times3,
                     )
                 }
             }
         },
-        ActType.Act3.blueprint("King's Guidance", 1) {
+        ActType.ClimaxAct.blueprint("Moonlight Sacrament", 2) {
             Act {
-                targetAoe().act {
-                    applyBuff(
-                        effect = Aggro,
-                        turns = times1,
-
-                        )
+                targetByHighest { it.actPower }.act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 4,
+                    )
                 }
-                targetSelf().act {
+                targetAllyAoe().act {
                     applyBuff(
-                        effect = EvasionRateUpBuff,
+                        effect = AbsorbBuff,
                         value = values2,
                         turns = times2,
                     )
@@ -71,32 +83,19 @@ val HierophantMichiru = dress4020004(
                     )
                 }
             }
-        },
-        ActType.ClimaxAct.blueprint("Shining Peace", 2) {
-            Act {
-                targetByHighest { it.actPower }.act {
-                    attack(
-                        modifier = values1,
-                        hitCount = 4,
-                        bonusMultiplier = 150,
-                        bonusCondition = FreezeOnlyCondition,
-                    )
-                } // TODO() Check Freeze Amp
-                // TODO() Exit Removal
-            }
         }
     ),
     autoSkills = listOf(
         listOf(
-            TeamBlindnessResistanceBuffPassive.new(time = 6),
-        ),
-        listOf(
             TeamConfusionResistanceBuffPassive.new(time = 6),
         ),
         listOf(
-            TeamSleepResistanceBuffPassive.new(time = 6),
+            TeamStunResistanceBuffPassive.new(time = 6),
+        ),
+        listOf(
+            TeamStopResistanceBuffPassive.new(time = 6),
         ),
     ),
-    unitSkill = HPDef75UnitSkill + SnowOnlyCondition,
+    unitSkill = HPDef75UnitSkill + MoonOnlyCondition,
     category = DressCategory.Arcana,
 )

@@ -67,7 +67,7 @@ val sakuraTaisenStageGirlMahiruBoss = ActorLoadout(
             ActType.Act3("Accuracy Slash", 2) {
                 targetSelf().act {
                     applyBuff(
-                        PerfectAim,
+                        PerfectAimBuff,
                         turns = 1,
                     )
                 }

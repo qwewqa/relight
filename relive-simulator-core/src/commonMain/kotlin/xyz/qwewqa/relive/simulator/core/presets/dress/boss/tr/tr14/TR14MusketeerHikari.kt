@@ -100,7 +100,7 @@ val tr14MusketeerHikari = ActorLoadout(
             ActType.Act8("Accuracy Concerto", 2) {
                 targetSelf().act {
                     applyBuff(
-                        effect = PerfectAim,
+                        effect = PerfectAimBuff,
                         turns = 1,
                     )
                 }
@@ -292,7 +292,7 @@ val tr14MusketeerHikariDiff4 = ActorLoadout(
             ActType.Act8("Accuracy Concerto", 2) {
                 targetSelf().act {
                     applyBuff(
-                        effect = PerfectAim,
+                        effect = PerfectAimBuff,
                         turns = 1,
                     )
                 }

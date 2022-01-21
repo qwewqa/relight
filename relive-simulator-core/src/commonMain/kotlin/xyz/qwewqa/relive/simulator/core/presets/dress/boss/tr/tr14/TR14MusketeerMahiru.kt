@@ -65,7 +65,7 @@ val tr14MusketeerMahiru = ActorLoadout(
             ActType.Act5("Accuracy Smash", 2) {
                 targetSelf().act{
                     applyBuff(
-                        effect = PerfectAim,
+                        effect = PerfectAimBuff,
                         turns = 1,
                     )
                 }
@@ -227,7 +227,7 @@ val tr14MusketeerMahiruDiff4 = ActorLoadout(
             ActType.Act5("Accuracy Smash", 2) {
                 targetSelf().act{
                     applyBuff(
-                        effect = PerfectAim,
+                        effect = PerfectAimBuff,
                         turns = 1,
                     )
                 }

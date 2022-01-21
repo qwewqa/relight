@@ -100,7 +100,7 @@ val tr11FaithMisora = ActorLoadout(
             ActType.Act8("Perfect Aim Concerto", 2) {
                 targetSelf().act {
                     applyBuff(
-                        effect = PerfectAim,
+                        effect = PerfectAimBuff,
                         turns = 1,
                     )
                 }

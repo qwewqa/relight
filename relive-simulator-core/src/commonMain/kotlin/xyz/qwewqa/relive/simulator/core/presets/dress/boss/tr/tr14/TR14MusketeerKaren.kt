@@ -90,7 +90,7 @@ val tr14MusketeerKaren = ActorLoadout(
             ActType.Act8("Accuracy Concerto", 3){
                 targetSelf().act {
                     applyBuff(
-                        effect = PerfectAim,
+                        effect = PerfectAimBuff,
                         turns = 1,
                     )
                 }
@@ -104,7 +104,7 @@ val tr14MusketeerKaren = ActorLoadout(
             ActType.ClimaxAct("Dance of Hope NEO", 3) {
                 targetSelf().act {
                     applyBuff(
-                        effect = PerfectAim,
+                        effect = PerfectAimBuff,
                         turns = 1,
                     )
                 }
@@ -242,7 +242,7 @@ val tr14MusketeerKarenDiff4 = ActorLoadout(
             ActType.Act8("Accuracy Concerto", 3){
                 targetSelf().act {
                     applyBuff(
-                        effect = PerfectAim,
+                        effect = PerfectAimBuff,
                         turns = 1,
                     )
                 }
@@ -256,7 +256,7 @@ val tr14MusketeerKarenDiff4 = ActorLoadout(
             ActType.ClimaxAct("Dance of Hope NEO", 3) {
                 targetSelf().act {
                     applyBuff(
-                        effect = PerfectAim,
+                        effect = PerfectAimBuff,
                         turns = 1,
                     )
                 }
