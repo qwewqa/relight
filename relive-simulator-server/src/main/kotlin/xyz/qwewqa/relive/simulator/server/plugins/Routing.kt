@@ -178,8 +178,8 @@ fun Application.configureRouting() {
         }
 
         val resourceCache = mutableMapOf<String, ByteArray>()
-        get("/{path}") {
-            val path = call.parameters["path"]!!
+        get("/{path...}") {
+            val path = call.parameters.getAll("path")?.joinToString("/") ?: ""
             val value = resourceCache[path]
                 ?: Thread.currentThread().contextClassLoader.getResourceAsStream("client/$path")?.readBytes()?.also {
                     resourceCache[path] = it
@@ -191,6 +191,7 @@ fun Application.configureRouting() {
                         ContentType.Application.JavaScript)
                     path.endsWith(".css") -> call.respondText(value.decodeToString(), ContentType.Text.CSS)
                     path.endsWith(".html") -> call.respondText(value.decodeToString(), ContentType.Text.Html)
+                    path.endsWith(".png") -> call.respondBytes(value, ContentType.Image.PNG)
                     else -> call.respondText(value.decodeToString())
                 }
             } else {

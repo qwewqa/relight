@@ -12,6 +12,7 @@ import xyz.qwewqa.relive.simulator.core.stage.memoir.MemoirBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val EmptyMemoir = MemoirBlueprint(
+    -1,
     name = "None",
     rarity = 4,
     baseStats = StatData(),

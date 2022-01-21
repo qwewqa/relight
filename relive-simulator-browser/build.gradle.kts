@@ -57,7 +57,8 @@ kotlin {
 }
 
 tasks.register<Copy>("copyResources") {
-    from("${project(":relive-simulator-client").projectDir}/src/main/resources/index.html")
+    from("${project(":relive-simulator-client").projectDir}/src/main/resources/index.html",
+        "${project(":relive-simulator-client").projectDir}/src/main/resources/img")
     into("$projectDir/src/main/resources/")
     filter { line ->
         line

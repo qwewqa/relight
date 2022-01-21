@@ -309,10 +309,10 @@ fun interface Act {
 fun Act.execute(context: ActionContext) = run { context.execute() }
 
 @OptIn(ExperimentalContracts::class)
-inline fun ActionContext.log(tag: String = "?", value: () -> String) {
+inline fun ActionContext.log(vararg tags: String, value: LogContentsBuilder.() -> String) {
     contract {
         callsInPlace(value, InvocationKind.AT_MOST_ONCE)
     }
 
-    stage.log("${self.name} / $tag", value)
+    stage.log(self.name, *tags, value=value)
 }

@@ -8,14 +8,16 @@ data class ActBlueprint(
     val name: String,
     val type: ActType,
     val apCost: Int,
+    val icon: Int? = null,
     val parameters: List<ActParameters>,
-    val value: ActBlueprintContext.() -> Act,
+    val value: ActBlueprintContext.() -> Act = { Act {} },
 ) {
     fun create(level: Int): ActData {
         return ActData(
             name,
             type,
             apCost,
+            icon,
             ActBlueprintContext(
                 level,
                 parameters.map { it.values[level - 1] },
@@ -28,12 +30,14 @@ data class ActBlueprint(
 fun ActType.blueprint(
     name: String,
     apCost: Int,
+    icon: Int? = null,
     vararg parameters: ActParameters,
     value: ActBlueprintContext.() -> Act,
 ) = ActBlueprint(
     name,
     this,
     apCost,
+    icon,
     parameters.toList(),
     value,
 )

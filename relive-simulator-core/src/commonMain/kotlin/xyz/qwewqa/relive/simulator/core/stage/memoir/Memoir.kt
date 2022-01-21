@@ -11,6 +11,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
 import xyz.qwewqa.relive.simulator.core.stage.passive.UnitSkill
 
 data class Memoir(
+    val id: Int,
     val name: String,
     val stats: StatData,
     val autoskills: List<PassiveData>,
@@ -18,6 +19,7 @@ data class Memoir(
 )
 
 data class MemoirBlueprint(
+    val id: Int,
     val name: String,
     val rarity: Int,
     val baseStats: StatData,
@@ -27,6 +29,7 @@ data class MemoirBlueprint(
     val additionalTags: List<EffectTag> = emptyList(),
 ) {
     constructor(
+        id: Int,
         name: String,
         rarity: Int,
         baseStats: StatData,
@@ -35,7 +38,8 @@ data class MemoirBlueprint(
         maxAutoskills: List<PassiveData>,
         cutinData: CutinBlueprint? = null,
         additionalTags: List<EffectTag> = emptyList(),
-    ) : this(name,
+    ) : this(id,
+        name,
         rarity,
         baseStats,
         growthStats,
@@ -58,6 +62,7 @@ data class MemoirBlueprint(
     fun create(level: Int, limitBreak: Int): Memoir {
         require(level in 1..maxLevel(limitBreak)) { "Invalid level $level for rarity $rarity at limit break $limitBreak." }
         return Memoir(
+            id,
             name,
             baseStats + growthStats * (level - 1) / 1000,
             autoskills[limitBreak],
@@ -83,6 +88,7 @@ data class PartialMemoirBlueprint(
         cutinAct: ActBlueprintContext.() -> Act = { Act {} },
         additionalTags: List<EffectTag> = emptyList(),
     ) = MemoirBlueprint(
+        id,
         name,
         rarity,
         baseStats,
