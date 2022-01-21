@@ -239,6 +239,9 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout:
             }
 
         override suspend fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
+            if (team.cxTurns == 0) {
+                usedClimaxActs.clear()
+            }
             hasPerformedHoldAction = false
             climax = false
             queue.clear()
@@ -270,6 +273,11 @@ ${
             cutinQueue.forEach { cutin ->
                 cutinLastUseTurns[cutin] = stage.turn
                 cutinUseCounts[cutin] = cutinUseCounts.getValue(cutin) + 1
+            }
+            queue.forEach {
+                if (it.act.type == ActType.ClimaxAct) {
+                    usedClimaxActs += it
+                }
             }
             return QueueResult(
                 buildList {
