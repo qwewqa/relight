@@ -1,6 +1,5 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
-import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.log
 
@@ -20,6 +19,13 @@ class BuffManager(val actor: Actor) {
     var guardOnAbnormal = false
 
     fun get(buff: BuffEffect) = buffsByEffect[buff] ?: emptySet()
+    fun all() = positiveBuffs + negativeBuffs
+    fun timed(): Set<ActiveBuff> = positiveBuffs + negativeBuffs
+    fun timedPositive(): Set<ActiveBuff> = positiveBuffs
+    fun timedNegative(): Set<ActiveBuff> = negativeBuffs
+    fun countable(): Map<CountableBuff, Int> = positiveCountableBuffs + negativeCountableBuffs
+    fun countablePositive(): Map<CountableBuff, Int> = positiveCountableBuffs
+    fun countableNegative(): Map<CountableBuff, Int> = negativeCountableBuffs
     fun any(vararg buffEffect: BuffEffect) = buffEffect.any { any(it) }
     fun any(buffEffect: BuffEffect) = count(buffEffect) > 0
     fun any(buff: CountableBuff) = count(buff) > 0
