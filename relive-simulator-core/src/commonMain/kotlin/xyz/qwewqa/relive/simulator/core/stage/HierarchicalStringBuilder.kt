@@ -1,6 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage
 
-class HierarchicalStringBuilder(val name: String) {
+class HierarchicalStringBuilder(val name: String, val indent: String) {
     private val body = mutableListOf<String>()
 
     operator fun String.unaryPlus() {
@@ -14,11 +14,11 @@ class HierarchicalStringBuilder(val name: String) {
     }
 
     inline operator fun String.invoke(block: HierarchicalStringBuilder.() -> Unit) {
-        +HierarchicalStringBuilder(this).apply(block).build()
+        +HierarchicalStringBuilder(this, indent).apply(block).build()
     }
 
-    fun build() = if (body.isNotEmpty()) "$name:\n${body.joinToString("\n").prependIndent()}" else ""
+    fun build() = if (body.isNotEmpty()) "$name:\n${body.joinToString("\n").prependIndent(indent)}" else ""
 }
 
-inline fun hierarchicalString(name: String, block: HierarchicalStringBuilder.() -> Unit) =
-    HierarchicalStringBuilder(name).apply(block).build()
+inline fun hierarchicalString(name: String, indent: String = "    ", block: HierarchicalStringBuilder.() -> Unit) =
+    HierarchicalStringBuilder(name, indent).apply(block).build()

@@ -17,6 +17,8 @@ import xyz.qwewqa.relive.simulator.core.stage.strategy.complete.qsort
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 import kotlin.random.Random
 
+private const val INDENT = "  "
+
 class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout: StageLoadout) :
     CoroutineScope by CoroutineScope(Dispatchers.Default) {
     private val mutex = Mutex()
@@ -252,7 +254,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout:
             stage.log("Strategy") {
                 """
 Hand:
-${hand.numbered().prependIndent()}
+${hand.numbered().prependIndent(INDENT)}
 
 Cutins (${cutinEnergy} Energy):
 ${
@@ -260,7 +262,7 @@ ${
                         .filter { it.isAlive }
                         .mapNotNull { it.cutin }
                         .joinToString("\n") { it.formatted() }
-                        .takeIf { it.isNotEmpty() } ?: "Empty").prependIndent()
+                        .takeIf { it.isNotEmpty() } ?: "Empty").prependIndent(INDENT)
                 }
                 """.trimIndent()
             }
@@ -313,7 +315,7 @@ ${
                         if (data == "all") {
                             log("Help") {
                                 InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n\n") {
-                                    "${it.title}:\n\n${it.helpBody.prependIndent()}"
+                                    "${it.title}:\n\n${it.helpBody.prependIndent(INDENT)}"
                                 }
                             }
                         } else {
@@ -331,7 +333,7 @@ Use 'help all' to list information on all commands.
 Use 'help <name_of_command>' to get information on a particular command.
 
 Available Commands:
-${(InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n") { it.title }).prependIndent()}
+${(InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n") { it.title }).prependIndent(INDENT)}
 """.trimIndent()
                         }
                     }
@@ -412,7 +414,7 @@ ${(InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n") 
                             internalHand += newAct
                             hand[hand.indexOf(act)] = newAct
                             hasPerformedHoldAction = true
-                            log("Hold") { "Successfully held '${act}'.\n\nHand:\n${hand.numbered().prependIndent()}" }
+                            log("Hold") { "Successfully held '${act}'.\n\nHand:\n${hand.numbered().prependIndent(INDENT)}" }
                         }
                     }
                 }
@@ -450,7 +452,7 @@ ${(InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n") 
                             hasPerformedHoldAction = true
                             log("Discard") {
                                 "Successfully discarded '${act}'.\n\nHand:\n${
-                                    hand.numbered().prependIndent()
+                                    hand.numbered().prependIndent(INDENT)
                                 }"
                             }
                         }
@@ -536,7 +538,7 @@ ${(InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n") 
                         hand.clear()
                         internalHand.clear()
                         drawHand()
-                        log("Climax") { "Entered climax.\n\nHand:\n${hand.numbered().prependIndent()}" }
+                        log("Climax") { "Entered climax.\n\nHand:\n${hand.numbered().prependIndent(INDENT)}" }
                     }
                 }
                 InteractiveStrategyCommand.STATUS -> {
@@ -547,13 +549,13 @@ ${(InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n") 
                     log("Status") {
                         """
 Act Queue:
-${(if (queue.isEmpty()) "Empty" else queue.joinToString("\n")).prependIndent()}
+${(if (queue.isEmpty()) "Empty" else queue.joinToString("\n")).prependIndent(INDENT)}
 
 Cutin Queue:
-${(if (cutinQueue.isEmpty()) "Empty" else cutinQueue.joinToString("\n")).prependIndent()}
+${(if (cutinQueue.isEmpty()) "Empty" else cutinQueue.joinToString("\n")).prependIndent(INDENT)}
 
 Hand:
-${hand.numbered().prependIndent()}
+${hand.numbered().prependIndent(INDENT)}
 
 Cutins (${cutinEnergy} Energy):
 ${
@@ -561,14 +563,14 @@ ${
                                 .filter { it.isAlive }
                                 .mapNotNull { it.cutin }
                                 .joinToString("\n") { it.formatted() }
-                                .takeIf { it.isNotEmpty() } ?: "Empty").prependIndent()
+                                .takeIf { it.isNotEmpty() } ?: "Empty").prependIndent(INDENT)
                         }
 """.trimIndent()
                     }
                 }
                 InteractiveStrategyCommand.INFO -> {
                     log("Info") {
-                        hierarchicalString("Info") {
+                        hierarchicalString("Info", INDENT) {
                             "Team" {
                                 "Climax Turns: ${team.cxTurns}"
                                 "Stage Effects" {
@@ -655,9 +657,9 @@ ${
             discardPile += BoundAct(actor, ActType.Act3)
         }
 
-        private fun String.blankOrWithHeader(header: String) = if (isBlank()) "" else "$header\n${prependIndent()}"
+        private fun String.blankOrWithHeader(header: String) = if (isBlank()) "" else "$header\n${prependIndent(INDENT)}"
 
-        private fun Actor.formattedStatus() = hierarchicalString("${dress.name} (${name})") {
+        private fun Actor.formattedStatus() = hierarchicalString("${dress.name} (${name})", INDENT) {
             "Status" {
                 +"HP: $hp/$maxHp"
                 +"Brilliance: $brilliance/100"
@@ -1052,11 +1054,11 @@ enum class InteractiveStrategyCommand(
     ;
 
     val helpBody = listOfNotNull(
-        "Aliases:\n${aliases.joinToString(", ").prependIndent()}"
+        "Aliases:\n${aliases.joinToString(", ").prependIndent(INDENT)}"
             .takeIf { aliases.isNotEmpty() },
-        "Synopsis:\n${synopsis.prependIndent()}",
-        "Description:\n${description.prependIndent()}",
-        "Examples:\n${examples.prependIndent()}"
+        "Synopsis:\n${synopsis.prependIndent(INDENT)}",
+        "Description:\n${description.prependIndent(INDENT)}",
+        "Examples:\n${examples.prependIndent(INDENT)}"
     ).joinToString("\n\n")
 
     val helpText = "$title\n\n$helpBody"
