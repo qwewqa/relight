@@ -1,17 +1,11 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud
 
-import xyz.qwewqa.relive.simulator.stage.character.Character
-import xyz.qwewqa.relive.simulator.stage.character.DamageType
-import xyz.qwewqa.relive.simulator.stage.character.Position
 import xyz.qwewqa.relive.simulator.core.presets.condition.CloudOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.FrontierOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1020023
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
@@ -77,7 +71,7 @@ val HeroHikari = dress1020023(
                         turns = times2,
                     )
                     applyBuff(
-                        effect = CounterHeal,
+                        effect = CounterHealBuff,
                         value = values3,
                         turns = times3,
                     )

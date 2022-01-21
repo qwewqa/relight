@@ -109,7 +109,7 @@ val tr13KomachiTamao = ActorLoadout(
                         turns = 3,
                     )
                     applyBuff(
-                        effect = PerfectAim,
+                        effect = PerfectAimBuff,
                         turns = 1,
                     )
                 }
@@ -128,7 +128,7 @@ val tr13KomachiTamao = ActorLoadout(
                         turns = 3,
                     )
                     applyBuff(
-                        effect = PerfectAim,
+                        effect = PerfectAimBuff,
                         turns = 1,
                     )
                 }
@@ -275,7 +275,7 @@ val tr13KomachiTamaoDiff4 = ActorLoadout(
                         turns = 3,
                     )
                     applyBuff(
-                        effect = PerfectAim,
+                        effect = PerfectAimBuff,
                         turns = 1
                     )
                 }
@@ -294,7 +294,7 @@ val tr13KomachiTamaoDiff4 = ActorLoadout(
                         turns = 3,
                     )
                     applyBuff(
-                        effect = PerfectAim,
+                        effect = PerfectAimBuff,
                         turns = 1
                     )
                 }

@@ -66,7 +66,7 @@ val tr13SuirenYuyuko = ActorLoadout(
             ActType.Act5("Perfect Aim Flurry", 2) {
                 targetSelf().act {
                     applyBuff(
-                        effect = PerfectAim,
+                        effect = PerfectAimBuff,
                         turns = 1,
                     )
                 }
@@ -213,7 +213,7 @@ val tr13SuirenYuyukoDiff4 = ActorLoadout(
             ActType.Act5("Perfect Aim Flurry", 2) {
                 targetSelf().act {
                     applyBuff(
-                        effect = PerfectAim,
+                        effect = PerfectAimBuff,
                         turns = 1,
                     )
                 }

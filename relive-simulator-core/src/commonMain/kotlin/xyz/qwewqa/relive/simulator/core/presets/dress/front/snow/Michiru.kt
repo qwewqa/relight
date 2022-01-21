@@ -1,7 +1,8 @@
-package xyz.qwewqa.relive.simulator.core.presets.dress.front.cloud
+package xyz.qwewqa.relive.simulator.core.presets.dress.front.snow
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.CloudOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4030003
+import xyz.qwewqa.relive.simulator.core.presets.condition.FreezeOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SnowOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4020004
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
@@ -10,10 +11,10 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
-val EmpressMeiFan = dress4030003(
-    name = "Empress Mei Fan",
+val HierophantMichiru = dress4020004(
+    name = "Hierophant Michiru",
     acts = listOf(
-        ActType.Act1.blueprint("Strong Thrust", 2) {
+        ActType.Act1.blueprint("Slash of Brilliance", 2) {
             Act {
                 targetFront().act {
                     attack(
@@ -21,36 +22,41 @@ val EmpressMeiFan = dress4030003(
                         hitCount = 1,
                     )
                 }
+                targetSelf().act {
+                    addBrilliance(values2)
+                }
             }
         },
-        ActType.Act2.blueprint("Ironclad Bestowal", 2) {
+        ActType.Act2.blueprint("Trustworthy Light", 2) {
             Act {
+                targetFront().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1,
+                    )
+                }
                 targetAllyAoe().act {
                     applyBuff(
-                        effect = NormalBarrierBuff,
-                        value = values1,
-                        turns = times1,
-                    )
-                    applyBuff(
-                        effect = SpecialBarrierBuff,
+                        effect = DexterityUpBuff,
                         value = values2,
                         turns = times2,
                     )
                     applyBuff(
-                        effect = ApDownBuff,
+                        effect = CriticalUpBuff,
+                        value = values3,
                         turns = times3,
                     )
                 }
             }
         },
-        ActType.Act3.blueprint("Whole Protection", 1) {
+        ActType.Act3.blueprint("King's Guidance", 1) {
             Act {
                 targetAoe().act {
                     applyBuff(
-                        effect = Aggro,
+                        effect = AggroBuff,
                         turns = times1,
 
-                    )
+                        )
                 }
                 targetSelf().act {
                     applyBuff(
@@ -66,32 +72,31 @@ val EmpressMeiFan = dress4030003(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Empress's Gloom", 2) {
+        ActType.ClimaxAct.blueprint("Shining Peace", 2) {
             Act {
-                targetAllyAoe().act {
-                    flipTimed(BuffCategory.Negative, times1)
-                }
-                targetAoe().act {
-                    flipTimed(BuffCategory.Positive, times2)
+                targetByHighest { it.actPower }.act {
                     attack(
-                        modifier = values3,
+                        modifier = values1,
                         hitCount = 4,
+                        bonusMultiplier = 150,
+                        bonusCondition = FreezeOnlyCondition,
                     )
-                }
+                } // TODO() Check Freeze Amp
+                // TODO() Exit Removal
             }
         }
     ),
     autoSkills = listOf(
         listOf(
-            EnemyProvokeBuffPassive.new(time = 2),
+            TeamBlindnessResistanceBuffPassive.new(time = 6),
         ),
         listOf(
-            NegativeEffectResistancePassive.new(50),
+            TeamConfusionResistanceBuffPassive.new(time = 6),
         ),
         listOf(
-            SelfFortitudeBuffPassive.new(time = 1),
+            TeamSleepResistanceBuffPassive.new(time = 6),
         ),
     ),
-    unitSkill = HPDef75UnitSkill + CloudOnlyCondition,
+    unitSkill = HPDef75UnitSkill + SnowOnlyCondition,
     category = DressCategory.Arcana,
 )

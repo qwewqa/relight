@@ -1,7 +1,7 @@
-package xyz.qwewqa.relive.simulator.core.presets.dress.front.wind
+package xyz.qwewqa.relive.simulator.core.presets.dress.front.flower
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.WindOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1080004
+import xyz.qwewqa.relive.simulator.core.presets.condition.FlowerOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4010015
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
@@ -10,12 +10,12 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
-val StrengthFutaba = dress1080004(
-    name = "Strength Futaba",
+val EmperorAkira = dress4010015(
+    name = "Emperor Akira",
     acts = listOf(
-        ActType.Act1.blueprint("Strong Slash", 2) {
+        ActType.Act1.blueprint("Ardent Thrust", 2) {
             Act {
-                targetFront().act {
+                targetBack().act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -23,36 +23,39 @@ val StrengthFutaba = dress1080004(
                 }
             }
         },
-        ActType.Act2.blueprint("Purity of Strength", 2) {
+        ActType.Act2.blueprint("Emperor's Authority", 2) {
             Act {
-                targetFront().act {
+                targetAoe().act {
                     attack(
                         modifier = values1,
                         hitCount = 2,
                     )
+                    applyBuff(
+                        effect = ApUpBuff,
+                        turns = times2,
+                    )
                 }
                 targetAllyAoe().act {
-                    dispelTimed(BuffCategory.Negative)
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = SpecialBarrierBuff,
                         value = values3,
                         turns = times3,
                     )
                 }
             }
         },
-        ActType.Act3.blueprint("Resilient Protection", 1) {
+        ActType.Act3.blueprint("Emperor's Prestige", 1) {
             Act {
                 targetAoe().act {
                     applyBuff(
-                        effect = Aggro,
+                        effect = AggroBuff,
                         turns = times1,
 
                         )
                 }
                 targetSelf().act {
                     applyBuff(
-                        effect = CounterHeal,
+                        effect = EvasionRateUpBuff,
                         value = values2,
                         turns = times2,
                     )
@@ -64,24 +67,28 @@ val StrengthFutaba = dress1080004(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Lion's Roar", 2) {
+        ActType.ClimaxAct.blueprint("Galactic Kaiser-Walzer", 2) {
             Act {
-                targetFront().act {
+                targetByHighest { it.actPower }.act {
+                    applyBuff(
+                        effect = MarkBuff,
+                        turns = times1,
+                    )
                     attack(
-                        modifier = values1,
-                        hitCount = 5,
+                        modifier = values2,
+                        hitCount = 3,
                     )
                 }
                 targetAllyAoe().act {
                     applyBuff(
-                        effect = HpRegenBuff,
-                        value = values2,
-                        turns = times2,
-                    )
-                    applyBuff(
-                        effect = EvasionRateUpBuff,
+                        effect = NormalReflectBuff,
                         value = values3,
                         turns = times3,
+                    )
+                    applyBuff(
+                        effect = NormalReflectBuff,
+                        value = values4,
+                        turns = times4,
                     )
                 }
             }
@@ -89,15 +96,15 @@ val StrengthFutaba = dress1080004(
     ),
     autoSkills = listOf(
         listOf(
-            TeamConfusionResistanceBuffPassive.new(time = 6),
+            TeamHpUpPassive.new(20),
         ),
         listOf(
-            TeamFreezeResistanceBuffPassive.new(time = 6),
+            SelfReviveBuffPassive.new(50, time = 1),
         ),
         listOf(
-            TeamStunResistanceBuffPassive.new(time = 6),
+            EnemyAggroBuffPassive.new(time = 1),
         ),
     ),
-    unitSkill = HPDef75UnitSkill + WindOnlyCondition,
+    unitSkill = HPDef75UnitSkill + FlowerOnlyCondition,
     category = DressCategory.Arcana,
 )

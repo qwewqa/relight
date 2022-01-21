@@ -2,7 +2,6 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr15
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.flower.SakuyahimeMahiru
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.MoonAruru
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -75,7 +74,7 @@ val tr15CheerTsukasa = ActorLoadout(
             ActType.Act6("Perfect Aim Flurry", 2) {
                 targetSelf().act {
                     applyBuff(
-                        PerfectAim,
+                        PerfectAimBuff,
                         turns = 1,
                     )
                 }
@@ -248,7 +247,7 @@ val tr15CheerTsukasaDiff4 = ActorLoadout(
             ActType.Act6("Perfect Aim Flurry", 2) {
                 targetSelf().act {
                     applyBuff(
-                        PerfectAim,
+                        PerfectAimBuff,
                         turns = 1,
                     )
                 }

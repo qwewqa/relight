@@ -1,15 +1,8 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.moon
 
-import xyz.qwewqa.relive.simulator.stage.character.Character
-import xyz.qwewqa.relive.simulator.stage.character.DamageType
-import xyz.qwewqa.relive.simulator.stage.character.Position
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
-import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageMoon
 import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
@@ -63,7 +56,7 @@ val StageGirlHikari = dress1020017(
             Act {
                 targetSelf().act {
                     applyBuff(
-                        PerfectAim,
+                        PerfectAimBuff,
                         turns = times1
                     )
                 }

@@ -108,7 +108,7 @@ val tr10HellsingMichiru = ActorLoadout(
                         turns = 3,
                     )
                     applyBuff(
-                        PerfectAim,
+                        PerfectAimBuff,
                         turns = 1,
                     )
                 }
@@ -127,7 +127,7 @@ val tr10HellsingMichiru = ActorLoadout(
                         turns = 3,
                     )
                     applyBuff(
-                        PerfectAim,
+                        PerfectAimBuff,
                         turns = 1,
                     )
                 }

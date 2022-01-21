@@ -3,7 +3,7 @@ package xyz.qwewqa.relive.simulator.core.stage.buff
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 
-object PerfectAim : BuffEffect {
+object PerfectAimBuff : BuffEffect {
     override val name = "Perfect Aim"
     override val category = BuffCategory.Positive
     override val exclusive: Boolean = true
@@ -17,7 +17,7 @@ object PerfectAim : BuffEffect {
     }
 }
 
-object Aggro : BuffEffect {
+object AggroBuff : BuffEffect {
     override val name = "Aggro"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
@@ -32,7 +32,7 @@ object Aggro : BuffEffect {
     }
 }
 
-object Provoke : BuffEffect {
+object ProvokeBuff : BuffEffect {
     override val name = "Provoke"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
@@ -47,7 +47,7 @@ object Provoke : BuffEffect {
     }
 }
 
-object CounterHeal : BuffEffect {
+object CounterHealBuff : BuffEffect {
     override val name = "Counter Heal"
     override val category = BuffCategory.Positive
 
@@ -57,5 +57,18 @@ object CounterHeal : BuffEffect {
 
     override fun onEnd(context: ActionContext, value: Int) = context.run {
         self.counterHeal -= value
+    }
+}
+
+object AbsorbBuff : BuffEffect {
+    override val name = "Absorb"
+    override val category = BuffCategory.Positive
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueAbsorb += value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueAbsorb -= value
     }
 }
