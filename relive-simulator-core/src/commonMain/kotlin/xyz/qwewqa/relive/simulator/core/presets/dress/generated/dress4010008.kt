@@ -4,6 +4,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
+import xyz.qwewqa.relive.simulator.core.stage.dress.ActBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.dress.PartialDressBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.dress.StatBoost
 import xyz.qwewqa.relive.simulator.core.stage.dress.StatBoostType
@@ -39,92 +40,116 @@ val dress4010008 = PartialDressBlueprint(
     agility = 2780,
   ),
   actParameters = mapOf(
-    ActType.Act1 to listOf(
-      ActParameters(
-        values = listOf(88, 92, 96, 101, 105),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(20, 22, 24, 27, 30),
-        times = listOf(3, 3, 3, 3, 3),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-    ),
-    ActType.Act2 to listOf(
-      ActParameters(
-        values = listOf(84, 88, 92, 97, 101),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(20, 22, 24, 27, 30),
-        times = listOf(3, 3, 3, 3, 3),
-      ),
-      ActParameters(
-        values = listOf(20, 22, 24, 27, 30),
-        times = listOf(3, 3, 3, 3, 3),
-      ),
-      ActParameters(
-        values = listOf(20, 22, 24, 27, 30),
-        times = listOf(3, 3, 3, 3, 3),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
+    ActType.Act1 to ActBlueprint(
+      name = "名探偵の推理",
+      type = ActType.Act1,
+      apCost = 2,
+      icon = 8,
+      parameters = listOf(
+        ActParameters(
+          values = listOf(88, 92, 96, 101, 105),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(20, 22, 24, 27, 30),
+          times = listOf(3, 3, 3, 3, 3),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
       ),
     ),
-    ActType.Act3 to listOf(
-      ActParameters(
-        values = listOf(15, 16, 17, 18, 20),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
+    ActType.Act2 to ActBlueprint(
+      name = "名探偵の調査",
+      type = ActType.Act2,
+      apCost = 3,
+      icon = 9,
+      parameters = listOf(
+        ActParameters(
+          values = listOf(84, 88, 92, 97, 101),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(20, 22, 24, 27, 30),
+          times = listOf(3, 3, 3, 3, 3),
+        ),
+        ActParameters(
+          values = listOf(20, 22, 24, 27, 30),
+          times = listOf(3, 3, 3, 3, 3),
+        ),
+        ActParameters(
+          values = listOf(20, 22, 24, 27, 30),
+          times = listOf(3, 3, 3, 3, 3),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
       ),
     ),
-    ActType.ClimaxAct to listOf(
-      ActParameters(
-        values = listOf(186, 200, 214, 228, 243),
-        times = listOf(0, 0, 0, 0, 0),
+    ActType.Act3 to ActBlueprint(
+      name = "キラめきの風",
+      type = ActType.Act3,
+      apCost = 3,
+      icon = 89,
+      parameters = listOf(
+        ActParameters(
+          values = listOf(15, 16, 17, 18, 20),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
       ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(2, 2, 2, 2, 2),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
+    ),
+    ActType.ClimaxAct to ActBlueprint(
+      name = "ピースは揃った、真実を明かそう",
+      type = ActType.ClimaxAct,
+      apCost = 2,
+      icon = 34,
+      parameters = listOf(
+        ActParameters(
+          values = listOf(186, 200, 214, 228, 243),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(2, 2, 2, 2, 2),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
       ),
     ),
   ),

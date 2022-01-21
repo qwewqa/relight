@@ -4,6 +4,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
+import xyz.qwewqa.relive.simulator.core.stage.dress.ActBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.dress.PartialDressBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.dress.StatBoost
 import xyz.qwewqa.relive.simulator.core.stage.dress.StatBoostType
@@ -39,92 +40,116 @@ val dress3050013 = PartialDressBlueprint(
     agility = 3580,
   ),
   actParameters = mapOf(
-    ActType.Act1 to listOf(
-      ActParameters(
-        values = listOf(91, 95, 99, 104, 109),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-    ),
-    ActType.Act2 to listOf(
-      ActParameters(
-        values = listOf(54, 56, 59, 62, 64),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(2, 2, 2, 2, 2),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
+    ActType.Act1 to ActBlueprint(
+      name = "激化の斬撃",
+      type = ActType.Act1,
+      apCost = 2,
+      icon = 1,
+      parameters = listOf(
+        ActParameters(
+          values = listOf(91, 95, 99, 104, 109),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
       ),
     ),
-    ActType.Act3 to listOf(
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(84, 88, 92, 97, 101),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
+    ActType.Act2 to ActBlueprint(
+      name = "夕闇の地平線",
+      type = ActType.Act2,
+      apCost = 2,
+      icon = 57,
+      parameters = listOf(
+        ActParameters(
+          values = listOf(54, 56, 59, 62, 64),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(2, 2, 2, 2, 2),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
       ),
     ),
-    ActType.ClimaxAct to listOf(
-      ActParameters(
-        values = listOf(200, 210, 220, 230, 240),
-        times = listOf(0, 0, 0, 0, 0),
+    ActType.Act3 to ActBlueprint(
+      name = "夕暮れの空",
+      type = ActType.Act3,
+      apCost = 2,
+      icon = 10005,
+      parameters = listOf(
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(84, 88, 92, 97, 101),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
       ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
-      ),
-      ActParameters(
-        values = listOf(0, 0, 0, 0, 0),
-        times = listOf(0, 0, 0, 0, 0),
+    ),
+    ActType.ClimaxAct to ActBlueprint(
+      name = "黄昏の用心棒",
+      type = ActType.ClimaxAct,
+      apCost = 2,
+      icon = 1019,
+      parameters = listOf(
+        ActParameters(
+          values = listOf(200, 210, 220, 230, 240),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+        ),
       ),
     ),
   ),

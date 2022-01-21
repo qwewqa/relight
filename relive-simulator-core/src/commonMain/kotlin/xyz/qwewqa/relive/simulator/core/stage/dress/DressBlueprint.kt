@@ -136,7 +136,7 @@ data class PartialDressBlueprint(
     val positionValue: Int,
     val stats: StatData,
     val growthStats: StatData,
-    val actParameters: Map<ActType, List<ActParameters>>,
+    val actParameters: Map<ActType, ActBlueprint>,
     val autoSkillRanks: List<Int?>,
     val autoSkillPanels: List<Int>,
     val rankPanels: List<List<StatBoost>>,
@@ -160,7 +160,11 @@ data class PartialDressBlueprint(
         positionValue,
         stats,
         growthStats,
-        acts.map { if (it.type in actParameters) it.copy(parameters = actParameters[it.type]!!) else it },
+        acts.map {
+            actParameters[it.type]?.let { baseParams ->
+                it.copy(apCost = baseParams.apCost, parameters = baseParams.parameters, icon = it.icon ?: baseParams.icon)
+            } ?: it
+        },
         autoSkills,
         autoSkillRanks,
         autoSkillPanels,

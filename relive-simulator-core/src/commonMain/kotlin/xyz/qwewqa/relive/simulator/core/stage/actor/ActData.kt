@@ -6,6 +6,7 @@ data class ActData(
     val name: String,
     val type: ActType,
     val apCost: Int,
+    val icon: Int?,
     val act: Act,
 )
 
@@ -23,7 +24,7 @@ enum class ActType(val shortName: String) {
     ClimaxAct("cx"),
     ConfusionAct("conf");
 
-    operator fun invoke(name: String, apCost: Int, act: Act) = ActData(name, this, apCost, act)
+    operator fun invoke(name: String, apCost: Int, icon: Int? = null, act: Act) = ActData(name, this, apCost, icon, act)
 }
 
 fun actsOf(vararg acts: ActData) = acts.associateBy { it.type }

@@ -86,7 +86,7 @@ data class BoundCutin(val actor: Actor, val data: CutinData) {
         actor.executeCutin(data.act)
     }
 
-    override fun toString() = "[${actor.dress.name} (${actor.name})]:[${actor.memoir?.name}]"
+    override fun toString() = "@{{memoir:${actor.memoir?.id}}}[${actor.dress.name} (${actor.name})]:[${actor.memoir?.name}]"
 }
 
 object EmptyStrategy : Strategy {

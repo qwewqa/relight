@@ -290,12 +290,12 @@ data class PlayError(val exception: Exception, override val tags: List<String>) 
 data class ExcludedRun(override val tags: List<String>) : StageResult()
 
 @OptIn(ExperimentalContracts::class)
-inline fun Stage.log(tag: String = "?", value: () -> String) {
+inline fun Stage.log(vararg tags: String, value: LogContentsBuilder.() -> String) {
     contract {
         callsInPlace(value, InvocationKind.AT_MOST_ONCE)
     }
 
     if (configuration.logging) {
-        logger.log(turn, tile, tag, value())
+        logger.log(turn, tile, *tags, contents = LogContentsBuilder().run { build(value()) })
     }
 }

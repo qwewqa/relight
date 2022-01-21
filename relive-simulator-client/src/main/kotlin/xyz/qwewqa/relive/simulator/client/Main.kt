@@ -804,11 +804,11 @@ class SimulatorClient(val simulator: Simulator) {
                 delay(50)
                 interactiveSimulation?.let { sim ->
                     val log = sim.getLog()
-                    if (log != this@SimulatorClient.interactiveLog.textContent) {
+                    if (log != this@SimulatorClient.interactiveLog.innerHTML) {
                         val isScrolledDown = this@SimulatorClient.interactiveLog.let {
                             it.scrollHeight - it.offsetHeight - it.scrollTop < 1.0
                         }
-                        this@SimulatorClient.interactiveLog.textContent = sim.getLog()
+                        this@SimulatorClient.interactiveLog.innerHTML = sim.getLog()
                         if (isScrolledDown) {
                             this@SimulatorClient.interactiveLog.let {
                                 it.scrollTop = it.scrollHeight.toDouble()
@@ -858,7 +858,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 }
                             }.format()
                         }
-                        resultsText.textContent = progressDisplay + "\n\n" + iterationResultsText
+                        resultsText.innerHTML = progressDisplay + "\n\n" + iterationResultsText
 
                         // Plotly goes upwards from the y-axis, so entries have to be reversed
                         val plotEntries = simpleResults.reversed().toMap()
@@ -932,7 +932,7 @@ class SimulatorClient(val simulator: Simulator) {
                         resultsRow.removeClass("d-none")
 
                         if (result.log != null) {
-                            logText.textContent = result.log
+                            logText.innerHTML = result.log ?: ""
                             logRow.removeClass("d-none")
                         } else {
                             logRow.addClass("d-none")

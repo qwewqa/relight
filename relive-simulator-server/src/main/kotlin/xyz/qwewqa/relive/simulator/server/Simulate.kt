@@ -80,7 +80,7 @@ private fun simulateSingle(
             StageConfiguration(logging = true))  // Seed the same was as one iteration of simulateMany
     val result = stage.play(parameters.maxTurns)
     val results = listOf(SimulationResultValue(result.tags, result.toSimulationResult(), 1))
-    val log = stage.logger.toString()
+    val log = stage.logger.asHtml()
     simulationResults[token] = SimulationResult(
         maxIterations = parameters.maxIterations,
         currentIterations = 1,
@@ -170,7 +170,7 @@ private fun simulateMany(
     val loggedResult = firstApplicableIteration?.let {
         val stage = loadout.create(Random(it.seed), StageConfiguration(logging = true))
         val playResult = stage.play(parameters.maxTurns)
-        "Iteration ${it.index + 1}\n${stage.logger}" to playResult
+        "Iteration ${it.index + 1}\n${stage.logger.asHtml()}" to playResult
     }
     val results = resultCounts.map { (k, v) -> SimulationResultValue(k.first, k.second, v) }
     simulationResults[token] = SimulationResult(

@@ -4,14 +4,11 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import xyz.qwewqa.relive.simulator.core.stage.Stage
-import xyz.qwewqa.relive.simulator.core.stage.StageConfiguration
+import xyz.qwewqa.relive.simulator.core.stage.*
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
-import xyz.qwewqa.relive.simulator.core.stage.hierarchicalString
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
-import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.strategy.*
 import xyz.qwewqa.relive.simulator.core.stage.strategy.complete.qsort
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
@@ -39,7 +36,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout:
         // Ensures that we only obtain the log when control is handed over to the strategy.
         // The strategy just ignores this, but this function will suspend until the strategy is ready.
         channel.send(null)
-        stage.logger.toString()
+        stage.logger.asHtml()
     }
 
     suspend fun sendCommand(text: String) = mutex.withLock {
@@ -48,23 +45,23 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout:
         when (command.type) {
             InteractiveStrategyCommand.SAVE -> {
                 saves[command.data] = history.toList()
-                stage.log("Command / Save") { "Saved state as '${command.data}'." }
+                stage.log("Command", "Save") { "Saved state as '${command.data}'." }
             }
             InteractiveStrategyCommand.LOAD -> {
                 val save = saves[command.data]
                 if (save == null) {
-                    stage.log("Command / Load") { "No save state with name '${command.data}' found." }
+                    stage.log("Command", "Load") { "No save state with name '${command.data}' found." }
                 } else {
                     loadSave(save)
-                    stage.log("Command / Load") { "Loaded save state with name '${command.data}'." }
+                    stage.log("Command", "Load") { "Loaded save state with name '${command.data}'." }
                 }
             }
             InteractiveStrategyCommand.UNDO -> {
                 if (history.isEmpty()) {
-                    stage.log("Command / Undo") { "Error: History is empty." }
+                    stage.log("Command", "Undo") { "Error: History is empty." }
                 } else {
                     loadSave(history.dropLast(1))
-                    stage.log("Command / Undo") { "Successfully undid command." }
+                    stage.log("Command", "Undo") { "Successfully undid command." }
                 }
             }
             else -> {
@@ -154,19 +151,25 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout:
         private var held: BoundAct? = null
         private var hasPerformedHoldAction = true
 
-        private val teamActors = mutableMapOf<String, Actor>()
-
         private val queueHistory = mutableListOf<QueueResult>()
 
-        private inline fun log(value: () -> String) = stage.log("Command", value)
-        private inline fun log(tag: String, value: () -> String) = stage.log("Command / $tag", value)
+        private inline fun log(value: LogContentsBuilder.() -> String) {
+            stage.log("Command") {
+                value()
+            }
+        }
+
+        private inline fun log(vararg tags: String, value: LogContentsBuilder.() -> String) {
+            stage.log("Command", *tags) {
+                value()
+            }
+        }
 
         override suspend fun initialize(stage: Stage, team: Team, enemy: Team) {
             this.stage = stage
             this.team = team
             this.enemy = enemy
-            team.actors.forEach { (name, actor) ->
-                teamActors[name] = actor
+            team.actors.values.forEach { actor ->
                 discardPile += BoundAct(actor, ActType.Act1)
                 discardPile += BoundAct(actor, ActType.Act2)
                 discardPile += BoundAct(actor, ActType.Act3)
@@ -258,7 +261,7 @@ ${hand.numbered().prependIndent(INDENT)}
 
 Cutins (${cutinEnergy} Energy):
 ${
-                    (teamActors.values
+                    (team.actors.values
                         .filter { it.isAlive }
                         .mapNotNull { it.cutin }
                         .joinToString("\n") { it.formatted() }
@@ -300,8 +303,8 @@ ${
                 args.size == 1 && args[0].toIntOrNull()?.minus(1) in hand.indices -> {
                     hand[args[0].toInt() - 1]
                 }
-                args.size == 2 && args[0] in teamActors && args[1] in actNameMapping -> {
-                    BoundAct(teamActors[args[0]]!!, actNameMapping[args[1]]!!)
+                args.size == 2 && args[0] in team.actors && args[1] in actNameMapping -> {
+                    BoundAct(team.actors[args[0]]!!, actNameMapping[args[1]]!!)
                 }
                 else -> null
             }
@@ -350,8 +353,8 @@ ${(InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n") 
                             args.all { it.toIntOrNull()?.minus(1) in hand.indices } -> {
                                 args.map { hand[it.toInt() - 1] }
                             }
-                            args.size == 2 && args[0] in teamActors && args[1] in actNameMapping -> {
-                                listOf(BoundAct(teamActors[args[0]]!!, actNameMapping[args[1]]!!))
+                            args.size == 2 && args[0] in team.actors && args[1] in actNameMapping -> {
+                                listOf(BoundAct(team.actors[args[0]]!!, actNameMapping[args[1]]!!))
                             }
                             else -> error("Invalid arguments.")
                         }
@@ -389,7 +392,7 @@ ${(InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n") 
                         act == null -> {
                             log("Hold") { "Error: Invalid arguments." }
                         }
-                        teamActors.values.count { it.isAlive } <= 1 -> {
+                        team.actors.values.count { it.isAlive } <= 1 -> {
                             log("Hold") { "Error: Team has too few active actors." }
                         }
                         held != null -> {
@@ -414,7 +417,11 @@ ${(InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n") 
                             internalHand += newAct
                             hand[hand.indexOf(act)] = newAct
                             hasPerformedHoldAction = true
-                            log("Hold") { "Successfully held '${act}'.\n\nHand:\n${hand.numbered().prependIndent(INDENT)}" }
+                            log("Hold") {
+                                "Successfully held '${act}'.\n\nHand:\n${
+                                    hand.numbered().prependIndent(INDENT)
+                                }"
+                            }
                         }
                     }
                 }
@@ -499,10 +506,10 @@ ${(InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n") 
                         log("Cutin") { "Error: Not in a turn." }
                         return@run
                     }
-                    if (data !in teamActors) {
+                    if (data !in team.actors) {
                         log("Cutin") { "Error: Invalid actor." }
                     }
-                    val cutin = teamActors[data]!!.cutin
+                    val cutin = team.actors[data]!!.cutin
                     if (cutin == null) {
                         log("Cutin") { "Error: Actor does not have cutin." }
                     } else if (!cutin.actor.isAlive) {
@@ -559,7 +566,7 @@ ${hand.numbered().prependIndent(INDENT)}
 
 Cutins (${cutinEnergy} Energy):
 ${
-                            (teamActors.values
+                            (team.actors.values
                                 .filter { it.isAlive }
                                 .mapNotNull { it.cutin }
                                 .joinToString("\n") { it.formatted() }
@@ -657,7 +664,8 @@ ${
             discardPile += BoundAct(actor, ActType.Act3)
         }
 
-        private fun String.blankOrWithHeader(header: String) = if (isBlank()) "" else "$header\n${prependIndent(INDENT)}"
+        private fun String.blankOrWithHeader(header: String) =
+            if (isBlank()) "" else "$header\n${prependIndent(INDENT)}"
 
         private fun Actor.formattedStatus() = hierarchicalString("${dress.name} (${name})", INDENT) {
             "Status" {
@@ -709,7 +717,7 @@ ${
         }
 
         private fun BoundCutin.formatted() =
-            "[${actor.dress.name} (${actor.name})]:[${actor.memoir?.name}](Cost: ${data.cost}, Cooldown: ${
+            "@{{memoir:${actor.memoir?.id}}}[${actor.dress.name} (${actor.name})]:[${actor.memoir?.name}](Cost: ${data.cost}, Cooldown: ${
                 (1 + currentCooldownValue - (stage.turn - cutinLastUseTurns.getValue(this))).coerceAtLeast(0)
             }, Remaining Uses: ${data.usageLimit - cutinUseCounts.getValue(this)}/${data.usageLimit})"
 
@@ -731,7 +739,8 @@ ${
             return sortPriority.compareTo(other.sortPriority)
         }
 
-        override fun toString() = "[${actor.dress.name} (${actor.name})]:[${act.name}](${act.type.name} / ${apCost}AP)"
+        override fun toString() =
+            "@{{dress:${actor.dress.id}}}@{{act:${act.icon}}}[${actor.dress.name} (${actor.name})]:[${act.name}](${act.type.name} / ${apCost}AP)"
     }
 }
 

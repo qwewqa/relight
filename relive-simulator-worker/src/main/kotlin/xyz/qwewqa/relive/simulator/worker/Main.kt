@@ -50,7 +50,7 @@ fun main() {
                                 result.tags,
                                 (result as? MarginStageResult)?.margin,
                                 error = (result as? PlayError)?.exception?.stackTraceToString(),
-                                log = stage.logger.toString(),
+                                log = stage.logger.asHtml(),
                             )
                         } else {
                             val result = ld.create(random = Random(request.seed)).play(turns)
