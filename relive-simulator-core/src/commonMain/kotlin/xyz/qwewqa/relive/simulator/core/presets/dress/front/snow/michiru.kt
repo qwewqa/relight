@@ -82,7 +82,7 @@ val HierophantMichiru = dress4020004(
                         bonusCondition = FreezeOnlyCondition,
                     )
                 } // TODO() Check Freeze Amp
-                // TODO() Exit Evasion
+                // TODO() Exit Removal
             }
         }
     ),
