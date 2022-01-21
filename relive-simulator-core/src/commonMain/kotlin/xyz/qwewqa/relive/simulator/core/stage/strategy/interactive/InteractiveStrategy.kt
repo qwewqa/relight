@@ -664,7 +664,7 @@ ${
         private fun Actor.formattedStatus() = hierarchicalString("${dress.name} (${name})") {
             "Status" {
                 +"HP: $hp/$maxHp"
-                +"Brilliance: $brilliance/$brilliance"
+                +"Brilliance: $brilliance/100"
             }
             "Stats" {
                 +"Act Power: $actPower"
