@@ -56,9 +56,8 @@ kotlin {
     }
 }
 
-tasks.register<Copy>("copyResources") {
-    from("${project(":relive-simulator-client").projectDir}/src/main/resources/index.html",
-        "${project(":relive-simulator-client").projectDir}/src/main/resources/img")
+tasks.register<Copy>("copyIndex") {
+    from("${project(":relive-simulator-client").projectDir}/src/main/resources/index.html")
     into("$projectDir/src/main/resources/")
     filter { line ->
         line
@@ -67,7 +66,15 @@ tasks.register<Copy>("copyResources") {
     }
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile::class) {
+tasks.register<Copy>("copyResources") {
+    from("${project(":relive-simulator-client").projectDir}/src/main/resources/") {
+        exclude("index.html")
+    }
+    into("$projectDir/src/main/resources/")
+}
+
+tasks.withType(org.gradle.language.jvm.tasks.ProcessResources::class) {
+    dependsOn("copyIndex")
     dependsOn("copyResources")
     dependsOn(":relive-simulator-worker:browserProductionWebpack")
 }
