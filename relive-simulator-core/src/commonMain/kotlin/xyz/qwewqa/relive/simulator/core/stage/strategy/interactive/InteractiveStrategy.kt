@@ -717,7 +717,7 @@ ${
         }
 
         private fun BoundCutin.formatted() =
-            "@{{memoir:${actor.memoir?.id}}}[${actor.dress.name} (${actor.name})]:[${actor.memoir?.name}](Cost: ${data.cost}, Cooldown: ${
+            "@(memoir:${actor.memoir?.id})[${actor.dress.name} (${actor.name})]:[${actor.memoir?.name}](Cost: ${data.cost}, Cooldown: ${
                 (1 + currentCooldownValue - (stage.turn - cutinLastUseTurns.getValue(this))).coerceAtLeast(0)
             }, Remaining Uses: ${data.usageLimit - cutinUseCounts.getValue(this)}/${data.usageLimit})"
 
@@ -740,7 +740,7 @@ ${
         }
 
         override fun toString() =
-            "@{{dress:${actor.dress.id}}}@{{act:${act.icon}}}[${actor.dress.name} (${actor.name})]:[${act.name}](${act.type.name} / ${apCost}AP)"
+            "@(dress:${actor.dress.id})@(act:${act.icon})[${actor.dress.name} (${actor.name})]:[${act.name}](${act.type.name} / ${apCost}AP)"
     }
 }
 
