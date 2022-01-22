@@ -691,6 +691,11 @@ class SimulatorClient(val simulator: Simulator) {
                     toast("Simulate", "Interactive simulation failed to start.", "red")
                     return@launch
                 }
+                window.onbeforeunload = {
+                    it.preventDefault()
+                    it.returnValue = ""
+                    ""
+                }
                 toast("Simulate", "Interactive simulation started.", "green")
             }
         })
