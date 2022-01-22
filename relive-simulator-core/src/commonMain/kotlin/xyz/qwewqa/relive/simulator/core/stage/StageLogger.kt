@@ -33,7 +33,7 @@ class LogContentsBuilder {
 data class LogContents(val value: String) {
     val html by lazy {
         fun String.imageReplace(name: String, url: (Int) -> String): String {
-            return "@\\{\\{$name:(.*?)}}".toRegex().replace(this) {
+            return "@\\($name:(.*?)\\)".toRegex().replace(this) {
                 val id = it.groups[1]!!.value.toIntOrNull()
                 if (id == null || id == -1) {
                     ""
