@@ -22,7 +22,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val StageGirlRui = dress2040017(
     name = "Stage Girl Rui",
     acts = listOf(
-        ActType.Act1.blueprint("Ardent Slash", 2) {
+        ActType.Act1.blueprint("Ardent Slash") {
             Act {
                 targetBack().act {
                     attack(
@@ -32,7 +32,7 @@ val StageGirlRui = dress2040017(
                 }
             }
         },
-        ActType.Act2.blueprint("Resolute Blade", 2) {
+        ActType.Act2.blueprint("Resolute Blade") {
             Act {
                 targetBack().act {
                     attack(
@@ -54,7 +54,7 @@ val StageGirlRui = dress2040017(
                 }
             }
         },
-        ActType.Act3.blueprint("Strike of Determination", 2) {
+        ActType.Act3.blueprint("Strike of Determination") {
             Act {
                 targetBack().act {
                     attack(
@@ -75,7 +75,7 @@ val StageGirlRui = dress2040017(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("My life is on this stage!", 2) {
+        ActType.ClimaxAct.blueprint("My life is on this stage!") {
             Act {
                 targetAoe().act {
                     dispelTimed(BuffCategory.Positive)

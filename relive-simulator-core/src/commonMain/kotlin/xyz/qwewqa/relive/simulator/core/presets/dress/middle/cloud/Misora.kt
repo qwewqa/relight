@@ -17,7 +17,7 @@ import xyz.qwewqa.relive.simulator.stage.character.Position
 val StageGirlMisora = dress3020017(
     name = "Stage Girl Misora",
     acts = listOf(
-        ActType.Act1.blueprint("Rear Flash", 2) {
+        ActType.Act1.blueprint("Rear Flash") {
             Act {
                 targetByLowest { it.normalDefense }.act {
                     attack(
@@ -27,7 +27,7 @@ val StageGirlMisora = dress3020017(
                 }
             }
         },
-        ActType.Act2.blueprint("Lightning Speed", 2) {
+        ActType.Act2.blueprint("Lightning Speed") {
             Act {
                 targetByLowest { it.normalDefense }.act {
                     attack(
@@ -48,7 +48,7 @@ val StageGirlMisora = dress3020017(
                 }
             }
         },
-        ActType.Act3.blueprint("Leap to the Skies", 4) {
+        ActType.Act3.blueprint("Leap to the Skies") {
             Act {
                 targetAllyBack(5).act {
                     addBrilliance(values1)
@@ -59,7 +59,7 @@ val StageGirlMisora = dress3020017(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Aim towards those skies, Frontier!", 2) {
+        ActType.ClimaxAct.blueprint("Aim towards those skies, Frontier!") {
             Act {
                 targetAoe().act {
                     dispelTimed(BuffCategory.Positive)

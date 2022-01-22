@@ -17,7 +17,7 @@ import xyz.qwewqa.relive.simulator.stage.character.Position
 val HondaFutaba = dress1080013(
     name = "Honda Tadakatsu Futaba",
     acts = listOf(
-        ActType.Act1.blueprint("Strong Slash", 2) {
+        ActType.Act1.blueprint("Strong Slash") {
             Act {
                 targetFront().act {
                     attack(
@@ -27,7 +27,7 @@ val HondaFutaba = dress1080013(
                 }
             }
         },
-        ActType.Act2.blueprint("Victory Battle", 2) {
+        ActType.Act2.blueprint("Victory Battle") {
             Act {
                 targetBack().act {
                     attack(
@@ -49,7 +49,7 @@ val HondaFutaba = dress1080013(
                 }
             }
         },
-        ActType.Act3.blueprint("Furious War", 3) {
+        ActType.Act3.blueprint("Furious War") {
             Act {
                 targetBack().act {
                     attack(
@@ -71,7 +71,7 @@ val HondaFutaba = dress1080013(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Invincible Spear", 2) {
+        ActType.ClimaxAct.blueprint("Invincible Spear") {
             Act {
                 targetBack().act {
                     flipTimed(

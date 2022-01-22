@@ -13,7 +13,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val StrengthFutaba = dress1080004(
     name = "Strength Futaba",
     acts = listOf(
-        ActType.Act1.blueprint("Strong Slash", 2) {
+        ActType.Act1.blueprint("Strong Slash") {
             Act {
                 targetFront().act {
                     attack(
@@ -23,7 +23,7 @@ val StrengthFutaba = dress1080004(
                 }
             }
         },
-        ActType.Act2.blueprint("Purity of Strength", 2) {
+        ActType.Act2.blueprint("Purity of Strength") {
             Act {
                 targetFront().act {
                     attack(
@@ -41,7 +41,7 @@ val StrengthFutaba = dress1080004(
                 }
             }
         },
-        ActType.Act3.blueprint("Resilient Protection", 1) {
+        ActType.Act3.blueprint("Resilient Protection") {
             Act {
                 targetAoe().act {
                     applyBuff(
@@ -64,7 +64,7 @@ val StrengthFutaba = dress1080004(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Lion's Roar", 2) {
+        ActType.ClimaxAct.blueprint("Lion's Roar") {
             Act {
                 targetFront().act {
                     attack(

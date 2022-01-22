@@ -13,7 +13,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val FaithMisora = dress3020015(
     name = "Faith Misora",
     acts = listOf(
-        ActType.Act1.blueprint("Strong Thrust", 2) {
+        ActType.Act1.blueprint("Strong Thrust") {
             Act {
                 targetFront().act {
                     attack(
@@ -23,7 +23,7 @@ val FaithMisora = dress3020015(
                 }
             }
         },
-        ActType.Act2.blueprint("Healing Prayer", 2) {
+        ActType.Act2.blueprint("Healing Prayer") {
             Act {
                 targetFront().act {
                     attack(
@@ -40,7 +40,7 @@ val FaithMisora = dress3020015(
                 }
             }
         },
-        ActType.Act3.blueprint("Solid Shield", 1) {
+        ActType.Act3.blueprint("Solid Shield") {
             Act {
                 targetAoe().act {
                     applyBuff(
@@ -62,7 +62,7 @@ val FaithMisora = dress3020015(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Moonlight Sacrament", 2) {
+        ActType.ClimaxAct.blueprint("Moonlight Sacrament") {
             Act {
                 targetByHighest { it.actPower }.act {
                     attack(

@@ -18,14 +18,14 @@ import xyz.qwewqa.relive.simulator.stage.character.Position
 val FoolYachiyo = dress4050015(
     name = "Fool Yachiyo",
     acts = listOf(
-        ActType.Act1.blueprint("Gust of Brilliance", 2) {
+        ActType.Act1.blueprint("Gust of Brilliance") {
             Act {
                 targetAllyAoe().act {
                     addBrilliance(values1)
                 }
             }
         },
-        ActType.Act2.blueprint("Free Heart", 2) {
+        ActType.Act2.blueprint("Free Heart") {
             Act {
                 targetBack().act {
                     attack(
@@ -46,7 +46,7 @@ val FoolYachiyo = dress4050015(
                 }
             }
         },
-        ActType.Act3.blueprint("Eternal Brilliance", 2) {
+        ActType.Act3.blueprint("Eternal Brilliance") {
             Act {
                 targetBack().act {
                     attack(
@@ -68,7 +68,7 @@ val FoolYachiyo = dress4050015(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Possibility∞Infinity", 2) {
+        ActType.ClimaxAct.blueprint("Possibility∞Infinity") {
             Act {
                 focus {
                     targetAoe().act {

@@ -20,7 +20,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val WorldMaya = dress1050007(
     name = "World Maya",
     acts = listOf(
-        ActType.Act1.blueprint("Slash of Brilliance", 2) {
+        ActType.Act1.blueprint("Slash of Brilliance") {
             Act {
                 targetFront().act {
                     attack(
@@ -33,7 +33,7 @@ val WorldMaya = dress1050007(
                 }
             }
         },
-        ActType.Act2.blueprint("Sky and Earth", 2) {
+        ActType.Act2.blueprint("Sky and Earth") {
             Act {
                 targetBack().act {
                     attack(
@@ -55,7 +55,7 @@ val WorldMaya = dress1050007(
                 }
             }
         },
-        ActType.Act3.blueprint("Light and Darkness", 2) {
+        ActType.Act3.blueprint("Light and Darkness") {
             Act {
                 targetBack().act {
                     attack(
@@ -77,7 +77,7 @@ val WorldMaya = dress1050007(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Genesis of Unmatched Brilliance", 2) {
+        ActType.ClimaxAct.blueprint("Genesis of Unmatched Brilliance") {
             Act {
                 targetAoe().act {
                     dispelTimed(BuffCategory.Positive)

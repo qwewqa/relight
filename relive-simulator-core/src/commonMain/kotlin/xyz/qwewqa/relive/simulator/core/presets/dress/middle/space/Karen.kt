@@ -20,7 +20,7 @@ import xyz.qwewqa.relive.simulator.stage.character.Position
 val WheelOfFortuneKaren = dress1010014(
     name = "Wheel of Fortune Karen",
     acts = listOf(
-        ActType.Act1.blueprint("Slash of Brilliance", 2) {
+        ActType.Act1.blueprint("Slash of Brilliance") {
             Act {
                 targetFront().act {
                     attack(
@@ -33,7 +33,7 @@ val WheelOfFortuneKaren = dress1010014(
                 }
             }
         },
-        ActType.Act2.blueprint("Purity of Heaven", 2) {
+        ActType.Act2.blueprint("Purity of Heaven") {
             Act {
                 targetFront().act {
                     attack(
@@ -46,7 +46,7 @@ val WheelOfFortuneKaren = dress1010014(
                 }
             }
         },
-        ActType.Act3.blueprint("Destiny Guidance", 3) {
+        ActType.Act3.blueprint("Destiny Guidance") {
             Act {
                 targetAoe().act {
                     attack(
@@ -68,7 +68,7 @@ val WheelOfFortuneKaren = dress1010014(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Destiny's End", 2) {
+        ActType.ClimaxAct.blueprint("Destiny's End") {
             Act {
                 focus {
                     targetFront(3).act {

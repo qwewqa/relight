@@ -12,7 +12,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val MitsuhideKaren = dress1010018(
     name = "Akechi Mitsuhide Karen",
     acts = listOf(
-        ActType.Act1.blueprint("Limitless Radiance", 2) {
+        ActType.Act1.blueprint("Limitless Radiance") {
             Act {
                 targetBack().act {
                     attack(
@@ -34,7 +34,7 @@ val MitsuhideKaren = dress1010018(
                 }
             }
         },
-        ActType.Act2.blueprint("Cloud Piercing", 2) {
+        ActType.Act2.blueprint("Cloud Piercing") {
             Act {
                 targetByHighest { it.actPower }.act {
                     attack(
@@ -50,7 +50,7 @@ val MitsuhideKaren = dress1010018(
                 }
             }
         },
-        ActType.Act3.blueprint("Gale Blade", 2) {
+        ActType.Act3.blueprint("Gale Blade") {
             Act {
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
@@ -68,7 +68,7 @@ val MitsuhideKaren = dress1010018(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Flames of Justice", 2) {
+        ActType.ClimaxAct.blueprint("Flames of Justice") {
             Act {
                 targetAoe().act {
                     attack(

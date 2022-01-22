@@ -15,7 +15,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val IzanagiNana = dress1070015(
     name = "Izanagi Nana",
     acts = listOf(
-        ActType.Act1.blueprint("Strong Slash", 2) {
+        ActType.Act1.blueprint("Strong Slash") {
             Act {
                 targetFront().act {
                     attack(
@@ -25,7 +25,7 @@ val IzanagiNana = dress1070015(
                 }
             }
         },
-        ActType.Act2.blueprint("Sacred Will", 2) {
+        ActType.Act2.blueprint("Sacred Will") {
             Act {
                 targetBack(3).act {
                     attack(
@@ -42,7 +42,7 @@ val IzanagiNana = dress1070015(
                 }
             }
         },
-        ActType.Act3.blueprint("Cloud Piercing", 2) {
+        ActType.Act3.blueprint("Cloud Piercing") {
             Act {
                 targetByHighest { it.actPower }.act {
                     attack(
@@ -58,7 +58,7 @@ val IzanagiNana = dress1070015(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Izanagi's Creation", 2) {
+        ActType.ClimaxAct.blueprint("Izanagi's Creation") {
             Act {
                 targetAoe().act {
                     attack(
@@ -111,7 +111,7 @@ val IzanagiNana = dress1070015(
 val JusticeNana = dress1070004(
     name = "Justice Nana",
     acts = listOf(
-        ActType.Act1.blueprint("Brilliance Slash", 2) {
+        ActType.Act1.blueprint("Brilliance Slash") {
             Act {
                 targetBack().act {
                     attack(
@@ -124,7 +124,7 @@ val JusticeNana = dress1070004(
                 }
             }
         },
-        ActType.Act2.blueprint("Sword of Justice", 2) {
+        ActType.Act2.blueprint("Sword of Justice") {
             Act {
                 targetAoe().act {
                     attack(
@@ -145,7 +145,7 @@ val JusticeNana = dress1070004(
                 }
             }
         },
-        ActType.Act3.blueprint("Right Judgement", 2) {
+        ActType.Act3.blueprint("Right Judgement") {
             Act {
                 targetBack().act {
                     attack(
@@ -159,7 +159,7 @@ val JusticeNana = dress1070004(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Izanagi's Creation", 2) {
+        ActType.ClimaxAct.blueprint("Izanagi's Creation") {
             Act {
                 targetSelf().act {
                     applyBuff(

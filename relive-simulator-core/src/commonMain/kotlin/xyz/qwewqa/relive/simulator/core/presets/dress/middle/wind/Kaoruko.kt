@@ -16,7 +16,7 @@ import xyz.qwewqa.relive.simulator.stage.character.Position
 val CatalinaKaoruko = dress1090022(
     name = "Rebellious General Catalina Kaoruko",
     acts = listOf(
-        ActType.Act1.blueprint("Strong Slash", 2) {
+        ActType.Act1.blueprint("Strong Slash") {
             Act {
                 targetFront().act {
                     attack(
@@ -26,7 +26,7 @@ val CatalinaKaoruko = dress1090022(
                 }
             }
         },
-        ActType.Act2.blueprint("Creation Slash", 2) {
+        ActType.Act2.blueprint("Creation Slash") {
             Act {
                 targetFront().act {
                     attack(
@@ -38,7 +38,7 @@ val CatalinaKaoruko = dress1090022(
                 }
             }
         },
-        ActType.Act3.blueprint("General's Oath", 2) {
+        ActType.Act3.blueprint("General's Oath") {
             Act {
                 targetFront().act {
                     attack(
@@ -55,7 +55,7 @@ val CatalinaKaoruko = dress1090022(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Black Lion's Scratch Encore", 2) {
+        ActType.ClimaxAct.blueprint("Black Lion's Scratch Encore") {
             Act {
                 targetByHighest { it.actPower }.act {
                     attack(

@@ -21,7 +21,7 @@ import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageFlower
 val SakuyahimeMahiru = dress1030021(
     name = "Konohana Sakuya-hime Mahiru",
     acts = listOf(
-        ActType.Act1.blueprint("Brilliance Flower", 1) {
+        ActType.Act1.blueprint("Brilliance Flower") {
             Act {
                 targetByHighest { it.actPower }.act {
                     attack(
@@ -34,7 +34,7 @@ val SakuyahimeMahiru = dress1030021(
                 }
             }
         },
-        ActType.Act2.blueprint("Scattered Flowers", 2) {
+        ActType.Act2.blueprint("Scattered Flowers") {
             Act {
                 targetByHighest { it.actPower }.act {
                     attack(
@@ -48,7 +48,7 @@ val SakuyahimeMahiru = dress1030021(
                 }
             }
         },
-        ActType.Act3.blueprint("Budding Flower", 3) {
+        ActType.Act3.blueprint("Budding Flower") {
             Act {
                 targetByHighest { it.actPower }.act {
                     attack(
@@ -61,7 +61,7 @@ val SakuyahimeMahiru = dress1030021(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Shinonome's Flying Flowers", 2) {
+        ActType.ClimaxAct.blueprint("Shinonome's Flying Flowers") {
             Act {
                 targetAoe().act {
                     attack(
@@ -90,7 +90,7 @@ val SakuyahimeMahiru = dress1030021(
 val StageGirlMahiru = dress1030017(
     name = "Stage Girl Mahiru",
     acts = listOf(
-        ActType.Act1.blueprint("Strong Smash", 2) {
+        ActType.Act1.blueprint("Strong Smash") {
             Act {
                 targetFront(3).act {
                     attack(
@@ -100,7 +100,7 @@ val StageGirlMahiru = dress1030017(
                 }
             }
         },
-        ActType.Act2.blueprint("Sluggish Smash", 3) {
+        ActType.Act2.blueprint("Sluggish Smash") {
             Act {
                 targetFront().act {
                     attack(
@@ -117,7 +117,7 @@ val StageGirlMahiru = dress1030017(
                 }
             }
         },
-        ActType.Act3.blueprint("Budding Flower", 3) {
+        ActType.Act3.blueprint("Budding Flower") {
             Act {
                 targetFront(3).act {
                     attack(
@@ -139,7 +139,7 @@ val StageGirlMahiru = dress1030017(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Shinonome's Flying Flowers", 2) {
+        ActType.ClimaxAct.blueprint("Shinonome's Flying Flowers") {
             Act {
                 targetAoe().act {
                     attack(

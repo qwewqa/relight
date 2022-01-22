@@ -17,7 +17,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val StageGirlLalafin = dress3030017(
     name = "Stage Girl Lalafin",
     acts = listOf(
-        ActType.Act1.blueprint("Purifying Smash", 2) {
+        ActType.Act1.blueprint("Purifying Smash") {
             Act {
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
@@ -35,7 +35,7 @@ val StageGirlLalafin = dress3030017(
                 }
             }
         },
-        ActType.Act2.blueprint("Relaxing Smash", 2) {
+        ActType.Act2.blueprint("Relaxing Smash") {
             Act {
                 targetBack().act {
                     dispelTimed(BuffCategory.Positive)
@@ -56,7 +56,7 @@ val StageGirlLalafin = dress3030017(
                 }
             }
         },
-        ActType.Act3.blueprint("Carefree Smash", 2) {
+        ActType.Act3.blueprint("Carefree Smash") {
             Act {
                 targetBack().act {
                     attack(
@@ -82,7 +82,7 @@ val StageGirlLalafin = dress3030017(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("With love and courage, to Frontier!", 2) {
+        ActType.ClimaxAct.blueprint("With love and courage, to Frontier!") {
             Act {
                 targetSelf().act {
                     applyCountableBuff(

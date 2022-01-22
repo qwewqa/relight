@@ -20,7 +20,7 @@ import xyz.qwewqa.relive.simulator.stage.character.Position
 val SakuraShingujiHikari = dress1020019(
     name = "Sakura Shinguji Hikari",
     acts = listOf(
-        ActType.Act1.blueprint("Purifying Blade", 2) {
+        ActType.Act1.blueprint("Purifying Blade") {
             Act {
                 targetBack(1).act {
                     attack(
@@ -33,7 +33,7 @@ val SakuraShingujiHikari = dress1020019(
                 }
             }
         },
-        ActType.Act2.blueprint("Dim Blink", 2) {
+        ActType.Act2.blueprint("Dim Blink") {
             Act {
                 targetAoe().act {
                     attack(
@@ -52,7 +52,7 @@ val SakuraShingujiHikari = dress1020019(
                 }
             }
         },
-        ActType.Act3.blueprint("Skyward Leap", 2) {
+        ActType.Act3.blueprint("Skyward Leap") {
             Act {
                 Act {
                     targetAllyBack(5).act {
@@ -65,7 +65,7 @@ val SakuraShingujiHikari = dress1020019(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Nostalgic Cherry Blossoms", 2) {
+        ActType.ClimaxAct.blueprint("Nostalgic Cherry Blossoms") {
             Act {
                 targetAoe().act {
                     focus {

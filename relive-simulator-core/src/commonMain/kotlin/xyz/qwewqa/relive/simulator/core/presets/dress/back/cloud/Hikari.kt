@@ -13,7 +13,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val HeroHikari = dress1020023(
     name = "Hero Hikari",
     acts = listOf(
-        ActType.Act1.blueprint("Strike of Brilliance", 1) {
+        ActType.Act1.blueprint("Strike of Brilliance") {
             Act {
                 targetBack().act {
                     attack(
@@ -26,7 +26,7 @@ val HeroHikari = dress1020023(
                 }
             }
         },
-        ActType.Act2.blueprint("Strike of Weakness", 2) {
+        ActType.Act2.blueprint("Strike of Weakness") {
             Act {
                 targetBack().act {
                     attack(
@@ -39,7 +39,7 @@ val HeroHikari = dress1020023(
                 }
             }
         },
-        ActType.Act3.blueprint("Weakening Strike", 3) {
+        ActType.Act3.blueprint("Weakening Strike") {
             Act {
                 targetBack().act {
                     attack(
@@ -56,7 +56,7 @@ val HeroHikari = dress1020023(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Legendary Hero", 2) {
+        ActType.ClimaxAct.blueprint("Legendary Hero") {
             Act {
                 targetAoe().act {
                     attack(

@@ -22,7 +22,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val FuMeiFan = dress4030014(
     name = "Second Lieutenant Fu Mei Fan",
     acts = listOf(
-        ActType.Act1.blueprint("Gale Dance", 2) {
+        ActType.Act1.blueprint("Gale Dance") {
             Act {
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
@@ -40,7 +40,7 @@ val FuMeiFan = dress4030014(
                 }
             }
         },
-        ActType.Act2.blueprint("Forced Breakthrough", 2) {
+        ActType.Act2.blueprint("Forced Breakthrough") {
             Act {
                 targetBack().act {
                     attack(
@@ -61,7 +61,7 @@ val FuMeiFan = dress4030014(
                 }
             }
         },
-        ActType.Act3.blueprint("Limitless Radiance", 2) {
+        ActType.Act3.blueprint("Limitless Radiance") {
             Act {
                 targetBack().act {
                     attack(
@@ -83,7 +83,7 @@ val FuMeiFan = dress4030014(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Oni's Fist", 2) {
+        ActType.ClimaxAct.blueprint("Oni's Fist") {
             Act {
                 targetAoe().act {
                     dispelTimed(BuffCategory.Positive)

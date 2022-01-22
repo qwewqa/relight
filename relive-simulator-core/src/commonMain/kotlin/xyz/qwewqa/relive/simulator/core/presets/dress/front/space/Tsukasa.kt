@@ -13,7 +13,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val CharityTsukasa = dress3040005(
     name = "Charity Tsukasa",
     acts = listOf(
-        ActType.Act1.blueprint("Ardent Slash", 2) {
+        ActType.Act1.blueprint("Ardent Slash") {
             Act {
                 targetBack().act {
                     attack(
@@ -23,7 +23,7 @@ val CharityTsukasa = dress3040005(
                 }
             }
         },
-        ActType.Act2.blueprint("Heart of Affection", 2) {
+        ActType.Act2.blueprint("Heart of Affection") {
             Act {
                 targetAoe().act {
                     attack(
@@ -44,7 +44,7 @@ val CharityTsukasa = dress3040005(
                 }
             }
         },
-        ActType.Act3.blueprint("Relief of Light", 1) {
+        ActType.Act3.blueprint("Relief of Light") {
             Act {
                 targetAoe().act {
                     applyBuff(
@@ -66,7 +66,7 @@ val CharityTsukasa = dress3040005(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Show Me the Right Path, Mirror", 1) {
+        ActType.ClimaxAct.blueprint("Show Me the Right Path, Mirror") {
             Act {
                 targetByHighest { it.actPower }.act {
                     applyBuff(

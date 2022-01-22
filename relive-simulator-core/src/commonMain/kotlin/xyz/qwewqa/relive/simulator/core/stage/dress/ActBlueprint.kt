@@ -7,38 +7,40 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 data class ActBlueprint(
     val name: String,
     val type: ActType,
-    val apCost: Int,
+    val apCost: Int? = null,
     val icon: Int? = null,
-    val parameters: List<ActParameters>,
+    val parameters: List<ActParameters>? = null,
     val value: ActBlueprintContext.() -> Act = { Act {} },
 ) {
     fun create(level: Int): ActData {
         return ActData(
             name,
             type,
-            apCost,
+            apCost ?: 1,
             icon,
-            ActBlueprintContext(
-                level,
-                parameters.map { it.values[level - 1] },
-                parameters.map { it.times[level - 1] },
-            ).value()
+            (parameters ?: error("Cannot create act with missing parameters.")).let { params ->
+                ActBlueprintContext(
+                    level,
+                    params.map { it.values[level - 1] },
+                    params.map { it.times[level - 1] },
+                ).value()
+            }
         )
     }
 }
 
 fun ActType.blueprint(
     name: String,
-    apCost: Int,
+    apCost: Int? = null,
     icon: Int? = null,
-    vararg parameters: ActParameters,
+    parameters: List<ActParameters>? = null,
     value: ActBlueprintContext.() -> Act,
 ) = ActBlueprint(
     name,
     this,
     apCost,
     icon,
-    parameters.toList(),
+    parameters,
     value,
 )
 

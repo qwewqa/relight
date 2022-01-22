@@ -13,7 +13,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val EmperorAkira = dress4010015(
     name = "Emperor Akira",
     acts = listOf(
-        ActType.Act1.blueprint("Ardent Thrust", 2) {
+        ActType.Act1.blueprint("Ardent Thrust") {
             Act {
                 targetBack().act {
                     attack(
@@ -23,7 +23,7 @@ val EmperorAkira = dress4010015(
                 }
             }
         },
-        ActType.Act2.blueprint("Emperor's Authority", 2) {
+        ActType.Act2.blueprint("Emperor's Authority") {
             Act {
                 targetAoe().act {
                     attack(
@@ -44,7 +44,7 @@ val EmperorAkira = dress4010015(
                 }
             }
         },
-        ActType.Act3.blueprint("Emperor's Prestige", 1) {
+        ActType.Act3.blueprint("Emperor's Prestige") {
             Act {
                 targetAoe().act {
                     applyBuff(
@@ -67,7 +67,7 @@ val EmperorAkira = dress4010015(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Galactic Kaiser-Walzer", 2) {
+        ActType.ClimaxAct.blueprint("Galactic Kaiser-Walzer") {
             Act {
                 targetByHighest { it.actPower }.act {
                     applyBuff(

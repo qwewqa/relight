@@ -13,7 +13,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val YellowTsukasa = dress3040018(
     name = "Yellow Frontier Tsukasa",
     acts = listOf(
-        ActType.Act1.blueprint("Flash of Brilliance", 1) {
+        ActType.Act1.blueprint("Flash of Brilliance") {
             Act {
                 targetFront().act {
                     attack(
@@ -26,7 +26,7 @@ val YellowTsukasa = dress3040018(
                 }
             }
         },
-        ActType.Act2.blueprint("Flash of Victory", 2) {
+        ActType.Act2.blueprint("Flash of Victory") {
             Act {
                 targetByLowest { (it.hp / it.maxHp) }.act {
                     attack(
@@ -53,7 +53,7 @@ val YellowTsukasa = dress3040018(
                 }
             }
         },
-        ActType.Act3.blueprint("Flash of Evasion", 3) {
+        ActType.Act3.blueprint("Flash of Evasion") {
             Act {
                 targetByLowest { (it.hp / it.maxHp) }.act {
                     attack(
@@ -70,7 +70,7 @@ val YellowTsukasa = dress3040018(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Yellow Tornado", 2) {
+        ActType.ClimaxAct.blueprint("Yellow Tornado") {
             Act {
                 targetAllyAoe().act {
                     flipTimed(

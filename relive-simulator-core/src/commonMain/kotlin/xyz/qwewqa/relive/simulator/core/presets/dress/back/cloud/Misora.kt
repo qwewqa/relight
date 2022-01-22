@@ -16,7 +16,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val AceMisora = dress3020013(
     name = "Stormy Ace Misora",
     acts = listOf(
-        ActType.Act1.blueprint("Gale Dance", 2) {
+        ActType.Act1.blueprint("Gale Dance") {
             Act {
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
@@ -34,7 +34,7 @@ val AceMisora = dress3020013(
                 }
             }
         },
-        ActType.Act2.blueprint("Forced Breakthrough", 2) {
+        ActType.Act2.blueprint("Forced Breakthrough") {
             Act {
                 targetBack().act {
                     attack(
@@ -55,7 +55,7 @@ val AceMisora = dress3020013(
                 }
             }
         },
-        ActType.Act3.blueprint("Limitless Radiance", 2) {
+        ActType.Act3.blueprint("Limitless Radiance") {
             Act {
                 targetBack().act {
                     attack(
@@ -77,7 +77,7 @@ val AceMisora = dress3020013(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Gatling Typhoon", 2) {
+        ActType.ClimaxAct.blueprint("Gatling Typhoon") {
             Act {
                 targetAoe().act {
                     dispelTimed(BuffCategory.Positive)

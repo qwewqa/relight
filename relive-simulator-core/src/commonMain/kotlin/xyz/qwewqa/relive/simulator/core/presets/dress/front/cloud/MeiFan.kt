@@ -13,7 +13,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val EmpressMeiFan = dress4030003(
     name = "Empress Mei Fan",
     acts = listOf(
-        ActType.Act1.blueprint("Strong Thrust", 2) {
+        ActType.Act1.blueprint("Strong Thrust") {
             Act {
                 targetFront().act {
                     attack(
@@ -23,7 +23,7 @@ val EmpressMeiFan = dress4030003(
                 }
             }
         },
-        ActType.Act2.blueprint("Ironclad Bestowal", 2) {
+        ActType.Act2.blueprint("Ironclad Bestowal") {
             Act {
                 targetAllyAoe().act {
                     applyBuff(
@@ -43,7 +43,7 @@ val EmpressMeiFan = dress4030003(
                 }
             }
         },
-        ActType.Act3.blueprint("Whole Protection", 1) {
+        ActType.Act3.blueprint("Whole Protection") {
             Act {
                 targetAoe().act {
                     applyBuff(
@@ -66,7 +66,7 @@ val EmpressMeiFan = dress4030003(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Empress's Gloom", 2) {
+        ActType.ClimaxAct.blueprint("Empress's Gloom") {
             Act {
                 targetAllyAoe().act {
                     flipTimed(BuffCategory.Negative, times1)

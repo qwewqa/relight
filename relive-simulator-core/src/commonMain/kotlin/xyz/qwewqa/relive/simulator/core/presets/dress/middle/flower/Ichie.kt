@@ -13,7 +13,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val SunIchie = dress2020003(
     name = "Sun Ichie",
     acts = listOf(
-        ActType.Act1.blueprint("Slash of Brilliance", 2) {
+        ActType.Act1.blueprint("Slash of Brilliance") {
             Act {
                 targetFront().act {
                     attack(
@@ -26,7 +26,7 @@ val SunIchie = dress2020003(
                 }
             }
         },
-        ActType.Act2.blueprint("Sun Glamor", 2) {
+        ActType.Act2.blueprint("Sun Glamor") {
             Act {
                 targetAoe().act {
                     attack(
@@ -46,7 +46,7 @@ val SunIchie = dress2020003(
                 }
             }
         },
-        ActType.Act3.blueprint("Raging Sun", 2) {
+        ActType.Act3.blueprint("Raging Sun") {
             Act {
                 targetAoe().act {
                     attack(
@@ -61,7 +61,7 @@ val SunIchie = dress2020003(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Brilliant☆Sunshine!", 2) {
+        ActType.ClimaxAct.blueprint("Brilliant☆Sunshine!") {
             Act {
                 log ("TODO") { "Burn Amp not implemented" }
                 targetAoe().act {

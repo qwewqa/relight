@@ -18,7 +18,7 @@ import xyz.qwewqa.relive.simulator.stage.character.Position
 val SanadaMahiru = dress1030019(
     name = "Sanada Yukimura Mahiru",
     acts = listOf(
-        ActType.Act1.blueprint("Strong Slash", 2) {
+        ActType.Act1.blueprint("Strong Slash") {
             Act {
                 targetFront().act {
                     attack(
@@ -28,7 +28,7 @@ val SanadaMahiru = dress1030019(
                 }
             }
         },
-        ActType.Act2.blueprint("Spearheading Blade", 2) {
+        ActType.Act2.blueprint("Spearheading Blade") {
             Act {
                 targetSelf().act {
                     applyBuff(
@@ -50,7 +50,7 @@ val SanadaMahiru = dress1030019(
                 }
             }
         },
-        ActType.Act3.blueprint("Dashing Blade", 2) {
+        ActType.Act3.blueprint("Dashing Blade") {
             Act {
                 targetSelf().act {
                     applyBuff(
@@ -72,7 +72,7 @@ val SanadaMahiru = dress1030019(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Greatest Spear", 2) {
+        ActType.ClimaxAct.blueprint("Greatest Spear") {
             Act {
                 targetByHighest { it.actPower }.act {
                     applyBuff(

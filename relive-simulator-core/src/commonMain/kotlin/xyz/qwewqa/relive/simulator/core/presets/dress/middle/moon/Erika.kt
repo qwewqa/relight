@@ -20,14 +20,14 @@ import xyz.qwewqa.relive.simulator.core.stage.stageeffect.AngelicSmile
 val ParisCombatRevueFlowerDivisionErika = dress9020001(
     name = "Paris Combat Revue: Flower Division Erika",
     acts = listOf(
-        ActType.Act1.blueprint("Gust of Brilliance", 2) {
+        ActType.Act1.blueprint("Gust of Brilliance") {
             Act {
                 targetAllyAoe().act {
                     addBrilliance(values1)
                 }
             }
         },
-        ActType.Act2.blueprint("Gale Dance", 2) {
+        ActType.Act2.blueprint("Gale Dance") {
             Act {
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
@@ -45,7 +45,7 @@ val ParisCombatRevueFlowerDivisionErika = dress9020001(
                 }
             }
         },
-        ActType.Act3.blueprint("Motivated Strike", 2) {
+        ActType.Act3.blueprint("Motivated Strike") {
             Act {
                 targetAoe().act {
                     attack(
@@ -61,7 +61,7 @@ val ParisCombatRevueFlowerDivisionErika = dress9020001(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Sacre de Lumiere", 2) {
+        ActType.ClimaxAct.blueprint("Sacre de Lumiere") {
             Act {
                 targetAoe().act {
                     attack(

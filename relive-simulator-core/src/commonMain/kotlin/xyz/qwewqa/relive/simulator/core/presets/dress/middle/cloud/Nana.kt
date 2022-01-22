@@ -21,7 +21,7 @@ import xyz.qwewqa.relive.simulator.stage.character.Position
 val StageGirlNana = dress1070017(
     name = "Stage Girl Nana",
     acts = listOf(
-        ActType.Act1.blueprint("Strong Slash", 2) {
+        ActType.Act1.blueprint("Strong Slash") {
             Act {
                 targetFront().act {
                     attack(
@@ -31,7 +31,7 @@ val StageGirlNana = dress1070017(
                 }
             }
         },
-        ActType.Act2.blueprint("Inspiring Slash", 3) {
+        ActType.Act2.blueprint("Inspiring Slash") {
             Act {
                 targetFront().act {
                     attack(
@@ -48,7 +48,7 @@ val StageGirlNana = dress1070017(
                 }
             }
         },
-        ActType.Act3.blueprint("Synchro Slash", 3) {
+        ActType.Act3.blueprint("Synchro Slash") {
             Act {
                 targetFront().act {
                     attack(
@@ -61,7 +61,7 @@ val StageGirlNana = dress1070017(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("I will protect them! Forever... Again and again!", 2) {
+        ActType.ClimaxAct.blueprint("I will protect them! Forever... Again and again!") {
             Act {
                 focus {
                     targetAoe().act {

@@ -13,7 +13,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val AnastasiaJunna = dress1060021(
     name = "Anastasia Junna",
     acts = listOf(
-        ActType.Act1.blueprint("Purifying Strike", 2) {
+        ActType.Act1.blueprint("Purifying Strike") {
             Act {
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
@@ -31,7 +31,7 @@ val AnastasiaJunna = dress1060021(
                 }
             }
         },
-        ActType.Act2.blueprint("Relaxing Strike", 2) {
+        ActType.Act2.blueprint("Relaxing Strike") {
             Act {
                 targetBack().act {
                     dispelTimed(BuffCategory.Positive)
@@ -52,7 +52,7 @@ val AnastasiaJunna = dress1060021(
                 }
             }
         },
-        ActType.Act3.blueprint("Carefree Strike", 2) {
+        ActType.Act3.blueprint("Carefree Strike") {
             Act {
                 targetBack().act {
                     attack(
@@ -78,7 +78,7 @@ val AnastasiaJunna = dress1060021(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Flower of Recollection", 2) {
+        ActType.ClimaxAct.blueprint("Flower of Recollection") {
             Act {
                 targetSelf().act {
                     applyCountableBuff(

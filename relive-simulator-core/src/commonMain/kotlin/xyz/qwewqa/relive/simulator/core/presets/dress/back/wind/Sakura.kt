@@ -15,7 +15,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.TeamHpUpPassive
 val ImperialCombatRevueFlowerDivisionSakura = dress9010001(
     name = "Imperial Combat Revue: Flower Division Sakura",
     acts = listOf(
-        ActType.Act1.blueprint("Sword of Prayer", 2) {
+        ActType.Act1.blueprint("Sword of Prayer") {
             Act {
                 targetFront(3).act {
                     attack(
@@ -31,7 +31,7 @@ val ImperialCombatRevueFlowerDivisionSakura = dress9010001(
                 }
             }
         },
-        ActType.Act2.blueprint("Sword of Divinity", 2) {
+        ActType.Act2.blueprint("Sword of Divinity") {
             Act {
                 targetAoe().act {
                     attack(
@@ -53,7 +53,7 @@ val ImperialCombatRevueFlowerDivisionSakura = dress9010001(
                 }
             }
         },
-        ActType.Act3.blueprint("Piercing Sword", 3) {
+        ActType.Act3.blueprint("Piercing Sword") {
             Act {
                 targetAoe().act {
                     dispelTimed(BuffCategory.Positive)
@@ -68,7 +68,7 @@ val ImperialCombatRevueFlowerDivisionSakura = dress9010001(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Haja Kensei - Ouka Houshin", 2) {
+        ActType.ClimaxAct.blueprint("Haja Kensei - Ouka Houshin") {
             Act {
                 focus {
                     targetAoe().act {

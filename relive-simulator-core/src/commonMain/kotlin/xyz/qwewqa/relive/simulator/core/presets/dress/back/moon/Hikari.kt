@@ -14,7 +14,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 val StageGirlHikari = dress1020017(
     name = "Stage Girl Hikari",
     acts = listOf(
-        ActType.Act1.blueprint("Strong Slash", 2) {
+        ActType.Act1.blueprint("Strong Slash") {
             Act {
                 targetFront().act {
                     attack(
@@ -24,7 +24,7 @@ val StageGirlHikari = dress1020017(
                 }
             }
         },
-        ActType.Act2.blueprint("Severing Slash", 2) {
+        ActType.Act2.blueprint("Severing Slash") {
             Act {
                 targetFront().act {
                     attack(
@@ -35,7 +35,7 @@ val StageGirlHikari = dress1020017(
                 }
             }
         },
-        ActType.Act3.blueprint("Darkness Slash", 3) {
+        ActType.Act3.blueprint("Darkness Slash") {
             Act {
                 targetFront().act {
                     attack(
@@ -52,7 +52,7 @@ val StageGirlHikari = dress1020017(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("All of this... is for the sake of \"Starlight\"!", 2) {
+        ActType.ClimaxAct.blueprint("All of this... is for the sake of \"Starlight\"!") {
             Act {
                 targetSelf().act {
                     applyBuff(

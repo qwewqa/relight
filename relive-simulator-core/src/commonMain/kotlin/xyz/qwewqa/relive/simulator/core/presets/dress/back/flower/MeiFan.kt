@@ -21,7 +21,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val StageGirlMeiFan = dress4030017(
     name = "Stage Girl Mei Fan",
     acts = listOf(
-        ActType.Act1.blueprint("Strong Slash", 2) {
+        ActType.Act1.blueprint("Strong Slash") {
             Act {
                 targetFront().act {
                     attack(
@@ -31,7 +31,7 @@ val StageGirlMeiFan = dress4030017(
                 }
             }
         },
-        ActType.Act2.blueprint("Flash of Determination", 2) {
+        ActType.Act2.blueprint("Flash of Determination") {
             Act {
                 targetSelf().act {
                     applyBuff(
@@ -53,7 +53,7 @@ val StageGirlMeiFan = dress4030017(
                 }
             }
         },
-        ActType.Act3.blueprint("Unwavering Passion", 2) {
+        ActType.Act3.blueprint("Unwavering Passion") {
             Act {
                 targetByHighest { it.actPower }.act {
                     attack(
@@ -74,7 +74,7 @@ val StageGirlMeiFan = dress4030017(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("O king, my burning passion will create your noble path!", 2) {
+        ActType.ClimaxAct.blueprint("O king, my burning passion will create your noble path!") {
             Act {
                 targetBack().act {
                     applyBuff(

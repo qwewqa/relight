@@ -22,7 +22,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val JudgementShizuha = dress3050008(
     name = "Judgement Shizuha",
     acts = listOf(
-        ActType.Act1.blueprint("Slash of Brilliance", 2) {
+        ActType.Act1.blueprint("Slash of Brilliance") {
             Act {
                 targetBack().act {
                     attack(
@@ -35,7 +35,7 @@ val JudgementShizuha = dress3050008(
                 }
             }
         },
-        ActType.Act2.blueprint("Time of Decision", 2) {
+        ActType.Act2.blueprint("Time of Decision") {
             Act {
                 targetBack().act {
                     attack(
@@ -56,7 +56,7 @@ val JudgementShizuha = dress3050008(
                 }
             }
         },
-        ActType.Act3.blueprint("Time of Judgement", 2) {
+        ActType.Act3.blueprint("Time of Judgement") {
             Act {
                 targetBack().act {
                     attack(
@@ -78,7 +78,7 @@ val JudgementShizuha = dress3050008(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Love & Rebirth Judgement", 2) {
+        ActType.ClimaxAct.blueprint("Love & Rebirth Judgement") {
             Act {
                 focus {
                     targetAoe().act {

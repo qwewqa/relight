@@ -14,7 +14,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val HopeLalafin = dress3030015(
     name = "Hope Lalafin",
     acts = listOf(
-        ActType.Act1.blueprint("Smash of Brilliance", 2) {
+        ActType.Act1.blueprint("Smash of Brilliance") {
             Act {
                 targetBack().act {
                     attack(
@@ -27,7 +27,7 @@ val HopeLalafin = dress3030015(
                 }
             }
         },
-        ActType.Act2.blueprint("Road to Hope", 2) {
+        ActType.Act2.blueprint("Road to Hope") {
             Act {
                 targetFront().act {
                     attack(
@@ -43,7 +43,7 @@ val HopeLalafin = dress3030015(
                 }
             }
         },
-        ActType.Act3.blueprint("Skyward Leap", 2) {
+        ActType.Act3.blueprint("Skyward Leap") {
             Act {
                 targetAllyBack(5).act {
                     addBrilliance(values1)
@@ -54,7 +54,7 @@ val HopeLalafin = dress3030015(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Hope becomes light", 2) {
+        ActType.ClimaxAct.blueprint("Hope becomes light") {
             Act {
                 targetAoe().act {
                     attack(

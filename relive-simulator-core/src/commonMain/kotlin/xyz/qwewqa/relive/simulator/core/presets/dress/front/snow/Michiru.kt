@@ -14,7 +14,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val HierophantMichiru = dress4020004(
     name = "Hierophant Michiru",
     acts = listOf(
-        ActType.Act1.blueprint("Slash of Brilliance", 2) {
+        ActType.Act1.blueprint("Slash of Brilliance") {
             Act {
                 targetFront().act {
                     attack(
@@ -27,7 +27,7 @@ val HierophantMichiru = dress4020004(
                 }
             }
         },
-        ActType.Act2.blueprint("Trustworthy Light", 2) {
+        ActType.Act2.blueprint("Trustworthy Light") {
             Act {
                 targetFront().act {
                     attack(
@@ -49,7 +49,7 @@ val HierophantMichiru = dress4020004(
                 }
             }
         },
-        ActType.Act3.blueprint("King's Guidance", 1) {
+        ActType.Act3.blueprint("King's Guidance") {
             Act {
                 targetAoe().act {
                     applyBuff(
@@ -72,7 +72,7 @@ val HierophantMichiru = dress4020004(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Shining Peace", 2) {
+        ActType.ClimaxAct.blueprint("Shining Peace") {
             Act {
                 targetByHighest { it.actPower }.act {
                     attack(

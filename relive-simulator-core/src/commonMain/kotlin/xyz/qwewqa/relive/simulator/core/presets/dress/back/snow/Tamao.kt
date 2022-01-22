@@ -17,7 +17,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val DeathTamao = dress2010015(
     name = "Death Tamao",
     acts = listOf(
-        ActType.Act1.blueprint("Ardent Slash", 2) {
+        ActType.Act1.blueprint("Ardent Slash") {
             Act {
                 targetBack().act {
                     attack(
@@ -27,7 +27,7 @@ val DeathTamao = dress2010015(
                 }
             }
         },
-        ActType.Act2.blueprint("Soul Rebirth", 2) {
+        ActType.Act2.blueprint("Soul Rebirth") {
             Act {
                 targetBack().act {
                     attack(
@@ -49,7 +49,7 @@ val DeathTamao = dress2010015(
                 }
             }
         },
-        ActType.Act3.blueprint("Death's Whisper", 2) {
+        ActType.Act3.blueprint("Death's Whisper") {
             Act {
                 targetBack().act {
                     attack(
@@ -70,7 +70,7 @@ val DeathTamao = dress2010015(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Memento Mori", 2) {
+        ActType.ClimaxAct.blueprint("Memento Mori") {
             Act {
                 focus {
                     targetAoe().act {

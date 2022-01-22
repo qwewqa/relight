@@ -16,7 +16,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.SelfActCritical50UnitSkill
 val NewYorkCombatRevueGemie = dress9030001(
     name = "New York Combat Revue: Star Division Gemie",
     acts = listOf(
-        ActType.Act1.blueprint("Strong Slash", 2) {
+        ActType.Act1.blueprint("Strong Slash") {
             Act {
                 targetFront().act {
                     attack(
@@ -26,7 +26,7 @@ val NewYorkCombatRevueGemie = dress9030001(
                 }
             }
         },
-        ActType.Act2.blueprint("Creation Slash", 2) {
+        ActType.Act2.blueprint("Creation Slash") {
             Act {
                 targetFront().act {
                     attack(
@@ -38,7 +38,7 @@ val NewYorkCombatRevueGemie = dress9030001(
                 }
             }
         },
-        ActType.Act3.blueprint("Victory Oath", 2) {
+        ActType.Act3.blueprint("Victory Oath") {
             Act {
                 targetFront().act {
                     attack(
@@ -55,7 +55,7 @@ val NewYorkCombatRevueGemie = dress9030001(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Rambling Wheel", 2) {
+        ActType.ClimaxAct.blueprint("Rambling Wheel") {
             Act {
                 targetAnyRandom(10).act {
                     attack(

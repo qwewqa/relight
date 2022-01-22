@@ -21,7 +21,7 @@ import xyz.qwewqa.relive.simulator.stage.character.Position
 val StageGirlJunna = dress1060017(
     name = "Stage Girl Junna",
     acts = listOf(
-        ActType.Act1.blueprint("Snipe", 2) {
+        ActType.Act1.blueprint("Snipe") {
             Act {
                 targetFront().act {
                     attack(
@@ -31,7 +31,7 @@ val StageGirlJunna = dress1060017(
                 }
             }
         },
-        ActType.Act2.blueprint("Blessed Strike", 3) {
+        ActType.Act2.blueprint("Blessed Strike") {
             Act {
                 targetFront().act {
                     attack(
@@ -48,7 +48,7 @@ val StageGirlJunna = dress1060017(
                 }
             }
         },
-        ActType.Act3.blueprint("Piercing Arrow", 3) {
+        ActType.Act3.blueprint("Piercing Arrow") {
             Act {
                 targetFront().act {
                     attack(
@@ -61,7 +61,7 @@ val StageGirlJunna = dress1060017(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("I'll take hold of a star of my own!", 2) {
+        ActType.ClimaxAct.blueprint("I'll take hold of a star of my own!") {
             Act {
                 targetAllyAoe().act {
                     applyBuff(

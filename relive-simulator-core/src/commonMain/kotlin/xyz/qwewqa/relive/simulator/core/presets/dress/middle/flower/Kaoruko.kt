@@ -20,7 +20,7 @@ import xyz.qwewqa.relive.simulator.stage.character.Position
 val DevilKaoruko = dress1090013(
     name = "Devil Kaoruko",
     acts = listOf(
-        ActType.Act1.blueprint("Brilliance Slash", 2) {
+        ActType.Act1.blueprint("Brilliance Slash") {
             Act {
                 targetBack().act {
                     attack(
@@ -33,7 +33,7 @@ val DevilKaoruko = dress1090013(
                 }
             }
         },
-        ActType.Act2.blueprint("Soul Contract", 2) {
+        ActType.Act2.blueprint("Soul Contract") {
             Act {
                 targetBack().act {
                     attack(
@@ -55,7 +55,7 @@ val DevilKaoruko = dress1090013(
                 }
             }
         },
-        ActType.Act3.blueprint("Devil's Whisper", 3) {
+        ActType.Act3.blueprint("Devil's Whisper") {
             Act {
                 targetBack().act {
                     attack(
@@ -67,7 +67,7 @@ val DevilKaoruko = dress1090013(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Flames of Hell", 2) {
+        ActType.ClimaxAct.blueprint("Flames of Hell") {
             Act {
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)

@@ -21,7 +21,7 @@ import xyz.qwewqa.relive.simulator.stage.character.Position
 val StageGirlYachiyo = dress4050017(
     name = "Stage Girl Yachiyo",
     acts = listOf(
-        ActType.Act1.blueprint("Prayer Song", 2) {
+        ActType.Act1.blueprint("Prayer Song") {
             Act {
                 targetFront(3).act {
                     attack(
@@ -37,7 +37,7 @@ val StageGirlYachiyo = dress4050017(
                 }
             }
         },
-        ActType.Act2.blueprint("Goddess Smile", 2) {
+        ActType.Act2.blueprint("Goddess Smile") {
             Act {
                 targetAoe().act {
                     attack(
@@ -59,7 +59,7 @@ val StageGirlYachiyo = dress4050017(
                 }
             }
         },
-        ActType.Act3.blueprint("Piercing Arrow", 3) {
+        ActType.Act3.blueprint("Piercing Arrow") {
             Act {
                 targetAoe().act {
                     dispelTimed(BuffCategory.Positive)
@@ -74,7 +74,7 @@ val StageGirlYachiyo = dress4050017(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("This world is a stage. Even the king is a player!", 2) {
+        ActType.ClimaxAct.blueprint("This world is a stage. Even the king is a player!") {
             Act {
                 targetAoe().act {
                     dispelTimed(BuffCategory.Positive)

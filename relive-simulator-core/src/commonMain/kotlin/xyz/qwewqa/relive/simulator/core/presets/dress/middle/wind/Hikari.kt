@@ -12,7 +12,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.*
 val TowerHikari = dress1020004(
     name = "Tower Hikari",
     acts = listOf(
-        ActType.Act1.blueprint("Walled Slash", 2) {
+        ActType.Act1.blueprint("Walled Slash") {
             Act {
                 targetFront().act {
                     attack(
@@ -29,7 +29,7 @@ val TowerHikari = dress1020004(
                 }
             }
         },
-        ActType.Act2.blueprint("Destruction Begins", 2) {
+        ActType.Act2.blueprint("Destruction Begins") {
             Act {
                 targetAllyAoe().act {
                     applyBuff(
@@ -50,7 +50,7 @@ val TowerHikari = dress1020004(
                 }
             }
         },
-        ActType.Act3.blueprint("Imminent Calamity", 3) {
+        ActType.Act3.blueprint("Imminent Calamity") {
             Act {
                 targetAoe().act {
                     applyBuff(
@@ -64,7 +64,7 @@ val TowerHikari = dress1020004(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Tower's Conviction", 2) {
+        ActType.ClimaxAct.blueprint("Tower's Conviction") {
             Act {
                 targetAoe().act {
                     attack(

@@ -162,7 +162,11 @@ data class PartialDressBlueprint(
         growthStats,
         acts.map {
             actParameters[it.type]?.let { baseParams ->
-                it.copy(apCost = baseParams.apCost, parameters = baseParams.parameters, icon = it.icon ?: baseParams.icon)
+                it.copy(
+                    apCost = it.apCost ?: baseParams.apCost,
+                    parameters = it.parameters ?: baseParams.parameters,
+                    icon = it.icon ?: baseParams.icon
+                )
             } ?: it
         },
         autoSkills,
