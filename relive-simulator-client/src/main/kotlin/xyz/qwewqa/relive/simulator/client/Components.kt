@@ -136,11 +136,24 @@ sealed class Select(val element: HTMLSelectElement) {
     }
 
     fun localize(mapping: Map<String, SimulationOption>, locale: String) {
-        element.options.asList().filterIsInstance<HTMLOptionElement>().forEach { option ->
-            option.run {
-                setAttribute("data-subtext", mapping[option.value]?.description?.get(locale) ?: "")
-                setAttribute("data-tokens", mapping[option.value]?.tags?.get(locale)?.joinToString(" ") ?: "")
-                text = mapping[option.value]?.get(locale) ?: option.value
+        element.options.asList().filterIsInstance<HTMLOptionElement>().forEach { selectOption ->
+            val option = mapping[selectOption.value]
+            selectOption.run {
+                if (getAttribute("data-content") != null) {
+                    setAttribute(
+                        "data-content",
+                        "${
+                            if (option?.imagePath != null) {
+                                "<img style=\"height: 1.75em; margin-top: -0.25em\" src=\"${option.imagePath}\"> "
+                            } else {
+                                ""
+                            }
+                        }${option?.get(locale) ?: selectOption.value}"
+                    )
+                }
+                setAttribute("data-subtext", option?.description?.get(locale) ?: "")
+                setAttribute("data-tokens", option?.tags?.get(locale)?.joinToString(" ") ?: "")
+                text = option?.get(locale) ?: selectOption.value
             }
         }
     }

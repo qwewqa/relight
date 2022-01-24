@@ -154,9 +154,13 @@ fun Application.configureRouting() {
             SimulationOptions(
                 locales,
                 getLocalizationConfig("commonText.yaml"),
-                getLocalizationConfig("dress.yaml", playerDresses.keys),
+                getLocalizationConfig("dress.yaml", playerDresses.keys).map { option ->
+                    val dress = playerDresses[option.id]!!
+                    option.copy(imagePath = "img/large_icon/1_${dress.id}.png".takeIf { dress.id > 0 })
+                },
                 getLocalizationConfig("memoir.yaml", memoirs.keys).map { option ->
-                    val tags = memoirs[option.id]!!.tags
+                    val memoir = memoirs[option.id]!!
+                    val tags = memoir.tags
                     option.copy(
                         description = option.name.keys.associateWith { locale ->
                             tags.joinToString(", ") { tag -> tagConfig[tag.name]?.get(locale)?.first() ?: tag.name }
@@ -164,6 +168,7 @@ fun Application.configureRouting() {
                         tags = option.name.keys.associateWith { locale ->
                             tags.flatMap { tag -> tagConfig[tag.name]?.get(locale) ?: listOf(tag.name) }
                         },
+                        imagePath = "img/large_icon/2_${memoir.id}.png".takeIf { memoir.id > 0 }
                     )
                 },
                 getLocalizationConfig("songEffect.yaml", songEffects.keys),
