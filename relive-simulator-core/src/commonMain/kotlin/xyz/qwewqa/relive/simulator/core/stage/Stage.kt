@@ -26,17 +26,21 @@ class Stage(
         private set
     var tile = 0
         private set
+    var move = 0
+        private set
 
     var tags: List<String> = emptyList()
 
     var cutinTarget: Actor? = null
 
-    private inline fun withStageEffects(block: () -> Unit) {
+    private suspend inline fun executeAct(block: () -> Unit) {
+        move++
         player.stageEffects.activate()
         enemy.stageEffects.activate()
         block()
         player.stageEffects.deactivate()
         enemy.stageEffects.deactivate()
+        player.strategy.afterAct(this, player, enemy)
     }
 
     suspend fun play(maxTurns: Int = 6): StageResult {
@@ -151,16 +155,20 @@ class Stage(
                             }
                         }.joinToString("\n")
                     }
+
+                    // Can handle enemy cutins properly later
+                    if (enemyQueue.cutins.isNotEmpty()) error("Enemy cutins not supported")
                     val cutins = (playerQueue.cutins + enemyQueue.cutins).groupBy { it.data.target }
-                    cutins[CutinTarget.TurnStart]?.shuffled(random)?.sortedByDescending { it.agility }
-                        ?.forEach { cutin ->
-                            cutin.execute()
-                            checkEnded()?.let { return it }
-                        }
+                    cutins[CutinTarget.TurnStart]?.forEach { cutin ->
+                        cutin.execute()
+                        checkEnded()?.let { return it }
+                    }
+
                     var playerActIndex = 0
                     var enemyActIndex = 0
                     playerTiles.zip(enemyTiles).forEach { (playerTile, enemyTile) ->
                         tile++
+                        move = 0
                         val (first, second) = when {
                             playerTile.agility > enemyTile.agility -> {
                                 playerTile to enemyTile
@@ -187,26 +195,25 @@ class Stage(
                             tileCutins += cutins[CutinTarget.BeforeEnemyAct(enemyActIndex)]?.map { it to enemyTile.actor }
                                 ?: emptyList()
                         }
-                        tileCutins.shuffled(random).sortedByDescending { (cutin, _) -> cutin.agility }
-                            .forEach { (cutin, target) ->
-                                withStageEffects {
-                                    cutinTarget = target
-                                    cutin.execute()
-                                    checkEnded()?.let { return it }
-                                }
+                        tileCutins.forEach { (cutin, target) ->
+                            cutinTarget = target
+                            executeAct {
+                                cutin.execute()
                             }
+                            checkEnded()?.let { return it }
+                        }
                         cutinTarget = null
-                        if (first is ActionTile) withStageEffects {
+                        if (first is ActionTile) executeAct {
                             first.execute()
                         }
                         checkEnded()?.let { return it }
-                        if (second is ActionTile) withStageEffects {
+                        if (second is ActionTile) executeAct {
                             second.execute()
                         }
                         checkEnded()?.let { return it }
                     }
-                    log("Effect") { "Turn end tick." }
-                    withStageEffects {  // dots
+                    executeAct {  // dots
+                        log("Effect") { "Turn end tick." }
                         player.endTurn()
                         enemy.endTurn()
                     }
@@ -296,6 +303,6 @@ inline fun Stage.log(vararg tags: String, value: LogContentsBuilder.() -> String
     }
 
     if (configuration.logging) {
-        logger.log(turn, tile, *tags, contents = LogContentsBuilder().run { build(value()) })
+        logger.log(turn, tile, move, *tags, contents = LogContentsBuilder().run { build(value()) })
     }
 }

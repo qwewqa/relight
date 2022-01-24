@@ -30,6 +30,11 @@ interface Strategy {
     suspend fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult
 
     /**
+     * Called after each act is performed, including cutin acts.
+     */
+    suspend fun afterAct(stage: Stage, team: Team, enemy: Team) {}
+
+    /**
      * Called at the end of each turn.
      */
     fun endTurn(stage: Stage, team: Team, enemy: Team, teamQueue: QueueResult, enemyQueue: QueueResult) {}

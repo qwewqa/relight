@@ -3,8 +3,8 @@ package xyz.qwewqa.relive.simulator.core.stage
 class StageLogger {
     private val log = mutableListOf<LogEntry>()
 
-    fun log(turn: Int, tile: Int, vararg tags: String, contents: LogContents) {
-        log += LogEntry(turn, tile, tags.toList(), contents)
+    fun log(turn: Int, tile: Int, move: Int, vararg tags: String, contents: LogContents) {
+        log += LogEntry(turn, tile, move, tags.toList(), contents)
     }
 
     fun asHtml(): String {
@@ -12,9 +12,9 @@ class StageLogger {
             entry.run {
                 val value = contents.html
                 if ("\n" in value) {
-                    "$turn.$tile [${tags.joinToString(" / ") { it.escapeHtml() }}]\n${value}"
+                    "$turn.$tile.$move [${tags.joinToString(" / ") { it.escapeHtml() }}]\n${value}"
                 } else {
-                    "$turn.$tile [${tags.joinToString(" / ") { it.escapeHtml() }}] $value"
+                    "$turn.$tile.$move [${tags.joinToString(" / ") { it.escapeHtml() }}] $value"
                 }
             }
         }
@@ -58,4 +58,4 @@ sealed class LogSubstitution {
     }
 }
 
-data class LogEntry(val turn: Int, val tile: Int, val tags: List<String>, val contents: LogContents)
+data class LogEntry(val turn: Int, val tile: Int, val move: Int, val tags: List<String>, val contents: LogContents)

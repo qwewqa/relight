@@ -27,6 +27,12 @@ class Actor(
 
     lateinit var context: ActionContext
 
+    /**
+     * If true, prevents taking damage via [damage].
+     * Calling [exit] will still result in an exit.
+     */
+    var forceInvulnerable = false
+
     val maxHp get() = (valueMaxHp.toLong() * (100 + boostMaxHp) / 100).toInt()
     var valueMaxHp = 0
     var boostMaxHp = 0
@@ -224,8 +230,8 @@ class Actor(
         } finally {
             if (context.actionLog.successfulHits > startLog.successfulHits) {
                 buffs.tryRemove(CountableBuff.Daze)
-                buffs.tryRemove(CountableBuff.Hope)
             }
+            buffs.tryRemove(CountableBuff.Hope)
         }
     }
 
@@ -236,27 +242,28 @@ class Actor(
         act.execute(context)
     }
 
-
     /**
      * Damages this stage girl by [amount].
      */
     fun damage(amount: Int, additionalEffects: Boolean = true) = context.run {
         if (!isAlive) {
-            context.log("Damage") { "Already exited" }
+            context.log("Damage") { "Already exited." }
             return
         }
-        val newHp = (self.hp - amount).coerceAtLeast(0)
-        context.log("Damage") { "Taken damage $amount (prevHp: ${self.hp}, newHp: $newHp)" }
+        val newHp = if (!forceInvulnerable) (self.hp - amount).coerceAtLeast(0) else self.hp
+        context.log("Damage") {
+            if (!forceInvulnerable) "Taken damage $amount (prevHp: ${self.hp}, newHp: $newHp)" else "Force invulnerable."
+        }
         self.hp = newHp
         if (newHp == 0) {
             if (self.buffs.tryRemove(CountableBuff.Fortitude)) {
                 self.hp = 1
-                context.log("Damage") { "Fortitude activate (newHp: 1)" }
+                context.log("Damage") { "Fortitude activate (newHp: 1)." }
                 return@run
             }
             if (self.buffs.tryRemove(CountableBuff.Revive)) {
                 self.hp = self.maxHp / 2
-                context.log("Damage") { "Revive activate (newHp: ${self.maxHp / 2})" }
+                context.log("Damage") { "Revive activate (newHp: ${self.maxHp / 2})." }
                 return@run
             }
             exit()
@@ -280,6 +287,7 @@ class Actor(
     }
 
     fun exit() = context.run {
+        hp = 0
         team.strategy.onExit(self)
         buffs.clear()
         self.exitCX()
@@ -291,7 +299,12 @@ class Actor(
                 it.buffs.removeAll(ProvokeBuff)
             }
         }
-        log("Exit") { "Exited" }
+        log("Exit") { "Exited." }
+    }
+
+    fun revive() = context.run {
+        team.strategy.onRevive(self)
+        log("Revive") { "Revived." }
     }
 
     fun heal(amount: Int) = context.run {
@@ -304,24 +317,42 @@ class Actor(
         self.hp = self.hp.coerceAtMost(self.maxHp)
     }
 
+    fun adjustHp(amount: Int) = context.run {
+        if (amount <= 0) {
+            if (isAlive) {
+                exit()
+            } else {
+                context.log("Hp") { "Already exited." }
+            }
+        } else {
+            if (!isAlive) {
+                revive()
+            }
+            hp = amount.coerceAtMost(maxHp)
+            context.log("Hp") { "Set Hp to $hp." }
+        }
+    }
+
     fun addBrilliance(base: Int) = context.run {
         if (buffs.any(StopBuff)) {
             context.log("Abnormal") { "Brilliance gain prevented by stop." }
             return
         }
         val amount = base * (100 + brillianceGainUp) / 100
+        adjustBrilliance(self.brilliance + amount)
+    }
+
+    fun adjustBrilliance(amount: Int) = context.run {
+        val newValue = amount.coerceIn(0, 100)
         context.log("Brilliance") {
-            "Brilliance charge $amount (prevBril: ${self.brilliance}, newBril: ${
-                (self.brilliance + amount).coerceIn(0, 100)
-            })"
+            "Brilliance charge ${newValue - self.brilliance} (prevBril: ${self.brilliance}, newBril: $newValue)."
         }
-        self.brilliance += amount
-        self.brilliance = self.brilliance.coerceIn(0, 100)
+        self.brilliance = newValue
     }
 
     fun enterCX() = context.run {
         if (inCX) return
-        context.log("Climax") { "Enter cx" }
+        context.log("Climax") { "Enter cx." }
         team.song.effects.forEach {
             context.log("Song") { "Apply song effect ${it.name}." }
             it.start(context)
@@ -331,7 +362,7 @@ class Actor(
 
     fun exitCX() = context.run {
         if (!inCX) return
-        context.log("Climax") { "Exit cx" }
+        context.log("Climax") { "Exit cx." }
         team.song.effects.forEach {
             it.end(context)
         }

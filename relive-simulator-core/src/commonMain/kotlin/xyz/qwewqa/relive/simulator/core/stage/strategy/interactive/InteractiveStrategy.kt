@@ -7,6 +7,7 @@ import kotlinx.coroutines.sync.withLock
 import xyz.qwewqa.relive.simulator.core.stage.*
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
+import xyz.qwewqa.relive.simulator.core.stage.actor.countableBuffsByName
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.*
@@ -134,6 +135,10 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout:
         lateinit var team: Team
         lateinit var enemy: Team
 
+        private var liveMode = false
+
+        private val allActors = mutableMapOf<String, Actor>()
+
         private val queue = mutableListOf<BoundAct>()
         private var queueSize: Int = 0
         private var climax = false
@@ -150,6 +155,8 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout:
         private val usedClimaxActs = mutableSetOf<BoundAct>()
         private var held: BoundAct? = null
         private var hasPerformedHoldAction = true
+
+        private var incremental = false
 
         private val queueHistory = mutableListOf<QueueResult>()
 
@@ -169,7 +176,14 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout:
             this.stage = stage
             this.team = team
             this.enemy = enemy
+            enemy.actors.values.forEach { actor ->
+                allActors[actor.name] = actor
+            }
+            if (enemy.actors.size == 1) {
+                allActors["boss"] = enemy.actors.values.single()
+            }
             team.actors.values.forEach { actor ->
+                allActors[actor.name] = actor
                 discardPile += BoundAct(actor, ActType.Act1)
                 discardPile += BoundAct(actor, ActType.Act2)
                 discardPile += BoundAct(actor, ActType.Act3)
@@ -181,7 +195,6 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout:
                 processCommand(command)
                 if (command?.type == InteractiveStrategyCommand.GO) break
             }
-            queuing = true
         }
 
         override suspend fun finalize(stage: Stage, team: Team, enemy: Team) {
@@ -192,6 +205,16 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout:
                 if (command?.type == InteractiveStrategyCommand.GO) {
                     log { "Already ended." }
                 }
+            }
+        }
+
+        override suspend fun afterAct(stage: Stage, team: Team, enemy: Team) {
+            queuing = false
+            if (!incremental) return
+            while (true) {
+                val command = channel.receive()
+                processCommand(command)
+                if (command?.type == InteractiveStrategyCommand.GO) break
             }
         }
 
@@ -244,6 +267,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout:
             }
 
         override suspend fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
+            queuing = true
             if (team.cxTurns == 0) {
                 usedClimaxActs.clear()
             }
@@ -256,6 +280,27 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout:
             cutinEnergy = stage.turn + 2
             stage.log("Strategy") {
                 """
+${
+                    hierarchicalString("Status", INDENT) {
+                        "Team" {
+                            team.actors.values.forEach { actor ->
+                                "${actor.dress.name} (${actor.name})" {
+                                    +"Hp: ${actor.hp}/${actor.maxHp}"
+                                    +"Brilliance: ${actor.brilliance}/100"
+                                }
+                            }
+                        }
+                        "Enemy" {
+                            enemy.actors.values.forEach { actor ->
+                                "${actor.dress.name} (${actor.name})" {
+                                    +"Hp: ${actor.hp}/${actor.maxHp}"
+                                    +"Brilliance: ${actor.brilliance}/100"
+                                }
+                            }
+                        }
+                    }
+                }
+                    
 Hand:
 ${hand.numbered().prependIndent(INDENT)}
 
@@ -310,6 +355,40 @@ ${
             }
         }
 
+        private fun String.parseQueueActs(): List<BoundAct>? {
+            val args = split("\\s+".toRegex())
+            return if (args.all { it.toIntOrNull()?.minus(1) in hand.indices }) {
+                args.map { hand[it.toInt() - 1] }
+            } else {
+                parseActs(args)
+            }
+        }
+
+        private fun String.parseActs() = parseActs(split("\\s+".toRegex()))
+
+        private fun parseActs(args: List<String>): List<BoundAct>? {
+            var activeActor: Actor? = null
+            val result = mutableListOf<BoundAct>()
+            args.forEach { arg ->
+                when (arg) {
+                    in team.actors -> activeActor = team.actors[arg]!!
+                    in actNameMapping -> activeActor?.let {
+                        result += BoundAct(it, actNameMapping[arg]!!)
+                    } ?: return null
+                    else -> return null
+                }
+            }
+            return result
+        }
+
+        private fun String.parseActorAndInteger(): Pair<Actor, Int>? {
+            val args = split("\\s+".toRegex())
+            if (args.size != 2) return null
+            val actor = allActors[args[0]] ?: return null
+            val value = args[1].toIntOrNull() ?: return null
+            return actor to value
+        }
+
         private fun processCommand(command: InteractiveStrategyCommandInvocation?) = command?.run {
             log { raw }
             when (type) {
@@ -348,16 +427,7 @@ ${(InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n") 
                         return@run
                     }
                     try {
-                        val args = data.split("\\s+".toRegex())
-                        val acts = when {
-                            args.all { it.toIntOrNull()?.minus(1) in hand.indices } -> {
-                                args.map { hand[it.toInt() - 1] }
-                            }
-                            args.size == 2 && args[0] in team.actors && args[1] in actNameMapping -> {
-                                listOf(BoundAct(team.actors[args[0]]!!, actNameMapping[args[1]]!!))
-                            }
-                            else -> error("Invalid arguments.")
-                        }
+                        val acts = data.parseQueueActs() ?: error("Invalid arguments.")
                         val originalQueue = queue.toList()
                         try {
                             acts.forEach { act ->
@@ -420,7 +490,7 @@ ${(InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n") 
                             log("Hold") {
                                 "Successfully held '${act}'.\n\nHand:\n${
                                     hand.numbered().prependIndent(INDENT)
-                                }"
+                                }\n${INDENT}Holding: $held"
                             }
                         }
                     }
@@ -460,7 +530,7 @@ ${(InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n") 
                             log("Discard") {
                                 "Successfully discarded '${act}'.\n\nHand:\n${
                                     hand.numbered().prependIndent(INDENT)
-                                }"
+                                }\n${INDENT}Holding: None"
                             }
                         }
                     }
@@ -508,6 +578,7 @@ ${(InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n") 
                     }
                     if (data !in team.actors) {
                         log("Cutin") { "Error: Invalid actor." }
+                        return@run
                     }
                     val cutin = team.actors[data]!!.cutin
                     if (cutin == null) {
@@ -545,7 +616,11 @@ ${(InteractiveStrategyCommand.values().sortedBy { it.title }.joinToString("\n") 
                         hand.clear()
                         internalHand.clear()
                         drawHand()
-                        log("Climax") { "Entered climax.\n\nHand:\n${hand.numbered().prependIndent(INDENT)}" }
+                        log("Climax") {
+                            "Entered climax.\n\nHand:\n${
+                                hand.numbered().prependIndent(INDENT)
+                            }\n${INDENT}Holding: ${held ?: "None"}"
+                        }
                     }
                 }
                 InteractiveStrategyCommand.STATUS -> {
@@ -563,6 +638,7 @@ ${(if (cutinQueue.isEmpty()) "Empty" else cutinQueue.joinToString("\n")).prepend
 
 Hand:
 ${hand.numbered().prependIndent(INDENT)}
+${INDENT}Holding: ${held ?: "None"}
 
 Cutins (${cutinEnergy} Energy):
 ${
@@ -647,6 +723,214 @@ ${
                         }.joinToString("\n").trimEnd()
                     }
                 }
+                InteractiveStrategyCommand.INCREMENTAL -> {
+                    if (liveMode) {
+                        log("Incremental") { "Error: Live mode active." }
+                        return@run
+                    }
+                    incremental = !incremental
+                    log("Incremental") { "Incremental: $incremental." }
+                }
+                InteractiveStrategyCommand.INVULNERABLE -> {
+                    if (liveMode) {
+                        log("Invulnerable") { "Error: Live mode active." }
+                        return@run
+                    }
+                    if (data.isEmpty()) {
+                        val targetValue = !(team.actors.values.all { it.forceInvulnerable })
+                        team.actors.values.forEach {
+                            it.forceInvulnerable = targetValue
+                        }
+                        log("Invulnerable") { "Team invulnerable: $targetValue." }
+                    } else {
+                        val actor = team.actors[data]
+                        if (actor == null) {
+                            log("Invulnerable") { "Error: Invalid actor." }
+                        } else {
+                            actor.forceInvulnerable = !actor.forceInvulnerable
+                            log("Invulnerable") {
+                                "[${actor.name}] invulnerable: ${actor.forceInvulnerable}."
+                            }
+                        }
+                    }
+                }
+                InteractiveStrategyCommand.SET_HP -> {
+                    val isPercent = data.endsWith("%")
+                    val args = if (isPercent) {
+                        (data.dropLast(1)).parseActorAndInteger()
+                    } else {
+                        data.parseActorAndInteger()
+                    }
+                    if (args == null) {
+                        log("Set Hp") { "Error: Invalid arguments." }
+                    } else {
+                        val (actor, value) = args
+                        if (queuing && !actor.isAlive) {
+                            log("Set Hp") { "Error: Cannot revive card while queuing." }
+                            return@run
+                        }
+                        if (queuing && actor.isAlive && value == 0) {
+                            log("Set Hp") { "Error: Cannot cause card to exit while queuing." }
+                            return@run
+                        }
+                        actor.adjustHp(if (isPercent) (value.toLong() * actor.maxHp / 100).toInt() else value)
+                        log("Set Hp") { "Adjusted Hp." }
+                    }
+                }
+                InteractiveStrategyCommand.SET_BRILLIANCE -> {
+                    val args = data.parseActorAndInteger()
+                    if (args == null) {
+                        log("Set Brilliance") { "Error: Invalid arguments." }
+                    } else {
+                        val (actor, value) = args
+                        actor.adjustBrilliance(value)
+                        log("Set Brilliance") { "Adjusted Brilliance." }
+                    }
+                }
+                InteractiveStrategyCommand.DAMAGE -> {
+                    val args = data.parseActorAndInteger()
+                    if (args == null) {
+                        log("Damage") { "Error: Invalid arguments." }
+                    } else {
+                        if (queuing) {
+                            log("Damage") { "Error: Cannot damage card while queuing." }
+                            return@run
+                        }
+                        val (actor, value) = args
+                        val origInvulnState = actor.forceInvulnerable
+                        actor.forceInvulnerable = false
+                        actor.damage(value)
+                        actor.forceInvulnerable = origInvulnState
+                        log("Damage") { "Applied damage." }
+                    }
+                }
+                InteractiveStrategyCommand.DRAW_PILE -> {
+                    if (!queuing) {
+                        log("Draw Pile") { "Error: Not in a turn." }
+                        return@run
+                    }
+                    log("Draw Pile") {
+                        drawPile
+                            .sortByActor()
+                            .joinToString("\n") {
+                                it.toString()
+                            }
+                            .takeIf { it.isNotEmpty() } ?: "Empty"
+                    }
+                }
+                InteractiveStrategyCommand.SET_HAND -> {
+                    if (!queuing) {
+                        log("Set Hand") { "Error: Not in a turn." }
+                        return@run
+                    }
+                    val acts = data.parseActs()
+                    when {
+                        acts == null -> log("Set Hand") { "Error: Invalid arguments." }
+                        team.active.size == 1 -> log("Set Hand") { "Error: Team is solo." }
+                        acts.size != 5 -> log("Set Hand") { "Error: Expected 5 acts." }
+                        acts.toSet().size != 5 -> log("Set Hand") { "Error: Contains duplicates." }
+                        acts.any { it == held } -> log("Set Hand") { "Error: Included held card." }
+                        else -> {
+                            val climaxActs = if (climax || team.cxTurns > 0) {
+                                team.active
+                                    .filter { it.brilliance >= 100 }
+                                    .map { BoundAct(it, ActType.ClimaxAct) }
+                                    .filter { it !in usedClimaxActs }
+                            } else {
+                                emptyList()
+                            }
+                            if (!climaxActs.all { it in acts }) {
+                                log("Set Hand") { "Warning: Not all climax acts included." }
+                            }
+                            if (acts.any { it.type == ActType.ClimaxAct && it !in climaxActs }) {
+                                log("Set Hand") { "Warning: Includes ineligible climax acts." }
+                            }
+                            if (acts.any { it in discardPile }) {
+                                log("Set Hand") { "Warning: Includes discarded cards." }
+                            }
+                            drawPile += hand.filter { it.type != ActType.ClimaxAct }
+                            hand.clear()
+                            internalHand.clear()
+                            hand += acts.sorted() // Note that this is not quicksort
+                            internalHand += hand
+                            drawPile -= acts
+                            discardPile -= acts
+                            log("Set Hand") {
+                                "Updated hand.\n\nHand:\n${
+                                    hand.numbered().prependIndent(INDENT)
+                                }\n${INDENT}Holding: ${held ?: "None"}"
+                            }
+                        }
+                    }
+                }
+                InteractiveStrategyCommand.INTERNAL_HAND -> {
+                    if (!queuing) {
+                        log("Internal Hand") { "Error: Not in a turn." }
+                        return@run
+                    }
+                    if (hand.any { it.type == ActType.ClimaxAct }) {
+                        // There is really no use case for this at the moment, so no reason to support it.
+                        log("Internal Hand") { "Error: Hand contains climax acts." }
+                        return@run
+                    }
+                    if (hasPerformedHoldAction) {
+                        log("Internal Hand") { "Error: Already performed hold action." }
+                        return@run
+                    }
+                    log("Internal Hand") {
+                        hand.sortByActor().permute().toSet().filter { it.toMutableList().apply { qsort() } == hand }
+                            .joinToString("\n\n") {
+                                it.numbered()
+                            }
+                    }
+                }
+                InteractiveStrategyCommand.SET_COUNTABLE_BUFF -> {
+                    val args = data.split("\\s+".toRegex())
+                    if (args.size != 3) {
+                        log("Set Countable Buff") { "Error: Expected 3 arguments." }
+                    }
+                    val actor = allActors[args[0]]
+                    val buff = countableBuffsByName[args[1]]
+                    val count = args[2].toIntOrNull()
+                    when {
+                        actor == null -> log("Set Countable Buff") { "Error: Invalid actor." }
+                        buff == null -> log("Set Countable Buff") { "Error: Invalid buff." }
+                        count == null -> log("Set Countable Buff") { "Error: Invalid count." }
+                        count < 0 -> log("Set Countable Buff") { "Error: Negative count." }
+                        else -> {
+                            actor.buffs.addCountable(buff, count - actor.buffs.count(buff))
+                            log("Set Countable Buff") { "Updated buff count." }
+                        }
+                    }
+                }
+                InteractiveStrategyCommand.LIVE_MODE -> {
+                    when {
+                        liveMode -> log("Live Mode") { "Error: Live mode already enabled." }
+                        stage.turn > 0 -> log("Live Mode") { "Error: Turn is not 0." }
+                        else -> {
+                            team.actors.values.forEach {
+                                it.forceInvulnerable = true
+                            }
+                            enemy.actors.values.forEach {
+                                it.forceInvulnerable = true
+                            }
+                            incremental = true
+                            liveMode = true
+                            log("Live Mode") { "Live mode enabled." }
+                        }
+                    }
+                }
+            }
+        }
+
+        private fun List<BoundAct>.sortByActor() =
+            sortedWith(compareBy({ it.actor.dress.id }, { it.actor.name }, { it.type }))
+
+        private fun <T> List<T>.permute(): List<List<T>> = when (size) {
+            0 -> listOf(emptyList())
+            1 -> listOf(this)
+            else -> this.flatMapIndexed { i: Int, element: T ->
+                (subList(0, i) + subList(i + 1, size)).permute().map { it + element }
             }
         }
 
@@ -664,12 +948,9 @@ ${
             discardPile += BoundAct(actor, ActType.Act3)
         }
 
-        private fun String.blankOrWithHeader(header: String) =
-            if (isBlank()) "" else "$header\n${prependIndent(INDENT)}"
-
         private fun Actor.formattedStatus() = hierarchicalString("${dress.name} (${name})", INDENT) {
             "Status" {
-                +"HP: $hp/$maxHp"
+                +"Hp: $hp/$maxHp"
                 +"Brilliance: $brilliance/100"
             }
             "Stats" {
@@ -740,7 +1021,7 @@ ${
         }
 
         override fun toString() =
-            "@(dress:${actor.dress.id})@(act:${act.icon})[${actor.dress.name} (${actor.name})]:[${act.name}](${act.type.name} / ${apCost}AP)"
+            "@(dress:${actor.dress.id})@(act:${act.icon})[${actor.dress.name} (${actor.name})][${act.name}](${act.type.name} / ${apCost}AP)"
     }
 }
 
@@ -795,6 +1076,7 @@ enum class InteractiveStrategyCommand(
         aliases = listOf("q"),
         synopsis = """
             queue name_of_actor act
+            queue (name_of_actor act...)...
             queue act_card_number...
         """.trimIndent(),
         description = """
@@ -805,6 +1087,9 @@ enum class InteractiveStrategyCommand(
         examples = """
             Queues the act1 of the actor named "A":
                 queue A 1
+            Queues the act1 and act 2 of the actor named "A" 
+            then the climax of the actor named "B", in that order:
+                queue A 1 2 B cx
             Queues 2nd card in hand:
                 queue 2
             Queues the 1st, 5th, and 3rd cards in hand, in that order:
@@ -1058,6 +1343,163 @@ enum class InteractiveStrategyCommand(
         examples = """
             Exports the current run as a simple strategy.
                 export
+        """.trimIndent(),
+    ),
+    INCREMENTAL(
+        title = "incremental",
+        aliases = listOf("increment", "incr"),
+        synopsis = """
+            incremental
+        """.trimIndent(),
+        description = """
+            Toggle incremental.
+            If incremental is enabled, a pause will happen after every act.
+        """.trimIndent(),
+        examples = """
+            Toggles incremental.
+                incremental
+        """.trimIndent(),
+    ),
+    INVULNERABLE(
+        title = "invulnerable",
+        aliases = listOf("invuln", "invinc", "inv"),
+        synopsis = """
+            invulnerable
+            invulnerable name_of_actor
+        """.trimIndent(),
+        description = """
+            Toggle invulnerability, preventing damage from being taken under normal circumstances.
+        """.trimIndent(),
+        examples = """
+            Toggles invulnerability for the entire team.
+                invulnerable
+            Toggles invulnerability for the actor named "A".
+                invulnerable A
+        """.trimIndent(),
+    ),
+    SET_HP(
+        title = "set_hp",
+        aliases = listOf("sethp"),
+        synopsis = """
+            set_hp name_of_actor value
+        """.trimIndent(),
+        description = """
+            Set actor hp.
+            Bypasses fortitude and similar mechanics.
+        """.trimIndent(),
+        examples = """
+            Sets the hp of the actor named "A" to 1.
+                set_hp A 1
+            Sets the hp of the actor named "A" to 50%.
+                set_hp A 50%
+            Causes actor named "A" to exit.
+                set_hp A 0
+        """.trimIndent(),
+    ),
+    SET_BRILLIANCE(
+        title = "set_brilliance",
+        aliases = listOf("setbrilliance", "setkira", "setbrill"),
+        synopsis = """
+            set_brilliance name_of_actor value
+        """.trimIndent(),
+        description = """
+            Set actor brilliance.
+            Bypasses fortitude and similar mechanics.
+        """.trimIndent(),
+        examples = """
+            Sets the brilliance of the actor named "A" to 1.
+                set_brilliance A 1
+            Causes actor named "A" to exit.
+                set_brilliance A 0
+        """.trimIndent(),
+    ),
+    DAMAGE(
+        title = "damage",
+        aliases = listOf("dmg"),
+        synopsis = """
+            damage name_of_actor value
+        """.trimIndent(),
+        description = """
+            Damage an actor.
+            Triggers fortitude and similar mechanics.
+            Bypasses invulnerability as well as barriers, evasion, and similar effects.
+        """.trimIndent(),
+        examples = """
+            Damages the actor named "A" by 1 Hp.
+                damage A 1
+        """.trimIndent(),
+    ),
+    DRAW_PILE(
+        title = "draw_pile",
+        aliases = listOf("drawpile", "dp"),
+        synopsis = """
+            draw_pile
+        """.trimIndent(),
+        description = """
+            View draw pile.
+        """.trimIndent(),
+        examples = """
+            Displays draw pile.
+                draw_pile
+        """.trimIndent(),
+    ),
+    SET_HAND(
+        title = "set_hand",
+        aliases = listOf("sethand", "seth"),
+        synopsis = """
+            set_hand (name_of_actor act...)...
+        """.trimIndent(),
+        description = """
+            Set hand to given value.
+        """.trimIndent(),
+        examples = """
+            Sets the hand to the act1, act2, and act3 of the actor named "A",
+            and the act2 and climax of the actor named "B".
+                set_hand A 1 3 4 B 2 cx
+        """.trimIndent(),
+    ),
+    INTERNAL_HAND(
+        title = "internal_hand",
+        aliases = listOf("internalhand", "inth", "ihand"),
+        synopsis = """
+            internal_hand
+        """.trimIndent(),
+        description = """
+            View possible internal hands.
+        """.trimIndent(),
+        examples = """
+            Displays possible internal hands.
+                internal_hand
+        """.trimIndent(),
+    ),
+    SET_COUNTABLE_BUFF(
+        title = "set_countable_buff",
+        aliases = listOf("set_countable", "setcountable"),
+        synopsis = """
+            set_countable_buff name_of_actor buff count
+        """.trimIndent(),
+        description = """
+            Set the count of a countable buff for a particular actor to the given count.
+        """.trimIndent(),
+        examples = """
+            Sets the number of pride stacks on the boss to 3.
+                set_countable_buff boss price 3
+        """.trimIndent(),
+    ),
+    LIVE_MODE(
+        title = "live_mode",
+        aliases = listOf("live"),
+        synopsis = """
+            live_mode
+        """.trimIndent(),
+        description = """
+            Enable live mode. Only allowed before turn 1.
+            Forces all incremental to be on and all actors to be invulnerable.
+            Enables playback exports.
+        """.trimIndent(),
+        examples = """
+            Enables live mode.
+                live_mode
         """.trimIndent(),
     ),
     ;

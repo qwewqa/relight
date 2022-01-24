@@ -259,6 +259,12 @@ enum class CountableBuff(val category: BuffCategory) {
     WeakSpot(BuffCategory.Negative),
 }
 
+val countableBuffsByName = CountableBuff.values().associateBy { it.name.lowercase() } + mapOf(
+    "impudence" to CountableBuff.Pride,
+    "evade" to CountableBuff.Evasion,
+    "fort" to CountableBuff.Fortitude,
+)
+
 val abnormalCountableBuffs = setOf(
     CountableBuff.Daze,
     CountableBuff.Pride,
