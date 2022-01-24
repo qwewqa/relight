@@ -241,6 +241,13 @@ class SimulatorClient(val simulator: Simulator) {
                                             attributes["data-live-search"] = "true"
                                             options.dresses.forEach {
                                                 option {
+                                                    attributes["data-content"] = "${
+                                                        if (it.imagePath != null)  {
+                                                            "<img style=\"height: 1.75em; margin-top: -0.25em\" src=\"${it.imagePath}\"> "
+                                                        } else {
+                                                            ""
+                                                        }
+                                                    }${it[locale]}"
                                                     value = it.id
                                                     +it[locale]
                                                 }
@@ -417,6 +424,13 @@ class SimulatorClient(val simulator: Simulator) {
                                             attributes["data-live-search"] = "true"
                                             options.memoirs.forEach {
                                                 option {
+                                                    attributes["data-content"] = "${
+                                                        if (it.imagePath != null)  {
+                                                            "<img style=\"height: 1.75em; margin-top: -0.25em\" src=\"${it.imagePath}\"> "
+                                                        } else {
+                                                            ""
+                                                        }
+                                                    }${it[locale]}"
                                                     value = it.id
                                                     +it[locale]
                                                     attributes["data-subtext"] = it.description?.get(locale) ?: ""
