@@ -63,6 +63,14 @@ tasks.register<Copy>("copyIndex") {
         line
             .replace("<!DOCTYPE html>", "<!DOCTYPE html>\n<!-- DO NOT EDIT. Generated from client file. -->")
             .replace("relive-simulator-client.js", "relive-simulator-browser.js")
+            .replace("<!-- PWA Placeholder (Do Not Remove) -->", """
+                <link rel="manifest" href="manifest.json" />
+                    <script type="module">
+                       import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
+                       const el = document.createElement('pwa-update');
+                       document.body.appendChild(el);
+                    </script>
+            """.trimIndent())
     }
 }
 
