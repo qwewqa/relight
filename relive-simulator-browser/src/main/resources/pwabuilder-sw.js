@@ -24,17 +24,17 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
-    ({event}) => event.request.destination === 'script',
+    new RegExp('relive-simulator.*\\.js'),
     new workbox.strategies.NetworkFirst({
-        cacheName: JS_CACHE,
+        cacheName: MAIN_JS_CACHE,
         plugins: [],
     })
 );
 
 workbox.routing.registerRoute(
-    new RegExp('/relive-simulator.*\\.js'),
+    ({event}) => event.request.destination === 'script',
     new workbox.strategies.StaleWhileRevalidate({
-        cacheName: MAIN_JS_CACHE,
+        cacheName: JS_CACHE,
         plugins: [],
     })
 );
