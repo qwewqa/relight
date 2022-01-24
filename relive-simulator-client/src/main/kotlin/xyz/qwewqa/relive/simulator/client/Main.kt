@@ -7,6 +7,7 @@ import kotlinx.dom.addClass
 import kotlinx.dom.removeClass
 import kotlinx.html.*
 import kotlinx.html.dom.create
+import kotlinx.html.js.onClickFunction
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -45,6 +46,8 @@ class SimulatorClient(val simulator: Simulator) {
     val actorSettingsDiv = document.getElementById("actor-settings") as HTMLDivElement
     val addActorButton = document.getElementById("add-actor-button") as HTMLButtonElement
     val removeActorButton = document.getElementById("remove-actor-button") as HTMLButtonElement
+    val expandAllActorButton = document.getElementById("expand-all-actor-button") as HTMLButtonElement
+    val collapseAllActorButton = document.getElementById("collapse-all-actor-button") as HTMLButtonElement
     val bossSelect = document.getElementById("boss-select").singleSelect()
     val strategyTypeSelect = document.getElementById("strategy-type-select").singleSelect()
     val strategyContainer = document.getElementById("strategy-container") as HTMLDivElement
@@ -189,24 +192,29 @@ class SimulatorClient(val simulator: Simulator) {
         var actorIdCounter = 0
         fun addActor() {
             val actorId = actorIdCounter++
+            val collapseId = "actor-details-collapse-$actorId"
             actorSettingsDiv.appendChild(
                 document.create.div("row actor-options") {
                     id = "actor-options-$actorId"
                     div("col-12 my-2") {
                         div("border border-2 rounded") {
                             div("row mx-1 mt-1") {
+                                style = "margin-bottom: -1rem"
                                 div("col px-1 mb-2 actor-drag-handle") {
                                     i("bi bi-arrows-move")
                                 }
                                 div("col-auto px-1 pb-1") {
                                     button(type = ButtonType.button, classes = "btn-close") {
                                         id = "actor-delete-$actorId"
+                                        onClickFunction = {
+                                            (document.getElementById("actor-options-$actorId") as HTMLDivElement).remove()
+                                            updateGuestStyling()
+                                        }
                                     }
                                 }
                             }
-                            val collapseId = "actor-details-collapse-$actorId"
                             div("row mx-2 mb-2") {
-                                div("col-9 col-md-10 my-2") {
+                                div("col-8 col-md-10 my-2") {
                                     val inputId = "actor-name-$actorId"
                                     label("form-label text-actor-name") {
                                         htmlFor = inputId
@@ -216,7 +224,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         id = inputId
                                     }
                                 }
-                                div("col-3 col-md-2 my-2 pt-3 d-grid") {
+                                div("col-4 col-md-2 my-2 pt-3 d-grid") {
                                     button(
                                         type = ButtonType.button,
                                         classes = "btn btn-outline-secondary text-actor-details"
@@ -227,7 +235,7 @@ class SimulatorClient(val simulator: Simulator) {
                                     }
                                 }
                             }
-                            div("collapse show") {
+                            div("collapse actor-details-collapse") {
                                 id = collapseId
                                 div("row mx-2 mb-2") {
                                     div("col-12 my-2") {
@@ -242,7 +250,7 @@ class SimulatorClient(val simulator: Simulator) {
                                             options.dresses.forEach {
                                                 option {
                                                     attributes["data-content"] = "${
-                                                        if (it.imagePath != null)  {
+                                                        if (it.imagePath != null) {
                                                             "<img style=\"height: 1.75em; margin-top: -0.25em\" src=\"${it.imagePath}\"> "
                                                         } else {
                                                             ""
@@ -425,7 +433,7 @@ class SimulatorClient(val simulator: Simulator) {
                                             options.memoirs.forEach {
                                                 option {
                                                     attributes["data-content"] = "${
-                                                        if (it.imagePath != null)  {
+                                                        if (it.imagePath != null) {
                                                             "<img style=\"height: 1.75em; margin-top: -0.25em\" src=\"${it.imagePath}\"> "
                                                         } else {
                                                             ""
@@ -482,6 +490,51 @@ class SimulatorClient(val simulator: Simulator) {
                                             }
                                         }
                                     }
+                                    div("col-12 my-2") {
+                                        button(
+                                            type = ButtonType.button,
+                                            classes = "btn btn-outline-secondary text-actor-preset-min"
+                                        ) {
+                                            id = "actor-preset-min-$actorId"
+                                            +"Min"
+                                            onClickFunction = {
+                                                val opt = ActorOptions(
+                                                    document.getElementById("actor-options-$actorId") as Element
+                                                )
+                                                opt.parameters = opt.parameters.copy(
+                                                    level = 1,
+                                                    rarity = 4,
+                                                    remake = 0,
+                                                    friendship = 1,
+                                                    rank = 1,
+                                                    rankPanelPattern = List(8) { false },
+                                                    memoirLevel = 1,
+                                                )
+                                            }
+                                        }
+                                        +" "
+                                        button(
+                                            type = ButtonType.button,
+                                            classes = "btn btn-outline-secondary text-actor-preset-max"
+                                        ) {
+                                            id = "actor-preset-max-$actorId"
+                                            +"Max"
+                                            onClickFunction = {
+                                                val opt = ActorOptions(
+                                                    document.getElementById("actor-options-$actorId") as Element
+                                                )
+                                                val param = opt.parameters
+                                                opt.parameters = param.copy(
+                                                    level = 80 + 5 * param.remake,
+                                                    rarity = 6,
+                                                    friendship = 30 + 5 * param.remake,
+                                                    rank = 9,
+                                                    rankPanelPattern = List(8) { true },
+                                                    memoirLevel = 60 + 5 * param.memoirLimitBreak,
+                                                )
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -489,11 +542,8 @@ class SimulatorClient(val simulator: Simulator) {
                 },
             )
             updateGuestStyling()
+            Bootstrap.Collapse(document.getElementById(collapseId), jsObject { toggle = true })
             js("$('.selectpicker').selectpicker()")
-            (document.getElementById("actor-delete-$actorId") as HTMLButtonElement).addEventListener("click", {
-                (document.getElementById("actor-options-$actorId") as HTMLDivElement).remove()
-                updateGuestStyling()
-            })
         }
 
         fun removeActor() {
@@ -645,6 +695,22 @@ class SimulatorClient(val simulator: Simulator) {
 
         removeActorButton.addEventListener("click", {
             removeActor()
+        })
+
+        expandAllActorButton.addEventListener("click", {
+            document.getElementsByClassName("actor-details-collapse").asList().forEach {
+                val collapse = js("bootstrap.Collapse.getInstance")(it)
+                collapse.show()
+                Unit
+            }
+        })
+
+        collapseAllActorButton.addEventListener("click", {
+            document.getElementsByClassName("actor-details-collapse").asList().forEach {
+                val collapse = js("bootstrap.Collapse.getInstance")(it)
+                collapse.hide()
+                Unit
+            }
         })
 
         addActor() // Start with one already here by default

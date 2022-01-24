@@ -8,4 +8,12 @@ external object Bootstrap {
         fun hide()
         fun dispose()
     }
+
+
+    class Collapse(element: dynamic, options: dynamic = definedExternally) {
+        fun toggle()
+        fun show()
+        fun hide()
+        fun dispose()
+    }
 }
