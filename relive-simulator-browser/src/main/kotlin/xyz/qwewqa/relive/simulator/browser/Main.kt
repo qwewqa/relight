@@ -51,6 +51,5 @@ suspend fun main() {
 }
 
 private fun SimulatorVersion.compatibleWith(clientVersion: SimulatorVersion): Boolean {
-    return name == clientVersion.name &&
-            version.split(".").take(2) == clientVersion.version.split(".").take(2)
+    return name == clientVersion.name && apiVersion == clientVersion.apiVersion
 }

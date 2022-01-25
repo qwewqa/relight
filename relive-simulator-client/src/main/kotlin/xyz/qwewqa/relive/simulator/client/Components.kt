@@ -139,7 +139,7 @@ sealed class Select(val element: HTMLSelectElement) {
         element.options.asList().filterIsInstance<HTMLOptionElement>().forEach { selectOption ->
             val option = mapping[selectOption.value]
             val name = option?.get(locale) ?: selectOption.value
-            val description = option?.description?.get(locale) ?: ""
+            val description = option?.description?.get(locale)
             selectOption.run {
                 if (getAttribute("data-content") != null) {
                     setAttribute(
@@ -150,10 +150,15 @@ sealed class Select(val element: HTMLSelectElement) {
                             } else {
                                 ""
                             }
-                        }$name<small class=\"text-muted\">$description</small>"
+                        }$name${
+                            if (description != null) {
+                                "<small class=\"text-muted select-option-subtext\">$description</small>"
+                            } else {
+                                ""
+                            }
+                        }"
                     )
                 }
-                setAttribute("data-subtext", description)
                 setAttribute("data-tokens", option?.tags?.get(locale)?.joinToString(" ") ?: "")
                 text = name
             }

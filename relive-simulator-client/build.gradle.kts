@@ -4,18 +4,10 @@ val ktor_version: String by project
 plugins {
     kotlin("js")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
-    id("com.peterabeles.gversion")
 }
 
 group = "xyz.qwewqa.relive.simulator"
 version = project_version
-
-gversion {
-    srcDir = "src/main/kotlin"
-    classPackage = "xyz.qwewqa.relive.simulator.client"
-    language = "kotlin"
-    indent = "    "
-}
 
 repositories {
     maven { url = uri("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven") }
@@ -69,8 +61,4 @@ kotlin {
             optIn("kotlin.RequiresOptIn")
         }
     }
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile::class) {
-    dependsOn("createVersionFile")
 }

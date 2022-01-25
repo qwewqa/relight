@@ -8,19 +8,13 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.0.0"
     kotlin("jvm")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
-    id("com.peterabeles.gversion")
 }
 
 group = "xyz.qwewqa.relive.simulator"
 version = project_version
+
 application {
     mainClass.set("xyz.qwewqa.relive.simulator.server.ApplicationKt")
-}
-gversion {
-    srcDir = "src/main/kotlin"
-    classPackage = "xyz.qwewqa.relive.simulator.server"
-    language = "kotlin"
-    indent = "    "
 }
 
 repositories {
@@ -43,9 +37,6 @@ dependencies {
 }
 
 tasks {
-    compileKotlin {
-        dependsOn(createVersionFile)
-    }
     getByName("run") {
         dependsOn(":relive-simulator-client:browserDevelopmentWebpack")
     }

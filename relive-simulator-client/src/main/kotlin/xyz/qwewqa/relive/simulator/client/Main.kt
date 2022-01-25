@@ -433,17 +433,22 @@ class SimulatorClient(val simulator: Simulator) {
                                             options.memoirs.forEach {
                                                 option {
                                                     val name = it[locale]
-                                                    val description = it.description?.get(locale) ?: ""
+                                                    val description = it.description?.get(locale)
                                                     attributes["data-content"] = "${
                                                         if (it.imagePath != null) {
                                                             "<img style=\"height: 1.75em; margin-top: -0.25em\" src=\"${it.imagePath}\"> "
                                                         } else {
                                                             ""
                                                         }
-                                                    }$name<small class=\"text-muted\">$description</small>"
+                                                    }$name${
+                                                        if (description != null) {
+                                                            "<small class=\"text-muted select-option-subtext\">$description</small>"
+                                                        } else {
+                                                            ""
+                                                        }
+                                                    }"
                                                     value = it.id
                                                     +name
-                                                    attributes["data-subtext"] = description
                                                     attributes["data-tokens"] =
                                                         it.tags?.get(locale)?.joinToString(" ") ?: ""
                                                 }
@@ -1050,7 +1055,7 @@ class SimulatorClient(val simulator: Simulator) {
     }
 
     companion object {
-        val version = SimulatorVersion(MAVEN_GROUP, VERSION, GIT_SHA)
+        val version = SimulatorVersion.CURRENT_VERSION
     }
 }
 
