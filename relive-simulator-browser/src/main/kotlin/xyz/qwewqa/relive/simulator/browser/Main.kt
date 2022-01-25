@@ -28,7 +28,7 @@ suspend fun main() {
             val client = SimulatorClient(simulator)
             client.start()
         } else {
-            val client = SimulatorClient(simulator)
+            val client = SimulatorClient(JsSimulator())
             client.toast("Error", "red", autohide = false) {
                 +"Incompatible server found."
                 br()
@@ -36,6 +36,7 @@ suspend fun main() {
                 +" or "
                 a(href = "http://localhost:8080/${window.location.search}") { +"switch to the local client version." }
             }
+            client.start()
         }
     } else {
         val client = SimulatorClient(JsSimulator())
