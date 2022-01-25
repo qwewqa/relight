@@ -432,16 +432,18 @@ class SimulatorClient(val simulator: Simulator) {
                                             attributes["data-live-search"] = "true"
                                             options.memoirs.forEach {
                                                 option {
+                                                    val name = it[locale]
+                                                    val description = it.description?.get(locale) ?: ""
                                                     attributes["data-content"] = "${
                                                         if (it.imagePath != null) {
                                                             "<img style=\"height: 1.75em; margin-top: -0.25em\" src=\"${it.imagePath}\"> "
                                                         } else {
                                                             ""
                                                         }
-                                                    }${it[locale]}"
+                                                    }$name<small class=\"text-muted\">$description</small>"
                                                     value = it.id
-                                                    +it[locale]
-                                                    attributes["data-subtext"] = it.description?.get(locale) ?: ""
+                                                    +name
+                                                    attributes["data-subtext"] = description
                                                     attributes["data-tokens"] =
                                                         it.tags?.get(locale)?.joinToString(" ") ?: ""
                                                 }

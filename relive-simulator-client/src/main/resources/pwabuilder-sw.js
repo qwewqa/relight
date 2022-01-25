@@ -15,7 +15,7 @@ self.addEventListener("message", (event) => {
 });
 
 workbox.precaching.precacheAndRoute([
-  // Generated Precache Entries (Do Not Remove)
+// Generated Precache Entries (Do Not Remove)
 ], {
   ignoreURLParametersMatching: [/.*/]
 })

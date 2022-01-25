@@ -138,6 +138,8 @@ sealed class Select(val element: HTMLSelectElement) {
     fun localize(mapping: Map<String, SimulationOption>, locale: String) {
         element.options.asList().filterIsInstance<HTMLOptionElement>().forEach { selectOption ->
             val option = mapping[selectOption.value]
+            val name = option?.get(locale) ?: selectOption.value
+            val description = option?.description?.get(locale) ?: ""
             selectOption.run {
                 if (getAttribute("data-content") != null) {
                     setAttribute(
@@ -148,12 +150,12 @@ sealed class Select(val element: HTMLSelectElement) {
                             } else {
                                 ""
                             }
-                        }${option?.get(locale) ?: selectOption.value}"
+                        }$name<small class=\"text-muted\">$description</small>"
                     )
                 }
-                setAttribute("data-subtext", option?.description?.get(locale) ?: "")
+                setAttribute("data-subtext", description)
                 setAttribute("data-tokens", option?.tags?.get(locale)?.joinToString(" ") ?: "")
-                text = option?.get(locale) ?: selectOption.value
+                text = name
             }
         }
     }
