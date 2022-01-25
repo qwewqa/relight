@@ -26,7 +26,7 @@ data class SimulatorVersion(
     val hash: String,
     val apiVersion: Int = -1,
 ) {
-    override fun toString() = "$version (commit: ${hash.take(8)}, api: $apiVersion)"
+    override fun toString() = "$version-${hash.take(8)} ($apiVersion)"
 
     companion object {
         val CURRENT_VERSION = SimulatorVersion(MAVEN_GROUP, VERSION, GIT_SHA, API_VERSION)
