@@ -1,3 +1,4 @@
 src/main/resources/index.html
 src/main/resources/relive-simulator-worker.js
 src/main/resources/relive-simulator-worker.js.map
+/src/main/resources/pwabuilder-sw.js

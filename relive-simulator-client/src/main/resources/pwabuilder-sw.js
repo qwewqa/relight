@@ -7,7 +7,6 @@ const JS_CACHE = "relive-sim-javascript";
 const STYLE_CACHE = "relive-sim-stylesheets";
 const IMAGE_CACHE = "relive-sim-images";
 const FONT_CACHE = "relive-sim-fonts";
-const MAIN_JS_CACHE = "relive-sim-javascript-main";
 
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
@@ -15,20 +14,18 @@ self.addEventListener("message", (event) => {
   }
 });
 
+workbox.precaching.precacheAndRoute([
+  // Generated Precache Entries (Do Not Remove)
+], {
+  ignoreURLParametersMatching: [/.*/]
+})
+
 workbox.routing.registerRoute(
   ({event}) => event.request.destination === 'document',
   new workbox.strategies.NetworkFirst({
     cacheName: HTML_CACHE,
     plugins: [],
   })
-);
-
-workbox.routing.registerRoute(
-    new RegExp('relive-simulator.*\\.js'),
-    new workbox.strategies.NetworkFirst({
-        cacheName: MAIN_JS_CACHE,
-        plugins: [],
-    })
 );
 
 workbox.routing.registerRoute(
@@ -62,6 +59,3 @@ workbox.routing.registerRoute(
     plugins: [],
   })
 );
-
-
-

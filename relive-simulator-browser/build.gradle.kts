@@ -59,30 +59,62 @@ kotlin {
 tasks.register<Copy>("copyIndex") {
     from("${project(":relive-simulator-client").projectDir}/src/main/resources/index.html")
     into("$projectDir/src/main/resources/")
+    val imageDir = File("$projectDir/src/main/resources/img/")
+    val resourcesDir = File("$projectDir/src/main/resources/")
+    val imagePaths = fileTree(imageDir).filter { it.isFile }.files.map {
+        "/${it.relativeTo(resourcesDir).path.replace("\\", "/")}"
+    }
+    val timestamp = System.currentTimeMillis()
     filter { line ->
         line
             .replace("<!DOCTYPE html>", "<!DOCTYPE html>\n<!-- DO NOT EDIT. Generated from client file. -->")
             .replace("relive-simulator-client.js", "relive-simulator-browser.js")
-            .replace("<!-- PWA Placeholder (Do Not Remove) -->", """
+            .replace(
+                "<!-- PWA Placeholder (Do Not Remove) -->", """
                 <link rel="manifest" href="manifest.json" />
                     <script type="module">
                        import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
                        const el = document.createElement('pwa-update');
                        document.body.appendChild(el);
                     </script>
-            """.trimIndent())
+            """.trimIndent()
+            )
+    }
+}
+
+tasks.register<Copy>("copyPwabuilder") {
+    from("${project(":relive-simulator-client").projectDir}/src/main/resources/pwabuilder-sw.js")
+    into("$projectDir/src/main/resources/")
+    val imageDir = File("$projectDir/src/main/resources/img/")
+    val resourcesDir = File("$projectDir/src/main/resources/")
+    val imagePaths = fileTree(imageDir).filter { it.isFile }.files.map {
+        "/${it.relativeTo(resourcesDir).path.replace("\\", "/")}"
+    }
+    val timestamp = System.currentTimeMillis()
+    filter { line ->
+        line
+            .replace(
+                "// Generated Precache Entries (Do Not Remove)", """
+                {url: '/index.html', revision: '$timestamp'},
+                {url: '/relive-simulator-browser.js', revision: '$timestamp'},
+                {url: '/relive-simulator-worker.js', revision: '$timestamp'},
+                {url: '/options.json', revision: '$timestamp'},
+                ${imagePaths.joinToString(",\n") { "{url: '$it', revision: null}" }}
+            """.trimIndent()
+            )
     }
 }
 
 tasks.register<Copy>("copyResources") {
     from("${project(":relive-simulator-client").projectDir}/src/main/resources/") {
-        exclude("index.html")
+        exclude("index.html", "pwabuilder-sw.js")
     }
     into("$projectDir/src/main/resources/")
 }
 
 tasks.withType(org.gradle.language.jvm.tasks.ProcessResources::class) {
     dependsOn("copyIndex")
+    dependsOn("copyPwabuilder")
     dependsOn("copyResources")
     dependsOn(":relive-simulator-worker:browserProductionWebpack")
 }
