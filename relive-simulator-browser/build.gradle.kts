@@ -83,6 +83,7 @@ tasks.register<Copy>("copyIndex") {
 }
 
 tasks.register<Copy>("copyPwabuilder") {
+    outputs.upToDateWhen { false }
     from("${project(":relive-simulator-client").projectDir}/src/main/resources/pwabuilder-sw.js")
     into("$projectDir/src/main/resources/")
     val imageDir = File("$projectDir/src/main/resources/img/")
@@ -95,11 +96,11 @@ tasks.register<Copy>("copyPwabuilder") {
         line
             .replace(
                 "// Generated Precache Entries (Do Not Remove)", """
-                {url: '/index.html', revision: '$timestamp'},
-                {url: '/relive-simulator-browser.js', revision: '$timestamp'},
-                {url: '/relive-simulator-worker.js', revision: '$timestamp'},
-                {url: '/options.json', revision: '$timestamp'},
-                ${imagePaths.joinToString(",\n") { "{url: '$it', revision: null}" }}
+{url: '/index.html', revision: '$timestamp'},
+{url: '/relive-simulator-browser.js', revision: '$timestamp'},
+{url: '/relive-simulator-worker.js', revision: '$timestamp'},
+{url: '/options.json', revision: '$timestamp'},
+${imagePaths.joinToString(",\n") { "{url: '$it', revision: null}" }}
             """.trimIndent()
             )
     }
