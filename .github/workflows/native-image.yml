@@ -77,13 +77,13 @@ jobs:
 
       - name: 'Build Native Image'
         run: |
-          native-image -jar relive-simulator-server-${{env.VERSION}}-all.jar
+          native-image -jar relive-simulator-server-${{env.VERSION}}-all.jar relive-simulator-server-${{env.VERSION}}-${{matrix.label}}
       - name: 'Publish Native Image'
         if: success()
         uses: actions/upload-artifact@v2
         with:
           name: 'relive-simulator-server-${{env.VERSION}}-${{matrix.label}}'
-          path: 'relive-simulator-server-${{env.VERSION}}-all'
+          path: 'relive-simulator-server-${{env.VERSION}}-${{matrix.label}}'
 
   build-windows-image:
     needs: [build-jar-job]
@@ -124,9 +124,10 @@ jobs:
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
           ./graalvm-ce-java11-21.3.0/bin/native-image -jar relive-simulator-server-${{env.VERSION}}-all.jar
+          relive-simulator-server-${{env.VERSION}}-windows
       - name: 'Publish Windows Image'
         if: success()
         uses: actions/upload-artifact@v2
         with:
           name: 'relive-simulator-server-${{env.VERSION}}-windows.exe'
-          path: 'relive-simulator-server-${{env.VERSION}}-all.exe'
+          path: 'relive-simulator-server-${{env.VERSION}}-windows.exe'
