@@ -121,20 +121,20 @@ class SimulatorClient(val simulator: Simulator) {
         }
     }
 
-    private var hasShownVersionWarning = false
-    private suspend fun warnIfServerVersionMismatched() {
+    private suspend fun updateVersionString() {
         val serverVersion = simulator.version()
-        if (version != serverVersion && !hasShownVersionWarning) {
-            toast("Warning", "Client version does not match server version.", "yellow", autohide = false)
-            versionLink.textContent = "client ${version} / server $serverVersion"
-            hasShownVersionWarning = true
+        if (version != serverVersion) {
+            if (serverVersion.apiVersion != version.apiVersion) {
+                toast("Error", "Client version does not match server version.", "red", autohide = false)
+            }
+            versionLink.textContent = "client $version / server $serverVersion"
         } else {
             versionLink.textContent = version.toString()
         }
     }
 
     suspend fun start() {
-        warnIfServerVersionMismatched()
+        updateVersionString()
 
         val compressor = LZString
         val baseHref = "${window.location.protocol}//${window.location.host}${window.location.pathname}"
@@ -743,7 +743,7 @@ class SimulatorClient(val simulator: Simulator) {
             GlobalScope.launch {
                 simulateButton.disabled = true
                 cancelButton.disabled = false
-                warnIfServerVersionMismatched()
+                updateVersionString()
                 try {
                     val setup = getSetup()
                     simulation = simulator.simulate(setup)
@@ -769,7 +769,7 @@ class SimulatorClient(val simulator: Simulator) {
             interactiveContainer.removeClass("d-none")
             interactiveContainer.scrollIntoView()
             GlobalScope.launch {
-                warnIfServerVersionMismatched()
+                updateVersionString()
                 try {
                     val setup = getSetup()
                     interactiveSimulation = simulator.simulateInteractive(setup)
