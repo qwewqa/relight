@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage.strategy
 
+import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.stage.Stage
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActData
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -72,7 +73,7 @@ class ActionTile(val actor: Actor, val apCost: Int, val actData: ActData) : Queu
     override val agility get() = actor.agility
 
     fun execute() {
-        actor.context.log("Act") { "[${actor.name}] executes act [${actData.name}]" }
+        actor.context.log("Act", category = LogCategory.EMPHASIS) { "Begin act [${actData.name}]" }
         if (actData.type == ActType.ClimaxAct) {
             actor.inCXAct = true
             actor.execute(actData.act, apCost)
@@ -87,7 +88,7 @@ data class BoundCutin(val actor: Actor, val data: CutinData) {
     val agility get() = actor.agility
 
     fun execute() {
-        actor.context.log("Act") { "Executing cutin act." }
+        actor.context.log("Act", category = LogCategory.EMPHASIS) { "Begin cutin act." }
         actor.executeCutin(data.act)
     }
 

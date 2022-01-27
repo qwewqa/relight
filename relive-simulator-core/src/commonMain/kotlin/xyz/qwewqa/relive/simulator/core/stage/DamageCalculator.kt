@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage
 
+import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
@@ -18,19 +19,19 @@ interface DamageCalculator {
 class RandomDamageCalculator : DamageCalculator {
     override fun damage(attacker: Actor, target: Actor, hitAttribute: HitAttribute): Unit = attacker.context.run {
         if (!attacker.isAlive) return@run
-        log("Hit") { "[${attacker.name}] attempts to hit [${target.name}]" }
+        log("Hit", category = LogCategory.DAMAGE, debug = true) { "[${attacker.name}] attempts to hit [${target.name}]." }
         val result = calculateDamage(attacker, target, hitAttribute)
         result.apply {
-            log("DamageCalculator") {
-                "[${attacker.name}] attacks [${target.name}]\n" +
-                        "Info: { base: $base, critical: $critical, criticalChance: $criticalChance, hitChance: $hitChance }\n" +
-                        "Possible base rolls: ${possibleRolls(false)}\n" +
-                        "Possible critical rolls: ${possibleRolls(true)}"
+            log("DamageCalculator", category = LogCategory.DAMAGE) {
+                "[${attacker.name}] attacks [${target.name}].\n" +
+                        "Base: $base, Critical: $critical, Critical Chance: $criticalChance, Hit Chance: $hitChance.\n" +
+                        "Possible base rolls: ${possibleRolls(false)}.\n" +
+                        "Possible critical rolls: ${possibleRolls(true)}."
             }
         }
         if (target.buffs.tryRemove(CountableBuff.Evasion)) {
             if (self.perfectAimCounter <= 0 && !hitAttribute.focus) {
-                log("Hit") { "Miss from Evade" }
+                log("Hit", category = LogCategory.DAMAGE) { "Miss against [${target.name}] from Evade." }
                 return@run
             }
         }
@@ -47,10 +48,17 @@ class RandomDamageCalculator : DamageCalculator {
                 DamageType.Special -> target.specialReflect
                 DamageType.Neutral -> 0
             }
-            attacker.context.log("Hit") { "Damage roll: $damage (critical: $isCritical, varianceRoll: $n)" }
+            attacker.context.log("Hit", category = LogCategory.DAMAGE) {
+                "Landed hit against [${target.name}]."
+            }
+            attacker.context.log("Hit", category = LogCategory.DAMAGE) {
+                "Damage roll: $damage (critical: $isCritical, varianceRoll: $n)."
+            }
             val reflected = if (hitAttribute.focus || hitAttribute.noReflect) 0 else damage * reflect / 100
             val unreflected = damage - reflected
-            if (reflected > 0) attacker.context.log("Hit") { "Unreflected: $unreflected, Reflected: $reflected" }
+            if (reflected > 0) attacker.context.log("Hit", category = LogCategory.DAMAGE) {
+                "Unreflected: $unreflected, Reflected: $reflected."
+            }
             var afterBarrier = unreflected
             if (!hitAttribute.focus) {
                 when (hitAttribute.damageType) {
@@ -62,12 +70,16 @@ class RandomDamageCalculator : DamageCalculator {
                     if (barriers.isNotEmpty()) {
                         for (barrier in barriers) {
                             if (barrier.value > afterBarrier) {
-                                attacker.context.log("Hit") { "Blocked by barrier (damage: $afterBarrier barrierStart: ${barrier.value}, barrierAfter: ${barrier.value - afterBarrier})" }
+                                attacker.context.log("Hit", category = LogCategory.DAMAGE) {
+                                    "Blocked by barrier (damage: $afterBarrier barrierStart: ${barrier.value}, barrierAfter: ${barrier.value - afterBarrier})."
+                                }
                                 barrier.value -= afterBarrier
                                 afterBarrier = 0
                                 break
                             } else {
-                                attacker.context.log("Hit") { "Destroys barrier (damage: $afterBarrier, after: ${afterBarrier - barrier.value}, barrier: ${barrier.value})" }
+                                attacker.context.log("Hit", category = LogCategory.DAMAGE) {
+                                    "Destroys barrier (damage: $afterBarrier, after: ${afterBarrier - barrier.value}, barrier: ${barrier.value})."
+                                }
                                 afterBarrier -= barrier.value
                                 target.buffs.remove(barrier)
                             }
@@ -84,7 +96,9 @@ class RandomDamageCalculator : DamageCalculator {
             }
             actionLog.successfulHits++
         } else {
-            attacker.context.log("Hit") { "Miss" }
+            attacker.context.log("Hit", category = LogCategory.DAMAGE) {
+                "Miss against [${target.name}]."
+            }
         }
     }
 

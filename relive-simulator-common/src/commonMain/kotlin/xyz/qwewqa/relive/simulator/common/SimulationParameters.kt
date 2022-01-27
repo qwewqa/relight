@@ -34,7 +34,7 @@ data class SimulatorVersion(
 }
 
 @Serializable
-data class InteractiveLog(val contents: String)
+data class InteractiveLog(val contents: List<FormattedLogEntry>)
 
 @Serializable
 data class InteractiveCommand(val text: String)
@@ -108,13 +108,37 @@ data class SimulationResult(
     val currentIterations: Int,
     val results: List<SimulationResultValue>,
     val marginResults: Map<SimulationMarginResultType, Map<Int, Int>>,
-    val log: String?,
+    val log: List<FormattedLogEntry>?,
     val runtime: Double? = null,
     val cancelled: Boolean = false,
     val error: String? = null,
     val complete: Boolean = false,
 ) {
     val done get() = cancelled || complete
+}
+
+@Serializable
+data class FormattedLogEntry(
+    val turn: Int = 0,
+    val tile: Int = 0,
+    val move: Int = 0,
+    val category: LogCategory = LogCategory.DEFAULT,
+    val tags: List<String>,
+    val content: String,
+)
+
+@Serializable
+enum class LogCategory {
+    DEFAULT,
+    EMPHASIS,
+    WARNING,
+    ERROR,
+    DAMAGE,
+    HEAL,
+    BUFF,
+    BRILLIANCE,
+    USER,
+    COMMAND,
 }
 
 @Serializable

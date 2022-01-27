@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage
 
+import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
@@ -46,14 +47,14 @@ class Stage(
     suspend fun play(maxTurns: Int = 6): StageResult {
         try {
             try {
-                log("Stage") { "Begin" }
+                log("Stage") { "Begin." }
 
-                log("AutoEffect") { "Begin" }
+                log("AutoEffect") { "Begin." }
 
                 arrayOf(player, enemy).forEach { team ->
                     if (team.song.passive != null) {
                         team.active.forEach {
-                            it.context.log("Song") { "Apply passive ${team.song.passive.name}" }
+                            it.context.log("Song") { "Apply passive ${team.song.passive.name}." }
                             team.song.passive.start(it.context)
                         }
                     }
@@ -70,7 +71,7 @@ class Stage(
                     .map { it to it.dress.unitSkill }
                     .forEach { (actor, us) ->
                         us.forEach {
-                            log("AutoEffect") { "[${actor.name}] unit skill [${it.name}] activate" }
+                            log("AutoEffect") { "[${actor.name}] unit skill [${it.name}] activate." }
                             it.activate(actor.context)
                         }
                     }
@@ -78,7 +79,7 @@ class Stage(
                 allActors
                     .forEach { sg ->
                         sg.passives.filter { it.effect.category == PassiveEffectCategory.Passive }.forEach {
-                            sg.context.log("AutoEffect") { "Passive auto effect [${it.name}] activate" }
+                            sg.context.log("AutoEffect") { "Passive auto effect [${it.name}] activate." }
                             it.activate(sg.context)
                         }
                     }
@@ -93,13 +94,13 @@ class Stage(
                     .forEach { category ->
                         autoEffectPriority.forEach { sg ->
                             sg.passives.filter { it.effect.category == category }.forEach {
-                                sg.context.log("AutoEffect") { "${category.name} auto effect [${it.name}] activate" }
+                                sg.context.log("AutoEffect") { "${category.name} auto effect [${it.name}] activate." }
                                 it.activate(sg.context)
                             }
                         }
                     }
 
-                log("AutoEffect") { "End" }
+                log("AutoEffect") { "End." }
 
                 player.finalizeTurnZero()
                 enemy.finalizeTurnZero()
@@ -108,15 +109,15 @@ class Stage(
                 while (turn < maxTurns) {
                     turn++
                     tile = 0
-                    log("Turn") { "Turn $turn begin" }
+                    log("Turn", category = LogCategory.EMPHASIS) { "Turn $turn begin." }
                     val playerQueue = player.strategy.nextQueue(this, player, enemy)
                     val enemyQueue = enemy.strategy.nextQueue(this, enemy, player)
                     if (playerQueue.climax) {
-                        log("Climax") { "Player Climax" }
+                        log("Climax", category = LogCategory.EMPHASIS) { "Player Climax." }
                         player.enterCX()
                     }
                     if (enemyQueue.climax) {
-                        log("Climax") { "enemy Climax" }
+                        log("Climax", category = LogCategory.EMPHASIS) { "Enemy Climax." }
                         enemy.enterCX()
                     }
                     if (player.cxTurns > 0) {
@@ -157,7 +158,7 @@ class Stage(
                     }
 
                     // Can handle enemy cutins properly later
-                    if (enemyQueue.cutins.isNotEmpty()) error("Enemy cutins not supported")
+                    if (enemyQueue.cutins.isNotEmpty()) error("Enemy cutins are not supported.")
                     val cutins = (playerQueue.cutins + enemyQueue.cutins).groupBy { it.data.target }
                     cutins[CutinTarget.TurnStart]?.forEach { cutin ->
                         cutin.execute()
@@ -213,14 +214,16 @@ class Stage(
                         checkEnded()?.let { return it }
                     }
                     executeAct {  // dots
-                        log("Effect") { "Turn end tick." }
+                        tile += 1
+                        move = 0
+                        log("Buff", category = LogCategory.BUFF) { "Turn end tick." }
                         player.endTurn()
                         enemy.endTurn()
                     }
-                    log("Turn") { "End strategy turns." }
+                    log("Turn", debug = true) { "Ending strategy turns." }
                     player.strategy.endTurn(this, player, enemy, playerQueue, enemyQueue)
                     enemy.strategy.endTurn(this, enemy, player, enemyQueue, playerQueue)
-                    log("Turn") { "Turn $turn end." }
+                    log("Turn", category = LogCategory.EMPHASIS) { "Turn $turn end." }
                     checkEnded()?.let { return it }
                 }
                 player.strategy.finalize(this, player, enemy)
@@ -236,17 +239,15 @@ class Stage(
                 player.strategy.finalize(this, player, enemy)
                 enemy.strategy.finalize(this, enemy, player)
                 return PlayError(e, tags)
-            } finally {
-                log("Stage") { "End" }
             }
         } catch (e: IgnoreRunException) {
             log("Stage") { "Run ignored in finalizer." }
             return ExcludedRun(tags)
         } catch (e: Exception) {
-            log("Finalizer Error") { e.stackTraceToString() }
+            log("Finalizer Error.") { e.stackTraceToString() }
             return PlayError(e, tags)
         } finally {
-            log("Stage") { "End" }
+            log("Stage") { "End." }
         }
     }
 
@@ -297,12 +298,17 @@ data class PlayError(val exception: Exception, override val tags: List<String>) 
 data class ExcludedRun(override val tags: List<String>) : StageResult()
 
 @OptIn(ExperimentalContracts::class)
-inline fun Stage.log(vararg tags: String, value: LogContentsBuilder.() -> String) {
+inline fun Stage.log(
+    vararg tags: String,
+    category: LogCategory = LogCategory.DEFAULT,
+    debug: Boolean = false,
+    value: LogContentsBuilder.() -> String
+) {
     contract {
         callsInPlace(value, InvocationKind.AT_MOST_ONCE)
     }
 
-    if (configuration.logging) {
-        logger.log(turn, tile, move, *tags, contents = LogContentsBuilder().run { build(value()) })
+    if (configuration.logging && (!debug || configuration.debug)) {
+        logger.log(turn, tile, move, category, *tags, contents = LogContentsBuilder().run { build(value()) })
     }
 }

@@ -17,7 +17,7 @@ interface Simulation {
 }
 
 interface InteractiveSimulation {
-    suspend fun getLog(): String
+    suspend fun getLog(): List<FormattedLogEntry>
     suspend fun sendCommand(text: String)
     suspend fun end()
 }
