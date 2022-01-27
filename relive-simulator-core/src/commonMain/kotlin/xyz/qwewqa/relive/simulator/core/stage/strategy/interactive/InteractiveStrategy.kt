@@ -1418,9 +1418,9 @@ enum class InteractiveStrategyCommand(
             Bypasses fortitude and similar mechanics.
         """.trimIndent(),
         examples = """
-            Sets the brilliance of the actor named "A" to 1.
-                set_brilliance A 1
-            Causes actor named "A" to exit.
+            Sets the brilliance of the actor named "A" to 100.
+                set_brilliance A 100
+            Sets the brilliance of the actor named "A" to 0.
                 set_brilliance A 0
         """.trimIndent(),
     ),
