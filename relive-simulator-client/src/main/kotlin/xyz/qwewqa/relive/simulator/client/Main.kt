@@ -77,44 +77,33 @@ class SimulatorClient(val simulator: Simulator) {
     val interactiveInput = document.getElementById("interactive-input").textInput()
     val interactiveSendButton = document.getElementById("interactive-send-button") as HTMLButtonElement
 
-    private fun toastElement(name: String, color: String = "grey", value: DIV.() -> Unit) =
+    private fun toastElement(name: String, color: String = "grey", dismissible: Boolean, value: DIV.() -> Unit) =
         document.create.div("toast") {
             attributes["role"] = "alert"
-            div("toast-header") {
-                svg("rounded me-2") {
-                    attributes["width"] = "20"
-                    attributes["height"] = "20"
-                    attributes["xmlns"] = "http://www.w3.org/2000/svg"
-                    attributes["preserveAspectRatio"] = "xMidYMid slice"
-                    attributes["focusable"] = "false"
-                    HTMLTag("rect", consumer, mapOf(), "http://www.w3.org/2000/svg", true, false).visit {
-                        attributes["width"] = "100%"
-                        attributes["height"] = "100%"
-                        attributes["fill"] = color
+            div("toast-body") {
+                style = "border-left: 4px solid $color;border-radius: inherit; display: flex;"
+                value()
+                if (dismissible) {
+                    button(type = ButtonType.button, classes = "btn-close") {
+                        style = "margin-left: 0.2em;"
+                        attributes["data-bs-dismiss"] = "toast"
                     }
                 }
-                strong("me-auto") {
-                    +name
-                }
-                button(type = ButtonType.button, classes = "btn-close") {
-                    attributes["data-bs-dismiss"] = "toast"
-                }
             }
-            div("toast-body", value)
         }
 
-    fun toast(name: String, value: String, color: String = "grey", autohide: Boolean = true): Bootstrap.Toast? {
+    fun toast(name: String, value: String, color: String = "grey", autohide: Boolean = true, dismissible: Boolean = !autohide): Bootstrap.Toast? {
         if (!toastsCheckbox.checked) return null
-        val element = toastElement(name, color) { +value }
+        val element = toastElement(name, color, dismissible) { +value }
         toastContainer.appendChild(element)
         return Bootstrap.Toast(element, jsObject { this.autohide = autohide; this.delay = 1500 }).also {
             it.show()
         }
     }
 
-    fun toast(name: String, color: String = "grey", autohide: Boolean = true, block: DIV.() -> Unit): Bootstrap.Toast? {
+    fun toast(name: String, color: String = "grey", autohide: Boolean = true, dismissible: Boolean = !autohide, block: DIV.() -> Unit): Bootstrap.Toast? {
         if (!toastsCheckbox.checked) return null
-        val element = toastElement(name, color, block)
+        val element = toastElement(name, color, dismissible, block)
         toastContainer.appendChild(element)
         return Bootstrap.Toast(element, jsObject { this.autohide = autohide; this.delay = 1500 }).also {
             it.show()
@@ -199,7 +188,7 @@ class SimulatorClient(val simulator: Simulator) {
                     div("col-12 my-2") {
                         div("border border-2 rounded") {
                             div("row mx-1 mt-1") {
-                                style = "margin-bottom: -1rem"
+                                style = "margin-bottom: -1rem;"
                                 div("col px-1 mb-2 actor-drag-handle") {
                                     i("bi bi-arrows-move")
                                 }
