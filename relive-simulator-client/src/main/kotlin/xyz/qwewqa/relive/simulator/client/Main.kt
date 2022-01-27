@@ -77,11 +77,11 @@ class SimulatorClient(val simulator: Simulator) {
     val interactiveInput = document.getElementById("interactive-input").textInput()
     val interactiveSendButton = document.getElementById("interactive-send-button") as HTMLButtonElement
 
-    private fun toastElement(name: String, color: String = "grey", dismissible: Boolean, value: DIV.() -> Unit) =
+    private fun toastElement(color: String = "grey", dismissible: Boolean, value: DIV.() -> Unit) =
         document.create.div("toast") {
             attributes["role"] = "alert"
             div("toast-body") {
-                style = "border-left: 4px solid $color;border-radius: inherit; display: flex;"
+                style = "border-left: 4px solid $color;border-radius: inherit;display: flex;justify-content: space-between;"
                 value()
                 if (dismissible) {
                     button(type = ButtonType.button, classes = "btn-close") {
@@ -94,7 +94,13 @@ class SimulatorClient(val simulator: Simulator) {
 
     fun toast(name: String, value: String, color: String = "grey", autohide: Boolean = true, dismissible: Boolean = !autohide): Bootstrap.Toast? {
         if (!toastsCheckbox.checked) return null
-        val element = toastElement(name, color, dismissible) { +value }
+        val element = toastElement(color, dismissible) {
+            div {
+                b { +name }
+                +" "
+                +value
+            }
+        }
         toastContainer.appendChild(element)
         return Bootstrap.Toast(element, jsObject { this.autohide = autohide; this.delay = 1500 }).also {
             it.show()
@@ -103,7 +109,13 @@ class SimulatorClient(val simulator: Simulator) {
 
     fun toast(name: String, color: String = "grey", autohide: Boolean = true, dismissible: Boolean = !autohide, block: DIV.() -> Unit): Bootstrap.Toast? {
         if (!toastsCheckbox.checked) return null
-        val element = toastElement(name, color, dismissible, block)
+        val element = toastElement(color, dismissible) {
+            div {
+                b { +name }
+                br()
+                block()
+            }
+        }
         toastContainer.appendChild(element)
         return Bootstrap.Toast(element, jsObject { this.autohide = autohide; this.delay = 1500 }).also {
             it.show()
