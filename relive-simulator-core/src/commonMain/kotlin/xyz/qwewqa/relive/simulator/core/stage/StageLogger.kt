@@ -14,9 +14,9 @@ class StageLogger {
 }
 
 private fun String.escapeHtml() = this
+    .replace("&", "&amp;")
     .replace(">", "&gt;")
     .replace("<", "&lt;")
-    .replace("&", "&amp;")
 
 class LogContentsBuilder {
     fun build(value: String) = LogContents(value)
@@ -55,7 +55,7 @@ data class LogEntry(
         tile,
         move,
         category,
-        tags,
+        tags.map { it.escapeHtml() },
         contents.html,
     )
 }
