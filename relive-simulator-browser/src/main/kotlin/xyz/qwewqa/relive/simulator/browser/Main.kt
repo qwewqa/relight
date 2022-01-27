@@ -1,10 +1,8 @@
 package xyz.qwewqa.relive.simulator.browser
 
 import kotlinx.browser.window
-import kotlinx.coroutines.delay
 import kotlinx.html.a
 import kotlinx.html.br
-import org.w3c.dom.Navigator
 import org.w3c.dom.url.URL
 import xyz.qwewqa.relive.simulator.client.RemoteSimulator
 import xyz.qwewqa.relive.simulator.client.SimulatorClient
@@ -34,7 +32,7 @@ suspend fun main() {
                 br()
                 a(href = "https://github.com/qwewqa/relive-simulator") { +"Update server" }
                 +" or "
-                a(href = "http://localhost:8080/${window.location.search}") { +"switch to the local client version." }
+                a(href = "http://localhost:8080/${window.location.search}") { +"switch to local." }
             }
             client.start()
         }
