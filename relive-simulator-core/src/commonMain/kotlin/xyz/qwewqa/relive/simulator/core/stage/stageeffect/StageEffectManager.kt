@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage.stageeffect
 
+import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActiveBuff
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.log
@@ -39,7 +40,9 @@ class StageEffectManager(val team: Team) {
             if (level > 0) {
                 val targets = getTargets(effect)
                 targets.forEach { target ->
-                    target.context.log("Stage Effect") { "Stage effect ${effect.name} (lv. $level) activate." }
+                    target.context.log("Stage Effect", category = LogCategory.BUFF) {
+                        "Stage effect ${effect.name} (lv. $level) activate."
+                    }
                     effect[level].forEach { stageBuff ->
                         activeBuffs +=  stageBuff.activate(target) to target
                     }

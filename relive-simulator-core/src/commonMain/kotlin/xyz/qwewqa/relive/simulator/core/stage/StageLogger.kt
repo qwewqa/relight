@@ -1,24 +1,16 @@
 package xyz.qwewqa.relive.simulator.core.stage
 
+import xyz.qwewqa.relive.simulator.common.FormattedLogEntry
+import xyz.qwewqa.relive.simulator.common.LogCategory
+
 class StageLogger {
     private val log = mutableListOf<LogEntry>()
 
-    fun log(turn: Int, tile: Int, move: Int, vararg tags: String, contents: LogContents) {
-        log += LogEntry(turn, tile, move, tags.toList(), contents)
+    fun log(turn: Int, tile: Int, move: Int, category: LogCategory, vararg tags: String, contents: LogContents) {
+        log += LogEntry(turn, tile, move, category, tags.toList(), contents)
     }
 
-    fun asHtml(): String {
-        return log.joinToString("\n") { entry ->
-            entry.run {
-                val value = contents.html
-                if ("\n" in value) {
-                    "$turn.$tile.$move [${tags.joinToString(" / ") { it.escapeHtml() }}]\n${value}"
-                } else {
-                    "$turn.$tile.$move [${tags.joinToString(" / ") { it.escapeHtml() }}] $value"
-                }
-            }
-        }
-    }
+    fun getFormatted(): List<FormattedLogEntry> = log.map { it.formatted() }
 }
 
 private fun String.escapeHtml() = this
@@ -34,7 +26,7 @@ data class LogContents(val value: String) {
     val html by lazy {
         fun String.imageReplace(name: String, url: (Int) -> String): String {
             return "@\\($name:(.*?)\\)".toRegex().replace(this) {
-                val id = it.groups[1]!!.value.toIntOrNull()
+                val id = it.groups[1]!!.value.trim().toIntOrNull()
                 if (id == null || id == -1) {
                     ""
                 } else {
@@ -50,12 +42,20 @@ data class LogContents(val value: String) {
     }
 }
 
-sealed class LogSubstitution {
-    abstract val name: String
-    abstract fun htmlReplacement(): String
-    data class Image(override val name: String, val path: String) : LogSubstitution() {
-        override fun htmlReplacement() = """<img style="height: 1em" src="$path">"""
-    }
+data class LogEntry(
+    val turn: Int,
+    val tile: Int,
+    val move: Int,
+    val category: LogCategory,
+    val tags: List<String>,
+    val contents: LogContents
+) {
+    fun formatted() = FormattedLogEntry(
+        turn,
+        tile,
+        move,
+        category,
+        tags,
+        contents.html,
+    )
 }
-
-data class LogEntry(val turn: Int, val tile: Int, val move: Int, val tags: List<String>, val contents: LogContents)

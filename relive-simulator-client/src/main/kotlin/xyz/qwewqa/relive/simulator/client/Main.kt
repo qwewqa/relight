@@ -73,7 +73,7 @@ class SimulatorClient(val simulator: Simulator) {
         value
     }
     val interactiveContainer = document.getElementById("interactive-container") as HTMLDivElement
-    val interactiveLog = document.getElementById("interactive-log") as HTMLPreElement
+    val interactiveLog = document.getElementById("interactive-log") as HTMLDivElement
     val interactiveInput = document.getElementById("interactive-input").textInput()
     val interactiveSendButton = document.getElementById("interactive-send-button") as HTMLButtonElement
 
@@ -892,164 +892,174 @@ class SimulatorClient(val simulator: Simulator) {
         toast("Ready", "Initialization complete.", "green")
 
         GlobalScope.launch {
+            var log: List<FormattedLogEntry>? = null
             while (true) {
-                delay(50)
-                interactiveSimulation?.let { sim ->
-                    val log = sim.getLog()
-                    if (log != this@SimulatorClient.interactiveLog.innerHTML) {
-                        val isScrolledDown = this@SimulatorClient.interactiveLog.let {
-                            it.scrollHeight - it.offsetHeight - it.scrollTop < 1.0
-                        }
-                        this@SimulatorClient.interactiveLog.innerHTML = sim.getLog()
-                        if (isScrolledDown) {
-                            this@SimulatorClient.interactiveLog.let {
-                                it.scrollTop = it.scrollHeight.toDouble()
+                try {
+                    delay(50)
+                    interactiveSimulation?.let { sim ->
+                        val newLog = sim.getLog()
+                        if (newLog != log) {
+                            val isScrolledDown = this@SimulatorClient.interactiveLog.let {
+                                it.scrollHeight - it.offsetHeight - it.scrollTop < 1.0
                             }
+                            this@SimulatorClient.interactiveLog.innerHTML = newLog.toHtml()
+                            if (isScrolledDown) {
+                                this@SimulatorClient.interactiveLog.let {
+                                    it.scrollTop = it.scrollHeight.toDouble()
+                                }
+                            }
+                            log = newLog
                         }
                     }
+                } catch (e: Throwable) {
+                    delay(2000)
                 }
             }
         }
 
         GlobalScope.launch {
             while (true) {
-                if (!done) {
-                    simulation?.let { sim ->
-                        val result = sim.pollResult()
-                        val iterationResults = result.results.sortedWith(simulationResultValueComparator)
-                        val resultsRow = document.getElementById("results-row") as HTMLDivElement
-                        val resultsText = document.getElementById("results-text") as HTMLPreElement
-                        val errorRow = document.getElementById("results-error-row") as HTMLDivElement
-                        val logRow = document.getElementById("results-log-row") as HTMLDivElement
-                        val errorText = document.getElementById("error-text") as HTMLPreElement
-                        val logText = document.getElementById("log-text") as HTMLPreElement
-                        val resultsPlot = document.getElementById("results-plot")!!
-                        val endPlot = document.getElementById("end-plot")!!
-                        val wipePlot = document.getElementById("wipe-plot")!!
+                try {
+                    if (!done) {
+                        simulation?.let { sim ->
+                            val result = sim.pollResult()
+                            val iterationResults = result.results.sortedWith(simulationResultValueComparator)
+                            val resultsRow = document.getElementById("results-row") as HTMLDivElement
+                            val resultsText = document.getElementById("results-text") as HTMLPreElement
+                            val errorRow = document.getElementById("results-error-row") as HTMLDivElement
+                            val logRow = document.getElementById("results-log-row") as HTMLDivElement
+                            val errorText = document.getElementById("error-text") as HTMLPreElement
+                            val logText = document.getElementById("log-text") as HTMLDivElement
+                            val resultsPlot = document.getElementById("results-plot")!!
+                            val endPlot = document.getElementById("end-plot")!!
+                            val wipePlot = document.getElementById("wipe-plot")!!
 
-                        val currentIterationsText = result.currentIterations.toString()
-                        val maxIterationsText = result.maxIterations.toString()
-                        val progressText =
-                            "${(result.currentIterations.toDouble() / result.maxIterations * 100).toFixed(2)}%"
-                        val runtimeText = if (result.runtime != null) " [${result.runtime!!.toFixed(5)}s]" else ""
-                        val progressDisplay =
-                            "Progress: ${" ".repeat(maxIterationsText.length - currentIterationsText.length)}$currentIterationsText/$maxIterationsText ($progressText)$runtimeText"
-                        var iterationResultsText = ResultEntry("All").apply {
-                            iterationResults.forEach {
-                                add(it)
-                            }
-                        }.format()
-                        val simpleResults = iterationResults
-                            .groupBy { it.result }
-                            .map { (result, values) -> result to values.sumOf { it.count } }
-                            .sortedWith { a, b -> simulationResultTypeComparator.compare(a.first, b.first) }
-                        if (iterationResults.any { it.tags.isNotEmpty() }) {
-                            iterationResultsText += "\n\n" + ResultEntry("All (Simple)").apply {
-                                simpleResults.forEach { (type, count) ->
-                                    add(SimulationResultValue(emptyList(), type, count))
+                            val currentIterationsText = result.currentIterations.toString()
+                            val maxIterationsText = result.maxIterations.toString()
+                            val progressText =
+                                "${(result.currentIterations.toDouble() / result.maxIterations * 100).toFixed(2)}%"
+                            val runtimeText = if (result.runtime != null) " [${result.runtime!!.toFixed(5)}s]" else ""
+                            val progressDisplay =
+                                "Progress: ${" ".repeat(maxIterationsText.length - currentIterationsText.length)}$currentIterationsText/$maxIterationsText ($progressText)$runtimeText"
+                            var iterationResultsText = ResultEntry("All").apply {
+                                iterationResults.forEach {
+                                    add(it)
                                 }
                             }.format()
-                        }
-                        resultsText.innerHTML = progressDisplay + "\n\n" + iterationResultsText
-
-                        // Plotly goes upwards from the y-axis, so entries have to be reversed
-                        val plotEntries = simpleResults.reversed().toMap()
-                        react(
-                            graphDiv = resultsPlot,
-                            data = arrayOf(
-                                jsObject {
-                                    type = "bar"
-                                    x = plotEntries.values.toTypedArray()
-                                    y = plotEntries.keys.map { it.displayName }.toTypedArray()
-                                    orientation = "h"
-                                    marker = jsObject {
-                                        color = plotEntries.keys.map { it.color }.toTypedArray()
+                            val simpleResults = iterationResults
+                                .groupBy { it.result }
+                                .map { (result, values) -> result to values.sumOf { it.count } }
+                                .sortedWith { a, b -> simulationResultTypeComparator.compare(a.first, b.first) }
+                            if (iterationResults.any { it.tags.isNotEmpty() }) {
+                                iterationResultsText += "\n\n" + ResultEntry("All (Simple)").apply {
+                                    simpleResults.forEach { (type, count) ->
+                                        add(SimulationResultValue(emptyList(), type, count))
                                     }
-                                } as Any
-                            ),
-                            layout = jsObject {
-                                xaxis = jsObject {
-                                    range = arrayOf(0, result.currentIterations)
-                                }
-                                height = simpleResults.size.coerceAtLeast(1) * 30 + 60
-                                margin = jsObject {
-                                    l = 120
-                                    r = 60
-                                    b = 40
-                                    t = 20
-                                }
-                            } as Any,
-                            config = jsObject {
-                                responsive = true
-                                staticPlot = true
-                            } as Any,
-                        )
-                        listOf(
-                            SimulationMarginResultType.End to endPlot,
-                            SimulationMarginResultType.Wipe to wipePlot,
-                        ).forEach { (resultType, element) ->
-                            val data = result.marginResults[resultType] ?: emptyMap()
+                                }.format()
+                            }
+                            resultsText.innerHTML = progressDisplay + "\n\n" + iterationResultsText
+
+                            // Plotly goes upwards from the y-axis, so entries have to be reversed
+                            val plotEntries = simpleResults.reversed().toMap()
                             react(
-                                graphDiv = element,
+                                graphDiv = resultsPlot,
                                 data = arrayOf(
                                     jsObject {
                                         type = "bar"
-                                        x = data.keys.toTypedArray()
-                                        y = data.values.toTypedArray()
+                                        x = plotEntries.values.toTypedArray()
+                                        y = plotEntries.keys.map { it.displayName }.toTypedArray()
+                                        orientation = "h"
                                         marker = jsObject {
-                                            color = resultType.color
+                                            color = plotEntries.keys.map { it.color }.toTypedArray()
                                         }
                                     } as Any
                                 ),
                                 layout = jsObject {
-                                    title = "${resultType.name} Margin"
-                                    height = 400
-                                    margin = jsObject {
-                                        l = 60
-                                        r = 60
+                                    xaxis = jsObject {
+                                        range = arrayOf(0, result.currentIterations)
                                     }
-                                    bargap = 0
+                                    height = simpleResults.size.coerceAtLeast(1) * 30 + 60
+                                    margin = jsObject {
+                                        l = 120
+                                        r = 60
+                                        b = 40
+                                        t = 20
+                                    }
                                 } as Any,
                                 config = jsObject {
                                     responsive = true
+                                    staticPlot = true
                                 } as Any,
                             )
-                            if (data.isEmpty()) {
-                                element.addClass("d-none")
-                            } else {
-                                element.removeClass("d-none")
+                            listOf(
+                                SimulationMarginResultType.End to endPlot,
+                                SimulationMarginResultType.Wipe to wipePlot,
+                            ).forEach { (resultType, element) ->
+                                val data = result.marginResults[resultType] ?: emptyMap()
+                                react(
+                                    graphDiv = element,
+                                    data = arrayOf(
+                                        jsObject {
+                                            type = "bar"
+                                            x = data.keys.toTypedArray()
+                                            y = data.values.toTypedArray()
+                                            marker = jsObject {
+                                                color = resultType.color
+                                            }
+                                        } as Any
+                                    ),
+                                    layout = jsObject {
+                                        title = "${resultType.name} Margin"
+                                        height = 400
+                                        margin = jsObject {
+                                            l = 60
+                                            r = 60
+                                        }
+                                        bargap = 0
+                                    } as Any,
+                                    config = jsObject {
+                                        responsive = true
+                                    } as Any,
+                                )
+                                if (data.isEmpty()) {
+                                    element.addClass("d-none")
+                                } else {
+                                    element.removeClass("d-none")
+                                }
                             }
-                        }
-                        window.dispatchEvent(Event("resize")) // Makes plotly resize immediately
-                        resultsRow.removeClass("d-none")
+                            window.dispatchEvent(Event("resize")) // Makes plotly resize immediately
+                            resultsRow.removeClass("d-none")
 
-                        if (result.log != null) {
-                            logText.innerHTML = result.log ?: ""
-                            logRow.removeClass("d-none")
-                        } else {
-                            logRow.addClass("d-none")
-                        }
-                        if (result.error != null) {
-                            errorText.textContent = result.error
-                            errorRow.removeClass("d-none")
-                        } else {
-                            errorRow.addClass("d-none")
-                        }
-                        done = result.done
-                        if (result.done) {
-                            simulateButton.disabled = false
-                            cancelButton.disabled = true
-                            if (result.error != null) {
-                                toast("Simulate", "Simulation completed with errors.", "orange")
-                            } else if (result.cancelled) {
-                                toast("Cancel", "Simulation cancelled.", "yellow")
+                            if (result.log != null) {
+                                logText.innerHTML = result.log?.toHtml() ?: ""
+                                logRow.removeClass("d-none")
                             } else {
-                                toast("Simulate", "Simulation completed successfully.", "green")
+                                logRow.addClass("d-none")
+                            }
+                            if (result.error != null) {
+                                errorText.textContent = result.error
+                                errorRow.removeClass("d-none")
+                            } else {
+                                errorRow.addClass("d-none")
+                            }
+                            done = result.done
+                            if (result.done) {
+                                simulateButton.disabled = false
+                                cancelButton.disabled = true
+                                if (result.error != null) {
+                                    toast("Simulate", "Simulation completed with errors.", "orange")
+                                } else if (result.cancelled) {
+                                    toast("Cancel", "Simulation cancelled.", "yellow")
+                                } else {
+                                    toast("Simulate", "Simulation completed successfully.", "green")
+                                }
                             }
                         }
                     }
+                    delay(1000)
+                } catch (e: Throwable) {
+                    delay(2000)
                 }
-                delay(1000)
             }
         }
     }

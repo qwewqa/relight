@@ -76,11 +76,13 @@ private fun simulateSingle(
 ) = CoroutineScope(Dispatchers.Default).launch {
     val loadout = parameters.createStageLoadoutOrReportError(token) ?: return@launch
     val stage =
-        loadout.create(Random(Random(parameters.seed).nextInt()),
-            StageConfiguration(logging = true))  // Seed the same was as one iteration of simulateMany
+        loadout.create(
+            Random(Random(parameters.seed).nextInt()),
+            StageConfiguration(logging = true)
+        )  // Seed the same was as one iteration of simulateMany
     val result = stage.play(parameters.maxTurns)
     val results = listOf(SimulationResultValue(result.tags, result.toSimulationResult(), 1))
-    val log = stage.logger.asHtml()
+    val log = stage.logger.getFormatted()
     simulationResults[token] = SimulationResult(
         maxIterations = parameters.maxIterations,
         currentIterations = 1,
@@ -90,9 +92,11 @@ private fun simulateSingle(
         error = (result as? PlayError)?.exception?.stackTraceToString(),
         complete = true,
     ).also {
-        logger?.info("Completed simulation\nToken: $token\n---\n${
-            Yaml.default.encodeToString(ListSerializer(SimulationResultValue.serializer()), results)
-        }")
+        logger?.info(
+            "Completed simulation\nToken: $token\n---\n${
+                Yaml.default.encodeToString(ListSerializer(SimulationResultValue.serializer()), results)
+            }"
+        )
     }
 }
 
@@ -170,7 +174,12 @@ private fun simulateMany(
     val loggedResult = firstApplicableIteration?.let {
         val stage = loadout.create(Random(it.seed), StageConfiguration(logging = true))
         val playResult = stage.play(parameters.maxTurns)
-        "Iteration ${it.index + 1}\n${stage.logger.asHtml()}" to playResult
+        val header = FormattedLogEntry(
+            turn = 0, tile = 0, move = 0,
+            tags = listOf("Info"),
+            contents = "Iteration ${it.index + 1}",
+        )
+        (listOf(header) + stage.logger.getFormatted()) to playResult
     }
     val results = resultCounts.map { (k, v) -> SimulationResultValue(k.first, k.second, v) }
     simulationResults[token] = SimulationResult(
@@ -184,9 +193,11 @@ private fun simulateMany(
         error = (loggedResult?.second as? PlayError)?.exception?.stackTraceToString(),
         complete = true,
     ).also {
-        logger?.info("Completed simulation\nToken: $token\n---\n${
-            Yaml.default.encodeToString(ListSerializer(SimulationResultValue.serializer()), results)
-        }")
+        logger?.info(
+            "Completed simulation\nToken: $token\n---\n${
+                Yaml.default.encodeToString(ListSerializer(SimulationResultValue.serializer()), results)
+            }"
+        )
     }
 }
 
@@ -198,7 +209,7 @@ private fun SimulationParameters.createStageLoadoutOrReportError(token: String) 
         currentIterations = 0,
         results = emptyList(),
         marginResults = emptyMap(),
-        log = "Error occurred during setup.",
+        log = null,
         cancelled = true,
         error = e.stackTraceToString(),
     )
