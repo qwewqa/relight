@@ -4,8 +4,6 @@ import io.ktor.client.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
 import kotlinx.browser.window
 import kotlinx.coroutines.cancel
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -115,7 +113,14 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
                     val result = results.single()
                     overallResult = overallResult.copy(
                         error = result.error,
-                        log = result.log?.let { "Iteration ${result.request.index + 1}\n$it" },
+                        log = result.log?.let {
+                            val header = FormattedLogEntry(
+                                turn = 0, tile = 0, move = 0,
+                                tags = listOf("Info"),
+                                content = "Iteration ${result.request.index + 1}",
+                            )
+                            listOf(header) + it
+                        },
                         runtime = (window.performance.now() - startTime) / 1_000.0,
                         complete = true,
                     )
@@ -200,8 +205,8 @@ class JsInteractiveSimulation(val parameters: SimulationParameters) : Interactiv
         null
     }
 
-    override suspend fun getLog(): String {
-        return controller?.getLog() ?: error!!
+    override suspend fun getLog(): List<FormattedLogEntry> {
+        return controller?.getLog() ?: listOf(FormattedLogEntry(tags = listOf("Error"), content = error!!))
     }
 
     override suspend fun sendCommand(text: String) {
@@ -226,7 +231,7 @@ data class IterationResult(
     val result: SimulationResultType,
     val tags: List<String> = emptyList(),
     val margin: Int? = 0,
-    val log: String? = null,
+    val log: List<FormattedLogEntry>? = null,
     val error: String? = null,
 )
 

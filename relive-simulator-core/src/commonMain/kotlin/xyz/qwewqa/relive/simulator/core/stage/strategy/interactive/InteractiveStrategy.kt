@@ -4,6 +4,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.stage.*
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
@@ -37,7 +38,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout:
         // Ensures that we only obtain the log when control is handed over to the strategy.
         // The strategy just ignores this, but this function will suspend until the strategy is ready.
         channel.send(null)
-        stage.logger.asHtml()
+        stage.logger.getFormatted()
     }
 
     suspend fun sendCommand(text: String) = mutex.withLock {
@@ -46,23 +47,23 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout:
         when (command.type) {
             InteractiveStrategyCommand.SAVE -> {
                 saves[command.data] = history.toList()
-                stage.log("Command", "Save") { "Saved state as '${command.data}'." }
+                stage.log("Command", "Save", category = LogCategory.COMMAND) { "Saved state as '${command.data}'." }
             }
             InteractiveStrategyCommand.LOAD -> {
                 val save = saves[command.data]
                 if (save == null) {
-                    stage.log("Command", "Load") { "No save state with name '${command.data}' found." }
+                    stage.log("Command", "Load", category = LogCategory.COMMAND) { "No save state with name '${command.data}' found." }
                 } else {
                     loadSave(save)
-                    stage.log("Command", "Load") { "Loaded save state with name '${command.data}'." }
+                    stage.log("Command", "Load", category = LogCategory.COMMAND) { "Loaded save state with name '${command.data}'." }
                 }
             }
             InteractiveStrategyCommand.UNDO -> {
                 if (history.isEmpty()) {
-                    stage.log("Command", "Undo") { "Error: History is empty." }
+                    stage.log("Command", "Undo", category = LogCategory.COMMAND) { "Error: History is empty." }
                 } else {
                     loadSave(history.dropLast(1))
-                    stage.log("Command", "Undo") { "Successfully undid command." }
+                    stage.log("Command", "Undo", category = LogCategory.COMMAND) { "Successfully undid command." }
                 }
             }
             else -> {
@@ -109,7 +110,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout:
         val data = if (strings.size == 1) "" else strings[1]
         val command = interactiveCommands[title]
         if (command == null) {
-            stage.log("Command") { "Error: Unknown command." }
+            stage.log("Command", category = LogCategory.COMMAND) { "Error: Unknown command." }
             return null
         }
         return InteractiveStrategyCommandInvocation(command, data, trimmed)
@@ -161,13 +162,17 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, loadout:
         private val queueHistory = mutableListOf<QueueResult>()
 
         private inline fun log(value: LogContentsBuilder.() -> String) {
-            stage.log("Command") {
+            stage.log("Command", category = LogCategory.COMMAND) {
                 value()
             }
         }
 
-        private inline fun log(vararg tags: String, value: LogContentsBuilder.() -> String) {
-            stage.log("Command", *tags) {
+        private inline fun log(
+            vararg tags: String,
+            category: LogCategory = LogCategory.COMMAND,
+            value: LogContentsBuilder.() -> String
+        ) {
+            stage.log("Command", *tags, category = category) {
                 value()
             }
         }
@@ -390,7 +395,7 @@ ${
         }
 
         private fun processCommand(command: InteractiveStrategyCommandInvocation?) = command?.run {
-            log { raw }
+            log(category = LogCategory.USER) { raw }
             when (type) {
                 InteractiveStrategyCommand.HELP -> {
                     if (data.isNotEmpty()) {
@@ -840,13 +845,19 @@ ${
                                 emptyList()
                             }
                             if (!climaxActs.all { it in acts }) {
-                                log("Set Hand") { "Warning: Not all climax acts included." }
+                                log("Set Hand", category = LogCategory.WARNING) {
+                                    "Warning: Not all climax acts included."
+                                }
                             }
                             if (acts.any { it.type == ActType.ClimaxAct && it !in climaxActs }) {
-                                log("Set Hand") { "Warning: Includes ineligible climax acts." }
+                                log("Set Hand", category = LogCategory.WARNING) {
+                                    "Warning: Includes ineligible climax acts."
+                                }
                             }
                             if (acts.any { it in discardPile }) {
-                                log("Set Hand") { "Warning: Includes discarded cards." }
+                                log("Set Hand", category = LogCategory.WARNING) {
+                                    "Warning: Includes discarded cards."
+                                }
                             }
                             drawPile += hand.filter { it.type != ActType.ClimaxAct }
                             hand.clear()

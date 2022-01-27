@@ -24,14 +24,27 @@
             max-height: 500px;
         }
 
+        .log-entry {
+            display: block;
+            padding: 0.05em 0.5em 0.05em 0.5em;
+        }
+
+        #log-text {
+            font-size: 0.65em;
+            font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            white-space: pre-wrap;
+        }
+
         #interactive-input {
-            font-family: monospace;
+            font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
         }
 
         #interactive-log {
             overflow-y: scroll;
             height: 500px;
             font-size: 0.65em;
+            font-family: monospace;
+            white-space: pre-wrap;
         }
 
         .select-option-subtext {
@@ -40,6 +53,10 @@
         }
 
         @media (min-width: 576px) {
+            #log-text {
+                font-size: 0.875em;
+            }
+
             #interactive-log {
                 overflow-y: scroll;
                 height: 500px;
@@ -405,7 +422,7 @@
         <div class="border border-2 rounded px-3 py-2 my-3 d-none" id="interactive-container">
             <div class="row" id="interactive-display-row">
                 <div class="col-12">
-                    <pre id="interactive-log"></pre>
+                    <div id="interactive-log"></div>
                 </div>
             </div>
             <div class="row" id="interactive-input-row">
@@ -436,7 +453,7 @@
             <div class="row d-none" id="results-log-row">
                 <div class="col-12">
                     <label for="log-text" class="form-label text-log">Log</label>
-                    <pre id="log-text"></pre>
+                    <div id="log-text"></div>
                 </div>
             </div>
         </div>

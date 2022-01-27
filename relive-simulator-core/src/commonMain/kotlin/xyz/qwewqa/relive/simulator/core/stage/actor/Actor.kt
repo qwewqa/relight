@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
+import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
@@ -162,31 +163,31 @@ class Actor(
         val startLog = context.actionLog.copy()
         try {
             if (!isAlive) {
-                context.log("Act") { "Actor has already exited." }
+                context.log("Act", category = LogCategory.EMPHASIS) { "Actor has already exited." }
                 return
             }
             if (buffs.any(StopBuff)) {
-                context.log("Abnormal") { "Act prevented by stop." }
+                context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by stop." }
                 return
             }
             if (buffs.any(FreezeBuff)) {
-                context.log("Abnormal") { "Act prevented by freeze." }
+                context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by freeze." }
                 return
             }
             if (buffs.any(SleepBuff)) {
-                context.log("Abnormal") { "Act prevented by sleep." }
+                context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by sleep." }
                 return
             }
             if (buffs.any(NightmareBuff)) {
-                context.log("Abnormal") { "Act prevented by nightmare." }
+                context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by nightmare." }
                 return
             }
             if (buffs.any(StunBuff) && context.stage.random.nextDouble() < 0.5) {
-                context.log("Abnormal") { "Act prevented by stun." }
+                context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by stun." }
                 return
             }
             if (buffs.any(CountableBuff.Daze)) {
-                context.log("Abnormal") { "Act prevented by daze." }
+                context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by daze." }
                 Act {
                     targetAllyRandom().act {
                         attack(
@@ -198,7 +199,7 @@ class Actor(
                 return
             }
             if (buffs.any(ConfusionBuff) && context.stage.random.nextDouble() < 0.3) {
-                context.log("Abnormal") { "Act prevented by confuse." }
+                context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by confuse." }
                 val confusionAct = acts[ActType.ConfusionAct]?.act ?: Act {
                     targetAllyRandom().act {
                         attack(
@@ -215,7 +216,7 @@ class Actor(
                 brilliance = 0
             }
             if (buffs.tryRemove(CountableBuff.Pride)) {
-                context.log("Abnormal") { "Act prevented by pride." }
+                context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by pride." }
                 Act {
                     targetRandom().act {
                         heal(fixed = 5000)
@@ -247,23 +248,23 @@ class Actor(
      */
     fun damage(amount: Int, additionalEffects: Boolean = true) = context.run {
         if (!isAlive) {
-            context.log("Damage") { "Already exited." }
+            context.log("Damage", category = LogCategory.DAMAGE, debug = true) { "Already exited." }
             return
         }
         val newHp = if (!forceInvulnerable) (self.hp - amount).coerceAtLeast(0) else self.hp
-        context.log("Damage") {
+        context.log("Damage", category = LogCategory.DAMAGE) {
             if (!forceInvulnerable) "Taken damage $amount (prevHp: ${self.hp}, newHp: $newHp)" else "Force invulnerable."
         }
         self.hp = newHp
         if (newHp == 0) {
             if (self.buffs.tryRemove(CountableBuff.Fortitude)) {
                 self.hp = 1
-                context.log("Damage") { "Fortitude activate (newHp: 1)." }
+                context.log("Damage", category = LogCategory.DAMAGE) { "Fortitude activate (newHp: 1)." }
                 return@run
             }
             if (self.buffs.tryRemove(CountableBuff.Revive)) {
                 self.hp = self.maxHp / 2
-                context.log("Damage") { "Revive activate (newHp: ${self.maxHp / 2})." }
+                context.log("Damage", category = LogCategory.DAMAGE) { "Revive activate (newHp: ${self.maxHp / 2})." }
                 return@run
             }
             exit()
@@ -299,12 +300,12 @@ class Actor(
                 it.buffs.removeAll(ProvokeBuff)
             }
         }
-        log("Exit") { "Exited." }
+        log("Exit", category = LogCategory.EMPHASIS) { "Exited." }
     }
 
     fun revive() = context.run {
         team.strategy.onRevive(self)
-        log("Revive") { "Revived." }
+        log("Revive", category = LogCategory.EMPHASIS) { "Revived." }
     }
 
     fun heal(amount: Int) = context.run {
@@ -344,7 +345,7 @@ class Actor(
 
     fun adjustBrilliance(amount: Int) = context.run {
         val newValue = amount.coerceIn(0, 100)
-        context.log("Brilliance") {
+        context.log("Brilliance", category = LogCategory.BRILLIANCE) {
             "Brilliance charge ${newValue - self.brilliance} (prevBril: ${self.brilliance}, newBril: $newValue)."
         }
         self.brilliance = newValue

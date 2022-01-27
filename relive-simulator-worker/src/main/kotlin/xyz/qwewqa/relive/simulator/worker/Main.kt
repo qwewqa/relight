@@ -8,6 +8,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.w3c.dom.DedicatedWorkerGlobalScope
+import xyz.qwewqa.relive.simulator.common.FormattedLogEntry
 import xyz.qwewqa.relive.simulator.common.SimulationParameters
 import xyz.qwewqa.relive.simulator.common.SimulationResultType
 import xyz.qwewqa.relive.simulator.core.stage.*
@@ -50,7 +51,7 @@ fun main() {
                                 result.tags,
                                 (result as? MarginStageResult)?.margin,
                                 error = (result as? PlayError)?.exception?.stackTraceToString(),
-                                log = stage.logger.asHtml(),
+                                log = stage.logger.getFormatted(),
                             )
                         } else {
                             val result = ld.create(random = Random(request.seed)).play(turns)
@@ -93,6 +94,6 @@ data class IterationResult(
     val result: SimulationResultType,
     val tags: List<String> = emptyList(),
     val margin: Int? = 0,
-    val log: String? = null,
+    val log: List<FormattedLogEntry>? = null,
     val error: String? = null,
 )

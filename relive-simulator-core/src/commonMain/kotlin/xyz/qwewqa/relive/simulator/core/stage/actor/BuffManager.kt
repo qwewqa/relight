@@ -35,7 +35,13 @@ class BuffManager(val actor: Actor) {
         BuffCategory.Negative -> negativeCountableBuffs[buff]
     } ?: 0
 
-    fun BuffEffect.activate(source: Actor?, value: Int, turns: Int, ephemeral: Boolean = false, relatedBuff: ActiveBuff? = null) =
+    fun BuffEffect.activate(
+        source: Actor?,
+        value: Int,
+        turns: Int,
+        ephemeral: Boolean = false,
+        relatedBuff: ActiveBuff? = null
+    ) =
         ActiveBuff(this, value, turns, ephemeral, relatedBuff).also { activeBuff ->
             onApply(source, actor)
             activeBuff.start()
@@ -47,7 +53,7 @@ class BuffManager(val actor: Actor) {
                 _effectNameMapping[name] = this
                 LinkedHashSet()
             }.add(activeBuff)
-            actor.context.log("Buff") { "Buff ${activeBuff.name} added." }
+            actor.context.log("Buff", debug = true) { "Buff ${activeBuff.name} added." }
         }
 
     /**
@@ -106,7 +112,7 @@ class BuffManager(val actor: Actor) {
         if (buff.relatedBuff != null) {
             remove(buff.relatedBuff)
         }
-        actor.context.log("Buff") { "Buff ${buff.name} removed." }
+        actor.context.log("Buff", debug = true) { "Buff ${buff.name} removed." }
     }
 
     fun remove(buff: CountableBuff) {
@@ -162,7 +168,7 @@ class BuffManager(val actor: Actor) {
         }
         val affected = targets.filter { it.effect.flipped != null && !it.ephemeral }.takeLast(count)
         affected.forEach {
-            actor.context.log("Buff") { "Flipping buff ${it.name}." }
+            actor.context.log("Buff") { "Flipped buff ${it.name}." }
             remove(it)
             add(null, it.effect.flipped!!, it.value, it.turns)
         }
@@ -221,7 +227,10 @@ class BuffManager(val actor: Actor) {
                 }
             }
         }
-        toRemove.forEach { remove(it) }
+        toRemove.forEach {
+            remove(it)
+            actor.context.log("Buff", debug = true) { "Buff ${it.name} expired." }
+        }
     }
 
     private fun ActiveBuff.start() = effect.onStart(actor.context, value)

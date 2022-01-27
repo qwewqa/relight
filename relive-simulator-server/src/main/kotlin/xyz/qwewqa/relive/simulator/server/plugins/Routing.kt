@@ -6,7 +6,6 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
@@ -81,7 +80,16 @@ fun Application.configureRouting() {
             if (controller == null) {
                 val errorMessage = interactiveSimulationErrors[token]
                 if (errorMessage != null) {
-                    call.respond(errorMessage)
+                    call.respond(
+                        InteractiveLog(
+                            listOf(
+                                FormattedLogEntry(
+                                    tags = listOf("Error"),
+                                    content = errorMessage
+                                )
+                            )
+                        )
+                    )
                 } else {
                     call.respond(HttpStatusCode.NotFound)
                 }
@@ -96,13 +104,22 @@ fun Application.configureRouting() {
             if (controller == null) {
                 val errorMessage = interactiveSimulationErrors[token]
                 if (errorMessage != null) {
-                    call.respond(errorMessage)
+                    call.respond(
+                        InteractiveLog(
+                            listOf(
+                                FormattedLogEntry(
+                                    tags = listOf("Error"),
+                                    content = errorMessage
+                                )
+                            )
+                        )
+                    )
                 } else {
                     call.respond(HttpStatusCode.NotFound)
                 }
             } else {
                 controller.sendCommand(command.text)
-                call.respond(controller.getLog())
+                call.respond(InteractiveLog(controller.getLog()))
             }
         }
         get("/interactive/{token}/end") {

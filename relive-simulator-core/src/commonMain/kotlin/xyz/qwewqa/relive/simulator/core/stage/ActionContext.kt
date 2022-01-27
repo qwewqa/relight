@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage
 
+import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
@@ -95,12 +96,12 @@ class ActionContext(
     fun Team.forEach(action: (Actor) -> Unit) = active.forEach(action)
 
     fun applyAllyStageEffect(effect: StageEffect, turns: Int) {
-        log("Stage Effect") { "Apply stage effect ${effect.name} (${turns}t) to ally stage." }
+        log("Stage Effect", category = LogCategory.BUFF) { "Apply stage effect ${effect.name} (${turns}t) to ally stage." }
         team.stageEffects.add(effect, turns)
     }
 
     fun applyEnemyStageEffect(effect: StageEffect, turns: Int) {
-        log("Stage Effect") { "Apply stage effect ${effect.name} (${turns}t) to enemy stage." }
+        log("Stage Effect", category = LogCategory.BUFF) { "Apply stage effect ${effect.name} (${turns}t) to enemy stage." }
         enemy.stageEffects.add(effect, turns)
     }
 }
@@ -176,9 +177,9 @@ class TargetContext(
                                 (100 - positiveEffectResist - (specificBuffResist[effect] ?: 0)) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
                             buffs.add(self, effect, value, turns)
-                            actionContext.log("Effect") { "Positive buff ${effect.formatName(value)} (${turns}t) applied to [$name]." }
+                            actionContext.log("Buff", category = LogCategory.BUFF) { "Positive buff ${effect.formatName(value)} (${turns}t) applied to [$name]." }
                         } else {
-                            actionContext.log("Effect") { "Positive buff ${effect.formatName(value)} (${turns}t) missed to [$name]." }
+                            actionContext.log("Buff", category = LogCategory.BUFF) { "Positive buff ${effect.formatName(value)} (${turns}t) missed to [$name]." }
                         }
                     }
                     BuffCategory.Negative -> {
@@ -186,9 +187,9 @@ class TargetContext(
                                 (100 - negativeEffectResist - (specificBuffResist[effect] ?: 0)) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
                             buffs.add(self, effect, value, turns)
-                            actionContext.log("Effect") { "Negative buff ${effect.formatName(value)} (${turns}t) applied to [$name]." }
+                            actionContext.log("Buff", category = LogCategory.BUFF) { "Negative buff ${effect.formatName(value)} (${turns}t) applied to [$name]." }
                         } else {
-                            actionContext.log("Effect") { "Negative buff ${effect.formatName(value)} (${turns}t) missed to [$name]." }
+                            actionContext.log("Buff", category = LogCategory.BUFF) { "Negative buff ${effect.formatName(value)} (${turns}t) missed to [$name]." }
                         }
                     }
                 }
@@ -210,18 +211,18 @@ class TargetContext(
                                 ?: 0)) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
                             buffs.addCountable(effect, count)
-                            actionContext.log("Effect") { "Positive buff [${effect.name}] (${count}x) applied to [$name]." }
+                            actionContext.log("Buff", category = LogCategory.BUFF) { "Positive buff [${effect.name}] (${count}x) applied to [$name]." }
                         } else {
-                            actionContext.log("Effect") { "Positive buff [${effect.name}] (${count}x) missed to [$name]." }
+                            actionContext.log("Buff", category = LogCategory.BUFF) { "Positive buff [${effect.name}] (${count}x) missed to [$name]." }
                         }
                     }
                     BuffCategory.Negative -> {
                         val applyChance = chance / 100.0 * (100 - (specificCountableBuffResist[effect] ?: 0)) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
                             buffs.addCountable(effect, count)
-                            actionContext.log("Effect") { "Negative buff [${effect.name}] (${count}x) applied to [$name]." }
+                            actionContext.log("Buff", category = LogCategory.BUFF) { "Negative buff [${effect.name}] (${count}x) applied to [$name]." }
                         } else {
-                            actionContext.log("Effect") { "Negative buff [${effect.name}] (${count}x) missed to [$name]." }
+                            actionContext.log("Buff", category = LogCategory.BUFF) { "Negative buff [${effect.name}] (${count}x) missed to [$name]." }
                         }
                     }
                 }
@@ -235,7 +236,7 @@ class TargetContext(
             val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
-                actionContext.log("Dispel") { "Dispel timed ${category.name} effects from [$name]." }
+                actionContext.log("Dispel", category = LogCategory.BUFF) { "Dispel timed ${category.name} effects from [$name]." }
                 buffs.dispel(category)
             }
         }
@@ -247,7 +248,7 @@ class TargetContext(
             val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
-                actionContext.log("Flip") { "Flip last $count timed ${category.name} effects from [$name]." }
+                actionContext.log("Flip", category = LogCategory.BUFF) { "Flip last $count timed ${category.name} effects from [$name]." }
                 buffs.flip(category, count)
             }
         }
@@ -259,7 +260,7 @@ class TargetContext(
             val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
-                actionContext.log("Dispel") { "Dispel countable ${category.name} effects from [$name]." }
+                actionContext.log("Dispel", category = LogCategory.BUFF) { "Dispel countable ${category.name} effects from [$name]." }
                 buffs.dispelCountable(category)
             }
         }
@@ -271,7 +272,7 @@ class TargetContext(
             val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
-                actionContext.log("Heal") { "Heal [$name] (percent: $percent, fixed: $fixed)." }
+                actionContext.log("Heal", category = LogCategory.HEAL) { "Heal [$name] (percent: $percent, fixed: $fixed)." }
                 this.heal(fixed + (percent * maxHp / 100))
             }
         }
@@ -283,7 +284,7 @@ class TargetContext(
             val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
-                actionContext.log("Brilliance") { "Add brilliance to [$name] (amount: $amount)." }
+                actionContext.log("Brilliance", category = LogCategory.BRILLIANCE) { "Add brilliance to [$name] (amount: $amount)." }
                 this.addBrilliance(amount)
             }
         }
@@ -295,7 +296,7 @@ class TargetContext(
             val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
-                actionContext.log("Brilliance") { "Remove brilliance from [$name] (amount: $amount)." }
+                actionContext.log("Brilliance", category = LogCategory.BRILLIANCE) { "Remove brilliance from [$name] (amount: $amount)." }
                 this.addBrilliance(-amount)
             }
         }
@@ -309,10 +310,10 @@ fun interface Act {
 fun Act.execute(context: ActionContext) = run { context.execute() }
 
 @OptIn(ExperimentalContracts::class)
-inline fun ActionContext.log(vararg tags: String, value: LogContentsBuilder.() -> String) {
+inline fun ActionContext.log(vararg tags: String, category: LogCategory = LogCategory.DEFAULT, debug: Boolean= false, value: LogContentsBuilder.() -> String) {
     contract {
         callsInPlace(value, InvocationKind.AT_MOST_ONCE)
     }
 
-    stage.log(self.name, *tags, value=value)
+    stage.log(self.name, *tags, category = category, debug=debug, value=value)
 }
