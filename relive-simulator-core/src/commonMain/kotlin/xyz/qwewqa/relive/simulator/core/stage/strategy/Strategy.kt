@@ -73,7 +73,7 @@ class ActionTile(val actor: Actor, val apCost: Int, val actData: ActData) : Queu
     override val agility get() = actor.agility
 
     fun execute() {
-        actor.context.log("Act", category = LogCategory.EMPHASIS) { "Begin act [${actData.name}]" }
+        actor.context.log("Act", category = LogCategory.EMPHASIS) { "Begin act [${actData.name}]." }
         if (actData.type == ActType.ClimaxAct) {
             actor.inCXAct = true
             actor.execute(actData.act, apCost)
@@ -81,6 +81,7 @@ class ActionTile(val actor: Actor, val apCost: Int, val actData: ActData) : Queu
         } else {
             actor.execute(actData.act, apCost)
         }
+        actor.context.log("Act", category = LogCategory.EMPHASIS) { "End act [${actData.name}]." }
     }
 }
 
@@ -90,6 +91,7 @@ data class BoundCutin(val actor: Actor, val data: CutinData) {
     fun execute() {
         actor.context.log("Act", category = LogCategory.EMPHASIS) { "Begin cutin act." }
         actor.executeCutin(data.act)
+        actor.context.log("Act", category = LogCategory.EMPHASIS) { "End cutin act." }
     }
 
     override fun toString() = "@(memoir:${actor.memoir?.id})[${actor.dress.name} (${actor.name})]:[${actor.memoir?.name}]"
