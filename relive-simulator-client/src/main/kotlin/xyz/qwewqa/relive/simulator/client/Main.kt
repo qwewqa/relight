@@ -107,7 +107,7 @@ class SimulatorClient(val simulator: Simulator) {
         if (!toastsCheckbox.checked) return null
         val element = toastElement(name, color) { +value }
         toastContainer.appendChild(element)
-        return Bootstrap.Toast(element, jsObject { this.autohide = autohide }).also {
+        return Bootstrap.Toast(element, jsObject { this.autohide = autohide; this.delay = 1500 }).also {
             it.show()
         }
     }
@@ -116,7 +116,7 @@ class SimulatorClient(val simulator: Simulator) {
         if (!toastsCheckbox.checked) return null
         val element = toastElement(name, color, block)
         toastContainer.appendChild(element)
-        return Bootstrap.Toast(element, jsObject { this.autohide = autohide }).also {
+        return Bootstrap.Toast(element, jsObject { this.autohide = autohide; this.delay = 1500 }).also {
             it.show()
         }
     }
