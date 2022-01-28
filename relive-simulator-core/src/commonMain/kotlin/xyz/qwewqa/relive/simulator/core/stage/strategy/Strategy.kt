@@ -18,22 +18,22 @@ interface Strategy {
      * Called once at the start of the first turn before [nextQueue].
      */
 
-    suspend fun initialize(stage: Stage, team: Team, enemy: Team) {}
+    fun initialize(stage: Stage, team: Team, enemy: Team) {}
 
     /**
      * Called once at the end, after play has ended.
      */
-    suspend fun finalize(stage: Stage, team: Team, enemy: Team) {}
+    fun finalize(stage: Stage, team: Team, enemy: Team) {}
 
     /**
      * Called at the start of each turn to get a new queue.
      */
-    suspend fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult
+    fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult
 
     /**
      * Called after each act is performed, including cutin acts.
      */
-    suspend fun afterAct(stage: Stage, team: Team, enemy: Team) {}
+    fun afterAct(stage: Stage, team: Team, enemy: Team) {}
 
     /**
      * Called at the end of each turn.
@@ -98,5 +98,5 @@ data class BoundCutin(val actor: Actor, val data: CutinData) {
 }
 
 object EmptyStrategy : Strategy {
-    override suspend fun nextQueue(stage: Stage, team: Team, enemy: Team) = QueueResult(mutableListOf(), false)
+    override fun nextQueue(stage: Stage, team: Team, enemy: Team) = QueueResult(mutableListOf(), false)
 }
