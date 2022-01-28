@@ -65,7 +65,6 @@ fun simulateInteractive(parameters: SimulationParameters, logger: Logger? = null
     }
     val controller = InteractiveSimulationController(parameters.maxTurns, parameters.seed, loadout)
     interactiveSimulations[token] = controller
-    controller.play()
     return token
 }
 

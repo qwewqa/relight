@@ -25,15 +25,15 @@ fun Application.configureRouting() {
         // Static doesn't seem to work with GraalVM properly :(
         val index by lazy {
             Thread.currentThread().contextClassLoader
-                .getResourceAsStream("client/index.html")!!.bufferedReader().readText()
+                    .getResourceAsStream("client/index.html")!!.bufferedReader().readText()
         }
         val jsMap by lazy {
             Thread.currentThread().contextClassLoader
-                .getResourceAsStream("client/relive-simulator-client.js.map")?.bufferedReader()?.readText()
+                    .getResourceAsStream("client/relive-simulator-client.js.map")?.bufferedReader()?.readText()
         }
         val codemirrorCss by lazy {
             Thread.currentThread().contextClassLoader
-                .getResourceAsStream("client/codemirror.css")!!.bufferedReader().readText()
+                    .getResourceAsStream("client/codemirror.css")!!.bufferedReader().readText()
         }
         get("/") {
             call.respondText(index, ContentType.Text.Html)
@@ -49,7 +49,7 @@ fun Application.configureRouting() {
         }
         val clientJs by lazy {
             Thread.currentThread().contextClassLoader
-                .getResourceAsStream("client/relive-simulator-client.js")!!.bufferedReader().readText()
+                    .getResourceAsStream("client/relive-simulator-client.js")!!.bufferedReader().readText()
         }
         get("/relive-simulator-client.js") {
             call.respondText(clientJs, ContentType.Application.JavaScript)
@@ -81,14 +81,14 @@ fun Application.configureRouting() {
                 val errorMessage = interactiveSimulationErrors[token]
                 if (errorMessage != null) {
                     call.respond(
-                        InteractiveLog(
-                            listOf(
-                                FormattedLogEntry(
-                                    tags = listOf("Error"),
-                                    content = errorMessage
-                                )
+                            InteractiveLog(
+                                    listOf(
+                                            FormattedLogEntry(
+                                                    tags = listOf("Error"),
+                                                    content = errorMessage
+                                            )
+                                    )
                             )
-                        )
                     )
                 } else {
                     call.respond(HttpStatusCode.NotFound)
@@ -105,14 +105,14 @@ fun Application.configureRouting() {
                 val errorMessage = interactiveSimulationErrors[token]
                 if (errorMessage != null) {
                     call.respond(
-                        InteractiveLog(
-                            listOf(
-                                FormattedLogEntry(
-                                    tags = listOf("Error"),
-                                    content = errorMessage
-                                )
+                            InteractiveLog(
+                                    listOf(
+                                            FormattedLogEntry(
+                                                    tags = listOf("Error"),
+                                                    content = errorMessage
+                                            )
+                                    )
                             )
-                        )
                     )
                 } else {
                     call.respond(HttpStatusCode.NotFound)
@@ -124,17 +124,10 @@ fun Application.configureRouting() {
         }
         get("/interactive/{token}/end") {
             val token = call.parameters["token"]!!
-            val controller = interactiveSimulations[token]
-            if (controller == null) {
-                val errorMessage = interactiveSimulationErrors[token]
-                if (errorMessage != null) {
-                    interactiveSimulationErrors.remove(token)
-                } else {
-                    call.respond(HttpStatusCode.NotFound)
-                }
-            } else {
-                controller.end()
+            if (interactiveSimulations.remove(token) != null || interactiveSimulationErrors.remove(token) != null) {
                 call.respond(HttpStatusCode.NoContent)
+            } else {
+                call.respond(HttpStatusCode.NotFound)
             }
         }
         get("/result/{token}") {
@@ -169,30 +162,32 @@ fun Application.configureRouting() {
             val locales = mapOf("en" to "English", "zh_hant" to "繁体中文", "ko" to "한국어")
             val tagConfig = getTagConfig("tags.yaml")
             SimulationOptions(
-                locales,
-                getLocalizationConfig("commonText.yaml"),
-                getLocalizationConfig("dress.yaml", playerDresses.keys).map { option ->
-                    val dress = playerDresses[option.id]!!
-                    option.copy(imagePath = "img/large_icon/1_${dress.id}.png".takeIf { dress.id > 0 })
-                },
-                getLocalizationConfig("memoir.yaml", memoirs.keys).map { option ->
-                    val memoir = memoirs[option.id]!!
-                    val tags = memoir.tags
-                    option.copy(
-                        description = option.name.keys.associateWith { locale ->
-                            tags.joinToString(", ") { tag -> tagConfig[tag.name]?.get(locale)?.first() ?: tag.name }
-                        },
-                        tags = option.name.keys.associateWith { locale ->
-                            tags.flatMap { tag -> tagConfig[tag.name]?.get(locale) ?: listOf(tag.name) }
-                        },
-                        imagePath = "img/large_icon/2_${memoir.id}.png".takeIf { memoir.id > 0 }
-                    )
-                },
-                getLocalizationConfig("songEffect.yaml", songEffects.keys),
-                getLocalizationConfig("condition.yaml", conditions.keys),
-                getLocalizationConfig("boss.yaml", bossLoadouts.keys),
-                getLocalizationConfig("strategy.yaml", strategyParsers.keys),
-                getLocalizationConfig("strategy.yaml", bossStrategyParsers.keys),
+                    locales,
+                    getLocalizationConfig("commonText.yaml"),
+                    getLocalizationConfig("dress.yaml", playerDresses.keys).map { option ->
+                        val dress = playerDresses[option.id]!!
+                        option.copy(imagePath = "img/large_icon/1_${dress.id}.png".takeIf { dress.id > 0 })
+                    },
+                    getLocalizationConfig("memoir.yaml", memoirs.keys).map { option ->
+                        val memoir = memoirs[option.id]!!
+                        val tags = memoir.tags
+                        option.copy(
+                                description = option.name.keys.associateWith { locale ->
+                                    tags.joinToString(", ") { tag ->
+                                        tagConfig[tag.name]?.get(locale)?.first() ?: tag.name
+                                    }
+                                },
+                                tags = option.name.keys.associateWith { locale ->
+                                    tags.flatMap { tag -> tagConfig[tag.name]?.get(locale) ?: listOf(tag.name) }
+                                },
+                                imagePath = "img/large_icon/2_${memoir.id}.png".takeIf { memoir.id > 0 }
+                        )
+                    },
+                    getLocalizationConfig("songEffect.yaml", songEffects.keys),
+                    getLocalizationConfig("condition.yaml", conditions.keys),
+                    getLocalizationConfig("boss.yaml", bossLoadouts.keys),
+                    getLocalizationConfig("strategy.yaml", strategyParsers.keys),
+                    getLocalizationConfig("strategy.yaml", bossStrategyParsers.keys),
             )
         }
         get("/options") {
@@ -203,14 +198,14 @@ fun Application.configureRouting() {
         get("/{path...}") {
             val path = call.parameters.getAll("path")?.joinToString("/") ?: ""
             val value = resourceCache[path]
-                ?: Thread.currentThread().contextClassLoader.getResourceAsStream("client/$path")?.readBytes()?.also {
-                    resourceCache[path] = it
-                }
+                    ?: Thread.currentThread().contextClassLoader.getResourceAsStream("client/$path")?.readBytes()?.also {
+                        resourceCache[path] = it
+                    }
             if (value != null) {
                 when {
                     path.endsWith(".wasm") -> call.respondBytes(value, ContentType.Application.Wasm)
                     path.endsWith(".js") -> call.respondText(value.decodeToString(),
-                        ContentType.Application.JavaScript)
+                            ContentType.Application.JavaScript)
                     path.endsWith(".css") -> call.respondText(value.decodeToString(), ContentType.Text.CSS)
                     path.endsWith(".html") -> call.respondText(value.decodeToString(), ContentType.Text.Html)
                     path.endsWith(".png") -> call.respondBytes(value, ContentType.Image.PNG)
@@ -224,13 +219,13 @@ fun Application.configureRouting() {
 }
 
 private fun loadResourceText(path: String) =
-    Thread.currentThread().contextClassLoader.getResourceAsStream(path)?.bufferedReader()?.readText()
+        Thread.currentThread().contextClassLoader.getResourceAsStream(path)?.bufferedReader()?.readText()
 
 private val configSerializer =
-    MapSerializer(String.serializer(), MapSerializer(String.serializer(), String.serializer()))
+        MapSerializer(String.serializer(), MapSerializer(String.serializer(), String.serializer()))
 
 private val tagConfigSerializer =
-    MapSerializer(String.serializer(), MapSerializer(String.serializer(), ListSerializer(String.serializer())))
+        MapSerializer(String.serializer(), MapSerializer(String.serializer(), ListSerializer(String.serializer())))
 
 private fun decodeLocalizationConfig(text: String, options: Iterable<String>): List<SimulationOption> {
     val localized = Yaml.default.decodeFromString(configSerializer, text)
@@ -250,7 +245,7 @@ private fun getTagConfig(path: String): Map<String, Map<String, List<String>>> {
 }
 
 private fun getLocalizationConfig(path: String, options: Iterable<String>) =
-    decodeLocalizationConfig(loadResourceText(path) ?: "{}", options)
+        decodeLocalizationConfig(loadResourceText(path) ?: "{}", options)
 
 private fun getLocalizationConfig(path: String) =
-    decodeLocalizationConfig(loadResourceText(path) ?: "{}")
+        decodeLocalizationConfig(loadResourceText(path) ?: "{}")

@@ -19,7 +19,7 @@ class Stage(
     val enemy: Team,
     val damageCalculator: DamageCalculator = RandomDamageCalculator(),
     val configuration: StageConfiguration = StageConfiguration(),
-    var random: Random = Random.Default,
+    val random: Random = Random.Default,
 ) {
     val logger = StageLogger()
 
@@ -34,7 +34,7 @@ class Stage(
 
     var cutinTarget: Actor? = null
 
-    private suspend inline fun executeAct(block: () -> Unit) {
+    private inline fun executeAct(block: () -> Unit) {
         move++
         player.stageEffects.activate()
         enemy.stageEffects.activate()
@@ -44,7 +44,7 @@ class Stage(
         player.strategy.afterAct(this, player, enemy)
     }
 
-    suspend fun play(maxTurns: Int = 6): StageResult {
+    fun play(maxTurns: Int = 6): StageResult {
         try {
             try {
                 log("Stage") { "Begin." }
@@ -228,30 +228,33 @@ class Stage(
                 }
                 player.strategy.finalize(this, player, enemy)
                 enemy.strategy.finalize(this, enemy, player)
+                log("Stage") { "End." }
                 return OutOfTurns(enemy.active.sumOf { it.hp }, tags)
             } catch (e: IgnoreRunException) {
                 log("Stage") { "Early run end." }
                 player.strategy.finalize(this, player, enemy)
                 enemy.strategy.finalize(this, enemy, player)
+                log("Stage") { "End." }
                 return ExcludedRun(tags)
             } catch (e: Exception) {
                 log("Error") { e.stackTraceToString() }
                 player.strategy.finalize(this, player, enemy)
                 enemy.strategy.finalize(this, enemy, player)
+                log("Stage") { "End." }
                 return PlayError(e, tags)
             }
         } catch (e: IgnoreRunException) {
             log("Stage") { "Run ignored in finalizer." }
+            log("Stage") { "End." }
             return ExcludedRun(tags)
         } catch (e: Exception) {
             log("Finalizer Error.") { e.stackTraceToString() }
-            return PlayError(e, tags)
-        } finally {
             log("Stage") { "End." }
+            return PlayError(e, tags)
         }
     }
 
-    private suspend fun checkEnded(): StageResult? {
+    private fun checkEnded(): StageResult? {
         if (player.active.isEmpty()) {
             player.strategy.finalize(this, player, enemy)
             enemy.strategy.finalize(this, enemy, player)
