@@ -21,28 +21,68 @@ val LogCategory.backgroundColor
         LogCategory.BUFF -> "#E3F2FD"
         LogCategory.BRILLIANCE -> "#FFF8E1"
         LogCategory.USER -> "#E0F7FA"
-        LogCategory.COMMAND -> "#E0F2F1"
+        LogCategory.COMMAND -> "#ECEFF1"
         else -> "#FFFFFF"
     }
 
-fun HTMLElement.displayLog(log: List<LogEntry>) {
+fun HTMLElement.displayLog(log: List<LogEntry>, interactive: Boolean) {
     clear()
+
+    val lastSummaryIndex = log.indexOfLast { it.summary != null }.takeIf { interactive }
     append {
-        log.forEach { entry ->
+        log.forEachIndexed { i, entry ->
             entry.run {
-                span(classes = "log-entry") {
+                div(classes = "log-entry") {
                     style = "background-color: ${category.backgroundColor};"
-                    b {
-                        +"$turn.$tile.$move [${tags.joinToString(" / ")}]"
-                    }
-                    if (content.contains("\n")) {
-                        span {
-                            style = "padding-left: 1em;display: block;white-space: pre;overflow-x: auto;"
-                            processLogContent(content)
+                    when {
+                        summary != null -> {
+                            span {
+                                b {
+                                    +"$turn.$tile.$move [${tags.joinToString(" / ")}]"
+                                }
+                                +" $summary "
+                                if (i != lastSummaryIndex) {
+                                    span {
+                                        +"["
+                                        a {
+                                            role = "button"
+                                            href = "#"
+                                            attributes["data-bs-toggle"] = "collapse"
+                                            attributes["data-bs-target"] = "#log-contents-$i"
+                                            +"details"
+                                        }
+                                        +"]"
+                                    }
+                                }
+                            }
+                            div(classes=if (i != lastSummaryIndex) "collapse" else "") {
+                                id = "log-contents-$i"
+                                span {
+                                    style = "padding-left: 1em;display: block;white-space: pre;overflow-x: auto;"
+                                    processLogContent(content)
+                                }
+                            }
                         }
-                    } else {
-                        +" "
-                        processLogContent(content)
+                        content.contains("\n") -> {
+                            span {
+                                b {
+                                    +"$turn.$tile.$move [${tags.joinToString(" / ")}]"
+                                }
+                            }
+                            span {
+                                style = "padding-left: 1em;display: block;white-space: pre;overflow-x: auto;"
+                                processLogContent(content)
+                            }
+                        }
+                        else -> {
+                            span {
+                                b {
+                                    +"$turn.$tile.$move [${tags.joinToString(" / ")}]"
+                                }
+                                +" "
+                                processLogContent(content)
+                            }
+                        }
                     }
                 }
             }
@@ -78,6 +118,7 @@ private fun FlowOrInteractiveOrPhrasingContent.processLogContent(content: String
             "memoir" -> imageReplacement { "img/large_icon/2_$it.png" }
             "act" -> imageReplacement { "img/skill_icon/skill_icon_$it.png" }
             "command" -> a(href = "#") {
+                title = data
                 onClickFunction = { e ->
                     document.dispatchEvent(CustomEvent("sendInteractiveCommand", jsObject { detail = data }))
                     e.preventDefault()

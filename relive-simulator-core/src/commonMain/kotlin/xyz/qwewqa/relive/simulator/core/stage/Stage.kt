@@ -305,6 +305,7 @@ inline fun Stage.log(
     vararg tags: String,
     category: LogCategory = LogCategory.DEFAULT,
     debug: Boolean = false,
+    summary: () -> String? = { null },
     value: () -> String
 ) {
     contract {
@@ -312,6 +313,6 @@ inline fun Stage.log(
     }
 
     if (configuration.logging && (!debug || configuration.debug)) {
-        logger.log(turn, tile, move, category, *tags, content = value())
+        logger.log(turn, tile, move, category, *tags, summary = summary(), content = value())
     }
 }

@@ -19,12 +19,19 @@ interface DamageCalculator {
 class RandomDamageCalculator : DamageCalculator {
     override fun damage(attacker: Actor, target: Actor, hitAttribute: HitAttribute): Unit = attacker.context.run {
         if (!attacker.isAlive) return@run
-        log("Hit", category = LogCategory.DAMAGE, debug = true) { "[${attacker.name}] attempts to hit [${target.name}]." }
+        log(
+            "Hit",
+            category = LogCategory.DAMAGE,
+            debug = true
+        ) { "[${attacker.name}] attempts to hit [${target.name}]." }
         val result = calculateDamage(attacker, target, hitAttribute)
         result.apply {
-            log("DamageCalculator", category = LogCategory.DAMAGE) {
-                "[${attacker.name}] attacks [${target.name}].\n" +
-                        "Base: $base, Critical: $critical, Critical Chance: $criticalChance, Hit Chance: $hitChance.\n" +
+            log(
+                "DamageCalculator",
+                summary = { "[${attacker.name}] attacks [${target.name}]." },
+                category = LogCategory.DAMAGE
+            ) {
+                "Base: $base, Critical: $critical, Critical Chance: $criticalChance, Hit Chance: $hitChance.\n" +
                         "Possible base rolls: ${possibleRolls(false)}.\n" +
                         "Possible critical rolls: ${possibleRolls(true)}."
             }

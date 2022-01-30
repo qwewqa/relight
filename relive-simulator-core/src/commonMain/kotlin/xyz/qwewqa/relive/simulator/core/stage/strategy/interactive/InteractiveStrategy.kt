@@ -177,9 +177,10 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         private inline fun log(
             vararg tags: String,
             category: LogCategory = LogCategory.COMMAND,
-            value: () -> String
+            summary: () -> String? = { null },
+            value: () -> String,
         ) {
-            stage.log("Command", *tags, category = category) {
+            stage.log("Command", *tags, category = category, summary = { summary() }) {
                 value()
             }
         }
@@ -290,7 +291,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
             queueSize = 0
             drawHand()
             cutinEnergy = stage.turn + 2
-            stage.log("Strategy") {
+            stage.log("Strategy", summary = { "Turn start." }) {
                 """
 ${
                     hierarchicalString("Status", INDENT) {
@@ -397,7 +398,7 @@ ${formattedHand()}
                 InteractiveCommandType.HELP -> {
                     if (data.isNotEmpty()) {
                         if (data == "all") {
-                            log("Help") {
+                            log("Help", summary = { "all" }) {
                                 InteractiveCommandType.values().sortedBy { it.title }.joinToString("\n\n") {
                                     "${it.title}:\n\n${it.helpBody.prependIndent(INDENT)}"
                                 }
@@ -407,23 +408,23 @@ ${formattedHand()}
                             if (targetCommand == null) {
                                 log("Help") { "Error: Unknown command." }
                             } else {
-                                log("Help") { targetCommand.helpText }
+                                log("Help", summary = { targetCommand.title }) { targetCommand.helpBody }
                             }
                         }
                     } else {
-                        log("Help") {
+                        log("Help", summary = { "?" }) {
                             """
 Use 'help all' to list information on all commands.
 Use 'help <name_of_command>' to get information on a particular command.
 
 Available Commands:
 ${
-    (InteractiveCommandType
-            .values()
-            .sortedBy { it.title }
-            .joinToString("\n") { "@[${it.title}](command: help ${it.title})" })
-        .prependIndent(INDENT)
-}
+                                (InteractiveCommandType
+                                    .values()
+                                    .sortedBy { it.title }
+                                    .joinToString("\n") { "@[${it.title}](command: help ${it.title})" })
+                                    .prependIndent(INDENT)
+                            }
 """.trimIndent()
                         }
                     }
@@ -450,7 +451,7 @@ ${
                                 }
                                 queue += act
                             }
-                            log("Queue") { "Successfully queued act(s)\n\n${formattedStatus()}" }
+                            log("Queue", summary = { "Successfully queued act(s)." }) { formattedStatus() }
                         } catch (e: RuntimeException) {
                             queue.clear()
                             queue += originalQueue
@@ -495,8 +496,8 @@ ${
                             internalHand += newAct
                             hand[hand.indexOf(act)] = newAct
                             hasPerformedHoldAction = true
-                            log("Hold") {
-                                "Successfully held '${act}'.\n\n${formattedHand()}"
+                            log("Hold", summary = { "Successfully held '${act}'." }) {
+                                formattedHand()
                             }
                         }
                     }
@@ -533,8 +534,8 @@ ${
                             hand[hand.indexOf(act)] = held!!
                             held = null
                             hasPerformedHoldAction = true
-                            log("Discard") {
-                                "Successfully discarded '${act}'.\n\n${formattedHand()}"
+                            log("Discard", summary = { "Successfully discarded '${act}'." }) {
+                                formattedHand()
                             }
                         }
                     }
@@ -562,7 +563,9 @@ ${
                                     index !in queue.indices -> log("Unqueue") { "Error: Invalid index." }
                                     else -> {
                                         queue.removeAt(index)
-                                        log("Unqueue") { "Successfully unqueued act.\n\n${formattedStatus()}" }
+                                        log("Unqueue", summary = { "Successfully unqueued act." }) {
+                                            formattedStatus()
+                                        }
                                     }
                                 }
                             } else {
@@ -574,7 +577,9 @@ ${
                         }
                         else -> {
                             queue.removeAll { it == act }
-                            log("Unqueue") { "Successfully unqueued act.\n\n${formattedStatus()}" }
+                            log("Unqueue", summary = { "Successfully unqueued act." }) {
+                                formattedStatus()
+                            }
                         }
                     }
                 }
@@ -610,10 +615,10 @@ ${
                     } else {
                         if (cutin in cutinQueue) {
                             cutinQueue -= cutin
-                            log("Cutin") { "Unqueued cutin\n\n${formattedStatus()}" }
+                            log("Cutin", summary = { "Unqueued cutin." }) { formattedStatus() }
                         } else {
                             cutinQueue += cutin
-                            log("Cutin") { "Queued cutin\n\n${formattedStatus()}" }
+                            log("Cutin", summary = { "Queued cutin." }) { formattedStatus() }
                         }
                     }
                 }
@@ -632,8 +637,8 @@ ${
                         hand.clear()
                         internalHand.clear()
                         drawHand()
-                        log("Climax") {
-                            "Entered climax.\n\n${formattedHand()}"
+                        log("Climax", summary = { "Entered climax." }) {
+                            formattedHand()
                         }
                     }
                 }
@@ -1028,7 +1033,8 @@ ${
                         "[disc]"
                     }
                 }
-            } $act" }.joinToString("\n")
+            } $act"
+        }.joinToString("\n")
 
         private fun BoundCutin.canQueue() = actor.isAlive &&
                 data.cost + cutinQueue.sumOf { it.data.cost } <= cutinEnergy &&
@@ -1041,36 +1047,41 @@ Hand:
 ${hand.formattedWithActions().prependIndent(INDENT)}
 ${INDENT}Holding: ${held ?: "None"}
 ${INDENT}${
-    if (team.cxTurns == 0 && team.active.any { it.brilliance >= 100 } && !climax) {
-        "[@[climax](command: climax)]"
-    } else {
-        "[climax]"
-    }
-}
+            if (team.cxTurns == 0 && team.active.any { it.brilliance >= 100 } && !climax) {
+                "[@[climax](command: climax)]"
+            } else {
+                "[climax]"
+            }
+        }
 
 Cutins (${cutinEnergy - cutinQueue.sumOf { it.data.cost }}/${cutinEnergy} Energy):
 ${
-(team.actors.values
-        .filter { it.isAlive }
-        .mapNotNull { it.cutin }
-        .joinToString("\n") {
-            "${if (it.canQueue()) "[@[queue](command: cutin ${it.actor.name})]" else "[queue]"} ${it.fullInfo()}"
+            (team.actors.values
+                .filter { it.isAlive }
+                .mapNotNull { it.cutin }
+                .joinToString("\n") {
+                    "${if (it.canQueue()) "[@[queue](command: cutin ${it.actor.name})]" else "[queue]"} ${it.fullInfo()}"
+                }
+                .takeIf { it.isNotEmpty() } ?: "Empty").prependIndent(INDENT)
         }
-        .takeIf { it.isNotEmpty() } ?: "Empty").prependIndent(INDENT)
-}
 """.trimIndent()
 
         private fun formattedStatus() = """
 Act Queue (${queue.sumOf { it.apCost }}/6):
-${(if (queue.isEmpty()) "Empty" else queue.mapIndexed { i, act -> "${i + 1}. [@[unqueue](command: unqueue #${i + 1})] $act" }.joinToString("\n")).prependIndent(INDENT)}
+${
+            (if (queue.isEmpty()) "Empty" else queue.mapIndexed { i, act -> "${i + 1}. [@[unqueue](command: unqueue #${i + 1})] $act" }
+                .joinToString("\n")).prependIndent(INDENT)
+        }
 
 Cutin Queue:
-${(if (cutinQueue.isEmpty()) {
-    "Empty"
-} else {
-    cutinQueue
-            .joinToString("\n") { "[@[unqueue](command: cutin ${it.actor.name})] $it" }
-}).prependIndent(INDENT)}
+${
+            (if (cutinQueue.isEmpty()) {
+                "Empty"
+            } else {
+                cutinQueue
+                    .joinToString("\n") { "[@[unqueue](command: cutin ${it.actor.name})] $it" }
+            }).prependIndent(INDENT)
+        }
 
 ${formattedHand()}
 """.trimIndent()
@@ -1097,11 +1108,12 @@ ${formattedHand()}
         override fun toString() =
             "@(dress:${actor.dress.id})@(act:${act.icon})[${act.type.name}][${apCost}AP${apChangeSymbol}][${actor.name} (${actor.dress.name})][${act.name}]"
 
-        private val apChangeSymbol get() = when {
-            apCost > act.apCost -> "▲"
-            apCost < act.apCost -> "▼"
-            else -> "·"
-        }
+        private val apChangeSymbol
+            get() = when {
+                apCost > act.apCost -> "▲"
+                apCost < act.apCost -> "▼"
+                else -> "·"
+            }
     }
 }
 
@@ -1594,8 +1606,6 @@ enum class InteractiveCommandType(
         "Description:\n${description.prependIndent(INDENT)}",
         "Examples:\n${examples.prependIndent(INDENT)}"
     ).joinToString("\n\n")
-
-    val helpText = "$title\n\n$helpBody"
 }
 
 val interactiveCommands = buildMap {
