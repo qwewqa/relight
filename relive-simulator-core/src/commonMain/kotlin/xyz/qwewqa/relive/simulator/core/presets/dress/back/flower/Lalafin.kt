@@ -1,15 +1,11 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.flower
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.*
-import xyz.qwewqa.relive.simulator.stage.character.Character
-import xyz.qwewqa.relive.simulator.stage.character.DamageType
-import xyz.qwewqa.relive.simulator.stage.character.Position
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3030017
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
@@ -123,5 +119,5 @@ val StageGirlLalafin = dress3030017(
         ),
     ),
     unitSkill = ActCritical50UnitSkill + FlowerOnlyCondition,
-    category = DressCategory.StageGirl,
+    categories = setOf(DressCategory.StageGirl),
 )

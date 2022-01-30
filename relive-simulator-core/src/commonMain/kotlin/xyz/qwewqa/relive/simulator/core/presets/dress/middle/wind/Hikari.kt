@@ -6,6 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
@@ -97,4 +98,5 @@ val TowerHikari = dress1020004(
         )
     ),
     unitSkill = ActCritical50UnitSkill + WindOnlyCondition,
+    categories = setOf(DressCategory.Arcana, DressCategory.TroupeRevueShop),
 )

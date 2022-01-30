@@ -4,18 +4,11 @@ import xyz.qwewqa.relive.simulator.core.presets.condition.FlowerOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1090013
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
-import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
-import xyz.qwewqa.relive.simulator.stage.character.Character
-import xyz.qwewqa.relive.simulator.stage.character.DamageType
-import xyz.qwewqa.relive.simulator.stage.character.Position
 
 val DevilKaoruko = dress1090013(
     name = "Devil Kaoruko",
@@ -94,5 +87,5 @@ val DevilKaoruko = dress1090013(
         ), // TODO: CX Seal
     ),
     unitSkill = ActCritical50UnitSkill + FlowerOnlyCondition,
-    category = DressCategory.Arcana,
+    categories = setOf(DressCategory.Arcana),
 )

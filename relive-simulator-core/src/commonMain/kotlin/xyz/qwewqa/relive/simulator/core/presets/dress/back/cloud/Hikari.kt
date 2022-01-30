@@ -91,5 +91,5 @@ val HeroHikari = dress1020023(
         ),
     ),
     unitSkill = ActCritical50UnitSkill + CloudOnlyCondition,
-    category = DressCategory.Premium2022,
+    categories = setOf(DressCategory.Birthday2022),
 )

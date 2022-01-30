@@ -4,18 +4,11 @@ import xyz.qwewqa.relive.simulator.core.presets.condition.SiegfeldOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4050017
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
-import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
-import xyz.qwewqa.relive.simulator.stage.character.Character
-import xyz.qwewqa.relive.simulator.stage.character.DamageType
-import xyz.qwewqa.relive.simulator.stage.character.Position
 
 
 val StageGirlYachiyo = dress4050017(
@@ -102,5 +95,5 @@ val StageGirlYachiyo = dress4050017(
         ),
     ),
     unitSkill = ActCritical50UnitSkill + SiegfeldOnlyCondition,
-    category = DressCategory.StageGirl,
+    categories = setOf(DressCategory.StageGirl),
 )

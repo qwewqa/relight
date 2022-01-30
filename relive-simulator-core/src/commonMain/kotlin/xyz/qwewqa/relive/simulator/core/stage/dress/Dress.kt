@@ -8,7 +8,6 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
-import xyz.qwewqa.relive.simulator.core.stage.passive.UnitSkill
 
 data class Dress(
     val id: Int = -1,
@@ -22,6 +21,6 @@ data class Dress(
     val acts: Map<ActType, ActData>,
     val autoSkills: List<PassiveData>,
     val unitSkill: List<PassiveData> = emptyList(),
-    val category: DressCategory = DressCategory.Default,
+    val categories: Set<DressCategory> = emptySet(),
     val blueprint: DressBlueprint? = null,
 )

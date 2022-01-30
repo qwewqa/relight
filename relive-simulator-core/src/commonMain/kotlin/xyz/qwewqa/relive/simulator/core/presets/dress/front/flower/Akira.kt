@@ -106,5 +106,5 @@ val EmperorAkira = dress4010015(
         ),
     ),
     unitSkill = HPDef75UnitSkill + FlowerOnlyCondition,
-    category = DressCategory.Arcana,
+    categories = setOf(DressCategory.Arcana, DressCategory.TroupeRevueShop),
 )

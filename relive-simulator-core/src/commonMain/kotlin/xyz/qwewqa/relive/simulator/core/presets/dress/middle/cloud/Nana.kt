@@ -4,19 +4,12 @@ import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1070017
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
-import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageCloud
-import xyz.qwewqa.relive.simulator.stage.character.Character
-import xyz.qwewqa.relive.simulator.stage.character.DamageType
-import xyz.qwewqa.relive.simulator.stage.character.Position
 
 val StageGirlNana = dress1070017(
     name = "Stage Girl Nana",
@@ -87,5 +80,5 @@ val StageGirlNana = dress1070017(
         ),
     ),
     unitSkill = ActCritical50UnitSkill + SeishoOnlyCondition,
-    category = DressCategory.StageGirl,
+    categories = setOf(DressCategory.StageGirl),
 )

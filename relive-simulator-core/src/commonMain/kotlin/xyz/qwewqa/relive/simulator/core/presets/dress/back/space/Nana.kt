@@ -202,7 +202,7 @@ val JusticeNana = dress1070004(
         ),
     ),
     unitSkill = ActCritical50UnitSkill + SpaceOnlyCondition,
-    category = DressCategory.Arcana,
+    categories = setOf(DressCategory.Arcana),
 )
 
 val HuntingRevueNana = dress1070024(

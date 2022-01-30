@@ -95,5 +95,5 @@ val StageGirlHikari = dress1020017(
         ),
     ),
     unitSkill = ActCritical50UnitSkill + SeishoOnlyCondition,
-    category = DressCategory.StageGirl,
+    categories = setOf(DressCategory.StageGirl),
 )

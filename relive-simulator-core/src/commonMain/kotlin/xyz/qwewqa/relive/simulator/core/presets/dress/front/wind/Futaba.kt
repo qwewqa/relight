@@ -99,5 +99,5 @@ val StrengthFutaba = dress1080004(
         ),
     ),
     unitSkill = HPDef75UnitSkill + WindOnlyCondition,
-    category = DressCategory.Arcana,
+    categories = setOf(DressCategory.Arcana),
 )

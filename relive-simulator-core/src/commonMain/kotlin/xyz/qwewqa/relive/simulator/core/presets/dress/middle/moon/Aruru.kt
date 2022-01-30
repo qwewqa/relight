@@ -81,5 +81,5 @@ val MoonAruru = dress3010015(
         )
     ),
     unitSkill = ActCritical50UnitSkill + MoonOnlyCondition,
-    category = DressCategory.Arcana,
+    categories = setOf(DressCategory.Arcana),
 )

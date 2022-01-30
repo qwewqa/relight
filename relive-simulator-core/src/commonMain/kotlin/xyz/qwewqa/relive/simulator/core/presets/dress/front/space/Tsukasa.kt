@@ -105,5 +105,5 @@ val CharityTsukasa = dress3040005(
         ),
     ),
     unitSkill = HPDef75UnitSkill + SpaceOnlyCondition,
-    category = DressCategory.Arcana,
+    categories = setOf(DressCategory.Arcana),
 )

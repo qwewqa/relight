@@ -1,15 +1,11 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.snow
 
-import xyz.qwewqa.relive.simulator.stage.character.Character
-import xyz.qwewqa.relive.simulator.stage.character.DamageType
-import xyz.qwewqa.relive.simulator.stage.character.Position
 import xyz.qwewqa.relive.simulator.core.presets.condition.SnowOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2010015
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
@@ -101,5 +97,5 @@ val DeathTamao = dress2010015(
         ),
     ),
     unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
-    category = DressCategory.Arcana,
+    categories = setOf(DressCategory.Arcana),
 )

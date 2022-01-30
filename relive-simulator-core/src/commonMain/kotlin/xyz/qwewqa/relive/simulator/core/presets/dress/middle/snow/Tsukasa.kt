@@ -110,5 +110,5 @@ val YellowTsukasa = dress3040018(
         ),
     ),
     unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
-    category = DressCategory.Premium2022,
+    categories = setOf(DressCategory.Birthday2022),
 )

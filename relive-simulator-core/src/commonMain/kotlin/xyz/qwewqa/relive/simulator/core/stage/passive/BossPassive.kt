@@ -74,7 +74,9 @@ class EventBonusPassive(
     }
 
     private fun Actor.applyBonus() {
-        val bonus = dresses[dress.id] ?: characters[dress.character] ?: categories[dress.category]
+        val bonus = dresses[dress.id]
+            ?: characters[dress.character]
+            ?: categories.keys.firstOrNull { it in dress.categories }?.let { categories[it]!! }
         if (bonus != null) {
             context.run {
                 team.actors.values.forEach { member ->

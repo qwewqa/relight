@@ -93,5 +93,5 @@ val EmpressMeiFan = dress4030003(
         ),
     ),
     unitSkill = HPDef75UnitSkill + CloudOnlyCondition,
-    category = DressCategory.Arcana,
+    categories = setOf(DressCategory.Arcana),
 )

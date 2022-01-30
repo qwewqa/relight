@@ -97,5 +97,5 @@ val FaithMisora = dress3020015(
         ),
     ),
     unitSkill = HPDef75UnitSkill + MoonOnlyCondition,
-    category = DressCategory.Arcana,
+    categories = setOf(DressCategory.Arcana, DressCategory.TroupeRevueShop),
 )

@@ -98,5 +98,5 @@ val HierophantMichiru = dress4020004(
         ),
     ),
     unitSkill = HPDef75UnitSkill + SnowOnlyCondition,
-    category = DressCategory.Arcana,
+    categories = setOf(DressCategory.Arcana),
 )

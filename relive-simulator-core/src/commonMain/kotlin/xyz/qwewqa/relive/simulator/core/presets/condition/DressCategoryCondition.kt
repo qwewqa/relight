@@ -6,9 +6,9 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 // Note: these aren't being added to the condition list for now, since they're only being used internally
 
 val ArcanaOnlyCondition = NamedCondition("Arcana") {
-    it.dress.category == DressCategory.Arcana
+    DressCategory.Arcana in it.dress.categories
 }
 
 val StageGirlOnlyCondition = NamedCondition("Stage Girl") {
-    it.dress.category == DressCategory.StageGirl
+    DressCategory.StageGirl in it.dress.categories
 }

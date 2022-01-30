@@ -83,5 +83,5 @@ val HopeLalafin = dress3030015(
         ),
     ),
     unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
-    category = DressCategory.Arcana,
+    categories = setOf(DressCategory.Arcana),
 )

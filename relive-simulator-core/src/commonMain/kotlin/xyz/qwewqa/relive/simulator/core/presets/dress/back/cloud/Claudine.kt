@@ -97,5 +97,5 @@ val StageGirlClaudine = dress1040017(
         ),
     ),
     unitSkill = ActCritical30UnitSkillStageGirl + CloudOnlyCondition,
-    category = DressCategory.StageGirl,
+    categories = setOf(DressCategory.StageGirl),
 )
