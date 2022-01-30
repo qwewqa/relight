@@ -25,6 +25,8 @@ val LogCategory.backgroundColor
         else -> "#FFFFFF"
     }
 
+private var idCounter = 0
+
 fun HTMLElement.displayLog(log: List<LogEntry>, interactive: Boolean) {
     clear()
 
@@ -36,6 +38,7 @@ fun HTMLElement.displayLog(log: List<LogEntry>, interactive: Boolean) {
                     style = "background-color: ${category.backgroundColor};"
                     when {
                         summary != null -> {
+                            val collapseId = "log-contents-${idCounter++}"
                             span {
                                 b {
                                     +"$turn.$tile.$move [${tags.joinToString(" / ")}]"
@@ -48,7 +51,7 @@ fun HTMLElement.displayLog(log: List<LogEntry>, interactive: Boolean) {
                                             role = "button"
                                             href = "#"
                                             attributes["data-bs-toggle"] = "collapse"
-                                            attributes["data-bs-target"] = "#log-contents-$i"
+                                            attributes["data-bs-target"] = "#$collapseId"
                                             +"details"
                                         }
                                         +"]"
@@ -56,7 +59,7 @@ fun HTMLElement.displayLog(log: List<LogEntry>, interactive: Boolean) {
                                 }
                             }
                             div(classes=if (i != lastSummaryIndex) "collapse" else "") {
-                                id = "log-contents-$i"
+                                id = collapseId
                                 span {
                                     style = "padding-left: 1em;display: block;white-space: pre;overflow-x: auto;"
                                     processLogContent(content)
