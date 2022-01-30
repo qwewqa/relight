@@ -194,6 +194,7 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
 }
 
 class JsInteractiveSimulation(val parameters: SimulationParameters) : InteractiveSimulation {
+    private var rev = -1
     private var error: String? = null
     private val controller = try {
         InteractiveSimulationController(parameters.maxTurns, parameters.seed, parameters.createStageLoadout())
@@ -202,8 +203,14 @@ class JsInteractiveSimulation(val parameters: SimulationParameters) : Interactiv
         null
     }
 
-    override suspend fun getLog(): List<LogEntry> {
-        return controller?.getLog() ?: listOf(LogEntry(tags = listOf("Error"), content = error!!))
+    override suspend fun getLog(): List<LogEntry>? {
+        val log = controller?.getLog(rev)
+        return if (log != null) {
+            rev = log.rev
+            log.contents
+        } else {
+            listOf(LogEntry(tags = listOf("Error"), content = error!!))
+        }
     }
 
     override suspend fun sendCommand(text: String) {

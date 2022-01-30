@@ -898,25 +898,21 @@ class SimulatorClient(val simulator: Simulator) {
         toast("Ready", "Initialization complete.", "green")
 
         GlobalScope.launch {
-            var log: List<LogEntry>? = null
             while (true) {
                 try {
                     delay(50)
                     interactiveSimulation?.let { sim ->
-                        val newLog = sim.getLog()
-                        if (newLog != log) {
+                        val log = sim.getLog()
+                        if (log != null) {
                             val isScrolledDown = this@SimulatorClient.interactiveLog.let {
                                 it.scrollHeight - it.offsetHeight - it.scrollTop < 1.0
                             }
-                            this@SimulatorClient.interactiveLog.let {
-                                it.displayLog(newLog)
-                            }
+                            this@SimulatorClient.interactiveLog.displayLog(log)
                             if (isScrolledDown) {
                                 this@SimulatorClient.interactiveLog.let {
                                     it.scrollTop = it.scrollHeight.toDouble()
                                 }
                             }
-                            log = newLog
                         }
                     }
                 } catch (e: Throwable) {

@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.client
 
 import kotlinx.browser.document
+import kotlinx.dom.clear
 import kotlinx.html.*
 import kotlinx.html.dom.append
 import kotlinx.html.js.onClickFunction
@@ -25,7 +26,7 @@ val LogCategory.backgroundColor
     }
 
 fun HTMLElement.displayLog(log: List<LogEntry>) {
-    innerHTML = ""
+    clear()
     append {
         log.forEach { entry ->
             entry.run {
