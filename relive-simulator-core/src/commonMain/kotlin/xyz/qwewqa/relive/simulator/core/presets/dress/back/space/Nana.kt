@@ -273,10 +273,10 @@ val HuntingRevueNana = dress1070024(
             SelfReviveBuffPassive.new(50, time = 2),
         ),
         listOf(
-            EnemyDazeBuffPassive.new(2),
+            EnemyDazeBuffPassive.new(2) + SeishoOnlyCondition,
         ),
         listOf(
-            EnemyBrillianceDrainPassive.new(50),
+            EnemyBrillianceDrainPassive.new(50) + SeishoOnlyCondition,
         ),
         listOf(
             DamageDealtPassive.new(20) + SeishoOnlyCondition,
