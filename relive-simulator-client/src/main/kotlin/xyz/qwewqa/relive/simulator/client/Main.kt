@@ -907,7 +907,7 @@ class SimulatorClient(val simulator: Simulator) {
                             val isScrolledDown = this@SimulatorClient.interactiveLog.let {
                                 it.scrollHeight - it.offsetHeight - it.scrollTop < 1.0
                             }
-                            this@SimulatorClient.interactiveLog.displayLog(log)
+                            this@SimulatorClient.interactiveLog.displayLog(log, interactive = true)
                             if (isScrolledDown) {
                                 this@SimulatorClient.interactiveLog.let {
                                     it.scrollTop = it.scrollHeight.toDouble()
@@ -1035,7 +1035,7 @@ class SimulatorClient(val simulator: Simulator) {
                             resultsRow.removeClass("d-none")
 
                             if (result.log != null) {
-                                logText.displayLog(result.log ?: emptyList())
+                                logText.displayLog(result.log ?: emptyList(), interactive = false)
                                 logRow.removeClass("d-none")
                             } else {
                                 logRow.addClass("d-none")

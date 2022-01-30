@@ -15,14 +15,14 @@ import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
 data class ActionLog(
-    var successfulHits: Int = 0
+        var successfulHits: Int = 0
 )
 
 class ActionContext(
-    val self: Actor,
-    val stage: Stage,
-    val team: Team,
-    val enemy: Team,
+        val self: Actor,
+        val stage: Stage,
+        val team: Team,
+        val enemy: Team,
 ) {
     private var focus = 0
     val focusEnabled get() = focus > 0
@@ -36,19 +36,19 @@ class ActionContext(
     }
 
     private fun List<Actor>.targetContext(
-        affectedByAggro: Boolean = false,
-        autoRepeatHits: Boolean = true
+            affectedByAggro: Boolean = false,
+            autoRepeatHits: Boolean = true
     ): TargetContext {
         return TargetContext(
-            this@ActionContext,
-            this,
-            self.aggroTarget.takeIf { affectedByAggro },
-            autoRepeatHits,
+                this@ActionContext,
+                this,
+                self.aggroTarget.takeIf { affectedByAggro },
+                autoRepeatHits,
         )
     }
 
     inline fun Actor.act(action: TargetContext.() -> Unit) =
-        TargetContext(this@ActionContext, listOf(this)).act(action)
+            TargetContext(this@ActionContext, listOf(this)).act(action)
 
     private fun provokable(selector: () -> List<Actor>) = self.provokeTarget?.let { listOf(it) } ?: selector()
 
@@ -70,10 +70,10 @@ class ActionContext(
 
     // TODO: Check if pride is affected by provoke / aggro
     fun targetRandom(count: Int = 1) = provokable { List(count) { enemy.active.random(stage.random) } }
-        .targetContext(true)
+            .targetContext(true)
 
     fun targetAnyRandom(count: Int) = provokable { List(count) { enemy.active.random(stage.random) } }
-        .targetContext(true, autoRepeatHits = false)
+            .targetContext(true, autoRepeatHits = false)
 
     fun targetAllyAoe() = team.active.targetContext()
     fun targetAllyAoe(condition: Condition) = team.active.filter { condition.evaluate(it) }.targetContext()
@@ -82,16 +82,16 @@ class ActionContext(
     fun targetAllyRandom(count: Int = 1) = List(count) { team.active.random(stage.random) }.targetContext()
 
     fun <T : Comparable<T>> targetByHighest(count: Int = 1, condition: (Actor) -> T) =
-        provokable { enemy.active.sortedBy(condition).takeLast(count) }.targetContext(true)
+            provokable { enemy.active.sortedBy(condition).takeLast(count) }.targetContext(true)
 
     fun <T : Comparable<T>> targetByLowest(count: Int = 1, condition: (Actor) -> T) =
-        provokable { enemy.active.sortedBy(condition).take(count) }.targetContext(true)
+            provokable { enemy.active.sortedBy(condition).take(count) }.targetContext(true)
 
     fun <T : Comparable<T>> targetAllyByHighest(count: Int = 1, selector: (Actor) -> T) =
-        team.active.sortedBy(selector).takeLast(count).targetContext()
+            team.active.sortedBy(selector).takeLast(count).targetContext()
 
     fun <T : Comparable<T>> targetAllyByLowest(count: Int = 1, selector: (Actor) -> T) =
-        team.active.sortedBy(selector).take(count).targetContext()
+            team.active.sortedBy(selector).take(count).targetContext()
 
     fun Team.forEach(action: (Actor) -> Unit) = active.forEach(action)
 
@@ -108,15 +108,15 @@ class ActionContext(
 
 
 class TargetContext(
-    val actionContext: ActionContext,
-    /**
-     * The targeted actors. Could be either allies or enemies.
-     * Note that since multiple actions can be taken within a single TargetContext,
-     * there's no guarantee all targets are alive at the start of a particular action.
-     */
-    val targets: List<Actor>,
-    val aggroTarget: Actor? = null,
-    val autoRepeatHits: Boolean = true,
+        val actionContext: ActionContext,
+        /**
+         * The targeted actors. Could be either allies or enemies.
+         * Note that since multiple actions can be taken within a single TargetContext,
+         * there's no guarantee all targets are alive at the start of a particular action.
+         */
+        val targets: List<Actor>,
+        val aggroTarget: Actor? = null,
+        val autoRepeatHits: Boolean = true,
 ) {
     val stage get() = actionContext.stage
     val self = actionContext.self
@@ -124,31 +124,31 @@ class TargetContext(
     inline fun act(action: TargetContext.() -> Unit) = run(action)
 
     fun attack(
-        modifier: Int,
-        hitCount: Int = 1,
-        bonusMultiplier: Int = 100,
-        bonusCondition: Condition = Condition { false },
-        damageType: DamageType = self.dress.damageType,
-        attribute: Attribute = self.dress.attribute,
-        addBrilliance: Boolean = true,
-        focus: Boolean = actionContext.focusEnabled,
-        noVariance: Boolean = false,
-        noReflect: Boolean = false,
-        mode: HitMode = HitMode.NORMAL,
+            modifier: Int,
+            hitCount: Int = 1,
+            bonusMultiplier: Int = 100,
+            bonusCondition: Condition = Condition { false },
+            damageType: DamageType = self.dress.damageType,
+            attribute: Attribute = self.dress.attribute,
+            addBrilliance: Boolean = true,
+            focus: Boolean = actionContext.focusEnabled,
+            noVariance: Boolean = false,
+            noReflect: Boolean = false,
+            mode: HitMode = HitMode.NORMAL,
     ) {
         if (!self.isAlive) return
         val hitAttribute = HitAttribute(
-            modifier = modifier,
-            hitCount = hitCount,
-            attribute = attribute,
-            damageType = damageType,
-            bonusModifier = bonusMultiplier,
-            bonusCondition = bonusCondition,
-            addBrilliance = addBrilliance,
-            focus = focus,
-            noReflect = noReflect,
-            noVariance = noVariance,
-            mode = mode,
+                modifier = modifier,
+                hitCount = hitCount,
+                attribute = attribute,
+                damageType = damageType,
+                bonusModifier = bonusMultiplier,
+                bonusCondition = bonusCondition,
+                addBrilliance = addBrilliance,
+                focus = focus,
+                noReflect = noReflect,
+                noVariance = noVariance,
+                mode = mode,
         )
         repeat(if (autoRepeatHits) hitCount else 1) {
             for (originalTarget in targets) {
@@ -156,9 +156,9 @@ class TargetContext(
                 if (!self.isAlive) return
                 if (target.isAlive) {
                     stage.damageCalculator.damage(
-                        self,
-                        target,
-                        hitAttribute,
+                            self,
+                            target,
+                            hitAttribute,
                     )
                 }
             }
@@ -207,8 +207,8 @@ class TargetContext(
                     BuffCategory.Positive -> {
                         // PER works for countable buffs but NER doesn't for countable debuffs for some reason
                         val applyChance =
-                            chance / 100.0 * (100 - positiveEffectResist - (specificCountableBuffResist[effect]
-                                ?: 0)) / 100.0
+                                chance / 100.0 * (100 - positiveEffectResist - (specificCountableBuffResist[effect]
+                                        ?: 0)) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
                             buffs.addCountable(effect, count)
                             actionContext.log("Buff", category = LogCategory.BUFF) { "Positive buff [${effect.name}] (${count}x) applied to [$name]." }
@@ -310,10 +310,11 @@ fun interface Act {
 fun Act.execute(context: ActionContext) = run { context.execute() }
 
 @OptIn(ExperimentalContracts::class)
-inline fun ActionContext.log(vararg tags: String, category: LogCategory = LogCategory.DEFAULT, debug: Boolean= false, value: () -> String) {
+inline fun ActionContext.log(vararg tags: String, category: LogCategory = LogCategory.DEFAULT, debug: Boolean = false,
+                             summary: () -> String? = { null }, value: () -> String) {
     contract {
         callsInPlace(value, InvocationKind.AT_MOST_ONCE)
     }
 
-    stage.log(self.name, *tags, category = category, debug=debug, value=value)
+    stage.log(self.name, *tags, category = category, debug = debug, summary = summary, value = value)
 }

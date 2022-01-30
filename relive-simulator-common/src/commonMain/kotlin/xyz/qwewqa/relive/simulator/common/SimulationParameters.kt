@@ -124,6 +124,7 @@ data class LogEntry(
     val move: Int = 0,
     val category: LogCategory = LogCategory.DEFAULT,
     val tags: List<String>,
+    val summary: String? = null,
     val content: String,
 )
 
