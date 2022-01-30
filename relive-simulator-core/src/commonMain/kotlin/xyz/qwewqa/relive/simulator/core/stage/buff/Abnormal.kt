@@ -114,6 +114,7 @@ val abnormalBuffs = setOf(
     ConfusionBuff,
     FreezeBuff,
     StunBuff,
+    LockedStunBuff,
     BurnBuff,
     LockedBurnBuff,
     PoisonBuff,
