@@ -41,6 +41,14 @@ object StunBuff : BuffEffect {
     override val exclusive: Boolean = true
 }
 
+object LockedStunBuff : BuffEffect {
+    override val name = "Locked Stun"
+    override val category = BuffCategory.Negative
+    override val exclusive: Boolean = false
+    override val locked: Boolean = true
+    override val related = StunBuff
+}
+
 object BurnBuff : BuffEffect {
     override val name = "Burn"
     override val category = BuffCategory.Negative

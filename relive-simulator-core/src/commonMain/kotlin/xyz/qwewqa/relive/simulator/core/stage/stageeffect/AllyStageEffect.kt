@@ -22,7 +22,6 @@ val AngelicSmile = StageEffect(
 
 val HyakkaRyoran = StageEffect(
     "Hyakka Ryoran",
-    // TODO() HP Regen Buff
     listOf(
         listOf(
             StageBuff(DexterityUpBuff, 100),

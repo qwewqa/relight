@@ -34,7 +34,7 @@ val HelldiverNana = dress1070019(
                         hitCount = 1,
                     )
                     applyBuff(
-                        effect = StunBuff, //TODO() Locked
+                        effect = LockedStunBuff,
                         turns = times2,
                     )
                 }
@@ -65,7 +65,7 @@ val HelldiverNana = dress1070019(
                         effect = CountableBuff.WeakSpot,
                     )
                     applyBuff(
-                        effect = StunBuff, //TODO() Locked
+                        effect = LockedStunBuff,
                         turns = times4,
                     )
                 }

@@ -68,7 +68,7 @@ val OrpheusFumi = dress2030018(
                         hitCount = 2,
                     )
                     applyBuff(
-                        effect = StunBuff, //TODO() locked stun
+                        effect = LockedStunBuff,
                         turns = times3,
                     )
                 }
