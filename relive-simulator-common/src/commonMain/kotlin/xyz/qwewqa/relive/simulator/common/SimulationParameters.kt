@@ -34,7 +34,7 @@ data class SimulatorVersion(
 }
 
 @Serializable
-data class InteractiveLog(val contents: List<FormattedLogEntry>)
+data class InteractiveLog(val contents: List<LogEntry>)
 
 @Serializable
 data class InteractiveCommand(val text: String)
@@ -104,21 +104,21 @@ data class StrategyParameter(
 
 @Serializable
 data class SimulationResult(
-    val maxIterations: Int,
-    val currentIterations: Int,
-    val results: List<SimulationResultValue>,
-    val marginResults: Map<SimulationMarginResultType, Map<Int, Int>>,
-    val log: List<FormattedLogEntry>?,
-    val runtime: Double? = null,
-    val cancelled: Boolean = false,
-    val error: String? = null,
-    val complete: Boolean = false,
+        val maxIterations: Int,
+        val currentIterations: Int,
+        val results: List<SimulationResultValue>,
+        val marginResults: Map<SimulationMarginResultType, Map<Int, Int>>,
+        val log: List<LogEntry>?,
+        val runtime: Double? = null,
+        val cancelled: Boolean = false,
+        val error: String? = null,
+        val complete: Boolean = false,
 ) {
     val done get() = cancelled || complete
 }
 
 @Serializable
-data class FormattedLogEntry(
+data class LogEntry(
     val turn: Int = 0,
     val tile: Int = 0,
     val move: Int = 0,

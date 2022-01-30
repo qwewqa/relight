@@ -305,13 +305,13 @@ inline fun Stage.log(
     vararg tags: String,
     category: LogCategory = LogCategory.DEFAULT,
     debug: Boolean = false,
-    value: LogContentsBuilder.() -> String
+    value: () -> String
 ) {
     contract {
         callsInPlace(value, InvocationKind.AT_MOST_ONCE)
     }
 
     if (configuration.logging && (!debug || configuration.debug)) {
-        logger.log(turn, tile, move, category, *tags, contents = LogContentsBuilder().run { build(value()) })
+        logger.log(turn, tile, move, category, *tags, content = value())
     }
 }
