@@ -1,11 +1,14 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.space
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.NormalDamageOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1070024
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1070004
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1070015
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
@@ -200,4 +203,84 @@ val JusticeNana = dress1070004(
     ),
     unitSkill = ActCritical50UnitSkill + SpaceOnlyCondition,
     category = DressCategory.Arcana,
+)
+
+val HuntingRevueNana = dress1070024(
+    name = "Hunting Revue Nana",
+    acts = listOf(
+        ActType.Act1.blueprint("Flash of Power") {
+            Act {
+                targetByLowest { it.normalDefense }.act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1,
+                    )
+                }
+            }
+        },
+        ActType.Act2.blueprint("Flash of Hope") {
+            Act {
+                targetByLowest { it.normalDefense }.act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1,
+                    )
+                }
+                targetSelf().act {
+                    applyCountableBuff(
+                        effect = CountableBuff.Hope,
+                        count = times2,
+                    )
+                }
+            }
+        },
+        ActType.Act3.blueprint("Brilliance Jump") {
+            Act {
+                targetByLowest { it.normalDefense }.act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1,
+                    )
+                }
+                targetAllyBack(3).act {
+                    addBrilliance(values2)
+                }
+            }
+        },
+        ActType.ClimaxAct.blueprint("Now, I'll offer you a beautiful end") {
+            Act {
+                focus {
+                    targetAoe().act {
+                        attack(
+                            modifier = values2,
+                            hitCount = 4,
+                            bonusMultiplier = 150,
+                            bonusCondition = SeishoOnlyCondition,
+                        )
+                    }
+                }
+                targetAllyAoe().act {
+                    applyCountableBuff(
+                        effect = CountableBuff.Revive,
+                        count = times2
+                    )
+                }
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+            SelfReviveBuffPassive.new(50, time = 2),
+        ),
+        listOf(
+            EnemyDazeBuffPassive.new(2),
+        ),
+        listOf(
+            EnemyBrillianceDrainPassive.new(50),
+        ),
+        listOf(
+            DamageDealtPassive.new(20) + SeishoOnlyCondition,
+        ),
+    ),
+    unitSkill = ActCritical50UnitSkill + SpaceOnlyCondition,
 )

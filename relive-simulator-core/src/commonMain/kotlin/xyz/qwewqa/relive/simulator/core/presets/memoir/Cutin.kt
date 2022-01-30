@@ -184,3 +184,47 @@ val RareCoStar = equip4000183(
         }
     },
 )
+
+val StarOfTheDayFutabaKaoruko = equip4000215(
+    name = "[Star of the day] Futaba & Kaoruko",
+    baseAutoskills = listOf(
+        DexterityPassive.new(14)
+    ),
+    maxAutoskills = listOf(
+        DexterityPassive.new(20)
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyBack(5).act {
+                applyBuff(
+                    effect = CriticalUpBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val AimToUnifyTheWorld = equip4000211(
+    name = "Aim to Unify the World!",
+    baseAutoskills = listOf(
+        SelfTurnBrillianceRecoveryPassive.new(10)
+    ),
+    maxAutoskills = listOf(
+        SelfTurnBrillianceRecoveryPassive.new(20)
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyAoe().act {
+                applyBuff(
+                    effect = BrillianceRegenBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)

@@ -96,3 +96,14 @@ object PerfectAimPassive : PassiveEffect {
         }
     }
 }
+
+object DamageTakenDownPassive : PassiveEffect {
+    override val category = PassiveEffectCategory.Passive
+    override val tags = listOf(EffectTag.Dexterity)
+
+    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+        condition.applyIfTrue(self) {
+            valueDamageTakenDownBuff += value
+        }
+    }
+}
