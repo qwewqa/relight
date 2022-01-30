@@ -35,7 +35,7 @@ val SelfNormalBarrierBuffPassive: PassiveEffect = GenericBuffPassive(NormalBarri
 val SelfSpecialBarrierBuffPassive: PassiveEffect = GenericBuffPassive(SpecialBarrierBuff, EffectTag.SpecialBarrier) { targetSelf() }
 
 val TeamConfusionResistanceBuffPassive: PassiveEffect =
-    ResistanceBuffPassive(ConfusionResistanceBuff, EffectTag.ConfusionResistance, "Team") { targetAllyAoe() }
+    ResistanceBuffPassive(ConfusionResistanceBuff, EffectTag.ConfusionResistance, "Team") { targetAllyAoe(it) }
 val TeamStopResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(StopResistanceBuff, EffectTag.StopResistance, "Team") { targetAllyAoe(it) }
 val SelfStopResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(StopResistanceBuff, EffectTag.StopResistance) { targetSelf() }
 val TeamStunResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(StunResistanceBuff, EffectTag.StunResistance, "Team") { targetAllyAoe(it) }
@@ -54,9 +54,9 @@ val EnemyBack2APUpBuffPassive : PassiveEffect = GenericBuffPassive(ApUpBuff, Eff
 val EnemyBack3APUpBuffPassive : PassiveEffect = GenericBuffPassive(ApUpBuff, EffectTag.ApUp, "Enemy Back 3") { targetBack(3) }
 val EnemyBack2LockedAPUpBuffPassive : PassiveEffect = GenericBuffPassive(LockedApUpBuff, EffectTag.ApUp, "Enemy Back 2") { targetBack(2) }
 val EnemyBack3LockedAPUpBuffPassive : PassiveEffect = GenericBuffPassive(LockedApUpBuff, EffectTag.ApUp, "Enemy Back 3") { targetBack(3) }
-val EnemyProvokeBuffPassive: PassiveEffect = GenericBuffPassive(ProvokeBuff, EffectTag.Provoke, "Enemy AoE") { targetAoe() }
-val EnemyAggroBuffPassive: PassiveEffect = GenericBuffPassive(AggroBuff, EffectTag.Aggro, "Enemy AoE") { targetAoe() }
-val EnemyDazeBuffPassive: PassiveEffect = CountableDebuffPassive(CountableBuff.Daze, EffectTag.Daze, "Enemy AoE") { targetAoe() }
+val EnemyProvokeBuffPassive: PassiveEffect = GenericBuffPassive(ProvokeBuff, EffectTag.Provoke, "Enemy AoE") { targetAoe(it) }
+val EnemyAggroBuffPassive: PassiveEffect = GenericBuffPassive(AggroBuff, EffectTag.Aggro, "Enemy AoE") { targetAoe(it) }
+val EnemyDazeBuffPassive: PassiveEffect = CountableDebuffPassive(CountableBuff.Daze, EffectTag.Daze, "Enemy AoE") { targetAoe(it) }
 val EnemyFront5StunBuffPassive: PassiveEffect = DebuffPassive(StunBuff, EffectTag.Stun, "Enemy Front 5") { targetFront(5) }
 val EnemyFront2FreezeBuffPassive: PassiveEffect = DebuffPassive(FreezeBuff, EffectTag.Freeze, "Enemy Front 2") { targetFront(2) }
 
@@ -113,14 +113,14 @@ private data class DebuffPassive(
     val tag: EffectTag,
     val targetName: String = "Enemy Team",
     val chance: Int = 100,
-    val target: ActionContext.() -> TargetContext,
+    val target: ActionContext.(Condition) -> TargetContext,
 ) : PassiveEffect {
     override val name = "Auto Debuff ${buffEffect.name} ($targetName)"
     override val category = PassiveEffectCategory.TurnStartNegative
     override val tags = listOf(tag)
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
-        target(context).act {
+        target(context, condition).act {
             applyBuff(buffEffect, value, time, chance)
         }
 }
@@ -129,14 +129,14 @@ private data class CountableDebuffPassive(
     val buff: CountableBuff,
     val tag: EffectTag,
     val targetName: String = "Enemy Team",
-    val target: ActionContext.() -> TargetContext,
+    val target: ActionContext.(Condition) -> TargetContext,
 ) : PassiveEffect {
     override val name = "Auto Countable Debuff ${buff.name} ($targetName)"
     override val category = PassiveEffectCategory.TurnStartNegative
     override val tags = listOf(tag)
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
-        target(context).act {
+        target(context, condition).act {
             applyCountableBuff(buff, value)
         }
 }
