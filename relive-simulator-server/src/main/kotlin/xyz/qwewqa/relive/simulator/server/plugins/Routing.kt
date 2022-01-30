@@ -76,6 +76,7 @@ fun Application.configureRouting() {
         }
         get("/interactive/{token}") {
             val token = call.parameters["token"]!!
+            val rev = call.request.queryParameters["rev"]?.toIntOrNull() ?: -1
             val controller = interactiveSimulations[token]
             if (controller == null) {
                 val errorMessage = interactiveSimulationErrors[token]
@@ -87,40 +88,21 @@ fun Application.configureRouting() {
                                                     tags = listOf("Error"),
                                                     content = errorMessage
                                             )
-                                    )
+                                    ),
                             )
                     )
                 } else {
                     call.respond(HttpStatusCode.NotFound)
                 }
             } else {
-                call.respond(InteractiveLog(controller.getLog()))
+                call.respond(controller.getLog(rev))
             }
         }
         post("/interactive/{token}") {
             val token = call.parameters["token"]!!
             val command = call.receive<InteractiveCommand>()
-            val controller = interactiveSimulations[token]
-            if (controller == null) {
-                val errorMessage = interactiveSimulationErrors[token]
-                if (errorMessage != null) {
-                    call.respond(
-                            InteractiveLog(
-                                    listOf(
-                                            LogEntry(
-                                                    tags = listOf("Error"),
-                                                    content = errorMessage
-                                            )
-                                    )
-                            )
-                    )
-                } else {
-                    call.respond(HttpStatusCode.NotFound)
-                }
-            } else {
-                controller.sendCommand(command.text)
-                call.respond(InteractiveLog(controller.getLog()))
-            }
+            interactiveSimulations[token]?.sendCommand(command.text)
+            call.respond(HttpStatusCode.NoContent)
         }
         get("/interactive/{token}/end") {
             val token = call.parameters["token"]!!

@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.core.stage.strategy.interactive
 
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import xyz.qwewqa.relive.simulator.common.InteractiveLog
 import xyz.qwewqa.relive.simulator.common.LogEntry
 import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.stage.*
@@ -27,6 +28,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
     private class UserInput : Throwable("Awaiting user input.")
 
+    private var rev = 0
     private var resultLog = emptyList<LogEntry>()
 
     private inline fun playStage(after: Stage.() -> Unit = {}) {
@@ -42,6 +44,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
         }
         stage.after()
+        rev++
         resultLog = stage.logger.get()
     }
 
@@ -49,8 +52,12 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         playStage()
     }
 
-    suspend fun getLog() = mutex.withLock {
-        resultLog
+    suspend fun getLog(rev: Int = -1) = mutex.withLock {
+        if (rev != this.rev) {
+            InteractiveLog(resultLog, this.rev)
+        } else {
+            InteractiveLog(null, this.rev)
+        }
     }
 
     suspend fun sendCommand(text: String) = mutex.withLock {

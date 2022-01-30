@@ -34,7 +34,7 @@ data class SimulatorVersion(
 }
 
 @Serializable
-data class InteractiveLog(val contents: List<LogEntry>)
+data class InteractiveLog(val contents: List<LogEntry>?, val rev: Int = -1)
 
 @Serializable
 data class InteractiveCommand(val text: String)
