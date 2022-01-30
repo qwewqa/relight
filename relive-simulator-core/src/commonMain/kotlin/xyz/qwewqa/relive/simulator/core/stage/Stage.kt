@@ -258,11 +258,13 @@ class Stage(
         if (player.active.isEmpty()) {
             player.strategy.finalize(this, player, enemy)
             enemy.strategy.finalize(this, enemy, player)
+            log("Stage") { "End." }
             return TeamWipe(enemy.active.sumOf { it.hp }, turn, tile, tags)
         }
         if (enemy.active.isEmpty()) {
             player.strategy.finalize(this, player, enemy)
             enemy.strategy.finalize(this, enemy, player)
+            log("Stage") { "End." }
             return Victory(turn, tile, tags)
         }
         return null
