@@ -89,4 +89,5 @@ val OrpheusFumi = dress2030018(
         ),
     ),
     unitSkill = ActCritical50UnitSkill + MoonOnlyCondition,
+    category = DressCategory.Premium2022,
 )
