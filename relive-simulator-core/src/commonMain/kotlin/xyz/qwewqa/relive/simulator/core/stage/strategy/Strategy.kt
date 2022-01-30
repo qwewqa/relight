@@ -94,7 +94,7 @@ data class BoundCutin(val actor: Actor, val data: CutinData) {
         actor.context.log("Act", category = LogCategory.EMPHASIS) { "End cutin act." }
     }
 
-    override fun toString() = "@(memoir:${actor.memoir?.id})[${actor.dress.name} (${actor.name})]:[${actor.memoir?.name}]"
+    override fun toString() = "@(memoir:${actor.memoir?.id})[${actor.name} (${actor.dress.name})]:[${actor.memoir?.name}]"
 }
 
 object EmptyStrategy : Strategy {

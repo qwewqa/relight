@@ -7,6 +7,7 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.encodeToString
 import org.slf4j.Logger
 import xyz.qwewqa.relive.simulator.common.*
+import xyz.qwewqa.relive.simulator.common.LogEntry
 import xyz.qwewqa.relive.simulator.core.stage.*
 import xyz.qwewqa.relive.simulator.core.stage.strategy.interactive.InteractiveSimulationController
 import java.util.concurrent.ConcurrentHashMap
@@ -81,7 +82,7 @@ private fun simulateSingle(
         )  // Seed the same was as one iteration of simulateMany
     val result = stage.play(parameters.maxTurns)
     val results = listOf(SimulationResultValue(result.tags, result.toSimulationResult(), 1))
-    val log = stage.logger.getFormatted()
+    val log = stage.logger.get()
     simulationResults[token] = SimulationResult(
         maxIterations = parameters.maxIterations,
         currentIterations = 1,
@@ -173,12 +174,12 @@ private fun simulateMany(
     val loggedResult = firstApplicableIteration?.let {
         val stage = loadout.create(Random(it.seed), StageConfiguration(logging = true))
         val playResult = stage.play(parameters.maxTurns)
-        val header = FormattedLogEntry(
-            turn = 0, tile = 0, move = 0,
-            tags = listOf("Info"),
-            content = "Iteration ${it.index + 1}",
+        val header = LogEntry(
+                turn = 0, tile = 0, move = 0,
+                tags = listOf("Info"),
+                content = "Iteration ${it.index + 1}",
         )
-        (listOf(header) + stage.logger.getFormatted()) to playResult
+        (listOf(header) + stage.logger.get()) to playResult
     }
     val results = resultCounts.map { (k, v) -> SimulationResultValue(k.first, k.second, v) }
     simulationResults[token] = SimulationResult(

@@ -78,7 +78,7 @@ class RemoteSimulator(val baseUrl: URL) : Simulator {
     }
 
     inner class RemoteInteractiveSimulation(val simulator: RemoteSimulator, val token: String) : InteractiveSimulation {
-        override suspend fun getLog(): List<FormattedLogEntry> {
+        override suspend fun getLog(): List<LogEntry> {
             return client.get<InteractiveLog>(URL("/interactive/$token", baseUrl.href).href).contents
         }
 

@@ -83,7 +83,7 @@ fun Application.configureRouting() {
                     call.respond(
                             InteractiveLog(
                                     listOf(
-                                            FormattedLogEntry(
+                                            LogEntry(
                                                     tags = listOf("Error"),
                                                     content = errorMessage
                                             )
@@ -107,7 +107,7 @@ fun Application.configureRouting() {
                     call.respond(
                             InteractiveLog(
                                     listOf(
-                                            FormattedLogEntry(
+                                            LogEntry(
                                                     tags = listOf("Error"),
                                                     content = errorMessage
                                             )

@@ -2,7 +2,7 @@ package xyz.qwewqa.relive.simulator.core.stage.strategy.interactive
 
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import xyz.qwewqa.relive.simulator.common.FormattedLogEntry
+import xyz.qwewqa.relive.simulator.common.LogEntry
 import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.stage.*
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -27,7 +27,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
     private class UserInput : Throwable("Awaiting user input.")
 
-    private var resultLog = emptyList<FormattedLogEntry>()
+    private var resultLog = emptyList<LogEntry>()
 
     private inline fun playStage(after: Stage.() -> Unit = {}) {
         val managedRandom = ManagedRandom(Random(Random(seed).nextInt()))
@@ -42,7 +42,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
         }
         stage.after()
-        resultLog = stage.logger.getFormatted()
+        resultLog = stage.logger.get()
     }
 
     init {
@@ -161,7 +161,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
         private val queueHistory = mutableListOf<QueueResult>()
 
-        private inline fun log(value: LogContentsBuilder.() -> String) {
+        private inline fun log(value: () -> String) {
             stage.log("Command", category = LogCategory.COMMAND) {
                 value()
             }
@@ -170,7 +170,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         private inline fun log(
             vararg tags: String,
             category: LogCategory = LogCategory.COMMAND,
-            value: LogContentsBuilder.() -> String
+            value: () -> String
         ) {
             stage.log("Command", *tags, category = category) {
                 value()
@@ -306,17 +306,7 @@ ${
                     }
                 }
                     
-Hand:
-${hand.numbered().prependIndent(INDENT)}
-
-Cutins (${cutinEnergy} Energy):
-${
-                    (team.actors.values
-                        .filter { it.isAlive }
-                        .mapNotNull { it.cutin }
-                        .joinToString("\n") { it.formatted() }
-                        .takeIf { it.isNotEmpty() } ?: "Empty").prependIndent(INDENT)
-                }
+${formattedHand()}
                 """.trimIndent()
             }
             while (true) {
@@ -420,7 +410,13 @@ Use 'help all' to list information on all commands.
 Use 'help <name_of_command>' to get information on a particular command.
 
 Available Commands:
-${(InteractiveCommandType.values().sortedBy { it.title }.joinToString("\n") { it.title }).prependIndent(INDENT)}
+${
+    (InteractiveCommandType
+            .values()
+            .sortedBy { it.title }
+            .joinToString("\n") { "@[${it.title}](command: help ${it.title})" })
+        .prependIndent(INDENT)
+}
 """.trimIndent()
                         }
                     }
@@ -447,7 +443,7 @@ ${(InteractiveCommandType.values().sortedBy { it.title }.joinToString("\n") { it
                                 }
                                 queue += act
                             }
-                            log("Queue") { "Successfully queued act(s)." }
+                            log("Queue") { "Successfully queued act(s)\n\n${formattedStatus()}" }
                         } catch (e: RuntimeException) {
                             queue.clear()
                             queue += originalQueue
@@ -493,9 +489,7 @@ ${(InteractiveCommandType.values().sortedBy { it.title }.joinToString("\n") { it
                             hand[hand.indexOf(act)] = newAct
                             hasPerformedHoldAction = true
                             log("Hold") {
-                                "Successfully held '${act}'.\n\nHand:\n${
-                                    hand.numbered().prependIndent(INDENT)
-                                }\n${INDENT}Holding: $held"
+                                "Successfully held '${act}'.\n\n${formattedHand()}"
                             }
                         }
                     }
@@ -533,9 +527,7 @@ ${(InteractiveCommandType.values().sortedBy { it.title }.joinToString("\n") { it
                             held = null
                             hasPerformedHoldAction = true
                             log("Discard") {
-                                "Successfully discarded '${act}'.\n\nHand:\n${
-                                    hand.numbered().prependIndent(INDENT)
-                                }\n${INDENT}Holding: None"
+                                "Successfully discarded '${act}'.\n\n${formattedHand()}"
                             }
                         }
                     }
@@ -556,14 +548,26 @@ ${(InteractiveCommandType.values().sortedBy { it.title }.joinToString("\n") { it
                     val act = data.parseSingleAct()
                     when (act) {
                         null -> {
-                            log("Unqueue") { "Error: Invalid arguments." }
+                            if (data.isNotEmpty() && data[0] == '#') {
+                                val index = data.drop(1).toIntOrNull()?.minus(1)
+                                when {
+                                    index == null -> log("Unqueue") { "Error: Invalid arguments." }
+                                    index !in queue.indices -> log("Unqueue") { "Error: Invalid index." }
+                                    else -> {
+                                        queue.removeAt(index)
+                                        log("Unqueue") { "Successfully unqueued act.\n\n${formattedStatus()}" }
+                                    }
+                                }
+                            } else {
+                                log("Unqueue") { "Error: Invalid arguments." }
+                            }
                         }
                         !in queue -> {
                             log("Unqueue") { "Error: Act not queued." }
                         }
                         else -> {
                             queue.removeAll { it == act }
-                            log("Unqueue") { "Successfully unqueued act." }
+                            log("Unqueue") { "Successfully unqueued act.\n\n${formattedStatus()}" }
                         }
                     }
                 }
@@ -599,10 +603,10 @@ ${(InteractiveCommandType.values().sortedBy { it.title }.joinToString("\n") { it
                     } else {
                         if (cutin in cutinQueue) {
                             cutinQueue -= cutin
-                            log("Cutin") { "Unqueued cutin" }
+                            log("Cutin") { "Unqueued cutin\n\n${formattedStatus()}" }
                         } else {
                             cutinQueue += cutin
-                            log("Cutin") { "Queued cutin" }
+                            log("Cutin") { "Queued cutin\n\n${formattedStatus()}" }
                         }
                     }
                 }
@@ -622,9 +626,7 @@ ${(InteractiveCommandType.values().sortedBy { it.title }.joinToString("\n") { it
                         internalHand.clear()
                         drawHand()
                         log("Climax") {
-                            "Entered climax.\n\nHand:\n${
-                                hand.numbered().prependIndent(INDENT)
-                            }\n${INDENT}Holding: ${held ?: "None"}"
+                            "Entered climax.\n\n${formattedHand()}"
                         }
                     }
                 }
@@ -634,26 +636,7 @@ ${(InteractiveCommandType.values().sortedBy { it.title }.joinToString("\n") { it
                         return@run
                     }
                     log("Status") {
-                        """
-Act Queue:
-${(if (queue.isEmpty()) "Empty" else queue.joinToString("\n")).prependIndent(INDENT)}
-
-Cutin Queue:
-${(if (cutinQueue.isEmpty()) "Empty" else cutinQueue.joinToString("\n")).prependIndent(INDENT)}
-
-Hand:
-${hand.numbered().prependIndent(INDENT)}
-${INDENT}Holding: ${held ?: "None"}
-
-Cutins (${cutinEnergy} Energy):
-${
-                            (team.actors.values
-                                .filter { it.isAlive }
-                                .mapNotNull { it.cutin }
-                                .joinToString("\n") { it.formatted() }
-                                .takeIf { it.isNotEmpty() } ?: "Empty").prependIndent(INDENT)
-                        }
-""".trimIndent()
+                        formattedStatus()
                     }
                 }
                 InteractiveCommandType.INFO -> {
@@ -830,6 +813,7 @@ ${
                     }
                     val acts = data.parseActs()
                     when {
+                        queue.isNotEmpty() -> log("Set Hand") { "Error: Queue is not empty." }
                         acts == null -> log("Set Hand") { "Error: Invalid arguments." }
                         team.active.size == 1 -> log("Set Hand") { "Error: Team is solo." }
                         acts.size != 5 -> log("Set Hand") { "Error: Expected 5 acts." }
@@ -867,9 +851,7 @@ ${
                             drawPile -= acts
                             discardPile -= acts
                             log("Set Hand") {
-                                "Updated hand.\n\nHand:\n${
-                                    hand.numbered().prependIndent(INDENT)
-                                }\n${INDENT}Holding: ${held ?: "None"}"
+                                "Updated hand.\n\n${formattedHand()}"
                             }
                         }
                     }
@@ -1008,17 +990,88 @@ ${
             }
         }
 
-        private fun BoundCutin.formatted() =
-            "@(memoir:${actor.memoir?.id})[${actor.dress.name} (${actor.name})]:[${actor.memoir?.name}](Cost: ${data.cost}, Cooldown: ${
+        private fun BoundAct.canQueue() = queue.count { it == this } < hand.count { it == this } &&
+                queue.sumOf { it.apCost } + apCost <= 6
+
+        private fun BoundCutin.fullInfo() =
+            "@(memoir:${actor.memoir?.id})[${actor.name} (${actor.dress.name})]:[${actor.memoir?.name}](Cost: ${data.cost}, Cooldown: ${
                 (1 + currentCooldownValue - (stage.turn - cutinLastUseTurns.getValue(this))).coerceAtLeast(0)
             }, Remaining Uses: ${data.usageLimit - cutinUseCounts.getValue(this)}/${data.usageLimit})"
+
+        private fun List<BoundAct>.numbered() = mapIndexed { index, act -> "${index + 1}. $act" }.joinToString("\n")
+
+        private fun List<BoundAct>.formattedWithActions() = mapIndexed { index, act ->
+            "${index + 1}. ${
+                if (act.canQueue()) {
+                    "[@[queue](command: queue ${index + 1})]"
+                } else {
+                    "[queue]"
+                }
+            }${
+                if (held == null) {
+                    if (!hasPerformedHoldAction && act.type != ActType.ClimaxAct && act !in queue && team.active.size > 1) {
+                        "[@[hold](command: hold ${index + 1})]"
+                    } else {
+                        "[hold]"
+                    }
+                } else {
+                    if (!hasPerformedHoldAction && act.type != ActType.ClimaxAct && act !in queue && team.active.size > 1) {
+                        "[@[disc](command: discard ${index + 1})]"
+                    } else {
+                        "[disc]"
+                    }
+                }
+            } $act" }.joinToString("\n")
+
+        private fun BoundCutin.canQueue() = actor.isAlive &&
+                data.cost + cutinQueue.sumOf { it.data.cost } <= cutinEnergy &&
+                cutinUseCounts.getValue(this) < data.usageLimit &&
+                stage.turn - cutinLastUseTurns.getValue(this) > currentCooldownValue &&
+                this !in cutinQueue
+
+        private fun formattedHand() = """
+Hand:
+${hand.formattedWithActions().prependIndent(INDENT)}
+${INDENT}Holding: ${held ?: "None"}
+${INDENT}${
+    if (team.cxTurns == 0 && team.active.any { it.brilliance >= 100 } && !climax) {
+        "[@[climax](command: climax)]"
+    } else {
+        "[climax]"
+    }
+}
+
+Cutins (${cutinEnergy - cutinQueue.sumOf { it.data.cost }}/${cutinEnergy} Energy):
+${
+(team.actors.values
+        .filter { it.isAlive }
+        .mapNotNull { it.cutin }
+        .joinToString("\n") {
+            "${if (it.canQueue()) "[@[queue](command: cutin ${it.actor.name})]" else "[queue]"} ${it.fullInfo()}"
+        }
+        .takeIf { it.isNotEmpty() } ?: "Empty").prependIndent(INDENT)
+}
+""".trimIndent()
+
+        private fun formattedStatus() = """
+Act Queue (${queue.sumOf { it.apCost }}/6):
+${(if (queue.isEmpty()) "Empty" else queue.mapIndexed { i, act -> "${i + 1}. [@[unqueue](command: unqueue #${i + 1})] $act" }.joinToString("\n")).prependIndent(INDENT)}
+
+Cutin Queue:
+${(if (cutinQueue.isEmpty()) {
+    "Empty"
+} else {
+    cutinQueue
+            .joinToString("\n") { "[@[unqueue](command: cutin ${it.actor.name})] $it" }
+}).prependIndent(INDENT)}
+
+${formattedHand()}
+""".trimIndent()
     }
 
     private inner class ManagedRandom(var base: Random) : Random() {
         override fun nextBits(bitCount: Int) = base.nextBits(bitCount)
     }
-
-    private fun List<BoundAct>.numbered() = mapIndexed { index, act -> "${index + 1}. $act" }.joinToString("\n")
 
     private data class BoundAct(val actor: Actor, val type: ActType) : Comparable<BoundAct> {
         val act = actor.acts[type] ?: error("Actor '${actor.name}' does not have an act with type '${type.name}'")
@@ -1035,7 +1088,13 @@ ${
         }
 
         override fun toString() =
-            "@(dress:${actor.dress.id})@(act:${act.icon})[${actor.dress.name} (${actor.name})][${act.name}](${act.type.name} / ${apCost}AP)"
+            "@(dress:${actor.dress.id})@(act:${act.icon})[${act.type.name}][${apCost}AP${apChangeSymbol}][${actor.name} (${actor.dress.name})][${act.name}]"
+
+        private val apChangeSymbol get() = when {
+            apCost > act.apCost -> "▲"
+            apCost < act.apCost -> "▼"
+            else -> "·"
+        }
     }
 }
 
@@ -1154,6 +1213,7 @@ enum class InteractiveCommandType(
         synopsis = """
             unqueue name_of_actor act
             unqueue act_card_number...
+            unqueue #queue_index...
             unqueue
         """.trimIndent(),
         description = """
@@ -1170,7 +1230,9 @@ enum class InteractiveCommandType(
             Unqueues the 1st, 5th, and 3rd cards in hand:
                 unqueue 1 5 3
             Unqueues the last act in the queue:
-                uniqueue
+                unqueue
+            Unqueues the first act in the queue:
+                unqueue #1
         """.trimIndent(),
     ),
     CLEAR(

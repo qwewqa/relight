@@ -805,6 +805,11 @@ class SimulatorClient(val simulator: Simulator) {
                 }
             }
         })
+        document.addEventListener("sendInteractiveCommand", { e ->
+            GlobalScope.launch {
+                interactiveSimulation?.sendCommand((e as CustomEvent).detail as String)
+            }
+        })
 
         fun updateLocaleText() {
             val rankPanelOptions = rankPanelIds.mapNotNull { (name, id) ->
@@ -893,7 +898,7 @@ class SimulatorClient(val simulator: Simulator) {
         toast("Ready", "Initialization complete.", "green")
 
         GlobalScope.launch {
-            var log: List<FormattedLogEntry>? = null
+            var log: List<LogEntry>? = null
             while (true) {
                 try {
                     delay(50)
@@ -903,7 +908,9 @@ class SimulatorClient(val simulator: Simulator) {
                             val isScrolledDown = this@SimulatorClient.interactiveLog.let {
                                 it.scrollHeight - it.offsetHeight - it.scrollTop < 1.0
                             }
-                            this@SimulatorClient.interactiveLog.innerHTML = newLog.toHtml()
+                            this@SimulatorClient.interactiveLog.let {
+                                it.displayLog(newLog)
+                            }
                             if (isScrolledDown) {
                                 this@SimulatorClient.interactiveLog.let {
                                     it.scrollTop = it.scrollHeight.toDouble()
@@ -1032,7 +1039,7 @@ class SimulatorClient(val simulator: Simulator) {
                             resultsRow.removeClass("d-none")
 
                             if (result.log != null) {
-                                logText.innerHTML = result.log?.toHtml() ?: ""
+                                logText.displayLog(result.log ?: emptyList())
                                 logRow.removeClass("d-none")
                             } else {
                                 logRow.addClass("d-none")

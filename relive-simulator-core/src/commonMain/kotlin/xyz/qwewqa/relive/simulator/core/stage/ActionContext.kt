@@ -310,7 +310,7 @@ fun interface Act {
 fun Act.execute(context: ActionContext) = run { context.execute() }
 
 @OptIn(ExperimentalContracts::class)
-inline fun ActionContext.log(vararg tags: String, category: LogCategory = LogCategory.DEFAULT, debug: Boolean= false, value: LogContentsBuilder.() -> String) {
+inline fun ActionContext.log(vararg tags: String, category: LogCategory = LogCategory.DEFAULT, debug: Boolean= false, value: () -> String) {
     contract {
         callsInPlace(value, InvocationKind.AT_MOST_ONCE)
     }

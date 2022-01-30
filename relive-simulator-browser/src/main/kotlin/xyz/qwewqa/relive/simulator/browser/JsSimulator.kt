@@ -5,7 +5,6 @@ import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
 import kotlinx.browser.window
-import kotlinx.coroutines.cancel
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -114,7 +113,7 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
                     overallResult = overallResult.copy(
                             error = result.error,
                             log = result.log?.let {
-                                val header = FormattedLogEntry(
+                                val header = LogEntry(
                                         turn = 0, tile = 0, move = 0,
                                         tags = listOf("Info"),
                                         content = "Iteration ${result.request.index + 1}",
@@ -203,8 +202,8 @@ class JsInteractiveSimulation(val parameters: SimulationParameters) : Interactiv
         null
     }
 
-    override suspend fun getLog(): List<FormattedLogEntry> {
-        return controller?.getLog() ?: listOf(FormattedLogEntry(tags = listOf("Error"), content = error!!))
+    override suspend fun getLog(): List<LogEntry> {
+        return controller?.getLog() ?: listOf(LogEntry(tags = listOf("Error"), content = error!!))
     }
 
     override suspend fun sendCommand(text: String) {
@@ -227,7 +226,7 @@ data class IterationResult(
         val result: SimulationResultType,
         val tags: List<String> = emptyList(),
         val margin: Int? = 0,
-        val log: List<FormattedLogEntry>? = null,
+        val log: List<LogEntry>? = null,
         val error: String? = null,
 )
 
