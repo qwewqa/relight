@@ -110,6 +110,22 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                     }
                 }
             }
+            InteractiveCommandType.EIGHT_BALL -> {
+                playStage {
+                    if (command.data.isNotBlank()) {
+                        log("Magic 8-Ball", "Question", category = LogCategory.EMPHASIS) { command.data }
+                    }
+                    val answer = EightBallAnswer.values().random()
+                    log(
+                        "Magic 8-Ball", "Answer",
+                        category = when (answer.answerType) {
+                            EightBallAnswerType.AFFIRMATIVE -> LogCategory.HEAL
+                            EightBallAnswerType.MIXED -> LogCategory.BRILLIANCE
+                            EightBallAnswerType.NEGATIVE -> LogCategory.DAMAGE
+                        },
+                    ) { answer.message }
+                }
+            }
             else -> {
                 playHistory += command
                 playStage()
@@ -687,12 +703,6 @@ ${
                 InteractiveCommandType.FULL_HISTORY -> {
                     log("Full History") { fullHistory.joinToString("\n") }
                 }
-
-                // These are handled by the controller
-                InteractiveCommandType.SAVE -> {}
-                InteractiveCommandType.LOAD -> {}
-                InteractiveCommandType.UNDO -> {}
-
                 InteractiveCommandType.LIST_SAVES -> {
                     log("List Saves") { saves.keys.joinToString("\n") }
                 }
@@ -925,6 +935,12 @@ ${
                         }
                     }
                 }
+
+                // These are handled by the controller
+                InteractiveCommandType.SAVE -> {}
+                InteractiveCommandType.LOAD -> {}
+                InteractiveCommandType.UNDO -> {}
+                InteractiveCommandType.EIGHT_BALL -> {}
             }
         }
 
@@ -1597,6 +1613,20 @@ enum class InteractiveCommandType(
                 live_mode
         """.trimIndent(),
     ),
+    EIGHT_BALL(
+        title = "eight_ball",
+        aliases = listOf("8ball", "magic_8_ball"),
+        synopsis = """
+            eight_ball question
+        """.trimIndent(),
+        description = """
+            Ask the Magic 8-Ball a question.
+        """.trimIndent(),
+        examples = """
+            Asks the Magic 8-Ball whether it will rain tomorrow.
+                eight_ball Will it rain tomorrow?
+        """.trimIndent(),
+    ),
     ;
 
     val helpBody = listOfNotNull(
@@ -1615,4 +1645,33 @@ val interactiveCommands = buildMap {
             this[alias] = command
         }
     }
+}
+
+private enum class EightBallAnswerType {
+    AFFIRMATIVE,
+    MIXED,
+    NEGATIVE,
+}
+
+private enum class EightBallAnswer(val message: String, val answerType: EightBallAnswerType) {
+    CERTAIN("It is certain.", EightBallAnswerType.AFFIRMATIVE),
+    DECIDEDLY("It is decidedly so.", EightBallAnswerType.AFFIRMATIVE),
+    DOUBTLESSLY("Without a doubt.", EightBallAnswerType.AFFIRMATIVE),
+    DEFINITELY("Yes definitely.", EightBallAnswerType.AFFIRMATIVE),
+    RELIABLY("You may rely on it.", EightBallAnswerType.AFFIRMATIVE),
+    SEE_IT("As I see it, yes.", EightBallAnswerType.AFFIRMATIVE),
+    LIKELY("Most likely.", EightBallAnswerType.AFFIRMATIVE),
+    OUTLOOK("Outlook good.", EightBallAnswerType.AFFIRMATIVE),
+    YES("Yes.", EightBallAnswerType.AFFIRMATIVE),
+    SIGNS("Signs point to yes.", EightBallAnswerType.AFFIRMATIVE),
+    HAZY("Reply hazy, try again.", EightBallAnswerType.MIXED),
+    AGAIN("Ask again later.", EightBallAnswerType.MIXED),
+    LATER("Better not tell you now.", EightBallAnswerType.MIXED),
+    CANNOT_PREDICT("Cannot predict now.", EightBallAnswerType.MIXED),
+    CONCENTRATE("Concentrate and ask again.", EightBallAnswerType.MIXED),
+    DONT("Don't count on it.", EightBallAnswerType.NEGATIVE),
+    REPLY("My reply is no.", EightBallAnswerType.NEGATIVE),
+    SOURCES("My sources say no.", EightBallAnswerType.NEGATIVE),
+    BAD_OUTLOOK("Outlook not so good.", EightBallAnswerType.NEGATIVE),
+    DOUBTFUL("Very doubtful.", EightBallAnswerType.NEGATIVE)
 }

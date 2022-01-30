@@ -62,6 +62,7 @@ data class SimulationOption(
 ) : Map<String, String> by name {
     override fun get(key: String): String = name[key] ?: name["en"] ?: id
 }
+
 @Serializable
 data class SimulatorFeatures(
     val shutdown: Boolean = false
