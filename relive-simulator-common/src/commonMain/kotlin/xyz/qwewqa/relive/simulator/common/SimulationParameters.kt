@@ -59,8 +59,8 @@ data class SimulationOption(
     val description: Map<String, String>? = null,
     val tags: Map<String, List<String>>? = null,
     val imagePath: String? = null,
-) : Map<String, String> by name {
-    override fun get(key: String): String = name[key] ?: name["en"] ?: id
+) {
+    operator fun get(key: String): String = name[key] ?: name["en"] ?: id
 }
 
 @Serializable

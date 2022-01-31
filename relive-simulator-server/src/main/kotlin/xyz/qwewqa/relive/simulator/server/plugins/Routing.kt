@@ -154,12 +154,12 @@ fun Application.configureRouting() {
                         val memoir = memoirs[option.id]!!
                         val tags = memoir.tags
                         option.copy(
-                                description = option.name.keys.associateWith { locale ->
+                                description = locales.keys.associateWith { locale ->
                                     tags.joinToString(", ") { tag ->
                                         tagConfig[tag.name]?.get(locale)?.first() ?: tag.name
                                     }
                                 },
-                                tags = option.name.keys.associateWith { locale ->
+                                tags = locales.keys.associateWith { locale ->
                                     tags.flatMap { tag -> tagConfig[tag.name]?.get(locale) ?: listOf(tag.name) }
                                 },
                                 imagePath = "img/large_icon/2_${memoir.id}.png".takeIf { memoir.id > 0 }
