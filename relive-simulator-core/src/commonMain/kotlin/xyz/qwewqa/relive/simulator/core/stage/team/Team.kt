@@ -34,8 +34,6 @@ class Team(
     }
 
     fun endTurn() {
-        stageEffects.tick()
-        active.forEach { it.tick() }
         if (cxTurns > 0) {
             cxTurns--
             if (active.none { it.inCX }) cxTurns = 0
@@ -43,5 +41,7 @@ class Team(
                 active.forEach { it.exitCX() }
             }
         }
+        active.forEach { it.tick() }
+        stageEffects.tick()
     }
 }
