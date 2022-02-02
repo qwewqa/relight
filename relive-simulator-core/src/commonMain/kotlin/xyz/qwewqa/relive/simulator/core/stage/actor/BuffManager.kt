@@ -191,7 +191,7 @@ class BuffManager(val actor: Actor) {
         val brillianceRegen = get(BrillianceRegenBuff).sumOf { it.value } + brillianceRegen
         if (brillianceRegen > 0) {
             context.log("Brilliance Regen") { "Brilliance Regen tick." }
-            addBrilliance(hpRegen)
+            addBrilliance(brillianceRegen)
         }
 
         positiveBuffs.tick()
