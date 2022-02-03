@@ -618,21 +618,27 @@ ${
                         return@run
                     }
                     val cutin = team.actors[data]!!.cutin
-                    if (cutin == null) {
-                        log("Cutin") { "Error: Actor does not have cutin." }
-                    } else if (!cutin.actor.isAlive) {
-                        log("Cutin") { "Error: Actor has already exited." }
-                    } else if (cutin.data.cost + cutinQueue.sumOf { it.data.cost } > cutinEnergy) {
-                        log("Cutin") { "Error: Not enough cutin energy." }
-                    } else if (cutinUseCounts.getValue(cutin) >= cutin.data.usageLimit) {
-                        log("Cutin") { "Error: Cutin usage limit exceeded." }
-                    } else if (stage.turn - cutinLastUseTurns.getValue(cutin) <= cutin.currentCooldownValue) {
-                        log("Cutin") { "Error: Cutin is on cooldown." }
-                    } else {
-                        if (cutin in cutinQueue) {
+                    when {
+                        cutin == null -> {
+                            log("Cutin") { "Error: Actor does not have cutin." }
+                        }
+                        cutin in cutinQueue -> {
                             cutinQueue -= cutin
                             log("Cutin", summary = { "Unqueued cutin." }) { formattedStatus() }
-                        } else {
+                        }
+                        !cutin.actor.isAlive -> {
+                            log("Cutin") { "Error: Actor has already exited." }
+                        }
+                        cutin.data.cost + cutinQueue.sumOf { it.data.cost } > cutinEnergy -> {
+                            log("Cutin") { "Error: Not enough cutin energy." }
+                        }
+                        cutinUseCounts.getValue(cutin) >= cutin.data.usageLimit -> {
+                            log("Cutin") { "Error: Cutin usage limit exceeded." }
+                        }
+                        stage.turn - cutinLastUseTurns.getValue(cutin) <= cutin.currentCooldownValue -> {
+                            log("Cutin") { "Error: Cutin is on cooldown." }
+                        }
+                        else -> {
                             cutinQueue += cutin
                             log("Cutin", summary = { "Queued cutin." }) { formattedStatus() }
                         }
