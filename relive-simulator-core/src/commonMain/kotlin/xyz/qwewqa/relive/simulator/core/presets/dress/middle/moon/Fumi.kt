@@ -85,7 +85,7 @@ val OrpheusFumi = dress2030018(
             EnemyBrillianceDrainPassive.new(25), //TODO() target back most
         ),
         listOf(
-            EnemyFront5StunBuffPassive.new(2),
+            EnemyFront5StunBuffPassive.new(time = 2),
         ),
     ),
     unitSkill = ActCritical50UnitSkill + MoonOnlyCondition,

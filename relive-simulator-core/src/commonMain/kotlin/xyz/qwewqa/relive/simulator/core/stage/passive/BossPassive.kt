@@ -30,6 +30,7 @@ object AbnormalResistPassiveA : PassiveEffect {
             ConfusionBuff,
             FreezeBuff,
             StunBuff,
+            LockedStunBuff,
             BurnBuff,
             LockedBurnBuff,
             PoisonBuff,

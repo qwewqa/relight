@@ -38,5 +38,7 @@ val memoirs = mapOf("None" to EmptyMemoir) + listOf(
     RareCoStar,
     OneForAll,
     StarOfTheDayFutabaKaoruko,
-    AimToUnifyTheWorld
+    AimToUnifyTheWorld,
+    ForTheShinsengumi,
+    ShinsengumiRinpuden,
 ).sortedBy { it.name }.sortedBy { it.cutinData == null }.associateBy { it.name }
