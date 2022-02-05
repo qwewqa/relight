@@ -22,6 +22,7 @@ val TeamEffectiveDamageDealtUpBuffPassive: PassiveEffect =
     GenericBuffPassive(EffectiveDamageDealtUpBuff, EffectTag.EffectiveDamage, "Team") { targetAllyAoe(it) }
 val SelfNormalDefenseUpBuffPassive: PassiveEffect = GenericBuffPassive(NormalDefenseUpBuff, EffectTag.Defense) { targetSelf() }
 val SelfSpecialDefenseUpBuffPassive: PassiveEffect = GenericBuffPassive(SpecialDefenseUpBuff, EffectTag.Defense) { targetSelf() }
+val TeamSpecialDefenseUpBuffPassive: PassiveEffect = GenericBuffPassive(SpecialDefenseUpBuff, EffectTag.Defense) { targetAllyAoe(it) }
 val SelfPerfectAimBuffPassive: PassiveEffect = GenericBuffPassive(PerfectAimBuff, EffectTag.PerfectAim) { targetSelf() }
 val TeamPerfectAimBuffPassive: PassiveEffect = GenericBuffPassive(PerfectAimBuff, EffectTag.PerfectAim) { targetAllyAoe(it) }
 val SelfDexterityUpBuffPassive: PassiveEffect = GenericBuffPassive(DexterityUpBuff, EffectTag.Dexterity) { targetSelf() }
@@ -50,6 +51,7 @@ val EnemyFront3NightmareBuffPassive: PassiveEffect = DebuffPassive(NightmareBuff
 val EnemyBack3StopBuffPassive: PassiveEffect = DebuffPassive(StopBuff, EffectTag.Stop, "Enemy Back 3", 80) { targetBack(3) }
 val EnemyActPowerDownBuffPassive: PassiveEffect = GenericBuffPassive(ActPowerDownBuff, EffectTag.Act, "Enemy AoE") { targetAoe(it) }
 val EnemyDexterityDownBuffPassive: PassiveEffect = GenericBuffPassive(DexterityDownBuff, EffectTag.Dexterity, "Enemy AoE") { targetAoe(it) }
+val EnemyFront5APUpBuffPassive : PassiveEffect = GenericBuffPassive(ApUpBuff, EffectTag.ApUp, "Enemy Front 5") { targetFront(5) }
 val EnemyBack2APUpBuffPassive : PassiveEffect = GenericBuffPassive(ApUpBuff, EffectTag.ApUp, "Enemy Back 2") { targetBack(2) }
 val EnemyBack3APUpBuffPassive : PassiveEffect = GenericBuffPassive(ApUpBuff, EffectTag.ApUp, "Enemy Back 3") { targetBack(3) }
 val EnemyBack2LockedAPUpBuffPassive : PassiveEffect = GenericBuffPassive(LockedApUpBuff, EffectTag.ApUp, "Enemy Back 2") { targetBack(2) }

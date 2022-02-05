@@ -2,12 +2,9 @@ package xyz.qwewqa.relive.simulator.core.presets.memoir
 
 import xyz.qwewqa.relive.simulator.core.presets.memoir.generated.*
 import xyz.qwewqa.relive.simulator.core.stage.Act
-import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinData
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinTarget
-import xyz.qwewqa.relive.simulator.core.stage.memoir.MemoirBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val UnshakableFeelings = equip4000147(
@@ -221,6 +218,50 @@ val AimToUnifyTheWorld = equip4000211(
             targetAllyAoe().act {
                 applyBuff(
                     effect = BrillianceRegenBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val ForTheShinsengumi = equip4000204(
+    name = "For the Shinsengumi!",
+    baseAutoskills = listOf(
+        DamageTakenDownPassive.new(10)
+    ),
+    maxAutoskills = listOf(
+        DamageTakenDownPassive.new(15)
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyFront(5).act {
+                applyBuff(
+                    effect = SpecialDefenseUpBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val ShinsengumiRinpuden = equip4000203(
+    name = "Shinsengumi Rinpuden",
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(28)
+    ),
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(40)
+    ),
+    cutinTarget = CutinTarget.BeforeEnemyAct(3),
+    cutinAct = {
+        Act {
+            targetCutinTarget().act {
+                applyBuff(
+                    effect = SleepBuff,
                     value = values1,
                     turns = times1,
                 )

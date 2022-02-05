@@ -4,6 +4,9 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.boss.seesaw.sakurataisen.s
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.seesaw.sakurataisen.sakuraTaisenStageGirlKarenBoss
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.seesaw.sakurataisen.sakuraTaisenStageGirlMahiruBoss
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.seesaw.seesawStrategy
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.seesaw.shinsengumirinpuden.shinsengumiRinpudenKondoIsamiIchieBoss
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.seesaw.shinsengumirinpuden.shinsengumiRinpudenNagakuraShinpachiFumiBoss
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.seesaw.shinsengumirinpuden.shinsengumiRinpudenOkitaSojiYuyukoBoss
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr10.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr11.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr12.*
@@ -56,4 +59,7 @@ val bossLoadouts = listOf(
     BossLoadout(sakuraTaisenStageGirlKarenBoss, seesawStrategy),
     BossLoadout(sakuraTaisenStageGirlHikariBoss, seesawStrategy),
     BossLoadout(sakuraTaisenStageGirlMahiruBoss, seesawStrategy),
+    BossLoadout(shinsengumiRinpudenKondoIsamiIchieBoss, seesawStrategy),
+    BossLoadout(shinsengumiRinpudenNagakuraShinpachiFumiBoss, seesawStrategy),
+    BossLoadout(shinsengumiRinpudenOkitaSojiYuyukoBoss, seesawStrategy),
 ).associateBy { it.loadout.name }

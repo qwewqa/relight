@@ -177,6 +177,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         private val hand = mutableListOf<BoundAct>()
         private val internalHand = mutableListOf<BoundAct>()
         private val usedClimaxActs = mutableSetOf<BoundAct>()
+        private var hasUsedGuestClimaxAct = false
         private var held: BoundAct? = null
         private var hasPerformedHoldAction = true
 
@@ -274,6 +275,14 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                     .filter { it !in usedClimaxActs }
             }
             while (hand.size < 5) hand += drawCard()
+            if (climax || team.cxTurns > 0) {
+                if (!hasUsedGuestClimaxAct) {
+                    team.guest?.let {
+                        hand += BoundAct(it, ActType.ClimaxAct, isGuest = true)
+                    }
+                }
+            }
+            // should have been cleared before this function was called
             internalHand += hand
             hand.qsort()
         }
@@ -346,6 +355,9 @@ ${formattedHand()}
             queue.forEach {
                 if (it.act.type == ActType.ClimaxAct) {
                     usedClimaxActs += it
+                    if (it.actor == team.guest) {
+                        hasUsedGuestClimaxAct = true
+                    }
                 }
             }
             return QueueResult(
@@ -618,21 +630,27 @@ ${
                         return@run
                     }
                     val cutin = team.actors[data]!!.cutin
-                    if (cutin == null) {
-                        log("Cutin") { "Error: Actor does not have cutin." }
-                    } else if (!cutin.actor.isAlive) {
-                        log("Cutin") { "Error: Actor has already exited." }
-                    } else if (cutin.data.cost + cutinQueue.sumOf { it.data.cost } > cutinEnergy) {
-                        log("Cutin") { "Error: Not enough cutin energy." }
-                    } else if (cutinUseCounts.getValue(cutin) >= cutin.data.usageLimit) {
-                        log("Cutin") { "Error: Cutin usage limit exceeded." }
-                    } else if (stage.turn - cutinLastUseTurns.getValue(cutin) <= cutin.currentCooldownValue) {
-                        log("Cutin") { "Error: Cutin is on cooldown." }
-                    } else {
-                        if (cutin in cutinQueue) {
+                    when {
+                        cutin == null -> {
+                            log("Cutin") { "Error: Actor does not have cutin." }
+                        }
+                        cutin in cutinQueue -> {
                             cutinQueue -= cutin
                             log("Cutin", summary = { "Unqueued cutin." }) { formattedStatus() }
-                        } else {
+                        }
+                        !cutin.actor.isAlive -> {
+                            log("Cutin") { "Error: Actor has already exited." }
+                        }
+                        cutin.data.cost + cutinQueue.sumOf { it.data.cost } > cutinEnergy -> {
+                            log("Cutin") { "Error: Not enough cutin energy." }
+                        }
+                        cutinUseCounts.getValue(cutin) >= cutin.data.usageLimit -> {
+                            log("Cutin") { "Error: Cutin usage limit exceeded." }
+                        }
+                        stage.turn - cutinLastUseTurns.getValue(cutin) <= cutin.currentCooldownValue -> {
+                            log("Cutin") { "Error: Cutin is on cooldown." }
+                        }
+                        else -> {
                             cutinQueue += cutin
                             log("Cutin", summary = { "Queued cutin." }) { formattedStatus() }
                         }
@@ -1107,13 +1125,14 @@ ${formattedHand()}
         override fun nextBits(bitCount: Int) = base.nextBits(bitCount)
     }
 
-    private data class BoundAct(val actor: Actor, val type: ActType) : Comparable<BoundAct> {
+    private data class BoundAct(val actor: Actor, val type: ActType, val isGuest: Boolean = false) : Comparable<BoundAct> {
         val act = actor.acts[type] ?: error("Actor '${actor.name}' does not have an act with type '${type.name}'")
         val apCost get() = (act.apCost + actor.apChange).coerceAtLeast(1)
 
         val sortPriority = run {
             var v = act.apCost
             if (act.type == ActType.ClimaxAct) v += 10
+            if (isGuest) v += 100
             v
         }
 
