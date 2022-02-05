@@ -84,17 +84,3 @@ object TeamSpecialDefenseUpPassive : PassiveEffect {
         }
     }
 }
-
-
-object TeamDamageUpPassive : PassiveEffect {
-    override val category = PassiveEffectCategory.Passive
-    override val tags = listOf(EffectTag.Damage)
-
-    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
-        team.actors.values.forEach { member ->
-            condition.applyIfTrue(member) {
-                valueDamageDealtUp += value
-            }
-        }
-    }
-}
