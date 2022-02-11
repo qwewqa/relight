@@ -1130,7 +1130,7 @@ ${formattedHand()}
         val apCost get() = (act.apCost + actor.apChange).coerceAtLeast(1)
 
         val sortPriority = run {
-            var v = act.apCost
+            var v = apCost
             if (act.type == ActType.ClimaxAct) v += 10
             if (isGuest) v += 100
             v
