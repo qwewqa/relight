@@ -668,6 +668,7 @@ ${
                     } else {
                         climax = true
                         drawPile += internalHand
+                        queue.clear()
                         hand.clear()
                         internalHand.clear()
                         drawHand()
@@ -1129,7 +1130,7 @@ ${formattedHand()}
         val act = actor.acts[type] ?: error("Actor '${actor.name}' does not have an act with type '${type.name}'")
         val apCost get() = (act.apCost + actor.apChange).coerceAtLeast(1)
 
-        val sortPriority = run {
+        val sortPriority get() = run {
             var v = apCost
             if (act.type == ActType.ClimaxAct) v += 10
             if (isGuest) v += 100
