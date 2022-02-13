@@ -420,6 +420,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         stage.log("Hand") { "Climax" }
         climax = true
         drawPile += internalHand
+        queue.clear()
         hand.clear()
         internalHand.clear()
         drawHand()
