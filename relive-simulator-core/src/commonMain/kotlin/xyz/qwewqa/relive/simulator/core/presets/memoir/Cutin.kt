@@ -324,11 +324,13 @@ val brilliantBirthdays = listOf(
 private fun slapMemo(
     name: String,
     attribute: Attribute,
-    memoFun: PartialMemoirBlueprint
+    memoFun: PartialMemoirBlueprint,
+    baseAutoskills: List<PassiveData> = listOf(DexterityPassive.new(14)),
+    maxAutoskills: List<PassiveData> = listOf(DexterityPassive.new(20)),
 ) = memoFun(
     name = name,
-    baseAutoskills = listOf(DexterityPassive.new(14)),
-    maxAutoskills = listOf(DexterityPassive.new(20)),
+    baseAutoskills = baseAutoskills,
+    maxAutoskills = maxAutoskills,
     cutinTarget = CutinTarget.BeforeEnemyAct(1),
     cutinAct = {
         Act {
@@ -340,7 +342,9 @@ private fun slapMemo(
 )
 
 val slapMemos = listOf(
-    slapMemo("Revue, Start!", Attribute.Dream, equip4000150),
+    slapMemo("Revue, Start!", Attribute.Dream, equip4000150,
+             listOf(BrillianceRecoveryPassive.new(28)),
+             listOf(BrillianceRecoveryPassive.new(40))),
     slapMemo("Menacing Tower", Attribute.Snow, equip4000152),
     slapMemo("To the Stage!", Attribute.Space, equip4000157),
     slapMemo("Revue of High Priestess and Devil", Attribute.Moon, equip4000172),
