@@ -83,6 +83,7 @@ enum class EffectTag {
     Provoke,
     Aggro,
     Cutin,
+    Slap,
     Karen,
     Hikari,
     Mahiru,
