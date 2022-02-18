@@ -134,7 +134,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
     }
 
     private fun String.splitArgs() = trim()
-        .split("(?<!\\\\)\\s+".toRegex(), 2)
+        .split("(?<!\\\\)\\s+".toRegex())
         .map { it.replace("\\ ", " ") }
 
     private fun parseCommand(text: String): ParsedCommand? {
