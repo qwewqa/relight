@@ -24,13 +24,13 @@ val TsukasaOnlyCondition = characterCondition(Character.Tsukasa)
 val ShizuhaOnlyCondition = characterCondition(Character.Shizuha)
 val AkiraOnlyCondition = characterCondition(Character.Akira)
 val MichiruOnlyCondition = characterCondition(Character.Michiru)
-val MeiFanOnlyCondition = characterCondition(Character.MeiFan, "Mei Fan")
+val MeiFanOnlyCondition = characterCondition(Character.MeiFan)
 val ShioriOnlyCondition = characterCondition(Character.Shiori)
 val YachiyoOnlyCondition = characterCondition(Character.Yachiyo)
 val KoharuOnlyCondition = characterCondition(Character.Koharu)
 val SuzuOnlyCondition = characterCondition(Character.Suzu)
 val HisameOnlyCondition = characterCondition(Character.Hisame)
 
-private fun characterCondition(character: Character, name: String = character.name) = NamedCondition(name) {
+private fun characterCondition(character: Character) = NamedCondition(character.displayName) {
     it.dress.character == character
 }
