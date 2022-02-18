@@ -40,6 +40,7 @@ enum class EffectTag {
     Dexterity,
     Critical,
     Regeneration,
+    Absorb,
     BrillianceRegeneration,
     NormalBarrier,
     SpecialBarrier,
