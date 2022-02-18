@@ -2,9 +2,14 @@ package xyz.qwewqa.relive.simulator.core.presets.memoir
 
 import xyz.qwewqa.relive.simulator.core.presets.memoir.generated.*
 import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.stage.character.Character
+import xyz.qwewqa.relive.simulator.core.presets.condition.characterCondition
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinTarget
+import xyz.qwewqa.relive.simulator.core.stage.memoir.MemoirBlueprint
+import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val UnshakableFeelings = equip4000147(
@@ -268,4 +273,82 @@ val ShinsengumiRinpuden = equip4000203(
             }
         }
     },
+)
+
+val StarOfTheDayMaHiKaren = equip4000212(
+    name = "[Star of the day] Karen & Hikari & Mahiru",
+    baseAutoskills = listOf(), // TODO: Agility or something
+    maxAutoskills = listOf(),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+        }
+    },
+)
+
+private fun brilliantBirthday(character: Character, memoFun: PartialMemoirBlueprint): MemoirBlueprint {
+    val condition = characterCondition(character)
+    return memoFun(
+        name = "Brilliant Birthday " + character.displayName,
+        baseAutoskills = listOf(
+            SelfTurnBrillianceRecoveryPassive.new(20) + condition,
+            DexterityPassive.new(10) + condition,
+        ),
+        maxAutoskills  = listOf(
+            SelfTurnBrillianceRecoveryPassive.new(25) + condition,
+            DexterityPassive.new(15) + condition,
+        ),
+        cutinTarget = CutinTarget.TurnStart,
+        cutinAct = {
+            Act {
+                targetAllyAoe().act {
+                    applyBuff(ActPowerUpBuff, values1, times1)
+                    applyBuff(DexterityUpBuff, values2, times2)
+                }
+                targetAllyAoe(condition).act {
+                    applyBuff(ActPowerUpBuff, values3, times3)
+                    applyBuff(DexterityUpBuff, values4, times4)
+                }
+            }
+        }
+    )
+}
+
+val brilliantBirthdays = listOf(
+    brilliantBirthday(Character.Hikari, equip4000220),
+    brilliantBirthday(Character.Tsukasa, equip4000223),
+    brilliantBirthday(Character.Fumi, equip4000230),
+    brilliantBirthday(Character.Michiru, equip4000230), // TODO: use equip4000239
+)
+
+private fun slapMemo(
+    name: String,
+    attribute: Attribute,
+    memoFun: PartialMemoirBlueprint
+) = memoFun(
+    name = name,
+    baseAutoskills = listOf(DexterityPassive.new(14)),
+    maxAutoskills = listOf(DexterityPassive.new(20)),
+    cutinTarget = CutinTarget.BeforeEnemyAct(1),
+    cutinAct = {
+        Act {
+            targetCutinTarget().act {
+                attack(values1, attribute = attribute)
+            }
+        }
+    }
+)
+
+val slapMemos = listOf(
+    slapMemo("Revue, Start!", Attribute.Dream, equip4000150),
+    slapMemo("Menacing Tower", Attribute.Snow, equip4000152),
+    slapMemo("To the Stage!", Attribute.Space, equip4000157),
+    slapMemo("Revue of High Priestess and Devil", Attribute.Moon, equip4000172),
+    slapMemo("Revue of Wisdom and Attachment", Attribute.Wind, equip4000171),
+    slapMemo("Peach Oath", Attribute.Flower, equip4000177),
+    slapMemo("V Hierophant [Reverse]", Attribute.Moon, equip4000179),
+    slapMemo("Enchanting Spicy Curry", Attribute.Moon, equip4000187),
+    slapMemo("XIX Sun [Reverse]", Attribute.Cloud, equip4000191),
+    slapMemo("Revue of Hierophant and Chariot", Attribute.Cloud, equip4000193),
+    slapMemo("Revue of Hermit and Justice", Attribute.Flower, equip4000227),
 )
