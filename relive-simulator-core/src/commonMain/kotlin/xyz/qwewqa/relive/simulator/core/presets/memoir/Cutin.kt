@@ -5,12 +5,13 @@ import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.core.presets.condition.characterCondition
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.EffectTag
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinTarget
 import xyz.qwewqa.relive.simulator.core.stage.memoir.MemoirBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.stage.character.Character
 
 val UnshakableFeelings = equip4000147(
     name = "Unshakable Feelings",
@@ -338,7 +339,8 @@ private fun slapMemo(
                 attack(values1, attribute = attribute)
             }
         }
-    }
+    },
+    additionalTags = listOf(EffectTag.Slap),
 )
 
 val slapMemos = listOf(
