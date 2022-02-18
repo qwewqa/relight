@@ -133,6 +133,10 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         }
     }
 
+    private fun String.splitArgs() = trim()
+        .split("(?<!\\\\)\\s+".toRegex(), 2)
+        .map { it.replace("\\ ", " ") }
+
     private fun parseCommand(text: String): ParsedCommand? {
         val trimmed = text.trim()
         if (trimmed.isEmpty()) {
@@ -374,7 +378,7 @@ ${formattedHand()}
         }
 
         private fun String.parseSingleAct(): BoundAct? {
-            val args = split("\\s+".toRegex())
+            val args = splitArgs()
             return when {
                 args.size == 1 && args[0].toIntOrNull()?.minus(1) in hand.indices -> {
                     hand[args[0].toInt() - 1]
@@ -387,7 +391,7 @@ ${formattedHand()}
         }
 
         private fun String.parseQueueActs(): List<BoundAct>? {
-            val args = split("\\s+".toRegex())
+            val args = splitArgs()
             return if (args.all { it.toIntOrNull()?.minus(1) in hand.indices }) {
                 args.map { hand[it.toInt() - 1] }
             } else {
@@ -395,7 +399,7 @@ ${formattedHand()}
             }
         }
 
-        private fun String.parseActs() = parseActs(split("\\s+".toRegex()))
+        private fun String.parseActs() = parseActs(splitArgs())
 
         private fun parseActs(args: List<String>): List<BoundAct>? {
             var activeActor: Actor? = null
@@ -413,7 +417,7 @@ ${formattedHand()}
         }
 
         private fun String.parseActorAndInteger(): Pair<Actor, Int>? {
-            val args = split("\\s+".toRegex())
+            val args = splitArgs()
             if (args.size != 2) return null
             val actor = allActors[args[0]] ?: return null
             val value = args[1].toIntOrNull() ?: return null
@@ -919,7 +923,7 @@ ${
                     }
                 }
                 InteractiveCommandType.SET_COUNTABLE_BUFF -> {
-                    val args = data.split("\\s+".toRegex())
+                    val args = data.splitArgs()
                     if (args.size != 3) {
                         log("Set Countable Buff") { "Error: Expected 3 arguments." }
                     }
@@ -952,6 +956,17 @@ ${
                             liveMode = true
                             log("Live Mode") { "Live mode enabled." }
                         }
+                    }
+                }
+                InteractiveCommandType.LIST_ACTS -> {
+                    log("List Acts") {
+                        team.actors.values.flatMap { actor ->
+                            actor.acts.map { (type, _) ->
+                                BoundAct(actor, type)
+                            }
+                        }.joinToString("\n") {
+                            "[${it.actor.name.replace(" ", "\\ ")} ${it.act.type.shortName}] $it"
+                        }.takeIf { it.isNotEmpty() } ?: "Empty"
                     }
                 }
 
@@ -1631,6 +1646,20 @@ enum class InteractiveCommandType(
         examples = """
             Enables live mode.
                 live_mode
+        """.trimIndent(),
+    ),
+    LIST_ACTS(
+        title = "list_acts",
+        aliases = listOf("lsact", "acts"),
+        synopsis = """
+            list_acts
+        """.trimIndent(),
+        description = """
+            List all acts in the team.
+        """.trimIndent(),
+        examples = """
+            Lists all acts.
+                acts
         """.trimIndent(),
     ),
     EIGHT_BALL(
