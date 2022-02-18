@@ -136,6 +136,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         script.initialize?.execute(context)
 
         registerCardAction("queue", ::canQueue) { act -> queue(act) }
+        registerCardAction("queue1", ::canQueue) { act -> queue(act) }
         registerCardAction("hold", ::canHold, ::hold)
         registerCardAction("discard", ::canDiscard, ::discard)
         // climax/canClimax/tryClimax are just like queue/hold/discard, but
@@ -183,6 +184,18 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             }
         }
 
+        // Like tryQueue, but errors if it can't queue anything.
+        // Has 2 possible results: exactly one act is queued, or an error.
+        context.addFunction("queue1") { args ->
+            if (args.isEmpty()) csError("Expected one or more acts.")
+            val act = requireActs(args).firstOrNull { canQueue(it as CsAct) }
+            if (act == null) {
+                csError("Unable to queue any of the given acts")
+            }
+            queue(act as CsAct)
+            CsNil
+        }
+
         // Try queuing all the acts. If you can't, queue none.
         context.addFunction("tryQueueAll") { args ->
             val acts = args.map { it.act() }
@@ -193,6 +206,20 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
                 }
             }
             canQueue.asCsBoolean()
+        }
+
+        // Try queuing all the acts. If you can't, error.
+        context.addFunction("queueAll") { args ->
+            val acts = args.map { it.act() }
+            val canQueue = canQueueAll(acts)
+            if (canQueue) {
+                for (act in acts) {
+                    queue(act)
+                }
+            } else {
+                csError("Could not queue all acts")
+            }
+            CsNil
         }
 
         // Try queueing each of the acts, one at a time. Return a list of the queued acts.
@@ -222,6 +249,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         context.bindValue("boss") { boss }
 
         context.variables["hand"] = CsList(hand)
+        context.variables["internalHand"] = CsList(internalHand)
     }
 
     override fun endTurn(stage: Stage, team: Team, enemy: Team, teamQueue: QueueResult, enemyQueue: QueueResult) {
