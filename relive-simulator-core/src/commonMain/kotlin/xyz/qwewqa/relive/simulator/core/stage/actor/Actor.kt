@@ -4,6 +4,7 @@ import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.execute
 import xyz.qwewqa.relive.simulator.core.stage.log
@@ -105,6 +106,8 @@ class Actor(
 
     val damageDealtUp get() = valueDamageDealtUp
     var valueDamageDealtUp = 0
+
+    var conditionalDamageDealtUp = mutableListOf<Pair<Condition, Int>>()
 
     val damageTakenDown get() = valueDamageTakenDown
     var valueDamageTakenDown = 0

@@ -158,7 +158,9 @@ class RandomDamageCalculator : DamageCalculator {
         val critCoef = 100 + attacker.critical
         val dex = attacker.dexterity
 
-        val dmgDealtUpCoef = (100 + attacker.damageDealtUp).coerceAtLeast(0)
+        val dmgDealtUpCoef = (100 + attacker.damageDealtUp +
+                attacker.conditionalDamageDealtUp.filter { (cond, _) -> cond.evaluate(target) }.sumOf { (_, v) -> v })
+            .coerceAtLeast(0)
         val dmgDealtDownCoef = (100 - target.damageTakenDown).coerceAtLeast(0)
 
         // tentative
