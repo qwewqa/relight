@@ -1,17 +1,17 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.FlowerOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1090013
+import xyz.qwewqa.relive.simulator.core.presets.condition.SiegfeldOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4050013
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.DeathsKiss
 
-val DevilKaoruko = dress1090013(
-    name = "Devil Kaoruko",
+val LokiYachiyo = dress4050013(
+    name = "Loki Yachiyo",
     acts = listOf(
         ActType.Act1.blueprint("Brilliance Slash") {
             Act {
@@ -26,68 +26,60 @@ val DevilKaoruko = dress1090013(
                 }
             }
         },
-        ActType.Act2.blueprint("Soul Contract") {
+        ActType.Act2.blueprint("Prank") {
             Act {
                 targetBack().act {
                     attack(
                         modifier = values1,
-                        hitCount = 2,
+                        hitCount = 1,
                     )
                 }
-                targetAllyAoe().act {
-                    applyBuff(
-                        ActPowerUpBuff,
-                        value = values2,
-                        turns = times2,
+                applyEnemyStageEffect(DeathsKiss,3)
+            }
+        },
+        ActType.Act3.blueprint("Mischief") {
+            Act {
+                targetBack().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1,
                     )
+                }
+                targetAoe().act {
+                    dispelTimed(BuffCategory.Positive)
                     applyBuff(
-                        EffectiveDamageDealtUpBuff,
-                        value = values3,
+                        effect = ApUpBuff,
                         turns = times3,
                     )
                 }
             }
         },
-        ActType.Act3.blueprint("Devil's Whisper") {
+        ActType.ClimaxAct.blueprint("Trickster") {
             Act {
-                targetBack().act {
+                targetAoe().act {
                     attack(
                         modifier = values1,
                         hitCount = 2,
                     )
                 }
-                targetAoe().act {
-                    dispelTimed(BuffCategory.Positive)
-                    dispelCountable(BuffCategory.Positive)
-                }
-            }
-        },
-        ActType.ClimaxAct.blueprint("Flames of Hell") {
-            Act {
-                targetAllyAoe().act {
-                    dispelTimed(BuffCategory.Negative)
-                }
-                targetAoe().act {
-                    dispelTimed(BuffCategory.Positive)
-                    attack(
-                        modifier = values3,
-                        hitCount = 4,
-                    )
+                targetBack(3).act {
+                    //TODO() Locked CX Seal & Locked Act 3 Seal
                 }
             }
         }
     ),
     autoSkills = listOf(
         listOf(
-            TeamDexterityUpBuffPassive.new(10, time = 3),
+            SelfReviveBuffPassive.new(50,2),
         ),
         listOf(
-            TeamCriticalUpBuffPassive.new(20, time = 3),
+            TeamHpUpPassive.new(20),
+            TeamHpUpPassive.new(20) + SiegfeldOnlyCondition,
         ),
         listOf(
-
-        ), // TODO: CX Seal
+            TeamBrillianceRecoveryPassive.new(10),
+            TeamBrillianceRecoveryPassive.new(10) + SiegfeldOnlyCondition,
+        ),
     ),
-    unitSkill = ActCritical50UnitSkill + FlowerOnlyCondition,
-    categories = setOf(DressCategory.Arcana),
+    unitSkill = ActCritical50UnitSkill + SiegfeldOnlyCondition,
 )

@@ -19,3 +19,20 @@ val SelfTrapping = StageEffect(
     },
     StageEffectTarget.All,
 )
+
+val DeathsKiss = StageEffect(
+    "Death's Kiss",
+    listOf(
+        5,
+        10,
+        15,
+        20,
+        25,
+    ).map { value ->
+        listOf(
+            StageBuff(NormalDefenseDownBuff, value),
+            StageBuff(SpecialDefenseDownBuff, value),
+        )
+    },
+    StageEffectTarget.All,
+) //TODO() Find out how Fumbling affects TR units

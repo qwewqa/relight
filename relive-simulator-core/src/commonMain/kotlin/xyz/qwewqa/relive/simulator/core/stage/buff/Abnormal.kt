@@ -27,6 +27,13 @@ object ConfusionBuff : BuffEffect {
     override val exclusive: Boolean = true
 }
 
+object LockedConfusionBuff : BuffEffect {
+    override val name = "Confusion"
+    override val category = BuffCategory.Negative
+    override val exclusive: Boolean = true
+    override val locked: Boolean = true
+}
+
 object FreezeBuff : BuffEffect {
     override val name = "Freeze"
     override val category = BuffCategory.Negative

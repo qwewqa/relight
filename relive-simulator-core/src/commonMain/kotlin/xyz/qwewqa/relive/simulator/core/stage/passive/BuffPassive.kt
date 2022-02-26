@@ -65,6 +65,7 @@ val EnemyLockedAggroBuffPassive: PassiveEffect = GenericBuffPassive(LockedAggroB
 val EnemyDazeBuffPassive: PassiveEffect = CountableDebuffPassive(CountableBuff.Daze, EffectTag.Daze, "Enemy AoE") { targetAoe(it) }
 val EnemyFront5StunBuffPassive: PassiveEffect = DebuffPassive(StunBuff, EffectTag.Stun, "Enemy Front 5") { targetFront(5) }
 val EnemyFront2FreezeBuffPassive: PassiveEffect = DebuffPassive(FreezeBuff, EffectTag.Freeze, "Enemy Front 2") { targetFront(2) }
+val EnemyFront5ConfusionBuffPassive: PassiveEffect = DebuffPassive(ConfusionBuff, EffectTag.Confusion, "Enemy Front 5") { targetFront(5) }
 
 private data class GenericBuffPassive(
     val buffEffect: BuffEffect,
