@@ -64,6 +64,7 @@ val bossLoadouts = listOf(
     BossLoadout(tr16MafiaKaoruko, tr16MafiaKaorukoStrategy),
     BossLoadout(tr16MafiaKaorukoDiff4, tr16MafiaKaorukoDiff4Strategy),
     BossLoadout(tr16HangedManRui, tr16HangedManRuiStrategy),
+    BossLoadout(tr16BuggedHangedManRui, tr16BuggedHangedManRuiStrategy),
     BossLoadout(tr16HangedManRuiDiff4, tr16HangedManRuiDiff4Strategy),
     BossLoadout(sakuraTaisenStageGirlKarenBoss, seesawStrategy),
     BossLoadout(sakuraTaisenStageGirlHikariBoss, seesawStrategy),
