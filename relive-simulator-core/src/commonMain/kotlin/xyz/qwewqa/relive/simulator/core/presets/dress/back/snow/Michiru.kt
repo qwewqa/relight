@@ -99,7 +99,8 @@ val StageGirlMichiru = dress4020017(
             TeamCriticalUpBuffPassive.new(20, 3),
         ),
         listOf(
-            TeamHpUpPassive.new(100) + SiegfeldOnlyCondition,
+            TeamHpUpPassive.new(50),
+            TeamHpUpPassive.new(30) + SiegfeldOnlyCondition,
         ),
         listOf(
             TeamBrillianceRecoveryPassive.new(20) + MichiruOnlyCondition,

@@ -279,7 +279,7 @@ val HuntingRevueNana = dress1070024(
             EnemyBrillianceDrainPassive.new(50) + SeishoOnlyCondition,
         ),
         listOf(
-            TeamDamageUpPassive.new(20) + SeishoOnlyCondition,
+            ConditionalDamageDealtPassive(SeishoOnlyCondition).new(20),
         ),
     ),
     unitSkill = ActCritical50UnitSkill + SpaceOnlyCondition,

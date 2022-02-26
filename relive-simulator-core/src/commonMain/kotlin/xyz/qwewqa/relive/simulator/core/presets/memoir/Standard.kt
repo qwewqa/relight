@@ -171,6 +171,28 @@ val BandsmansGreeting = equip4000101(
     ),
 )
 
+val BlessedDawn = equip4000104(
+    name = "Blessed Dawn",
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(16),
+        TeamDexterityUpBuffPassive.new(5, time = 2)
+    ),
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(24),
+        TeamDexterityUpBuffPassive.new(10, time = 2)
+    ),
+)
+
+val KeepersOfThePeace = equip4000007(
+    name = "Keepers of the Peace",
+    baseAutoskills = listOf(
+        DexterityPassive.new(14),
+    ),
+    maxAutoskills = listOf(
+        DexterityPassive.new(20),
+    ),
+)
+
 val CrazyMadScientist = equip4000123(
     name = "Crazy Mad Scientist",
     baseAutoskills = listOf(
@@ -180,6 +202,18 @@ val CrazyMadScientist = equip4000123(
     maxAutoskills = listOf(
         CriticalUpPassive.new(30),
         DexterityPassive.new(16)
+    ),
+)
+
+val SunnyLunchtime = equip4000137(
+    name = "Sunny Lunchtime",
+    baseAutoskills = listOf(
+        DamageDealtPassive.new(5),
+        DexterityPassive.new(11),
+    ),
+    maxAutoskills = listOf(
+        DamageDealtPassive.new(8),
+        DexterityPassive.new(16),
     ),
 )
 
@@ -235,11 +269,23 @@ val MerryChristmas2019 = equip4000093(
     name = "Merry Christmas 2019",
     baseAutoskills = listOf(
         BrillianceRecoveryPassive.new(22),
-        SelfDexterityUpBuffPassive.new(11,3),
+        SelfDexterityUpBuffPassive.new(11, 3),
     ),
     maxAutoskills = listOf(
         BrillianceRecoveryPassive.new(32),
-        SelfDexterityUpBuffPassive.new(16,3),
+        SelfDexterityUpBuffPassive.new(16, 3),
+    ),
+)
+
+val CherryBlossomsInTheBento = equip4000050(
+    name = "Cherry Blossoms in the Bento",
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(22),
+        SelfAbsorbBuffPassive.new(5, 3),
+    ),
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(32),
+        SelfAbsorbBuffPassive.new(10, 3),
     ),
 )
 
@@ -253,6 +299,26 @@ val PrinceAndPrincessEtude = equip4000097(
         DexterityPassive.new(16),
         EffectiveDamageDealtPassive.new(12),
     ),
+)
+
+val StarOfTheDay = equip4000155(
+    name = "[Star of the day] (This Stage Girl)",
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(28),
+        SelfEvasionBuffPassive.new(time = 1),
+        SelfFortitudeBuffPassive.new(time = 1),
+    ),
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(40),
+        SelfEvasionBuffPassive.new(time = 1),
+        SelfFortitudeBuffPassive.new(time = 1),
+    ),
+)
+
+val WrongStarOfTheDay = equip4000185(
+    name = "[Star of the day] (Someone Else)",
+    baseAutoskills = listOf(),
+    maxAutoskills = listOf(),
 )
 
 val SunsetLabMemBadge = equip4000125(
@@ -269,13 +335,13 @@ val ReminiscenceMelody = equip4000129(
     name = "Reminiscence Melody",
     baseAutoskills = listOf(
         BrillianceRecoveryPassive.new(22),
-        SelfCriticalUpBuffPassive.new(21,6),
-        SelfEffectiveDamageDealtUpBuffPassive.new(8,6),
+        SelfCriticalUpBuffPassive.new(21, 6),
+        SelfEffectiveDamageDealtUpBuffPassive.new(8, 6),
     ),
     maxAutoskills = listOf(
         BrillianceRecoveryPassive.new(32),
-        SelfCriticalUpBuffPassive.new(30,6),
-        SelfEffectiveDamageDealtUpBuffPassive.new(12,6),
+        SelfCriticalUpBuffPassive.new(30, 6),
+        SelfEffectiveDamageDealtUpBuffPassive.new(12, 6),
     ),
 )
 
@@ -283,36 +349,36 @@ val KappoTomoyesPosterGirl = equip4000136(
     name = "Kappo Tomoye's Poster Girl",
     baseAutoskills = listOf(
         BrillianceRecoveryPassive.new(22),
-        SelfDexterityUpBuffPassive.new(11,6),
-        SelfEffectiveDamageDealtUpBuffPassive.new(8,6),
+        SelfDexterityUpBuffPassive.new(11, 6),
+        SelfEffectiveDamageDealtUpBuffPassive.new(8, 6),
     ),
     maxAutoskills = listOf(
         BrillianceRecoveryPassive.new(32),
-        SelfDexterityUpBuffPassive.new(16,6),
-        SelfEffectiveDamageDealtUpBuffPassive.new(12,6),
+        SelfDexterityUpBuffPassive.new(16, 6),
+        SelfEffectiveDamageDealtUpBuffPassive.new(12, 6),
     ),
 )
 
 val SparklingStageChika = equip4000107(
     name = "Sparkling Stage Chika",
     baseAutoskills = listOf(
-        SelfNormalBarrierBuffPassive.new(4000,3),
-        SelfSpecialBarrierBuffPassive.new(4000,3),
+        SelfNormalBarrierBuffPassive.new(4000, 3),
+        SelfSpecialBarrierBuffPassive.new(4000, 3),
     ),
     maxAutoskills = listOf(
-        SelfNormalBarrierBuffPassive.new(8000,3),
-        SelfSpecialBarrierBuffPassive.new(8000,3),
+        SelfNormalBarrierBuffPassive.new(8000, 3),
+        SelfSpecialBarrierBuffPassive.new(8000, 3),
     ),
 )
 
 val TheGreatYearEndCleanup = equip4000029(
     name = "The Great Year-End Cleanup",
     baseAutoskills = listOf(
-        SelfNormalBarrierBuffPassive.new(560,3),
+        SelfNormalBarrierBuffPassive.new(560, 3),
         SelfEvasionBuffPassive.new(time = 1),
     ),
     maxAutoskills = listOf(
-        SelfNormalBarrierBuffPassive.new(2260,3),
+        SelfNormalBarrierBuffPassive.new(2260, 3),
         SelfEvasionBuffPassive.new(time = 1),
     ),
 )

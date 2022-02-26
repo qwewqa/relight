@@ -2,7 +2,7 @@ package xyz.qwewqa.relive.simulator.stage.character
 
 import xyz.qwewqa.relive.simulator.stage.character.School.*
 
-enum class Character(val school: School) {
+enum class Character {
     None(School.None),
     Unknown(School.None),
     Karen(Seisho),
@@ -26,7 +26,7 @@ enum class Character(val school: School) {
     Shizuha(Frontier),
     Akira(Siegfeld),
     Michiru(Siegfeld),
-    MeiFan(Siegfeld),
+    MeiFan(Siegfeld, "Mei Fan"),
     Shiori(Siegfeld),
     Yachiyo(Siegfeld),
     Koharu(Seiran),
@@ -34,5 +34,19 @@ enum class Character(val school: School) {
     Hisame(Seiran),
     Sakura(School.None),
     Erika(School.None),
-    Gemie(School.None),
+    Gemie(School.None, "Gemini"),
+    ;
+
+    val school: School
+    val displayName: String
+
+    constructor(school: School, displayName: String) {
+        this.school = school
+        this.displayName = displayName
+    }
+
+    constructor(school: School) {
+        this.school = school
+        this.displayName = name
+    }
 }

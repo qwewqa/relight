@@ -73,7 +73,7 @@ val HopeLalafin = dress3030015(
     ),
     autoSkills = listOf(
         listOf(
-            SelfReviveBuffPassive.new(50, time = 1),
+            SelfReviveBuffPassive.new(50, time = 2),
         ),
         listOf(
             EnemyBack2LockedAPUpBuffPassive.new(time = 3),

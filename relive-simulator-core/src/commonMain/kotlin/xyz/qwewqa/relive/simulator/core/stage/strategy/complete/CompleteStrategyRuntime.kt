@@ -171,8 +171,8 @@ data class CsAct(val actor: Actor, val act: ActData) : CsObject, Comparable<CsAc
 
     val apCost get() = (act.apCost + actor.apChange).coerceAtLeast(1)
 
-    val sortPriority = run {
-        var v = act.apCost
+    val sortPriority get() = run {
+        var v = apCost
         if (act.type == ActType.ClimaxAct) v += 10
         v
     }
