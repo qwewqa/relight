@@ -32,6 +32,22 @@ object AggroBuff : BuffEffect {
     }
 }
 
+object LockedAggroBuff : BuffEffect {
+    override val name = "Aggro"
+    override val category = BuffCategory.Negative
+    override val exclusive: Boolean = true
+    override val locked = true
+
+    override fun onApply(source: Actor?, target: Actor) {
+        requireNotNull(source)
+        target.aggroTarget = source
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.aggroTarget = null
+    }
+}
+
 object ProvokeBuff : BuffEffect {
     override val name = "Provoke"
     override val category = BuffCategory.Negative

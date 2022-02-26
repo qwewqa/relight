@@ -1,7 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.space
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.*
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3040018
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1090023
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
@@ -69,7 +69,7 @@ val MerchantKaoruko = dress1090023(
                         turns = times1,
                     )
                     applyBuff(
-                        effect = ApDownBuff,  //TODO() Find out of locked or not
+                        effect = ApDownBuff,  //TODO() Find out if locked or not
                         turns = times2,
                     )
                 }
