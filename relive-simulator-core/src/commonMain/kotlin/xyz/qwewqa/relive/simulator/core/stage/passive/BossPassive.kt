@@ -59,6 +59,21 @@ object BossElementResistPassive : PassiveEffect {
     }
 }
 
+object BuggedHMRuiBossElementResistPassive : PassiveEffect {
+    override val category = PassiveEffectCategory.Passive
+
+    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+        Attribute.values().forEach {
+            self.againstAttributeDamageDealtUp[it] = value
+            self.againstAttributeDamageTakenDown[it] = value
+        }
+        self.againstAttributeDamageDealtUp[Attribute.Flower] = 0
+        self.againstAttributeDamageTakenDown[Attribute.Flower] = 0
+        self.againstAttributeDamageDealtUp[Attribute.Dream] = 0
+        self.againstAttributeDamageTakenDown[Attribute.Dream] = 0
+    }
+}
+
 /**
  * A passive which sets the event bonuses against the boss which has this passive.
  */
