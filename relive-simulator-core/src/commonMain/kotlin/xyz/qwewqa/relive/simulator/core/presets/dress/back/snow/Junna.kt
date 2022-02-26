@@ -1,14 +1,19 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.snow
 
+import xyz.qwewqa.relive.simulator.core.presets.condition.BackOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SnowOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1060017
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1060024
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.SelfTrapping
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.TheStageWhereHoshimiJunnaPlaysTheLead
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageSnow
 
 val StageGirlJunna = dress1060017(
@@ -91,4 +96,80 @@ val StageGirlJunna = dress1060017(
     ),
     unitSkill = ActCritical30UnitSkillStageGirl + SnowOnlyCondition,
     categories = setOf(DressCategory.StageGirl),
+)
+
+val HuntingRevueJunna = dress1060024(
+    name = "Revue of Hunting Junna",
+    acts = listOf(
+        ActType.Act1.blueprint("Snipe") {
+            Act {
+                targetByHighest { it.actPower }.act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1,
+                    )
+                }
+                targetSelf().act {
+                    addBrilliance(values2)
+                }
+            }
+        },
+        ActType.Act2.blueprint("Pressure Blow") {
+            Act {
+                targetByHighest { it.actPower }.act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1,
+                    )
+                }
+                applyEnemyStageEffect(SelfTrapping, 2)
+            }
+        },
+        ActType.Act3.blueprint("Arrow of Light") {
+            Act {
+                targetByHighest { it.actPower }.act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1,
+                    )
+                }
+                targetAllyBack(2).act {
+                    addBrilliance(values2)
+                }
+            }
+        },
+        ActType.ClimaxAct.blueprint("See if you can kill me, Daiba Nana!") {
+            Act {
+                targetSelf().act {
+                    applyCountableBuff(CountableBuff.Fortitude, 2)
+                    applyBuff(
+                        effect = PerfectAimBuff,
+                        turns = times1,
+                    )
+                }
+                targetAoe().act {
+                    attack(
+                        modifier = values3,
+                        hitCount = 3,
+                    )
+                }
+                applyAllyStageEffect(TheStageWhereHoshimiJunnaPlaysTheLead, 3) //TODO() Check if this is implemented correctly
+            }
+        } //TODO() Continuous Climax Act
+    ),
+    autoSkills = listOf(
+        listOf(
+            SelfReviveBuffPassive.new(50, time = 2),
+        ),
+        listOf(
+            EnemyDazeBuffPassive.new(2) + BackOnlyCondition,
+        ),
+        listOf(
+            EnemyBrillianceDrainPassive.new(50) + BackOnlyCondition,
+        ),
+        listOf(
+            EnemyAPUpBuffPassive.new(time = 3) + BackOnlyCondition, //TODO() Check if this works correctly
+        ),
+    ),
+    unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
 )
