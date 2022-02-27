@@ -17,7 +17,7 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.BossElementResistPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 
 val tr16MafiaMaya = ActorLoadout(
-    "TR16MafiaMaya",
+    "TR16 Mafia Maya",
     Dress(
         name = "Mafia Maya",
         character = Character.Maya,
