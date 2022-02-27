@@ -101,7 +101,7 @@ val StageGirlJunna = dress1060017(
 val HuntingRevueJunna = dress1060024(
     name = "Revue of Hunting Junna",
     acts = listOf(
-        ActType.Act1.blueprint("Snipe") {
+        ActType.Act1.blueprint("Strike of Brilliance") {
             Act {
                 targetByHighest { it.actPower }.act {
                     attack(
