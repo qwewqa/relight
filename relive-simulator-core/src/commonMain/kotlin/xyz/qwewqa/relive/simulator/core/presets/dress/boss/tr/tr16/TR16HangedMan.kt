@@ -157,9 +157,9 @@ val tr16HangedManRuiStrategy = FixedStrategy {
             +boss[ActType.Act6]
         }
         2 -> {
-            +boss[ActType.Act8]
-            +boss[ActType.Act4]
-            +boss[ActType.Act6]
+            +boss[ActType.Act7]
+            +boss[ActType.Act3]
+            +boss[ActType.Act5]
         }
         3 -> {
             +boss[ActType.ClimaxAct]
@@ -328,9 +328,9 @@ val tr16BuggedHangedManRuiStrategy = FixedStrategy {
             +boss[ActType.Act6]
         }
         2 -> {
-            +boss[ActType.Act8]
-            +boss[ActType.Act4]
-            +boss[ActType.Act6]
+            +boss[ActType.Act7]
+            +boss[ActType.Act3]
+            +boss[ActType.Act5]
         }
         3 -> {
             +boss[ActType.ClimaxAct]
@@ -500,9 +500,9 @@ val tr16HangedManRuiDiff4Strategy = FixedStrategy {
             +boss[ActType.Act6]
         }
         2 -> {
-            +boss[ActType.Act8]
-            +boss[ActType.Act4]
-            +boss[ActType.Act6]
+            +boss[ActType.Act7]
+            +boss[ActType.Act3]
+            +boss[ActType.Act5]
         }
         3 -> {
             +boss[ActType.ClimaxAct]
