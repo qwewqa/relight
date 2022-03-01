@@ -139,4 +139,4 @@ val abnormalBuffs = setOf(
     LockedBurnBuff,
     PoisonBuff,
     LockedPoisonBuff,
-)
+) //TODO() Electric Shock and Locked Electric Shock in here or just normal?
