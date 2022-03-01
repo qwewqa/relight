@@ -201,7 +201,7 @@ class Actor(
                 }.execute(context)
                 return
             }
-            if (buffs.any(ConfusionBuff) && context.stage.random.nextDouble() < 0.3) {
+            if (buffs.any(ConfusionBuff, LockedConfusionBuff) && context.stage.random.nextDouble() < 0.3) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by confuse." }
                 val confusionAct = acts[ActType.ConfusionAct]?.act ?: Act {
                     targetAllyRandom().act {
@@ -212,6 +212,13 @@ class Actor(
                     }
                 }
                 confusionAct.execute(context)
+                return
+            }
+            if (buffs.any(ElectricShockBuff, LockedElectricShockBuff) && context.stage.random.nextDouble() < 0.3) {
+                context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by electric shock." }
+                Act {
+                    damage(7500)
+                }.execute(context)
                 return
             }
             if (inCXAct && !inCX) {

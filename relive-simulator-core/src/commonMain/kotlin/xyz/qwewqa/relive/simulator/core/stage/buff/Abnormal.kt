@@ -90,6 +90,19 @@ object BlindnessBuff : BuffEffect {
     override val exclusive: Boolean = true
 }
 
+object ElectricShockBuff : BuffEffect {
+    override val name = "Electric Shock"
+    override val category = BuffCategory.Negative
+    override val exclusive: Boolean = true
+}
+
+object LockedElectricShockBuff : BuffEffect {
+    override val name = "Electric Shock"
+    override val category = BuffCategory.Negative
+    override val exclusive: Boolean = true
+    override val locked: Boolean = true
+}
+
 object AbnormalGuardBuff : BuffEffect {
     override val name = "Abnormal Guard"
     override val category = BuffCategory.Positive

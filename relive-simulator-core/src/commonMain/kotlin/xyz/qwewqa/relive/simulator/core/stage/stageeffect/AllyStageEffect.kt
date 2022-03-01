@@ -51,9 +51,9 @@ val TheStageWhereHoshimiJunnaPlaysTheLead = StageEffect(
     "The Stage Where Hoshimi Junna Plays The Lead",
     listOf(
         25,
-        35,
-        45,
+        50,
         55,
+        60,
         65,
     ).map { value ->
         listOf(

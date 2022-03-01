@@ -35,7 +35,11 @@ val SeimeiMichiru = dress4020018(
                     )
                 }
                 targetAoe().act {
-                    //TODO() Electric Shock
+                    applyBuff(
+                        effect = LockedElectricShockBuff,
+                        chance = 75,
+                        turns = 2,
+                    )
                     applyBuff(
                         effect = LockedConfusionBuff,
                         chance = 75,
@@ -73,7 +77,8 @@ val SeimeiMichiru = dress4020018(
                     attack(
                         modifier = values4,
                         hitCount = 3,
-                        //TODO() Electric Shock Amp
+                        bonusCondition = ElectricShockOnlyCondition,
+                        bonusMultiplier = 150,
                     )
                 }
             }
@@ -88,7 +93,7 @@ val SeimeiMichiru = dress4020018(
             //TODO() Invincible Buff 1t to Siegfeld
         ),
         listOf(
-            //TODO() Electric Shock
+            EnemyFront5ElectricShockBuffPassive.new(time = 2),
             EnemyFront5ConfusionBuffPassive.new(time = 2),
         ),
     ),
