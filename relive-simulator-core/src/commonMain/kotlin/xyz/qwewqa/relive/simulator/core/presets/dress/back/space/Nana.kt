@@ -206,9 +206,9 @@ val JusticeNana = dress1070004(
 )
 
 val HuntingRevueNana = dress1070024(
-    name = "Hunting Revue Nana",
+    name = "Revue of Hunting Nana",
     acts = listOf(
-        ActType.Act1.blueprint("Flash of Power") {
+        ActType.Act1.blueprint("Power Flash") {
             Act {
                 targetByLowest { it.normalDefense }.act {
                     attack(
@@ -218,7 +218,7 @@ val HuntingRevueNana = dress1070024(
                 }
             }
         },
-        ActType.Act2.blueprint("Flash of Hope") {
+        ActType.Act2.blueprint("Hopeful Flash") {
             Act {
                 targetByLowest { it.normalDefense }.act {
                     attack(
@@ -234,7 +234,7 @@ val HuntingRevueNana = dress1070024(
                 }
             }
         },
-        ActType.Act3.blueprint("Brilliance Jump") {
+        ActType.Act3.blueprint("Brilliance Leap") {
             Act {
                 targetByLowest { it.normalDefense }.act {
                     attack(
@@ -247,7 +247,7 @@ val HuntingRevueNana = dress1070024(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Now, I'll offer you a beautiful end") {
+        ActType.ClimaxAct.blueprint("To You...a Beautiful End") {
             Act {
                 focus {
                     targetAoe().act {

@@ -46,3 +46,20 @@ val HyakkaRyoran = StageEffect(
     ),
     StageEffectTarget.All,
 )
+
+val TheStageWhereHoshimiJunnaPlaysTheLead = StageEffect(
+    "The Stage Where Hoshimi Junna Plays The Lead",
+    listOf(
+        25,
+        50,
+        55,
+        60,
+        65,
+    ).map { value ->
+        listOf(
+            StageBuff(DexterityUpBuff, value),
+            StageBuff(CriticalUpBuff, value),
+        )
+    },
+    StageEffectTarget.All,
+)
