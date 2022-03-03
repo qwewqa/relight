@@ -35,4 +35,4 @@ val DeathsKiss = StageEffect(
         )
     },
     StageEffectTarget.All,
-) //TODO() Find out how Fumbling affects TR units
+)
