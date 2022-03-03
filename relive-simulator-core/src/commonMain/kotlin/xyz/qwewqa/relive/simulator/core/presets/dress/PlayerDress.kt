@@ -25,6 +25,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.space.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.CatalinaKaoruko
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.HondaFutaba
+import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.StageGirlFumi
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.TowerHikari
 
 val playerDresses = listOf(
@@ -85,4 +86,5 @@ val playerDresses = listOf(
     WheelOfFortuneKaren,
     WorldMaya,
     YellowTsukasa,
+    StageGirlFumi,
 ).associateBy { it.name }
