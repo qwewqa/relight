@@ -55,6 +55,8 @@ val DevilKaoruko = dress1090013(
                         modifier = values1,
                         hitCount = 2,
                     )
+                }
+                targetAoe().act {
                     dispelTimed(BuffCategory.Positive)
                     dispelCountable(BuffCategory.Positive)
                 }

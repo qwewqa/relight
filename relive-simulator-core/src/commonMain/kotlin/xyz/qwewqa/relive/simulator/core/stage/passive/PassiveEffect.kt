@@ -62,6 +62,7 @@ enum class EffectTag {
     Freeze,
     Blindness,
     Mark,
+    ElectricShock,
     PoisonResistance,
     BurnResistance,
     StunResistance,

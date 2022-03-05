@@ -31,6 +31,26 @@ val UnshakableFeelings = equip4000147(
     },
 )
 
+val ForOurSpecialPlace = equip4000149(
+    name = "For Our Special Place",
+    baseAutoskills = listOf(
+        DamageDealtPassive.new(5),
+        DexterityPassive.new(11),
+    ),
+    maxAutoskills = listOf(
+        DamageDealtPassive.new(8),
+        DexterityPassive.new(16),
+    ),
+    cutinTarget = CutinTarget.BeforeAllyAct(1),
+    cutinAct = {
+        Act {
+            targetAllyAoe().act {
+                heal(fixed = values1)
+            }
+        }
+    },
+)
+
 val UnburnedFlowerUnwitheredFlame = equip4000153(
     name = "Unburned Flower, Unwithered Flame",
     baseAutoskills = listOf(
