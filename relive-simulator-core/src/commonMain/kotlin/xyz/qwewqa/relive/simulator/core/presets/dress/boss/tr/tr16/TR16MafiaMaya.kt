@@ -175,13 +175,13 @@ val tr16MafiaMayaStrategy = FixedStrategy {
         }
         5 -> {
             +boss[ActType.Act8]
-            +boss[ActType.Act2]
-            +boss[ActType.Act5]
+            +boss[ActType.Act4]
+            +boss[ActType.Act6]
         }
         6 -> {
             +boss[ActType.Act7]
             +boss[ActType.Act8]
-            +boss[ActType.Act5]
+            +boss[ActType.Act6]
         }
         else -> error("Not supported.")
     }
@@ -367,13 +367,13 @@ val tr16MafiaMayaDiff4Strategy = FixedStrategy {
         }
         5 -> {
             +boss[ActType.Act9]
-            +boss[ActType.Act2]
-            +boss[ActType.Act5]
+            +boss[ActType.Act4]
+            +boss[ActType.Act6]
         }
         6 -> {
             +boss[ActType.Act7]
             +boss[ActType.Act8]
-            +boss[ActType.Act5]
+            +boss[ActType.Act6]
         }
         else -> {
             error("Unsupported.")
