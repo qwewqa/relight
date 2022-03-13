@@ -8,6 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.actor.effectiveCoefTable
 import xyz.qwewqa.relive.simulator.core.stage.buff.BlindnessBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.FreezeBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.InvincibilityBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.NormalBarrierBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.SpecialBarrierBuff
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
@@ -113,7 +114,11 @@ class RandomDamageCalculator : DamageCalculator {
         val acc = (100 + attacker.accuracy - target.evasion).coerceIn(0, 100) *
                 (if (attacker.buffs.any(BlindnessBuff)) 0.3 else 1.0)
 
-        if (hitAttribute.mode == HitMode.FIXED) {
+        if (target.buffs.any(InvincibilityBuff)) {
+            // Critical chance isn't actually 0 against invincible targets, but
+            // it doesn't matter, so we'll skip calculating it.
+            return DamageResult(0, 0, 0.0, acc / 100.0, false)
+        } else if (hitAttribute.mode == HitMode.FIXED) {
             return DamageResult(
                 base = hitAttribute.modifier / hitAttribute.hitCount,
                 critical = hitAttribute.modifier / hitAttribute.hitCount,

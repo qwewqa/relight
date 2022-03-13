@@ -71,7 +71,10 @@ val SeimeiMichiru = dress4020018(
                         effect = PerfectAimBuff,
                         turns = times2,
                     )
-                    //TODO() Invincible Buff
+                    applyBuff(
+                        effect = InvincibilityBuff,
+                        turns = times3,
+                    )
                 }
                 targetAoe().act {
                     attack(
@@ -90,7 +93,7 @@ val SeimeiMichiru = dress4020018(
         ),
         listOf(
             TeamBrillianceRecoveryPassive.new(20) + SiegfeldOnlyCondition,
-            //TODO() Invincible Buff 1t to Siegfeld
+            TeamInvincibilityBuffPassive.new(time = 1) + SiegfeldOnlyCondition,
         ),
         listOf(
             EnemyFront5ElectricShockBuffPassive.new(time = 2),

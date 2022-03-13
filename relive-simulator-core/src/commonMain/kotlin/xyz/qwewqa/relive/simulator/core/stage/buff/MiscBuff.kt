@@ -88,3 +88,8 @@ object AbsorbBuff : BuffEffect {
         self.valueAbsorb -= value
     }
 }
+
+object InvincibilityBuff : BuffEffect {
+    override val name = "Invincibility"
+    override val category = BuffCategory.Positive
+}
