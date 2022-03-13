@@ -133,9 +133,13 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         }
     }
 
+    // Safari doesn't support lookbehinds for the obvious escape processing,
+    // so use a lookahead instead
     private fun String.splitArgs() = trim()
-        .split("(?<!\\\\)\\s+".toRegex())
-        .map { it.replace("\\ ", " ") }
+        .reversed()
+        .split("""\s+(?!\\)""".toRegex())
+        .map { it.reversed().replace("""\ """, " ") }
+        .reversed()
 
     private fun parseCommand(text: String): ParsedCommand? {
         val trimmed = text.trim()
