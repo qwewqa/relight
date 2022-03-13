@@ -54,6 +54,7 @@ val playerDresses = listOf(
     JudgementShizuha,
     JusticeNana,
     KondoIsamiIchie,
+    LittlePrinceMisora,
     LokiYachiyo,
     MerchantKaoruko,
     MitsuhideKaren,
