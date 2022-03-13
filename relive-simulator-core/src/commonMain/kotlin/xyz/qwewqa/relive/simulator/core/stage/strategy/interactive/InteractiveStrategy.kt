@@ -137,7 +137,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
     // so use a lookahead instead
     private fun String.splitArgs() = trim()
         .reversed()
-        .split("""\s+(?!\\)""".toRegex())
+        .split("""\s+(?!\\(\\\\)*)""".toRegex())
         .map { it.reversed().replace("""\ """, " ") }
         .reversed()
 
