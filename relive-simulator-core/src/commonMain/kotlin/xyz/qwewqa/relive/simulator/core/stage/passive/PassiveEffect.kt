@@ -45,6 +45,7 @@ enum class EffectTag {
     Invincibility,
     NormalBarrier,
     SpecialBarrier,
+    HpRegen,
     Evasion,
     Fortitude,
     Revive,

@@ -8,12 +8,14 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.BlindnessBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.buff.ConfusionBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.StopBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.StunBuff
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.condition.applyIfTrue
 
 val StopResistancePassive: PassiveEffect = BuffResistancePassive(EffectTag.StopResistance, StopBuff)
 val BlindnessResistancePassive: PassiveEffect = BuffResistancePassive(EffectTag.BlindnessResistance, BlindnessBuff)
 val ConfusionResistancePassive: PassiveEffect = BuffResistancePassive(EffectTag.ConfusionResistance, ConfusionBuff)
+val StunResistancePassive: PassiveEffect = BuffResistancePassive(EffectTag.StunResistance, StunBuff)
 
 object NegativeEffectResistancePassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
