@@ -42,6 +42,7 @@ enum class EffectTag {
     Regeneration,
     Absorb,
     BrillianceRegeneration,
+    Invincibility,
     NormalBarrier,
     SpecialBarrier,
     Evasion,
