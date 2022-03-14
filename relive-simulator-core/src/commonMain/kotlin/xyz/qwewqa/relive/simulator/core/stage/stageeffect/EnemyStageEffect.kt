@@ -55,3 +55,21 @@ val AfterlifeTrials = StageEffect(
     },
     StageEffectTarget.All,
 )
+
+val DisasterHail = StageEffect(
+    "Disaster Hail",
+    listOf(
+        3000,
+        3500,
+        4000,
+        4500,
+        5000,
+    ).map { value ->
+        listOf(
+            StageBuff(BurnBuff, value),
+            StageBuff(ConfusionBuff,0),
+            StageBuff(BlindnessBuff,0),
+        )
+    },
+    StageEffectTarget.All,
+)
