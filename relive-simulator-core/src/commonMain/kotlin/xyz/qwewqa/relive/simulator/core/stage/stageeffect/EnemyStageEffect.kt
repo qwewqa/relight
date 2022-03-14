@@ -20,8 +20,27 @@ val SelfTrapping = StageEffect(
     StageEffectTarget.All,
 )
 
+// TODO: Find out how fumbling affects AI with set moves
 val DeathsKiss = StageEffect(
     "Death's Kiss",
+    listOf(
+        5,
+        10,
+        15,
+        20,
+        25,
+    ).map { value ->
+        listOf(
+            StageBuff(NormalDefenseDownBuff, value),
+            StageBuff(SpecialDefenseDownBuff, value),
+        )
+    },
+    StageEffectTarget.All,
+)
+
+// TODO: Find out how curse affects AI with set moves
+val AfterlifeTrials = StageEffect(
+    "Afterlife Trials",
     listOf(
         5,
         10,

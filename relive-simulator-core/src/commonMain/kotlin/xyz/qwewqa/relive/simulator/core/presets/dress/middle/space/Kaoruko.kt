@@ -96,7 +96,7 @@ val MerchantKaoruko = dress1090023(
             TeamHpUpPassive.new(30),
         ),
         listOf(
-            TeamNegativeEffectResistanceBuffPassive.new(time = 1),
+            TeamNegativeEffectResistanceBuffPassive.new(100, 1),
         ),
     ),
     unitSkill = ActCritical50UnitSkill + SpaceOnlyCondition,

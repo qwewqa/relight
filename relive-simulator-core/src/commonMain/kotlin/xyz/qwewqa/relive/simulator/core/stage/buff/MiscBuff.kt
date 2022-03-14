@@ -93,3 +93,8 @@ object InvincibilityBuff : BuffEffect {
     override val name = "Invincibility"
     override val category = BuffCategory.Positive
 }
+
+object ExitEvasionBuff : BuffEffect {
+    override val name = "Exit Evasion"
+    override val category = BuffCategory.Positive
+}

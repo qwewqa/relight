@@ -50,6 +50,8 @@ val memoirs = mapOf("None" to EmptyMemoir) + (
             ShinsengumiRinpuden,
             StarOfTheDayMaHiKaren,
             ForOurSpecialPlace,
+            XXJudgementUpright,
+            IIPriestessReverse,
         ).sortedBy { it.name }.sortedBy { it.cutinData == null }
                 + brilliantBirthdays
                 + slapMemos

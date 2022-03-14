@@ -352,6 +352,19 @@ data class AgainstAttributeDamageDealtUpBuff(val attribute: Attribute) : BuffEff
     }
 }
 
+data class AgainstAttributeDamageTakenUpBuff(val attribute: Attribute) : BuffEffect {
+    override val name = "${attribute.name} Damage Taken Up"
+    override val category = BuffCategory.Negative
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.againstAttributeDamageTakenDown[attribute] = self.againstAttributeDamageTakenDown.getValue(attribute) - value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.againstAttributeDamageDealtUp[attribute] = self.againstAttributeDamageDealtUp.getValue(attribute) + value
+    }
+}
+
 object AccuracyRateDownBuff : BuffEffect {
     override val name = "Accuracy Rate Down"
     override val category = BuffCategory.Negative
@@ -377,5 +390,34 @@ object AccuracyRateUpBuff : BuffEffect {
 
     override fun onEnd(context: ActionContext, value: Int) = context.run {
         self.valueAccuracy -= value
+    }
+}
+
+object HPRecoveryDownBuff : BuffEffect {
+    override val name = "HP Recovery Down"
+    override val category = BuffCategory.Negative
+//    override val flipped get() = HPRecoveryUpBuff
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueHPRecoveryGainUp -= value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueHPRecoveryGainUp += value
+    }
+}
+
+//Does not currently exist
+object HPRecoveryUpBuff : BuffEffect {
+    override val name = "HP Recovery Up"
+    override val category = BuffCategory.Positive
+    override val flipped get() = HPRecoveryDownBuff
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueHPRecoveryGainUp += value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueHPRecoveryGainUp -= value
     }
 }

@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower
 
+import xyz.qwewqa.relive.simulator.core.presets.condition.BurnOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.FlowerOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2020003
 import xyz.qwewqa.relive.simulator.core.stage.Act
@@ -63,7 +64,6 @@ val SunIchie = dress2020003(
         },
         ActType.ClimaxAct.blueprint("Brilliant☆Sunshine!") {
             Act {
-                log ("TODO") { "Burn Amp not implemented" }
                 targetAoe().act {
                     applyBuff(
                         LockedBurnBuff,
@@ -78,7 +78,8 @@ val SunIchie = dress2020003(
                     attack(
                         modifier = values3,
                         hitCount = 4,
-                        //TODO: bonusMultiplier = 150, bonusCondition = BurnOnlyCondition,
+                        bonusMultiplier = 150,
+                        bonusCondition = BurnOnlyCondition,
                     )
                 }
             }

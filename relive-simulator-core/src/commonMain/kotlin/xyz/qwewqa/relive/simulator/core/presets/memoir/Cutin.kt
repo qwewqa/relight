@@ -378,3 +378,50 @@ val slapMemos = listOf(
     slapMemo("Revue of Hierophant and Chariot", Attribute.Cloud, equip4000193),
     slapMemo("Revue of Hermit and Justice", Attribute.Flower, equip4000227),
 )
+
+val XXJudgementUpright = equip4000188(
+    name = "XX Judgement [Upright]",
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(22),
+        SelfNormalDefenseUpBuffPassive.new(5, time = 1),
+        SelfSpecialDefenseUpBuffPassive.new(5, time = 1),
+    ),
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(32),
+        SelfNormalDefenseUpBuffPassive.new(10, time = 2),
+        SelfSpecialDefenseUpBuffPassive.new(10, time = 2),
+    ),
+    cutinTarget = CutinTarget.BeforeEnemyAct(1),
+    cutinAct = {
+        Act {
+            targetCutinTarget().act {
+                applyBuff(
+                    effect = StopBuff,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val IIPriestessReverse = equip4000207(
+    name = "II High Priestess [Reverse]",
+    baseAutoskills = listOf(
+        DexterityPassive.new(14)
+    ),
+    maxAutoskills = listOf(
+        DexterityPassive.new(20)
+    ),
+    cutinTarget = CutinTarget.BeforeAllyAct(1),
+    cutinAct = {
+        Act {
+            targetCutinTarget().act {
+                applyBuff(
+                    effect = ActPowerUpBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)

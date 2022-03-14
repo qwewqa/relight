@@ -242,6 +242,18 @@ class TargetContext(
         }
     }
 
+    fun dispelTimed(effect: BuffEffect) {
+        if (!self.isAlive) return
+        for (originalTarget in targets) {
+            val target = aggroTarget ?: originalTarget
+            if (!target.isAlive) continue
+            target.apply {
+                actionContext.log("Dispel", category = LogCategory.BUFF) { "Dispel timed ${effect.name} effects from [$name]." }
+                buffs.removeAll(effect)
+            }
+        }
+    }
+
     fun flipTimed(category: BuffCategory, count: Int) {
         if (!self.isAlive) return
         for (originalTarget in targets) {
