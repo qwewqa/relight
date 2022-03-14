@@ -284,10 +284,10 @@ class Actor(
                 context.log("Damage", category = LogCategory.DAMAGE) { "Revive activate (newHp: ${self.maxHp / 2})." }
                 return@run
             }
-            if (self.buffs.count(ExitEvasionBuff)>0) {
+            if (self.buffs.count(ExitEvasionBuff) > 0) {
                 self.buffs.removeAll(ExitEvasionBuff)
                 self.hp = self.maxHp / 2
-                self.buffs.add(null,BrillianceRegenBuff,100,2)
+                self.buffs.add(null, BrillianceRegenBuff, 100, 2)
                 context.log("Damage", category = LogCategory.DAMAGE) { "Exit Evasion activate (newHp: ${self.maxHp / 2})." }
                 return@run
             }

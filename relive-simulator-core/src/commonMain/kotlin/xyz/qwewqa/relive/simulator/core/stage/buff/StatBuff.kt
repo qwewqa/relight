@@ -361,7 +361,7 @@ data class AgainstAttributeDamageTakenUpBuff(val attribute: Attribute) : BuffEff
     }
 
     override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.againstAttributeDamageDealtUp[attribute] = self.againstAttributeDamageDealtUp.getValue(attribute) + value
+        self.againstAttributeDamageTakenDown[attribute] = self.againstAttributeDamageTakenDown.getValue(attribute) + value
     }
 }
 
