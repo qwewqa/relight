@@ -340,6 +340,8 @@ val brilliantBirthdays = listOf(
     brilliantBirthday(Character.Tsukasa, equip4000223),
     brilliantBirthday(Character.Fumi, equip4000230),
     brilliantBirthday(Character.Michiru, equip4000239),
+    brilliantBirthday(Character.Kaoruko, equip4000246),
+    brilliantBirthday(Character.Ichie, equip4000252),
 )
 
 private fun slapMemo(
