@@ -133,6 +133,13 @@ class BuffManager(val actor: Actor) {
         false
     }
 
+    fun tryRemove(buff: ActiveBuff) = if (buff.turns > 0) {
+        remove(buff)
+        true
+    } else {
+        false
+    }
+
     /**
      * Remove all non-ephemeral buffs.
      */

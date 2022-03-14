@@ -65,6 +65,7 @@ enum class EffectTag {
     Blindness,
     Mark,
     ElectricShock,
+    Lovesickness,
     PoisonResistance,
     BurnResistance,
     StunResistance,

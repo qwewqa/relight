@@ -4,11 +4,12 @@ import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 
 val ConfusionResistanceBuff: BuffEffect = BuffResistanceBuff(ConfusionBuff)
 val StopResistanceBuff: BuffEffect = BuffResistanceBuff(StopBuff)
-val StunResistanceBuff: BuffEffect = BuffResistanceBuff(StunBuff)
+val StunResistanceBuff: BuffEffect = BuffResistanceBuff(listOf(StunBuff, LockedStunBuff))
 val BurnResistanceBuff: BuffEffect = BuffResistanceBuff(listOf(BurnBuff, LockedBurnBuff))
 val FreezeResistanceBuff: BuffEffect = BuffResistanceBuff(FreezeBuff)
 val BlindnessResistanceBuff: BuffEffect = BuffResistanceBuff(BlindnessBuff)
 val SleepResistanceBuff: BuffEffect = BuffResistanceBuff(SleepBuff)
+val AggroResistanceBuff: BuffEffect = BuffResistanceBuff(AggroBuff)
 
 object NegativeEffectResistanceBuff : BuffEffect {
     override val name = "Negative Effect Resistance"

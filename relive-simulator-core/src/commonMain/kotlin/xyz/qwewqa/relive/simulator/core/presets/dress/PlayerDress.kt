@@ -7,9 +7,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.StageGirlHikari
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.WorldMaya
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.snow.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.space.*
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.wind.FoolYachiyo
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.wind.ImperialCombatRevueFlowerDivisionSakura
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.wind.SakuraShingujiHikari
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.wind.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.front.cloud.EmpressMeiFan
 import xyz.qwewqa.relive.simulator.core.presets.dress.front.flower.EmperorAkira
 import xyz.qwewqa.relive.simulator.core.presets.dress.front.moon.FaithMisora
@@ -34,6 +32,7 @@ val playerDresses = listOf(
     BloodyDevilShiori,
     CatalinaKaoruko,
     CharityTsukasa,
+    CoyoteCainYachiyo,
     DeathTamao,
     DevilKaoruko,
     EmperorAkira,
@@ -51,7 +50,9 @@ val playerDresses = listOf(
     HuntingRevueNana,
     ImperialCombatRevueFlowerDivisionSakura,
     IzanagiNana,
+    JoshuaMichiru,
     JudgementShizuha,
+    JulietShiori,
     JusticeNana,
     KondoIsamiIchie,
     LittlePrinceMisora,
@@ -61,24 +62,33 @@ val playerDresses = listOf(
     MoonAruru,
     NagakuraShinpachiFumi,
     NewYorkCombatRevueGemie,
+    OkuninushiKaren,
     OrpheusFumi,
     ParisCombatRevueFlowerDivisionErika,
     SakuraShingujiHikari,
     SakuyahimeMahiru,
     SanadaMahiru,
     SeimeiMichiru,
+    SonokoYachiyo,
     StageGirlClaudine,
+    StageGirlFumi,
     StageGirlHikari,
+    StageGirlHisame,
     StageGirlIchie,
     StageGirlJunna,
+    StageGirlKaoruko,
+    StageGirlKaren,
+    StageGirlKoharu,
     StageGirlLalafin,
     StageGirlMahiru,
+    StageGirlMaya,
     StageGirlMeiFan,
     StageGirlMichiru,
     StageGirlMisora,
     StageGirlNana,
     StageGirlRui,
     StageGirlShizuha,
+    StageGirlSuzu,
     StageGirlYachiyo,
     StageGirlYuyuko,
     StrengthFutaba,
@@ -87,5 +97,4 @@ val playerDresses = listOf(
     WheelOfFortuneKaren,
     WorldMaya,
     YellowTsukasa,
-    StageGirlFumi,
 ).associateBy { it.name }

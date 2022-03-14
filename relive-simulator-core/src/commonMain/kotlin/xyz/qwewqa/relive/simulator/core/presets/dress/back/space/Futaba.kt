@@ -1,7 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.space
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.BackOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3020009
+import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1080017
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
@@ -9,81 +9,81 @@ import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageSpace
 
-val LittlePrinceMisora = dress3020009(
-    name = "Little Prince Misora",
+val StageGirlFutaba = dress1080017(
+    name = "Stage Girl Futaba",
     acts = listOf(
-        ActType.Act1.blueprint("Strong Thrust") {
+        ActType.Act1.blueprint("Strong Slash") {
             Act {
                 targetFront().act {
                     attack(
                         modifier = values1,
-                        hitCount = 1,
+                        hitCount = 2,
                     )
                 }
             }
         },
-        ActType.Act2.blueprint("Snake Bite") {
+        ActType.Act2.blueprint("Cursed Slash") {
             Act {
-                targetFront().act {
+                targetAoe().act {
                     attack(
                         modifier = values1,
-                        hitCount = 1,
+                        hitCount = 2,
                     )
-                }
-                targetAllyAoe().act {
                     applyBuff(
-                        effect = DexterityUpBuff,
+                        effect = HPRecoveryDownBuff,
                         value = values2,
                         turns = times2,
                     )
                 }
             }
         },
-        ActType.Act3.blueprint("Fox Guidance") {
+        ActType.Act3.blueprint("Relaxing Slash") {
             Act {
                 targetFront().act {
                     attack(
                         modifier = values1,
-                        hitCount = 1,
+                        hitCount = 2,
                     )
                 }
-                targetAllyAoe().act {
+                targetAoe().act {
                     applyBuff(
-                        effect = CounterHealBuff,
+                        effect = NormalDefenseDownBuff,
                         value = values2,
                         turns = times2,
                     )
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("End of the Journey") {
+        ActType.ClimaxAct.blueprint("I will dash forth with fighting spirit!") {
             Act {
-                targetFront(3).act {
+                targetAoe().act {
+                    applyBuff(
+                        effect = HPRecoveryDownBuff,
+                        value = values1,
+                        turns = times1,
+                    )
                     attack(
-                        modifier = values1,
+                        modifier = values2,
                         hitCount = 3,
                     )
                 }
-                targetAllyFront(5).act {
-                    applyBuff(
-                        effect = InvincibilityBuff,
-                        turns = times2,
-                    )
-                }
+                applyAllyStageEffect(WeAreOnTheStageSpace, 6)
             }
         }
     ),
     autoSkills = listOf(
         listOf(
+            SelfEvasionBuffPassive.new(time = 1),
+        ),
+        listOf(
             StunResistancePassive.new(100),
         ),
         listOf(
-            SelfFortitudeBuffPassive.new(time = 1),
-        ),
-        listOf(
-            TeamHpRegenBuffPassive.new(2000, 3),
+            DexterityPassive.new(15),
         ),
     ),
-    unitSkill = ActCritical30UnitSkill + BackOnlyCondition,
+    unitSkill = ActCritical30UnitSkillStageGirl + SpaceOnlyCondition,
+    categories = setOf(DressCategory.StageGirl),
 )

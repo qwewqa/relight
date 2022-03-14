@@ -89,6 +89,9 @@ class Actor(
     val brillianceGainUp get() = valueBrillianceGainUp
     var valueBrillianceGainUp = 0
 
+    val hpRecoveryGainUp get() = valueHPRecoveryGainUp
+    var valueHPRecoveryGainUp = 0
+
     val absorb get() = valueAbsorb
     var valueAbsorb = 0
 
@@ -189,6 +192,10 @@ class Actor(
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by stun." }
                 return
             }
+            if (buffs.any(LovesicknessBuff) && context.stage.random.nextDouble() < 0.5) {
+                context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by lovesickness." }
+                return
+            }
             if (buffs.any(CountableBuff.Daze)) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by daze." }
                 Act {
@@ -277,6 +284,13 @@ class Actor(
                 context.log("Damage", category = LogCategory.DAMAGE) { "Revive activate (newHp: ${self.maxHp / 2})." }
                 return@run
             }
+            if (self.buffs.count(ExitEvasionBuff)>0) {
+                self.buffs.removeAll(ExitEvasionBuff)
+                self.hp = self.maxHp / 2
+                self.buffs.add(null,BrillianceRegenBuff,100,2)
+                context.log("Damage", category = LogCategory.DAMAGE) { "Exit Evasion activate (newHp: ${self.maxHp / 2})." }
+                return@run
+            }
             exit()
             return@run
         }
@@ -324,7 +338,7 @@ class Actor(
                 (self.hp + amount).coerceAtMost(self.maxHp)
             })"
         }
-        self.hp += amount
+        self.hp += amount * (100 + hpRecoveryGainUp) / 100
         self.hp = self.hp.coerceAtMost(self.maxHp)
     }
 

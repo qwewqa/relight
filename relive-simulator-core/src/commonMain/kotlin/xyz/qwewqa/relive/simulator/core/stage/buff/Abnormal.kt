@@ -103,6 +103,19 @@ object LockedElectricShockBuff : BuffEffect {
     override val locked: Boolean = true
 }
 
+object LovesicknessBuff : BuffEffect {
+    override val name = "Lovesickness"
+    override val category = BuffCategory.Negative
+    override val exclusive: Boolean = true
+}
+
+object LockedLovesicknessBuff : BuffEffect {
+    override val name = "Lovesickness"
+    override val category = BuffCategory.Negative
+    override val exclusive: Boolean = true
+    override val locked: Boolean = true
+}
+
 object AbnormalGuardBuff : BuffEffect {
     override val name = "Abnormal Guard"
     override val category = BuffCategory.Positive
@@ -139,4 +152,4 @@ val abnormalBuffs = setOf(
     LockedBurnBuff,
     PoisonBuff,
     LockedPoisonBuff,
-) //TODO() Electric Shock and Locked Electric Shock in here or just normal?
+) //TODO() Electric Shock and Locked Electric Shock in here or just normal? Lovesickness & its locked version too
