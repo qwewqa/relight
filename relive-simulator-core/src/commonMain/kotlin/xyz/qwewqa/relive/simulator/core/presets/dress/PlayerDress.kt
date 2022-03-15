@@ -74,6 +74,7 @@ val playerDresses = listOf(
     SonokoYachiyo,
     StageGirlClaudine,
     StageGirlFumi,
+    StageGirlFutaba,
     StageGirlHikari,
     StageGirlHisame,
     StageGirlIchie,
