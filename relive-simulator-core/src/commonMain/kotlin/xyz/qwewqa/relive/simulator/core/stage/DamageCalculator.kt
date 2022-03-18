@@ -25,6 +25,8 @@ class RandomDamageCalculator : DamageCalculator {
             category = LogCategory.DAMAGE,
             debug = true
         ) { "[${attacker.name}] attempts to hit [${target.name}]." }
+        actionLog.attemptedHit = true
+
         val result = calculateDamage(attacker, target, hitAttribute)
         result.apply {
             log(
