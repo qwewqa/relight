@@ -15,7 +15,8 @@ import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
 data class ActionLog(
-        var successfulHits: Int = 0
+        var successfulHits: Int = 0,
+        var attemptedHit: Boolean = false,
 )
 
 class ActionContext(
