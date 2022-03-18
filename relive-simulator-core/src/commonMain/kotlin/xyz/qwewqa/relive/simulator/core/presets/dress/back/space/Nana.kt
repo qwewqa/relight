@@ -162,7 +162,7 @@ val JusticeNana = dress1070004(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Izanagi's Creation") {
+        ActType.ClimaxAct.blueprint("Absolute Justice") {
             Act {
                 targetSelf().act {
                     applyBuff(
@@ -252,7 +252,7 @@ val HuntingRevueNana = dress1070024(
                 focus {
                     targetAoe().act {
                         attack(
-                            modifier = values2,
+                            modifier = values1,
                             hitCount = 4,
                             bonusMultiplier = 150,
                             bonusCondition = SeishoOnlyCondition,
