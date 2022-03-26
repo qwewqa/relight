@@ -70,7 +70,7 @@ val bossLoadouts = listOf(
     BossLoadout(tr17DraculaClaudine, tr17DraculaClaudineStrategy),
     BossLoadout(tr17DraculaClaudineDiff4, tr17DraculaClaudineDiff4Strategy),
     BossLoadout(tr17VampireShiori, tr17VampireShioriStrategy),
-    BossLoadout(tr17VampireShiori, tr17VampireShioriDiff4Strategy),
+    BossLoadout(tr17VampireShioriDiff4, tr17VampireShioriDiff4Strategy),
     BossLoadout(tr17HellsingMichiru, tr17HellsingMichiruStrategy),
     BossLoadout(tr17HellsingMichiruDiff4, tr17HellsingMichiruDiff4Strategy),
     BossLoadout(tr17FaithMisora, tr17FaithMisoraStrategy),
