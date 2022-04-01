@@ -29,6 +29,7 @@ data class DressBlueprint(
     val remakeParameters: List<StatData>,
     val unitSkill: UnitSkill,
     val categories: Set<DressCategory>,
+    val multipleCA: Boolean,
 ) {
     fun create(
         rarity: Int,
@@ -112,6 +113,7 @@ data class DressBlueprint(
             autoSkills.take(autoSkillCount).flatten(),
             unitSkill.forLevel(unitSkillLevel),
             categories,
+            multipleCA,
             this,
         )
     }
@@ -149,6 +151,7 @@ data class PartialDressBlueprint(
         autoSkills: List<List<PassiveData>>,
         unitSkill: UnitSkill,
         categories: Set<DressCategory> = emptySet(),
+        multipleCA: Boolean = false,
     ) = DressBlueprint(
         id,
         name,
@@ -177,6 +180,7 @@ data class PartialDressBlueprint(
         remakeParameters,
         unitSkill,
         categories,
+        multipleCA,
     )
 }
 

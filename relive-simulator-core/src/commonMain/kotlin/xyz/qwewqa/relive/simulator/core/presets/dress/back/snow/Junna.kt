@@ -153,9 +153,9 @@ val HuntingRevueJunna = dress1060024(
                         hitCount = 3,
                     )
                 }
-                applyAllyStageEffect(TheStageWhereHoshimiJunnaPlaysTheLead, 3) //TODO() Check if this is implemented correctly
+                applyAllyStageEffect(TheStageWhereHoshimiJunnaPlaysTheLead, 3)
             }
-        } //TODO() Continuous Climax Act
+        }
     ),
     autoSkills = listOf(
         listOf(
@@ -168,8 +168,9 @@ val HuntingRevueJunna = dress1060024(
             EnemyBrillianceDrainPassive.new(50) + BackOnlyCondition,
         ),
         listOf(
-            EnemyAPUpBuffPassive.new(time = 3) + BackOnlyCondition, //TODO() Check if this works correctly
+            EnemyAPUpBuffPassive.new(time = 3) + BackOnlyCondition,
         ),
     ),
     unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
+    multipleCA = true,
 )

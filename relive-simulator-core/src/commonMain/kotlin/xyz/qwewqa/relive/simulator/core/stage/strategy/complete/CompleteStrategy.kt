@@ -330,7 +330,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         script.body.execute(context)
         discardHand()
         queued.forEach {
-            if (it.act.type == ActType.ClimaxAct) {
+            if (it.act.type == ActType.ClimaxAct && !it.actor.dress.multipleCA) {
                 usedClimaxActs += it
             }
         }

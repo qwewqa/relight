@@ -22,5 +22,6 @@ data class Dress(
     val autoSkills: List<PassiveData>,
     val unitSkill: List<PassiveData> = emptyList(),
     val categories: Set<DressCategory> = emptySet(),
+    val multipleCA: Boolean = false,
     val blueprint: DressBlueprint? = null,
 )

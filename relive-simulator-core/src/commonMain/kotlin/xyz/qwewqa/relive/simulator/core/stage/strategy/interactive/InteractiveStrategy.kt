@@ -361,7 +361,7 @@ ${formattedHand()}
                 cutinUseCounts[cutin] = cutinUseCounts.getValue(cutin) + 1
             }
             queue.forEach {
-                if (it.act.type == ActType.ClimaxAct) {
+                if (it.act.type == ActType.ClimaxAct && !it.actor.dress.multipleCA) {
                     usedClimaxActs += it
                     if (it.actor == team.guest) {
                         hasUsedGuestClimaxAct = true
