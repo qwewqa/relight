@@ -317,7 +317,7 @@ val tr17DraculaClaudineDiff4Strategy = FixedStrategy {
         }
         5 -> {
             +boss[ActType.Act8]
-            +boss[ActType.Act1]
+            +boss[ActType.Act2]
             +boss[ActType.Act6]
         }
         6 -> {

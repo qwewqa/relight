@@ -345,12 +345,12 @@ val tr17HellsingMichiruDiff4Strategy = FixedStrategy {
         }
         4 -> {
             +boss[ActType.Act8]
-            +boss[ActType.Act1]
+            +boss[ActType.Act2]
             +boss[ActType.Act5]
         }
         5 -> {
             +boss[ActType.Act7]
-            +boss[ActType.Act5]
+            +boss[ActType.Act4]
             +boss[ActType.Act6]
         }
         6 -> {
