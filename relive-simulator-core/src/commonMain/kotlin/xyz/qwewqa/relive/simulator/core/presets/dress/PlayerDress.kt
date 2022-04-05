@@ -72,6 +72,8 @@ val playerDresses = listOf(
     SanadaMahiru,
     SeimeiMichiru,
     SonokoYachiyo,
+    SoulRevueMaya,
+    StageGirlAkira,
     StageGirlClaudine,
     StageGirlFumi,
     StageGirlFutaba,

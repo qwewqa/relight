@@ -1,6 +1,9 @@
 package xyz.qwewqa.relive.simulator.core.stage.stageeffect
 
+import xyz.qwewqa.relive.simulator.core.presets.condition.ClaudineOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.MayaOnlyCondition
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.condition.or
 
 val AngelicSmile = StageEffect(
     "Angelic Smile",
@@ -94,4 +97,47 @@ val LightOfCourage = StageEffect(
         ),
     ),
     StageEffectTarget.All,
+)
+
+val TrialsForHeroesTemptationsForSaints = StageEffect(
+    "Trials for Heroes, Temptations for Saints",
+    listOf(
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(ClimaxDamageUpBuff, 25),
+            StageBuff(DexterityUpBuff, 25),
+            StageBuff(CriticalUpBuff, 25),
+            StageBuff(AgilityUpBuff, 10),
+        ),
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(ClimaxDamageUpBuff, 50),
+            StageBuff(DexterityUpBuff, 50),
+            StageBuff(CriticalUpBuff, 50),
+            StageBuff(AgilityUpBuff, 20),
+        ),
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(ClimaxDamageUpBuff, 55),
+            StageBuff(DexterityUpBuff, 55),
+            StageBuff(CriticalUpBuff, 55),
+            StageBuff(AgilityUpBuff, 25),
+        ),
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(ClimaxDamageUpBuff, 60),
+            StageBuff(DexterityUpBuff, 60),
+            StageBuff(CriticalUpBuff, 60),
+            StageBuff(AgilityUpBuff, 30),
+        ),
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(ClimaxDamageUpBuff, 65),
+            StageBuff(DexterityUpBuff, 65),
+            StageBuff(CriticalUpBuff, 65),
+            StageBuff(AgilityUpBuff, 35),
+        ),
+    ),
+    StageEffectTarget.All,
+    MayaOnlyCondition.or(ClaudineOnlyCondition),
 )

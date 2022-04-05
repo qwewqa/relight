@@ -212,11 +212,10 @@ object BrillianceGainDownBuff : BuffEffect {
     }
 }
 
-// Note: does not exist at the moment
 object BrillianceGainUpBuff : BuffEffect {
     override val name = "Brilliance Gain Up"
     override val category = BuffCategory.Positive
-    override val flipped get() = BrillianceGainDownBuff
+//    override val flipped get() = BrillianceGainDownBuff TODO() confirm if these flip to each other
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.valueBrillianceGainUp += value

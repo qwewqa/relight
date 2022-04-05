@@ -73,3 +73,20 @@ val DisasterHail = StageEffect(
     },
     StageEffectTarget.All,
 )
+
+val Thunder = StageEffect(
+    "Thunder",
+    listOf(
+        20,
+        30,
+        40,
+        50,
+        60,
+    ).map { value ->
+        listOf(
+            StageBuff(ElectricShockBuff, 0),
+            StageBuff(ActPowerDownBuff, value),
+        )
+    },
+    StageEffectTarget.All,
+)
