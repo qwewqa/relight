@@ -399,7 +399,7 @@ val tr17FaithMisoraDiff4Strategy = FixedStrategy {
             +boss[ActType.Act8]
         }
         4 -> {
-            +boss[ActType.Act3]
+            +boss[ActType.Act4]
             +boss[ActType.Act7]
             +boss[ActType.Act1]
         }

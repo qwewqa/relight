@@ -335,7 +335,7 @@ val tr17VampireShioriDiff4Strategy = FixedStrategy {
         4 -> {
             +boss[ActType.Act7]
             +boss[ActType.Act1]
-            +boss[ActType.Act2]
+            +boss[ActType.Act3]
         }
         5 -> {
             +boss[ActType.Act9]
