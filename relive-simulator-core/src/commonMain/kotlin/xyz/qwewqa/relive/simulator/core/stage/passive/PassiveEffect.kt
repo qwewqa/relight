@@ -54,6 +54,7 @@ enum class EffectTag {
     ClimaxDamage,
     Brilliance,
     BrillianceDown,
+    BrillianceUp,
     Poison,
     Burn,
     Stun,
