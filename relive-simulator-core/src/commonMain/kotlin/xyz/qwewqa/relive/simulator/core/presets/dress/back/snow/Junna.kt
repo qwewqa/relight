@@ -99,7 +99,7 @@ val StageGirlJunna = dress1060017(
 )
 
 val HuntingRevueJunna = dress1060024(
-    name = "Revue of Hunting Junna",
+    name = "Hunting Revue Junna",
     acts = listOf(
         ActType.Act1.blueprint("Strike of Brilliance") {
             Act {
