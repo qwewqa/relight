@@ -111,8 +111,8 @@ val StageGirlAkira = dress4010017(
             TeamCriticalUpBuffPassive.new(20, 3),
         ),
         listOf(
-            TeamAPDownBuffPassive.new(1),
-            TeamAPDownBuffPassive.new(2) + SiegfeldOnlyCondition,
+            TeamAPDownBuffPassive.new(time = 1),
+            TeamAPDownBuffPassive.new(time = 2) + SiegfeldOnlyCondition,
         ),
         listOf(
             EnemyBack3LockedAPUpBuffPassive.new(time = 3),

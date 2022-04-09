@@ -434,6 +434,29 @@ val HP50Def50UnitSkill = UnitSkill(
             40,
             50
         ),
+        listOf(
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            22,
+            24,
+            26,
+            28,
+            30,
+            32,
+            34,
+            36,
+            40,
+            50
+        ),
     ),
     listOf(TeamHpUpPassive, TeamNormalDefenseUpPassive, TeamSpecialDefenseUpPassive)
 )
