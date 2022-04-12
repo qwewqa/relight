@@ -34,7 +34,7 @@ val StageGirlJunna = dress1060017(
                 targetFront().act {
                     attack(
                         modifier = values1,
-                        hitCount = 2,
+                        hitCount = 1,
                     )
                 }
                 targetAllyAoe().act {
@@ -46,12 +46,12 @@ val StageGirlJunna = dress1060017(
                 }
             }
         },
-        ActType.Act3.blueprint("Piercing Arrow") {
+        ActType.Act3.blueprint("Synchro Strike") {
             Act {
                 targetFront().act {
                     attack(
                         modifier = values1,
-                        hitCount = 2,
+                        hitCount = 1,
                     )
                 }
                 targetAllyAoe().act {
@@ -75,7 +75,7 @@ val StageGirlJunna = dress1060017(
                 }
                 targetAoe().act {
                     attack(
-                        modifier = values2,
+                        modifier = values3,
                         hitCount = 3,
                     )
                 }
