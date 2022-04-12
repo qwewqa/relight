@@ -8,6 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.LockedConfusionBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.SleepBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
 import xyz.qwewqa.relive.simulator.core.stage.passive.SelfTurnBrillianceRecoveryPassive
