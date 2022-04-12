@@ -27,7 +27,7 @@ val StageGirlMichiru = dress4020017(
                 targetAoe().act {
                     attack(
                         modifier = values3,
-                        hitCount = 2,
+                        hitCount = 1,
                     )
                 }
             }

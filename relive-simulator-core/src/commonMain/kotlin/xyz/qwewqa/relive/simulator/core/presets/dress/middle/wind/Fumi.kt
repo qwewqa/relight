@@ -86,4 +86,5 @@ val StageGirlFumi = dress2030017(
         ),
     ),
     unitSkill = ActCritical50UnitSkill + RinmeikanOnlyCondition,
+    categories = setOf(DressCategory.StageGirl),
 )
