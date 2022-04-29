@@ -4,7 +4,6 @@ import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.condition.NamedCondition
 import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
-import xyz.qwewqa.relive.simulator.stage.character.School
 
 /**
  * Autoskill effects.
@@ -126,7 +125,8 @@ enum class EffectTag {
  */
 enum class PassiveEffectCategory {
     Passive,
-    TurnStartPositive,
+    TurnStartPositiveA,
+    TurnStartPositiveB,
     TurnStartNegative,
 }
 

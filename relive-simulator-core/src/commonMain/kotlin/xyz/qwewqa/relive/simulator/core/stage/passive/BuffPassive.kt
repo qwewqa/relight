@@ -86,7 +86,7 @@ private data class GenericBuffPassive(
     val target: ActionContext.(Condition) -> TargetContext,
 ) : PassiveEffect {
     override val name = "Auto Buff ${buffEffect.name} ($targetName)"
-    override val category = PassiveEffectCategory.TurnStartPositive
+    override val category = PassiveEffectCategory.TurnStartPositiveB
     override val tags = listOf(tag)
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
@@ -102,7 +102,7 @@ private data class GenericCountableBuffPassive(
     val target: ActionContext.(Condition) -> TargetContext,
 ) : PassiveEffect {
     override val name = "Auto Countable Buff ${buff.name} ($targetName)"
-    override val category = PassiveEffectCategory.TurnStartPositive
+    override val category = PassiveEffectCategory.TurnStartPositiveB
     override val tags = listOf(tag)
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
@@ -118,7 +118,7 @@ private data class ResistanceBuffPassive(
     val target: ActionContext.(Condition) -> TargetContext,
 ) : PassiveEffect {
     override val name = "Auto Resistance Buff ${buffEffect.name} ($targetName)"
-    override val category = PassiveEffectCategory.TurnStartPositive
+    override val category = PassiveEffectCategory.TurnStartPositiveB
     override val tags = listOf(tag)
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =

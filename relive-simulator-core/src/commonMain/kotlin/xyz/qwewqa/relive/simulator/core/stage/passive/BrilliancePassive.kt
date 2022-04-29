@@ -8,7 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.condition.applyIfTrue
 
 object SelfTurnBrillianceRecoveryPassive : PassiveEffect {
-    override val category = PassiveEffectCategory.TurnStartPositive
+    override val category = PassiveEffectCategory.Passive
     override val tags = listOf(EffectTag.Brilliance)
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
@@ -19,7 +19,7 @@ object SelfTurnBrillianceRecoveryPassive : PassiveEffect {
 }
 
 object BrillianceRecoveryPassive : PassiveEffect {
-    override val category = PassiveEffectCategory.TurnStartPositive
+    override val category = PassiveEffectCategory.TurnStartPositiveA
     override val tags = listOf(EffectTag.Brilliance)
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
@@ -31,7 +31,7 @@ object BrillianceRecoveryPassive : PassiveEffect {
 
 
 object TeamBrillianceRecoveryPassive : PassiveEffect {
-    override val category = PassiveEffectCategory.TurnStartPositive
+    override val category = PassiveEffectCategory.TurnStartPositiveA
     override val tags = listOf(EffectTag.Brilliance)
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
