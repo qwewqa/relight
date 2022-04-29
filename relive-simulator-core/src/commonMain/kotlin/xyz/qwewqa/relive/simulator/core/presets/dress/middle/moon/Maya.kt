@@ -172,4 +172,5 @@ val SoulRevueMaya = dress1050025(
         ),
     ),
     unitSkill = ActCritical50UnitSkill + MoonOnlyCondition,
+    multipleCA = true,
 )
