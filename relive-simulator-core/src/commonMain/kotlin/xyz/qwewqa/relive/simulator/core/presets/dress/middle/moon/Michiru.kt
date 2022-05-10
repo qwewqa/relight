@@ -69,11 +69,11 @@ val SeimeiMichiru = dress4020018(
                 targetAllyFront(5).act {
                     applyBuff(
                         effect = PerfectAimBuff,
-                        turns = times2,
+                        turns = times3,
                     )
                     applyBuff(
                         effect = InvincibilityBuff,
-                        turns = times3,
+                        turns = times2,
                     )
                 }
                 targetAoe().act {
