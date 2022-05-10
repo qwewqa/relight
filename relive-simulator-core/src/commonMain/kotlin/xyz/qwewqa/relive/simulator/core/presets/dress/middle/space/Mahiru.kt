@@ -63,7 +63,7 @@ val SorcererMahiru = dress2020018(
             Act {
                 targetAllyAoe().act {
                     applyBuff(
-                        effect = LockedNormalBarrierBuff,
+                        effect = LockedSpecialBarrierBuff,
                         value = values1,
                         turns = times1,
                     )
