@@ -84,6 +84,7 @@ enum class EffectTag {
     PerfectAim,
     ApDown,
     ApUp,
+    AP2Down,
     Provoke,
     Aggro,
     Cutin,
