@@ -25,6 +25,17 @@ object NegativeEffectResistancePassive : PassiveEffect {
     }
 }
 
+object NegativeCountableResistancePassive : PassiveEffect {
+    override val category = PassiveEffectCategory.Passive
+    override val tags = listOf(EffectTag.NegativeCountableResistance)
+
+    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition)  = context.run {
+        condition.applyIfTrue(self) {
+            valueNegativeCountableResist += value
+        }
+    }
+}
+
 private data class BuffResistancePassive(val tag: EffectTag, var effects: List<BuffEffect>) : PassiveEffect {
     constructor(tag: EffectTag, vararg effects: BuffEffect) : this(tag, effects.toList())
 

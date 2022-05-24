@@ -161,6 +161,13 @@ class BuffManager(val actor: Actor) {
         }.clear()
     }
 
+    fun reduceCountable(category: BuffCategory) {
+        when (category) {
+            BuffCategory.Positive -> positiveCountableBuffs
+            BuffCategory.Negative -> negativeCountableBuffs
+        }.forEach { tryRemove(it.key) }
+    }
+
     fun flip(category: BuffCategory, count: Int) {
         val targets = when (category) {
             BuffCategory.Positive -> positiveBuffs

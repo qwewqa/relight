@@ -206,7 +206,6 @@ class TargetContext(
             target.apply {
                 when (effect.category) {
                     BuffCategory.Positive -> {
-                        // PER works for countable buffs but NER doesn't for countable debuffs for some reason
                         val applyChance =
                                 chance / 100.0 * (100 - positiveEffectResist - (specificCountableBuffResist[effect]
                                         ?: 0)) / 100.0
@@ -218,7 +217,7 @@ class TargetContext(
                         }
                     }
                     BuffCategory.Negative -> {
-                        val applyChance = chance / 100.0 * (100 - (specificCountableBuffResist[effect] ?: 0)) / 100.0
+                        val applyChance = chance / 100.0 * (100 - negativeCountableResist - (specificCountableBuffResist[effect] ?: 0)) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
                             buffs.addCountable(effect, count)
                             actionContext.log("Buff", category = LogCategory.BUFF) { "Negative buff [${effect.name}] (${count}x) applied to [$name]." }
@@ -275,6 +274,18 @@ class TargetContext(
             target.apply {
                 actionContext.log("Dispel", category = LogCategory.BUFF) { "Dispel countable ${category.name} effects from [$name]." }
                 buffs.dispelCountable(category)
+            }
+        }
+    }
+
+    fun reduceCountable(category: BuffCategory) {
+        if (!self.isAlive) return
+        for (originalTarget in targets) {
+            val target = aggroTarget ?: originalTarget
+            if (!target.isAlive) continue
+            target.apply {
+                actionContext.log("Reduce", category = LogCategory.BUFF) {"Remove one of each ${category.name} countable effect from [$name]." }
+                buffs.reduceCountable(category)
             }
         }
     }

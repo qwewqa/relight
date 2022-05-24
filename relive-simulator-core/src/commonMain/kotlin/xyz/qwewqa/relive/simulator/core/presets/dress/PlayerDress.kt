@@ -22,10 +22,8 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.space.*
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.CatalinaKaoruko
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.HondaFutaba
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.StageGirlFumi
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.TowerHikari
+import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.dream.WhiteFrontierAruru
 
 val playerDresses = listOf(
     AceMisora,
@@ -75,6 +73,7 @@ val playerDresses = listOf(
     SeimeiMichiru,
     SonokoYachiyo,
     SorcererMahiru,
+    SoulRevueClaudine,
     SoulRevueMaya,
     StageGirlAkira,
     StageGirlClaudine,
@@ -97,12 +96,14 @@ val playerDresses = listOf(
     StageGirlRui,
     StageGirlShizuha,
     StageGirlSuzu,
+    StageGirlTsukasa,
     StageGirlYachiyo,
     StageGirlYuyuko,
     StrengthFutaba,
     SunIchie,
     TowerHikari,
     WheelOfFortuneKaren,
+    WhiteFrontierAruru,
     WorldMaya,
     YellowTsukasa,
 ).associateBy { it.name }
