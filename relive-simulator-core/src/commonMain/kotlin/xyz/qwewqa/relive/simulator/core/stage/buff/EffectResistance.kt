@@ -51,6 +51,19 @@ object LockedPositiveEffectResistanceBuff : BuffEffect {
     }
 }
 
+object NegativeCountableResistanceBuff : BuffEffect {
+    override val name = "Negative Countable Resistance"
+    override val category = BuffCategory.Positive
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueNegativeCountableResist += value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueNegativeCountableResist -= value
+    }
+}
+
 
 private data class BuffResistanceBuff(var effects: List<BuffEffect>) : BuffEffect {
     constructor(vararg effects: BuffEffect) : this(effects.toList())

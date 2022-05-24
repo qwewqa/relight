@@ -13,11 +13,13 @@ object SpecialBarrierBuff : BuffEffect {
 object LockedNormalBarrierBuff : BuffEffect {
     override val name = "Locked Normal Barrier"
     override val category = BuffCategory.Positive
+    override val related = NormalBarrierBuff
     override val locked = true
 }
 
 object LockedSpecialBarrierBuff : BuffEffect {
     override val name = "Locked Special Barrier"
     override val category = BuffCategory.Positive
+    override val related = SpecialBarrierBuff
     override val locked = true
 }

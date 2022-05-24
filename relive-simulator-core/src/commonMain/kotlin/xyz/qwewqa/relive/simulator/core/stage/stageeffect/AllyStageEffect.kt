@@ -141,3 +141,41 @@ val TrialsForHeroesTemptationsForSaints = StageEffect(
     StageEffectTarget.All,
     MayaOnlyCondition.or(ClaudineOnlyCondition),
 )
+
+val FlamesFallingTogether = StageEffect(
+    "Flames Falling Together",
+    listOf(
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(DexterityUpBuff, 25),
+            StageBuff(CriticalUpBuff, 25),
+            StageBuff(BrillianceRegenBuff, 10),
+        ),
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(DexterityUpBuff, 50),
+            StageBuff(CriticalUpBuff, 50),
+            StageBuff(BrillianceRegenBuff, 15),
+        ),
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(DexterityUpBuff, 55),
+            StageBuff(CriticalUpBuff, 55),
+            StageBuff(BrillianceRegenBuff, 20),
+        ),
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(DexterityUpBuff, 60),
+            StageBuff(CriticalUpBuff, 60),
+            StageBuff(BrillianceRegenBuff, 25),
+        ),
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(DexterityUpBuff, 65),
+            StageBuff(CriticalUpBuff, 65),
+            StageBuff(BrillianceRegenBuff, 30),
+        ),
+    ),
+    StageEffectTarget.All,
+    MayaOnlyCondition.or(ClaudineOnlyCondition),
+)

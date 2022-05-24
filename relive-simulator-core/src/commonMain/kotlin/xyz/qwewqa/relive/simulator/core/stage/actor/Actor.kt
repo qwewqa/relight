@@ -98,6 +98,9 @@ class Actor(
     val negativeEffectResist get() = valueNegativeEffectResist
     var valueNegativeEffectResist = 0
 
+    val negativeCountableResist get() = valueNegativeCountableResist
+    var valueNegativeCountableResist = 0
+
     val positiveEffectResist get() = valuePositiveEffectResist
     var valuePositiveEffectResist = 0
 
