@@ -16,6 +16,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr15.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr16.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr17.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr18.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr19.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr9.tr9FaithMisora
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr9.tr9FaithMisoraStrategy
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
@@ -84,6 +85,14 @@ val bossLoadouts = listOf(
     BossLoadout(tr18QueenOfHeartsShizuhaDiff4, tr18QueenOfHeartsShizuhaDiff4Strategy),
     BossLoadout(tr18EmperorAkira, tr18EmperorAkiraStrategy),
     BossLoadout(tr18EmperorAkiraDiff4, tr18EmperorAkiraDiff4Strategy),
+    BossLoadout(tr19SetsunaIchie, tr19SetsunaIchieStrategy),
+    BossLoadout(tr19SetsunaIchieDiff4, tr19SetsunaIchieDiff4Strategy),
+    BossLoadout(tr19SuirenYuyuko, tr19SuirenYuyukoStrategy),
+    BossLoadout(tr19SuirenYuyukoDiff4, tr19SuirenYuyukoDiff4Strategy),
+    BossLoadout(tr19KomachiTamao, tr19KomachiTamaoStrategy),
+    BossLoadout(tr19KomachiTamaoDiff4, tr19KomachiTamaoDiff4Strategy),
+    BossLoadout(tr19TowerHikari, tr19TowerHikariStrategy),
+    BossLoadout(tr19TowerHikariDiff4, tr19TowerHikariDiff4Strategy),
     BossLoadout(sakuraTaisenStageGirlKarenBoss, seesawStrategy),
     BossLoadout(sakuraTaisenStageGirlHikariBoss, seesawStrategy),
     BossLoadout(sakuraTaisenStageGirlMahiruBoss, seesawStrategy),
