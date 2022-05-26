@@ -81,7 +81,7 @@ val StageGirlTsukasa = dress3040017(
                 }
             }
         },
-        ClimaxAct.blueprint("The king shines his light on the hollow stage!") {
+        ClimaxAct.blueprint("Hearts aflutter, to Frontier!") {
             Act {
                 targetSelf().act {
                     applyCountableBuff(

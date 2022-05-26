@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.stageeffect
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.ClaudineOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.FrontierOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.MayaOnlyCondition
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.condition.or
@@ -178,4 +179,42 @@ val FlamesFallingTogether = StageEffect(
     ),
     StageEffectTarget.All,
     MayaOnlyCondition.or(ClaudineOnlyCondition),
+)
+
+val WildHope = StageEffect(
+    "Wild Hope",
+    listOf(
+        listOf(
+            StageBuff(ActPowerUpBuff,20),
+            StageBuff(NormalDefenseUpBuff, 30),
+            StageBuff(SpecialDefenseUpBuff, 30),
+            StageBuff(CriticalUpBuff, 20),
+        ),
+        listOf(
+            StageBuff(ActPowerUpBuff,30),
+            StageBuff(NormalDefenseUpBuff, 35),
+            StageBuff(SpecialDefenseUpBuff, 35),
+            StageBuff(CriticalUpBuff, 25),
+        ),
+        listOf(
+            StageBuff(ActPowerUpBuff,40),
+            StageBuff(NormalDefenseUpBuff, 40),
+            StageBuff(SpecialDefenseUpBuff, 40),
+            StageBuff(CriticalUpBuff, 30),
+        ),
+        listOf(
+            StageBuff(ActPowerUpBuff,50),
+            StageBuff(NormalDefenseUpBuff, 45),
+            StageBuff(SpecialDefenseUpBuff, 45),
+            StageBuff(CriticalUpBuff, 35),
+        ),
+        listOf(
+            StageBuff(ActPowerUpBuff,60),
+            StageBuff(NormalDefenseUpBuff, 50),
+            StageBuff(SpecialDefenseUpBuff, 50),
+            StageBuff(CriticalUpBuff, 40),
+        ),
+    ),
+    StageEffectTarget.All,
+    FrontierOnlyCondition,
 )

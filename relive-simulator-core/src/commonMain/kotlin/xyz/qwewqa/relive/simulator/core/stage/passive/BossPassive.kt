@@ -38,6 +38,7 @@ object AbnormalResistPassiveA : PassiveEffect {
             ApUpBuff,
             LockedApUpBuff,
             BlindnessBuff,
+            LockedBlindnessBuff,
         ).forEach { buff ->
             self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0) + value
         }
