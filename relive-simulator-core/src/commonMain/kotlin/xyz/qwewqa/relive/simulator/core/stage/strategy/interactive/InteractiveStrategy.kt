@@ -12,6 +12,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.countableBuffsByName
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.*
+import xyz.qwewqa.relive.simulator.core.stage.strategy.complete.CsAct
 import xyz.qwewqa.relive.simulator.core.stage.strategy.complete.qsort
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 import kotlin.random.Random
@@ -256,12 +257,12 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
             }
         }
 
-        private fun drawCard(): BoundAct {
-            if (drawPile.isEmpty()) {
+        private fun drawCard(count: Int): List<BoundAct> {
+            if (drawPile.size < 5) {
                 drawPile += discardPile.shuffled(stage.random)
                 discardPile.clear()
             }
-            return drawPile.removeFirst()
+            return List(count) { drawPile.removeFirst() }
         }
 
         private fun drawHand() {
@@ -282,7 +283,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                     .map { BoundAct(it, ActType.ClimaxAct) }
                     .filter { it !in usedClimaxActs }
             }
-            while (hand.size < 5) hand += drawCard()
+            if (hand.size < 5) hand += drawCard(5 - hand.size)
             if (climax || team.cxTurns > 0) {
                 if (!hasUsedGuestClimaxAct) {
                     team.guest?.let {
@@ -527,7 +528,7 @@ ${
                         }
                         else -> {
                             held = act
-                            val newAct = drawCard()
+                            val newAct = drawCard(1).single()
                             internalHand -= act
                             internalHand += newAct
                             hand[hand.indexOf(act)] = newAct

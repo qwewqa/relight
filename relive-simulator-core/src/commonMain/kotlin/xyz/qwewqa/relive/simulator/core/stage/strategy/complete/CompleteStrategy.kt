@@ -343,12 +343,12 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         return (this.singleOrNull() as? CsActor)?.actor ?: csError("Expected a single actor.")
     }
 
-    private fun drawCard(): CsAct {
-        if (drawPile.isEmpty()) {
+    private fun drawCard(count: Int): List<CsAct> {
+        if (drawPile.size < 5) {
             drawPile += discardPile.shuffled(stage.random)
             discardPile.clear()
         }
-        return drawPile.removeFirst()
+        return List(count) { drawPile.removeFirst() }
     }
 
     private fun drawHand() {
@@ -369,7 +369,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
                 .map { it.acts[ActType.ClimaxAct]!!.asCsAct(it) }
                 .filter { it !in usedClimaxActs }
         }
-        while (hand.size < 5) hand += drawCard()
+        if (hand.size < 5) hand += drawCard(5 - hand.size)
         internalHand += hand
         hand.qsort()
         logHand()
@@ -457,7 +457,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
     private fun hold(act: CsAct) {
         stage.log("Hand") { "Hold ${act.display()}" }
         held = act
-        val newAct = drawCard()
+        val newAct = drawCard(1).single()
         internalHand -= act
         internalHand += newAct
         hand[hand.indexOf(act)] = newAct
