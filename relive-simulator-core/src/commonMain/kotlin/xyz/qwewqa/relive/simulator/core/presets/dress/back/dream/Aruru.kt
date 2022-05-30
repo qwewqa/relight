@@ -75,12 +75,15 @@ val WhiteFrontierAruru = dress3010018(
                         turns = times1,
                     )
                 }
+                focus {
+                    targetAoe().act {
+                        attack(
+                            modifier = values2,
+                            hitCount = 3,
+                        )
+                    }
+                }
                 targetAoe().act {
-                    // TODO: Attack ignores aggro, provoke, barriers, reflect, and invincibility
-                    attack(
-                        modifier = values2,
-                        hitCount = 3,
-                    )
                     applyBuff(
                         effect = FreezeBuff,
                         turns = times3,
