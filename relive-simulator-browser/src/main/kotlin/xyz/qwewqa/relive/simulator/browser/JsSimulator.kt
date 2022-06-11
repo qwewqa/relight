@@ -49,13 +49,13 @@ class JsSimulator : Simulator {
     private val httpClient = HttpClient {
         install(JsonFeature) {
             serializer = KotlinxSerializer(
-                    kotlinx.serialization.json.Json {
-                        isLenient = false
-                        ignoreUnknownKeys = false
-                        allowSpecialFloatingPointValues = true
-                        useArrayPolymorphism = false
-                        encodeDefaults = true
-                    }
+                kotlinx.serialization.json.Json {
+                    isLenient = false
+                    ignoreUnknownKeys = false
+                    allowSpecialFloatingPointValues = true
+                    useArrayPolymorphism = false
+                    encodeDefaults = true
+                }
             )
         }
     }
@@ -63,10 +63,10 @@ class JsSimulator : Simulator {
     // This is a hack where the response from server is just copied here until I think of something better
     override suspend fun options(): SimulationOptions {
         return httpClient.get(
-                URL(
-                        "options.json",
-                        "${window.location.protocol}//${window.location.host}${window.location.pathname}"
-                ).href
+            URL(
+                "options.json",
+                "${window.location.protocol}//${window.location.host}${window.location.pathname}"
+            ).href
         )
     }
 
@@ -91,17 +91,17 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
     var firstApplicableIteration: IterationResult? = null
 
     var overallResult = SimulationResult(
-            maxIterations = parameters.maxIterations,
-            currentIterations = 0,
-            results = emptyList(),
-            marginResults = emptyMap(),
-            log = null,
+        maxIterations = parameters.maxIterations,
+        currentIterations = 0,
+        results = emptyList(),
+        marginResults = emptyMap(),
+        log = null,
     )
 
     @OptIn(ExperimentalSerializationApi::class)
     val workers = List(
-            window.navigator.hardwareConcurrency.toInt().coerceAtMost(parameters.maxIterations / BATCH_SIZE)
-                    .coerceAtLeast(1)
+        window.navigator.hardwareConcurrency.toInt().coerceAtMost(parameters.maxIterations / BATCH_SIZE)
+            .coerceAtLeast(1)
     ) {
         Worker("relive-simulator-worker.js").also { worker ->
             worker.onmessage = { ev ->
@@ -111,24 +111,24 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
                     // This block should only be run once per simulation.
                     val result = results.single()
                     overallResult = overallResult.copy(
-                            error = result.error,
-                            log = result.log?.let {
-                                val header = LogEntry(
-                                        turn = 0, tile = 0, move = 0,
-                                        tags = listOf("Info"),
-                                        content = "Iteration ${result.request.index + 1}",
-                                )
-                                listOf(header) + it
-                            },
-                            runtime = (window.performance.now() - startTime) / 1_000.0,
-                            complete = true,
+                        error = result.error,
+                        log = result.log?.let {
+                            val header = LogEntry(
+                                turn = 0, tile = 0, move = 0,
+                                tags = listOf("Info"),
+                                content = "Iteration ${result.request.index + 1}",
+                            )
+                            listOf(header) + it
+                        },
+                        runtime = (window.performance.now() - startTime) / 1_000.0,
+                        complete = true,
                     )
                 } else {
                     results.forEach { result ->
                         if (firstApplicableIteration == null ||
-                                firstApplicableIteration!!.resultPriority < result.resultPriority ||
-                                (firstApplicableIteration!!.resultPriority == result.resultPriority &&
-                                        result.request.index < firstApplicableIteration!!.request.index)
+                            firstApplicableIteration!!.resultPriority < result.resultPriority ||
+                            (firstApplicableIteration!!.resultPriority == result.resultPriority &&
+                                    result.request.index < firstApplicableIteration!!.request.index)
                         ) {
                             firstApplicableIteration = result
                         }
@@ -143,32 +143,32 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
                         }
                         resultCount++
                         resultCounts[result.tags to result.result] =
-                                (resultCounts[result.tags to result.result] ?: 0) + 1
+                            (resultCounts[result.tags to result.result] ?: 0) + 1
                     }
                     overallResult = SimulationResult(
-                            maxIterations = parameters.maxIterations,
-                            currentIterations = resultCount,
-                            results = resultCounts.map { (k, v) -> SimulationResultValue(k.first, k.second, v) },
-                            marginResults = marginResults.mapValues { (_, v) -> v.toMap() },
-                            log = null,
-                            runtime = (window.performance.now() - startTime) / 1_000.0,
+                        maxIterations = parameters.maxIterations,
+                        currentIterations = resultCount,
+                        results = resultCounts.map { (k, v) -> SimulationResultValue(k.first, k.second, v) },
+                        marginResults = marginResults.mapValues { (_, v) -> v.toMap() },
+                        log = null,
+                        runtime = (window.performance.now() - startTime) / 1_000.0,
                     )
                     val batchSize = (parameters.maxIterations - requestCount).coerceAtMost(BATCH_SIZE)
                     if (batchSize > 0) {
                         worker.postMessage(Json.encodeToString(List(batchSize) {
                             IterationRequest(
-                                    requestCount++,
-                                    seedProducer.nextInt(),
+                                requestCount++,
+                                seedProducer.nextInt(),
                             )
                         }))
                     }
                     if (resultCount == parameters.maxIterations) {
                         worker.postMessage(
-                                Json.encodeToString(
-                                        listOf(
-                                                firstApplicableIteration!!.request.copy(log = true)
-                                        )
+                            Json.encodeToString(
+                                listOf(
+                                    firstApplicableIteration!!.request.copy(log = true)
                                 )
+                            )
                         )
                     }
                 }
@@ -178,8 +178,8 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
             if (batchSize > 0) {
                 worker.postMessage(Json.encodeToString(List(batchSize) {
                     IterationRequest(
-                            requestCount++,
-                            seedProducer.nextInt(),
+                        requestCount++,
+                        seedProducer.nextInt(),
                     )
                 }))
             }
@@ -203,14 +203,17 @@ class JsInteractiveSimulation(val parameters: SimulationParameters) : Interactiv
         null
     }
 
-    override suspend fun getLog(): List<LogEntry>? {
-        val log = controller?.getLog(rev)
-        return if (log != null) {
-            rev = log.rev
-            log.contents
-        } else {
-            listOf(LogEntry(tags = listOf("Error"), content = error!!))
-        }
+    override suspend fun getLog(): InteractiveLog {
+        return controller?.getLog(rev) ?: InteractiveLog(
+            InteractiveLogData(
+                listOf(
+                    LogEntry(
+                        tags = listOf("Error"),
+                        content = error!!
+                    )
+                )
+            )
+        )
     }
 
     override suspend fun sendCommand(text: String) {
@@ -222,19 +225,19 @@ class JsInteractiveSimulation(val parameters: SimulationParameters) : Interactiv
 
 @Serializable
 data class IterationRequest(
-        val index: Int,
-        val seed: Int,
-        val log: Boolean = false,
+    val index: Int,
+    val seed: Int,
+    val log: Boolean = false,
 )
 
 @Serializable
 data class IterationResult(
-        val request: IterationRequest,
-        val result: SimulationResultType,
-        val tags: List<String> = emptyList(),
-        val margin: Int? = 0,
-        val log: List<LogEntry>? = null,
-        val error: String? = null,
+    val request: IterationRequest,
+    val result: SimulationResultType,
+    val tags: List<String> = emptyList(),
+    val margin: Int? = 0,
+    val log: List<LogEntry>? = null,
+    val error: String? = null,
 )
 
 private val IterationResult.resultPriority

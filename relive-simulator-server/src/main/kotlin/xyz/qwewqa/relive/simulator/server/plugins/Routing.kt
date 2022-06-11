@@ -83,12 +83,14 @@ fun Application.configureRouting() {
                 if (errorMessage != null) {
                     call.respond(
                             InteractiveLog(
+                                InteractiveLogData(
                                     listOf(
                                             LogEntry(
                                                     tags = listOf("Error"),
                                                     content = errorMessage
-                                            )
+                                            ),
                                     ),
+                                ),
                             )
                     )
                 } else {

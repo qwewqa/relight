@@ -34,7 +34,25 @@ data class SimulatorVersion(
 }
 
 @Serializable
-data class InteractiveLog(val contents: List<LogEntry>?, val rev: Int = -1)
+data class InteractiveLog(
+    val data: InteractiveLogData?,
+    val rev: Int = -1,
+)
+
+@Serializable
+data class InteractiveLogData(
+    val entries: List<LogEntry>,
+    val bossStatus: List<ActorStatus>? = null,
+    val playerStatus: List<ActorStatus>? = null,
+)
+
+@Serializable
+data class ActorStatus(
+    val name: String,
+    val hp: Int,
+    val maxHp: Int,
+    val brilliance: Int,
+)
 
 @Serializable
 data class InteractiveCommand(val text: String)

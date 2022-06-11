@@ -2,9 +2,7 @@ package xyz.qwewqa.relive.simulator.core.stage.strategy.interactive
 
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import xyz.qwewqa.relive.simulator.common.InteractiveLog
-import xyz.qwewqa.relive.simulator.common.LogEntry
-import xyz.qwewqa.relive.simulator.common.LogCategory
+import xyz.qwewqa.relive.simulator.common.*
 import xyz.qwewqa.relive.simulator.core.stage.*
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
@@ -31,6 +29,8 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
     private var rev = 0
     private var resultLog = emptyList<LogEntry>()
+    private var bossStatus: List<ActorStatus>? = null
+    private var playerStatus: List<ActorStatus>? = null
 
     private inline fun playStage(after: Stage.() -> Unit = {}) {
         val managedRandom = ManagedRandom(Random(Random(seed).nextInt()))
@@ -47,6 +47,12 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         stage.after()
         rev++
         resultLog = stage.logger.get()
+        bossStatus = stage.enemy.actors.values.map { actor ->
+            ActorStatus(actor.name, actor.hp, actor.maxHp, actor.brilliance)
+        }
+        playerStatus = stage.player.actors.values.map { plactoryer ->
+            ActorStatus(plactoryer.name, plactoryer.hp, plactoryer.maxHp, plactoryer.brilliance)
+        }
     }
 
     init {
@@ -55,7 +61,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
     suspend fun getLog(rev: Int = -1) = mutex.withLock {
         if (rev != this.rev) {
-            InteractiveLog(resultLog, this.rev)
+            InteractiveLog(InteractiveLogData(resultLog, bossStatus, playerStatus), this.rev)
         } else {
             InteractiveLog(null, this.rev)
         }

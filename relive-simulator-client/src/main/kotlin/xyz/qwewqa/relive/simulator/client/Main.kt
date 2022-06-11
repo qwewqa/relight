@@ -4,6 +4,7 @@ import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.coroutines.*
 import kotlinx.dom.addClass
+import kotlinx.dom.hasClass
 import kotlinx.dom.removeClass
 import kotlinx.html.*
 import kotlinx.html.dom.create
@@ -73,6 +74,7 @@ class SimulatorClient(val simulator: Simulator) {
         value
     }
     val interactiveContainer = document.getElementById("interactive-container") as HTMLDivElement
+    val interactiveStatusContainer = document.getElementById("interactive-status-container") as HTMLDivElement
     val interactiveLog = document.getElementById("interactive-log") as HTMLDivElement
     val interactiveInput = document.getElementById("interactive-input").textInput()
     val interactiveSendButton = document.getElementById("interactive-send-button") as HTMLButtonElement
@@ -789,7 +791,17 @@ class SimulatorClient(val simulator: Simulator) {
         })
 
         suspend fun sendInteractiveCommand() {
-            interactiveSimulation?.sendCommand(interactiveInput.value)
+            when (interactiveInput.value) {
+                "bars" -> {
+                    if (interactiveStatusContainer.hasClass("d-none")) {
+                        interactiveStatusContainer.removeClass("d-none")
+                    } else {
+                        interactiveStatusContainer.addClass("d-none")
+                    }
+                }
+                "" -> interactiveSimulation?.sendCommand("go")
+                else -> interactiveSimulation?.sendCommand(interactiveInput.value)
+            }
             interactiveInput.value = ""
         }
 
@@ -903,16 +915,18 @@ class SimulatorClient(val simulator: Simulator) {
                     delay(50)
                     interactiveSimulation?.let { sim ->
                         val log = sim.getLog()
-                        if (log != null) {
+                        val data = log?.data
+                        if (data != null) {
                             val isScrolledDown = this@SimulatorClient.interactiveLog.let {
                                 it.scrollHeight - it.offsetHeight - it.scrollTop < 1.0
                             }
-                            this@SimulatorClient.interactiveLog.displayLog(log, interactive = true)
+                            this@SimulatorClient.interactiveLog.displayLog(data.entries, interactive = true)
                             if (isScrolledDown) {
                                 this@SimulatorClient.interactiveLog.let {
                                     it.scrollTop = it.scrollHeight.toDouble()
                                 }
                             }
+                            interactiveStatusContainer.displayStatus(data)
                         }
                     }
                 } catch (e: Throwable) {

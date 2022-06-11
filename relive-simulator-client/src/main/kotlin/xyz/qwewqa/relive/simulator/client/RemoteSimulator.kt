@@ -80,12 +80,12 @@ class RemoteSimulator(val baseUrl: URL) : Simulator {
     inner class RemoteInteractiveSimulation(val simulator: RemoteSimulator, val token: String) : InteractiveSimulation {
         private var rev = -1
 
-        override suspend fun getLog(): List<LogEntry>? {
+        override suspend fun getLog(): InteractiveLog {
             val log = client.get<InteractiveLog>(URL("/interactive/$token", baseUrl.href).href) {
                 parameter("rev", rev)
             }
             rev = log.rev
-            return log.contents
+            return log
         }
 
         override suspend fun sendCommand(text: String) {

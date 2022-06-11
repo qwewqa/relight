@@ -319,6 +319,7 @@ class Actor(
 
     fun exit() = context.run {
         hp = 0
+        brilliance = 0
         team.strategy.onExit(self)
         buffs.clear()
         self.exitCX()
