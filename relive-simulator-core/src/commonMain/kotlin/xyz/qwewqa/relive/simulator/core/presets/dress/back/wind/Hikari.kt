@@ -54,14 +54,12 @@ val SakuraShingujiHikari = dress1020019(
         },
         ActType.Act3.blueprint("Skyward Leap") {
             Act {
-                Act {
-                    targetAllyBack(5).act {
-                        addBrilliance(values1)
-                        applyBuff(
-                            effect = ApDownBuff,
-                            turns = times2,
-                        )
-                    }
+                targetAllyBack(5).act {
+                    addBrilliance(values1)
+                    applyBuff(
+                        effect = ApDownBuff,
+                        turns = times2,
+                    )
                 }
             }
         },
