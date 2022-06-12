@@ -39,10 +39,8 @@ suspend fun main() {
     } else {
         val client = SimulatorClient(JsSimulator())
         if (!isMobile) {
-            client.toast("Info", autohide = false) {
-                +"No running local simulator server or incompatible version found. Falling back to JS simulator. For best performance, a local server is recommended."
-                br()
-                a(href = "https://github.com/qwewqa/relive-simulator") { +"Download from GitHub." }
+            client.toast("Info") {
+                +"No running local simulator server or incompatible version found. Falling back to JS simulator"
             }
         }
         client.start()
