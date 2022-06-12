@@ -90,3 +90,35 @@ val Thunder = StageEffect(
     },
     StageEffectTarget.All,
 )
+
+val SunsetTune = StageEffect(
+    "Sunset Tune",
+    listOf(
+        listOf(
+            StageBuff(ActPowerDownBuff, 30),
+            StageBuff(NormalDefenseDownBuff, 30),
+            StageBuff(SpecialDefenseDownBuff, 30),
+        ),
+        listOf(
+            StageBuff(ActPowerDownBuff, 40),
+            StageBuff(NormalDefenseDownBuff, 35),
+            StageBuff(SpecialDefenseDownBuff, 35),
+        ),
+        listOf(
+            StageBuff(ActPowerDownBuff, 50),
+            StageBuff(NormalDefenseDownBuff, 40),
+            StageBuff(SpecialDefenseDownBuff, 40),
+        ),
+        listOf(
+            StageBuff(ActPowerDownBuff, 60),
+            StageBuff(NormalDefenseDownBuff, 45),
+            StageBuff(SpecialDefenseDownBuff, 45),
+        ),
+        listOf(
+            StageBuff(ActPowerDownBuff, 70),
+            StageBuff(NormalDefenseDownBuff, 50),
+            StageBuff(SpecialDefenseDownBuff, 50),
+        ),
+    ),
+    StageEffectTarget.All,
+)
