@@ -5,8 +5,7 @@ import kotlinx.dom.clear
 import kotlinx.html.*
 import kotlinx.html.dom.append
 import kotlinx.html.js.onClickFunction
-import org.w3c.dom.CustomEvent
-import org.w3c.dom.HTMLElement
+import org.w3c.dom.*
 import xyz.qwewqa.relive.simulator.common.InteractiveLogData
 import xyz.qwewqa.relive.simulator.common.LogEntry
 import xyz.qwewqa.relive.simulator.common.LogCategory
@@ -30,8 +29,7 @@ private var idCounter = 0
 
 
 fun HTMLElement.displayStatus(data: InteractiveLogData) {
-    clear()
-    val bossWidth = when(data.bossStatus?.size) {
+    val bossWidth = when (data.bossStatus?.size) {
         1 -> 12
         2 -> 6
         3 -> 4
@@ -39,7 +37,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
         5 -> 4
         else -> 4
     }
-    val playerWidth = when(data.playerStatus?.size) {
+    val playerWidth = when (data.playerStatus?.size) {
         1 -> 12
         2 -> 6
         3 -> 4
@@ -47,45 +45,71 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
         5 -> 4
         else -> 4
     }
-    append {
-        div(classes="row justify-content-evenly") {
-            // Reversed since frontmost is the first in the list
-            data.bossStatus?.reversed()?.forEach { status ->
-                div(classes = "col-$bossWidth") {
-                    p(classes = "mt-1 mb-0") {
-                        style = "font-size: 0.75rem;"
-                        +status.name
-                    }
-                    div(classes = "progress") {
-                        style = "font-size: 0.7rem;height: 0.8rem;"
-                        div(classes = "progress-bar bg-danger") {
-                            style = "width: ${status.hp.toDouble() / status.maxHp * 100}%;font-weight: bold;"
-                            +"${status.hp}/${status.maxHp}"
+    if (
+        children[0]?.children?.length == (data.bossStatus?.size ?: 0) &&
+        children[1]?.children?.length == (data.playerStatus?.size ?: 0)
+    ) {
+        data.bossStatus?.reversed()?.forEachIndexed { i, status ->
+            val nameElement = document.getElementById("boss-name-$i") as HTMLParagraphElement
+            val hpElement = document.getElementById("boss-hp-$i") as HTMLDivElement
+            nameElement.textContent = status.name
+            hpElement.style.width = "${status.hp.toDouble() / status.maxHp * 100}%"
+            hpElement.textContent = "${status.hp}/${status.maxHp}"
+        }
+        data.playerStatus?.reversed()?.forEachIndexed { i, status ->
+            val nameElement = document.getElementById("player-name-$i") as HTMLParagraphElement
+            val hpElement = document.getElementById("player-hp-$i") as HTMLDivElement
+            val brillianceElement = document.getElementById("player-brilliance-$i") as HTMLDivElement
+            nameElement.textContent = status.name
+            hpElement.style.width = "${status.hp.toDouble() / status.maxHp * 100}%"
+            hpElement.textContent = "${status.hp}/${status.maxHp}"
+            brillianceElement.style.width = "${status.brilliance}%"
+            brillianceElement.textContent = "${status.brilliance}"
+        }
+    } else {
+        clear()
+        append {
+            div(classes = "row justify-content-evenly") {
+                // Reversed since frontmost is the first in the list
+                data.bossStatus?.reversed()?.forEachIndexed { i, status ->
+                    div(classes = "col-$bossWidth") {
+                        p(classes = "mt-1 mb-0") {
+                            id = "boss-name-$i"
+                            style = "font-size: 0.75rem;"
+                            +status.name
+                        }
+                        div(classes = "progress") {
+                            style = "font-size: 0.7rem;height: 0.8rem;"
+                            div(classes = "progress-bar bg-danger") {
+                                id = "boss-hp-$i"
+                                style = "width: ${status.hp.toDouble() / status.maxHp * 100}%;font-weight: bold;"
+                                +"${status.hp}/${status.maxHp}"
+                            }
                         }
                     }
                 }
             }
-        }
-        div(classes="row justify-content-evenly") {
-            data.playerStatus?.reversed()?.forEach { status ->
-                div(classes = "col-$playerWidth") {
-                    p(classes = "mt-1 mb-0") {
-                        style = "font-size: 0.75rem;"
-                        +status.name
-                    }
-                    div(classes = "progress") {
-                        style = "font-size: 0.7rem;height: 0.8rem;"
-                        div(classes = "progress-bar bg-success") {
-                            style = "width: ${status.hp.toDouble() / status.maxHp * 100}%;font-weight: bold;"
-                            +"${status.hp}/${status.maxHp}"
+            div(classes = "row justify-content-evenly") {
+                data.playerStatus?.reversed()?.forEachIndexed { i, status ->
+                    div(classes = "col-$playerWidth") {
+                        p(classes = "mt-1 mb-0") {
+                            id = "player-name-$i"
+                            style = "font-size: 0.75rem;"
+                            +status.name
                         }
-                    }
-                    div(classes = "progress") {
-                        style = "font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem"
-                        div(classes = "progress-bar bg-warning") {
-                            style = "width: ${status.brilliance}%"
-                            span {
-                                style="color: black;font-weight: bold;"
+                        div(classes = "progress") {
+                            style = "font-size: 0.7rem;height: 0.8rem;"
+                            div(classes = "progress-bar bg-success") {
+                                id = "player-hp-$i"
+                                style = "width: ${status.hp.toDouble() / status.maxHp * 100}%;font-weight: bold;"
+                                +"${status.hp}/${status.maxHp}"
+                            }
+                        }
+                        div(classes = "progress") {
+                            style = "font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem"
+                            div(classes = "progress-bar bg-warning") {
+                                id = "player-brilliance-$i"
+                                style = "width: ${status.brilliance}%;color: black;font-weight: bold;"
                                 +"${status.brilliance}"
                             }
                         }
@@ -127,7 +151,7 @@ fun HTMLElement.displayLog(log: List<LogEntry>, interactive: Boolean) {
                                     }
                                 }
                             }
-                            div(classes=if (i != lastSummaryIndex) "collapse" else "") {
+                            div(classes = if (i != lastSummaryIndex) "collapse" else "") {
                                 id = collapseId
                                 span {
                                     style = "padding-left: 1em;display: block;white-space: pre;overflow-x: auto;"
