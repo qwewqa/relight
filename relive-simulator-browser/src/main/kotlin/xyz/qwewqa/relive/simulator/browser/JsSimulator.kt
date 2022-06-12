@@ -204,7 +204,7 @@ class JsInteractiveSimulation(val parameters: SimulationParameters) : Interactiv
     }
 
     override suspend fun getLog(): InteractiveLog {
-        return controller?.getLog(rev) ?: InteractiveLog(
+        return controller?.getLog(rev)?.also { rev = it.rev } ?: InteractiveLog(
             InteractiveLogData(
                 listOf(
                     LogEntry(
