@@ -52,19 +52,37 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
         data.bossStatus?.reversed()?.forEachIndexed { i, status ->
             val nameElement = document.getElementById("boss-name-$i") as HTMLParagraphElement
             val hpElement = document.getElementById("boss-hp-$i") as HTMLDivElement
+            val hpLabelElement = document.getElementById("boss-hp-label-$i") as HTMLDivElement
             nameElement.textContent = status.name
             hpElement.style.width = "${status.hp.toDouble() / status.maxHp * 100}%"
-            hpElement.textContent = "${status.hp}/${status.maxHp}"
+            if (status.hp > 0) {
+                hpElement.textContent = "${status.hp}/${status.maxHp}"
+                hpLabelElement.textContent = "${status.hp}/${status.maxHp}"
+            } else {
+                hpElement.textContent = ""
+                hpLabelElement.textContent = ""
+            }
         }
         data.playerStatus?.reversed()?.forEachIndexed { i, status ->
             val nameElement = document.getElementById("player-name-$i") as HTMLParagraphElement
             val hpElement = document.getElementById("player-hp-$i") as HTMLDivElement
+            val hpLabelElement = document.getElementById("player-hp-label-$i") as HTMLDivElement
             val brillianceElement = document.getElementById("player-brilliance-$i") as HTMLDivElement
+            val brillianceLabelElement = document.getElementById("player-brilliance-label-$i") as HTMLDivElement
             nameElement.textContent = status.name
             hpElement.style.width = "${status.hp.toDouble() / status.maxHp * 100}%"
-            hpElement.textContent = "${status.hp}/${status.maxHp}"
             brillianceElement.style.width = "${status.brilliance}%"
-            brillianceElement.textContent = "${status.brilliance}"
+            if (status.hp > 0) {
+                hpElement.textContent = "${status.hp}/${status.maxHp}"
+                hpLabelElement.textContent = "${status.hp}/${status.maxHp}"
+                brillianceElement.textContent = "${status.brilliance}"
+                brillianceLabelElement.textContent = "${status.brilliance}"
+            } else {
+                hpElement.textContent = ""
+                hpLabelElement.textContent = ""
+                brillianceElement.textContent = ""
+                brillianceLabelElement.textContent = ""
+            }
         }
     } else {
         clear()
@@ -79,11 +97,22 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                             +status.name
                         }
                         div(classes = "progress") {
-                            style = "font-size: 0.7rem;height: 0.8rem;"
+                            style = "font-size: 0.7rem;height: 0.8rem;position: relative;"
                             div(classes = "progress-bar bg-danger") {
                                 id = "boss-hp-$i"
-                                style = "width: ${status.hp.toDouble() / status.maxHp * 100}%;font-weight: bold;"
-                                +"${status.hp}/${status.maxHp}"
+                                style =
+                                    "width: ${status.hp.toDouble() / status.maxHp * 100}%;font-weight: bold;z-index: 2;"
+                                if (status.hp > 0) {
+                                    +"${status.hp}/${status.maxHp}"
+                                }
+                            }
+                            div {
+                                id = "boss-hp-label-$i"
+                                style =
+                                    "font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;"
+                                if (status.hp > 0) {
+                                    +"${status.hp}/${status.maxHp}"
+                                }
                             }
                         }
                     }
@@ -98,19 +127,40 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                             +status.name
                         }
                         div(classes = "progress") {
-                            style = "font-size: 0.7rem;height: 0.8rem;"
+                            style = "font-size: 0.7rem;height: 0.8rem;position: relative;"
                             div(classes = "progress-bar bg-success") {
                                 id = "player-hp-$i"
-                                style = "width: ${status.hp.toDouble() / status.maxHp * 100}%;font-weight: bold;"
-                                +"${status.hp}/${status.maxHp}"
+                                style =
+                                    "width: ${status.hp.toDouble() / status.maxHp * 100}%;font-weight: bold;z-index: 2;"
+                                if (status.hp > 0) {
+                                    +"${status.hp}/${status.maxHp}"
+                                }
+                            }
+                            div {
+                                id = "player-hp-label-$i"
+                                style =
+                                    "font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;"
+                                if (status.hp > 0) {
+                                    +"${status.hp}/${status.maxHp}"
+                                }
                             }
                         }
                         div(classes = "progress") {
-                            style = "font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem"
+                            style = "font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;"
                             div(classes = "progress-bar bg-warning") {
                                 id = "player-brilliance-$i"
-                                style = "width: ${status.brilliance}%;color: black;font-weight: bold;"
-                                +"${status.brilliance}"
+                                style = "width: ${status.brilliance}%;color: black;font-weight: bold;z-index: 2;"
+                                if (status.hp > 0) {
+                                    +"${status.brilliance}"
+                                }
+                            }
+                            div {
+                                id = "player-brilliance-label-$i"
+                                style =
+                                    "font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;"
+                                if (status.hp > 0) {
+                                    +"${status.brilliance}"
+                                }
                             }
                         }
                     }
