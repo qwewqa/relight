@@ -791,12 +791,17 @@ class SimulatorClient(val simulator: Simulator) {
         })
 
         suspend fun sendInteractiveCommand() {
-            when (interactiveInput.value) {
+            when (interactiveInput.value.trim()) {
                 "bars" -> {
                     if (interactiveStatusContainer.hasClass("d-none")) {
                         interactiveStatusContainer.removeClass("d-none")
                     } else {
                         interactiveStatusContainer.addClass("d-none")
+                    }
+                }
+                "shares" -> {
+                    document.getElementsByClassName("damage-shares").asList().forEach {
+                        it.removeClass("d-none")
                     }
                 }
                 "" -> interactiveSimulation?.sendCommand("go")

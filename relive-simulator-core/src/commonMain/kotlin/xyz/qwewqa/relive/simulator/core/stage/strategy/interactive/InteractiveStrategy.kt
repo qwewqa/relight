@@ -10,7 +10,6 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.countableBuffsByName
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.*
-import xyz.qwewqa.relive.simulator.core.stage.strategy.complete.CsAct
 import xyz.qwewqa.relive.simulator.core.stage.strategy.complete.qsort
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 import kotlin.random.Random
@@ -29,7 +28,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
     private var rev = 0
     private var resultLog = emptyList<LogEntry>()
-    private var bossStatus: List<ActorStatus>? = null
+    private var enemyStatus: List<ActorStatus>? = null
     private var playerStatus: List<ActorStatus>? = null
 
     private inline fun playStage(after: Stage.() -> Unit = {}) {
@@ -47,11 +46,11 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         stage.after()
         rev++
         resultLog = stage.logger.get()
-        bossStatus = stage.enemy.actors.values.map { actor ->
-            ActorStatus(actor.name, actor.hp, actor.maxHp, actor.brilliance)
+        enemyStatus = stage.enemy.actors.values.map { actor ->
+            ActorStatus(actor.name, actor.hp, actor.maxHp, actor.brilliance, actor.context.actionLog.damageDealtToEnemy)
         }
-        playerStatus = stage.player.actors.values.map { plactoryer ->
-            ActorStatus(plactoryer.name, plactoryer.hp, plactoryer.maxHp, plactoryer.brilliance)
+        playerStatus = stage.player.actors.values.map { actor ->
+            ActorStatus(actor.name, actor.hp, actor.maxHp, actor.brilliance, actor.context.actionLog.damageDealtToEnemy)
         }
     }
 
@@ -61,7 +60,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
     suspend fun getLog(rev: Int = -1) = mutex.withLock {
         if (rev != this.rev) {
-            InteractiveLog(InteractiveLogData(resultLog, bossStatus, playerStatus), this.rev)
+            InteractiveLog(InteractiveLogData(resultLog, enemyStatus, playerStatus), this.rev)
         } else {
             InteractiveLog(null, this.rev)
         }

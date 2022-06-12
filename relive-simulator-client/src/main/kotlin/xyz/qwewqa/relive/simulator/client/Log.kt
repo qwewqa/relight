@@ -29,7 +29,7 @@ private var idCounter = 0
 
 
 fun HTMLElement.displayStatus(data: InteractiveLogData) {
-    val bossWidth = when (data.bossStatus?.size) {
+    val bossWidth = when (data.enemyStatus?.size) {
         1 -> 12
         2 -> 6
         3 -> 4
@@ -46,10 +46,10 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
         else -> 4
     }
     if (
-        children[0]?.children?.length == (data.bossStatus?.size ?: 0) &&
+        children[0]?.children?.length == (data.enemyStatus?.size ?: 0) &&
         children[1]?.children?.length == (data.playerStatus?.size ?: 0)
     ) {
-        data.bossStatus?.reversed()?.forEachIndexed { i, status ->
+        data.enemyStatus?.reversed()?.forEachIndexed { i, status ->
             val nameElement = document.getElementById("boss-name-$i") as HTMLParagraphElement
             val hpElement = document.getElementById("boss-hp-$i") as HTMLDivElement
             val hpLabelElement = document.getElementById("boss-hp-label-$i") as HTMLDivElement
@@ -63,15 +63,19 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                 hpLabelElement.textContent = ""
             }
         }
+        val totalDamage = data.playerStatus?.sumOf { it.damageContribution } ?: 0
         data.playerStatus?.reversed()?.forEachIndexed { i, status ->
             val nameElement = document.getElementById("player-name-$i") as HTMLParagraphElement
             val hpElement = document.getElementById("player-hp-$i") as HTMLDivElement
             val hpLabelElement = document.getElementById("player-hp-label-$i") as HTMLDivElement
             val brillianceElement = document.getElementById("player-brilliance-$i") as HTMLDivElement
             val brillianceLabelElement = document.getElementById("player-brilliance-label-$i") as HTMLDivElement
+            val damageElement = document.getElementById("player-damage-$i") as HTMLDivElement
+            val damageLabelElement = document.getElementById("player-damage-label-$i") as HTMLDivElement
             nameElement.textContent = status.name
             hpElement.style.width = "${status.hp.toDouble() / status.maxHp * 100}%"
             brillianceElement.style.width = "${status.brilliance}%"
+            damageElement.style.width = "${status.damageContribution.toDouble() / totalDamage.coerceAtLeast(1) * 100}%"
             if (status.hp > 0) {
                 hpElement.textContent = "${status.hp}/${status.maxHp}"
                 hpLabelElement.textContent = "${status.hp}/${status.maxHp}"
@@ -83,13 +87,15 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                 brillianceElement.textContent = ""
                 brillianceLabelElement.textContent = ""
             }
+            damageElement.textContent = "${status.damageContribution}"
+            damageLabelElement.textContent = "${status.damageContribution}"
         }
     } else {
         clear()
         append {
             div(classes = "row justify-content-evenly") {
                 // Reversed since frontmost is the first in the list
-                data.bossStatus?.reversed()?.forEachIndexed { i, status ->
+                data.enemyStatus?.reversed()?.forEachIndexed { i, status ->
                     div(classes = "col-$bossWidth") {
                         p(classes = "mt-1 mb-0") {
                             id = "boss-name-$i"
@@ -119,6 +125,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                 }
             }
             div(classes = "row justify-content-evenly") {
+                val totalDamage = data.playerStatus?.sumBy { it.damageContribution } ?: 0
                 data.playerStatus?.reversed()?.forEachIndexed { i, status ->
                     div(classes = "col-$playerWidth") {
                         p(classes = "mt-1 mb-0") {
@@ -160,6 +167,25 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                                     "font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;"
                                 if (status.hp > 0) {
                                     +"${status.brilliance}"
+                                }
+                            }
+                        }
+                        div(classes = "progress d-none damage-shares") {
+                            style = "font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;"
+                            div(classes = "progress-bar bg-info") {
+                                id = "player-damage-$i"
+                                style =
+                                    "width: ${status.damageContribution.toDouble() / totalDamage.coerceAtLeast(1) * 100}%;color: black;font-weight: bold;z-index: 2;"
+                                if (status.damageContribution > 0) {
+                                    +"${status.damageContribution}"
+                                }
+                            }
+                            div {
+                                id = "player-damage-label-$i"
+                                style =
+                                    "font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;"
+                                if (status.damageContribution > 0) {
+                                    +"${status.damageContribution}"
                                 }
                             }
                         }

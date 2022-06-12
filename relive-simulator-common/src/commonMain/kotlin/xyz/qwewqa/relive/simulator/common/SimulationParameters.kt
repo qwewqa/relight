@@ -42,7 +42,7 @@ data class InteractiveLog(
 @Serializable
 data class InteractiveLogData(
     val entries: List<LogEntry>,
-    val bossStatus: List<ActorStatus>? = null,
+    val enemyStatus: List<ActorStatus>? = null,
     val playerStatus: List<ActorStatus>? = null,
 )
 
@@ -52,6 +52,7 @@ data class ActorStatus(
     val hp: Int,
     val maxHp: Int,
     val brilliance: Int,
+    val damageContribution: Int,
 )
 
 @Serializable

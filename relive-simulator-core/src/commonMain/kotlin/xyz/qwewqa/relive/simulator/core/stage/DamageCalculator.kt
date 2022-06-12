@@ -98,6 +98,9 @@ class RandomDamageCalculator : DamageCalculator {
                 }
             }
             target.damage(afterBarrier, additionalEffects = hitAttribute.addBrilliance)
+            if (attacker.context.team != target.context.team) {
+                actionLog.damageDealtToEnemy += afterBarrier
+            }
             if (reflected > 0) {
                 self.damage(reflected, additionalEffects = false)
             }
