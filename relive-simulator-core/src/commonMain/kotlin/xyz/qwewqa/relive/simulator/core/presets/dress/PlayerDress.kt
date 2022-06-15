@@ -75,6 +75,7 @@ val playerDresses = listOf(
     SakuyahimeMahiru,
     SanadaMahiru,
     SeimeiMichiru,
+    SleepingBeautyHikari,
     SnowWhiteKoharu,
     SonokoYachiyo,
     SorcererMahiru,
