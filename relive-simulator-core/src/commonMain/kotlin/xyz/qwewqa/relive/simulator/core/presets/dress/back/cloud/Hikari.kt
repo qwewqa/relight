@@ -1,7 +1,9 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud
 
+import xyz.qwewqa.relive.simulator.core.presets.condition.BackOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.CloudOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1020023
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1020012
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
@@ -93,3 +95,86 @@ val HeroHikari = dress1020023(
     unitSkill = ActCritical50UnitSkill + CloudOnlyCondition,
     categories = setOf(DressCategory.Birthday2022),
 )
+
+val SleepingBeautyHikari = dress1020012(
+    name = "Sleeping Beauty Hikari",
+    acts = listOf(
+        ActType.Act1.blueprint("Slash of Brilliance") {
+            Act {
+                targetFront().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1,
+                    )
+                }
+                targetSelf().act {
+                    addBrilliance(values2)
+                }
+            }
+        },
+        ActType.Act2.blueprint("Nightmare Slash") {
+            Act {
+                targetFront().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1,
+                    )
+                    applyBuff(
+                        effect = SleepBuff,
+                        chance = 50,
+                        turns = 2,
+                    )
+                }
+            }
+        },
+        ActType.Act3.blueprint("Blessed Rondo") {
+            Act {
+                targetFront(3).act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1,
+                    )
+                }
+                targetAllyFront(3).act {
+                    applyBuff(
+                        effect = NegativeEffectResistanceBuff,
+                        value = values2,
+                        turns = times2,
+                    )
+                }
+            }
+        },
+        ActType.ClimaxAct.blueprint("Tragic Thorns") {
+            Act {
+                targetBack(3).act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 3,
+                    )
+                    applyBuff(
+                        effect = MarkBuff,
+                        turns = 2,
+                    )
+                    applyBuff(
+                        effect = SleepBuff,
+                        chance = 50,
+                        turns = 2,
+                    )
+                }
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+            SelfFortitudeBuffPassive.new(time = 1),
+        ),
+        listOf(
+            DamageDealtPassive.new(10),
+        ),
+        listOf(
+            DexterityPassive.new(16),
+        ),
+    ),
+    unitSkill = ActCritical30UnitSkill + BackOnlyCondition,
+)
+

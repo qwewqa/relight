@@ -64,11 +64,13 @@ val ChariotShiori = dress4040015(
             Act {
                 targetAoe().act {
                     dispelTimed(BuffCategory.Positive)
-                    // TODO: Climax Act Power Down
-                }
-                targetAoe().act {
+                    applyBuff(
+                        effect = ClimaxDamageDownBuff,
+                        value = values2,
+                        turns = times2,
+                    )
                     attack(
-                        modifier = values2,
+                        modifier = values3,
                         hitCount = 2,
                     )
                 }
