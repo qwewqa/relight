@@ -125,7 +125,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                 }
             }
             div(classes = "row justify-content-evenly") {
-                val totalDamage = data.playerStatus?.sumBy { it.damageContribution } ?: 0
+                val totalDamage = data.playerStatus?.sumOf { it.damageContribution } ?: 0
                 data.playerStatus?.reversed()?.forEachIndexed { i, status ->
                     div(classes = "col-$playerWidth") {
                         p(classes = "mt-1 mb-0") {
@@ -279,7 +279,7 @@ private fun FlowOrInteractiveOrPhrasingContent.processLogContent(content: String
             val id = data.toIntOrNull()
             if (id != null && id != -1) {
                 img {
-                    style = "height: 1em;"
+                    style = "height: 1.4em;margin: -0.25em 0.05em;"
                     src = url(id)
                 }
             }
