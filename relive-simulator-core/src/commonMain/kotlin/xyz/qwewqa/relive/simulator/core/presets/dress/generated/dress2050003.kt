@@ -48,23 +48,28 @@ val dress2050003 = PartialDressBlueprint(
       parameters = listOf(
         ActParameters(
           values = listOf(88, 92, 96, 101, 105),
-          times = listOf(0, 0, 0, 0, 0),
+          times = listOf(1, 1, 1, 1, 1),
+          hitRate = 100,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
           times = listOf(0, 0, 0, 0, 0),
+          hitRate = 0,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
           times = listOf(0, 0, 0, 0, 0),
+          hitRate = 0,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
           times = listOf(0, 0, 0, 0, 0),
+          hitRate = 0,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
           times = listOf(0, 0, 0, 0, 0),
+          hitRate = 0,
         ),
       ),
     ),
@@ -76,23 +81,28 @@ val dress2050003 = PartialDressBlueprint(
       parameters = listOf(
         ActParameters(
           values = listOf(93, 98, 102, 107, 112),
-          times = listOf(0, 0, 0, 0, 0),
+          times = listOf(1, 1, 1, 1, 1),
+          hitRate = 100,
         ),
         ActParameters(
           values = listOf(20, 20, 20, 20, 20),
           times = listOf(0, 0, 0, 0, 0),
+          hitRate = 100,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
           times = listOf(0, 0, 0, 0, 0),
+          hitRate = 0,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
           times = listOf(0, 0, 0, 0, 0),
+          hitRate = 0,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
           times = listOf(0, 0, 0, 0, 0),
+          hitRate = 0,
         ),
       ),
     ),
@@ -104,23 +114,28 @@ val dress2050003 = PartialDressBlueprint(
       parameters = listOf(
         ActParameters(
           values = listOf(125, 131, 137, 144, 150),
-          times = listOf(0, 0, 0, 0, 0),
+          times = listOf(1, 1, 1, 1, 1),
+          hitRate = 100,
         ),
         ActParameters(
           values = listOf(18, 20, 22, 24, 26),
           times = listOf(3, 3, 3, 3, 3),
+          hitRate = 100,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
           times = listOf(0, 0, 0, 0, 0),
+          hitRate = 0,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
           times = listOf(0, 0, 0, 0, 0),
+          hitRate = 0,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
           times = listOf(0, 0, 0, 0, 0),
+          hitRate = 0,
         ),
       ),
     ),
@@ -132,23 +147,28 @@ val dress2050003 = PartialDressBlueprint(
       parameters = listOf(
         ActParameters(
           values = listOf(111, 116, 122, 127, 133),
-          times = listOf(0, 0, 0, 0, 0),
+          times = listOf(5, 5, 5, 5, 5),
+          hitRate = 100,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
           times = listOf(0, 0, 0, 0, 0),
+          hitRate = 0,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
           times = listOf(0, 0, 0, 0, 0),
+          hitRate = 0,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
           times = listOf(0, 0, 0, 0, 0),
+          hitRate = 0,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
           times = listOf(0, 0, 0, 0, 0),
+          hitRate = 0,
         ),
       ),
     ),
