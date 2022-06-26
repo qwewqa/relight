@@ -31,22 +31,27 @@ val equip4000248 = PartialMemoirBlueprint(
       ActParameters(
         values = listOf(7500, 7500, 8000, 8500, 10000),
         times = listOf(1, 1, 1, 1, 2),
+        hitRate = 100,
       ),
       ActParameters(
         values = listOf(),
         times = listOf(),
+        hitRate = 0,
       ),
       ActParameters(
         values = listOf(),
         times = listOf(),
+        hitRate = 0,
       ),
       ActParameters(
         values = listOf(),
         times = listOf(),
+        hitRate = 0,
       ),
       ActParameters(
         values = listOf(),
         times = listOf(),
+        hitRate = 0,
       ),
     ),
   ),
