@@ -121,6 +121,7 @@ data class CutinBlueprint(
                     limitBreak + 1,
                     parameters.map { if (limitBreak < it.values.size) it.values[limitBreak] else 0 },
                     parameters.map { if (limitBreak < it.times.size) it.times[limitBreak] else 0 },
+                    parameters.map { it.hitRate }
                 ),
             ),
         )
