@@ -1,8 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage.stageeffect
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.ClaudineOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.FrontierOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.MayaOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.condition.or
 
@@ -217,4 +215,80 @@ val WildHope = StageEffect(
     ),
     StageEffectTarget.All,
     FrontierOnlyCondition,
+)
+
+val ThisIsSeparation = StageEffect(
+    "This is Separation",
+    listOf(
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(DexterityUpBuff, 30),
+            StageBuff(CriticalUpBuff, 30),
+            StageBuff(NegativeEffectResistanceBuff, 100),
+        ),
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(DexterityUpBuff, 60),
+            StageBuff(CriticalUpBuff, 60),
+            StageBuff(NegativeEffectResistanceBuff, 100),
+        ),
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(DexterityUpBuff, 80),
+            StageBuff(CriticalUpBuff, 80),
+            StageBuff(NegativeEffectResistanceBuff, 100),
+        ),
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(DexterityUpBuff, 90),
+            StageBuff(CriticalUpBuff, 90),
+            StageBuff(NegativeEffectResistanceBuff, 100),
+        ),
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(DexterityUpBuff, 100),
+            StageBuff(CriticalUpBuff, 100),
+            StageBuff(NegativeEffectResistanceBuff, 100),
+        ),
+    ),
+    StageEffectTarget.All,
+    KaorukoOnlyCondition
+)
+
+val YoureAllHopeless = StageEffect(
+    "You're All Hopeless",
+    listOf(
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(DexterityUpBuff, 30),
+            StageBuff(CriticalUpBuff, 30),
+            StageBuff(CounterHealBuff, 20),
+        ),
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(DexterityUpBuff, 60),
+            StageBuff(CriticalUpBuff, 60),
+            StageBuff(CounterHealBuff, 20),
+        ),
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(DexterityUpBuff, 80),
+            StageBuff(CriticalUpBuff, 80),
+            StageBuff(CounterHealBuff, 20),
+        ),
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(DexterityUpBuff, 90),
+            StageBuff(CriticalUpBuff, 90),
+            StageBuff(CounterHealBuff, 20),
+        ),
+        listOf(
+            StageBuff(ApDownBuff,0),
+            StageBuff(DexterityUpBuff, 100),
+            StageBuff(CriticalUpBuff, 100),
+            StageBuff(CounterHealBuff, 20),
+        ),
+    ),
+    StageEffectTarget.All,
+    KaorukoOnlyCondition.or(FutabaOnlyCondition)
 )

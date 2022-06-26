@@ -17,6 +17,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr16.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr17.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr18.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr19.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr20.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr9.tr9FaithMisora
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr9.tr9FaithMisoraStrategy
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
@@ -93,6 +94,14 @@ val bossLoadouts = listOf(
     BossLoadout(tr19KomachiTamaoDiff4, tr19KomachiTamaoDiff4Strategy),
     BossLoadout(tr19TowerHikari, tr19TowerHikariStrategy),
     BossLoadout(tr19TowerHikariDiff4, tr19TowerHikariDiff4Strategy),
+    BossLoadout(tr20MusketeerKaren, tr20MusketeerKarenStrategy),
+    BossLoadout(tr20MusketeerKarenDiff4, tr20MusketeerKarenDiff4Strategy),
+    BossLoadout(tr20MusketeerHikari, tr20MusketeerHikariStrategy),
+    BossLoadout(tr20MusketeerHikariDiff4, tr20MusketeerHikariDiff4Strategy),
+    BossLoadout(tr20MusketeerMahiru, tr20MusketeerMahiruStrategy),
+    BossLoadout(tr20MusketeerMahiruDiff4, tr20MusketeerMahiruDiff4Strategy),
+    BossLoadout(tr20HangedManRui, tr20HangedManRuiStrategy),
+    BossLoadout(tr20HangedManRuiDiff4, tr20HangedManRuiDiff4Strategy),
     BossLoadout(sakuraTaisenStageGirlKarenBoss, seesawStrategy),
     BossLoadout(sakuraTaisenStageGirlHikariBoss, seesawStrategy),
     BossLoadout(sakuraTaisenStageGirlMahiruBoss, seesawStrategy),

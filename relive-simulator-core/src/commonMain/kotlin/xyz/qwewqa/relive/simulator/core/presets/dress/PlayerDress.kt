@@ -15,9 +15,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.front.moon.FaithMisora
 import xyz.qwewqa.relive.simulator.core.presets.dress.front.snow.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.front.space.CharityTsukasa
 import xyz.qwewqa.relive.simulator.core.presets.dress.front.wind.StrengthFutaba
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.MitsuhideKaren
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.StageGirlMisora
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.StageGirlNana
+import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.*
@@ -37,11 +35,14 @@ val playerDresses = listOf(
     CoyoteCainYachiyo,
     DeathTamao,
     DevilKaoruko,
+    DonJoseFumi,
     EmperorAkira,
     EmpressMeiFan,
     FaithMisora,
     FoolYachiyo,
     FuMeiFan,
+    GrudgeRevueFutaba,
+    GrudgeRevueKaoruko,
     HelldiverNana,
     HeroHikari,
     HierophantMichiru,
@@ -59,6 +60,7 @@ val playerDresses = listOf(
     KondoIsamiIchie,
     LittlePrinceMisora,
     LokiYachiyo,
+    MagicianYuyuko,
     MerchantKaoruko,
     MitsuhideKaren,
     MoonAruru,
@@ -102,11 +104,13 @@ val playerDresses = listOf(
     StageGirlRui,
     StageGirlShizuha,
     StageGirlSuzu,
+    StageGirlTamao,
     StageGirlTsukasa,
     StageGirlYachiyo,
     StageGirlYuyuko,
     StrengthFutaba,
     SunIchie,
+    TemperanceFumi,
     TowerHikari,
     WheelOfFortuneKaren,
     WhiteFrontierAruru,

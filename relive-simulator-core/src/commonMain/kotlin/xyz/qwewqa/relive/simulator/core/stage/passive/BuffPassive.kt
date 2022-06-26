@@ -14,6 +14,7 @@ val SelfEvasionBuffPassive: PassiveEffect = GenericCountableBuffPassive(Countabl
 val SelfReviveBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Revive, EffectTag.Revive) { targetSelf() }
 val TeamEvasionBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Evasion, EffectTag.Evasion) { targetAllyAoe(it) }
 val TeamReviveBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Revive, EffectTag.Revive) { targetAllyAoe(it) }
+val SelfHopeBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Hope, EffectTag.Hope) { targetSelf() }
 
 val TeamActPowerUpBuffPassive: PassiveEffect = GenericBuffPassive(ActPowerUpBuff, EffectTag.Act,"Team") { targetAllyAoe(it) }
 val TeamDexterityUpBuffPassive: PassiveEffect = GenericBuffPassive(DexterityUpBuff, EffectTag.Dexterity, "Team") { targetAllyAoe(it) }
@@ -44,6 +45,8 @@ val SelfNegativeEffectResistanceBuffPassive: PassiveEffect = GenericBuffPassive(
 val TeamDamageDealtUpBuffPassive: PassiveEffect = GenericBuffPassive(DamageDealtUpBuff, EffectTag.Damage, "Team") { targetAllyAoe(it) }
 val TeamDamageTakenDownBuffPassive: PassiveEffect = GenericBuffPassive(DamageTakenDownBuff, EffectTag.Damage, "Team") { targetAllyAoe(it) }
 val TeamBrillianceGainUpBuffPassive: PassiveEffect = GenericBuffPassive(BrillianceGainUpBuff, EffectTag.BrillianceUp, "Team") { targetAllyAoe(it) }
+val TeamBrillianceRegenBuffPassive: PassiveEffect = GenericBuffPassive(BrillianceRegenBuff, EffectTag.BrillianceRegeneration, "Team") { targetAllyAoe(it) }
+val TeamNegativeCountableResistanceBuffPassive: PassiveEffect = GenericBuffPassive(NegativeCountableResistanceBuff, EffectTag.NegativeCountableResistance, "Team") { targetAllyAoe(it) }
 
 val TeamConfusionResistanceBuffPassive: PassiveEffect =
     ResistanceBuffPassive(ConfusionResistanceBuff, EffectTag.ConfusionResistance, "Team") { targetAllyAoe(it) }
@@ -81,6 +84,7 @@ val EnemyFront5ElectricShockBuffPassive: PassiveEffect = DebuffPassive(ElectricS
 val EnemyFront5LovesicknessBuffPassive: PassiveEffect = DebuffPassive(LovesicknessBuff, EffectTag.Lovesickness, "Enemy Front 5") { targetFront(5) }
 val EnemyBurnBuffPassive: PassiveEffect = DebuffPassive(BurnBuff, EffectTag.Burn, "Enemy AoE") { targetAoe(it) }
 val EnemyPoisonBuffPassive: PassiveEffect = DebuffPassive(PoisonBuff, EffectTag.Poison, "Enemy AoE") { targetAoe(it) }
+val EnemyBack2SleepBuffPassive: PassiveEffect = DebuffPassive(SleepBuff, EffectTag.Sleep, "Enemy Back 2") { targetBack(2) }
 
 private data class GenericBuffPassive(
     val buffEffect: BuffEffect,

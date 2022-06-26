@@ -24,6 +24,20 @@ object NegativeEffectResistanceBuff : BuffEffect {
     }
 }
 
+object LockedNegativeEffectResistanceBuff : BuffEffect {
+    override val name = "Locked Negative Effect Resistance"
+    override val category = BuffCategory.Positive
+    override val locked: Boolean = true
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueNegativeEffectResist += value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueNegativeEffectResist -= value
+    }
+}
+
 object PositiveEffectResistanceBuff : BuffEffect {
     override val name = "Positive Effect Resistance"
     override val category = BuffCategory.Negative

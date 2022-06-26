@@ -217,6 +217,13 @@ class Stage(
                         }
                         checkEnded()?.let { return it }
                     }
+
+                    if (enemyQueue.cutins.isNotEmpty()) error("Enemy cutins are not supported.")
+                    cutins[CutinTarget.TurnEnd]?.forEach { cutin ->
+                        cutin.execute()
+                        checkEnded()?.let { return it }
+                    }
+
                     executeAct {  // dots
                         tile += 1
                         move = 0

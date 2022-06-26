@@ -1,17 +1,21 @@
 package xyz.qwewqa.relive.simulator.core.presets.memoir
 
+import xyz.qwewqa.relive.simulator.core.presets.condition.KaorukoOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.memoir.generated.*
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.presets.condition.characterCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.schoolCondition
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.EffectTag
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinTarget
 import xyz.qwewqa.relive.simulator.core.stage.memoir.MemoirBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.stage.character.Character
+import xyz.qwewqa.relive.simulator.stage.character.School
 
 val UnshakableFeelings = equip4000147(
     name = "Unshakable Feelings",
@@ -344,6 +348,11 @@ val brilliantBirthdays = listOf(
     brilliantBirthday(Character.Ichie, equip4000252),
     brilliantBirthday(Character.Yuyuko, equip4000275),
     brilliantBirthday(Character.Lalafin, equip4000253),
+    brilliantBirthday(Character.Shiori, equip4000280),
+    brilliantBirthday(Character.Aruru, equip4000274),
+    brilliantBirthday(Character.Futaba, equip4000260),
+    brilliantBirthday(Character.Mahiru, equip4000264),
+    brilliantBirthday(Character.Koharu, equip4000247),
 )
 
 private fun slapMemo(
@@ -424,6 +433,209 @@ val IIPriestessReverse = equip4000207(
                     effect = ActPowerUpBuff,
                     value = values1,
                     turns = times1,
+                )
+            }
+        }
+    },
+)
+
+private fun positionZero(
+    leader: String,
+    school: School,
+    memoFun: PartialMemoirBlueprint,
+    baseAutoskills: List<PassiveData> = listOf(TeamBrillianceRecoveryPassive.new(10) + schoolCondition(school)),
+    maxAutoskills: List<PassiveData> = listOf(TeamBrillianceRecoveryPassive.new(15) + schoolCondition(school)),
+) = memoFun(
+    name = "Aiming for Position Zero - $leader",
+    baseAutoskills = baseAutoskills,
+    maxAutoskills = maxAutoskills,
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyAoe(schoolCondition(school)).act {
+                // TODO: Count. cleanse
+                applyBuff(
+                    effect = DexterityUpBuff,
+                    value = values2,
+                    turns = times2,
+                )
+            }
+        }
+    },
+    additionalTags = listOf(EffectTag.PositionZero),
+)
+
+val positionZeros = listOf(
+    positionZero("Karen", School.Seisho, equip4000269),
+    positionZero("Tamao", School.Rinmeikan, equip4000270),
+    positionZero("Aruru", School.Frontier, equip4000271),
+    positionZero("Akira", School.Siegfeld, equip4000272),
+    positionZero("Koharu", School.Seiran, equip4000273),
+)
+
+val XXIVCharityUpright = equip4000169(
+    name = "XXIV Charity [Upright]",
+    baseAutoskills = listOf(
+        SelfTurnBrillianceRecoveryPassive.new(10),
+        AgilityPassive.new(10)
+    ),
+    maxAutoskills = listOf(
+        SelfTurnBrillianceRecoveryPassive.new(20),
+        AgilityPassive.new(12)
+    ),
+    cutinTarget = CutinTarget.BeforeEnemyAct(1),
+    cutinAct = {
+        Act {
+            targetCutinTarget().act {
+                applyBuff(
+                    effect = SleepBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val XIStrengthUpright = equip4000175(
+    name = "XI Strength [Upright]",
+    baseAutoskills = listOf(
+        DamageDealtPassive.new(10)
+    ),
+    maxAutoskills = listOf(
+        DamageDealtPassive.new(15)
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyBack(3).act {
+                applyBuff(ActPowerUpBuff, values1, times1)
+            }
+            targetAllyAoe(KaorukoOnlyCondition).act {
+                applyBuff(ActPowerUpBuff, values2, times2)
+            }
+        }
+    },
+)
+
+val XXIIIHopeUpright = equip4000224(
+    name = "XXIII Hope [Upright]",
+    baseAutoskills = listOf(
+        SelfHopeBuffPassive.new(value = 50, time = 1)
+    ),
+    maxAutoskills = listOf(
+        SelfHopeBuffPassive.new(value = 50, time = 2)
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyBack(3).act {
+                applyCountableBuff(
+                    effect = CountableBuff.Hope,
+                    count = times1,
+                )
+            }
+        }
+    },
+)
+
+val XXJudgementReverse = equip4000189(
+    name = "XX Judgement [Reverse]",
+    baseAutoskills = listOf(
+        DamageTakenDownPassive.new(10)
+    ),
+    maxAutoskills = listOf(
+        DamageTakenDownPassive.new(15)
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyFront(3).act {
+                heal(fixed = values1)
+            }
+        }
+    },
+)
+
+val XXIWorldUpright = equip4000258(
+    name = "XXI World [Upright]",
+    baseAutoskills = listOf(
+        TeamHpRegenBuffPassive.new(5000, 2)
+    ),
+    maxAutoskills = listOf(
+        TeamHpRegenBuffPassive.new(7500, 3)
+    ),
+    cutinTarget = CutinTarget.TurnEnd,
+    cutinAct = {
+        Act {
+            targetAllyAoe().act {
+                applyBuff(
+                    effect = ApDownBuff,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val XXIWorldReverse = equip4000259(
+    name = "XXI World [Reverse]",
+    baseAutoskills = listOf(
+        TeamHpRegenBuffPassive.new(5000, 2)
+    ),
+    maxAutoskills = listOf(
+        TeamHpRegenBuffPassive.new(7500, 3)
+    ),
+    cutinTarget = CutinTarget.TurnEnd,
+    cutinAct = {
+        Act {
+            targetAoe().act {
+                applyBuff(
+                    effect = ApUpBuff,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val carmen = equip4000276(
+    name = "Carmen",
+    baseAutoskills = listOf(
+        SelfTurnBrillianceRecoveryPassive.new(10)
+    ),
+    maxAutoskills = listOf(
+        SelfTurnBrillianceRecoveryPassive.new(20)
+    ),
+    cutinTarget = CutinTarget.TurnEnd,
+    cutinAct = {
+        Act {
+            targetAllyAoe().act {
+                applyBuff(
+                    effect = BrillianceRegenBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val watchingMoviesAtTheater = equip4000153(
+    name = "Watching Movies at the Theater",
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(28)
+    ),
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(40)
+    ),
+    cutinTarget = CutinTarget.BeforeEnemyAct(3),
+    cutinAct = {
+        Act {
+            targetCutinTarget().act {
+                applyCountableBuff(
+                    effect = CountableBuff.Pride,
+                    count = times1,
                 )
             }
         }

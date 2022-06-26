@@ -118,3 +118,14 @@ object DamageTakenDownPassive : PassiveEffect {
         }
     }
 }
+
+object AgilityPassive : PassiveEffect {
+    override val category = PassiveEffectCategory.Passive
+    override val tags = listOf(EffectTag.Agility)
+
+    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+        condition.applyIfTrue(self) {
+            valueAgility += value
+        }
+    }
+}

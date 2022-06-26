@@ -52,7 +52,16 @@ val memoirs = mapOf("None" to EmptyMemoir) + (
             ForOurSpecialPlace,
             XXJudgementUpright,
             IIPriestessReverse,
+            XXIVCharityUpright,
+            XIStrengthUpright,
+            XXIIIHopeUpright,
+            XXJudgementReverse,
+            XXIWorldUpright,
+            XXIWorldReverse,
+            carmen,
+            watchingMoviesAtTheater,
         ).sortedBy { it.name }.sortedBy { it.cutinData == null }
                 + brilliantBirthdays
                 + slapMemos
+                + positionZeros
         ).associateBy { it.name }

@@ -68,8 +68,8 @@ val SoulRevueClaudine = dress1040024(
                     )
                 }
                 targetAoe().act {
-                    reduceCountable(BuffCategory.Positive)
-                    reduceCountable(BuffCategory.Positive)
+                    // reduceCountable(BuffCategory.Positive)
+                    // TODO: Count. dispel correctly
                     attack(
                         // TODO: Attack ignores aggro, provoke, barriers, reflect, invincibility
                         modifier = values4,
