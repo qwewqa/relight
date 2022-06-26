@@ -87,7 +87,7 @@ val GrudgeRevueKaoruko = dress1090024(
             EnemyBrillianceDrainPassive.new(50) + BackOnlyCondition,
         ),
         listOf(
-            TeamBrillianceGainUpBuffPassive.new(50),
+            TeamBrillianceGainUpBuffPassive.new(50, 3),
         ),
     ),
     unitSkill = ActCritical50UnitSkill + CloudOnlyCondition,

@@ -93,7 +93,7 @@ val DonJoseFumi = dress2030013(
             SelfFortitudeBuffPassive.new(time = 4),
         ),
         listOf(
-            TeamBrillianceRegenBuffPassive.new(20) + SpaceOnlyCondition,
+            TeamBrillianceRegenBuffPassive.new(20, 3) + SpaceOnlyCondition,
         ),
         listOf(
             TeamHpUpPassive.new(30) + SpaceOnlyCondition,

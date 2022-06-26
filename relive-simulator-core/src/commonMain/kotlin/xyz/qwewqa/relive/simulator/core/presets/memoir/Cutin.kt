@@ -621,7 +621,7 @@ val carmen = equip4000276(
     },
 )
 
-val watchingMoviesAtTheater = equip4000153(
+val watchingMoviesAtTheater = equip4000279(
     name = "Watching Movies at the Theater",
     baseAutoskills = listOf(
         BrillianceRecoveryPassive.new(28)
