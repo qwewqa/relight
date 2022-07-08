@@ -82,3 +82,79 @@ val StageGirlNana = dress1070017(
     unitSkill = ActCritical50UnitSkill + SeishoOnlyCondition,
     categories = setOf(DressCategory.StageGirl),
 )
+
+val DemonKingNana = dress1070023(
+    name = "Demon King Nana"
+    acts = listOf(
+        ActType.Act1.blueprint("Slash of Brilliance") {
+            Act {
+                targetBack().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1
+                    )
+                }
+                targetSelf().act {
+                    addBrilliance(values2)
+                }
+            }
+        },
+        ActType.Act2.blueprint("Abyss Nightmare") {
+            // TODO: Seisho count. reduce
+            Act {
+                targetBack().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1
+                    )
+                }
+            }
+        },
+        ActType.Act3.blueprint("Soul Take") {
+            // TODO: Seisho cont. dispell + stun
+            Act {
+                targetBack().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1
+                    )
+                }
+            }
+        },
+        ActType.ClimaxAct.blueprint("Dark Feast") {
+            // TODO: Seisho daze
+            Act {
+                targetAllyAoe().buff {
+                    applyCountableBuff(
+                        effect = CountableBuff.Revive,
+                        count = times1
+                    )
+                }
+                focus {
+                    targetAoe().act {
+                        attack(
+                            modifier = values2,
+                            hitCount = 3,
+                            bonusMultiplier = 150,
+                            bonusCondition = SeishoOnlyCondition,
+                        )
+                    }
+                }
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+            SelfReviveBuffPassive.new(50, time = 1),
+            SelfFortitudeBuffPassive.new(time = 4),
+        ),
+        listOf(
+            EnemyBrillianceDrainPassive.new(50) + SeishoOnlyCondition,
+        ),
+        listOf(
+            TeamNegativeEffectResistanceBuffPassive.new(100, 1),
+        )
+    ),
+    unitSkill = ActCritical50UnitSkill + CloudOnlyCondition,
+    categories = setOf(DressCategory.Birthday2022),
+)
