@@ -34,6 +34,7 @@ val playerDresses = listOf(
     CourtChampionYachiyo,
     CoyoteCainYachiyo,
     DeathTamao,
+    DemonKingNana,
     DevilKaoruko,
     DonJoseFumi,
     EmperorAkira,

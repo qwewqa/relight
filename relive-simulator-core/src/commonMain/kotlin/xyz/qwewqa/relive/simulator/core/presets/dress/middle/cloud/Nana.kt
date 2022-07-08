@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1070017
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1070023
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
@@ -81,4 +82,93 @@ val StageGirlNana = dress1070017(
     ),
     unitSkill = ActCritical50UnitSkill + SeishoOnlyCondition,
     categories = setOf(DressCategory.StageGirl),
+)
+
+val DemonKingNana = dress1070023(
+    name = "Demon King Nana"
+    acts = listOf(
+        ActType.Act1.blueprint("Slash of Brilliance") {
+            Act {
+                targetBack().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1
+                    )
+                }
+                targetSelf().act {
+                    addBrilliance(values2)
+                }
+            }
+        },
+        ActType.Act2.blueprint("Abyss Nightmare") {
+            Act {
+                targetBack().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1
+                    )
+                }
+                targetAoe(SeishoOnlyCondition).act {
+                    reduceCountable(BuffCategory.Positive)
+                }
+            }
+        },
+        ActType.Act3.blueprint("Soul Take") {
+            Act {
+                targetBack().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = 1
+                    )
+                }
+                targetAoe(SeishoOnlyCondition).act {
+                    dispelTimed(BuffCategory.Positive)
+                    applyBuff(
+                        effect = LockedStunBuff,
+                        turns = times3,
+                    )
+                }
+            }
+        },
+        ActType.ClimaxAct.blueprint("Dark Feast") {
+            Act {
+                targetAllyAoe().buff {
+                    applyCountableBuff(
+                        effect = CountableBuff.Revive,
+                        count = times1
+                    )
+                }
+                focus {
+                    targetAoe().act {
+                        attack(
+                            modifier = values2,
+                            hitCount = 3,
+                            bonusMultiplier = 150,
+                            bonusCondition = SeishoOnlyCondition,
+                        )
+                    }
+                }
+                targetAoe(SeishoOnlyCondition).act {
+                    applyCountableBuff(
+                        CountableBuff.Daze,
+                        count = times3,
+                    )
+                }
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+            SelfReviveBuffPassive.new(50, time = 1),
+            SelfFortitudeBuffPassive.new(time = 4),
+        ),
+        listOf(
+            EnemyBrillianceDrainPassive.new(50) + SeishoOnlyCondition,
+        ),
+        listOf(
+            TeamNegativeEffectResistanceBuffPassive.new(100, 1),
+        )
+    ),
+    unitSkill = ActCritical50UnitSkill + CloudOnlyCondition,
+    categories = setOf(DressCategory.Birthday2022),
 )
