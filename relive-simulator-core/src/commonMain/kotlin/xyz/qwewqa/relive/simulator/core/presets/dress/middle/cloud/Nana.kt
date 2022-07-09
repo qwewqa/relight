@@ -100,7 +100,6 @@ val DemonKingNana = dress1070023(
             }
         },
         ActType.Act2.blueprint("Abyss Nightmare") {
-            // TODO: Seisho count. reduce
             Act {
                 targetBack().act {
                     attack(
@@ -108,21 +107,29 @@ val DemonKingNana = dress1070023(
                         hitCount = 1
                     )
                 }
+                targetAoe(SeishoOnlyCondition).act {
+                    reduceCountable(BuffCategory.Positive)
+                }
             }
         },
         ActType.Act3.blueprint("Soul Take") {
-            // TODO: Seisho cont. dispell + stun
             Act {
                 targetBack().act {
                     attack(
                         modifier = values1,
                         hitCount = 1
+                    )
+                }
+                targetAoe(SeishoOnlyCondition).act {
+                    dispelTimed(BuffCategory.Positive)
+                    applyBuff(
+                        effect = LockedStunBuff,
+                        turns = times3,
                     )
                 }
             }
         },
         ActType.ClimaxAct.blueprint("Dark Feast") {
-            // TODO: Seisho daze
             Act {
                 targetAllyAoe().buff {
                     applyCountableBuff(
@@ -139,6 +146,12 @@ val DemonKingNana = dress1070023(
                             bonusCondition = SeishoOnlyCondition,
                         )
                     }
+                }
+                targetAoe(SeishoOnlyCondition).act {
+                    applyCountableBuff(
+                        CountableBuff.Daze,
+                        count = times3,
+                    )
                 }
             }
         }
