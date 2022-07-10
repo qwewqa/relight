@@ -1,10 +1,12 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud
 
+import xyz.qwewqa.relive.simulator.core.presets.condition.CloudOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1070017
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1070023
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
@@ -85,7 +87,7 @@ val StageGirlNana = dress1070017(
 )
 
 val DemonKingNana = dress1070023(
-    name = "Demon King Nana"
+    name = "Demon King Nana",
     acts = listOf(
         ActType.Act1.blueprint("Slash of Brilliance") {
             Act {
@@ -132,7 +134,7 @@ val DemonKingNana = dress1070023(
         },
         ActType.ClimaxAct.blueprint("Dark Feast") {
             Act {
-                targetAllyAoe().buff {
+                targetAllyAoe().act {
                     applyCountableBuff(
                         effect = CountableBuff.Revive,
                         count = times1
