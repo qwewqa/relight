@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1070017
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1070023
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
