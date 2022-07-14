@@ -88,7 +88,7 @@ val AceMisora = dress3020013(
                         hitCount = 10,
                     )
                     applyCountableBuff(
-                        CountableBuff.Daze,
+                        CountableBuff.Pride,
                         chance = 33,
                     )
                 }
