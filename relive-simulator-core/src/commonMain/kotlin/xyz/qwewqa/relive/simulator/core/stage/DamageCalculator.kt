@@ -49,10 +49,10 @@ class RandomDamageCalculator : DamageCalculator {
             val n = if (result.variance) stage.random.nextInt(-8, 9) else 0
             val isCritical = stage.random.nextDouble() < result.criticalChance
             val damage = if (isCritical) {
-                result.critical * (100 + n) / 100
+                result.critical.toLong() * (100 + n) / 100
             } else {
-                result.base * (100 + n) / 100
-            }
+                result.base.toLong() * (100 + n) / 100
+            }.toInt()
             val reflect = when (hitAttribute.damageType) {
                 DamageType.Normal -> target.normalReflect
                 DamageType.Special -> target.specialReflect
@@ -133,12 +133,12 @@ class RandomDamageCalculator : DamageCalculator {
             )
         }
 
-        val base: Int
+        val base: Long
 
         if (hitAttribute.mode == HitMode.ELEMENTAL_FIXED) {
-            base = hitAttribute.modifier / hitAttribute.hitCount
+            base = hitAttribute.modifier.toLong() / hitAttribute.hitCount
         } else {
-            var atk = attacker.actPower
+            var atk = attacker.actPower.toLong()
             if (attacker.inCX) atk = atk * 110 / 100
             atk = atk * 2 * hitAttribute.modifier / 100
 
@@ -233,8 +233,8 @@ class RandomDamageCalculator : DamageCalculator {
         criticalDmg = criticalDmg * eventMultiplier / 100
 
         return DamageResult(
-            base = dmg,
-            critical = criticalDmg,
+            base = dmg.toInt(),
+            critical = criticalDmg.toInt(),
             criticalChance = dex / 100.0,
             hitChance = acc / 100.0,
             variance = true,
@@ -251,7 +251,7 @@ data class DamageResult(
 ) {
     fun possibleRolls(critical: Boolean = false) = if (variance) {
         (-8..8).map {
-            ((if (critical) this.critical else this.base) * (100 + it) / 100)
+            ((if (critical) this.critical else this.base).toLong() * (100 + it) / 100).toInt()
         }
     } else {
         listOf(if (critical) this.critical else this.base)
