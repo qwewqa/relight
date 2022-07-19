@@ -12,38 +12,71 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
-val dress1070023 = PartialDressBlueprint(
-  id = 1070023,
-  name = "魔王",
-  baseRarity = 4,
-  character = Character.Nana,
-  attribute = Attribute.Cloud,
+val dress4080001 = PartialDressBlueprint(
+  id = 4080001,
+  name = "シークフェルト音楽学院",
+  baseRarity = 2,
+  character = Character.Unknown,
+  attribute = Attribute.Space,
   damageType = DamageType.Normal,
   position = Position.Middle,
   positionValue = 24050,
   stats = StatData(
-    hp = 11500,
-    actPower = 700,
-    normalDefense = 920,
-    specialDefense = 350,
-    agility = 430,
+    hp = 710,
+    actPower = 120,
+    normalDefense = 60,
+    specialDefense = 52,
+    agility = 118,
     dexterity = 5,
     critical = 50,
     accuracy = 0,
     evasion = 0,
   ),
   growthStats = StatData(
-    hp = 72000,
-    actPower = 4500,
-    normalDefense = 3150,
-    specialDefense = 2000,
-    agility = 4000,
+    hp = 23700,
+    actPower = 2140,
+    normalDefense = 770,
+    specialDefense = 800,
+    agility = 1910,
   ),
   actParameters = mapOf(
     ActType.Act1 to ActBlueprint(
-      name = "キラめきの斬撃",
+      name = "一閃",
       type = ActType.Act1,
       apCost = 1,
+      icon = 1,
+      parameters = listOf(
+        ActParameters(
+          values = listOf(88, 92, 96, 101, 105),
+          times = listOf(1, 1, 1, 1, 1),
+          hitRate = 100,
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+          hitRate = 0,
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+          hitRate = 0,
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+          hitRate = 0,
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
+          times = listOf(0, 0, 0, 0, 0),
+          hitRate = 0,
+        ),
+      ),
+    ),
+    ActType.Act2 to ActBlueprint(
+      name = "キラめきの一閃",
+      type = ActType.Act2,
+      apCost = 2,
       icon = 89,
       parameters = listOf(
         ActParameters(
@@ -73,59 +106,26 @@ val dress1070023 = PartialDressBlueprint(
         ),
       ),
     ),
-    ActType.Act2 to ActBlueprint(
-      name = "アビス・ナイトメア",
-      type = ActType.Act2,
-      apCost = 2,
-      icon = 252,
-      parameters = listOf(
-        ActParameters(
-          values = listOf(165, 173, 181, 189, 198),
-          times = listOf(1, 1, 1, 1, 1),
-          hitRate = 100,
-        ),
-        ActParameters(
-          values = listOf(1, 1, 1, 1, 1),
-          times = listOf(0, 0, 0, 0, 0),
-          hitRate = 100,
-        ),
-        ActParameters(
-          values = listOf(0, 0, 0, 0, 0),
-          times = listOf(0, 0, 0, 0, 0),
-          hitRate = 0,
-        ),
-        ActParameters(
-          values = listOf(0, 0, 0, 0, 0),
-          times = listOf(0, 0, 0, 0, 0),
-          hitRate = 0,
-        ),
-        ActParameters(
-          values = listOf(0, 0, 0, 0, 0),
-          times = listOf(0, 0, 0, 0, 0),
-          hitRate = 0,
-        ),
-      ),
-    ),
     ActType.Act3 to ActBlueprint(
-      name = "ソウル・テイク",
+      name = "弛緩の独奏",
       type = ActType.Act3,
       apCost = 3,
-      icon = 57,
+      icon = 269,
       parameters = listOf(
         ActParameters(
-          values = listOf(165, 173, 181, 189, 198),
+          values = listOf(93, 98, 102, 107, 112),
+          times = listOf(1, 1, 1, 1, 1),
+          hitRate = 100,
+        ),
+        ActParameters(
+          values = listOf(0, 0, 0, 0, 0),
           times = listOf(1, 1, 1, 1, 1),
           hitRate = 100,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
           times = listOf(0, 0, 0, 0, 0),
-          hitRate = 100,
-        ),
-        ActParameters(
-          values = listOf(0, 0, 0, 0, 0),
-          times = listOf(2, 2, 2, 2, 2),
-          hitRate = 100,
+          hitRate = 0,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
@@ -140,25 +140,25 @@ val dress1070023 = PartialDressBlueprint(
       ),
     ),
     ActType.ClimaxAct to ActBlueprint(
-      name = "Dark feast",
+      name = "Wild chaser",
       type = ActType.ClimaxAct,
       apCost = 2,
-      icon = 229,
+      icon = 269,
       parameters = listOf(
         ActParameters(
-          values = listOf(50, 50, 50, 50, 50),
+          values = listOf(0, 0, 0, 0, 0),
           times = listOf(1, 1, 1, 1, 1),
           hitRate = 100,
         ),
         ActParameters(
-          values = listOf(200, 210, 220, 230, 240),
+          values = listOf(117, 123, 128, 134, 140),
           times = listOf(3, 3, 3, 3, 3),
           hitRate = 100,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
-          times = listOf(1, 1, 1, 1, 1),
-          hitRate = 100,
+          times = listOf(0, 0, 0, 0, 0),
+          hitRate = 0,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
@@ -320,33 +320,5 @@ val dress1070023 = PartialDressBlueprint(
       StatBoost(StatBoostType.Agility, 2),
   ),
   remakeParameters = listOf(
-    StatData(
-      hp = 7500,
-      actPower = 330,
-      normalDefense = 450,
-      specialDefense = 450,
-      agility = 60,
-    ),
-    StatData(
-      hp = 12500,
-      actPower = 550,
-      normalDefense = 750,
-      specialDefense = 750,
-      agility = 100,
-    ),
-    StatData(
-      hp = 20000,
-      actPower = 880,
-      normalDefense = 1200,
-      specialDefense = 1200,
-      agility = 160,
-    ),
-    StatData(
-      hp = 25000,
-      actPower = 1100,
-      normalDefense = 1500,
-      specialDefense = 1500,
-      agility = 200,
-    ),
   ),
 )
