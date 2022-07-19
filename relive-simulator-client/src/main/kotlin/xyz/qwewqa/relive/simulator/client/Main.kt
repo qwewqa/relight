@@ -704,6 +704,24 @@ class SimulatorClient(val simulator: Simulator) {
             updateUrlForSetup(setup)
         }
 
+        fun updateSetupFromUrl(url: String) {
+            val urlOptions = URL(url).search.substring(1).split("&").firstOrNull {
+                "options=.*".toRegex().matches(it)
+            }?.split("=")?.lastOrNull()
+            if (urlOptions != null) {
+                try {
+                    setSetup(json.decodeFromString(compressor.decompressFromEncodedURIComponent(urlOptions)))
+                    toast("Import", "Updated configuration from url.", "green")
+                } catch (e: Throwable) {
+                    toast("Error", "Failed to update configuration from url.", "red")
+                }
+            }
+        }
+
+        fun updateSetupFromUrl() {
+            updateSetupFromUrl(window.location.href)
+        }
+
         if (features.shutdown) {
             shutdownContainer.removeClass("d-none")
         }
@@ -751,8 +769,14 @@ class SimulatorClient(val simulator: Simulator) {
 
         doImportButton.addEventListener("click", {
             try {
-                setSetup(loadYamlDeserialize(importText.value))
-                toast("Import", "Import completed.", "green")
+                val data = importText.value
+                val trimmed = data.trim()
+                if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+                    updateSetupFromUrl(trimmed)
+                } else {
+                    setSetup(loadYamlDeserialize(importText.value))
+                    toast("Import", "Import completed.", "green")
+                }
             } catch (e: Throwable) {
                 toast("Import", "Import failed.", "red")
             }
@@ -967,20 +991,6 @@ class SimulatorClient(val simulator: Simulator) {
                 onEnd = ::updateGuestStyling
             }
         )
-
-        fun updateSetupFromUrl() {
-            val urlOptions = window.location.search.substring(1).split("&").firstOrNull {
-                "options=.*".toRegex().matches(it)
-            }?.split("=")?.lastOrNull()
-            if (urlOptions != null) {
-                try {
-                    setSetup(json.decodeFromString(compressor.decompressFromEncodedURIComponent(urlOptions)))
-                    toast("Import", "Updated configuration from url.", "green")
-                } catch (e: Throwable) {
-                    toast("Error", "Failed to update configuration from url.", "red")
-                }
-            }
-        }
 
         updateSetupFromUrl()
 
