@@ -157,3 +157,24 @@
 '.text-donate':
   en: Donate
   zh_hant: 贊助
+'.text-preset':
+  en: Preset
+  zh_hant: 預設
+'.text-load-preset':
+  en: Load Preset
+  zh_hant: 載入預設
+'.text-save-preset':
+  en: Save Preset
+  zh_hant: 儲存預設
+'.text-delete-preset':
+  en: Delete Preset
+  zh_hant: 刪除預設
+'.text-confirm':
+  en: Confirm
+  zh_hant: 確認
+'.text-cancel':
+  en: Cancel
+  zh_hant: 取消
+'.text-delete':
+  en: Delete
+  zh_hant: 刪除

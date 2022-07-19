@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.client
 
 import kotlinx.browser.document
+import kotlinx.browser.localStorage
 import kotlinx.browser.window
 import kotlinx.coroutines.*
 import kotlinx.dom.addClass
@@ -78,6 +79,22 @@ class SimulatorClient(val simulator: Simulator) {
     val interactiveLog = document.getElementById("interactive-log") as HTMLDivElement
     val interactiveInput = document.getElementById("interactive-input").textInput()
     val interactiveSendButton = document.getElementById("interactive-send-button") as HTMLButtonElement
+
+    val loadPresetSelect = document.getElementById("load-preset-select").singleSelect()
+    val loadPresetConfirmButton = document.getElementById("load-preset-button") as HTMLButtonElement
+    val deletePresetButton = document.getElementById("delete-preset-button") as HTMLButtonElement
+    val presetNameInput = document.getElementById("preset-name-input").textInput()
+    val savePresetConfirmButton = document.getElementById("save-preset-button") as HTMLButtonElement
+
+    val loadoutPresets = json
+        .decodeFromString<Map<String, PlayerLoadoutParameters>>(localStorage.get("loadout-presets") ?: "{}")
+        .toMutableMap()
+
+    fun saveLoadoutPresets() {
+        localStorage.set("loadout-presets", json.encodeToString(loadoutPresets))
+    }
+
+    var activeActorOptions: ActorOptions? = null
 
     private fun toastElement(color: String = "grey", dismissible: Boolean, value: DIV.() -> Unit) =
         document.create.div("toast") {
@@ -544,6 +561,52 @@ class SimulatorClient(val simulator: Simulator) {
                                                 )
                                             }
                                         }
+                                        +" "
+                                        button(
+                                            type = ButtonType.button,
+                                            classes = "btn btn-outline-secondary text-save-preset"
+                                        ) {
+                                            id = "actor-save-preset-$actorId"
+                                            +"Save Preset"
+                                            onClickFunction = {
+                                                val opt = ActorOptions(
+                                                    document.getElementById("actor-options-$actorId") as Element
+                                                )
+                                                activeActorOptions = opt
+                                                Bootstrap.Modal(document.getElementById("save-preset-modal")).show()
+                                            }
+                                        }
+                                        +" "
+                                        button(
+                                            type = ButtonType.button,
+                                            classes = "btn btn-outline-secondary text-load-preset"
+                                        ) {
+                                            id = "actor-load-preset-$actorId"
+                                            +"Load Preset"
+                                            onClickFunction = {
+                                                activeActorOptions = ActorOptions(
+                                                    document.getElementById("actor-options-$actorId") as Element
+                                                )
+                                                val dressMapping = options.dresses.associateBy { it.id }
+                                                loadPresetSelect.clear()
+                                                loadPresetSelect.element.run {
+                                                    loadoutPresets.keys.forEach { id ->
+                                                        val split = id.split(":::", limit = 2)
+                                                        val dressName = split[0]
+                                                        val presetName = split[1]
+                                                        add(
+                                                            document.create.option {
+                                                                value = id
+                                                                attributes["data-content"] = "<img style=\"height: 1.75em; margin-top: -0.25em\" src=\"${dressMapping[dressName]?.imagePath}\"> $presetName"
+                                                                +presetName
+                                                            } as HTMLOptionElement
+                                                        )
+                                                    }
+                                                }
+                                                loadPresetSelect.refreshSelectPicker()
+                                                Bootstrap.Modal(document.getElementById("load-preset-modal")).show()
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -826,6 +889,21 @@ class SimulatorClient(val simulator: Simulator) {
             GlobalScope.launch {
                 interactiveSimulation?.sendCommand((e as CustomEvent).detail as String)
             }
+        })
+
+        savePresetConfirmButton.addEventListener("click", {
+            val param = activeActorOptions?.parameters ?: return@addEventListener
+            val name = presetNameInput.value
+            loadoutPresets["${param.dress}:::${name}"] = param
+            saveLoadoutPresets()
+        })
+        loadPresetConfirmButton.addEventListener("click", {
+            val preset = loadoutPresets[loadPresetSelect.value] ?: return@addEventListener
+            activeActorOptions?.parameters = preset
+        })
+        deletePresetButton.addEventListener("click", {
+            loadoutPresets.remove(loadPresetSelect.value)
+            saveLoadoutPresets()
         })
 
         fun updateLocaleText() {

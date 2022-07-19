@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.client
 
 import kotlinx.browser.document
 import kotlinx.dom.addClass
+import kotlinx.dom.clear
 import kotlinx.dom.hasClass
 import kotlinx.dom.removeClass
 import kotlinx.html.dom.create
@@ -92,7 +93,7 @@ sealed class Select(val element: HTMLSelectElement) {
         }
     }
 
-    fun populate(values: List<String>) {
+    fun populate(values: Iterable<String>) {
         values.forEach {
             element.add(
                 document.create.option {
@@ -125,6 +126,10 @@ sealed class Select(val element: HTMLSelectElement) {
                 } as UnionHTMLOptGroupElementOrHTMLOptionElement
             )
         }
+    }
+
+    fun clear() {
+        element.clear()
     }
 
     fun localize(mapping: Map<String, Map<String, String>>, locale: String) {
@@ -163,6 +168,11 @@ sealed class Select(val element: HTMLSelectElement) {
                 text = name
             }
         }
+    }
+
+    fun refreshSelectPicker() {
+        val jquery = js("$")
+        jquery(element).selectpicker("refresh")
     }
 }
 
@@ -241,6 +251,8 @@ class ActorOptions(element: Element) {
             rank.value = param.rank.toString()
             rankPanelPattern.value = inverseRankPanelPatterns[param.rankPanelPattern] ?: "Full"
             remake.value = param.remake.toString()
+            dress.refreshSelectPicker()
+            memoir.refreshSelectPicker()
         }
 }
 
