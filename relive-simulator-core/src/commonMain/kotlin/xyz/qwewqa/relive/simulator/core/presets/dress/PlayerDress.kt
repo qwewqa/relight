@@ -85,6 +85,7 @@ val playerDresses = listOf(
     SoulRevueClaudine,
     SoulRevueMaya,
     StageGirlAkira,
+    StageGirlAruru,
     StageGirlClaudine,
     StageGirlFumi,
     StageGirlFutaba,

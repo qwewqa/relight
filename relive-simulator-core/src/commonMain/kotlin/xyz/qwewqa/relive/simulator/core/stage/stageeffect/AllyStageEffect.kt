@@ -49,6 +49,38 @@ val HyakkaRyoran = StageEffect(
     StageEffectTarget.All,
 )
 
+val HyappatsuhyakuchuuIppatsuhitchuu = StageEffect(
+    "百発百中、一発必中",
+    listOf(
+        listOf(
+            StageBuff(DexterityUpBuff, 100),
+            StageBuff(CriticalUpBuff, 30),
+            StageBuff(PerfectAimBuff, 0),
+        ),
+        listOf(
+            StageBuff(DexterityUpBuff, 100),
+            StageBuff(CriticalUpBuff, 35),
+            StageBuff(PerfectAimBuff, 0),
+        ),
+        listOf(
+            StageBuff(DexterityUpBuff, 100),
+            StageBuff(CriticalUpBuff, 40),
+            StageBuff(PerfectAimBuff, 0),
+        ),
+        listOf(
+            StageBuff(DexterityUpBuff, 100),
+            StageBuff(CriticalUpBuff, 45),
+            StageBuff(PerfectAimBuff, 0),
+        ),
+        listOf(
+            StageBuff(DexterityUpBuff, 100),
+            StageBuff(CriticalUpBuff, 50),
+            StageBuff(PerfectAimBuff, 0),
+        ),
+    ),
+    StageEffectTarget.All,
+)
+
 val TheStageWhereHoshimiJunnaPlaysTheLead = StageEffect(
     "The Stage Where Hoshimi Junna Plays The Lead",
     listOf(
