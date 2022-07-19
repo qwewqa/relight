@@ -894,6 +894,7 @@ class SimulatorClient(val simulator: Simulator) {
         savePresetConfirmButton.addEventListener("click", {
             val param = activeActorOptions?.parameters ?: return@addEventListener
             val name = presetNameInput.value
+            presetNameInput.value = ""
             loadoutPresets["${param.dress}:::${name}"] = param
             saveLoadoutPresets()
         })
