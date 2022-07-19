@@ -89,7 +89,7 @@ tasks.register<Copy>("copyPwabuilder") {
     val imageDir = File("$projectDir/src/main/resources/img/")
     val resourcesDir = File("$projectDir/src/main/resources/")
     val imagePaths = fileTree(imageDir).filter { it.isFile }.files.map {
-        "/${it.relativeTo(resourcesDir).path.replace("\\", "/")}"
+        it.relativeTo(resourcesDir).path.replace("\\", "/")
     }
     val timestamp = System.currentTimeMillis()
     filter { line ->
