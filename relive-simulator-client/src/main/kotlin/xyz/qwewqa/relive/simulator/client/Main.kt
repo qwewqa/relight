@@ -899,7 +899,7 @@ class SimulatorClient(val simulator: Simulator) {
         })
         loadPresetConfirmButton.addEventListener("click", {
             val preset = loadoutPresets[loadPresetSelect.value] ?: return@addEventListener
-            activeActorOptions?.parameters = preset
+            activeActorOptions?.parameters = preset.copy(name = activeActorOptions?.parameters?.name ?: "")
         })
         deletePresetButton.addEventListener("click", {
             loadoutPresets.remove(loadPresetSelect.value)
