@@ -590,7 +590,7 @@ class SimulatorClient(val simulator: Simulator) {
                                                 val dressMapping = options.dresses.associateBy { it.id }
                                                 loadPresetSelect.clear()
                                                 loadPresetSelect.element.run {
-                                                    loadoutPresets.keys.forEach { id ->
+                                                    loadoutPresets.keys.sorted().forEach { id ->
                                                         val split = id.split(":::", limit = 2)
                                                         val dressName = split[0]
                                                         val presetName = split[1]
