@@ -166,6 +166,12 @@
 '.text-save-preset':
   en: Save Preset
   zh_hant: 儲存預設
+'.text-load-preset-short':
+  en: Load
+  zh_hant: 載入
+'.text-save-preset-short':
+  en: Save
+  zh_hant: 儲存
 '.text-delete-preset':
   en: Delete Preset
   zh_hant: 刪除預設

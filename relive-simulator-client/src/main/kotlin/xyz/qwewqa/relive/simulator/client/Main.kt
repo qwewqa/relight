@@ -564,10 +564,10 @@ class SimulatorClient(val simulator: Simulator) {
                                         +" "
                                         button(
                                             type = ButtonType.button,
-                                            classes = "btn btn-outline-secondary text-save-preset"
+                                            classes = "btn btn-outline-secondary text-save-preset-short"
                                         ) {
                                             id = "actor-save-preset-$actorId"
-                                            +"Save Preset"
+                                            +localized(".text-save-preset-short", "Save")
                                             onClickFunction = {
                                                 val opt = ActorOptions(
                                                     document.getElementById("actor-options-$actorId") as Element
@@ -579,10 +579,10 @@ class SimulatorClient(val simulator: Simulator) {
                                         +" "
                                         button(
                                             type = ButtonType.button,
-                                            classes = "btn btn-outline-secondary text-load-preset"
+                                            classes = "btn btn-outline-secondary text-load-preset-short"
                                         ) {
                                             id = "actor-load-preset-$actorId"
-                                            +"Load Preset"
+                                            +localized(".text-load-preset-short", "Load")
                                             onClickFunction = {
                                                 activeActorOptions = ActorOptions(
                                                     document.getElementById("actor-options-$actorId") as Element
