@@ -9,6 +9,7 @@ import kotlinx.dom.hasClass
 import kotlinx.dom.removeClass
 import kotlinx.html.*
 import kotlinx.html.dom.create
+import kotlinx.html.js.onChangeFunction
 import kotlinx.html.js.onClickFunction
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -332,6 +333,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                         select(classes = "form-select actor-remake") {
                                             id = selectId
+                                            attributes["data-prev-value"] = "0"
                                             option {
                                                 value = "0"
                                                 +"0"
@@ -352,6 +354,28 @@ class SimulatorClient(val simulator: Simulator) {
                                             option {
                                                 value = "4"
                                                 +"4"
+                                            }
+                                            onChangeFunction = {
+                                                val opt = ActorOptions(
+                                                    document.getElementById("actor-options-$actorId") as Element
+                                                )
+                                                val prev = opt.remake.element.attributes["data-prev-value"]
+                                                    ?.value?.toInt() ?: 0
+                                                val params = opt.parameters
+                                                val newLevel = if (params.level == 20 + 10 * params.rarity + 5 * prev) {
+                                                    20 + 10 * params.rarity + 5 * params.remake
+                                                } else {
+                                                    params.level
+                                                }
+                                                val newFriendship = if (params.friendship == 5 * params.rarity + 5 * prev) {
+                                                    5 * params.rarity + 5 * params.remake
+                                                } else {
+                                                    params.friendship
+                                                }
+                                                opt.parameters = params.copy(
+                                                    level = newLevel,
+                                                    friendship = newFriendship
+                                                )
                                             }
                                         }
                                     }
@@ -483,7 +507,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                         input(InputType.number, classes = "form-control actor-memoir-level") {
                                             id = inputId
-                                            placeholder = "1"
+                                            placeholder = "80"
                                         }
                                     }
                                     div("col-6 col-md-3 my-2") {
@@ -494,6 +518,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                         select(classes = "form-select actor-memoir-unbind") {
                                             id = selectId
+                                            attributes["data-prev-value"] = "4"
                                             option {
                                                 value = "0"
                                                 +"0"
@@ -515,6 +540,23 @@ class SimulatorClient(val simulator: Simulator) {
                                                 +"4"
                                                 selected = true
                                             }
+                                        }
+                                        onChangeFunction = {
+                                            val opt = ActorOptions(
+                                                document.getElementById("actor-options-$actorId") as Element
+                                            )
+                                            val prev = opt.memoirUnbind.element.attributes["data-prev-value"]
+                                                ?.value?.toInt() ?: 0
+                                            val params = opt.parameters
+                                            // only works for 4* memos, which is almost all of them
+                                            val newMemoirLevel = if (params.memoirLevel == 60 + 5 * prev) {
+                                                60 + 5 * params.memoirLimitBreak
+                                            } else {
+                                                params.memoirLevel
+                                            }
+                                            opt.parameters = params.copy(
+                                                memoirLevel = newMemoirLevel
+                                            )
                                         }
                                     }
                                     div("col-12 my-2") {

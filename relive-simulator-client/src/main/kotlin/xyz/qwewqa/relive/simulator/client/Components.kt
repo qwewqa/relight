@@ -193,18 +193,18 @@ class MultipleSelect(element: HTMLSelectElement) : Select(element) {
 }
 
 class ActorOptions(element: Element) {
-    private val name = TextInput(element.getElementsByClassName("actor-name").single())
-    private val dress = SingleSelect(element.getElementsByClassName("actor-dress").single())
-    private val memoir = SingleSelect(element.getElementsByClassName("actor-memoir").single())
-    private val memoirLevel = IntegerInput(element.getElementsByClassName("actor-memoir-level").single(), 1)
-    private val memoirUnbind = SingleSelect(element.getElementsByClassName("actor-memoir-unbind").single())
-    private val unitSkillLevel = IntegerInput(element.getElementsByClassName("actor-unit-skill").single(), 21)
-    private val level = IntegerInput(element.getElementsByClassName("actor-level").single(), 80)
-    private val rarity = SingleSelect(element.getElementsByClassName("actor-rarity").single())
-    private val friendship = IntegerInput(element.getElementsByClassName("actor-friendship").single(), 30)
-    private val rank = SingleSelect(element.getElementsByClassName("actor-rank").single())
-    private val rankPanelPattern = SingleSelect(element.getElementsByClassName("actor-rank-panel-pattern").single())
-    private val remake = SingleSelect(element.getElementsByClassName("actor-remake").single())
+    val name = TextInput(element.getElementsByClassName("actor-name").single())
+    val dress = SingleSelect(element.getElementsByClassName("actor-dress").single())
+    val memoir = SingleSelect(element.getElementsByClassName("actor-memoir").single())
+    val memoirLevel = IntegerInput(element.getElementsByClassName("actor-memoir-level").single(), 1)
+    val memoirUnbind = SingleSelect(element.getElementsByClassName("actor-memoir-unbind").single())
+    val unitSkillLevel = IntegerInput(element.getElementsByClassName("actor-unit-skill").single(), 21)
+    val level = IntegerInput(element.getElementsByClassName("actor-level").single(), 80)
+    val rarity = SingleSelect(element.getElementsByClassName("actor-rarity").single())
+    val friendship = IntegerInput(element.getElementsByClassName("actor-friendship").single(), 30)
+    val rank = SingleSelect(element.getElementsByClassName("actor-rank").single())
+    val rankPanelPattern = SingleSelect(element.getElementsByClassName("actor-rank-panel-pattern").single())
+    val remake = SingleSelect(element.getElementsByClassName("actor-remake").single())
 
 
     companion object {
@@ -253,6 +253,9 @@ class ActorOptions(element: Element) {
             remake.value = param.remake.toString()
             dress.refreshSelectPicker()
             memoir.refreshSelectPicker()
+
+            remake.element.setAttribute("data-prev-value", param.remake.toString())
+            memoirUnbind.element.setAttribute("data-prev-value", param.memoirLimitBreak.toString())
         }
 }
 
