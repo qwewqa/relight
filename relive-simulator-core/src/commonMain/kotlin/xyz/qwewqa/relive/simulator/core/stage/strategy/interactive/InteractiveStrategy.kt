@@ -46,13 +46,13 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         stage.after()
         rev++
         resultLog = stage.logger.get()
-        enemyStatus = stage.enemy.actors.values.map { actor ->
-            ActorStatus(actor.name, actor.hp, actor.maxHp, actor.brilliance, actor.context.actionLog.damageDealtToEnemy)
-        }
-        playerStatus = stage.player.actors.values.map { actor ->
-            ActorStatus(actor.name, actor.hp, actor.maxHp, actor.brilliance, actor.context.actionLog.damageDealtToEnemy)
-        }
+        enemyStatus = stage.enemy.actors.values.map { it.status() }
+        playerStatus = stage.player.actors.values.map { it.status() }
     }
+
+    fun Actor.status() =
+        ActorStatus(name, hp, maxHp, brilliance, context.actionLog.damageDealtToEnemy)
+
 
     init {
         playStage()
@@ -159,6 +159,11 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         return ParsedCommand(command, data, trimmed)
     }
 
+    private data class TurnStatus(
+        val actorStatuses: List<ActorStatus>,
+        val climax: Boolean,
+    )
+
     private inner class InteractiveStrategy(
         val managedRandom: ManagedRandom,
         val history: List<ParsedCommand>,
@@ -197,6 +202,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
         private var incremental = false
 
+        private val statusHistory = mutableListOf<TurnStatus>()
         private val queueHistory = mutableListOf<QueueResult>()
 
         private inline fun log(value: () -> String) {
@@ -384,7 +390,13 @@ ${formattedHand()}
                 },
                 climax,
                 cutinQueue.toList(),
-            ).also { queueHistory += it }
+            ).also {
+                queueHistory += it
+                statusHistory += TurnStatus(
+                    team.actors.values.map { actor -> actor.status() },
+                    team.cxTurns > 0 || it.climax,
+                )
+            }
         }
 
         private fun String.parseSingleAct(): BoundAct? {
@@ -750,10 +762,28 @@ ${
                     }
                 }
                 InteractiveCommandType.EXPORT -> {
+                    var strict = false
+                    when (data) {
+                        "strict" -> strict = true
+                        "" -> {}
+                        else -> {
+                            log("Export") { "Error: Unknown parameters." }
+                            return@run
+                        }
+                    }
                     log("Export") {
-                        queueHistory.mapIndexed { index, queueResult ->
+                        queueHistory.zip(statusHistory).mapIndexed { index, (queueResult, status) ->
                             val turn = index + 1
                             "Turn $turn:\n${
+                                if (strict) {
+                                    "${
+                                        status.actorStatuses.joinToString("") { "assert ${it.name} ${if (it.hp > 0) "alive" else "dead"}\n" }
+                                    }${
+                                        if (status.climax) status.actorStatuses.joinToString("") { "assert ${it.name} ${if (it.brilliance >= 100) "charged" else "uncharged"}\n" }
+                                        else ""
+                                    }"
+                                } else ""
+                            }${
                                 if (queueResult.climax) "climax\n" else ""
                             }${
                                 queueResult.cutins
@@ -1151,16 +1181,18 @@ ${formattedHand()}
         override fun nextBits(bitCount: Int) = base.nextBits(bitCount)
     }
 
-    private data class BoundAct(val actor: Actor, val type: ActType, val isGuest: Boolean = false) : Comparable<BoundAct> {
+    private data class BoundAct(val actor: Actor, val type: ActType, val isGuest: Boolean = false) :
+        Comparable<BoundAct> {
         val act = actor.acts[type] ?: error("Actor '${actor.name}' does not have an act with type '${type.name}'")
         val apCost get() = (act.apCost + actor.apChange).coerceAtLeast(1)
 
-        val sortPriority get() = run {
-            var v = apCost
-            if (act.type == ActType.ClimaxAct) v += 10
-            if (isGuest) v += 100
-            v
-        }
+        val sortPriority
+            get() = run {
+                var v = apCost
+                if (act.type == ActType.ClimaxAct) v += 10
+                if (isGuest) v += 100
+                v
+            }
 
         override fun compareTo(other: BoundAct): Int {
             return sortPriority.compareTo(other.sortPriority)
