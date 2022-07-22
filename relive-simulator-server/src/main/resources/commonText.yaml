@@ -184,3 +184,6 @@
 '.text-delete':
   en: Delete
   zh_hant: 刪除
+'.text-sort-by-position':
+  en: Sort
+  zh_hant: 按位置排序

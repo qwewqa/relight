@@ -8,6 +8,7 @@ import kotlinx.dom.removeClass
 import kotlinx.html.dom.create
 import kotlinx.html.option
 import org.w3c.dom.*
+import xyz.qwewqa.relive.simulator.common.DataSimulationOption
 import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
 import xyz.qwewqa.relive.simulator.common.SimulationOption
 import xyz.qwewqa.relive.simulator.common.SongEffectParameter
@@ -140,7 +141,7 @@ sealed class Select(val element: HTMLSelectElement) {
         }
     }
 
-    fun localize(mapping: Map<String, SimulationOption>, locale: String) {
+    fun localize(mapping: Map<String, DataSimulationOption<*>>, locale: String) {
         element.options.asList().filterIsInstance<HTMLOptionElement>().forEach { selectOption ->
             val option = mapping[selectOption.value]
             val name = option?.get(locale) ?: selectOption.value

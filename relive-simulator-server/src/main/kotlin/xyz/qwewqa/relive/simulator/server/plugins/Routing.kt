@@ -150,7 +150,20 @@ fun Application.configureRouting() {
                     getLocalizationConfig("commonText.yaml"),
                     getLocalizationConfig("dress.yaml", playerDresses.keys).map { option ->
                         val dress = playerDresses[option.id]!!
-                        option.copy(imagePath = "img/large_icon/1_${dress.id}.png".takeIf { dress.id > 0 })
+                        DataSimulationOption(
+                            id = option.id,
+                            name = option.name,
+                            description = option.description,
+                            tags = option.tags,
+                            imagePath = "img/large_icon/1_${dress.id}.png".takeIf { dress.id > 0 },
+                            data = DressData(
+                                id = dress.id,
+                                attribute = dress.attribute.ordinal,
+                                damageType = dress.damageType.ordinal,
+                                positionValue = dress.positionValue,
+                                positionName = dress.position.name.lowercase(),
+                            ),
+                        )
                     },
                     getLocalizationConfig("memoir.yaml", memoirs.keys).map { option ->
                         val memoir = memoirs[option.id]!!

@@ -49,6 +49,7 @@ class SimulatorClient(val simulator: Simulator) {
     val actorSettingsDiv = document.getElementById("actor-settings") as HTMLDivElement
     val addActorButton = document.getElementById("add-actor-button") as HTMLButtonElement
     val removeActorButton = document.getElementById("remove-actor-button") as HTMLButtonElement
+    val sortByPositionButton = document.getElementById("sort-by-position-button") as HTMLButtonElement
     val expandAllActorButton = document.getElementById("expand-all-actor-button") as HTMLButtonElement
     val collapseAllActorButton = document.getElementById("collapse-all-actor-button") as HTMLButtonElement
     val bossSelect = document.getElementById("boss-select").singleSelect()
@@ -834,6 +835,12 @@ class SimulatorClient(val simulator: Simulator) {
 
         removeActorButton.addEventListener("click", {
             removeActor()
+        })
+
+        sortByPositionButton.addEventListener("click", {
+            val setup = getSetup()
+            val dressData = options.dresses.associate { it.id to it.data }
+            setSetup(setup.copy(team = setup.team.sortedBy { dressData[it.dress]!! }))
         })
 
         expandAllActorButton.addEventListener("click", {

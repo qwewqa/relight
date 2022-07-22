@@ -62,7 +62,7 @@ data class InteractiveCommand(val text: String)
 data class SimulationOptions(
     val locales: Map<String, String>,
     val commonText: List<SimulationOption>,
-    val dresses: List<SimulationOption>,
+    val dresses: List<DataSimulationOption<DressData>>,
     val memoirs: List<SimulationOption>,
     val songEffects: List<SimulationOption>,
     val conditions: List<SimulationOption>,
@@ -71,15 +71,42 @@ data class SimulationOptions(
     val bossStrategyTypes: List<SimulationOption>,
 )
 
+typealias SimulationOption = DataSimulationOption<Unit>
+
+fun SimulationOption(
+    id: String,
+    name: Map<String, String>,
+    description: Map<String, String>? = null,
+    tags: Map<String, List<String>>? = null,
+    imagePath: String? = null,
+) = DataSimulationOption(id, name, description, tags, imagePath, Unit)
+
 @Serializable
-data class SimulationOption(
+data class DataSimulationOption<T>(
     val id: String,
     val name: Map<String, String>,
     val description: Map<String, String>? = null,
     val tags: Map<String, List<String>>? = null,
     val imagePath: String? = null,
+    val data: T,
 ) {
     operator fun get(key: String): String = name[key] ?: name["en"] ?: id
+}
+
+
+@Serializable
+data class DressData(
+    val id: Int,
+    val attribute: Int,
+    val damageType: Int,
+    val positionValue: Int,
+    val positionName: String
+) : Comparable<DressData> {
+    override fun compareTo(other: DressData): Int {
+        if (positionValue != other.positionValue) return positionValue - other.positionValue
+        if (id != other.id) return other.id - id  // Note how this is reversed
+        return 0
+    }
 }
 
 @Serializable
@@ -124,15 +151,15 @@ data class StrategyParameter(
 
 @Serializable
 data class SimulationResult(
-        val maxIterations: Int,
-        val currentIterations: Int,
-        val results: List<SimulationResultValue>,
-        val marginResults: Map<SimulationMarginResultType, Map<Int, Int>>,
-        val log: List<LogEntry>?,
-        val runtime: Double? = null,
-        val cancelled: Boolean = false,
-        val error: String? = null,
-        val complete: Boolean = false,
+    val maxIterations: Int,
+    val currentIterations: Int,
+    val results: List<SimulationResultValue>,
+    val marginResults: Map<SimulationMarginResultType, Map<Int, Int>>,
+    val log: List<LogEntry>?,
+    val runtime: Double? = null,
+    val cancelled: Boolean = false,
+    val error: String? = null,
+    val complete: Boolean = false,
 ) {
     val done get() = cancelled || complete
 }
