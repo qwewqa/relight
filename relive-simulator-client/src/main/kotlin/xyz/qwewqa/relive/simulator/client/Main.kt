@@ -674,7 +674,7 @@ class SimulatorClient(val simulator: Simulator) {
                 }
             val actors = actorSettingsDiv.getElementsByClassName("actor-options").asList().map { options ->
                 ActorOptions(options).parameters
-            }
+            }.map { it.copy(name = it.name.replace(Regex("\\s"), "_")) }
             return SimulationParameters(
                 maxTurns = turnsInput.value,
                 maxIterations = iterationsInput.value,
