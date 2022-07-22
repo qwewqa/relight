@@ -7,6 +7,7 @@ import com.github.h0tk3y.betterParse.lexer.regexToken
 import com.github.h0tk3y.betterParse.parser.Parser
 import xyz.qwewqa.relive.simulator.core.stage.Stage
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
@@ -16,7 +17,41 @@ sealed class SimpleStrategyCommand : SimpleStrategyLine() {
     object EnterClimax : SimpleStrategyCommand()
     data class QueueAct(val actor: String, val act: ActType) : SimpleStrategyCommand()
     data class Cutin(val actor: String) : SimpleStrategyCommand()
+
+    data class Assert(
+        val actor: String,
+        val property: String,
+        val operator: String?,
+        val operand: String?,
+    ) : SimpleStrategyCommand()
 }
+
+
+data class ActorProperty(
+    val acceptedOperators: Set<String?>,
+    val check: Actor.(operator: String?, operand: String?) -> Boolean,
+)
+
+
+val actorProperties = mapOf(
+    "alive" to ActorProperty(
+        acceptedOperators = setOf(null),
+        check = { _, _ -> hp > 0 },
+    ),
+    "dead" to ActorProperty(
+        acceptedOperators = setOf(null),
+        check = { _, _ -> hp <= 0 },
+    ),
+    "charged" to ActorProperty(
+        acceptedOperators = setOf(null),
+        check = { _, _ -> brilliance >= 100 },
+    ),
+    "uncharged" to ActorProperty(
+        acceptedOperators = setOf(null),
+        check = { _, _ -> brilliance < 100 },
+    ),
+)
+
 
 val actNameMapping = ActType.values().associateBy { it.shortName }
 
@@ -25,6 +60,7 @@ object SimpleStrategyGrammar : Grammar<Map<Int, List<SimpleStrategyCommand>>>() 
     val turn by literalToken("Turn")
     val colon by literalToken(":")
     val climax by literalToken("climax")
+    val assert by literalToken("assert")
     val ident by regexToken("""\S+""")
     val newlines by regexToken("""\s*[\r\n]+\s*""")
     val ws by regexToken("""[^\S\r\n]+""", ignore = true)
@@ -40,6 +76,14 @@ object SimpleStrategyGrammar : Grammar<Map<Int, List<SimpleStrategyCommand>>>() 
             "cutin" -> SimpleStrategyCommand.Cutin(actor)
             else -> SimpleStrategyCommand.QueueAct(actor, actNameMapping.getValue(act))
         }
+    } or (-assert * anyIdentifier * anyIdentifier * optional(anyIdentifier * anyIdentifier)).map { (actor, property, op) ->
+        val operator = op?.t1
+        val operand = op?.t2
+        val propertyInfo = actorProperties[property] ?: error("Unknown property $property")
+        if (operator !in propertyInfo.acceptedOperators) {
+            error("Operator ${operator ?: "<no operator>"} is not supported for property $property")
+        }
+        SimpleStrategyCommand.Assert(actor, property, operator, operand)
     } or climax.asJust(SimpleStrategyCommand.EnterClimax)
 
     val lines by separatedTerms(line, newlines, acceptZero = true)
@@ -99,6 +143,16 @@ class SimpleStrategy(val commands: Map<Int, List<SimpleStrategyCommand>>) : Stra
                     val actor = team.actors[command.actor] ?: error("Unknown actor ${command.actor}")
                     cutins += actor.cutin ?: error("Cutin for actor ${command.actor} not available.")
                 }
+                is SimpleStrategyCommand.Assert -> {
+                    val actor = team.actors[command.actor] ?: error("Unknown actor ${command.actor}")
+                    val propertyInfo = actorProperties[command.property]!!
+                    if (!propertyInfo.check(actor, command.operator, command.operand)) {
+                        stage.tags = listOf("(t${stage.turn}) assert ${command.actor} ${command.property}${
+                            if (command.operator != null) " ${command.operator} ${command.operand}" else ""
+                        }")
+                        error("Assertion failed for actor ${command.actor} property ${command.property}.")
+                    }
+                }
             }
         }
         require(queue.size <= 6) { "Queue must be at most 6 tiles long." }
@@ -127,6 +181,9 @@ class BossSimpleStrategy(val commands: Map<Int, List<SimpleStrategyCommand>>) : 
                 }
                 is SimpleStrategyCommand.Cutin -> {
                     error("Bosses cannot use cutins.")
+                }
+                is SimpleStrategyCommand.Assert -> {
+                    error("Bosses cannot use assertions.")
                 }
             }
         }
