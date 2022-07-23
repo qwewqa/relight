@@ -255,6 +255,9 @@ class ActorOptions(element: Element) {
             rankPanelPattern.value = inverseRankPanelPatterns[param.rankPanelPattern] ?: "Full"
             remake.value = param.remake.toString()
             remakeSkill.value = param.remakeSkill ?: "None"
+
+            remakeSkill.element.asDynamic().disabled = param.remake < 4
+
             dress.refreshSelectPicker()
             memoir.refreshSelectPicker()
             remakeSkill.refreshSelectPicker()

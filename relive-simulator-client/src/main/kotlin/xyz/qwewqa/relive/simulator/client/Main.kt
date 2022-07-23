@@ -476,6 +476,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         select("selectpicker form-control actor-remake-skill") {
                                             id = selectId
                                             attributes["data-live-search"] = "true"
+                                            attributes["disabled"] = "disabled"
                                             options.remakeSkills.forEach {
                                                 option {
                                                     attributes["data-content"] = "${
