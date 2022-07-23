@@ -184,7 +184,7 @@ val startEffects = buildMap {
         addBrilliance(value)
     }
     this[347] = Effect(
-        "Brilliance Removal",
+        "Brilliance Reduction",
         category = PassiveEffectCategory.TurnStartNegative,
     ) { value, time ->
         removeBrilliance(value)
