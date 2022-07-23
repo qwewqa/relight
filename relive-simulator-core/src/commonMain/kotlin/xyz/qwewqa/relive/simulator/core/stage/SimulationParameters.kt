@@ -16,6 +16,7 @@ import xyz.qwewqa.relive.simulator.core.stage.condition.plus
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.loadout.TeamLoadout
+import xyz.qwewqa.relive.simulator.core.stage.passive.remakeSkills
 import xyz.qwewqa.relive.simulator.core.stage.song.Song
 import xyz.qwewqa.relive.simulator.core.stage.song.SongEffectData
 import xyz.qwewqa.relive.simulator.core.stage.strategy.bossStrategyParsers
@@ -41,6 +42,7 @@ fun SimulationParameters.createStageLoadout(): StageLoadout {
                             rankPanelPattern = it.rankPanelPattern,
                             remake = it.remake,
                             unitSkillLevel = it.unitSkillLevel,
+                            remakeSkill = it.remakeSkill?.let { id -> remakeSkills[id]!! },
                         ),
                         memoirs[it.memoir]!!.create(it.memoirLevel, it.memoirLimitBreak),
                     )
@@ -56,6 +58,7 @@ fun SimulationParameters.createStageLoadout(): StageLoadout {
                             rankPanelPattern = it.rankPanelPattern,
                             remake = it.remake,
                             unitSkillLevel = it.unitSkillLevel,
+                            remakeSkill = null,
                         ),
                         memoirs[it.memoir]!!.create(it.memoirLevel, it.memoirLimitBreak),
                     )

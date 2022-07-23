@@ -189,7 +189,7 @@ class BuffManager(val actor: Actor) {
     }
 
     fun tick() = actor.run {
-        val hpRegen = hpSlipTotal(HpRegenBuff)
+        val hpRegen = hpSlipTotal(HpRegenBuff) + hpRegen
         if (hpRegen > 0) {
             context.log("HP Regen") { "HP Regen tick." }
             heal(hpRegen)

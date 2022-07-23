@@ -187,6 +187,7 @@ class SimulatorClient(val simulator: Simulator) {
         ) + options.songEffects.associateBy { it.id }
         val conditions = options.conditions.associateBy { it.id }
         val dresses = options.dresses.associateBy { it.id }
+        val remakeSkills = options.remakeSkills.associateBy { it.id }
         val memoirs = options.memoirs.associateBy { it.id }
 
         var locale = options.locales.keys.first()
@@ -273,7 +274,7 @@ class SimulatorClient(val simulator: Simulator) {
                                                 option {
                                                     attributes["data-content"] = "${
                                                         if (it.imagePath != null) {
-                                                            "<img style=\"height: 1.75em; margin-top: -0.25em\" src=\"${it.imagePath}\"> "
+                                                            "<img style=\"height: 1.65em; margin-top: -0.2em\" src=\"${it.imagePath}\"> "
                                                         } else {
                                                             ""
                                                         }
@@ -466,6 +467,30 @@ class SimulatorClient(val simulator: Simulator) {
                                             }
                                         }
                                     }
+                                    div("col-12 my-2") {
+                                        val selectId = "actor-remake-skill-$actorId"
+                                        label("form-label text-remake-skill") {
+                                            htmlFor = selectId
+                                            +localized(".text-remake-skill", "Remake Skill")
+                                        }
+                                        select("selectpicker form-control actor-remake-skill") {
+                                            id = selectId
+                                            attributes["data-live-search"] = "true"
+                                            options.remakeSkills.forEach {
+                                                option {
+                                                    attributes["data-content"] = "${
+                                                        if (it.imagePath != null) {
+                                                            "<img style=\"height: 1.65em; margin-top: -0.2em\" src=\"${it.imagePath}\"> "
+                                                        } else {
+                                                            ""
+                                                        }
+                                                    }${it[locale]}"
+                                                    value = it.id
+                                                    +it[locale]
+                                                }
+                                            }
+                                        }
+                                    }
                                     div("col-12 col-md-6 my-2") {
                                         val selectId = "actor-memoir-$actorId"
                                         label("form-label text-memoir") {
@@ -481,7 +506,7 @@ class SimulatorClient(val simulator: Simulator) {
                                                     val description = it.description?.get(locale)
                                                     attributes["data-content"] = "${
                                                         if (it.imagePath != null) {
-                                                            "<img style=\"height: 1.75em; margin-top: -0.25em\" src=\"${it.imagePath}\"> "
+                                                            "<img style=\"height: 1.65em; margin-top: -0.2em\" src=\"${it.imagePath}\"> "
                                                         } else {
                                                             ""
                                                         }
@@ -640,7 +665,7 @@ class SimulatorClient(val simulator: Simulator) {
                                                         add(
                                                             document.create.option {
                                                                 value = id
-                                                                attributes["data-content"] = "<img style=\"height: 1.75em; margin-top: -0.25em\" src=\"${dressMapping[dressName]?.imagePath}\"> $presetName"
+                                                                attributes["data-content"] = "<img style=\"height: 1.65em; margin-top: -0.2em\" src=\"${dressMapping[dressName]?.imagePath}\"> $presetName"
                                                                 +presetName
                                                             } as HTMLOptionElement
                                                         )
@@ -1011,6 +1036,12 @@ class SimulatorClient(val simulator: Simulator) {
                 .filterIsInstance<HTMLSelectElement>()
                 .forEach { select ->
                     SingleSelect(select).localize(dresses, locale)
+                }
+            document.getElementsByClassName("actor-remake-skill")
+                .asList()
+                .filterIsInstance<HTMLSelectElement>()
+                .forEach { select ->
+                    SingleSelect(select).localize(remakeSkills, locale)
                 }
             document.getElementsByClassName("actor-memoir")
                 .asList()

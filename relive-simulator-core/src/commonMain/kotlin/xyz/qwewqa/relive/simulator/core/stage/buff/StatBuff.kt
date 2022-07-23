@@ -364,6 +364,19 @@ data class AgainstAttributeDamageTakenUpBuff(val attribute: Attribute) : BuffEff
     }
 }
 
+data class AgainstAttributeDamageTakenDownBuff(val attribute: Attribute) : BuffEffect {
+    override val name = "${attribute.name} Damage Taken Down"
+    override val category = BuffCategory.Positive
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.againstAttributeDamageTakenDown[attribute] = self.againstAttributeDamageTakenDown.getValue(attribute) + value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.againstAttributeDamageTakenDown[attribute] = self.againstAttributeDamageTakenDown.getValue(attribute) - value
+    }
+}
+
 object AccuracyRateDownBuff : BuffEffect {
     override val name = "Accuracy Rate Down"
     override val category = BuffCategory.Negative

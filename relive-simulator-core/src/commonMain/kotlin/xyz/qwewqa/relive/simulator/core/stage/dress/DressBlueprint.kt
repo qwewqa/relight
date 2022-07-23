@@ -4,6 +4,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
+import xyz.qwewqa.relive.simulator.core.stage.passive.RemakeSkill
 import xyz.qwewqa.relive.simulator.core.stage.passive.UnitSkill
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -39,6 +40,7 @@ data class DressBlueprint(
         rankPanelPattern: List<Boolean>,
         remake: Int,
         unitSkillLevel: Int,
+        remakeSkill: RemakeSkill?,
     ): Dress {
         require(rarity in baseRarity..6) { "Invalid rarity $rarity." }
         require(rank in 1..9) { "Invalid rank $rank." }
@@ -110,7 +112,8 @@ data class DressBlueprint(
                     }
                 )
             },
-            autoSkills.take(autoSkillCount).flatten(),
+            autoSkills.take(autoSkillCount).flatten() +
+                    (remakeSkill?.data?.takeIf { remake >= 4 } ?: emptyList()),
             unitSkill.forLevel(unitSkillLevel),
             categories,
             multipleCA,

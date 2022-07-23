@@ -69,6 +69,7 @@ data class SimulationOptions(
     val bosses: List<SimulationOption>,
     val strategyTypes: List<SimulationOption>,
     val bossStrategyTypes: List<SimulationOption>,
+    val remakeSkills: List<SimulationOption>,
 )
 
 typealias SimulationOption = DataSimulationOption<Unit>
@@ -141,6 +142,7 @@ data class PlayerLoadoutParameters(
     val rank: Int = 9,
     val rankPanelPattern: List<Boolean> = listOf(true, true, true, true, true, true, true, true),
     val remake: Int = 0,
+    val remakeSkill: String? = null,
 )
 
 @Serializable

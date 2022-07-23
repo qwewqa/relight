@@ -152,7 +152,7 @@ sealed class Select(val element: HTMLSelectElement) {
                         "data-content",
                         "${
                             if (option?.imagePath != null) {
-                                "<img style=\"height: 1.75em; margin-top: -0.25em\" src=\"${option.imagePath}\"> "
+                                "<img style=\"height: 1.65em; margin-top: -0.2em\" src=\"${option.imagePath}\"> "
                             } else {
                                 ""
                             }
@@ -206,6 +206,7 @@ class ActorOptions(element: Element) {
     val rank = SingleSelect(element.getElementsByClassName("actor-rank").single())
     val rankPanelPattern = SingleSelect(element.getElementsByClassName("actor-rank-panel-pattern").single())
     val remake = SingleSelect(element.getElementsByClassName("actor-remake").single())
+    val remakeSkill = SingleSelect(element.getElementsByClassName("actor-remake-skill").single())
 
 
     companion object {
@@ -238,6 +239,7 @@ class ActorOptions(element: Element) {
             rank.value.toInt(),
             rankPanelPatterns[rankPanelPattern.value]!!,
             remake.value.toInt(),
+            remakeSkill.value,
         )
         set(param) {
             name.value = param.name
@@ -252,8 +254,10 @@ class ActorOptions(element: Element) {
             rank.value = param.rank.toString()
             rankPanelPattern.value = inverseRankPanelPatterns[param.rankPanelPattern] ?: "Full"
             remake.value = param.remake.toString()
+            remakeSkill.value = param.remakeSkill ?: "None"
             dress.refreshSelectPicker()
             memoir.refreshSelectPicker()
+            remakeSkill.refreshSelectPicker()
 
             remake.element.setAttribute("data-prev-value", param.remake.toString())
             memoirUnbind.element.setAttribute("data-prev-value", param.memoirLimitBreak.toString())

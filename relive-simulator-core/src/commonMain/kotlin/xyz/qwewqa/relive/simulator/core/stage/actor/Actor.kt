@@ -135,6 +135,7 @@ class Actor(
     val innateAgainstAttributeDamageTakenDown = mutableMapOf<Attribute, Int>().withDefault { 0 }
 
     var brillianceRegen = 0
+    var hpRegen = 0
 
     var counterHeal = 0
 
