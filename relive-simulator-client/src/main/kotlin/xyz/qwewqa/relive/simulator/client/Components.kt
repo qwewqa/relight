@@ -208,6 +208,8 @@ class ActorOptions(element: Element) {
     val remake = SingleSelect(element.getElementsByClassName("actor-remake").single())
     val remakeSkill = SingleSelect(element.getElementsByClassName("actor-remake-skill").single())
 
+    val remakeSkillText = element.getElementsByClassName("actor-remake-skill-text").single() as HTMLParagraphElement
+
 
     companion object {
         val rankPanelPatterns = mapOf(
@@ -261,6 +263,8 @@ class ActorOptions(element: Element) {
             dress.refreshSelectPicker()
             memoir.refreshSelectPicker()
             remakeSkill.refreshSelectPicker()
+
+            remakeSkillText.textContent = remakeSkill.element.selectedOptions.single<HTMLElement>().textContent
 
             remake.element.setAttribute("data-prev-value", param.remake.toString())
             memoirUnbind.element.setAttribute("data-prev-value", param.memoirLimitBreak.toString())

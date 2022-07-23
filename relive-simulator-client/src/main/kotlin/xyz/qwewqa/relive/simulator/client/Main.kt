@@ -490,6 +490,18 @@ class SimulatorClient(val simulator: Simulator) {
                                                     +it[locale]
                                                 }
                                             }
+                                            onChangeFunction = {
+                                                val opt = ActorOptions(
+                                                    document.getElementById("actor-options-$actorId") as Element
+                                                )
+                                                opt.remakeSkillText.textContent =
+                                                    opt.remakeSkill.element.selectedOptions.single<HTMLElement>().textContent
+                                            }
+                                        }
+                                        p("mt-2 mb-1 mx-1 d-md-none actor-remake-skill-text") {
+                                            id = "$selectId-text"
+                                            style = "font-size: 0.85em;"
+                                            +options.remakeSkills.first()[locale]
                                         }
                                     }
                                     div("col-12 col-md-6 my-2") {
@@ -1043,6 +1055,8 @@ class SimulatorClient(val simulator: Simulator) {
                 .filterIsInstance<HTMLSelectElement>()
                 .forEach { select ->
                     SingleSelect(select).localize(remakeSkills, locale)
+                    document.getElementById("${select.id}-text")!!.textContent =
+                        remakeSkills[select.value]?.get(locale) ?: ""
                 }
             document.getElementsByClassName("actor-memoir")
                 .asList()
