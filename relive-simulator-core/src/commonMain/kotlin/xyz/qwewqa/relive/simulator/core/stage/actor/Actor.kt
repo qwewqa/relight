@@ -136,6 +136,7 @@ class Actor(
 
     var brillianceRegen = 0
     var hpRegen = 0
+    var hpPercentRegen = 0
 
     var counterHeal = 0
 

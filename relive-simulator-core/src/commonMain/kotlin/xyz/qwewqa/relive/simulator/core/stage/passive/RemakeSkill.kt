@@ -130,7 +130,13 @@ val passiveEffects = buildMap {
         "Turn HP Recovery",
         category = PassiveEffectCategory.Passive
     ) { value, time ->
-        targets.forEach { it.hpRegen += value }
+        targets.forEach {
+            if (value <= 100) {
+                it.hpPercentRegen += value
+            } else {
+                it.hpRegen += value
+            }
+        }
     }
     this[29] = Effect(
         "Turn Brilliance Recovery",
