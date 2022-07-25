@@ -353,6 +353,8 @@ val brilliantBirthdays = listOf(
     brilliantBirthday(Character.Futaba, equip4000260),
     brilliantBirthday(Character.Mahiru, equip4000264),
     brilliantBirthday(Character.Koharu, equip4000247),
+    brilliantBirthday(Character.Nana, equip4000285),
+    brilliantBirthday(Character.Maya, equip4000289),
 )
 
 private fun slapMemo(
@@ -390,6 +392,9 @@ val slapMemos = listOf(
     slapMemo("XIX Sun [Reverse]", Attribute.Cloud, equip4000191),
     slapMemo("Revue of Hierophant and Chariot", Attribute.Cloud, equip4000193),
     slapMemo("Revue of Hermit and Justice", Attribute.Flower, equip4000227),
+    slapMemo("Revue of Emperor, Fool, and Empress", Attribute.Space, equip4000266),
+    slapMemo("Revue of Death and Hanged Man", Attribute.Wind, equip4000278),
+    slapMemo("Revue of Wheel of Fortune and Moon", Attribute.Dream, equip4000278),
 )
 
 val XXJudgementUpright = equip4000188(
@@ -599,7 +604,7 @@ val XXIWorldReverse = equip4000259(
     },
 )
 
-val carmen = equip4000276(
+val Carmen = equip4000276(
     name = "Carmen",
     baseAutoskills = listOf(
         SelfTurnBrillianceRecoveryPassive.new(10)
@@ -621,7 +626,7 @@ val carmen = equip4000276(
     },
 )
 
-val watchingMoviesAtTheater = equip4000279(
+val WatchingMoviesAtTheater = equip4000279(
     name = "Watching Movies at the Theater",
     baseAutoskills = listOf(
         BrillianceRecoveryPassive.new(28)
@@ -637,6 +642,92 @@ val watchingMoviesAtTheater = equip4000279(
                     effect = CountableBuff.Pride,
                     count = times1,
                 )
+            }
+        }
+    },
+)
+
+val SurroundedByNature = equip4000281(
+    name = "Surrounded By Nature",
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(28)
+    ),
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(40)
+    ),
+    cutinTarget = CutinTarget.BeforeEnemyAct(2),
+    cutinAct = {
+        Act {
+            targetCutinTarget().act {
+                applyCountableBuff(
+                    effect = CountableBuff.Pride,
+                    count = times1,
+                )
+            }
+        }
+    },
+)
+
+val NostalgicRyoko = equip4000286(
+    name = "Nostalgic Ryoko",
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(28)
+    ),
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(40)
+    ),
+    cutinTarget = CutinTarget.BeforeEnemyAct(3),
+    cutinAct = {
+        Act {
+            targetCutinTarget().act {
+                applyCountableBuff(
+                    effect = CountableBuff.Daze,
+                    count = times1,
+                )
+            }
+        }
+    },
+)
+
+val RevueOfFateAndTruth = equip4000287(
+    name = "Revue of Fate and Truth",
+    baseAutoskills = listOf(
+        DexterityPassive.new(11),
+        EffectiveDamageDealtPassive.new(8),
+    ),
+    maxAutoskills = listOf(
+        DexterityPassive.new(16),
+        EffectiveDamageDealtPassive.new(12),
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyFront(5).act {
+                applyBuff(
+                    effect = CriticalUpBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val TwoRevues = equip4000284(
+    name = "2 Revues",
+    baseAutoskills = listOf(
+        DexterityPassive.new(11),
+        CriticalUpPassive.new(21),
+    ),
+    maxAutoskills = listOf(
+        DexterityPassive.new(16),
+        CriticalUpPassive.new(30),
+    ),
+    cutinTarget = CutinTarget.BeforeAllyAct(3),
+    cutinAct = {
+        Act {
+            targetCutinTarget().act {
+                //TODO() Cleanse count. times1
             }
         }
     },

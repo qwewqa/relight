@@ -182,6 +182,10 @@ class Actor(
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by stop." }
                 return
             }
+            if (buffs.any(AgonyBuff)) {
+                context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by agony." }
+                return
+            }
             if (buffs.any(FreezeBuff)) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by freeze." }
                 return
@@ -282,6 +286,11 @@ class Actor(
         }
         self.hp = newHp
         if (newHp == 0) {
+            if (self.buffs.count(ResilienceBuff) > 0) {
+                self.hp = 1
+                context.log("Damage", category = LogCategory.DAMAGE) { "Resilience activate (newHp: 1)." }
+                return@run
+            }
             if (self.buffs.tryRemove(CountableBuff.Fortitude)) {
                 self.hp = 1
                 context.log("Damage", category = LogCategory.DAMAGE) { "Fortitude activate (newHp: 1)." }
@@ -370,6 +379,10 @@ class Actor(
     fun addBrilliance(base: Int) = context.run {
         if (buffs.any(StopBuff)) {
             context.log("Abnormal") { "Brilliance gain prevented by stop." }
+            return
+        }
+        if (buffs.any(AgonyBuff)) {
+            context.log("Abnormal") { "Brilliance gain prevented by agony." }
             return
         }
         val amount = base * (100 + brillianceGainUp) / 100

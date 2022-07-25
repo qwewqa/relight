@@ -98,3 +98,15 @@ object ExitEvasionBuff : BuffEffect {
     override val name = "Exit Evasion"
     override val category = BuffCategory.Positive
 }
+
+object ResilienceBuff : BuffEffect {
+    override val name = "Resilience"
+    override val category = BuffCategory.Positive
+}
+
+object LockedResilienceBuff : BuffEffect {
+    override val name = "Resilience"
+    override val category = BuffCategory.Positive
+    override val locked = true
+    override val related = ResilienceBuff
+}

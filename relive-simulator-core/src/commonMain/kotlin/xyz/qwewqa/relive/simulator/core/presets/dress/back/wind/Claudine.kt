@@ -38,7 +38,8 @@ val SoulRevueClaudine = dress1040024(
                     )
                 }
                 targetBack(3).act {
-                    reduceCountable(BuffCategory.Positive)
+                    // TODO: Count. dispel correctly
+                    // reduceCountable(BuffCategory.Positive)
                 }
             }
         },

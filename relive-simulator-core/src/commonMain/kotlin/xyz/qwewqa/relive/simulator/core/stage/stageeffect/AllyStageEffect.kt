@@ -324,3 +324,46 @@ val YoureAllHopeless = StageEffect(
     StageEffectTarget.All,
     KaorukoOnlyCondition.or(FutabaOnlyCondition)
 )
+
+val GlitteringStage = StageEffect(
+    "Glittering Stage",
+    listOf(
+        listOf(
+            StageBuff(ActPowerUpBuff,30),
+            StageBuff(DexterityUpBuff, 30),
+            StageBuff(CriticalUpBuff, 30),
+            StageBuff(AgilityUpBuff, 30),
+            StageBuff(EffectiveDamageDealtUpBuff, 20),
+        ),
+        listOf(
+            StageBuff(ActPowerUpBuff,60),
+            StageBuff(DexterityUpBuff, 60),
+            StageBuff(CriticalUpBuff, 60),
+            StageBuff(AgilityUpBuff, 60),
+            StageBuff(EffectiveDamageDealtUpBuff, 25),
+        ),
+        listOf(
+            StageBuff(ActPowerUpBuff,80),
+            StageBuff(DexterityUpBuff, 80),
+            StageBuff(CriticalUpBuff, 80),
+            StageBuff(AgilityUpBuff, 80),
+            StageBuff(EffectiveDamageDealtUpBuff, 30),
+        ),
+        listOf(
+            StageBuff(ActPowerUpBuff,90),
+            StageBuff(DexterityUpBuff, 90),
+            StageBuff(CriticalUpBuff, 90),
+            StageBuff(AgilityUpBuff, 90),
+            StageBuff(EffectiveDamageDealtUpBuff, 35),
+        ),
+        listOf(
+            StageBuff(ActPowerUpBuff,100),
+            StageBuff(DexterityUpBuff, 100),
+            StageBuff(CriticalUpBuff, 100),
+            StageBuff(AgilityUpBuff, 100),
+            StageBuff(EffectiveDamageDealtUpBuff, 40),
+        ),
+    ),
+    StageEffectTarget.All,
+    SeishoOnlyCondition
+)

@@ -1,9 +1,12 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower
 
 
+import xyz.qwewqa.relive.simulator.core.presets.condition.BackOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.FlowerOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1010017
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1010024
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
@@ -11,6 +14,8 @@ import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.GlitteringStage
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.RoaringFire
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageFlower
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageSpace
 
@@ -98,4 +103,76 @@ val StageGirlKaren = dress1010017(
     ),
     unitSkill = HP50Def50UnitSkill + SeishoOnlyCondition,
     categories = setOf(DressCategory.StageGirl),
+)
+
+val FinalLinesKaren = dress1010024(
+    name = "Final Lines Karen",
+    acts = listOf(
+        ActType.Act1.blueprint("Slash of Brilliance") {
+            Act {
+                targetByHighest { it.actPower }.act {
+                    attack(
+                        modifier = values1,
+                        hitCount = times1,
+                    )
+                }
+                targetSelf().act {
+                    addBrilliance(values2)
+                }
+            }
+        },
+        ActType.Act2.blueprint("Passionate Slash") {
+            Act {
+                targetByHighest { it.actPower }.act {
+                    attack(
+                        modifier = values1,
+                        hitCount = times1,
+                    )
+                }
+                targetAllyAoe(SeishoOnlyCondition).act {
+                    applyBuff(
+                        effect = ApDownBuff,
+                        turns = times2,
+                    )
+                    addBrilliance(values3)
+                }
+            }
+        },
+        ActType.Act3.blueprint("A Play I haven't seen yet") {
+            Act {
+                targetByHighest { it.actPower }.act {
+                    attack(
+                        modifier = values3,
+                        hitCount = times3,
+                    )
+                }
+                applyEnemyStageEffect(RoaringFire, 3)
+            }
+        },
+        ActType.ClimaxAct.blueprint("Aijo Karen goes to the next stage!") {
+            Act {
+                targetAoe().act {
+                    attack(
+                        modifier = values2,
+                        hitCount = times2,
+                    )
+                }
+                applyAllyStageEffect(GlitteringStage, 3)
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+            SelfReviveBuffPassive.new(50, 2),
+        ),
+        listOf(
+            //TODO() Remove one revive + BackOnlyCondition
+            EnemyBrillianceDrainPassive.new(50) + BackOnlyCondition,
+        ),
+        listOf(
+            TeamHpUpPassive.new(50) + SeishoOnlyCondition,
+        ),
+    ),
+    unitSkill = ActCritical50UnitSkill + FlowerOnlyCondition,
+    multipleCA = true,
 )

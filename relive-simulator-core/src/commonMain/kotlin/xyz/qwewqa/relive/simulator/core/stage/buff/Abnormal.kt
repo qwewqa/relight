@@ -148,6 +148,20 @@ object AbnormalGuardBuff : BuffEffect {
     }
 }
 
+object AgonyBuff : BuffEffect {
+    override val name = "Agony"
+    override val category = BuffCategory.Negative
+    override val exclusive: Boolean = true
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueDamageTakenDownDebuff -= 30
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueDamageTakenDownDebuff += 30
+    }
+}
+
 val abnormalBuffs = setOf(
     StopBuff,
     SleepBuff,
@@ -160,4 +174,5 @@ val abnormalBuffs = setOf(
     LockedBurnBuff,
     PoisonBuff,
     LockedPoisonBuff,
+    AgonyBuff,
 ) //TODO() Electric Shock and Locked Electric Shock in here or just normal? Lovesickness & its locked version too

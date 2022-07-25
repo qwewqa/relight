@@ -74,6 +74,43 @@ val DisasterHail = StageEffect(
     StageEffectTarget.All,
 )
 
+val RoaringFire = StageEffect(
+    "Roaring Fire",
+    listOf(
+        listOf(
+            StageBuff(BurnBuff, 3000),
+            StageBuff(BlindnessBuff,0),
+            StageBuff(NormalDefenseDownBuff, 20),
+            StageBuff(SpecialDefenseDownBuff, 20),
+        ),
+        listOf(
+            StageBuff(BurnBuff, 3500),
+            StageBuff(BlindnessBuff,0),
+            StageBuff(NormalDefenseDownBuff, 25),
+            StageBuff(SpecialDefenseDownBuff, 25),
+        ),
+        listOf(
+            StageBuff(BurnBuff, 4000),
+            StageBuff(BlindnessBuff,0),
+            StageBuff(NormalDefenseDownBuff, 30),
+            StageBuff(SpecialDefenseDownBuff, 30),
+        ),
+        listOf(
+            StageBuff(BurnBuff, 4500),
+            StageBuff(BlindnessBuff,0),
+            StageBuff(NormalDefenseDownBuff, 40),
+            StageBuff(SpecialDefenseDownBuff, 40),
+        ),
+        listOf(
+            StageBuff(BurnBuff, 5000),
+            StageBuff(BlindnessBuff,0),
+            StageBuff(NormalDefenseDownBuff, 50),
+            StageBuff(SpecialDefenseDownBuff, 50),
+        ),
+    ),
+    StageEffectTarget.All,
+)
+
 val Thunder = StageEffect(
     "Thunder",
     listOf(

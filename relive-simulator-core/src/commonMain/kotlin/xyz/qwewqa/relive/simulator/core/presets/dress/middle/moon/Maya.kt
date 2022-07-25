@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon
 
+import xyz.qwewqa.relive.simulator.core.presets.condition.MayaOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.MiddleOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.MoonOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1050017
@@ -173,4 +174,103 @@ val SoulRevueMaya = dress1050025(
     ),
     unitSkill = ActCritical50UnitSkill + MoonOnlyCondition,
     multipleCA = true,
+)
+
+val WarriorMaya = dress1050023(
+    name = "Warrior Maya",
+    acts = listOf(
+        ActType.Act1.blueprint("Slash of Brilliance") {
+            Act {
+                targetBack().act {
+                    attack(
+                        modifier = values1,
+                        hitCount = times1,
+                    )
+                }
+                targetSelf().act {
+                    addBrilliance(values2)
+                }
+            }
+        },
+        ActType.Act2.blueprint("Sword of Hope") {
+            Act {
+                targetAllyAoe().act {
+                    applyCountableBuff(
+                        effect = CountableBuff.Hope,
+                        count = times1,
+                    )
+                }
+                targetBack().act {
+                    attack(
+                        modifier = values2,
+                        hitCount = times2,
+                    )
+                }
+            }
+        },
+        ActType.Act3.blueprint("Sword of Recovery") {
+            Act {
+                targetAllyAoe().act {
+                    applyBuff(
+                        effect = ApDownBuff,
+                        turns = times1,
+                    )
+                    applyCountableBuff(
+                        effect = CountableBuff.Hope,
+                        count = times2,
+                    )
+                }
+                targetBack().act {
+                    attack(
+                        modifier = values3,
+                        hitCount = times3,
+                    )
+                }
+            }
+        },
+        ActType.ClimaxAct.blueprint("Glory of Rebirth") {
+            Act {
+                targetAllyAoe().act {
+                    applyCountableBuff(
+                        effect = CountableBuff.Revive,
+                        count = times1,
+                    )
+                    applyCountableBuff(
+                        effect = CountableBuff.Hope,
+                        count = times2,
+                    )
+                }
+                targetAoe().act {
+                    applyCountableBuff(
+                        effect = CountableBuff.WeakSpot,
+                        count = times3,
+                    )
+
+                }
+                focus {
+                    targetAoe().act {
+                        attack(
+                            modifier = values4,
+                            hitCount = times4,
+                        )
+                    }
+                }
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+            TeamReviveBuffPassive.new(50, time = 2) + MayaOnlyCondition,
+            TeamEvasionBuffPassive.new(time = 3) + MayaOnlyCondition,
+        ),
+        listOf(
+            NegativeEffectResistancePassive.new(100),
+            NegativeCountableResistancePassive.new(100),
+        ),
+        listOf(
+            TeamEvasionUpBuffScalingPassive60.new(15, time = 2) + MoonOnlyCondition
+        ),
+    ),
+    unitSkill = ActCritical50UnitSkill + MoonOnlyCondition,
+    categories = setOf(DressCategory.Birthday2022),
 )
