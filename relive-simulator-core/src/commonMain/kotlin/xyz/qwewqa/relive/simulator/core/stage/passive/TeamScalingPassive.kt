@@ -8,6 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.EvasionRateUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 
 data class TeamScalingPassive(
+    override val name: String,
     val cap: Int,
     override val category: PassiveEffectCategory,
     val effect: TargetContext.(value: Int, time: Int) -> Unit,
@@ -21,6 +22,7 @@ data class TeamScalingPassive(
 }
 
 val TeamActUpScalingPassive100 = TeamScalingPassive(
+    "Team Act Up Scaling Passive (max 100%)",
     100,
     PassiveEffectCategory.Passive,
 ) { value, _ ->
@@ -30,6 +32,7 @@ val TeamActUpScalingPassive100 = TeamScalingPassive(
 }
 
 val TeamEvasionUpBuffScalingPassive60 = TeamScalingPassive(
+    "Team Evasion Up Buff Scaling Passive (max 60%)",
     60,
     PassiveEffectCategory.TurnStartPositiveB,
 ) { value, time ->
