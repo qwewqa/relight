@@ -20,7 +20,7 @@ data class TeamScalingPassive(
     }
 }
 
-val teamActUpScalingPassive100 = TeamScalingPassive(
+val TeamActUpScalingPassive100 = TeamScalingPassive(
     100,
     PassiveEffectCategory.Passive,
 ) { value, _ ->
@@ -29,7 +29,7 @@ val teamActUpScalingPassive100 = TeamScalingPassive(
     }
 }
 
-val teamEvasionUpBuffScalingPassive60 = TeamScalingPassive(
+val TeamEvasionUpBuffScalingPassive60 = TeamScalingPassive(
     60,
     PassiveEffectCategory.TurnStartPositiveB,
 ) { value, time ->

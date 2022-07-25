@@ -86,10 +86,10 @@ val FutureStageGirlStella = dress4060002(
             EnemyBrillianceDrainPassive.new(30),
         ),
         listOf(
-            TeamActPowerUpBuffScalingPassive100.new(30) + MoonOnlyCondition
+            TeamActUpScalingPassive100.new(30) + MoonOnlyCondition
         ),
         listOf(
-            //TODO(): Cutin initial cutin cooldown -1
+            CutinInitialCooldownReductionPassive.new(1),
         ),
     ),
     unitSkill = ActCritical50UnitSkill + MoonOnlyCondition,

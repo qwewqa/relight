@@ -4,6 +4,7 @@ import xyz.qwewqa.relive.simulator.core.presets.condition.MayaOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.MiddleOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.MoonOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1050017
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1050023
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1050025
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new

@@ -321,7 +321,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
             get() = if (cutinUseCounts.getValue(this) > 0) {
                 data.cooldown
             } else {
-                data.startCooldown - actor.cutinInitialCooldownReduction
+                (data.startCooldown - actor.cutinInitialCooldownReduction).coerceAtLeast(0)
             }
 
         override fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {

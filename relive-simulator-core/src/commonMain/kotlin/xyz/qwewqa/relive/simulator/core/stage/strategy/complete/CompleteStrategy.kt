@@ -431,7 +431,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         get() = if (cutinUseCounts.getValue(this) > 0) {
             data.cooldown
         } else {
-            data.startCooldown - actor.cutinInitialCooldownReduction
+            (data.startCooldown - actor.cutinInitialCooldownReduction).coerceAtLeast(0)
         }
 
     private fun activateCutin(cutin: BoundCutin) {
