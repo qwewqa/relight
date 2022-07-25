@@ -142,6 +142,8 @@ class Actor(
 
     var perfectAimCounter = 0
 
+    var cutinInitialCooldownReduction = 0
+
     var eventBonus: Int = 0
     var eventMultiplier: Int = 100
 

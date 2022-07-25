@@ -129,3 +129,13 @@ object AgilityPassive : PassiveEffect {
         }
     }
 }
+
+object CutinInitialCooldownReductionPassive : PassiveEffect {
+    override val category = PassiveEffectCategory.Passive
+
+    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+        condition.applyIfTrue(self) {
+            cutinInitialCooldownReduction += value
+        }
+    }
+}
