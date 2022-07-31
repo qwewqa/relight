@@ -33,6 +33,7 @@ val playerDresses = listOf(
     CharityTsukasa,
     CourtChampionYachiyo,
     CoyoteCainYachiyo,
+    DancerClaudine,
     DeathTamao,
     DemonKingNana,
     DevilKaoruko,
