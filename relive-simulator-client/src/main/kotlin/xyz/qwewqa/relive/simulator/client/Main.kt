@@ -270,7 +270,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 src = getMemoirUnbindImagePath(4)
                             }
                             img(classes = "actor-remake-level-image") {
-                                style = "position: absolute; top: 4%; left: 50%; transform: translateX(-50%); width: 90%;"
+                                style = "position: absolute; bottom: 23%; left: 5%; width: 16%;filter drop-shadow(0 0 3px #c44);"
                                 src = getRemakeLevelImagePath(0)
                             }
                             div("d-flex flex-column") {
@@ -282,11 +282,19 @@ class SimulatorClient(val simulator: Simulator) {
                                 }
                             }
                             div("d-flex flex-column") {
-                                style = "position: absolute; left: 5%; bottom: 0%;" +
+                                style = "position: absolute; left: 6%; bottom: 0%;" +
                                         "text-shadow: #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px;"
                                 div("actor-level") {
                                     style = "color: darkred;"
                                     +"80"
+                                }
+                            }
+                            div("d-flex flex-column") {
+                                style = "position: absolute; left: 6%; top: 0%;" +
+                                        "text-shadow: #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px;"
+                                div("actor-unit-skill-level") {
+                                    style = "color: indigo; font-size: 0.85em;"
+                                    +"21"
                                 }
                             }
                         }
@@ -495,6 +503,9 @@ class SimulatorClient(val simulator: Simulator) {
                                     input(InputType.text, classes = "form-control actor-unit-skill") {
                                         id = inputId
                                         placeholder = "21"
+                                        onChangeFunction = {
+                                            ActorOptions(options, actorId).update()
+                                        }
                                     }
                                 }
                                 div("col-6 col-md-6 col-lg-3 my-2") {

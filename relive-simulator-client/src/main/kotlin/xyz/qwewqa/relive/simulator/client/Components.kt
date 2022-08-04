@@ -200,7 +200,7 @@ fun getMemoirUnbindImagePath(level: Int) = when (level) {
 
 fun getEquipEvolutionImagePath(level: Int) = "img/common/icon_equip_evolution_$level.png"
 
-fun getRemakeLevelImagePath(level: Int) = "img/common/icon_remake_$level.png"
+fun getRemakeLevelImagePath(level: Int) = "img/custom/icon_remake_$level.png"
 
 class ActorOptions(private val options: SimulationOptions, tabElement: Element, optionsElement: Element) {
     constructor(options: SimulationOptions, actorId: Int) : this(
@@ -227,6 +227,7 @@ class ActorOptions(private val options: SimulationOptions, tabElement: Element, 
 
     val tabName = tabElement.getElementsByClassName("actor-name").single<HTMLElement>()
     val tabLevel = tabElement.getElementsByClassName("actor-level").single<HTMLElement>()
+    val tabUnitSkillLevel = tabElement.getElementsByClassName("actor-unit-skill-level").single<HTMLElement>()
     val tabRemakeLevelImage = tabElement.getElementsByClassName("actor-remake-level-image").single<HTMLImageElement>()
     val tabMemoirLevel = tabElement.getElementsByClassName("actor-memoir-level").single<HTMLElement>()
     val tabMemoirUnbindImage = tabElement.getElementsByClassName("actor-memoir-unbind-image").single<HTMLImageElement>()
@@ -288,6 +289,7 @@ class ActorOptions(private val options: SimulationOptions, tabElement: Element, 
 
             tabName.textContent = param.name
             tabLevel.textContent = param.level.toString()
+            tabUnitSkillLevel.textContent = param.unitSkillLevel.toString()
             tabRemakeLevelImage.src = getRemakeLevelImagePath(param.remake)
             tabMemoirLevel.textContent = param.memoirLevel.toString()
             tabMemoirUnbindImage.src = getMemoirUnbindImagePath(param.memoirLimitBreak)
