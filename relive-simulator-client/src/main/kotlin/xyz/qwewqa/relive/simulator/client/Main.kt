@@ -334,6 +334,49 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                         i("bi-caret-right-fill")
                                     }
+                                    +" "
+                                    button(
+                                        type = ButtonType.button,
+                                        classes = "btn btn-outline-secondary text-save-preset-short"
+                                    ) {
+                                        id = "actor-save-preset-$actorId"
+                                        +localized(".text-save-preset-short", "Save")
+                                        onClickFunction = {
+                                            val opt = ActorOptions(options, actorId)
+                                            activeActorOptions = opt
+                                            Bootstrap.Modal(document.getElementById("save-preset-modal")).show()
+                                        }
+                                    }
+                                    +" "
+                                    button(
+                                        type = ButtonType.button,
+                                        classes = "btn btn-outline-secondary text-load-preset-short"
+                                    ) {
+                                        id = "actor-load-preset-$actorId"
+                                        +localized(".text-load-preset-short", "Load")
+                                        onClickFunction = {
+                                            activeActorOptions = ActorOptions(options, actorId)
+                                            val dressMapping = options.dresses.associateBy { it.id }
+                                            loadPresetSelect.clear()
+                                            loadPresetSelect.element.run {
+                                                loadoutPresets.keys.sorted().forEach { id ->
+                                                    val split = id.split(":::", limit = 2)
+                                                    val dressName = split[0]
+                                                    val presetName = split[1]
+                                                    add(
+                                                        document.create.option {
+                                                            value = id
+                                                            attributes["data-content"] =
+                                                                "<img style=\"height: 1.65em; margin-top: -0.2em\" src=\"${dressMapping[dressName]?.imagePath}\"> $presetName"
+                                                            +presetName
+                                                        } as HTMLOptionElement
+                                                    )
+                                                }
+                                            }
+                                            loadPresetSelect.refreshSelectPicker()
+                                            Bootstrap.Modal(document.getElementById("load-preset-modal")).show()
+                                        }
+                                    }
                                 }
                                 div("col-auto") {
                                     button(type = ButtonType.button, classes = "btn btn-danger") {
@@ -754,49 +797,6 @@ class SimulatorClient(val simulator: Simulator) {
                                                 rankPanelPattern = List(8) { true },
                                                 memoirLevel = 60 + 5 * param.memoirLimitBreak,
                                             )
-                                        }
-                                    }
-                                    +" "
-                                    button(
-                                        type = ButtonType.button,
-                                        classes = "btn btn-outline-secondary text-save-preset-short"
-                                    ) {
-                                        id = "actor-save-preset-$actorId"
-                                        +localized(".text-save-preset-short", "Save")
-                                        onClickFunction = {
-                                            val opt = ActorOptions(options, actorId)
-                                            activeActorOptions = opt
-                                            Bootstrap.Modal(document.getElementById("save-preset-modal")).show()
-                                        }
-                                    }
-                                    +" "
-                                    button(
-                                        type = ButtonType.button,
-                                        classes = "btn btn-outline-secondary text-load-preset-short"
-                                    ) {
-                                        id = "actor-load-preset-$actorId"
-                                        +localized(".text-load-preset-short", "Load")
-                                        onClickFunction = {
-                                            activeActorOptions = ActorOptions(options, actorId)
-                                            val dressMapping = options.dresses.associateBy { it.id }
-                                            loadPresetSelect.clear()
-                                            loadPresetSelect.element.run {
-                                                loadoutPresets.keys.sorted().forEach { id ->
-                                                    val split = id.split(":::", limit = 2)
-                                                    val dressName = split[0]
-                                                    val presetName = split[1]
-                                                    add(
-                                                        document.create.option {
-                                                            value = id
-                                                            attributes["data-content"] =
-                                                                "<img style=\"height: 1.65em; margin-top: -0.2em\" src=\"${dressMapping[dressName]?.imagePath}\"> $presetName"
-                                                            +presetName
-                                                        } as HTMLOptionElement
-                                                    )
-                                                }
-                                            }
-                                            loadPresetSelect.refreshSelectPicker()
-                                            Bootstrap.Modal(document.getElementById("load-preset-modal")).show()
                                         }
                                     }
                                 }
