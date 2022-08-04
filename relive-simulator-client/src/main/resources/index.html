@@ -29,6 +29,32 @@
             padding: 0.05em 0.5em 0.05em 0.5em;
         }
 
+        #actor-tabs {
+            --actor-tab-width: clamp(80px, 16vw, 120px);
+        }
+
+        .actor-tab-container {
+            width: var(--actor-tab-width);
+            margin: 2px;
+            font-size: calc(var(--actor-tab-width) / 5);
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .active-actor-tab {
+            background-color: #ddd;
+            border-radius: calc(var(--actor-tab-width) / 12);
+        }
+
+        .inactive-actor-tab {
+            background-color: #fff;
+            opacity: 0.8;
+        }
+
+        .actor-tab-name:empty::before {
+            content: '\feff';
+        }
+
         #log-text {
             font-size: 0.7em;
             font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -240,21 +266,29 @@
             </div>
             <div class="row my-4">
                 <div class="col-12">
-                    <h4 class="text-actors">Actors (front to back)</h4>
+                    <h4 class="text-actors">Actors</h4>
                 </div>
                 <div class="col-12">
-                    <div class="border border-2 rounded px-3 py-2">
-                        <div id="actor-settings"></div>
-                        <div class="row" id="add-actor-row">
-                            <div class="col-auto my-2">
-                                <button id="add-actor-button" type="button" class="btn btn-secondary text-add-actor">Add
-                                    Actor
-                                </button>
-                                <button id="remove-actor-button" type="button" class="btn btn-danger text-remove-actor">
-                                    Remove Actor
+                    <div class="actor-settings-container">
+                        <div class="row" id="actor-actions-top-row">
+                            <div class="col-auto my-2 me-auto">
+                                <button id="add-actor-button" type="button" class="btn btn-secondary text-add-actor">
+                                    Add Actor
                                 </button>
                             </div>
-                            <div class="col-auto d-flex align-items-center">
+                            <div class="col-auto my-2">
+                                <button id="sort-by-position-button" type="button" class="btn btn-outline-secondary text-sort-by-position">
+                                    Sort
+                                </button>
+                            </div>
+                        </div>
+                        <div id="actor-tabs" class="border border-2 rounded d-flex overflow-scroll">
+                        </div>
+                        <div id="actor-settings"></div>
+                        <div class="row" id="actor-actions-bottom-row">
+                            <div class="col-auto my-2">
+                            </div>
+                            <div class="col-auto d-flex align-items-center mt-2">
                                 <div>
                                     <input class="form-check-input" type="checkbox" value="" id="guest-checkbox">
                                     <label class="form-check-label text-first-is-guest" for="guest-checkbox">
@@ -262,16 +296,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-auto my-2 ms-md-auto">
-                                <button id="sort-by-position-button" type="button" class="btn btn-outline-secondary text-sort-by-position">
-                                    Sort
-                                </button>
-                                <button id="expand-all-actor-button" type="button" class="btn btn-outline-secondary text-expand-all">
-                                    Expand All
-                                </button>
-                                <button id="collapse-all-actor-button" type="button" class="btn btn-outline-secondary text-collapse-all">
-                                    Collapse All
-                                </button>
+                            <div class="col-auto my-2 ms-auto">
                             </div>
                         </div>
                     </div>

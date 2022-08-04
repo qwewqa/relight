@@ -35,8 +35,8 @@
   en: Extra Event Bonus
   zh_hant: 額外活動傷害加乘 [爬塔箱子]
 '.text-actors':
-  en: Actors (front to back)
-  zh_hant: 角色 (從前到後)
+  en: Actors
+  zh_hant: 角色
 '.text-actor-name':
   en: Name
   zh_hant: (自訂)名稱

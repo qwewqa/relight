@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.common
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 @Serializable
 data class SimulationParameters(
@@ -70,7 +71,17 @@ data class SimulationOptions(
     val strategyTypes: List<SimulationOption>,
     val bossStrategyTypes: List<SimulationOption>,
     val remakeSkills: List<SimulationOption>,
-)
+)  {
+    val commonTextById by lazy { commonText.associateBy { it.id } }
+    val dressesById by lazy { dresses.associateBy { it.id } }
+    val memoirsById by lazy { memoirs.associateBy { it.id } }
+    val songEffectsById by lazy { songEffects.associateBy { it.id } }
+    val conditionsById by lazy { conditions.associateBy { it.id } }
+    val bossesById by lazy { bosses.associateBy { it.id } }
+    val strategyTypesById by lazy { strategyTypes.associateBy { it.id } }
+    val bossStrategyTypesById by lazy { bossStrategyTypes.associateBy { it.id } }
+    val remakeSkillsById by lazy { remakeSkills.associateBy { it.id } }
+}
 
 typealias SimulationOption = DataSimulationOption<Unit>
 

@@ -8,10 +8,7 @@ import kotlinx.dom.removeClass
 import kotlinx.html.dom.create
 import kotlinx.html.option
 import org.w3c.dom.*
-import xyz.qwewqa.relive.simulator.common.DataSimulationOption
-import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
-import xyz.qwewqa.relive.simulator.common.SimulationOption
-import xyz.qwewqa.relive.simulator.common.SongEffectParameter
+import xyz.qwewqa.relive.simulator.common.*
 
 fun HTMLInputElement.integerInput(default: Int) = IntegerInput(this, default)
 fun HTMLInputElement.textInput() = TextInput(this)
@@ -193,23 +190,36 @@ class MultipleSelect(element: HTMLSelectElement) : Select(element) {
         }
 }
 
-class ActorOptions(element: Element) {
-    val name = TextInput(element.getElementsByClassName("actor-name").single())
-    val dress = SingleSelect(element.getElementsByClassName("actor-dress").single())
-    val memoir = SingleSelect(element.getElementsByClassName("actor-memoir").single())
-    val memoirLevel = IntegerInput(element.getElementsByClassName("actor-memoir-level").single(), 1)
-    val memoirUnbind = SingleSelect(element.getElementsByClassName("actor-memoir-unbind").single())
-    val unitSkillLevel = IntegerInput(element.getElementsByClassName("actor-unit-skill").single(), 21)
-    val level = IntegerInput(element.getElementsByClassName("actor-level").single(), 80)
-    val rarity = SingleSelect(element.getElementsByClassName("actor-rarity").single())
-    val friendship = IntegerInput(element.getElementsByClassName("actor-friendship").single(), 30)
-    val rank = SingleSelect(element.getElementsByClassName("actor-rank").single())
-    val rankPanelPattern = SingleSelect(element.getElementsByClassName("actor-rank-panel-pattern").single())
-    val remake = SingleSelect(element.getElementsByClassName("actor-remake").single())
-    val remakeSkill = SingleSelect(element.getElementsByClassName("actor-remake-skill").single())
+class ActorOptions(private val options: SimulationOptions, tabElement: Element, optionsElement: Element) {
+    constructor(options: SimulationOptions, actorId: Int) : this(
+        options,
+        document.getElementById("actor-tab-$actorId")!!,
+        document.getElementById("actor-options-$actorId")!!,
+    )
 
-    val remakeSkillText = element.getElementsByClassName("actor-remake-skill-text").single() as HTMLParagraphElement
+    val name = TextInput(optionsElement.getElementsByClassName("actor-name").single())
+    val dress = SingleSelect(optionsElement.getElementsByClassName("actor-dress").single())
+    val memoir = SingleSelect(optionsElement.getElementsByClassName("actor-memoir").single())
+    val memoirLevel = IntegerInput(optionsElement.getElementsByClassName("actor-memoir-level").single(), 1)
+    val memoirUnbind = SingleSelect(optionsElement.getElementsByClassName("actor-memoir-unbind").single())
+    val unitSkillLevel = IntegerInput(optionsElement.getElementsByClassName("actor-unit-skill").single(), 21)
+    val level = IntegerInput(optionsElement.getElementsByClassName("actor-level").single(), 80)
+    val rarity = SingleSelect(optionsElement.getElementsByClassName("actor-rarity").single())
+    val friendship = IntegerInput(optionsElement.getElementsByClassName("actor-friendship").single(), 30)
+    val rank = SingleSelect(optionsElement.getElementsByClassName("actor-rank").single())
+    val rankPanelPattern = SingleSelect(optionsElement.getElementsByClassName("actor-rank-panel-pattern").single())
+    val remake = SingleSelect(optionsElement.getElementsByClassName("actor-remake").single())
+    val remakeSkill = SingleSelect(optionsElement.getElementsByClassName("actor-remake-skill").single())
 
+    val remakeSkillText = optionsElement.getElementsByClassName("actor-remake-skill-text").single() as HTMLParagraphElement
+
+    val tabName = tabElement.getElementsByClassName("actor-name").single<HTMLElement>()
+    val tabLevel = tabElement.getElementsByClassName("actor-level").single<HTMLElement>()
+    val tabRemakeLevel = tabElement.getElementsByClassName("actor-remake-level").single<HTMLElement>()
+    val tabMemoirLevel = tabElement.getElementsByClassName("actor-memoir-level").single<HTMLElement>()
+    val tabMemoirUnbind = tabElement.getElementsByClassName("actor-memoir-unbind").single<HTMLElement>()
+    val tabDressImage = tabElement.getElementsByClassName("actor-dress-image").single<HTMLImageElement>()
+    val tabMemoirImage = tabElement.getElementsByClassName("actor-memoir-image").single<HTMLImageElement>()
 
     companion object {
         val rankPanelPatterns = mapOf(
@@ -225,6 +235,10 @@ class ActorOptions(element: Element) {
             "${it.lowercase().replace(" ", "-")}-rank-panels"
         }
         val inverseRankPanelPatterns = rankPanelPatterns.map { (k, v) -> v to k }.toMap()
+    }
+
+    fun update() {
+        parameters = parameters
     }
 
     var parameters: PlayerLoadoutParameters
@@ -259,6 +273,14 @@ class ActorOptions(element: Element) {
             remakeSkill.value = param.remakeSkill ?: "None"
 
             remakeSkill.element.asDynamic().disabled = param.remake < 4
+
+            tabName.textContent = param.name
+            tabLevel.textContent = param.level.toString()
+            tabRemakeLevel.textContent = "rb${param.remake}"
+            tabMemoirLevel.textContent = param.memoirLevel.toString()
+            tabMemoirUnbind.textContent ="+${param.memoirLimitBreak}"
+            tabDressImage.src = options.dressesById[param.dress]?.imagePath ?: ""
+            tabMemoirImage.src = options.memoirsById[param.memoir]?.imagePath ?: ""
 
             dress.refreshSelectPicker()
             memoir.refreshSelectPicker()

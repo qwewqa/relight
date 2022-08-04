@@ -181,7 +181,11 @@ fun Application.configureRouting() {
                         tags = locales.keys.associateWith { locale ->
                             tags.flatMap { tag -> tagConfig[tag.name]?.get(locale) ?: listOf(tag.name) }
                         },
-                        imagePath = "img/large_icon/2_${memoir.id}.png".takeIf { memoir.id > 0 }
+                        imagePath = if (memoir.id > 0) {
+                            "img/large_icon/2_${memoir.id}.png"
+                        } else {
+                            "img/large_icon/2_9000001.png"
+                        }
                     )
                 },
                 getLocalizationConfig("songEffect.yaml", songEffects.keys),
