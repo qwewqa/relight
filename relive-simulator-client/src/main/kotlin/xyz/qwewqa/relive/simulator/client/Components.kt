@@ -190,6 +190,18 @@ class MultipleSelect(element: HTMLSelectElement) : Select(element) {
         }
 }
 
+fun getMemoirUnbindImagePath(level: Int) = when (level) {
+    4 -> "img/common/frame_large_equip_rainbow.png"
+    3 -> "img/common/frame_large_equip_gold.png"
+    2 -> "img/common/frame_large_equip_silver.png"
+    1 -> "img/common/frame_large_equip_bronze.png"
+    else -> "img/common/frame_large_equip_blue.png"
+}
+
+fun getEquipEvolutionImagePath(level: Int) = "img/common/icon_equip_evolution_$level.png"
+
+fun getRemakeLevelImagePath(level: Int) = "img/common/icon_remake_$level.png"
+
 class ActorOptions(private val options: SimulationOptions, tabElement: Element, optionsElement: Element) {
     constructor(options: SimulationOptions, actorId: Int) : this(
         options,
@@ -215,9 +227,9 @@ class ActorOptions(private val options: SimulationOptions, tabElement: Element, 
 
     val tabName = tabElement.getElementsByClassName("actor-name").single<HTMLElement>()
     val tabLevel = tabElement.getElementsByClassName("actor-level").single<HTMLElement>()
-    val tabRemakeLevel = tabElement.getElementsByClassName("actor-remake-level").single<HTMLElement>()
+    val tabRemakeLevelImage = tabElement.getElementsByClassName("actor-remake-level-image").single<HTMLImageElement>()
     val tabMemoirLevel = tabElement.getElementsByClassName("actor-memoir-level").single<HTMLElement>()
-    val tabMemoirUnbind = tabElement.getElementsByClassName("actor-memoir-unbind").single<HTMLElement>()
+    val tabMemoirUnbindImage = tabElement.getElementsByClassName("actor-memoir-unbind-image").single<HTMLImageElement>()
     val tabDressImage = tabElement.getElementsByClassName("actor-dress-image").single<HTMLImageElement>()
     val tabMemoirImage = tabElement.getElementsByClassName("actor-memoir-image").single<HTMLImageElement>()
 
@@ -276,9 +288,9 @@ class ActorOptions(private val options: SimulationOptions, tabElement: Element, 
 
             tabName.textContent = param.name
             tabLevel.textContent = param.level.toString()
-            tabRemakeLevel.textContent = "rb${param.remake}"
+            tabRemakeLevelImage.src = getRemakeLevelImagePath(param.remake)
             tabMemoirLevel.textContent = param.memoirLevel.toString()
-            tabMemoirUnbind.textContent ="+${param.memoirLimitBreak}"
+            tabMemoirUnbindImage.src = getMemoirUnbindImagePath(param.memoirLimitBreak)
             tabDressImage.src = options.dressesById[param.dress]?.imagePath ?: ""
             tabMemoirImage.src = options.memoirsById[param.memoir]?.imagePath ?: ""
 

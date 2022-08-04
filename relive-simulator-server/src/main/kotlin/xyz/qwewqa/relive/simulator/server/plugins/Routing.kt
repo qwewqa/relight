@@ -184,7 +184,7 @@ fun Application.configureRouting() {
                         imagePath = if (memoir.id > 0) {
                             "img/large_icon/2_${memoir.id}.png"
                         } else {
-                            "img/large_icon/2_9000001.png"
+                            "img/common/plate_unselected_3.png"
                         }
                     )
                 },

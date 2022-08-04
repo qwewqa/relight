@@ -265,13 +265,17 @@ class SimulatorClient(val simulator: Simulator) {
                                 style = "position: absolute; right: 2%; bottom: 2%; width: 52%;"
                                 src = options.memoirs.first().imagePath!!
                             }
-                            div("d-flex flex-column align-items-center") {
-                                style = "position: absolute; right: 2%; bottom: 5%; width: 52%; text-align: center;" +
+                            img(classes = "actor-memoir-unbind-image") {
+                                style = "position: absolute; right: 2%; bottom: 2%; width: 52%;"
+                                src = getMemoirUnbindImagePath(4)
+                            }
+                            img(classes = "actor-remake-level-image") {
+                                style = "position: absolute; top: 4%; left: 50%; transform: translateX(-50%); width: 90%;"
+                                src = getRemakeLevelImagePath(0)
+                            }
+                            div("d-flex flex-column") {
+                                style = "position: absolute; right: 6%; bottom: 0%;" +
                                         "text-shadow: #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px;"
-                                div("actor-memoir-unbind") {
-                                    style = "margin-bottom: -0.4em; color: brown;"
-                                    +"+4"
-                                }
                                 div("actor-memoir-level") {
                                     style = "color: darkblue;"
                                     +"80"
@@ -280,11 +284,8 @@ class SimulatorClient(val simulator: Simulator) {
                             div("d-flex flex-column") {
                                 style = "position: absolute; left: 5%; bottom: 0%;" +
                                         "text-shadow: #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px;"
-                                div("actor-remake-level") {
-                                    style = "margin-bottom: -0.4em; color: darkred;"
-                                    +"rb0"
-                                }
                                 div("actor-level") {
+                                    style = "color: darkred;"
                                     +"80"
                                 }
                             }
@@ -301,8 +302,8 @@ class SimulatorClient(val simulator: Simulator) {
                     id = "actor-options-$actorId"
                     attributes["data-actor-id"] = actorId.toString()
                     div("col-12 mt-1 mb-2") {
-                        div("border border-2 rounded pb-2") {
-                            div("row mx-2 mt-1") {
+                        div("border border-2 rounded") {
+                            div("row mx-2 mt-3") {
                                 div("col-auto me-auto") {
                                     button(type = ButtonType.button, classes = "btn btn-outline-secondary") {
                                         id = "actor-left-$actorId"
