@@ -27,7 +27,7 @@ val RomeoKaren = dress1010019(
                         modifier = values1,
                         hitCount = 2
                     )
-                },
+                }
                 targetAllyAoe().act {
                     applyBuff(
                         ApDownBuff,
@@ -44,18 +44,18 @@ val RomeoKaren = dress1010019(
         ActType.Act3.blueprint("Piercing Sword") {
             Act {
                 targetAoe().act {
-                    dispelTimed(BuffCategory.Positive),
+                    dispelTimed(BuffCategory.Positive)
                     applyBuff(
                         ApUpBuff,
                         turns = times2
-                    ),
+                    )
                     attack(
                         modifier = values3,
                         hitCount = 2
                     )
                 }
             }
-        }
+        },
         ActType.ClimaxAct.blueprint("Rose Escape") {
             Act {
                 targetSelf().act {
@@ -63,7 +63,7 @@ val RomeoKaren = dress1010019(
                         PerfectAimBuff,
                         turns = times1
                     )
-                },
+                }
                 targetAoe().act {
                     attack(
                         modifier = values2,
