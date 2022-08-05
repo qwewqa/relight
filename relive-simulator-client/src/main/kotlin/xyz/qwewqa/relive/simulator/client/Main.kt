@@ -400,7 +400,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 }
                             }
                             div("row mx-2 mb-2") {
-                                div("col-12 my-2") {
+                                div("col-12 my-1") {
                                     val inputId = "actor-name-$actorId"
                                     label("form-label text-actor-name") {
                                         htmlFor = inputId
@@ -415,7 +415,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 }
                             }
                             div("row mx-2 mb-2") {
-                                div("col-12 my-2") {
+                                div("col-12 my-1") {
                                     val selectId = "actor-dress-$actorId"
                                     label("form-label text-dress") {
                                         htmlFor = selectId
@@ -442,7 +442,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-6 col-md-4 my-2") {
+                                div("col-6 col-md-4 my-1") {
                                     val inputId = "actor-level-$actorId"
                                     label("form-label text-actor-level") {
                                         htmlFor = inputId
@@ -456,7 +456,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-6 col-md-4 my-2") {
+                                div("col-6 col-md-4 my-1") {
                                     val selectId = "actor-rarity-$actorId"
                                     label("form-label text-actor-rarity") {
                                         htmlFor = selectId
@@ -487,7 +487,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-12 col-md-4 my-2") {
+                                div("col-12 col-md-4 my-1") {
                                     val selectId = "actor-remake-$actorId"
                                     label("form-label text-actor-remake") {
                                         htmlFor = selectId
@@ -545,7 +545,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-6 col-md-6 col-lg-3 my-2") {
+                                div("col-6 col-md-6 col-lg-3 my-1") {
                                     val inputId = "actor-unit-skill-$actorId"
                                     label("form-label text-unit-skill-level") {
                                         htmlFor = inputId
@@ -559,7 +559,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-6 col-md-6 col-lg-3 my-2") {
+                                div("col-6 col-md-6 col-lg-3 my-1") {
                                     val inputId = "actor-friendship-$actorId"
                                     label("form-label text-actor-friendship") {
                                         htmlFor = inputId
@@ -570,7 +570,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         placeholder = "30"
                                     }
                                 }
-                                div("col-6 col-md-6 col-lg-3 my-2") {
+                                div("col-6 col-md-6 col-lg-3 my-1") {
                                     val selectId = "actor-rank-$actorId"
                                     label("form-label text-actor-rank") {
                                         htmlFor = selectId
@@ -617,7 +617,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-6 col-md-6 col-lg-3 my-2") {
+                                div("col-6 col-md-6 col-lg-3 my-1") {
                                     val selectId = "actor-rank-panel-pattern-$actorId"
                                     label("form-label text-actor-rank-panel-pattern") {
                                         htmlFor = selectId
@@ -634,7 +634,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-12 my-2") {
+                                div("col-12 my-1") {
                                     val selectId = "actor-remake-skill-$actorId"
                                     label("form-label text-remake-skill") {
                                         htmlFor = selectId
@@ -669,7 +669,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         +options.remakeSkills.first()[locale]
                                     }
                                 }
-                                div("col-12 col-md-6 my-2") {
+                                div("col-12 col-md-6 my-1") {
                                     val selectId = "actor-memoir-$actorId"
                                     label("form-label text-memoir") {
                                         htmlFor = selectId
@@ -706,7 +706,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-4 col-md-3 my-2") {
+                                div("col-4 col-md-3 my-1") {
                                     val inputId = "actor-memoir-level-$actorId"
                                     label("form-label text-memoir-level") {
                                         htmlFor = inputId
@@ -720,7 +720,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-8 col-md-3 my-2") {
+                                div("col-8 col-md-3 my-1") {
                                     val selectId = "actor-memoir-unbind-$actorId"
                                     label("form-label text-memoir-unbind") {
                                         htmlFor = selectId
@@ -773,7 +773,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         )
                                     }
                                 }
-                                div("col-12 my-2") {
+                                div("col-12 my-1") {
                                     button(
                                         type = ButtonType.button,
                                         classes = "btn btn-outline-secondary text-actor-preset-min"
