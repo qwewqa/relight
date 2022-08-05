@@ -270,7 +270,8 @@ class SimulatorClient(val simulator: Simulator) {
                                 src = getMemoirUnbindImagePath(4)
                             }
                             img(classes = "actor-remake-level-image") {
-                                style = "position: absolute; bottom: 23%; left: 5%; width: 16%;filter drop-shadow(0 0 3px #c44);"
+                                style =
+                                    "position: absolute; bottom: 23%; left: 5%; width: 16%;filter drop-shadow(0 0 3px #c44);"
                                 src = getRemakeLevelImagePath(0)
                             }
                             div("d-flex flex-column") {
@@ -382,14 +383,15 @@ class SimulatorClient(val simulator: Simulator) {
                                     button(type = ButtonType.button, classes = "btn btn-danger") {
                                         id = "actor-delete-$actorId"
                                         onClickFunction = {
+                                            val actorIds = actorTabsDiv.children.asList()
+                                                .map { it.attributes["data-actor-id"]!!.value.toInt() }
                                             (document.getElementById("actor-options-$actorId") as HTMLElement).remove()
                                             (document.getElementById("actor-tab-$actorId") as HTMLElement).remove()
                                             updateGuestStyling()
                                             if (actorId == activeActorId) {
+                                                val index = actorIds.indexOf(actorId)
                                                 setActiveActor(
-                                                    actorTabsDiv.children.asList()
-                                                        .firstOrNull()?.attributes?.get("data-actor-id")?.value?.toIntOrNull()
-                                                        ?: 0
+                                                    actorIds.filter { it != actorId }.take(index + 1).lastOrNull()
                                                 )
                                             }
                                         }
