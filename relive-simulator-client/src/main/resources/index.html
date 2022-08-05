@@ -47,14 +47,28 @@
         }
 
         .inactive-actor-tab {
-            background-color: #fff;
-            opacity: 0.8;
+            background-color: transparent;
         }
 
         .inactive-actor-tab:hover {
             background-color: #eee;
-            opacity: 1;
             border-radius: calc(var(--actor-tab-width) / 12);
+        }
+
+        .inactive-actor-tab .actor-dress-image {
+            filter: saturate(60%);
+        }
+
+        .inactive-actor-tab:hover .actor-dress-image{
+            filter: none;
+        }
+
+        .inactive-actor-tab .actor-memoir-image {
+            filter: saturate(60%);
+        }
+
+        .inactive-actor-tab:hover .actor-memoir-image{
+            filter: none;
         }
 
         .actor-tab-name:empty::before {
