@@ -501,7 +501,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         htmlFor = inputId
                                         +localized(".text-actor-level", "Level")
                                     }
-                                    input(InputType.text, classes = "form-control actor-level") {
+                                    input(InputType.number, classes = "form-control actor-level") {
                                         id = inputId
                                         placeholder = "80"
                                         onChangeFunction = {
@@ -546,7 +546,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         htmlFor = inputId
                                         +localized(".text-actor-friendship", "Bond")
                                     }
-                                    input(InputType.text, classes = "form-control actor-friendship") {
+                                    input(InputType.number, classes = "form-control actor-friendship") {
                                         id = inputId
                                         placeholder = "30"
                                     }
@@ -562,7 +562,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         style = "height: 1.2em; margin-top: -0.1em;"
                                         src = "img/common/button_unitskill.png"
                                     }
-                                    input(InputType.text, classes = "form-control actor-unit-skill") {
+                                    input(InputType.number, classes = "form-control actor-unit-skill") {
                                         id = inputId
                                         placeholder = "21"
                                         onChangeFunction = {
