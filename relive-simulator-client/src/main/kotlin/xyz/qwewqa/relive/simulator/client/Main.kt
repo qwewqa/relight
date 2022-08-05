@@ -253,7 +253,7 @@ class SimulatorClient(val simulator: Simulator) {
                     attributes["data-actor-id"] = actorId.toString()
                     div("d-flex flex-column") {
                         onClickFunction = {
-                            setActiveActor(actorId)
+                            setActiveActor(actorId.takeIf { it != activeActorId })
                         }
                         div {
                             style = "position: relative;"
