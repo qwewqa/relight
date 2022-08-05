@@ -544,7 +544,12 @@ class SimulatorClient(val simulator: Simulator) {
                                     val inputId = "actor-unit-skill-$actorId"
                                     label("form-label text-unit-skill-level") {
                                         htmlFor = inputId
-                                        +localized(".text-unit-skill-level", "Unit Skill Level")
+                                        +localized(".text-unit-skill-level", "Unit Skill")
+                                    }
+                                    +" "
+                                    img {
+                                        style = "height: 1.2em; margin-top: -0.1em;"
+                                        src = "img/common/button_unitskill.png"
                                     }
                                     input(InputType.text, classes = "form-control actor-unit-skill") {
                                         id = inputId
@@ -558,7 +563,7 @@ class SimulatorClient(val simulator: Simulator) {
                                     val inputId = "actor-friendship-$actorId"
                                     label("form-label text-actor-friendship") {
                                         htmlFor = inputId
-                                        +localized(".text-actor-friendship", "Bond Level")
+                                        +localized(".text-actor-friendship", "Bond")
                                     }
                                     input(InputType.text, classes = "form-control actor-friendship") {
                                         id = inputId

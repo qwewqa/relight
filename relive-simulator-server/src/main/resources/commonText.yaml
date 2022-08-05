@@ -44,7 +44,7 @@
   en: Dress
   zh_hant: 角色
 '.text-unit-skill-level':
-  en: Unit Skill Level
+  en: Unit Skill
   zh_hant: US等級
 '.text-memoir':
   en: Memoir
@@ -122,7 +122,7 @@
   en: Remake
   zh_hant: 再生產等級
 '.text-actor-friendship':
-  en: Bond Level
+  en: Bond
   zh_hant: 羈絆等級
 '.text-actor-rank':
   en: Rank
