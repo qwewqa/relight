@@ -199,8 +199,9 @@ fun getMemoirUnbindImagePath(level: Int) = when (level) {
 }
 
 fun getEquipEvolutionImagePath(level: Int) = "img/common/icon_equip_evolution_$level.png"
-
-fun getRemakeLevelImagePath(level: Int) = "img/custom/icon_remake_$level.png"
+fun getRemakeLevelVerticalImagePath(level: Int) = "img/custom/icon_remake_$level.png"
+fun getRemakeLevelHorizontalImagePath(level: Int) = "img/common/icon_remake_$level.png"
+fun getMemoirUnbindLevelHorizontalImagePath(level: Int) = "img/custom/icon_equip_evolution_$level.png"
 
 class ActorOptions(private val options: SimulationOptions, tabElement: Element, optionsElement: Element) {
     constructor(options: SimulationOptions, actorId: Int) : this(
@@ -223,6 +224,8 @@ class ActorOptions(private val options: SimulationOptions, tabElement: Element, 
     val remake = SingleSelect(optionsElement.getElementsByClassName("actor-remake").single())
     val remakeSkill = SingleSelect(optionsElement.getElementsByClassName("actor-remake-skill").single())
 
+    val remakeIcon = optionsElement.getElementsByClassName("actor-remake-icon").single<HTMLImageElement>()
+    val memoirUnbindIcon = optionsElement.getElementsByClassName("actor-memoir-unbind-icon").single<HTMLImageElement>()
     val remakeSkillText = optionsElement.getElementsByClassName("actor-remake-skill-text").single() as HTMLParagraphElement
 
     val tabName = tabElement.getElementsByClassName("actor-name").single<HTMLElement>()
@@ -287,10 +290,13 @@ class ActorOptions(private val options: SimulationOptions, tabElement: Element, 
 
             remakeSkill.element.asDynamic().disabled = param.remake < 4
 
+            remakeIcon.src = getRemakeLevelHorizontalImagePath(param.remake)
+            memoirUnbindIcon.src = getMemoirUnbindLevelHorizontalImagePath(param.memoirLimitBreak)
+
             tabName.textContent = param.name
             tabLevel.textContent = param.level.toString()
             tabUnitSkillLevel.textContent = param.unitSkillLevel.toString()
-            tabRemakeLevelImage.src = getRemakeLevelImagePath(param.remake)
+            tabRemakeLevelImage.src = getRemakeLevelVerticalImagePath(param.remake)
             tabMemoirLevel.textContent = param.memoirLevel.toString()
             tabMemoirUnbindImage.src = getMemoirUnbindImagePath(param.memoirLimitBreak)
             tabDressImage.src = options.dressesById[param.dress]?.imagePath ?: ""

@@ -272,7 +272,7 @@ class SimulatorClient(val simulator: Simulator) {
                             img(classes = "actor-remake-level-image") {
                                 style =
                                     "position: absolute; bottom: 23%; left: 5%; width: 16%;filter drop-shadow(0 0 3px #c44);"
-                                src = getRemakeLevelImagePath(0)
+                                src = getRemakeLevelVerticalImagePath(0)
                             }
                             div("d-flex flex-column") {
                                 style = "position: absolute; right: 6%; bottom: 0%;" +
@@ -493,6 +493,12 @@ class SimulatorClient(val simulator: Simulator) {
                                         htmlFor = selectId
                                         +localized(".text-actor-remake", "Remake Level")
                                     }
+                                    +" "
+                                    img(classes="actor-remake-icon") {
+                                        id = "actor-remake-icon-$actorId"
+                                        style = "height: 0.8em; margin-top: -0.125em"
+                                        src = getRemakeLevelHorizontalImagePath(0)
+                                    }
                                     select(classes = "form-select actor-remake") {
                                         id = selectId
                                         attributes["data-prev-value"] = "0"
@@ -615,7 +621,7 @@ class SimulatorClient(val simulator: Simulator) {
                                     val selectId = "actor-rank-panel-pattern-$actorId"
                                     label("form-label text-actor-rank-panel-pattern") {
                                         htmlFor = selectId
-                                        +localized(".text-actor-rank-panel-pattern", "Rank Panel Pattern")
+                                        +localized(".text-actor-rank-panel-pattern", "Panel Pattern")
                                     }
                                     select(classes = "form-select actor-rank-panel-pattern") {
                                         id = selectId
@@ -700,11 +706,11 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-6 col-md-3 my-2") {
+                                div("col-4 col-md-3 my-2") {
                                     val inputId = "actor-memoir-level-$actorId"
                                     label("form-label text-memoir-level") {
                                         htmlFor = inputId
-                                        +localized(".text-memoir-level", "Memoir Level")
+                                        +localized(".text-memoir-level", "Level")
                                     }
                                     input(InputType.number, classes = "form-control actor-memoir-level") {
                                         id = inputId
@@ -714,11 +720,17 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-6 col-md-3 my-2") {
+                                div("col-8 col-md-3 my-2") {
                                     val selectId = "actor-memoir-unbind-$actorId"
                                     label("form-label text-memoir-unbind") {
                                         htmlFor = selectId
-                                        +localized(".text-memoir-unbind", "Memoir Unbind")
+                                        +localized(".text-memoir-unbind", "Unbind")
+                                    }
+                                    +" "
+                                    img(classes="actor-memoir-unbind-icon") {
+                                        id = "actor-memoir-unbind-icon-$actorId"
+                                        style = "height: 0.85em; margin-top: -0.15em"
+                                        src = getMemoirUnbindLevelHorizontalImagePath(4)
                                     }
                                     select(classes = "form-select actor-memoir-unbind") {
                                         id = selectId

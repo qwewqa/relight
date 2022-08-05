@@ -50,10 +50,10 @@
   en: Memoir
   zh_hant: 回憶
 '.text-memoir-level':
-  en: Memoir Level
+  en: Level
   zh_hant: 回憶等級
 '.text-memoir-unbind':
-  en: Memoir Unbind
+  en: Unbind
   zh_hant: 回憶突破次數
 '.text-add-actor':
   en: Add Actor
@@ -128,7 +128,7 @@
   en: Rank
   zh_hant: 技能拼圖
 '.text-actor-rank-panel-pattern':
-  en: Rank Panel Pattern
+  en: Panel Pattern
   zh_hant: 技能拼圖點法
 'all-rank-panels':
   en: All
