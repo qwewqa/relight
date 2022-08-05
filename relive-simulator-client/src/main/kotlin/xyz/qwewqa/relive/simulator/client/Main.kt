@@ -271,7 +271,7 @@ class SimulatorClient(val simulator: Simulator) {
                             }
                             img(classes = "actor-remake-level-image") {
                                 style =
-                                    "position: absolute; bottom: 23%; left: 5%; width: 16%;filter drop-shadow(0 0 3px #c44);"
+                                    "position: absolute; bottom: 23%; left: 5%; width: 16%;filter: drop-shadow(0 0 2px darkred);"
                                 src = getRemakeLevelVerticalImagePath(0)
                             }
                             div("d-flex flex-column") {
@@ -443,7 +443,7 @@ class SimulatorClient(val simulator: Simulator) {
                                     }
                                 }
 
-                                div("col-12 col-md-4 col-lg-3 my-1") {
+                                div("col-8 col-md-4 col-lg-3 my-1") {
                                     val selectId = "actor-remake-$actorId"
                                     label("form-label text-actor-remake") {
                                         htmlFor = selectId
@@ -495,7 +495,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-6 col-md-4 col-lg-3 my-1") {
+                                div("col-4 col-md-4 col-lg-3 my-1") {
                                     val inputId = "actor-level-$actorId"
                                     label("form-label text-actor-level") {
                                         htmlFor = inputId
@@ -509,7 +509,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-6 col-md-4 col-lg-2 my-1") {
+                                div("col-4 col-md-4 col-lg-2 my-1") {
                                     val selectId = "actor-rarity-$actorId"
                                     label("form-label text-actor-rarity") {
                                         htmlFor = selectId
@@ -540,11 +540,22 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-6 col-md-4 col-lg-2 my-1") {
+                                div("col-4 col-md-4 col-lg-2 my-1") {
+                                    val inputId = "actor-friendship-$actorId"
+                                    label("form-label text-actor-friendship") {
+                                        htmlFor = inputId
+                                        +localized(".text-actor-friendship", "Bond")
+                                    }
+                                    input(InputType.text, classes = "form-control actor-friendship") {
+                                        id = inputId
+                                        placeholder = "30"
+                                    }
+                                }
+                                div("col-4 col-md-4 col-lg-2 my-1") {
                                     val inputId = "actor-unit-skill-$actorId"
                                     label("form-label text-unit-skill-level") {
                                         htmlFor = inputId
-                                        +localized(".text-unit-skill-level", "Unit Skill")
+                                        +localized(".text-unit-skill-level", "US")
                                     }
                                     +" "
                                     img {
@@ -557,17 +568,6 @@ class SimulatorClient(val simulator: Simulator) {
                                         onChangeFunction = {
                                             ActorOptions(options, actorId).update()
                                         }
-                                    }
-                                }
-                                div("col-6 col-md-4 col-lg-2 my-1") {
-                                    val inputId = "actor-friendship-$actorId"
-                                    label("form-label text-actor-friendship") {
-                                        htmlFor = inputId
-                                        +localized(".text-actor-friendship", "Bond")
-                                    }
-                                    input(InputType.text, classes = "form-control actor-friendship") {
-                                        id = inputId
-                                        placeholder = "30"
                                     }
                                 }
                                 div("col-6 col-md-4 col-lg-3 my-1") {
