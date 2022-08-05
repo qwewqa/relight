@@ -113,7 +113,7 @@
   en: Boss Strategy Override
   zh_hant: 自訂敵人策略
 '.text-actor-level':
-  en: Actor Level
+  en: Level
   zh_hant: 角色等級
 '.text-actor-rarity':
   en: Stars

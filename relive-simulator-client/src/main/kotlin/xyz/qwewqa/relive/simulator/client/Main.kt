@@ -442,51 +442,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-6 col-md-4 my-1") {
-                                    val inputId = "actor-level-$actorId"
-                                    label("form-label text-actor-level") {
-                                        htmlFor = inputId
-                                        +localized(".text-actor-level", "Actor Level")
-                                    }
-                                    input(InputType.text, classes = "form-control actor-level") {
-                                        id = inputId
-                                        placeholder = "80"
-                                        onChangeFunction = {
-                                            ActorOptions(options, actorId).update()
-                                        }
-                                    }
-                                }
-                                div("col-6 col-md-4 my-1") {
-                                    val selectId = "actor-rarity-$actorId"
-                                    label("form-label text-actor-rarity") {
-                                        htmlFor = selectId
-                                        +localized(".text-actor-rarity", "Stars")
-                                    }
-                                    select(classes = "form-select actor-rarity") {
-                                        id = selectId
-                                        option {
-                                            value = "6"
-                                            +"6"
-                                            selected = true
-                                        }
-                                        option {
-                                            value = "5"
-                                            +"5"
-                                        }
-                                        option {
-                                            value = "4"
-                                            +"4"
-                                        }
-                                        option {
-                                            value = "3"
-                                            +"3"
-                                        }
-                                        option {
-                                            value = "2"
-                                            +"2"
-                                        }
-                                    }
-                                }
+
                                 div("col-12 col-md-4 my-1") {
                                     val selectId = "actor-remake-$actorId"
                                     label("form-label text-actor-remake") {
@@ -542,6 +498,51 @@ class SimulatorClient(val simulator: Simulator) {
                                                 level = newLevel,
                                                 friendship = newFriendship
                                             )
+                                        }
+                                    }
+                                }
+                                div("col-6 col-md-4 my-1") {
+                                    val inputId = "actor-level-$actorId"
+                                    label("form-label text-actor-level") {
+                                        htmlFor = inputId
+                                        +localized(".text-actor-level", "Level")
+                                    }
+                                    input(InputType.text, classes = "form-control actor-level") {
+                                        id = inputId
+                                        placeholder = "80"
+                                        onChangeFunction = {
+                                            ActorOptions(options, actorId).update()
+                                        }
+                                    }
+                                }
+                                div("col-6 col-md-4 my-1") {
+                                    val selectId = "actor-rarity-$actorId"
+                                    label("form-label text-actor-rarity") {
+                                        htmlFor = selectId
+                                        +localized(".text-actor-rarity", "Stars")
+                                    }
+                                    select(classes = "form-select actor-rarity") {
+                                        id = selectId
+                                        option {
+                                            value = "6"
+                                            +"6"
+                                            selected = true
+                                        }
+                                        option {
+                                            value = "5"
+                                            +"5"
+                                        }
+                                        option {
+                                            value = "4"
+                                            +"4"
+                                        }
+                                        option {
+                                            value = "3"
+                                            +"3"
+                                        }
+                                        option {
+                                            value = "2"
+                                            +"2"
                                         }
                                     }
                                 }
@@ -706,20 +707,6 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-4 col-md-3 my-1") {
-                                    val inputId = "actor-memoir-level-$actorId"
-                                    label("form-label text-memoir-level") {
-                                        htmlFor = inputId
-                                        +localized(".text-memoir-level", "Level")
-                                    }
-                                    input(InputType.number, classes = "form-control actor-memoir-level") {
-                                        id = inputId
-                                        placeholder = "80"
-                                        onChangeFunction = {
-                                            ActorOptions(options, actorId).update()
-                                        }
-                                    }
-                                }
                                 div("col-8 col-md-3 my-1") {
                                     val selectId = "actor-memoir-unbind-$actorId"
                                     label("form-label text-memoir-unbind") {
@@ -771,6 +758,20 @@ class SimulatorClient(val simulator: Simulator) {
                                         opt.parameters = params.copy(
                                             memoirLevel = newMemoirLevel
                                         )
+                                    }
+                                }
+                                div("col-4 col-md-3 my-1") {
+                                    val inputId = "actor-memoir-level-$actorId"
+                                    label("form-label text-memoir-level") {
+                                        htmlFor = inputId
+                                        +localized(".text-memoir-level", "Level")
+                                    }
+                                    input(InputType.number, classes = "form-control actor-memoir-level") {
+                                        id = inputId
+                                        placeholder = "80"
+                                        onChangeFunction = {
+                                            ActorOptions(options, actorId).update()
+                                        }
                                     }
                                 }
                                 div("col-12 my-1") {
