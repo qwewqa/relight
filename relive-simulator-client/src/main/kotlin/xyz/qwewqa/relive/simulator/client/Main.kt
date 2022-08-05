@@ -415,7 +415,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 }
                             }
                             div("row mx-2 mb-2") {
-                                div("col-12 my-1") {
+                                div("col-12 col-md-8 col-lg-6 my-1") {
                                     val selectId = "actor-dress-$actorId"
                                     label("form-label text-dress") {
                                         htmlFor = selectId
@@ -443,11 +443,11 @@ class SimulatorClient(val simulator: Simulator) {
                                     }
                                 }
 
-                                div("col-12 col-md-4 my-1") {
+                                div("col-12 col-md-4 col-lg-3 my-1") {
                                     val selectId = "actor-remake-$actorId"
                                     label("form-label text-actor-remake") {
                                         htmlFor = selectId
-                                        +localized(".text-actor-remake", "Remake Level")
+                                        +localized(".text-actor-remake", "Remake")
                                     }
                                     +" "
                                     img(classes="actor-remake-icon") {
@@ -455,53 +455,47 @@ class SimulatorClient(val simulator: Simulator) {
                                         style = "height: 0.8em; margin-top: -0.125em"
                                         src = getRemakeLevelHorizontalImagePath(0)
                                     }
-                                    select(classes = "form-select actor-remake") {
-                                        id = selectId
+                                    div("btn-group w-100 actor-remake") {
+                                        role = "group"
                                         attributes["data-prev-value"] = "0"
-                                        option {
-                                            value = "0"
-                                            +"0"
-                                            selected = true
-                                        }
-                                        option {
-                                            value = "1"
-                                            +"1"
-                                        }
-                                        option {
-                                            value = "2"
-                                            +"2"
-                                        }
-                                        option {
-                                            value = "3"
-                                            +"3"
-                                        }
-                                        option {
-                                            value = "4"
-                                            +"4"
-                                        }
-                                        onChangeFunction = {
-                                            val opt = ActorOptions(options, actorId)
-                                            val prev = opt.remake.element.attributes["data-prev-value"]
-                                                ?.value?.toInt() ?: 0
-                                            val params = opt.parameters
-                                            val newLevel = if (params.level == 20 + 10 * params.rarity + 5 * prev) {
-                                                20 + 10 * params.rarity + 5 * params.remake
-                                            } else {
-                                                params.level
+                                        (0..4).forEach { level ->
+                                            input(InputType.radio, classes="btn-check") {
+                                                id = "actor-remake-$actorId-radio-$level"
+                                                name = "actor-remake-$actorId-radio"
+                                                autoComplete = false
+                                                value = level.toString()
+                                                if (level == 0) {
+                                                    attributes["checked"] = "checked"
+                                                }
+                                                onChangeFunction = {
+                                                    val opt = ActorOptions(options, actorId)
+                                                    val prev = opt.remake.element.attributes["data-prev-value"]
+                                                        ?.value?.toInt() ?: 0
+                                                    val params = opt.parameters
+                                                    val newLevel = if (params.level == 20 + 10 * params.rarity + 5 * prev) {
+                                                        20 + 10 * params.rarity + 5 * params.remake
+                                                    } else {
+                                                        params.level
+                                                    }
+                                                    val newFriendship = if (params.friendship == 5 * params.rarity + 5 * prev) {
+                                                        5 * params.rarity + 5 * params.remake
+                                                    } else {
+                                                        params.friendship
+                                                    }
+                                                    opt.parameters = params.copy(
+                                                        level = newLevel,
+                                                        friendship = newFriendship
+                                                    )
+                                                }
                                             }
-                                            val newFriendship = if (params.friendship == 5 * params.rarity + 5 * prev) {
-                                                5 * params.rarity + 5 * params.remake
-                                            } else {
-                                                params.friendship
+                                            label(classes="btn btn-outline-secondary") {
+                                                htmlFor = "actor-remake-$actorId-radio-$level"
+                                                +"$level"
                                             }
-                                            opt.parameters = params.copy(
-                                                level = newLevel,
-                                                friendship = newFriendship
-                                            )
                                         }
                                     }
                                 }
-                                div("col-6 col-md-4 my-1") {
+                                div("col-6 col-md-4 col-lg-3 my-1") {
                                     val inputId = "actor-level-$actorId"
                                     label("form-label text-actor-level") {
                                         htmlFor = inputId
@@ -515,7 +509,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-6 col-md-4 my-1") {
+                                div("col-6 col-md-4 col-lg-2 my-1") {
                                     val selectId = "actor-rarity-$actorId"
                                     label("form-label text-actor-rarity") {
                                         htmlFor = selectId
@@ -546,7 +540,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-6 col-md-6 col-lg-3 my-1") {
+                                div("col-6 col-md-4 col-lg-2 my-1") {
                                     val inputId = "actor-unit-skill-$actorId"
                                     label("form-label text-unit-skill-level") {
                                         htmlFor = inputId
@@ -560,7 +554,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-6 col-md-6 col-lg-3 my-1") {
+                                div("col-6 col-md-4 col-lg-2 my-1") {
                                     val inputId = "actor-friendship-$actorId"
                                     label("form-label text-actor-friendship") {
                                         htmlFor = inputId
@@ -571,7 +565,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         placeholder = "30"
                                     }
                                 }
-                                div("col-6 col-md-6 col-lg-3 my-1") {
+                                div("col-6 col-md-4 col-lg-3 my-1") {
                                     val selectId = "actor-rank-$actorId"
                                     label("form-label text-actor-rank") {
                                         htmlFor = selectId
@@ -618,7 +612,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-6 col-md-6 col-lg-3 my-1") {
+                                div("col-6 col-md-4 col-lg-3 my-1") {
                                     val selectId = "actor-rank-panel-pattern-$actorId"
                                     label("form-label text-actor-rank-panel-pattern") {
                                         htmlFor = selectId
@@ -707,7 +701,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         }
                                     }
                                 }
-                                div("col-8 col-md-3 my-1") {
+                                div("col-8 col-md-4 col-lg-3 my-1") {
                                     val selectId = "actor-memoir-unbind-$actorId"
                                     label("form-label text-memoir-unbind") {
                                         htmlFor = selectId
@@ -719,48 +713,42 @@ class SimulatorClient(val simulator: Simulator) {
                                         style = "height: 0.85em; margin-top: -0.15em"
                                         src = getMemoirUnbindLevelHorizontalImagePath(4)
                                     }
-                                    select(classes = "form-select actor-memoir-unbind") {
-                                        id = selectId
+                                    div("btn-group w-100 actor-memoir-unbind") {
+                                        role = "group"
                                         attributes["data-prev-value"] = "4"
-                                        option {
-                                            value = "0"
-                                            +"0"
+                                        (0..4).forEach { level ->
+                                            input(InputType.radio, classes="btn-check") {
+                                                id = "actor-memoir-unbind-$actorId-radio-$level"
+                                                name = "actor-memoir-unbind-$actorId-radio"
+                                                autoComplete = false
+                                                value = level.toString()
+                                                if (level == 4) {
+                                                    attributes["checked"] = "checked"
+                                                }
+                                                onChangeFunction = {
+                                                    val opt = ActorOptions(options, actorId)
+                                                    val prev = opt.memoirUnbind.element.attributes["data-prev-value"]
+                                                        ?.value?.toInt() ?: 0
+                                                    val params = opt.parameters
+                                                    // only works for 4* memos, which is almost all of them
+                                                    val newMemoirLevel = if (params.memoirLevel == 60 + 5 * prev) {
+                                                        60 + 5 * params.memoirLimitBreak
+                                                    } else {
+                                                        params.memoirLevel
+                                                    }
+                                                    opt.parameters = params.copy(
+                                                        memoirLevel = newMemoirLevel
+                                                    )
+                                                }
+                                            }
+                                            label(classes="btn btn-outline-secondary") {
+                                                htmlFor = "actor-memoir-unbind-$actorId-radio-$level"
+                                                +"$level"
+                                            }
                                         }
-                                        option {
-                                            value = "1"
-                                            +"1"
-                                        }
-                                        option {
-                                            value = "2"
-                                            +"2"
-                                        }
-                                        option {
-                                            value = "3"
-                                            +"3"
-                                        }
-                                        option {
-                                            value = "4"
-                                            +"4"
-                                            selected = true
-                                        }
-                                    }
-                                    onChangeFunction = {
-                                        val opt = ActorOptions(options, actorId)
-                                        val prev = opt.memoirUnbind.element.attributes["data-prev-value"]
-                                            ?.value?.toInt() ?: 0
-                                        val params = opt.parameters
-                                        // only works for 4* memos, which is almost all of them
-                                        val newMemoirLevel = if (params.memoirLevel == 60 + 5 * prev) {
-                                            60 + 5 * params.memoirLimitBreak
-                                        } else {
-                                            params.memoirLevel
-                                        }
-                                        opt.parameters = params.copy(
-                                            memoirLevel = newMemoirLevel
-                                        )
                                     }
                                 }
-                                div("col-4 col-md-3 my-1") {
+                                div("col-4 col-md-2 col-lg-3 my-1") {
                                     val inputId = "actor-memoir-level-$actorId"
                                     label("form-label text-memoir-level") {
                                         htmlFor = inputId

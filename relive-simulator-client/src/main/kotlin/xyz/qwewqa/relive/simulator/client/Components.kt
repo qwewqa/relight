@@ -182,6 +182,20 @@ class SingleSelect(element: HTMLSelectElement) : Select(element) {
         }
 }
 
+
+class ButtonGroup(val element: HTMLElement) {
+    private val inputs = element.children.asList().filterIsInstance<HTMLInputElement>()
+
+    var value: String
+        get() = inputs.first { it.checked }.value
+        set(value) {
+            inputs.forEach {
+                it.checked = it.value == value
+            }
+        }
+}
+
+
 class MultipleSelect(element: HTMLSelectElement) : Select(element) {
     var value: List<String>
         get() = element.getSelected()
@@ -214,14 +228,14 @@ class ActorOptions(private val options: SimulationOptions, tabElement: Element, 
     val dress = SingleSelect(optionsElement.getElementsByClassName("actor-dress").single())
     val memoir = SingleSelect(optionsElement.getElementsByClassName("actor-memoir").single())
     val memoirLevel = IntegerInput(optionsElement.getElementsByClassName("actor-memoir-level").single(), 1)
-    val memoirUnbind = SingleSelect(optionsElement.getElementsByClassName("actor-memoir-unbind").single())
+    val memoirUnbind = ButtonGroup(optionsElement.getElementsByClassName("actor-memoir-unbind").single())
     val unitSkillLevel = IntegerInput(optionsElement.getElementsByClassName("actor-unit-skill").single(), 21)
     val level = IntegerInput(optionsElement.getElementsByClassName("actor-level").single(), 80)
     val rarity = SingleSelect(optionsElement.getElementsByClassName("actor-rarity").single())
     val friendship = IntegerInput(optionsElement.getElementsByClassName("actor-friendship").single(), 30)
     val rank = SingleSelect(optionsElement.getElementsByClassName("actor-rank").single())
     val rankPanelPattern = SingleSelect(optionsElement.getElementsByClassName("actor-rank-panel-pattern").single())
-    val remake = SingleSelect(optionsElement.getElementsByClassName("actor-remake").single())
+    val remake = ButtonGroup(optionsElement.getElementsByClassName("actor-remake").single())
     val remakeSkill = SingleSelect(optionsElement.getElementsByClassName("actor-remake-skill").single())
 
     val remakeIcon = optionsElement.getElementsByClassName("actor-remake-icon").single<HTMLImageElement>()
