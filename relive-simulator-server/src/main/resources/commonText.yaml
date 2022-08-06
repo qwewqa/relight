@@ -204,3 +204,6 @@
 '.text-new':
   en: New
   zh_hant: 新增
+'.text-add-actor-from-preset':
+  en: Load Preset
+  zh_hant: 從預設添加
