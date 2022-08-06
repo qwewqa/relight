@@ -9,6 +9,7 @@ import kotlinx.dom.clear
 import kotlinx.dom.hasClass
 import kotlinx.dom.removeClass
 import kotlinx.html.*
+import kotlinx.html.dom.append
 import kotlinx.html.dom.create
 import kotlinx.html.js.div
 import kotlinx.html.js.onChangeFunction
@@ -82,21 +83,26 @@ class SimulatorClient(val simulator: Simulator) {
     val interactiveInput = document.getElementById("interactive-input").textInput()
     val interactiveSendButton = document.getElementById("interactive-send-button") as HTMLButtonElement
 
-    val loadPresetSelect = document.getElementById("load-preset-select").singleSelect()
-    val loadPresetConfirmButton = document.getElementById("load-preset-button") as HTMLButtonElement
-    val deletePresetButton = document.getElementById("delete-preset-button") as HTMLButtonElement
-    val presetNameInput = document.getElementById("preset-name-input").textInput()
-    val savePresetConfirmButton = document.getElementById("save-preset-button") as HTMLButtonElement
+    val presetsModal = document.getElementById("presets-modal") as HTMLDivElement
+    val presetsModalBS = Bootstrap.Modal(presetsModal)
+    val presetSearch = document.getElementById("preset-search") as HTMLInputElement
+    val presetList = document.getElementById("presets-list") as HTMLDivElement
+    val presetNameInput = document.getElementById("new-preset-name-input").textInput()
+    val savePresetButton = document.getElementById("save-new-preset-button") as HTMLButtonElement
+    val newPresetContainer = document.getElementById("new-preset-container") as HTMLDivElement
 
-    val loadoutPresets = json
-        .decodeFromString<Map<String, PlayerLoadoutParameters>>(localStorage.get("loadout-presets") ?: "{}")
-        .toMutableMap()
+    var settings = json
+        .decodeFromString<UserSettings>(localStorage.get("settings") ?: "{}")
 
-    fun saveLoadoutPresets() {
-        localStorage.set("loadout-presets", json.encodeToString(loadoutPresets))
+    fun saveSettings() {
+        settings = settings.copy(timestamp = currentTimeMillis())
+        localStorage.set("settings", json.encodeToString(settings))
     }
 
     var activeActorOptions: ActorOptions? = null
+
+    lateinit var features: SimulatorFeatures
+    lateinit var options: SimulationOptions
 
     private fun toastElement(color: String = "grey", dismissible: Boolean, value: DIV.() -> Unit) =
         document.create.div("toast") {
@@ -168,6 +174,83 @@ class SimulatorClient(val simulator: Simulator) {
         }
     }
 
+    private fun openPresetsModal(
+        save: Boolean = false,
+        load: Boolean = false,
+        delete: Boolean = false,
+        new: Boolean = false,
+    ) {
+        presetList.clear()
+        presetList.run {
+            settings.presets.values.sortedBy { it.name }.forEachIndexed { index, preset ->
+                append.div("d-flex p-1 preset-item") {
+                    id = "preset-$index"
+                    attributes["data-name"] = preset.name
+                    img(classes = "preset-image me-2 my-auto") {
+                        id = "actor-preset-image-$index"
+                        style = "height: 2em;"
+                        src = options.dressesById[preset.dress]?.imagePath ?: ""
+                    }
+                    input(InputType.text, classes = "form-control-plaintext") {
+                        id = "actor-preset-name-$index"
+                        value = preset.name
+                        readonly = true
+                    }
+                    div("d-flex gap-1 ps-1 pe-2") {
+                        if (save) {
+                        button(classes = "btn btn-sm btn-outline-primary") {
+                            id = "actor-preset-save-$index"
+                            i("bi bi-download")
+                            onClickFunction = {
+                                val parameters = activeActorOptions?.parameters?.copy(
+                                    name = preset.name,
+                                )
+                                if (parameters != null) {
+                                    settings.presets[preset.name] = parameters
+                                    saveSettings()
+                                    presetsModalBS.hide()
+                                }
+                            }
+                        }
+                        }
+                        if (load) {
+                            button(classes = "btn btn-sm btn-outline-secondary") {
+                                id = "actor-preset-load-$index"
+                                i("bi bi-upload")
+                                onClickFunction = {
+                                    val parameters = settings.presets[preset.name]
+                                    if (parameters != null) {
+                                        activeActorOptions?.parameters = parameters.copy(
+                                            name = activeActorOptions?.parameters?.name ?: "",
+                                        )
+                                        presetsModalBS.hide()
+                                    }
+                                }
+                            }
+                        }
+                        if (delete) {
+                            button(classes = "btn btn-sm btn-outline-danger") {
+                                id = "actor-preset-delete-$index"
+                                i("bi bi-x-lg")
+                                onClickFunction = {
+                                    settings.presets.remove(preset.name)
+                                    saveSettings()
+                                    document.getElementById("preset-$index")?.remove()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (new) {
+            newPresetContainer.removeClass("d-none")
+        } else {
+            newPresetContainer.addClass("d-none")
+        }
+        presetsModalBS.show()
+    }
+
     suspend fun start() {
         updateVersionString()
 
@@ -185,8 +268,8 @@ class SimulatorClient(val simulator: Simulator) {
             }
         }
 
-        val features = simulator.features()
-        val options = simulator.options()
+        features = simulator.features()
+        options = simulator.options()
 
         val commonText = options.commonText.associateBy { it.id }
         val bosses = options.bosses.associateBy { it.id }
@@ -343,9 +426,8 @@ class SimulatorClient(val simulator: Simulator) {
                                         id = "actor-save-preset-$actorId"
                                         +localized(".text-save-preset-short", "Save")
                                         onClickFunction = {
-                                            val opt = ActorOptions(options, actorId)
-                                            activeActorOptions = opt
-                                            Bootstrap.Modal(document.getElementById("save-preset-modal")).show()
+                                            activeActorOptions = ActorOptions(options, actorId)
+                                            openPresetsModal(save = true, delete = true, new = true)
                                         }
                                     }
                                     +" "
@@ -357,25 +439,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         +localized(".text-load-preset-short", "Load")
                                         onClickFunction = {
                                             activeActorOptions = ActorOptions(options, actorId)
-                                            val dressMapping = options.dresses.associateBy { it.id }
-                                            loadPresetSelect.clear()
-                                            loadPresetSelect.element.run {
-                                                loadoutPresets.keys.sorted().forEach { id ->
-                                                    val split = id.split(":::", limit = 2)
-                                                    val dressName = split[0]
-                                                    val presetName = split[1]
-                                                    add(
-                                                        document.create.option {
-                                                            value = id
-                                                            attributes["data-content"] =
-                                                                "<img style=\"height: 1.65em; margin-top: -0.2em\" src=\"${dressMapping[dressName]?.imagePath}\"> $presetName"
-                                                            +presetName
-                                                        } as HTMLOptionElement
-                                                    )
-                                                }
-                                            }
-                                            loadPresetSelect.refreshSelectPicker()
-                                            Bootstrap.Modal(document.getElementById("load-preset-modal")).show()
+                                            openPresetsModal(load = true)
                                         }
                                     }
                                 }
@@ -450,7 +514,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         +localized(".text-actor-remake", "Remake")
                                     }
                                     +" "
-                                    img(classes="actor-remake-icon") {
+                                    img(classes = "actor-remake-icon") {
                                         id = "actor-remake-icon-$actorId"
                                         style = "height: 0.8em; margin-top: -0.125em"
                                         src = getRemakeLevelHorizontalImagePath(0)
@@ -459,7 +523,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         role = "group"
                                         attributes["data-prev-value"] = "0"
                                         (0..4).forEach { level ->
-                                            input(InputType.radio, classes="btn-check") {
+                                            input(InputType.radio, classes = "btn-check") {
                                                 id = "actor-remake-$actorId-radio-$level"
                                                 name = "actor-remake-$actorId-radio"
                                                 autoComplete = false
@@ -472,23 +536,25 @@ class SimulatorClient(val simulator: Simulator) {
                                                     val prev = opt.remake.element.attributes["data-prev-value"]
                                                         ?.value?.toInt() ?: 0
                                                     val params = opt.parameters
-                                                    val newLevel = if (params.level == 20 + 10 * params.rarity + 5 * prev) {
-                                                        20 + 10 * params.rarity + 5 * params.remake
-                                                    } else {
-                                                        params.level
-                                                    }
-                                                    val newFriendship = if (params.friendship == 5 * params.rarity + 5 * prev) {
-                                                        5 * params.rarity + 5 * params.remake
-                                                    } else {
-                                                        params.friendship
-                                                    }
+                                                    val newLevel =
+                                                        if (params.level == 20 + 10 * params.rarity + 5 * prev) {
+                                                            20 + 10 * params.rarity + 5 * params.remake
+                                                        } else {
+                                                            params.level
+                                                        }
+                                                    val newFriendship =
+                                                        if (params.friendship == 5 * params.rarity + 5 * prev) {
+                                                            5 * params.rarity + 5 * params.remake
+                                                        } else {
+                                                            params.friendship
+                                                        }
                                                     opt.parameters = params.copy(
                                                         level = newLevel,
                                                         friendship = newFriendship
                                                     )
                                                 }
                                             }
-                                            label(classes="btn btn-outline-secondary") {
+                                            label(classes = "btn btn-outline-secondary") {
                                                 htmlFor = "actor-remake-$actorId-radio-$level"
                                                 +"$level"
                                             }
@@ -713,7 +779,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         +localized(".text-memoir-unbind", "Unbind")
                                     }
                                     +" "
-                                    img(classes="actor-memoir-unbind-icon") {
+                                    img(classes = "actor-memoir-unbind-icon") {
                                         id = "actor-memoir-unbind-icon-$actorId"
                                         style = "height: 0.85em; margin-top: -0.15em"
                                         src = getMemoirUnbindLevelHorizontalImagePath(4)
@@ -722,7 +788,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         role = "group"
                                         attributes["data-prev-value"] = "4"
                                         (0..4).forEach { level ->
-                                            input(InputType.radio, classes="btn-check") {
+                                            input(InputType.radio, classes = "btn-check") {
                                                 id = "actor-memoir-unbind-$actorId-radio-$level"
                                                 name = "actor-memoir-unbind-$actorId-radio"
                                                 autoComplete = false
@@ -746,7 +812,7 @@ class SimulatorClient(val simulator: Simulator) {
                                                     )
                                                 }
                                             }
-                                            label(classes="btn btn-outline-secondary") {
+                                            label(classes = "btn btn-outline-secondary") {
                                                 htmlFor = "actor-memoir-unbind-$actorId-radio-$level"
                                                 +"$level"
                                             }
@@ -1097,20 +1163,34 @@ class SimulatorClient(val simulator: Simulator) {
             }
         })
 
-        savePresetConfirmButton.addEventListener("click", {
+        presetSearch.addEventListener("keyup", {
+            val value = presetSearch.value.trim()
+            if (value.isEmpty()) {
+                presetList.children.asList().forEach {
+                    it.removeClass("d-none")
+                }
+                return@addEventListener
+            }
+            presetList.children.asList().forEach {
+                if (it.attributes["data-name"]?.value?.contains(value) == true) {
+                    it.removeClass("d-none")
+                } else {
+                    it.addClass("d-none")
+                }
+            }
+        })
+
+        savePresetButton.addEventListener("click", {
             val param = activeActorOptions?.parameters ?: return@addEventListener
             val name = presetNameInput.value
+            if (name in settings.presets) {
+                toast("Save Preset", "Preset already exists.", "red")
+                return@addEventListener
+            }
             presetNameInput.value = ""
-            loadoutPresets["${param.dress}:::${name}"] = param
-            saveLoadoutPresets()
-        })
-        loadPresetConfirmButton.addEventListener("click", {
-            val preset = loadoutPresets[loadPresetSelect.value] ?: return@addEventListener
-            activeActorOptions?.parameters = preset.copy(name = activeActorOptions?.parameters?.name ?: "")
-        })
-        deletePresetButton.addEventListener("click", {
-            loadoutPresets.remove(loadPresetSelect.value)
-            saveLoadoutPresets()
+            settings.presets[name] = param.copy(name = name)
+            saveSettings()
+            presetsModalBS.hide()
         })
 
         fun updateLocaleText() {

@@ -126,6 +126,11 @@
         .dropdown-menu {
             max-width: 100vw;
         }
+
+        #presets-list {
+            max-height: calc(100vh - 300px);
+            overflow-y: scroll;
+        }
     </style>
 </head>
 <body>
@@ -205,44 +210,32 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal fade" id="load-preset-modal" tabindex="-1" role="dialog">
+                <div class="modal fade" id="presets-modal" data-bs-backdrop="static" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title text-load-preset">Load Preset</h5>
+                                <h5 class="modal-title text-presets">Presets</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <select id="load-preset-select" class="selectpicker form-control" data-live-search="true"></select>
-                            </div>
-                            <div class="modal-footer">
-                                <button id="delete-preset-button" type="button" class="btn btn-danger text-delete" data-bs-dismiss="modal">
-                                    Delete
-                                </button>
-                                <button id="load-preset-button" type="button" class="btn btn-primary text-confirm" data-bs-dismiss="modal">
-                                    Confirm
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal fade" id="save-preset-modal" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title text-save-preset">Save Preset</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <label for="preset-name-input" class="form-label text-name">Name</label>
-                                <input id="preset-name-input" class="form-control" type="text">
-                            </div>
-                            <div class="modal-footer">
-                                <button id="save-preset-button" type="button" class="btn btn-primary text-confirm" data-bs-dismiss="modal">
-                                    Confirm
-                                </button>
+                                <div class="row mb-1">
+                                    <div class="col-12">
+                                        <label for="preset-search" class="form-label text-search">Search</label>
+                                        <input id="preset-search" type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div id="presets-list" class="d-flex flex-column"></div>
+                                <div id="new-preset-container" class="row">
+                                    <div class="col-12">
+                                        <div class="input-group mt-1">
+                                            <input id="new-preset-name-input" class="form-control" type="text">
+                                            <button id="save-new-preset-button" type="button" class="btn btn-primary text-new">
+                                                New
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

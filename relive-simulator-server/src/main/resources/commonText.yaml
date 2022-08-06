@@ -189,3 +189,18 @@
   zh_hant: 按位置排序
 '.text-remake-skill':
   en: Remake Skill
+'.text-presets':
+  en: Presets
+  zh_hant: 預設
+'.text-new-preset':
+  en: New Preset
+  zh_hant: 新預設
+'.text-save-new':
+  en: Save New
+  zh_hant: 儲存新預設
+'.text-search':
+  en: Search
+  zh_hant: 搜尋
+'.text-new':
+  en: New
+  zh_hant: 新增
