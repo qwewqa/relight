@@ -1221,8 +1221,16 @@ class SimulatorClient(val simulator: Simulator) {
 
         sortByPositionButton.addEventListener("click", {
             val setup = getSetup()
-            val dressData = options.dresses.associate { it.id to it.data }
-            setSetup(setup.copy(team = setup.team.sortedBy { dressData[it.dress]!! }))
+            actorTabsDiv.children
+                .asList()
+                .drop(if (guestCheckbox.checked) 1 else 0)
+                .reversed()
+                .zip(setup.team.map { options.dressesById[it.dress]!!.data })
+                .sortedBy { (_, data) -> data }
+                .reversed()
+                .forEach { (tab, _) ->
+                    actorTabsDiv.appendChild(tab)
+                }
         })
 
         addActor() // Start with one already here by default
