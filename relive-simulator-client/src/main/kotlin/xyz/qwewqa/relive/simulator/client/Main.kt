@@ -559,7 +559,7 @@ class SimulatorClient(val simulator: Simulator) {
                                     htmlFor = selectId
                                     +localized(".text-dress", "Dress")
                                 }
-                                select("selectpicker form-control actor-dress") {
+                                select("selectpicker actor-selectpicker-$actorId form-control actor-dress") {
                                     id = selectId
                                     attributes["data-live-search"] = "true"
                                     options.dresses.forEach {
@@ -780,7 +780,7 @@ class SimulatorClient(val simulator: Simulator) {
                                     htmlFor = selectId
                                     +localized(".text-remake-skill", "Remake Skill")
                                 }
-                                select("selectpicker form-control actor-remake-skill") {
+                                select("selectpicker actor-selectpicker-$actorId form-control actor-remake-skill") {
                                     id = selectId
                                     attributes["data-live-search"] = "true"
                                     attributes["disabled"] = "disabled"
@@ -815,7 +815,7 @@ class SimulatorClient(val simulator: Simulator) {
                                     htmlFor = selectId
                                     +localized(".text-memoir", "Memoir")
                                 }
-                                select("selectpicker form-control actor-memoir") {
+                                select("selectpicker actor-selectpicker-$actorId form-control actor-memoir") {
                                     id = selectId
                                     attributes["data-live-search"] = "true"
                                     options.memoirs.forEach {
@@ -955,7 +955,13 @@ class SimulatorClient(val simulator: Simulator) {
         )
         setActiveActor(actorId)
         updateGuestStyling()
-        js("$('.selectpicker').selectpicker()")
+        GlobalScope.launch {
+            js("$")(".actor-selectpicker-$actorId").each { i, ele ->
+                GlobalScope.launch {
+                    js("$")(ele).selectpicker()
+                }
+            }
+        }
         return actorId
     }
 
