@@ -753,9 +753,13 @@ ${
                 }
                 InteractiveCommandType.SEED -> {
                     try {
+                        if (data.isBlank()) {
+                            managedRandom.base = Random(Random.nextInt())
+                        } else {
                         val value = data.toInt()
-                        // This is to match behavior with the sim ui seed option
-                        managedRandom.base = Random(Random(value).nextInt())
+                            // This is to match behavior with the sim ui seed option
+                            managedRandom.base = Random(Random(value).nextInt())
+                        }
                         log("Seed") { "Updated seed." }
                     } catch (e: NumberFormatException) {
                         log("Seed") { "Error: Invalid seed." }
@@ -1509,6 +1513,7 @@ enum class InteractiveCommandType(
         aliases = listOf("sd"),
         synopsis = """
             seed value
+            seed
         """.trimIndent(),
         description = """
             Set the rng seed to the given value.
@@ -1516,6 +1521,8 @@ enum class InteractiveCommandType(
         examples = """
             Sets the seed to 123.
                 seed 123
+            Randomizes the seed.
+                seed
         """.trimIndent(),
     ),
     EXPORT(

@@ -1325,6 +1325,17 @@ class SimulatorClient(val simulator: Simulator) {
                 interactiveSimulation?.sendCommand((e as CustomEvent).detail as String)
             }
         })
+        document.getElementsByClassName("interactive-shortcut-button")
+            .asList()
+            .filterIsInstance<HTMLButtonElement>()
+            .forEach { button ->
+                val command = button.attributes["data-interactive-command"]?.value?.trim() ?: return@forEach
+                button.onclick = {
+                    GlobalScope.launch {
+                        interactiveSimulation?.sendCommand(command)
+                    }
+                }
+            }
 
         presetSearch.addEventListener("keyup", {
             val value = presetSearch.value.trim()

@@ -621,13 +621,49 @@
                 </div>
             </div>
             <div class="row" id="interactive-input-row">
-                <div class="input-group">
-                    <input id="interactive-input" class="form-control" value="" type="text" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="off" name="interactive-input">
-                    <button id="interactive-send-button" class="btn btn-outline-secondary" type="button"><i
-                            class="bi-send"></i></button>
+                <div class="col-12">
+                    <div class="input-group">
+                        <input id="interactive-input" class="form-control" value="" type="text" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="off" name="interactive-input">
+                        <button id="interactive-send-button" class="btn btn-outline-secondary" type="button"><i
+                                class="bi-send"></i></button>
+                    </div>
                 </div>
             </div>
-            <div class="" id="interactive-status-container"></div>
+            <div class="row" id="interactive-shortcuts-row">
+                <div class="col-auto ms-auto my-1">
+                    <div class="input-group">
+                        <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                data-interactive-command="undo"
+                                type="button">
+                            <i class="bi bi-arrow-counterclockwise"></i></button>
+                        <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                data-interactive-command="save temp"
+                                type="button">
+                            <i class="bi bi-download"></i></button>
+                        <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                data-interactive-command="load temp"
+                                type="button">
+                            <i class="bi bi-upload"></i></button>
+                        <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                data-interactive-command="export strict"
+                                type="button">
+                            <i class="bi bi-box-arrow-up-right"></i></button>
+                        <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                data-interactive-command="seed"
+                                type="button">
+                            <i class="bi bi-shuffle"></i></button>
+                        <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                data-interactive-command="info"
+                                type="button">
+                            <i class="bi bi-info-circle"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="" id="interactive-status-container"></div>
+                </div>
+            </div>
         </div>
         <div id="results">
             <div class="row d-none" id="results-row">
