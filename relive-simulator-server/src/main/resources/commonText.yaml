@@ -213,3 +213,6 @@
 '.text-options':
   en: Options
   zh_hant: 選項
+'.text-all':
+  en: All
+  zh_hant: 全部

@@ -104,6 +104,14 @@ class SimulatorClient(val simulator: Simulator) {
     val importPresetsText = document.getElementById("import-presets-text") as HTMLTextAreaElement
     val doImportPresetsButton = document.getElementById("do-import-presets-button") as HTMLButtonElement
 
+    val selectPresetsModal = document.getElementById("select-presets-modal") as HTMLDivElement
+    val selectPresetsModalBS = Bootstrap.Modal(selectPresetsModal)
+    val selectPresetsList = document.getElementById("select-presets-list") as HTMLDivElement
+    val selectPresetsSearch = document.getElementById("select-presets-search") as HTMLInputElement
+    val confirmSelectPresetsButton = document.getElementById("confirm-select-presets-button") as HTMLButtonElement
+    val selectPrestsAllYesButton = document.getElementById("select-presets-all-yes-button") as HTMLButtonElement
+    val selectPrestsAllNoButton = document.getElementById("select-presets-all-no-button") as HTMLButtonElement
+
     var settings = json
         .decodeFromString<UserSettings>(localStorage.get("settings") ?: "{}")
 
@@ -223,21 +231,21 @@ class SimulatorClient(val simulator: Simulator) {
                     }
                     div("d-flex gap-1 ps-1 pe-2") {
                         if (save) {
-                        button(classes = "btn btn-sm btn-outline-primary") {
-                            id = "actor-preset-save-$index"
-                            i("bi bi-download")
-                            onClickFunction = {
-                                val parameters = activeActorOptions?.parameters?.copy(
-                                    name = preset.name,
-                                )
-                                if (parameters != null) {
-                                    reloadSettings()
-                                    settings.presets[preset.name] = parameters
-                                    saveSettings()
-                                    presetsModalBS.hide()
+                            button(classes = "btn btn-sm btn-outline-primary") {
+                                id = "actor-preset-save-$index"
+                                i("bi bi-download")
+                                onClickFunction = {
+                                    val parameters = activeActorOptions?.parameters?.copy(
+                                        name = preset.name,
+                                    )
+                                    if (parameters != null) {
+                                        reloadSettings()
+                                        settings.presets[preset.name] = parameters
+                                        saveSettings()
+                                        presetsModalBS.hide()
+                                    }
                                 }
                             }
-                        }
                         }
                         if (load) {
                             button(classes = "btn btn-sm btn-outline-secondary") {
@@ -285,6 +293,70 @@ class SimulatorClient(val simulator: Simulator) {
             newPresetContainer.addClass("d-none")
         }
         presetsModalBS.show()
+    }
+
+    private fun openPresetsSelectModal(
+        presets: List<PlayerLoadoutParameters>,
+        defaultSelected: Boolean = false,
+        callback: (List<PlayerLoadoutParameters>) -> Unit,
+    ) {
+        selectPresetsList.clear()
+        selectPresetsList.run {
+            presets.sortedBy { it.name }.forEachIndexed { index, preset ->
+                append.div("d-flex p-1 preset-item") {
+                    id = "preset-$index"
+                    attributes["data-name"] = preset.name
+                    img(classes = "preset-image me-2 my-auto") {
+                        id = "actor-preset-image-$index"
+                        style = "height: 2em;"
+                        src = options.dressesById[preset.dress]?.imagePath ?: ""
+                    }
+                    input(InputType.text, classes = "form-control-plaintext") {
+                        id = "actor-preset-name-$index"
+                        value = preset.name
+                        readonly = true
+                    }
+                    div("d-flex gap-1 ps-1 pe-2") {
+                        role = "group"
+                        input(InputType.radio, classes="btn-check select-presets-yes-button") {
+                            id = "actor-preset-select-$index-yes"
+                            autoComplete = false
+                            name = "actor-preset-select-radio-$index"
+                            value = preset.name
+                            if (defaultSelected) {
+                                checked = true
+                            }
+                        }
+                        label("btn btn-sm btn-outline-success") {
+                            htmlFor = "actor-preset-select-$index-yes"
+                            i("bi bi-check-lg align-middle")
+                        }
+                        input(InputType.radio, classes="btn-check select-presets-no-button") {
+                            id = "actor-preset-select-$index-no"
+                            autoComplete = false
+                            name = "actor-preset-select-radio-$index"
+                            value = preset.name
+                            if (!defaultSelected) {
+                                checked = true
+                            }
+                        }
+                        label("btn btn-sm btn-outline-danger") {
+                            htmlFor = "actor-preset-select-$index-no"
+                            i("bi bi-x-lg align-middle")
+                        }
+                    }
+                }
+            }
+        }
+        confirmSelectPresetsButton.onclick = {
+            val selected = selectPresetsList.querySelectorAll(".select-presets-yes-button:checked")
+                .asList()
+                .filterIsInstance<HTMLInputElement>()
+            val selectedNames = selected.map { it.value }.toSet()
+            callback(presets.filter { it.name in selectedNames })
+            selectPresetsModalBS.hide()
+        }
+        selectPresetsModalBS.show()
     }
 
     var activeActorId: Int? = null
@@ -1225,6 +1297,37 @@ class SimulatorClient(val simulator: Simulator) {
             }
         })
 
+        selectPresetsSearch.addEventListener("keyup", {
+            val value = selectPresetsSearch.value.trim()
+            if (value.isEmpty()) {
+                selectPresetsList.children.asList().forEach {
+                    it.removeClass("d-none")
+                }
+                return@addEventListener
+            }
+            selectPresetsList.children.asList().forEach {
+                if (it.attributes["data-name"]?.value?.contains(value) == true) {
+                    it.removeClass("d-none")
+                } else {
+                    it.addClass("d-none")
+                }
+            }
+        })
+
+        selectPrestsAllYesButton.addEventListener("click", {
+            selectPresetsList.children.asList().filter { !it.hasClass("d-none") }.forEach { entry ->
+                (entry.getElementsByClassName("select-presets-yes-button")[0] as HTMLInputElement).checked = true
+                (entry.getElementsByClassName("select-presets-no-button")[0] as HTMLInputElement).checked = false
+            }
+        })
+
+        selectPrestsAllNoButton.addEventListener("click", {
+            selectPresetsList.children.asList().filter { !it.hasClass("d-none") }.forEach { entry ->
+                (entry.getElementsByClassName("select-presets-yes-button")[0] as HTMLInputElement).checked = false
+                (entry.getElementsByClassName("select-presets-no-button")[0] as HTMLInputElement).checked = true
+            }
+        })
+
         savePresetButton.addEventListener("click", {
             val param = activeActorOptions?.parameters ?: return@addEventListener
             val name = presetNameInput.value
@@ -1239,24 +1342,19 @@ class SimulatorClient(val simulator: Simulator) {
             presetsModalBS.hide()
         })
 
-        var sharingPresets = false
         sharePresetsButton.addEventListener("click", {
-            if (sharingPresets) {
-                return@addEventListener
-            }
             reloadSettings()
             val presets = settings.presets.values.toList()
-            sharingPresets = true
-            GlobalScope.launch {
-                try {
-                    val id = api.createPresets(presets)
-                    sharePresetsText.textContent = id
-                    sharePresetsModalBS.show()
-                } catch (e: Throwable) {
-                    toast("Share Presets", "Failed to share presets.", "red")
-                    throw e
-                } finally {
-                    sharingPresets = false
+            openPresetsSelectModal(presets, defaultSelected = false) { selected ->
+                GlobalScope.launch {
+                    try {
+                        val id = api.createPresets(selected)
+                        sharePresetsText.textContent = id
+                        sharePresetsModalBS.show()
+                    } catch (e: Throwable) {
+                        toast("Share Presets", "Failed to share presets.", "red")
+                        throw e
+                    }
                 }
             }
         })
@@ -1273,12 +1371,14 @@ class SimulatorClient(val simulator: Simulator) {
                         throw Exception("No ID provided.")
                     }
                     val presets = api.getPresets(id)
-                    reloadSettings()
-                    presets.forEach { settings.presets[it.name] = it }
-                    saveSettings()
-                    importPresetsModalBS.hide()
-                    importPresetsText.value = ""
-                    toast("Import Presets", "Presets imported.", "green")
+                    openPresetsSelectModal(presets, defaultSelected = true) { selected ->
+                        reloadSettings()
+                        settings.presets.putAll(selected.associateBy { it.name })
+                        saveSettings()
+                        importPresetsModalBS.hide()
+                        importPresetsText.value = ""
+                        toast("Import Presets", "Presets imported.", "green")
+                    }
                 } catch (e: Throwable) {
                     toast("Import Presets", "Failed to import presets.", "red")
                     throw e
