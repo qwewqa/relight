@@ -216,3 +216,6 @@
 '.text-all':
   en: All
   zh_hant: 全部
+'.text-import-presets':
+    en: Import Presets
+    zh_hant: 匯入預設
