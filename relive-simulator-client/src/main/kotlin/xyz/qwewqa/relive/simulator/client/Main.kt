@@ -244,9 +244,11 @@ class SimulatorClient(val simulator: Simulator) {
                                 id = "actor-preset-load-$index"
                                 i("bi bi-upload")
                                 onClickFunction = {
-                                    if (activeActorOptions != null) {
-                                        activeActorOptions?.parameters = preset.copy(
-                                            name = activeActorOptions?.parameters?.name ?: "",
+                                    val current = activeActorOptions
+                                    if (current != null) {
+                                        current.parameters = preset.copy(
+                                            name = current.parameters.name,
+                                            memoir = if (preset.memoir == "None") current.parameters.memoir else preset.memoir,
                                         )
                                         presetsModalBS.hide()
                                     } else {
