@@ -245,10 +245,13 @@ class SimulatorClient(val simulator: Simulator) {
                                 i("bi bi-upload")
                                 onClickFunction = {
                                     val current = activeActorOptions
+                                    val retainMemoir = preset.memoir == "None"
                                     if (current != null) {
                                         current.parameters = preset.copy(
                                             name = current.parameters.name,
-                                            memoir = if (preset.memoir == "None") current.parameters.memoir else preset.memoir,
+                                            memoir = if (retainMemoir) current.parameters.memoir else preset.memoir,
+                                            memoirLevel = if (retainMemoir) current.parameters.memoirLevel else preset.memoirLevel,
+                                            memoirLimitBreak = if (retainMemoir) current.parameters.memoirLimitBreak else preset.memoirLimitBreak,
                                         )
                                         presetsModalBS.hide()
                                     } else {
