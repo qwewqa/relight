@@ -98,6 +98,7 @@ class SimulatorClient(val simulator: Simulator) {
     val sharePresetsModal = document.getElementById("share-presets-modal") as HTMLDivElement
     val sharePresetsModalBS = Bootstrap.Modal(sharePresetsModal)
     val sharePresetsText = document.getElementById("share-presets-text") as HTMLTextAreaElement
+    val sharePresetsUrlText = document.getElementById("share-presets-url-text") as HTMLTextAreaElement
     val importPresetsButton = document.getElementById("import-presets-button") as HTMLButtonElement
     val importPresetsModal = document.getElementById("import-presets-modal") as HTMLDivElement
     val importPresetsModalBS = Bootstrap.Modal(importPresetsModal)
@@ -357,6 +358,28 @@ class SimulatorClient(val simulator: Simulator) {
             selectPresetsModalBS.hide()
         }
         selectPresetsModalBS.show()
+    }
+
+    fun startPresetsImport(id: String) {
+        GlobalScope.launch {
+            try {
+                if (id.isEmpty()) {
+                    throw Exception("No ID provided.")
+                }
+                val presets = api.getPresets(id)
+                openPresetsSelectModal(presets, defaultSelected = true) { selected ->
+                    reloadSettings()
+                    settings.presets.putAll(selected.associateBy { it.name })
+                    saveSettings()
+                    importPresetsModalBS.hide()
+                    importPresetsText.value = ""
+                    toast("Import Presets", "Presets imported.", "green")
+                }
+            } catch (e: Throwable) {
+                toast("Import Presets", "Failed to import presets.", "red")
+                throw e
+            }
+        }
     }
 
     var activeActorId: Int? = null
@@ -1016,10 +1039,13 @@ class SimulatorClient(val simulator: Simulator) {
         updateUrlForSetup(setup)
     }
 
-    fun updateSetupFromUrl(url: String) {
-        val urlOptions = URL(url).search.substring(1).split("&").firstOrNull {
-            "options=.*".toRegex().matches(it)
-        }?.split("=")?.lastOrNull()
+    fun getUrlParameter(url: String, name: String): String? {
+        val regex = Regex("[?&]$name=([^&]*)")
+        return regex.find(URL(url).search)?.groupValues?.get(1)
+    }
+
+    fun updateSetupFromUrl(url: String = window.location.href) {
+        val urlOptions = getUrlParameter(url, "options")
         if (urlOptions != null) {
             try {
                 setSetup(json.decodeFromString(compressor.decompressFromEncodedURIComponent(urlOptions)))
@@ -1030,12 +1056,27 @@ class SimulatorClient(val simulator: Simulator) {
         }
     }
 
-    fun updateSetupFromUrl() {
-        updateSetupFromUrl(window.location.href)
+    fun importPresetsFromUrl(url: String = window.location.href) {
+        val urlPresetsId = getUrlParameter(url, "import-presets")?.trim()
+        if (urlPresetsId != null) {
+            startPresetsImport(urlPresetsId)
+        }
+    }
+
+    fun handleFirstLoadUrlOptions() {
+        updateSetupFromUrl()
+        importPresetsFromUrl()
+    }
+
+    fun urlWithQuery(parameters: Map<String, String>): String {
+        val paramString = parameters.asSequence().joinToString("&") { (key, value) ->
+            "$key=$value"
+        }
+        return "$baseHref?$paramString"
     }
 
     fun updateUrlForSetup(setup: SimulationParameters) {
-        val newUrl = "$baseHref?options=${compressor.compressToEncodedURIComponent(json.encodeToString(setup))}"
+        val newUrl = urlWithQuery(mapOf("options" to compressor.compressToEncodedURIComponent(json.encodeToString(setup))))
         if (newUrl != window.location.href) {
             if (newUrl.length <= 8192) {
                 window.history.pushState(null, "", newUrl)
@@ -1137,6 +1178,11 @@ class SimulatorClient(val simulator: Simulator) {
         sharePresetsText.addEventListener("click", {
             sharePresetsText.focus()
             sharePresetsText.select()
+        })
+
+        sharePresetsUrlText.addEventListener("click", {
+            sharePresetsUrlText.focus()
+            sharePresetsUrlText.select()
         })
 
         doImportButton.addEventListener("click", {
@@ -1350,6 +1396,7 @@ class SimulatorClient(val simulator: Simulator) {
                     try {
                         val id = api.createPresets(selected)
                         sharePresetsText.textContent = id
+                        sharePresetsUrlText.textContent = urlWithQuery(mapOf("import-presets" to id))
                         sharePresetsModalBS.show()
                     } catch (e: Throwable) {
                         toast("Share Presets", "Failed to share presets.", "red")
@@ -1364,25 +1411,11 @@ class SimulatorClient(val simulator: Simulator) {
         })
 
         doImportPresetsButton.addEventListener("click", {
-            GlobalScope.launch {
-                try {
-                    val id = importPresetsText.value.trim()
-                    if (id.isEmpty()) {
-                        throw Exception("No ID provided.")
-                    }
-                    val presets = api.getPresets(id)
-                    openPresetsSelectModal(presets, defaultSelected = true) { selected ->
-                        reloadSettings()
-                        settings.presets.putAll(selected.associateBy { it.name })
-                        saveSettings()
-                        importPresetsModalBS.hide()
-                        importPresetsText.value = ""
-                        toast("Import Presets", "Presets imported.", "green")
-                    }
-                } catch (e: Throwable) {
-                    toast("Import Presets", "Failed to import presets.", "red")
-                    throw e
-                }
+            val id = importPresetsText.value.trim()
+            if (id.startsWith("http")) {
+                importPresetsFromUrl(id)
+            } else {
+                startPresetsImport(id)
             }
         })
 
@@ -1445,7 +1478,7 @@ class SimulatorClient(val simulator: Simulator) {
             updateLocaleText()
         })
 
-        updateSetupFromUrl()
+        handleFirstLoadUrlOptions()
 
         updateLocaleText()
         refreshSelectPicker()
