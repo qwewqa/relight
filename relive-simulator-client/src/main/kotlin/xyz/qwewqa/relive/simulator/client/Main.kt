@@ -956,10 +956,10 @@ class SimulatorClient(val simulator: Simulator) {
         setActiveActor(actorId)
         updateGuestStyling()
         GlobalScope.launch {
-            js("$")(".actor-selectpicker-$actorId").each { i, ele ->
-                GlobalScope.launch {
-                    js("$")(ele).selectpicker()
-                }
+            val elements = js("$")(".actor-selectpicker-$actorId").toArray() as Array<dynamic>
+            for (element in elements) {
+                delay(4)
+                js("$")(element).selectpicker()
             }
         }
         return actorId
