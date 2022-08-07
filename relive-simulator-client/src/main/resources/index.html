@@ -210,6 +210,48 @@
                         </div>
                     </div>
                 </div>
+                <div class="modal fade" id="share-presets-modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-share-presets">Share Presets</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <textarea id="share-presets-text" class="form-control text-monospace" rows="1"
+                                          readonly></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary text-close-dialog" data-bs-dismiss="modal">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="import-presets-modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-import">Import</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <textarea id="import-presets-text" class="form-control text-monospace" rows="1"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary text-close-dialog"
+                                        data-bs-dismiss="modal">Close
+                                </button>
+                                <button type="button" class="btn btn-primary text-import" id="do-import-presets-button"
+                                        data-bs-dismiss="modal">Import
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="modal fade" id="presets-modal" data-bs-backdrop="static" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -243,6 +285,19 @@
             </div>
         </div>
         <form>
+            <div class="row mt-2 mb-1">
+                <div class="col-12">
+                    <h4 class="text-options">Options</h4>
+                </div>
+                <div class="col-auto me-auto">
+                    <button id="share-presets-button" type="button" class="btn btn-primary text-share-presets">
+                        Share Presets
+                    </button>
+                    <button id="import-presets-button" type="button" class="btn btn-secondary text-import-presets">
+                        Import Presets
+                    </button>
+                </div>
+            </div>
             <div class="row my-2 gy-2">
                 <div class="col-12">
                     <h4 class="text-stage-configuration">Stage Configuration</h4>

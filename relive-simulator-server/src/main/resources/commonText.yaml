@@ -207,3 +207,9 @@
 '.text-add-actor-from-preset':
   en: Load Preset
   zh_hant: 從預設添加
+'.text-share-presets':
+  en: Share Presets
+  zh_hant: 分享預設
+'.text-options':
+  en: Options
+  zh_hant: 選項

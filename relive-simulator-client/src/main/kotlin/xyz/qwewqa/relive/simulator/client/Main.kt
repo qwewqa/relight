@@ -35,6 +35,8 @@ class SimulatorClient(val simulator: Simulator) {
     var simulation: Simulation? = null
     var done = false
 
+    val api = RelightApi()
+
     var interactiveSimulation: InteractiveSimulation? = null
 
     val versionLink = document.getElementById("version-link") as HTMLAnchorElement
@@ -92,8 +94,23 @@ class SimulatorClient(val simulator: Simulator) {
     val savePresetButton = document.getElementById("save-new-preset-button") as HTMLButtonElement
     val newPresetContainer = document.getElementById("new-preset-container") as HTMLDivElement
 
+    val sharePresetsButton = document.getElementById("share-presets-button") as HTMLButtonElement
+    val sharePresetsModal = document.getElementById("share-presets-modal") as HTMLDivElement
+    val sharePresetsModalBS = Bootstrap.Modal(sharePresetsModal)
+    val sharePresetsText = document.getElementById("share-presets-text") as HTMLTextAreaElement
+    val importPresetsButton = document.getElementById("import-presets-button") as HTMLButtonElement
+    val importPresetsModal = document.getElementById("import-presets-modal") as HTMLDivElement
+    val importPresetsModalBS = Bootstrap.Modal(importPresetsModal)
+    val importPresetsText = document.getElementById("import-presets-text") as HTMLTextAreaElement
+    val doImportPresetsButton = document.getElementById("do-import-presets-button") as HTMLButtonElement
+
     var settings = json
         .decodeFromString<UserSettings>(localStorage.get("settings") ?: "{}")
+
+    fun reloadSettings() {
+        settings = json
+            .decodeFromString(localStorage.get("settings") ?: "{}")
+    }
 
     fun saveSettings() {
         settings = settings.copy(timestamp = currentTimeMillis())
@@ -187,6 +204,7 @@ class SimulatorClient(val simulator: Simulator) {
         delete: Boolean = false,
         new: Boolean = false,
     ) {
+        reloadSettings()
         presetList.clear()
         presetList.run {
             settings.presets.values.sortedBy { it.name }.forEachIndexed { index, preset ->
@@ -213,6 +231,7 @@ class SimulatorClient(val simulator: Simulator) {
                                     name = preset.name,
                                 )
                                 if (parameters != null) {
+                                    reloadSettings()
                                     settings.presets[preset.name] = parameters
                                     saveSettings()
                                     presetsModalBS.hide()
@@ -244,6 +263,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 id = "actor-preset-delete-$index"
                                 i("bi bi-x-lg")
                                 onClickFunction = {
+                                    reloadSettings()
                                     settings.presets.remove(preset.name)
                                     saveSettings()
                                     document.getElementById("preset-$index")?.remove()
@@ -1037,6 +1057,11 @@ class SimulatorClient(val simulator: Simulator) {
             exportText.select()
         })
 
+        sharePresetsText.addEventListener("click", {
+            sharePresetsText.focus()
+            sharePresetsText.select()
+        })
+
         doImportButton.addEventListener("click", {
             try {
                 val data = importText.value
@@ -1062,7 +1087,7 @@ class SimulatorClient(val simulator: Simulator) {
 
         addActorFromPresetButton.addEventListener("click", {
             activeActorOptions = null
-            openPresetsModal(load = true)
+            openPresetsModal(load = true, delete = true)
         })
 
         sortByPositionButton.addEventListener("click", {
@@ -1203,9 +1228,57 @@ class SimulatorClient(val simulator: Simulator) {
                 return@addEventListener
             }
             presetNameInput.value = ""
+            reloadSettings()
             settings.presets[name] = param.copy(name = name)
             saveSettings()
             presetsModalBS.hide()
+        })
+
+        var sharingPresets = false
+        sharePresetsButton.addEventListener("click", {
+            if (sharingPresets) {
+                return@addEventListener
+            }
+            reloadSettings()
+            val presets = settings.presets.values.toList()
+            sharingPresets = true
+            GlobalScope.launch {
+                try {
+                    val id = api.createPresets(presets)
+                    sharePresetsText.textContent = id
+                    sharePresetsModalBS.show()
+                } catch (e: Throwable) {
+                    toast("Share Presets", "Failed to share presets.", "red")
+                    throw e
+                } finally {
+                    sharingPresets = false
+                }
+            }
+        })
+
+        importPresetsButton.addEventListener("click", {
+            importPresetsModalBS.show()
+        })
+
+        doImportPresetsButton.addEventListener("click", {
+            GlobalScope.launch {
+                try {
+                    val id = importPresetsText.value.trim()
+                    if (id.isEmpty()) {
+                        throw Exception("No ID provided.")
+                    }
+                    val presets = api.getPresets(id)
+                    reloadSettings()
+                    presets.forEach { settings.presets[it.name] = it }
+                    saveSettings()
+                    importPresetsModalBS.hide()
+                    importPresetsText.value = ""
+                    toast("Import Presets", "Presets imported.", "green")
+                } catch (e: Throwable) {
+                    toast("Import Presets", "Failed to import presets.", "red")
+                    throw e
+                }
+            }
         })
 
         fun updateLocaleText() {
