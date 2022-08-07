@@ -566,7 +566,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         option {
                                             attributes["data-content"] = "${
                                                 if (it.imagePath != null) {
-                                                    "<img style=\"height: 1.65em; margin-top: -0.2em\" src=\"${it.imagePath}\"> "
+                                                    "<img style=\"height: 1.5em\" src=\"${it.imagePath}\"> "
                                                 } else {
                                                     ""
                                                 }
@@ -788,7 +788,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         option {
                                             attributes["data-content"] = "${
                                                 if (it.imagePath != null) {
-                                                    "<img style=\"height: 1.65em; margin-top: -0.2em\" src=\"${it.imagePath}\"> "
+                                                    "<img style=\"height: 1.5em\" src=\"${it.imagePath}\"> "
                                                 } else {
                                                     ""
                                                 }
@@ -824,7 +824,7 @@ class SimulatorClient(val simulator: Simulator) {
                                             val description = it.description?.get(locale)
                                             attributes["data-content"] = "${
                                                 if (it.imagePath != null) {
-                                                    "<img style=\"height: 1.65em; margin-top: -0.2em\" src=\"${it.imagePath}\"> "
+                                                    "<img style=\"height: 1.5em\" src=\"${it.imagePath}\"> "
                                                 } else {
                                                     ""
                                                 }

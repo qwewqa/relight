@@ -149,7 +149,7 @@ sealed class Select(val element: HTMLSelectElement) {
                         "data-content",
                         "${
                             if (option?.imagePath != null) {
-                                "<img style=\"height: 1.65em; margin-top: -0.2em\" src=\"${option.imagePath}\"> "
+                                "<img style=\"height: 1.5em\" src=\"${option.imagePath}\"> "
                             } else {
                                 ""
                             }
