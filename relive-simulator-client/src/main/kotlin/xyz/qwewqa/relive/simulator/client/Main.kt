@@ -328,9 +328,9 @@ class SimulatorClient(val simulator: Simulator) {
                                 checked = true
                             }
                         }
-                        label("btn btn-sm btn-outline-success") {
+                        label("btn btn-sm btn-outline-success d-flex align-items-center") {
                             htmlFor = "actor-preset-select-$index-yes"
-                            i("bi bi-check-lg align-middle")
+                            i("bi bi-check-lg")
                         }
                         input(InputType.radio, classes="btn-check select-presets-no-button") {
                             id = "actor-preset-select-$index-no"
@@ -341,9 +341,9 @@ class SimulatorClient(val simulator: Simulator) {
                                 checked = true
                             }
                         }
-                        label("btn btn-sm btn-outline-danger") {
+                        label("btn btn-sm btn-outline-danger success d-flex align-items-center") {
                             htmlFor = "actor-preset-select-$index-no"
-                            i("bi bi-x-lg align-middle")
+                            i("bi bi-x-lg")
                         }
                     }
                 }
