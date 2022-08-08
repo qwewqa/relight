@@ -43,6 +43,9 @@ suspend fun main() {
                 +"No running local simulator server or incompatible version found. Falling back to JS simulator"
             }
         }
+        client.toast("Info") {
+            +"Please wait while the simulator loads."
+        }
         client.start()
     }
 }
