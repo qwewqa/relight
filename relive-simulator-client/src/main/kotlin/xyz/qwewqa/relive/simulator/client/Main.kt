@@ -349,7 +349,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 PresetStatus.REDUNDANT -> ""
                             }
                             val yesButtonIcon = when (status) {
-                                PresetStatus.NORMAL -> "bi-check"
+                                PresetStatus.NORMAL -> "bi-check-lg"
                                 PresetStatus.NEW -> "bi-plus-lg"
                                 PresetStatus.OVERRIDING -> "bi-exclamation-lg"
                                 PresetStatus.REDUNDANT -> ""
@@ -361,7 +361,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 PresetStatus.REDUNDANT -> ""
                             }
                             val noButtonIcon = when (status) {
-                                PresetStatus.NORMAL -> "bi-x"
+                                PresetStatus.NORMAL -> "bi-x-lg"
                                 PresetStatus.NEW -> "bi-slash-circle"
                                 PresetStatus.OVERRIDING -> "bi-slash-circle"
                                 PresetStatus.REDUNDANT -> ""
