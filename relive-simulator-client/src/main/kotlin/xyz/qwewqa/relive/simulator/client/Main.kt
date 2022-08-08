@@ -296,14 +296,31 @@ class SimulatorClient(val simulator: Simulator) {
         presetsModalBS.show()
     }
 
+    private enum class PresetStatus {
+        NORMAL,
+        NEW,
+        OVERRIDING,
+        REDUNDANT,
+    }
+
     private fun openPresetsSelectModal(
         presets: List<PlayerLoadoutParameters>,
+        defaultSelected: Boolean = false,
+        callback: (List<PlayerLoadoutParameters>) -> Unit,
+    ) = openPresetsSelectModal(
+        presets.map { it to PresetStatus.NORMAL },
+        defaultSelected,
+        callback
+    )
+
+    private fun openPresetsSelectModal(
+        presets: List<Pair<PlayerLoadoutParameters, PresetStatus>>,
         defaultSelected: Boolean = false,
         callback: (List<PlayerLoadoutParameters>) -> Unit,
     ) {
         selectPresetsList.clear()
         selectPresetsList.run {
-            presets.sortedBy { it.name }.forEachIndexed { index, preset ->
+            presets.sortedBy { (preset, _) -> preset.name }.forEachIndexed { index, (preset, status) ->
                 append.div("d-flex p-1 preset-item") {
                     id = "preset-$index"
                     attributes["data-name"] = preset.name
@@ -319,31 +336,62 @@ class SimulatorClient(val simulator: Simulator) {
                     }
                     div("d-flex gap-1 ps-1 pe-2") {
                         role = "group"
-                        input(InputType.radio, classes="btn-check select-presets-yes-button") {
-                            id = "actor-preset-select-$index-yes"
-                            autoComplete = false
-                            name = "actor-preset-select-radio-$index"
-                            value = preset.name
-                            if (defaultSelected) {
-                                checked = true
+                        if (status == PresetStatus.REDUNDANT) {
+                            button(classes ="btn btn-sm btn-secondary d-flex align-items-center") {
+                                disabled = true
+                                i("bi bi-slash-circle")
                             }
-                        }
-                        label("btn btn-sm btn-outline-success d-flex align-items-center") {
-                            htmlFor = "actor-preset-select-$index-yes"
-                            i("bi bi-check-lg")
-                        }
-                        input(InputType.radio, classes="btn-check select-presets-no-button") {
-                            id = "actor-preset-select-$index-no"
-                            autoComplete = false
-                            name = "actor-preset-select-radio-$index"
-                            value = preset.name
-                            if (!defaultSelected) {
-                                checked = true
+                        } else {
+                            val yesButtonClass = when (status) {
+                                PresetStatus.NORMAL -> "btn-outline-success"
+                                PresetStatus.NEW -> "btn-outline-primary"
+                                PresetStatus.OVERRIDING -> "btn-outline-warning"
+                                PresetStatus.REDUNDANT -> ""
                             }
-                        }
-                        label("btn btn-sm btn-outline-danger success d-flex align-items-center") {
-                            htmlFor = "actor-preset-select-$index-no"
-                            i("bi bi-x-lg")
+                            val yesButtonIcon = when (status) {
+                                PresetStatus.NORMAL -> "bi-check"
+                                PresetStatus.NEW -> "bi-plus-lg"
+                                PresetStatus.OVERRIDING -> "bi-exclamation-lg"
+                                PresetStatus.REDUNDANT -> ""
+                            }
+                            val noButtonClass = when (status) {
+                                PresetStatus.NORMAL -> "btn-outline-danger"
+                                PresetStatus.NEW -> "btn-outline-secondary"
+                                PresetStatus.OVERRIDING -> "btn-outline-secondary"
+                                PresetStatus.REDUNDANT -> ""
+                            }
+                            val noButtonIcon = when (status) {
+                                PresetStatus.NORMAL -> "bi-x"
+                                PresetStatus.NEW -> "bi-slash-circle"
+                                PresetStatus.OVERRIDING -> "bi-slash-circle"
+                                PresetStatus.REDUNDANT -> ""
+                            }
+                            input(InputType.radio, classes = "btn-check select-presets-yes-button") {
+                                id = "actor-preset-select-$index-yes"
+                                autoComplete = false
+                                name = "actor-preset-select-radio-$index"
+                                value = preset.name
+                                if (defaultSelected) {
+                                    checked = true
+                                }
+                            }
+                            label("btn btn-sm $yesButtonClass d-flex align-items-center") {
+                                htmlFor = "actor-preset-select-$index-yes"
+                                i("bi $yesButtonIcon")
+                            }
+                            input(InputType.radio, classes = "btn-check select-presets-no-button") {
+                                id = "actor-preset-select-$index-no"
+                                autoComplete = false
+                                name = "actor-preset-select-radio-$index"
+                                value = preset.name
+                                if (!defaultSelected) {
+                                    checked = true
+                                }
+                            }
+                            label("btn btn-sm $noButtonClass success d-flex align-items-center") {
+                                htmlFor = "actor-preset-select-$index-no"
+                                i("bi $noButtonIcon")
+                            }
                         }
                     }
                 }
@@ -354,20 +402,29 @@ class SimulatorClient(val simulator: Simulator) {
                 .asList()
                 .filterIsInstance<HTMLInputElement>()
             val selectedNames = selected.map { it.value }.toSet()
-            callback(presets.filter { it.name in selectedNames })
+            callback(presets.map { it.first }.filter { it.name in selectedNames })
             selectPresetsModalBS.hide()
         }
         selectPresetsModalBS.show()
     }
 
-    fun startPresetsImport(id: String) {
+    private fun startPresetsImport(id: String) {
         GlobalScope.launch {
             try {
                 if (id.isEmpty()) {
                     throw Exception("No ID provided.")
                 }
                 val presets = api.getPresets(id)
-                openPresetsSelectModal(presets, defaultSelected = true) { selected ->
+                reloadSettings()
+                val presetStatuses = presets.map {
+                    val existing = settings.presets[it.name]
+                    it to when (existing) {
+                        null -> PresetStatus.NEW
+                        it -> PresetStatus.REDUNDANT
+                        else -> PresetStatus.OVERRIDING
+                    }
+                }
+                openPresetsSelectModal(presetStatuses, defaultSelected = true) { selected ->
                     reloadSettings()
                     settings.presets.putAll(selected.associateBy { it.name })
                     saveSettings()
@@ -1387,15 +1444,23 @@ class SimulatorClient(val simulator: Simulator) {
 
         selectPrestsAllYesButton.addEventListener("click", {
             selectPresetsList.children.asList().filter { !it.hasClass("d-none") }.forEach { entry ->
-                (entry.getElementsByClassName("select-presets-yes-button")[0] as HTMLInputElement).checked = true
-                (entry.getElementsByClassName("select-presets-no-button")[0] as HTMLInputElement).checked = false
+                entry.getElementsByClassName("select-presets-yes-button")
+                    .multiple<HTMLInputElement>()
+                    .forEach { it.checked = true }
+                entry.getElementsByClassName("select-presets-no-button")
+                    .multiple<HTMLInputElement>()
+                    .forEach { it.checked = false }
             }
         })
 
         selectPrestsAllNoButton.addEventListener("click", {
             selectPresetsList.children.asList().filter { !it.hasClass("d-none") }.forEach { entry ->
-                (entry.getElementsByClassName("select-presets-yes-button")[0] as HTMLInputElement).checked = false
-                (entry.getElementsByClassName("select-presets-no-button")[0] as HTMLInputElement).checked = true
+                entry.getElementsByClassName("select-presets-yes-button")
+                    .multiple<HTMLInputElement>()
+                    .forEach { it.checked = false }
+                entry.getElementsByClassName("select-presets-no-button")
+                    .multiple<HTMLInputElement>()
+                    .forEach { it.checked = true }
             }
         })
 
