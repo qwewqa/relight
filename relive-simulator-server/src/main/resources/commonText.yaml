@@ -192,6 +192,9 @@
 '.text-presets':
   en: Presets
   zh_hant: 預設
+'.text-select-presets':
+  en: Select Presets
+  zh_hant: 選擇預設
 '.text-new-preset':
   en: New Preset
   zh_hant: 新預設
