@@ -166,6 +166,7 @@ fun Application.configureRouting() {
                             damageType = dress.damageType.ordinal,
                             positionValue = dress.positionValue,
                             positionName = dress.position.name.lowercase(),
+                            characterName = dress.character.displayName,
                         ),
                     )
                 },

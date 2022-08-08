@@ -112,7 +112,8 @@ data class DressData(
     val attribute: Int,
     val damageType: Int,
     val positionValue: Int,
-    val positionName: String
+    val positionName: String,
+    val characterName: String = "",
 ) : Comparable<DressData> {
     override fun compareTo(other: DressData): Int {
         if (positionValue != other.positionValue) return positionValue - other.positionValue

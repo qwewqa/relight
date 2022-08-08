@@ -56,6 +56,7 @@ class SimulatorClient(val simulator: Simulator) {
     val addActorButton = document.getElementById("add-actor-button") as HTMLButtonElement
     val addActorFromPresetButton = document.getElementById("add-actor-from-preset-button") as HTMLButtonElement
     val sortByPositionButton = document.getElementById("sort-by-position-button") as HTMLButtonElement
+    val autoNameButton = document.getElementById("auto-name-button") as HTMLButtonElement
     val bossSelect = document.getElementById("boss-select").singleSelect()
     val strategyTypeSelect = document.getElementById("strategy-type-select").singleSelect()
     val strategyContainer = document.getElementById("strategy-container") as HTMLDivElement
@@ -1288,6 +1289,42 @@ class SimulatorClient(val simulator: Simulator) {
                 .forEach { (tab, _) ->
                     actorTabsDiv.appendChild(tab)
                 }
+        })
+
+        autoNameButton.addEventListener("click", {
+            val setup = getSetup()
+            val useCounts = mutableMapOf<String, Int>().withDefault { 0 }
+            val usedDresses = mutableSetOf<String>()
+            actorTabsDiv.children
+                .asList()
+                .drop(if (guestCheckbox.checked) 1 else 0)
+                .reversed()
+                .zip(setup.team)
+                .forEach { (tab, params) ->
+                    val data = options.dressesById[params.dress]!!.data
+                    var name = data.characterName.replace(" ", "").lowercase()
+                    if (params.dress in usedDresses) {
+                        name = "supp_$name"
+                    }
+                    if (params.level == 1) {
+                        name = "baby_$name"
+                    }
+                    val useCount = useCounts.getValue(name)
+                    usedDresses.add(params.dress)
+                    useCounts[name] = useCount + 1
+                    if (useCount > 0) {
+                        name += "_${useCount + 1}"
+                    }
+                    val options = ActorOptions(options, tab.attributes["data-actor-id"]!!.value.toInt())
+                    options.parameters = options.parameters.copy(name = name)
+                }
+            if (guestCheckbox.checked) {
+                val tab = actorTabsDiv.firstChild as HTMLDivElement?
+                if (tab != null) {
+                    val options = ActorOptions(options, tab.attributes["data-actor-id"]!!.value.toInt())
+                    options.parameters = options.parameters.copy(name = "guest")
+                }
+            }
         })
 
         addActor() // Start with one already here by default

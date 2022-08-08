@@ -208,7 +208,7 @@
   en: New
   zh_hant: 新增
 '.text-add-actor-from-preset':
-  en: Load Preset
+  en: Presets
   zh_hant: 從預設添加
 '.text-share-presets':
   en: Share Presets
@@ -220,5 +220,8 @@
   en: All
   zh_hant: 全部
 '.text-import-presets':
-    en: Import Presets
-    zh_hant: 匯入預設
+  en: Import Presets
+  zh_hant: 匯入預設
+'.text-auto-name':
+  en: Auto Name
+  zh_hant: 自動命名
