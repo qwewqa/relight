@@ -1,12 +1,12 @@
 package xyz.qwewqa.relive.simulator.server
 
-import io.ktor.application.*
-import io.ktor.features.*
 import io.ktor.http.*
-import io.ktor.http.content.*
+import io.ktor.server.application.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
-import xyz.qwewqa.relive.simulator.server.plugins.configureAdministration
+import io.ktor.http.content.*
+import io.ktor.server.plugins.cachingheaders.*
+import io.ktor.server.plugins.cors.routing.*
 import xyz.qwewqa.relive.simulator.server.plugins.configureHTTP
 import xyz.qwewqa.relive.simulator.server.plugins.configureRouting
 import xyz.qwewqa.relive.simulator.server.plugins.configureSerialization
@@ -16,14 +16,13 @@ fun main() {
     embeddedServer(CIO, port = 8080, host = "localhost") {
         install(CORS) {
             anyHost()
-            header(HttpHeaders.ContentType)
+            allowHeader(HttpHeaders.ContentType)
         }
         install(CachingHeaders) {
-            options {
+            options { _, _ ->
                 CachingOptions(CacheControl.NoCache(null))
             }
         }
-        configureAdministration()
         configureRouting()
         configureSerialization()
         configureHTTP()

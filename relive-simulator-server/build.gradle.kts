@@ -7,7 +7,7 @@ plugins {
     application
     id("com.github.johnrengelman.shadow") version "7.0.0"
     kotlin("jvm")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.7.10"
 }
 
 group = "xyz.qwewqa.relive.simulator"
@@ -24,16 +24,21 @@ repositories {
 dependencies {
     implementation(project(":relive-simulator-core"))
     implementation(kotlin("stdlib"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
-    implementation("io.ktor:ktor-server-core:$ktor_version")
-    implementation("io.ktor:ktor-serialization:$ktor_version")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.3")
-    implementation("io.ktor:ktor-html-builder:$ktor_version")
-    implementation("io.ktor:ktor-server-cio:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
-    testImplementation("io.ktor:ktor-server-tests:$ktor_version")
+    implementation("io.ktor:ktor-server-compression:$ktor_version")
+    implementation("io.ktor:ktor-server-caching-headers:$ktor_version")
+    implementation("io.ktor:ktor-server-cors:$ktor_version")
+    implementation("io.ktor:ktor-server-content-negotiation:$ktor_version")
+    implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-html-builder-jvm:$ktor_version")
+    implementation("io.ktor:ktor-server-cio-jvm:$ktor_version")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlin_version")
     implementation("com.charleskorn.kaml:kaml:0.39.0")
+    testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
 }
 
 tasks {
@@ -43,4 +48,9 @@ tasks {
     shadowJar {
         dependsOn(":relive-simulator-client:browserProductionWebpack")
     }
+}
+
+tasks.withType(org.gradle.language.jvm.tasks.ProcessResources::class) {
+    mustRunAfter(":relive-simulator-client:browserDevelopmentExecutableDistributeResources")
+    mustRunAfter(":relive-simulator-client:browserProductionExecutableDistributeResources")
 }

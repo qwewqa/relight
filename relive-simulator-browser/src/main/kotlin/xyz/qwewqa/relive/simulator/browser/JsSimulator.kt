@@ -1,9 +1,10 @@
 package xyz.qwewqa.relive.simulator.browser
 
 import io.ktor.client.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
+import io.ktor.client.call.*
+import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
+import io.ktor.serialization.kotlinx.json.*
 import kotlinx.browser.window
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
@@ -47,11 +48,11 @@ class JsSimulator : Simulator {
     }
 
     private val httpClient = HttpClient {
-        install(JsonFeature) {
-            serializer = KotlinxSerializer(
-                kotlinx.serialization.json.Json {
-                    isLenient = false
-                    ignoreUnknownKeys = false
+        install(ContentNegotiation) {
+            json(
+                Json {
+                    isLenient = true
+                    ignoreUnknownKeys = true
                     allowSpecialFloatingPointValues = true
                     useArrayPolymorphism = false
                     encodeDefaults = true
@@ -67,7 +68,7 @@ class JsSimulator : Simulator {
                 "options.json",
                 "${window.location.protocol}//${window.location.host}${window.location.pathname}"
             ).href
-        )
+        ).body()
     }
 
     override suspend fun shutdown() {

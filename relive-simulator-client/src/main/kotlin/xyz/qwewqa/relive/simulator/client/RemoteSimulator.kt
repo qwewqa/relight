@@ -1,26 +1,28 @@
 package xyz.qwewqa.relive.simulator.client
 
 import io.ktor.client.*
-import io.ktor.client.features.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
+import io.ktor.client.call.*
+import io.ktor.client.plugins.*
+import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.json.Json
 import org.w3c.dom.url.URL
 import xyz.qwewqa.relive.simulator.common.*
 
 class RemoteSimulator(val baseUrl: URL) : Simulator {
     private val client = HttpClient {
-        install(JsonFeature) {
-            serializer = KotlinxSerializer(
-                    kotlinx.serialization.json.Json {
-                        isLenient = false
-                        ignoreUnknownKeys = false
-                        allowSpecialFloatingPointValues = true
-                        useArrayPolymorphism = false
-                        encodeDefaults = true
-                    }
+        install(ContentNegotiation) {
+            json(
+                Json {
+                    isLenient = true
+                    ignoreUnknownKeys = true
+                    allowSpecialFloatingPointValues = true
+                    useArrayPolymorphism = false
+                    encodeDefaults = true
+                }
             )
         }
     }
@@ -28,52 +30,52 @@ class RemoteSimulator(val baseUrl: URL) : Simulator {
     override suspend fun simulate(parameters: SimulationParameters): Simulation {
         return RemoteSimulation(
                 this,
-                client.post<SimulateResponse>(URL("/simulate", baseUrl.href).href) {
+                client.post(URL("/simulate", baseUrl.href).href) {
                     contentType(ContentType.Application.Json)
-                    body = parameters
-                }.token
+                    setBody(parameters)
+                }.body<SimulateResponse>().token
         )
     }
 
     override suspend fun simulateInteractive(parameters: SimulationParameters): InteractiveSimulation {
         return RemoteInteractiveSimulation(
                 this,
-                client.post<SimulateResponse>(URL("/simulate_interactive", baseUrl.href).href) {
+                client.post(URL("/simulate_interactive", baseUrl.href).href) {
                     contentType(ContentType.Application.Json)
-                    body = parameters
-                }.token
+                    setBody(parameters)
+                }.body<SimulateResponse>().token
         )
     }
 
     override suspend fun version(): SimulatorVersion {
-        return client.get(URL("/version", baseUrl.href).href)
+        return client.get(URL("/version", baseUrl.href).href).body()
     }
 
     override suspend fun options(): SimulationOptions {
-        return client.get(URL("/options", baseUrl.href).href)
+        return client.get(URL("/options", baseUrl.href).href).body()
     }
 
     override suspend fun features(): SimulatorFeatures {
         return try {
-            client.get(URL("/features", baseUrl.href).href)
+            client.get(URL("/features", baseUrl.href).href).body()
         } catch (e: Throwable) {
             SimulatorFeatures()
         }
     }
 
     override suspend fun shutdown() {
-        client.get<HttpResponse>(URL("/shutdown", baseUrl.href).href) {
+        client.get(URL("/shutdown", baseUrl.href).href) {
             expectSuccess = false
         }
     }
 
     inner class RemoteSimulation(val simulator: RemoteSimulator, val token: String) : Simulation {
         override suspend fun pollResult(): SimulationResult {
-            return client.get(URL("/result/$token", baseUrl.href).href)
+            return client.get(URL("/result/$token", baseUrl.href).href).body()
         }
 
         override suspend fun cancel() {
-            client.get<HttpResponse>(URL("/result/$token/cancel", baseUrl.href).href)
+            client.get(URL("/result/$token/cancel", baseUrl.href).href)
         }
     }
 
@@ -81,22 +83,22 @@ class RemoteSimulator(val baseUrl: URL) : Simulator {
         private var rev = -1
 
         override suspend fun getLog(): InteractiveLog {
-            val log = client.get<InteractiveLog>(URL("/interactive/$token", baseUrl.href).href) {
+            val log = client.get(URL("/interactive/$token", baseUrl.href).href) {
                 parameter("rev", rev)
-            }
+            }.body<InteractiveLog>()
             rev = log.rev
             return log
         }
 
         override suspend fun sendCommand(text: String) {
-            client.post<String>(URL("/interactive/$token", baseUrl.href).href) {
+            client.post(URL("/interactive/$token", baseUrl.href).href) {
                 contentType(ContentType.Application.Json)
-                body = InteractiveCommand(text)
+                setBody(InteractiveCommand(text))
             }
         }
 
         override suspend fun end() {
-            client.get<HttpResponse>(URL("/result/$token/end", baseUrl.href).href)
+            client.get(URL("/result/$token/end", baseUrl.href).href)
         }
     }
 }

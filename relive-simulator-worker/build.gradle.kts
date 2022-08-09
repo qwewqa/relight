@@ -3,7 +3,7 @@ val ktor_version: String by project
 
 plugins {
     kotlin("js")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.7.10"
 }
 
 group = "xyz.qwewqa.relive.simulator"
@@ -17,7 +17,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-js"))
     implementation(project(":relive-simulator-core"))
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
 }
 
 kotlin {

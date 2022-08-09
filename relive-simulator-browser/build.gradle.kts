@@ -3,7 +3,7 @@ val ktor_version: String by project
 
 plugins {
     kotlin("js")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.7.10"
 }
 
 group = "xyz.qwewqa.relive.simulator"
@@ -21,7 +21,7 @@ dependencies {
     implementation("io.ktor:ktor-client-js:$ktor_version")
     implementation("io.ktor:ktor-client-serialization:$ktor_version")
     implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 }
 
 kotlin {

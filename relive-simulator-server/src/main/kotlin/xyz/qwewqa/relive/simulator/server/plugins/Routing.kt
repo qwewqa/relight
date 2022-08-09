@@ -1,11 +1,11 @@
 package xyz.qwewqa.relive.simulator.server.plugins
 
 import com.charleskorn.kaml.Yaml
-import io.ktor.application.*
+import io.ktor.server.application.*
 import io.ktor.http.*
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.routing.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
@@ -43,7 +43,7 @@ fun Application.configureRouting() {
             call.respond(SimulatorVersion.CURRENT_VERSION)
         }
         get("/features") {
-            call.respond(SimulatorFeatures(shutdown = true))
+            call.respond(SimulatorFeatures())
         }
         get("/index.html") {
             call.respondText(index, ContentType.Text.Html)
@@ -221,6 +221,7 @@ fun Application.configureRouting() {
                         value.decodeToString(),
                         ContentType.Application.JavaScript
                     )
+
                     path.endsWith(".css") -> call.respondText(value.decodeToString(), ContentType.Text.CSS)
                     path.endsWith(".html") -> call.respondText(value.decodeToString(), ContentType.Text.Html)
                     path.endsWith(".png") -> call.respondBytes(value, ContentType.Image.PNG)

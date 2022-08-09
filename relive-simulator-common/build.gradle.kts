@@ -3,7 +3,7 @@ val api_version: String by project
 
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.7.10"
     id("com.peterabeles.gversion")
 }
 
@@ -33,7 +33,7 @@ kotlin {
 
 dependencies {
     "commonMainImplementation"(kotlin("stdlib"))
-    "commonMainImplementation"("org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.2")
+    "commonMainImplementation"("org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.3")
 }
 
 task("generateApiVersionFile") {

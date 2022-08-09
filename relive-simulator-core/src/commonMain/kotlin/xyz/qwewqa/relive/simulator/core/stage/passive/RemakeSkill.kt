@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_ANONYMOUS_PARAMETER")
+
 package xyz.qwewqa.relive.simulator.core.stage.passive
 
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
