@@ -44,7 +44,7 @@ kotlin {
         }
         compilations.all {
             kotlinOptions {
-                freeCompilerArgs += "-Xir-property-lazy-initialization"
+                freeCompilerArgs += listOf("-Xir-property-lazy-initialization", "-Xir-minimized-member-names=false")
             }
         }
         binaries.executable()
@@ -121,5 +121,5 @@ tasks.withType(org.gradle.language.jvm.tasks.ProcessResources::class) {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink> {
-    kotlinOptions.freeCompilerArgs += "-Xir-property-lazy-initialization"
+    kotlinOptions.freeCompilerArgs += listOf("-Xir-property-lazy-initialization", "-Xir-minimized-member-names=false")
 }

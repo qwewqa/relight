@@ -52,7 +52,8 @@ kotlin {
         }
         compilations.all {
             kotlinOptions {
-                freeCompilerArgs += "-Xir-property-lazy-initialization"
+                freeCompilerArgs += listOf("-Xir-property-lazy-initialization", "-Xir-minimized-member-names=false")
+                freeCompilerArgs +=  listOf("-Xir-minimized-member-names=false")
             }
         }
         binaries.executable()

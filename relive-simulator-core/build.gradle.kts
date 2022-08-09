@@ -21,7 +21,7 @@ kotlin {
         browser()
         compilations.all {
             kotlinOptions {
-                freeCompilerArgs += "-Xir-property-lazy-initialization"
+                freeCompilerArgs += listOf("-Xir-property-lazy-initialization", "-Xir-minimized-member-names=false")
             }
         }
     }

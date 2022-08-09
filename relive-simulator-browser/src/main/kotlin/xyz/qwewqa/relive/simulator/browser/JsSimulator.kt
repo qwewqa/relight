@@ -99,7 +99,6 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
         log = null,
     )
 
-    @OptIn(ExperimentalSerializationApi::class)
     val workers = List(
         window.navigator.hardwareConcurrency.toInt().coerceAtMost(parameters.maxIterations / BATCH_SIZE)
             .coerceAtLeast(1)
