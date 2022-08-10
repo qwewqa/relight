@@ -1,6 +1,4 @@
-//This is the service worker with the Advanced caching
-
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-sw.js');
 
 const HTML_CACHE = "relive-sim-html";
 const JS_CACHE = "relive-sim-javascript";
@@ -30,7 +28,7 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
     ({event}) => event.request.destination === 'script',
-    new workbox.strategies.StaleWhileRevalidate({
+    new workbox.strategies.NetworkFirst({
         cacheName: JS_CACHE,
         plugins: [],
     })
@@ -38,7 +36,7 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
   ({event}) => event.request.destination === 'style',
-  new workbox.strategies.StaleWhileRevalidate({
+  new workbox.strategies.NetworkFirst({
     cacheName: STYLE_CACHE,
     plugins: [],
   })

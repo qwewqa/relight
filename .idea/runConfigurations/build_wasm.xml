@@ -2,14 +2,16 @@
   <configuration default="false" name="build wasm" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
       <option name="executionName" />
-      <option name="externalProjectPath" value="$PROJECT_DIR$/relive-simulator-core" />
+      <option name="externalProjectPath" value="$PROJECT_DIR$/relive-simulator-worker" />
       <option name="externalSystemIdString" value="GRADLE" />
-      <option name="scriptParameters" value="wasm32MainKlibrary" />
+      <option name="scriptParameters" value="" />
       <option name="taskDescriptions">
         <list />
       </option>
       <option name="taskNames">
-        <list />
+        <list>
+          <option value=":relive-simulator-worker:compileDevelopmentExecutableKotlinJs" />
+        </list>
       </option>
       <option name="vmOptions" />
     </ExternalSystemSettings>
