@@ -323,7 +323,7 @@ class ActorOptions(private val options: SimulationOptions, tabElement: Element, 
 
             dress.renderSelectPicker()
             memoir.renderSelectPicker()
-            remakeSkill.renderSelectPicker()
+            remakeSkill.refreshSelectPicker()
 
             remakeSkillText.textContent = remakeSkill.element.selectedOptions.single<HTMLElement>().textContent
 
