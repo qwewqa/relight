@@ -442,20 +442,32 @@ class SimulatorClient(val simulator: Simulator) {
 
     var activeActorId: Int? = null
     fun setActiveActor(id: Int?) {
-        (document.getElementById("actor-tab-$activeActorId") as? HTMLDivElement)?.apply {
-            removeClass("active-actor-tab")
-            addClass("inactive-actor-tab")
-        }
-        (document.getElementById("actor-options-$activeActorId") as? HTMLDivElement)?.apply {
-            addClass("d-none")
-        }
         activeActorId = id
-        (document.getElementById("actor-tab-$activeActorId") as? HTMLDivElement)?.apply {
-            removeClass("inactive-actor-tab")
-            addClass("active-actor-tab")
-        }
-        (document.getElementById("actor-options-$activeActorId") as? HTMLDivElement)?.apply {
-            removeClass("d-none")
+        if (id != null) {
+            document.getElementsByClassName("actor-tab-container").multiple<HTMLDivElement>().forEach {
+                it.removeClass("active-actor-tab")
+                it.removeClass("neutral-actor-tab")
+                it.addClass("inactive-actor-tab")
+            }
+            document.getElementsByClassName("actor-options").multiple<HTMLDivElement>().forEach {
+                it.addClass("d-none")
+            }
+            (document.getElementById("actor-tab-$activeActorId") as? HTMLDivElement)?.apply {
+                removeClass("inactive-actor-tab")
+                addClass("active-actor-tab")
+            }
+            (document.getElementById("actor-options-$activeActorId") as? HTMLDivElement)?.apply {
+                removeClass("d-none")
+            }
+        } else {
+            document.getElementsByClassName("actor-tab-container").multiple<HTMLDivElement>().forEach {
+                it.removeClass("active-actor-tab")
+                it.removeClass("inactive-actor-tab")
+                it.addClass("neutral-actor-tab")
+            }
+            document.getElementsByClassName("actor-options").multiple<HTMLDivElement>().forEach {
+                it.addClass("d-none")
+            }
         }
     }
 

@@ -51,6 +51,6 @@ tasks {
 }
 
 tasks.withType(org.gradle.language.jvm.tasks.ProcessResources::class) {
-    mustRunAfter(":relive-simulator-client:browserDevelopmentExecutableDistributeResources")
-    mustRunAfter(":relive-simulator-client:browserProductionExecutableDistributeResources")
+    mustRunAfter(":relive-simulator-client:browserDevelopmentWebpack")
+    mustRunAfter(":relive-simulator-client:browserProductionWebpack")
 }
