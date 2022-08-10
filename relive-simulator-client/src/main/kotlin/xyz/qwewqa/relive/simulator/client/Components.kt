@@ -172,6 +172,11 @@ sealed class Select(val element: HTMLSelectElement) {
         val jquery = js("$")
         jquery(element).selectpicker("refresh")
     }
+
+    fun renderSelectPicker() {
+        val jquery = js("$")
+        jquery(element).selectpicker("render")
+    }
 }
 
 class SingleSelect(element: HTMLSelectElement) : Select(element) {
@@ -316,9 +321,9 @@ class ActorOptions(private val options: SimulationOptions, tabElement: Element, 
             tabDressImage.src = options.dressesById[param.dress]?.imagePath ?: ""
             tabMemoirImage.src = options.memoirsById[param.memoir]?.imagePath ?: ""
 
-            dress.refreshSelectPicker()
-            memoir.refreshSelectPicker()
-            remakeSkill.refreshSelectPicker()
+            dress.renderSelectPicker()
+            memoir.renderSelectPicker()
+            remakeSkill.renderSelectPicker()
 
             remakeSkillText.textContent = remakeSkill.element.selectedOptions.single<HTMLElement>().textContent
 
