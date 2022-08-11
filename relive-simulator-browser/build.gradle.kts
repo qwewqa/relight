@@ -68,11 +68,11 @@ tasks.register<Copy>("copyIndex") {
             .replace(
                 "<!-- PWA Placeholder (Do Not Remove) -->", """
                 <link rel="manifest" href="manifest.json" />
-                <script>
-                   if ('serviceWorker' in navigator) {
-                        navigator.serviceWorker.register('./sw.js');
-                    }
-                </script>
+                <script
+                  type="module"
+                  src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate"
+                ></script>
+                <pwa-update swpath="sw.js"></pwa-update>
             """.trimIndent()
             )
     }
