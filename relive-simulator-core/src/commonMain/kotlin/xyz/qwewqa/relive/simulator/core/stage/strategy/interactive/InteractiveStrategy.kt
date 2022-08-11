@@ -751,7 +751,7 @@ ${
                     }
                 }
                 InteractiveCommandType.HISTORY -> {
-                    log("History") { history.joinToString("\n") }
+                    log("History") { history.joinToString("\n") { it.raw } }
                 }
                 InteractiveCommandType.FULL_HISTORY -> {
                     log("Full History") { fullHistory.joinToString("\n") }
