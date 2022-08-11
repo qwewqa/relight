@@ -727,7 +727,7 @@
             } else {
                 if (options.img) {
                     var imgElement = elementTemplates.img.cloneNode(false);
-                    imgElement.style.height = '1.5em';
+                    imgElement.className = 'select-option-img';
                     imgElement.setAttribute('src', options.img);
 
                     textElement.appendChild(imgElement);
@@ -2006,6 +2006,8 @@
                     button.appendChild(clone);
                 }
             }
+
+            this.checkDisabled();
 
             this.$element.trigger('rendered' + EVENT_KEY);
         },
@@ -3364,7 +3366,6 @@
                 });
             }
 
-            this.checkDisabled();
             this.setStyle();
             this.setWidth();
 
