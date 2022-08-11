@@ -64,6 +64,7 @@ val memoirs = mapOf("None" to EmptyMemoir) + (
             NostalgicRyoko,
             RevueOfFateAndTruth,
             TwoRevues,
+            YachiyosFashionTips,
         ).sortedBy { it.name }.sortedBy { it.cutinData == null }
                 + brilliantBirthdays
                 + slapMemos

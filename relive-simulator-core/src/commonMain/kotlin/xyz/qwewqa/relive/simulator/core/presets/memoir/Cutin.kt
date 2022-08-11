@@ -356,6 +356,7 @@ val brilliantBirthdays = listOf(
     brilliantBirthday(Character.Nana, equip4000285),
     brilliantBirthday(Character.Maya, equip4000289),
     brilliantBirthday(Character.Claudine, equip4000290),
+    brilliantBirthday(Character.Shizuha, equip4000293),
 )
 
 private fun slapMemo(
@@ -729,6 +730,27 @@ val TwoRevues = equip4000284(
         Act {
             targetCutinTarget().act {
                 //TODO() Cleanse count. times1
+            }
+        }
+    },
+)
+
+val YachiyosFashionTips = equip4000292(
+    name = "Yachiyo's Fashion Tips",
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(28)
+    ),
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(40)
+    ),
+    cutinTarget = CutinTarget.BeforeEnemyAct(1),
+    cutinAct = {
+        Act {
+            targetCutinTarget().act {
+                applyCountableBuff(
+                    effect = CountableBuff.Daze,
+                    count = times1,
+                )
             }
         }
     },

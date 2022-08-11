@@ -1,8 +1,8 @@
-package xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower
+package xyz.qwewqa.relive.simulator.core.presets.dress.back.space
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.FlowerOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.FrontierOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3010017
+import xyz.qwewqa.relive.simulator.core.presets.condition.SiegfeldOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4040017
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
@@ -11,13 +11,15 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
-import xyz.qwewqa.relive.simulator.core.stage.stageeffect.Bullseye
-import xyz.qwewqa.relive.simulator.core.stage.stageeffect.SelfTrapping
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.HyakkaRyoran
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.RoaringFire
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.SweetMoment
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.Thunder
 
-val StageGirlAruru = dress3010017(
-    name = "Stage Girl Aruru",
+val StageGirlShiori = dress4040017(
+    name = "Stage Girl Shiori",
     acts = listOf(
-        ActType.Act1.blueprint("Purifying Sharpshooting") {
+        ActType.Act1.blueprint("Purifying Slash") {
             Act {
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
@@ -35,7 +37,7 @@ val StageGirlAruru = dress3010017(
                 }
             }
         },
-        ActType.Act2.blueprint("Lightning Sharpshooting") {
+        ActType.Act2.blueprint("Bittersweet Slash") {
             Act {
                 targetBack().act {
                     dispelTimed(BuffCategory.Positive)
@@ -44,13 +46,11 @@ val StageGirlAruru = dress3010017(
                         hitCount = times2,
                     )
                 }
-                targetSelf().act {
-                    addBrilliance(values3)
-                }
-                applyEnemyStageEffect(SelfTrapping, 2)
+                applyAllyStageEffect(SweetMoment, 3)
+                applyEnemyStageEffect(Thunder, 2)
             }
         },
-        ActType.Act3.blueprint("Encouraging Sharpshooting") {
+        ActType.Act3.blueprint("Encouraging Slash") {
             Act {
                 targetBack().act {
                     attack(
@@ -76,7 +76,7 @@ val StageGirlAruru = dress3010017(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Against the wind, to Frontier！") {
+        ActType.ClimaxAct.blueprint("We shall conquer the king's summit together！") {
             Act {
                 targetSelf().act {
                     applyCountableBuff(
@@ -93,11 +93,12 @@ val StageGirlAruru = dress3010017(
                         hitCount = 10,
                     )
                     applyCountableBuff(
-                        CountableBuff.Daze,
+                        CountableBuff.Pride,
                         chance = 33,
                     )
                 }
-                applyAllyStageEffect(Bullseye, 2)
+                applyAllyStageEffect(HyakkaRyoran, 2)
+                applyEnemyStageEffect(RoaringFire, 2)
             }
         }
     ),
@@ -109,12 +110,12 @@ val StageGirlAruru = dress3010017(
         ),
         listOf(
             TeamAPDownBuffPassive.new(time = 1),
-            TeamAPDownBuffPassive.new(time = 2) + FrontierOnlyCondition,
+            TeamAPDownBuffPassive.new(time = 2) + SiegfeldOnlyCondition,
         ),
         listOf(
             TeamBrillianceRecoveryPassive.new(20),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + FlowerOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + SpaceOnlyCondition,
     categories = setOf(DressCategory.StageGirl),
 )

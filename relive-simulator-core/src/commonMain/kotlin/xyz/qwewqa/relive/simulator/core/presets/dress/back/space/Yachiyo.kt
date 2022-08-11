@@ -1,19 +1,21 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.space
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.BackOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SiegfeldOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4050009
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4050014
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4050019
+import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.Act
-import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
-import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.AngelicSmile
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.ApplauseSpace
 
 val SonokoYachiyo = dress4050009(
     name = "Sonoko Yuki Yachiyo",
@@ -196,4 +198,82 @@ val CoyoteCainYachiyo = dress4050014(
         ),
     ),
     unitSkill = ActCritical30UnitSkill + SpaceOnlyCondition,
+)
+
+val CollectionYachiyo = dress4050019(
+    name = "Stage Girl Collection Yachiyo",
+    acts = listOf(
+        ActType.Act1.blueprint("Alluring Pose") {
+            Act {
+                targetByHighest { it.actPower }.act {
+                    attack(
+                        modifier = values1,
+                        hitCount = times1,
+                    )
+                }
+                targetSelf().act {
+                    addBrilliance(values2)
+                }
+            }
+        },
+        ActType.Act2.blueprint("Alluring Walking") {
+            Act {
+                targetByHighest { it.actPower }.act {
+                    attack(
+                        modifier = values1,
+                        hitCount = times1,
+                    )
+                }
+                targetAoe().act {
+                    dispelTimed(BuffCategory.Positive)
+                    applyBuff(
+                        effect = BrillianceGainDownBuff,
+                        value = values3,
+                        turns = times3,
+                    )
+                }
+            }
+        },
+        ActType.Act3.blueprint("Alluring Smile") {
+            Act {
+                targetAllyBack(5).act {
+                    addBrilliance(values1)
+                    applyBuff(
+                        effect = ApDownBuff,
+                        turns = times2,
+                    )
+                }
+            }
+        },
+        ActType.ClimaxAct.blueprint("Tsuruhime Yachiyo's Runway") {
+            Act {
+                targetSelf().act {
+                    applyCountableBuff(CountableBuff.Hope, count = times1)
+                }
+                targetAoe().act {
+                    // TODO() Remove 5 Forts
+                    attack(
+                        modifier = values3,
+                        hitCount = times3,
+                    )
+                }
+                applyAllyStageEffect(ApplauseSpace, 6)
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+            SelfReviveBuffPassive.new(50, time = 2),
+        ),
+        listOf(
+            EnemyBrillianceDrainPassive.new(30),
+        ),
+        listOf(
+            TeamBrillianceRecoveryPassive.new(20) + SiegfeldOnlyCondition,
+        ),
+        listOf(
+            TeamNegativeEffectResistanceBuffPassive.new(100, 1),
+        ),
+    ),
+    unitSkill = ActCritical50UnitSkill + SpaceOnlyCondition,
 )

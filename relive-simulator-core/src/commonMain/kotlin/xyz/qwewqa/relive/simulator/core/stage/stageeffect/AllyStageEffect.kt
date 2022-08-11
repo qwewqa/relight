@@ -49,7 +49,7 @@ val HyakkaRyoran = StageEffect(
     StageEffectTarget.All,
 )
 
-val HyappatsuhyakuchuuIppatsuhitchuu = StageEffect(
+val Bullseye = StageEffect(
     "百発百中、一発必中",
     listOf(
         listOf(
@@ -366,4 +366,31 @@ val GlitteringStage = StageEffect(
     ),
     StageEffectTarget.All,
     SeishoOnlyCondition
+)
+
+val SweetMoment = StageEffect(
+    "Sweet Moment",
+    listOf(
+        listOf(
+            StageBuff(NegativeEffectResistanceBuff, 50),
+            StageBuff(EffectiveDamageDealtUpBuff, 20),
+        ),
+        listOf(
+            StageBuff(NegativeEffectResistanceBuff, 60),
+            StageBuff(EffectiveDamageDealtUpBuff, 25),
+        ),
+        listOf(
+            StageBuff(NegativeEffectResistanceBuff, 70),
+            StageBuff(EffectiveDamageDealtUpBuff, 30),
+        ),
+        listOf(
+            StageBuff(NegativeEffectResistanceBuff, 80),
+            StageBuff(EffectiveDamageDealtUpBuff, 35),
+        ),
+        listOf(
+            StageBuff(NegativeEffectResistanceBuff, 90),
+            StageBuff(EffectiveDamageDealtUpBuff, 40),
+        ),
+    ),
+    StageEffectTarget.All,
 )
