@@ -132,6 +132,14 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                     ) { answer.message }
                 }
             }
+            InteractiveCommandType.SEED -> {
+                val seed = Random.nextInt()
+                if (playHistory.lastOrNull()?.type == InteractiveCommandType.SEED) {
+                    playHistory.removeLast()
+                }
+                playHistory += command.copy(data = "$seed", raw = "${command.raw} $seed")
+                playStage()
+            }
             else -> {
                 playHistory += command
                 playStage()
@@ -753,13 +761,9 @@ ${
                 }
                 InteractiveCommandType.SEED -> {
                     try {
-                        if (data.isBlank()) {
-                            managedRandom.base = Random(Random.nextInt())
-                        } else {
                         val value = data.toInt()
-                            // This is to match behavior with the sim ui seed option
-                            managedRandom.base = Random(Random(value).nextInt())
-                        }
+                        // This is to match behavior with the sim ui seed option
+                        managedRandom.base = Random(Random(value).nextInt())
                         log("Seed") { "Updated seed." }
                     } catch (e: NumberFormatException) {
                         log("Seed") { "Error: Invalid seed." }
