@@ -212,7 +212,9 @@ fun HTMLElement.displayLog(log: List<LogEntry>, interactive: Boolean) {
                                 b {
                                     +"$turn.$tile.$move [${tags.joinToString(" / ")}]"
                                 }
-                                +" $summary "
+                                +" "
+                                processLogContent(summary!!)
+                                +" "
                                 if (i != lastSummaryIndex) {
                                     span {
                                         +"["
