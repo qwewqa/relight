@@ -634,13 +634,7 @@ class SimulatorClient(val simulator: Simulator) {
                                     attributes["data-live-search"] = "true"
                                     options.dresses.forEach {
                                         option {
-                                            attributes["data-content"] = "${
-                                                if (it.imagePath != null) {
-                                                    "<img style=\"height: 1.5em\" src=\"${it.imagePath}\"> "
-                                                } else {
-                                                    ""
-                                                }
-                                            }${it[locale]}"
+                                            attributes["data-img"] = it.imagePath ?: ""
                                             value = it.id
                                             +it[locale]
                                         }
@@ -856,13 +850,7 @@ class SimulatorClient(val simulator: Simulator) {
                                     attributes["disabled"] = "disabled"
                                     options.remakeSkills.forEach {
                                         option {
-                                            attributes["data-content"] = "${
-                                                if (it.imagePath != null) {
-                                                    "<img style=\"height: 1.5em\" src=\"${it.imagePath}\"> "
-                                                } else {
-                                                    ""
-                                                }
-                                            }${it[locale]}"
+                                            attributes["data-img"] = it.imagePath ?: ""
                                             value = it.id
                                             +it[locale]
                                         }
@@ -892,19 +880,8 @@ class SimulatorClient(val simulator: Simulator) {
                                         option {
                                             val name = it[locale]
                                             val description = it.description?.get(locale)
-                                            attributes["data-content"] = "${
-                                                if (it.imagePath != null) {
-                                                    "<img style=\"height: 1.5em\" src=\"${it.imagePath}\"> "
-                                                } else {
-                                                    ""
-                                                }
-                                            }$name${
-                                                if (description != null) {
-                                                    "<small class=\"text-muted select-option-subtext\">$description</small>"
-                                                } else {
-                                                    ""
-                                                }
-                                            }"
+                                            attributes["data-img"] = it.imagePath ?: ""
+                                            attributes["data-subtext"] = description ?: ""
                                             value = it.id
                                             +name
                                             attributes["data-tokens"] =

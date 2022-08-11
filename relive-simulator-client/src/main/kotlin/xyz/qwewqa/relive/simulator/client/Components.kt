@@ -144,23 +144,11 @@ sealed class Select(val element: HTMLSelectElement) {
             val name = option?.get(locale) ?: selectOption.value
             val description = option?.description?.get(locale)
             selectOption.run {
-                if (getAttribute("data-content") != null) {
-                    setAttribute(
-                        "data-content",
-                        "${
-                            if (option?.imagePath != null) {
-                                "<img style=\"height: 1.5em\" src=\"${option.imagePath}\"> "
-                            } else {
-                                ""
-                            }
-                        }$name${
-                            if (description != null) {
-                                "<small class=\"text-muted select-option-subtext\">$description</small>"
-                            } else {
-                                ""
-                            }
-                        }"
-                    )
+                if (getAttribute("data-img") != null) {
+                    setAttribute("data-img", option?.imagePath ?: "")
+                }
+                if (getAttribute("data-subtext") != null) {
+                    setAttribute("data-subtext", description ?: "")
                 }
                 setAttribute("data-tokens", option?.tags?.get(locale)?.joinToString(" ") ?: "")
                 text = name

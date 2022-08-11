@@ -99,6 +99,7 @@ tasks.register<Copy>("copyServiceWorker") {
 {url: 'index.html', revision: '$timestamp'},
 {url: 'relive-simulator-browser.js', revision: '$timestamp'},
 {url: 'relive-simulator-worker.js', revision: '$timestamp'},
+{url: 'bootstrap-select.js', revision: '$timestamp'},
 {url: 'options.json', revision: '$timestamp'},
 ${imageData.joinToString(",\n") { (url, revision) -> "{url: '$url', revision: '$revision'}" }}
             """.trimIndent()
