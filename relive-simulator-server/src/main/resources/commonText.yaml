@@ -13,6 +13,9 @@
 '.text-close-dialog':
   en: Close
   zh_hant: 關閉
+'.text-clear':
+  en: Clear
+  zh_hant: 清除
 '.text-use-yaml':
   en: YAML
   zh_hant: YAML

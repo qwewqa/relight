@@ -325,7 +325,7 @@ class ActorOptions(private val options: SimulationOptions, tabElement: Element, 
         }
 }
 
-class SongEffect(element: Element) {
+class SongEffect(val element: Element) {
     private val type = SingleSelect(element.getElementsByClassName("song-effect-type").single())
     private val value = IntegerInput(element.getElementsByClassName("song-effect-value").single(), 0)
     private val conditions = element.getElementsByClassName("song-effect-condition")
@@ -347,6 +347,15 @@ class SongEffect(element: Element) {
                 update()
             })
         }
+        element.getElementsByClassName("clear-select-button")
+            .multiple<HTMLButtonElement>()
+            .zip(conditions)
+            .forEach { (button, condition) ->
+                button.addEventListener("click", {
+                    condition.value = emptyList()
+                    update()
+                })
+            }
     }
 
     fun update() {
@@ -364,6 +373,8 @@ class SongEffect(element: Element) {
                     .joinToString(" ") { conditions -> "[${conditions.joinToString(" | ")}]" }
             }"
         }
+        type.refreshSelectPicker()
+        conditions.forEach { it.refreshSelectPicker() }
     }
 
     var parameters: SongEffectParameter?
