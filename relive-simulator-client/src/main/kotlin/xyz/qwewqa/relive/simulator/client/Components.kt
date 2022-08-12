@@ -5,6 +5,7 @@ import kotlinx.dom.addClass
 import kotlinx.dom.clear
 import kotlinx.dom.hasClass
 import kotlinx.dom.removeClass
+import kotlinx.html.HTML
 import kotlinx.html.dom.create
 import kotlinx.html.option
 import org.w3c.dom.*
@@ -78,6 +79,10 @@ sealed class Select(val element: HTMLSelectElement) {
         this.options.asList().filterIsInstance<HTMLOptionElement>().forEach {
             it.selected = it.value == selected
         }
+    }
+
+    fun selectedText(): List<String> = element.selectedOptions.multiple<HTMLElement>().map {
+        it.textContent ?: ""
     }
 
     fun populate(values: Map<String, String>) {
@@ -323,8 +328,42 @@ class ActorOptions(private val options: SimulationOptions, tabElement: Element, 
 class SongEffect(element: Element) {
     private val type = SingleSelect(element.getElementsByClassName("song-effect-type").single())
     private val value = IntegerInput(element.getElementsByClassName("song-effect-value").single(), 0)
-    private val conditions = element.getElementsByClassName("song-effect-condition").multiple<HTMLSelectElement>().map {
+    private val conditions = element.getElementsByClassName("song-effect-condition")
+        .multiple<HTMLSelectElement>()
+        .map {
         MultipleSelect(it)
+    }
+    private val description = element.getElementsByClassName("song-effect-description").single<HTMLElement>()
+
+    fun registerListeners() {
+        type.element.addEventListener("change", {
+            update()
+        })
+        value.element.addEventListener("change", {
+            update()
+        })
+        conditions.forEach {
+            it.element.addEventListener("change", {
+                update()
+            })
+        }
+    }
+
+    fun update() {
+        description.textContent = if (type.value == "none") {
+            type.selectedText().singleOrNull() ?: ""
+        } else {
+            "${
+                type.selectedText().singleOrNull() ?: ""
+            } ${
+                value.value
+            } ${
+                conditions
+                    .map { it.selectedText() }
+                    .filter { it.isNotEmpty() }
+                    .joinToString(" ") { conditions -> "[${conditions.joinToString(" | ")}]" }
+            }"
+        }
     }
 
     var parameters: SongEffectParameter?
@@ -342,5 +381,6 @@ class SongEffect(element: Element) {
             conditions.takeLast(conditions.size - (param?.conditions?.size ?: 0)).forEach {
                 it.value = emptyList()
             }
+            update()
         }
 }

@@ -86,6 +86,7 @@ class SimulatorClient(val simulator: Simulator) {
     val interactiveLog = document.getElementById("interactive-log") as HTMLDivElement
     val interactiveInput = document.getElementById("interactive-input").textInput()
     val interactiveSendButton = document.getElementById("interactive-send-button") as HTMLButtonElement
+    val songSettings = document.getElementById("song-settings") as HTMLDivElement
 
     val presetsModal = document.getElementById("presets-modal") as HTMLDivElement
     val presetsModalBS = Bootstrap.Modal(presetsModal)
@@ -1013,9 +1014,7 @@ class SimulatorClient(val simulator: Simulator) {
     }
 
     fun getSetup(): SimulationParameters {
-        val songSettings = document
-            .getElementById("song-settings")!!
-            .getElementsByClassName("song-effect-group").asList().map { options ->
+        val songSettings = songSettings.getElementsByClassName("song-effect-item").asList().map { options ->
                 SongEffect(options).parameters
             }
         val actors = actorTabsDiv.children.asList().reversed().map { tab ->
@@ -1062,9 +1061,8 @@ class SimulatorClient(val simulator: Simulator) {
         val effects = song.activeEffects.take(2) +
                 List((2 - song.activeEffects.size).coerceAtLeast(0)) { null } +
                 listOf(song.passiveEffect)
-        document
-            .getElementById("song-settings")!!
-            .getElementsByClassName("song-effect-group")
+        songSettings
+            .getElementsByClassName("song-effect-item")
             .asList()
             .zip(effects).forEach { (options, parameters) ->
                 SongEffect(options).parameters = parameters
@@ -1581,6 +1579,12 @@ class SimulatorClient(val simulator: Simulator) {
                 .forEach { select ->
                     SingleSelect(select).localize(memoirs, locale)
                 }
+            songSettings
+                .getElementsByClassName("song-effect-item")
+                .asList()
+                .forEach {
+                    SongEffect(it).update()
+                }
             commonText.filter { (k, _) -> k[0] == '.' }.forEach { (k, v) ->
                 document.getElementsByClassName(k.drop(1)).asList().forEach { element ->
                     element.textContent = v[locale]
@@ -1593,6 +1597,13 @@ class SimulatorClient(val simulator: Simulator) {
             locale = languageSelect.value
             updateLocaleText()
         })
+
+        songSettings
+            .getElementsByClassName("song-effect-item")
+            .asList()
+            .forEach {
+                SongEffect(it).registerListeners()
+            }
 
         handleFirstLoadUrlOptions()
 
