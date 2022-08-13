@@ -24,6 +24,7 @@ import org.w3c.dom.url.URL
 import xyz.qwewqa.relive.simulator.client.ActorOptions.Companion.rankPanelIds
 import xyz.qwewqa.relive.simulator.client.Plotly.react
 import xyz.qwewqa.relive.simulator.common.*
+import kotlin.js.Date
 import kotlin.random.Random
 
 suspend fun main() {
@@ -115,19 +116,6 @@ class SimulatorClient(val simulator: Simulator) {
     val selectPrestsAllYesButton = document.getElementById("select-presets-all-yes-button") as HTMLButtonElement
     val selectPrestsAllNoButton = document.getElementById("select-presets-all-no-button") as HTMLButtonElement
 
-    var settings = json
-        .decodeFromString<UserSettings>(localStorage.get("settings") ?: "{}")
-
-    fun reloadSettings() {
-        settings = json
-            .decodeFromString(localStorage.get("settings") ?: "{}")
-    }
-
-    fun saveSettings() {
-        settings = settings.copy(timestamp = currentTimeMillis())
-        localStorage.set("settings", json.encodeToString(settings))
-    }
-
     var activeActorOptions: ActorOptions? = null
 
     lateinit var features: SimulatorFeatures
@@ -215,13 +203,13 @@ class SimulatorClient(val simulator: Simulator) {
         delete: Boolean = false,
         new: Boolean = false,
     ) {
-        reloadSettings()
+        api.reloadSettings()
         presetList.clear()
         presetList.run {
-            settings.presets.values.sortedBy { it.name }.forEachIndexed { index, preset ->
+            api.settings.presetData.values.sortedBy { it.name }.forEachIndexed { index, preset ->
                 append.div("d-flex p-1 preset-item") {
                     id = "preset-$index"
-                    attributes["data-name"] = preset.name
+                    attributes["data-name"] = preset.name.lowercase()
                     img(classes = "preset-image me-2 my-auto") {
                         id = "actor-preset-image-$index"
                         style = "height: 2em;"
@@ -242,9 +230,9 @@ class SimulatorClient(val simulator: Simulator) {
                                         name = preset.name,
                                     )
                                     if (parameters != null) {
-                                        reloadSettings()
-                                        settings.presets[preset.name] = parameters
-                                        saveSettings()
+                                        api.reloadSettings()
+                                        api.settings.presetData[preset.name] = parameters
+                                        api.saveSettings()
                                         presetsModalBS.hide()
                                     }
                                 }
@@ -279,9 +267,9 @@ class SimulatorClient(val simulator: Simulator) {
                                 id = "actor-preset-delete-$index"
                                 i("bi bi-x-lg")
                                 onClickFunction = {
-                                    reloadSettings()
-                                    settings.presets.remove(preset.name)
-                                    saveSettings()
+                                    api.reloadSettings()
+                                    api.settings.presetData.remove(preset.name)
+                                    api.saveSettings()
                                     document.getElementById("preset-$index")?.remove()
                                 }
                             }
@@ -325,7 +313,7 @@ class SimulatorClient(val simulator: Simulator) {
             presets.sortedBy { (preset, _) -> preset.name }.forEachIndexed { index, (preset, status) ->
                 append.div("d-flex p-1 preset-item") {
                     id = "preset-$index"
-                    attributes["data-name"] = preset.name
+                    attributes["data-name"] = preset.name.lowercase()
                     img(classes = "preset-image me-2 my-auto") {
                         id = "actor-preset-image-$index"
                         style = "height: 2em;"
@@ -417,9 +405,9 @@ class SimulatorClient(val simulator: Simulator) {
                     throw Exception("No ID provided.")
                 }
                 val presets = api.getPresets(id)
-                reloadSettings()
+                api.reloadSettings()
                 val presetStatuses = presets.map {
-                    val existing = settings.presets[it.name]
+                    val existing = api.settings.presetData[it.name]
                     it to when (existing) {
                         null -> PresetStatus.NEW
                         it -> PresetStatus.REDUNDANT
@@ -427,9 +415,9 @@ class SimulatorClient(val simulator: Simulator) {
                     }
                 }
                 openPresetsSelectModal(presetStatuses, defaultSelected = true) { selected ->
-                    reloadSettings()
-                    settings.presets.putAll(selected.associateBy { it.name })
-                    saveSettings()
+                    api.reloadSettings()
+                    api.settings.presetData.putAll(selected.associateBy { it.name })
+                    api.saveSettings()
                     importPresetsModalBS.hide()
                     importPresetsText.value = ""
                     toast("Import Presets", "Presets imported.", "green")
@@ -1433,7 +1421,7 @@ class SimulatorClient(val simulator: Simulator) {
             }
 
         presetSearch.addEventListener("keyup", {
-            val value = presetSearch.value.trim()
+            val value = presetSearch.value.trim().lowercase()
             if (value.isEmpty()) {
                 presetList.children.asList().forEach {
                     it.removeClass("d-none")
@@ -1450,7 +1438,7 @@ class SimulatorClient(val simulator: Simulator) {
         })
 
         selectPresetsSearch.addEventListener("keyup", {
-            val value = selectPresetsSearch.value.trim()
+            val value = selectPresetsSearch.value.trim().lowercase()
             if (value.isEmpty()) {
                 selectPresetsList.children.asList().forEach {
                     it.removeClass("d-none")
@@ -1491,20 +1479,20 @@ class SimulatorClient(val simulator: Simulator) {
         savePresetButton.addEventListener("click", {
             val param = activeActorOptions?.parameters ?: return@addEventListener
             val name = presetNameInput.value
-            if (name in settings.presets) {
+            if (name in api.settings.presetData) {
                 toast("Save Preset", "Preset already exists.", "red")
                 return@addEventListener
             }
             presetNameInput.value = ""
-            reloadSettings()
-            settings.presets[name] = param.copy(name = name)
-            saveSettings()
+            api.reloadSettings()
+            api.settings.presetData[name] = param.copy(name = name)
+            api.saveSettings()
             presetsModalBS.hide()
         })
 
         sharePresetsButton.addEventListener("click", {
-            reloadSettings()
-            val presets = settings.presets.values.toList()
+            api.reloadSettings()
+            val presets = api.settings.presetData.values.toList()
             openPresetsSelectModal(presets, defaultSelected = false) { selected ->
                 GlobalScope.launch {
                     try {
