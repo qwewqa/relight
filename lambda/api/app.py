@@ -112,6 +112,9 @@ def create_presets():
     return {"id": preset_id}
 
 
+MAX_SYNC_DATA_SIZE = 20_000_000 # 20 MB
+
+
 def get_sync_data(user_id: str) -> dict:
     response = table.get_item(Key={"id": f"sync#{user_id}"})
     if "Item" not in response:
@@ -157,6 +160,8 @@ def put_sync():
             body=None,
         )
     data = json.dumps(app.current_event.json_body["data"]).encode("utf-8")
+    if len(data) > MAX_SYNC_DATA_SIZE:
+        raise BadRequestError(f"Sync data too large. Max size is {MAX_SYNC_DATA_SIZE} bytes.")
     version = hashlib.sha256(data).hexdigest()
     if version != sync_data.get("version"):
         s3_key = sync_data["s3_key"]
