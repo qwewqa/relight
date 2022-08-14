@@ -1173,7 +1173,7 @@ class SimulatorClient(val simulator: Simulator) {
 
             logoutButton.addEventListener("click", { e ->
                 e.preventDefault()
-                auth0.logout()
+                auth0.logout(jsObject { returnTo = baseHref })
             })
 
             if (
