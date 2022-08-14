@@ -1217,13 +1217,20 @@ class SimulatorClient(val simulator: Simulator) {
                 logoutButton.removeClass("d-none")
                 api.auth0Client = auth0
 
+                var syncInProgress = false
                 syncButton.addEventListener("click", {
+                    if (syncInProgress) {
+                        return@addEventListener
+                    }
+                    syncInProgress = true
                     GlobalScope.launch {
                         try {
                             api.sync()
                             toast("Sync", "Sync successful.", "green")
                         } catch (e: Throwable) {
                             toast("Error", "Error syncing with server: ${e.message}", "red")
+                        } finally {
+                            syncInProgress = false
                         }
                     }
                 })
