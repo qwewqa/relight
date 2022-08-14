@@ -1224,6 +1224,7 @@ class SimulatorClient(val simulator: Simulator) {
                     }
                     syncInProgress = true
                     GlobalScope.launch {
+                        toast("Sync", "Syncing...", "yellow")
                         try {
                             api.sync()
                             toast("Sync", "Sync successful.", "green")
