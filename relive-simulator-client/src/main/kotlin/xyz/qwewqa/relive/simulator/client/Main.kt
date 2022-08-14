@@ -1,7 +1,6 @@
 package xyz.qwewqa.relive.simulator.client
 
 import kotlinx.browser.document
-import kotlinx.browser.localStorage
 import kotlinx.browser.window
 import kotlinx.coroutines.*
 import kotlinx.dom.addClass
@@ -24,7 +23,7 @@ import org.w3c.dom.url.URL
 import xyz.qwewqa.relive.simulator.client.ActorOptions.Companion.rankPanelIds
 import xyz.qwewqa.relive.simulator.client.Plotly.react
 import xyz.qwewqa.relive.simulator.common.*
-import kotlin.js.Date
+import kotlin.js.Promise
 import kotlin.random.Random
 
 suspend fun main() {
@@ -36,7 +35,7 @@ class SimulatorClient(val simulator: Simulator) {
     var simulation: Simulation? = null
     var done = false
 
-    val api = RelightApi()
+    val api = RelightApi(this)
 
     var interactiveSimulation: InteractiveSimulation? = null
 
@@ -115,6 +114,10 @@ class SimulatorClient(val simulator: Simulator) {
     val confirmSelectPresetsButton = document.getElementById("confirm-select-presets-button") as HTMLButtonElement
     val selectPrestsAllYesButton = document.getElementById("select-presets-all-yes-button") as HTMLButtonElement
     val selectPrestsAllNoButton = document.getElementById("select-presets-all-no-button") as HTMLButtonElement
+
+    val loginButton = document.getElementById("login-button") as HTMLButtonElement
+    val logoutButton = document.getElementById("logout-button") as HTMLButtonElement
+    val profile = document.getElementById("profile") as HTMLDivElement
 
     var activeActorOptions: ActorOptions? = null
 
@@ -327,7 +330,7 @@ class SimulatorClient(val simulator: Simulator) {
                     div("d-flex gap-1 ps-1 pe-2") {
                         role = "group"
                         if (status == PresetStatus.REDUNDANT) {
-                            button(classes ="btn btn-sm btn-secondary d-flex align-items-center") {
+                            button(classes = "btn btn-sm btn-secondary d-flex align-items-center") {
                                 disabled = true
                                 i("bi bi-slash-circle")
                             }
@@ -1003,8 +1006,8 @@ class SimulatorClient(val simulator: Simulator) {
 
     fun getSetup(): SimulationParameters {
         val songSettings = songSettings.getElementsByClassName("song-effect-item").asList().map { options ->
-                SongEffect(options).parameters
-            }
+            SongEffect(options).parameters
+        }
         val actors = actorTabsDiv.children.asList().reversed().map { tab ->
             ActorOptions(options, tab.attributes["data-actor-id"]!!.value.toInt()).parameters
         }.map { it.copy(name = it.name.replace(Regex("\\s"), "_")) }
@@ -1115,7 +1118,8 @@ class SimulatorClient(val simulator: Simulator) {
     }
 
     fun updateUrlForSetup(setup: SimulationParameters) {
-        val newUrl = urlWithQuery(mapOf("options" to compressor.compressToEncodedURIComponent(json.encodeToString(setup))))
+        val newUrl =
+            urlWithQuery(mapOf("options" to compressor.compressToEncodedURIComponent(json.encodeToString(setup))))
         if (newUrl != window.location.href) {
             if (newUrl.length <= 8192) {
                 window.history.pushState(null, "", newUrl)
@@ -1151,6 +1155,52 @@ class SimulatorClient(val simulator: Simulator) {
 
         features = simulator.features()
         options = simulator.options()
+
+        GlobalScope.launch {
+            val auth0 = createAuth0Client(
+                jsObject {
+                    domain = "dev-xsdys5cc.us.auth0.com"
+                    client_id = "MYdi8odm24xva0wsjaIhOxkhFTikRWYB"
+                    redirect_uri = baseHref
+                    cacheLocation = "localstorage"
+                }
+            ).await()
+
+            loginButton.addEventListener("click", { e ->
+                e.preventDefault()
+                auth0.loginWithRedirect()
+            })
+
+            logoutButton.addEventListener("click", { e ->
+                e.preventDefault()
+                auth0.logout()
+            })
+
+            if (
+                window.location.search.contains("state=") &&
+                (window.location.search.contains("code=") ||
+                        window.location.search.contains("error="))
+            ) {
+                try {
+                    (auth0.handleRedirectCallback() as Promise<dynamic>).await()
+                } catch (e: Throwable) {
+                    toast("Log In", "Failed to log in.", "red")
+                }
+                updateUrlForSetup(getSetup())
+            }
+
+            val isAuthenticated = (auth0.isAuthenticated() as Promise<dynamic>).await()
+
+            if (isAuthenticated as Boolean) {
+                val userProfile = auth0.getUser().await()
+                profile.removeClass("d-none")
+                profile.textContent = userProfile.name
+                logoutButton.removeClass("d-none")
+                api.auth0Client = auth0
+            } else {
+                loginButton.removeClass("d-none")
+            }
+        }
 
         val commonText = options.commonText.associateBy { it.id }
         val bosses = options.bosses.associateBy { it.id }

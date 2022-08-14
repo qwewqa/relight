@@ -6,6 +6,7 @@ import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
 import kotlin.js.Date
 
 const val EXPIRATION_AGE = 7 * 24 * 60 * 60 * 1000
+const val EXPIRATION_THRESHOLD = 10_000
 
 @Serializable
 data class UserSettingsOld(
@@ -114,6 +115,7 @@ fun <T : Any> SyncData<T>?.update(other: SyncData<T>?): SyncData<T> {
 }
 
 fun <T : Any> MutableMap<String, SyncData<T>>.expireDeleted() {
+    if (size < EXPIRATION_THRESHOLD) return
     val now = Date.now().toLong()
     toList().forEach { (k, v) ->
         if (v.data == null && now - v.timestamp > EXPIRATION_AGE) {

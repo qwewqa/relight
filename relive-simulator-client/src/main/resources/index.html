@@ -353,7 +353,18 @@
                 <div class="col-12 mb-1">
                     <h4 class="text-options">Options</h4>
                 </div>
-                <div class="col-auto me-auto">
+                <div class="col-12 mb-1 me-auto">
+                    <div id="profile" class="d-none"></div>
+                </div>
+                <div class="col-12 mb-1 me-auto">
+                    <button id="login-button" type="button" class="btn btn-primary text-log-in d-none">
+                        Log In
+                    </button>
+                    <button id="logout-button" type="button" class="btn btn-secondary text-log-out d-none">
+                        Log Out
+                    </button>
+                </div>
+                <div class="col-12 me-auto">
                     <button id="share-presets-button" type="button" class="btn btn-primary text-share-presets">
                         Share Presets
                     </button>
@@ -748,6 +759,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="bootstrap-select.js"></script>
 <script src="https://cdn.plot.ly/plotly-2.4.2.min.js"></script>
+<script src="https://cdn.auth0.com/js/auth0-spa-js/1.22/auth0-spa-js.production.js"></script>
 <script src="relive-simulator-client.js"></script>
 </body>
 </html>

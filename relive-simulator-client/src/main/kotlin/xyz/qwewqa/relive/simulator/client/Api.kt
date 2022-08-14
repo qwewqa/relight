@@ -7,6 +7,9 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.browser.localStorage
+import kotlinx.coroutines.await
+import kotlinx.dom.addClass
+import kotlinx.dom.removeClass
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -18,7 +21,7 @@ import kotlin.js.Date
 
 const val BASE_API_URL = "https://api-legacy.relight.qwewqa.xyz"
 
-class RelightApi {
+class RelightApi(val simulator: SimulatorClient) {
     private val client = HttpClient {
         install(ContentNegotiation) {
             json(
@@ -30,6 +33,21 @@ class RelightApi {
                     encodeDefaults = true
                 }
             )
+        }
+    }
+
+    var auth0Client: Auth0Client? = null
+
+    suspend fun getToken(): String? = auth0Client?.let { auth0 ->
+        try {
+            auth0.getTokenSilently().await()
+        } catch (e: Throwable) {
+            if (e.asDynamic().error == "login_required") {
+                simulator.toast("Log In", "Log in required.", "red")
+                simulator.logoutButton.addClass("d-none")
+                simulator.loginButton.removeClass("d-none")
+            }
+            throw e
         }
     }
 
@@ -57,7 +75,13 @@ class RelightApi {
     }
 
     suspend fun createPresets(presets: List<PlayerLoadoutParameters>): String {
+        val token = getToken()
         return client.post("$BASE_API_URL/share/presets/create") {
+            headers {
+                token?.let {
+                    append("Authorization", "Bearer $it")
+                }
+            }
             contentType(ContentType.Application.Json)
             setBody(CreatePresetsRequest(presets = presets))
         }.body<CreatePresetsResponse>().id

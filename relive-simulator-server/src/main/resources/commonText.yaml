@@ -228,3 +228,9 @@
 '.text-auto-name':
   en: Auto Name
   zh_hant: 自動命名
+'.text-log-in':
+  en: Log In
+  zh_hant: 登入
+'.text-log-out':
+  en: Log Out
+  zh_hant: 登出
