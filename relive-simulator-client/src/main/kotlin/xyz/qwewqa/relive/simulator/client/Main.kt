@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.client
 
 import kotlinx.browser.document
 import kotlinx.browser.localStorage
+import kotlinx.browser.sessionStorage
 import kotlinx.browser.window
 import kotlinx.coroutines.*
 import kotlinx.dom.addClass
@@ -1109,19 +1110,19 @@ class SimulatorClient(val simulator: Simulator) {
     }
 
     fun storeTempSetup() {
-        localStorage["temp-setup"] = json.encodeToString(getSetup())
+        sessionStorage["temp-setup"] = json.encodeToString(getSetup())
     }
 
     fun handleFirstLoadUrlOptions() {
-        val tempSetupData = localStorage["temp-setup"]
+        val tempSetupData = sessionStorage["temp-setup"]
         if (tempSetupData != null) {
             try {
                 val setup = json.decodeFromString<SimulationParameters>(tempSetupData)
                 setSetup(setup)
                 // Can't update url since it'll override login data.
-                localStorage.removeItem("temp-setup")
+                sessionStorage.removeItem("temp-setup")
             } catch (e: Throwable) {
-                localStorage.removeItem("temp-setup")
+                sessionStorage.removeItem("temp-setup")
             }
         } else {
             updateSetupFromUrl()
@@ -1187,6 +1188,7 @@ class SimulatorClient(val simulator: Simulator) {
             ).await()
 
             loginButton.addEventListener("click", {
+                storeTempSetup()
                 auth0.loginWithRedirect()
             })
 
