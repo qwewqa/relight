@@ -118,6 +118,7 @@ class SimulatorClient(val simulator: Simulator) {
 
     val loginButton = document.getElementById("login-button") as HTMLButtonElement
     val logoutButton = document.getElementById("logout-button") as HTMLButtonElement
+    val syncButton = document.getElementById("sync-button") as HTMLButtonElement
     val profile = document.getElementById("profile") as HTMLDivElement
 
     var activeActorOptions: ActorOptions? = null
@@ -1185,14 +1186,11 @@ class SimulatorClient(val simulator: Simulator) {
                 }
             ).await()
 
-            loginButton.addEventListener("click", { e ->
-                e.preventDefault()
-                storeTempSetup()
+            loginButton.addEventListener("click", {
                 auth0.loginWithRedirect()
             })
 
-            logoutButton.addEventListener("click", { e ->
-                e.preventDefault()
+            logoutButton.addEventListener("click", {
                 storeTempSetup()
                 auth0.logout(jsObject { returnTo = baseHref })
             })
@@ -1218,6 +1216,18 @@ class SimulatorClient(val simulator: Simulator) {
                 profile.textContent = userProfile.name
                 logoutButton.removeClass("d-none")
                 api.auth0Client = auth0
+
+                syncButton.addEventListener("click", {
+                    GlobalScope.launch {
+                        try {
+                            api.sync()
+                            toast("Sync", "Sync successful.", "green")
+                        } catch (e: Throwable) {
+                            toast("Error", "Error syncing with server: ${e.message}", "red")
+                        }
+                    }
+                })
+                syncButton.disabled = false
             } else {
                 loginButton.removeClass("d-none")
             }

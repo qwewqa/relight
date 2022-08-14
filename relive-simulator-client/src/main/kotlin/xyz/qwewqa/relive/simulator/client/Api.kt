@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.client
 
 import io.ktor.client.*
 import io.ktor.client.call.*
+import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -55,7 +56,7 @@ class RelightApi(val simulator: SimulatorClient) {
         json.decodeFromString<UserSettingsOld>(it)
     }
 
-    var settings = json.decodeFromString<UserData>(localStorage["userdata"] ?: "{}").apply {
+    val settings = json.decodeFromString<UserData>(localStorage["userdata"] ?: "{}").apply {
         if (settingsOld != null) {
             val now = Date.now().toLong()
             settingsOld.presets.forEach { (k, v) ->
@@ -66,8 +67,58 @@ class RelightApi(val simulator: SimulatorClient) {
         }
     }
 
+    private var etag: String? = null
+    private suspend fun getSyncData(): UserData? {
+        val token = getToken() ?: throw IllegalStateException("Not logged in")
+        val response = client.get("$BASE_API_URL/sync") {
+            headers {
+                append("Authorization", "Bearer $token")
+                append("If-None-Match", etag ?: "")
+            }
+            expectSuccess = false
+        }
+        return when (response.status) {
+            HttpStatusCode.OK -> {
+                etag = response.etag()
+                response.body<GetSyncResponse>().data
+            }
+            HttpStatusCode.NotModified -> null
+            else -> throw IllegalStateException("An error occurred while retrieving sync data: ${response.status}")
+        }
+    }
+
+    private suspend fun putSyncData() {
+        val token = getToken() ?: throw IllegalStateException("Not logged in")
+        val response = client.put("$BASE_API_URL/sync") {
+            headers {
+                append("Authorization", "Bearer $token")
+                if (etag != null) {
+                    append("If-Match", etag!!)
+                }
+            }
+            contentType(ContentType.Application.Json)
+            setBody(PutSyncRequest(settings))
+        }
+        etag = response.etag()
+        if (response.status.value >= 300) {
+            throw IllegalStateException("An error occurred while saving sync data: ${response.status}")
+        }
+    }
+
+    suspend fun sync() {
+        reloadSettings()
+        val syncData = getSyncData()
+        if (syncData != null) {
+            settings.update(syncData)
+            saveSettings()
+            putSyncData()
+        }
+    }
+
     fun reloadSettings() {
-        settings = json.decodeFromString(localStorage["userdata"] ?: "{}")
+        val incoming: UserData = json.decodeFromString(localStorage["userdata"] ?: "{}")
+        settings.update(incoming)
+        saveSettings()
     }
 
     fun saveSettings() {
@@ -109,3 +160,14 @@ data class CreatePresetsResponse(
 data class GetPresetsResponse(
     val presets: List<PlayerLoadoutParameters>,
 )
+
+@Serializable
+data class GetSyncResponse(
+    val data: UserData,
+)
+
+@Serializable
+data class PutSyncRequest(
+    val data: UserData,
+)
+

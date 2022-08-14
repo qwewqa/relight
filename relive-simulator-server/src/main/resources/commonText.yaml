@@ -234,3 +234,9 @@
 '.text-log-out':
   en: Log Out
   zh_hant: 登出
+'.text-cloud-sync':
+  en: Cloud Sync
+  zh_hant: 雲端同步
+'.text-account':
+  en: Account
+  zh_hant: 帳號

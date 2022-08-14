@@ -1,6 +1,15 @@
 from typing import Optional
 
-from pydantic import BaseModel, constr, conlist, Field
+from pydantic import BaseModel, constr, conlist, Field, BaseSettings
+
+
+class Settings(BaseSettings):
+    token_issuer_url: str
+    jwks_url: str
+    audience: str
+
+    class Config:
+        env_file = ".env"
 
 
 class PlayerLoadoutParameters(BaseModel):
