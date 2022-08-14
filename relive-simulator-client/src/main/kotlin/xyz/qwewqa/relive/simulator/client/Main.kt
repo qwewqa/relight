@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.client
 
 import kotlinx.browser.document
+import kotlinx.browser.localStorage
 import kotlinx.browser.window
 import kotlinx.coroutines.*
 import kotlinx.dom.addClass
@@ -1078,7 +1079,6 @@ class SimulatorClient(val simulator: Simulator) {
         seedInput.value = seed
         updateGuestStyling()
         refreshSelectPicker()
-        updateUrlForSetup(setup)
     }
 
     fun getUrlParameter(url: String, name: String): String? {
@@ -1090,7 +1090,9 @@ class SimulatorClient(val simulator: Simulator) {
         val urlOptions = getUrlParameter(url, "options")
         if (urlOptions != null) {
             try {
-                setSetup(json.decodeFromString(compressor.decompressFromEncodedURIComponent(urlOptions)))
+                val setup = json.decodeFromString<SimulationParameters>(compressor.decompressFromEncodedURIComponent(urlOptions))
+                setSetup(setup)
+                updateUrlForSetup(setup)
                 toast("Import", "Updated configuration from url.", "green")
             } catch (e: Throwable) {
                 toast("Error", "Failed to update configuration from url.", "red")
@@ -1105,8 +1107,24 @@ class SimulatorClient(val simulator: Simulator) {
         }
     }
 
+    fun storeTempSetup() {
+        localStorage["temp-setup"] = json.encodeToString(getSetup())
+    }
+
     fun handleFirstLoadUrlOptions() {
-        updateSetupFromUrl()
+        val tempSetupData = localStorage["temp-setup"]
+        if (tempSetupData != null) {
+            try {
+                val setup = json.decodeFromString<SimulationParameters>(tempSetupData)
+                setSetup(setup)
+                // Can't update url since it'll override login data.
+                localStorage.removeItem("temp-setup")
+            } catch (e: Throwable) {
+                localStorage.removeItem("temp-setup")
+            }
+        } else {
+            updateSetupFromUrl()
+        }
         importPresetsFromUrl()
     }
 
@@ -1168,11 +1186,13 @@ class SimulatorClient(val simulator: Simulator) {
 
             loginButton.addEventListener("click", { e ->
                 e.preventDefault()
+                storeTempSetup()
                 auth0.loginWithRedirect()
             })
 
             logoutButton.addEventListener("click", { e ->
                 e.preventDefault()
+                storeTempSetup()
                 auth0.logout(jsObject { returnTo = baseHref })
             })
 
@@ -1281,7 +1301,9 @@ class SimulatorClient(val simulator: Simulator) {
                 if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
                     updateSetupFromUrl(trimmed)
                 } else {
-                    setSetup(loadYamlDeserialize(importText.value))
+                    val setup = loadYamlDeserialize<SimulationParameters>(importText.value)
+                    setSetup(setup)
+                    updateUrlForSetup(setup)
                     toast("Import", "Import completed.", "green")
                 }
             } catch (e: Throwable) {
