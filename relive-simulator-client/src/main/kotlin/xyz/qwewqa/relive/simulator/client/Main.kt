@@ -1180,6 +1180,7 @@ class SimulatorClient(val simulator: Simulator) {
                     domain = "dev-xsdys5cc.us.auth0.com"
                     client_id = "MYdi8odm24xva0wsjaIhOxkhFTikRWYB"
                     redirect_uri = baseHref
+                    audience = "https://api-legacy.relight.qwewqa.xyz/"
                     cacheLocation = "localstorage"
                 }
             ).await()
