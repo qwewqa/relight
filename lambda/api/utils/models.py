@@ -31,3 +31,44 @@ class PlayerLoadoutParameters(BaseModel):
 class CreatePresetsRequest(BaseModel):
     name: Optional[constr(max_length=100)] = None
     presets: conlist(PlayerLoadoutParameters, min_items=1, max_items=1000)
+
+
+class SongEffectParameter(BaseModel):
+    name: constr(max_length=100)
+    value: int
+    conditions: conlist(conlist(constr(max_length=50), max_items=20), max_items=2)
+
+
+class SongParameters(BaseModel):
+    activeEffects: conlist(SongEffectParameter) = Field(default_factory=lambda: [])
+    passiveEffect: Optional[SongEffectParameter] = None
+
+
+class StrategyParameter(BaseModel):
+    type: constr(max_length=100)
+    value: constr(max_length=100)
+
+
+class SimulationParameters(BaseModel):
+    maxTurns: int = 3
+    maxIterations: int = 100000
+    team: conlist(PlayerLoadoutParameters, max_items=25)
+    guest: Optional[PlayerLoadoutParameters] = None
+    song: SongParameters = None
+    strategy: StrategyParameter = Field(default_factor=lambda: StrategyParameter(type="Simple", value=""))
+    bossStrategy: Optional[StrategyParameter] = None
+    boss: constr(max_length=100)
+    bossHp: Optional[int] = None
+    additionalEventBonus: int = 0
+    eventMultiplier: int = 100
+    seed: int = 0
+
+
+class SetupData(BaseModel):
+    name: constr(max_length=100)
+    parameters: SimulationParameters
+
+
+class CreateSetupsRequest(BaseModel):
+    name: Optional[constr(max_length=100)] = None
+    setups: conlist(SetupData, min_items=1, max_items=100)

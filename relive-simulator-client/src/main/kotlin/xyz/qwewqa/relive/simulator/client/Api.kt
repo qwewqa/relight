@@ -141,6 +141,23 @@ class RelightApi(val simulator: SimulatorClient) {
     suspend fun getPresets(id: String): List<PlayerLoadoutParameters> {
         return client.get("$BASE_API_URL/share/presets/get/$id").body<GetPresetsResponse>().presets
     }
+
+    suspend fun createSetups(presets: List<SetupData>): String {
+        val token = getToken()
+        return client.post("$BASE_API_URL/share/setups/create") {
+            headers {
+                token?.let {
+                    append("Authorization", "Bearer $it")
+                }
+            }
+            contentType(ContentType.Application.Json)
+            setBody(CreateSetupsRequest(setups = presets))
+        }.body<CreatePresetsResponse>().id
+    }
+
+    suspend fun getSetups(id: String): List<SetupData> {
+        return client.get("$BASE_API_URL/share/setups/get/$id").body<GetSetupsResponse>().setups
+    }
 }
 
 
@@ -159,6 +176,23 @@ data class CreatePresetsResponse(
 @Serializable
 data class GetPresetsResponse(
     val presets: List<PlayerLoadoutParameters>,
+)
+
+@Serializable
+data class CreateSetupsRequest(
+    val name: String? = null,
+    val setups: List<SetupData>,
+)
+
+@Serializable
+data class CreateSetupsResponse(
+    val id: String,
+)
+
+
+@Serializable
+data class GetSetupsResponse(
+    val setups: List<SetupData>,
 )
 
 @Serializable

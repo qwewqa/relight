@@ -133,12 +133,12 @@
             max-width: 100vw;
         }
 
-        #presets-list {
+        #options-list {
             max-height: calc(100vh - 300px);
             overflow-y: scroll;
         }
 
-        #select-presets-list {
+        #select-options-list {
             max-height: calc(100vh - 330px);
             overflow-y: scroll;
         }
@@ -281,7 +281,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title text-options">Options</h5>
+                                <h5 class="modal-title text-options" id="options-title">Options</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                             </div>
@@ -353,26 +353,54 @@
                 <div class="col-12 mb-1">
                     <h4 class="text-options">Options</h4>
                 </div>
-                <div class="col-12 mb-2 me-auto">
+                <div class="col-12 col-md-auto mb-1">
                     <h5 class="text-account">Account</h5>
                     <div id="profile" class="d-none mb-1"></div>
-                    <button id="login-button" type="button" class="btn btn-primary text-log-in d-none">
+                    <button id="login-button" type="button" class="btn btn-primary text-log-in d-none mb-1">
                         Log In
                     </button>
-                    <button id="logout-button" type="button" class="btn btn-secondary text-log-out d-none">
+                    <button id="logout-button" type="button" class="btn btn-secondary text-log-out d-none mb-1">
                         Log Out
                     </button>
-                    <button id="sync-button" type="button" class="btn btn-info text-cloud-sync" disabled>
+                    <button id="sync-button" type="button" class="btn btn-info text-cloud-sync mb-1" disabled>
                         Cloud Sync
                     </button>
                 </div>
-                <div class="col-12 me-auto">
+                <div class="col-12 col-md-auto mb-1">
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="text-setups">Setups</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto">
+                            <button id="save-setup-button" type="button" class="btn btn-success text-save mb-1">
+                                Save
+                            </button>
+                            <button id="load-setup-button" type="button" class="btn btn-primary text-load mb-1">
+                                Load
+                            </button>
+                            <button id="manage-setups-button" type="button" class="btn btn-warning text-manage mb-1">
+                                Manage
+                            </button>
+                        </div>
+                        <div class="col-auto ps-sm-0">
+                            <button id="share-setups-button" type="button" class="btn btn-primary text-share mb-1">
+                                Share
+                            </button>
+                            <button id="import-setups-button" type="button" class="btn btn-secondary text-import mb-1">
+                                Import
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-auto">
                     <h5 class="text-presets">Presets</h5>
-                    <button id="share-presets-button" type="button" class="btn btn-primary text-share-presets">
-                        Share Presets
+                    <button id="share-presets-button" type="button" class="btn btn-primary text-share mb-1">
+                        Share
                     </button>
-                    <button id="import-presets-button" type="button" class="btn btn-secondary text-import-presets">
-                        Import Presets
+                    <button id="import-presets-button" type="button" class="btn btn-secondary text-import mb-1">
+                        Import
                     </button>
                 </div>
             </div>

@@ -3,6 +3,7 @@ package xyz.qwewqa.relive.simulator.client
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
+import xyz.qwewqa.relive.simulator.common.SimulationParameters
 import kotlin.js.Date
 
 const val EXPIRATION_AGE = 7 * 24 * 60 * 60 * 1000
@@ -17,14 +18,25 @@ data class UserSettingsOld(
 @Serializable
 data class UserData(
     val presets: MutableMap<String, SyncData<PlayerLoadoutParameters>> = mutableMapOf(),
+    val setups: MutableMap<String, SyncData<SetupData>> = mutableMapOf(),
 ) {
     @Transient
     val presetData = SyncMap(presets)
 
+    @Transient
+    val setupData = SyncMap(setups)
+
     fun update(other: UserData) {
         presetData.update(other.presetData)
+        setupData.update(other.setupData)
     }
 }
+
+@Serializable
+data class SetupData(
+    val name: String,
+    val parameters: SimulationParameters,
+)
 
 class SyncMap<T : Any>(
     private val map: MutableMap<String, SyncData<T>> = mutableMapOf(),
@@ -73,7 +85,7 @@ class SyncMap<T : Any>(
     }
 
     override fun containsKey(key: String): Boolean {
-        return map.containsKey(key)
+        return map.containsKey(key) && map[key]?.data != null
     }
 
     fun update(other: SyncMap<T>) {

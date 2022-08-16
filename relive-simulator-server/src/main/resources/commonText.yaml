@@ -172,6 +172,18 @@
 '.text-load-preset-short':
   en: Load
   zh_hant: 載入
+'.text-save':
+  en: Save
+  zh_hant: 儲存
+'.text-load':
+  en: Load
+  zh_hant: 載入
+'.text-manage':
+  en: Manage
+  zh_hant: 管理
+'.text-share':
+  en: Share
+  zh_hant: 分享
 '.text-save-preset-short':
   en: Save
   zh_hant: 儲存
@@ -195,9 +207,15 @@
 '.text-presets':
   en: Presets
   zh_hant: 預設
+'.text-setups':
+  en: Setups
+  zh_hant: 設置
 '.text-select-presets':
   en: Select Presets
   zh_hant: 選擇預設
+'.text-select-setups':
+  en: Select Setups
+  zh_hant: 選擇設定
 '.text-new-preset':
   en: New Preset
   zh_hant: 新預設

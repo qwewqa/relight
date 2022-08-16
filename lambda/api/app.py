@@ -11,7 +11,7 @@ from aws_lambda_powertools.event_handler import APIGatewayHttpResolver, Response
 from aws_lambda_powertools.event_handler.exceptions import BadRequestError, NotFoundError, UnauthorizedError
 from aws_lambda_powertools.utilities.typing import LambdaContext
 
-from utils.models import CreatePresetsRequest, Settings
+from utils.models import CreatePresetsRequest, Settings, CreateSetupsRequest
 
 session = boto3.Session(region_name="us-west-2")
 dynamodb = session.resource("dynamodb")
@@ -21,6 +21,11 @@ bucket = s3.Bucket("relight-legacy-sharedata")
 
 settings = Settings()
 app = APIGatewayHttpResolver()
+
+
+MAX_SYNC_DATA_SIZE = 20_000_000
+MAX_PRESET_SHARE_DATA_SIZE = 100_000
+MAX_SETUP_SHARE_DATA_SIZE = 100_000
 
 
 def generate_id() -> str:
@@ -96,12 +101,16 @@ def create_presets():
     try:
         json_data = app.current_event.json_body
         data = CreatePresetsRequest(**json_data)
-    except pydantic.ValidationError:
+    except pydantic.ValidationError as e:
+        print(e)
         raise BadRequestError(f"Invalid preset data.")
     preset_id = generate_id()
     s3_key = f"presets/{preset_id}"
     ddb_key = f"presets#{preset_id}"
-    bucket.Object(s3_key).put(Body=json.dumps(json_data["presets"]).encode("utf-8"))
+    body = json.dumps(json_data["presets"]).encode("utf-8")
+    if len(body) > MAX_PRESET_SHARE_DATA_SIZE:
+        raise BadRequestError(f"Preset data is too large.")
+    bucket.Object(s3_key).put(Body=body)
     table.put_item(
         Item={
             "id": ddb_key,
@@ -112,7 +121,43 @@ def create_presets():
     return {"id": preset_id}
 
 
-MAX_SYNC_DATA_SIZE = 20_000_000 # 20 MB
+@app.get("/share/setups/get/<setup_id>")
+def get_setups(setup_id: str):
+    if len(setup_id) != 32:
+        raise BadRequestError("Invalid setup ID")
+    ddb_key = f"setups#{setup_id}"
+    response = table.get_item(Key={"id": ddb_key})
+    if "Item" not in response:
+        raise NotFoundError
+    item = response["Item"]
+    s3_key = item["s3_key"]
+    data = json.loads(bucket.Object(s3_key).get()["Body"].read())
+    return {"setups": data}
+
+
+@app.post("/share/setups/create")
+def create_setups():
+    try:
+        json_data = app.current_event.json_body
+        data = CreateSetupsRequest(**json_data)
+    except pydantic.ValidationError as e:
+        print(e)
+        raise BadRequestError(f"Invalid setup data.")
+    setup_id = generate_id()
+    s3_key = f"setups/{setup_id}"
+    ddb_key = f"setups#{setup_id}"
+    body = json.dumps(json_data["setups"]).encode("utf-8")
+    if len(body) > MAX_SETUP_SHARE_DATA_SIZE:
+        raise BadRequestError(f"Setup data is too large.")
+    bucket.Object(s3_key).put(Body=body)
+    table.put_item(
+        Item={
+            "id": ddb_key,
+            "setups_name": data.name,
+            "s3_key": s3_key,
+        }
+    )
+    return {"id": setup_id}
 
 
 def get_sync_data(user_id: str) -> dict:
