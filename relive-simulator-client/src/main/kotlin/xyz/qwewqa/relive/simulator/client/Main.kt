@@ -230,7 +230,7 @@ class SimulatorClient(val simulator: Simulator) {
                         style = "height: 2em;"
                         src = options.dressesById[preset.dress]?.imagePath ?: ""
                     }
-                    input(InputType.text, classes = "form-control-plaintext") {
+                    input(InputType.text, classes = "form-control-plaintext form-control-sm") {
                         id = "actor-preset-name-$index"
                         value = preset.name
                         readonly = true
@@ -343,7 +343,7 @@ class SimulatorClient(val simulator: Simulator) {
                             }
                         }
                     }
-                    input(InputType.text, classes = "form-control-plaintext") {
+                    input(InputType.text, classes = "form-control-plaintext form-control-sm") {
                         id = "setup-name-$index"
                         value = setup.name
                         readonly = true
@@ -449,7 +449,7 @@ class SimulatorClient(val simulator: Simulator) {
                         style = "height: 2em;"
                         src = options.dressesById[preset.dress]?.imagePath ?: ""
                     }
-                    input(InputType.text, classes = "form-control-plaintext") {
+                    input(InputType.text, classes = "form-control-plaintext form-control-sm") {
                         id = "actor-preset-name-$index"
                         value = preset.name
                         readonly = true
@@ -559,7 +559,7 @@ class SimulatorClient(val simulator: Simulator) {
                             }
                         }
                     }
-                    input(InputType.text, classes = "form-control-plaintext") {
+                    input(InputType.text, classes = "form-control-plaintext form-control-sm") {
                         id = "setup-name-$index"
                         value = setup.name
                         readonly = true
