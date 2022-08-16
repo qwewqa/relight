@@ -732,544 +732,570 @@ class SimulatorClient(val simulator: Simulator) {
         }
     }
 
+    data class CachedActorElements(
+        val id: Int,
+        val tab: Element,
+        val options: Element,
+    )
+
+    val actorElementCache = mutableListOf<CachedActorElements>()
+
     var actorIdCounter = 0
     fun addActor(): Int {
-        val actorId = actorIdCounter++
-        actorTabsDiv.appendChild(
-            document.create.div("actor-tab-container") {
-                id = "actor-tab-$actorId"
-                attributes["data-actor-id"] = actorId.toString()
-                div("d-flex flex-column") {
-                    onClickFunction = {
-                        setActiveActor(actorId.takeIf { it != activeActorId })
-                    }
-                    div {
-                        style = "position: relative;"
-                        img(classes = "actor-dress-image") {
-                            style = "width: 100%"
-                            src = options.dresses.first().imagePath!!
+        val actorId: Int
+        if (actorElementCache.isEmpty()) {
+            actorId = actorIdCounter++
+            actorTabsDiv.appendChild(
+                document.create.div("actor-tab-container") {
+                    id = "actor-tab-$actorId"
+                    attributes["data-actor-id"] = actorId.toString()
+                    div("d-flex flex-column") {
+                        onClickFunction = {
+                            setActiveActor(actorId.takeIf { it != activeActorId })
                         }
-                        img(classes = "actor-memoir-image") {
-                            style = "position: absolute; right: 2%; bottom: 2%; width: 52%;"
-                            src = options.memoirs.first().imagePath!!
+                        div {
+                            style = "position: relative;"
+                            img(classes = "actor-dress-image") {
+                                style = "width: 100%"
+                                src = options.dresses.first().imagePath!!
+                            }
+                            img(classes = "actor-memoir-image") {
+                                style = "position: absolute; right: 2%; bottom: 2%; width: 52%;"
+                                src = options.memoirs.first().imagePath!!
+                            }
+                            img(classes = "actor-memoir-unbind-image") {
+                                style = "position: absolute; right: 2%; bottom: 2%; width: 52%;"
+                                src = getMemoirUnbindImagePath(4)
+                            }
+                            img(classes = "actor-remake-level-image") {
+                                style =
+                                    "position: absolute; bottom: 23%; left: 5%; width: 16%;filter: drop-shadow(0 0 2px darkred);"
+                                src = getRemakeLevelVerticalImagePath(0)
+                            }
+                            div("d-flex flex-column") {
+                                style = "position: absolute; right: 6%; bottom: 0%;" +
+                                        "text-shadow: #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px;"
+                                div("actor-memoir-level") {
+                                    style = "color: darkblue;"
+                                    +"80"
+                                }
+                            }
+                            div("d-flex flex-column") {
+                                style = "position: absolute; left: 6%; bottom: 0%;" +
+                                        "text-shadow: #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px;"
+                                div("actor-level") {
+                                    style = "color: darkred;"
+                                    +"80"
+                                }
+                            }
+                            div("d-flex flex-column") {
+                                style = "position: absolute; left: 6%; top: 0%;" +
+                                        "text-shadow: #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px;"
+                                div("actor-unit-skill-level") {
+                                    style = "color: indigo; font-size: 0.85em;"
+                                    +"21"
+                                }
+                            }
                         }
-                        img(classes = "actor-memoir-unbind-image") {
-                            style = "position: absolute; right: 2%; bottom: 2%; width: 52%;"
-                            src = getMemoirUnbindImagePath(4)
-                        }
-                        img(classes = "actor-remake-level-image") {
+                        div("pt-0 p-1 actor-name actor-tab-name") {
                             style =
-                                "position: absolute; bottom: 23%; left: 5%; width: 16%;filter: drop-shadow(0 0 2px darkred);"
-                            src = getRemakeLevelVerticalImagePath(0)
+                                "font-weight: bold; font-size: 0.75em; min-height: 1.2em; text-align: center; word-wrap: anywhere;"
                         }
-                        div("d-flex flex-column") {
-                            style = "position: absolute; right: 6%; bottom: 0%;" +
-                                    "text-shadow: #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px;"
-                            div("actor-memoir-level") {
-                                style = "color: darkblue;"
-                                +"80"
-                            }
-                        }
-                        div("d-flex flex-column") {
-                            style = "position: absolute; left: 6%; bottom: 0%;" +
-                                    "text-shadow: #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px;"
-                            div("actor-level") {
-                                style = "color: darkred;"
-                                +"80"
-                            }
-                        }
-                        div("d-flex flex-column") {
-                            style = "position: absolute; left: 6%; top: 0%;" +
-                                    "text-shadow: #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px;"
-                            div("actor-unit-skill-level") {
-                                style = "color: indigo; font-size: 0.85em;"
-                                +"21"
-                            }
-                        }
-                    }
-                    div("pt-0 p-1 actor-name actor-tab-name") {
-                        style =
-                            "font-weight: bold; font-size: 0.75em; min-height: 1.2em; text-align: center; word-wrap: anywhere;"
                     }
                 }
-            }
-        )
-        actorSettingsDiv.appendChild(
-            document.create.div("row actor-options") {
-                id = "actor-options-$actorId"
-                attributes["data-actor-id"] = actorId.toString()
-                div("col-12 mt-1 mb-2") {
-                    div("border border-2 rounded") {
-                        div("row mx-2 mt-3") {
-                            div("col-auto me-auto") {
-                                button(type = ButtonType.button, classes = "btn btn-outline-secondary") {
-                                    id = "actor-left-$actorId"
-                                    onClickFunction = {
-                                        val tab = (document.getElementById("actor-tab-$actorId") as HTMLElement)
-                                        tab.previousSibling?.let { prev ->
-                                            tab.parentElement?.insertBefore(tab, prev)
+            )
+            actorSettingsDiv.appendChild(
+                document.create.div("row actor-options") {
+                    id = "actor-options-$actorId"
+                    attributes["data-actor-id"] = actorId.toString()
+                    div("col-12 mt-1 mb-2") {
+                        div("border border-2 rounded") {
+                            div("row mx-2 mt-3") {
+                                div("col-auto me-auto") {
+                                    button(type = ButtonType.button, classes = "btn btn-outline-secondary") {
+                                        id = "actor-left-$actorId"
+                                        onClickFunction = {
+                                            val tab = (document.getElementById("actor-tab-$actorId") as HTMLElement)
+                                            tab.previousSibling?.let { prev ->
+                                                tab.parentElement?.insertBefore(tab, prev)
+                                            }
+                                        }
+                                        i("bi-caret-left-fill")
+                                    }
+                                    +" "
+                                    button(type = ButtonType.button, classes = "btn btn-outline-secondary") {
+                                        id = "actor-right-$actorId"
+                                        onClickFunction = {
+                                            val tab = (document.getElementById("actor-tab-$actorId") as HTMLElement)
+                                            tab.nextSibling?.let { next ->
+                                                tab.parentElement?.insertBefore(next, tab)
+                                            }
+                                        }
+                                        i("bi-caret-right-fill")
+                                    }
+                                    +" "
+                                    button(
+                                        type = ButtonType.button,
+                                        classes = "btn btn-outline-secondary text-save-preset-short"
+                                    ) {
+                                        id = "actor-save-preset-$actorId"
+                                        +localized(".text-save-preset-short", "Save")
+                                        onClickFunction = {
+                                            activeActorOptions = ActorOptions(options, actorId)
+                                            openPresetsModal(save = true, delete = true, new = true)
                                         }
                                     }
-                                    i("bi-caret-left-fill")
-                                }
-                                +" "
-                                button(type = ButtonType.button, classes = "btn btn-outline-secondary") {
-                                    id = "actor-right-$actorId"
-                                    onClickFunction = {
-                                        val tab = (document.getElementById("actor-tab-$actorId") as HTMLElement)
-                                        tab.nextSibling?.let { next ->
-                                            tab.parentElement?.insertBefore(next, tab)
+                                    +" "
+                                    button(
+                                        type = ButtonType.button,
+                                        classes = "btn btn-outline-secondary text-load-preset-short"
+                                    ) {
+                                        id = "actor-load-preset-$actorId"
+                                        +localized(".text-load-preset-short", "Load")
+                                        onClickFunction = {
+                                            activeActorOptions = ActorOptions(options, actorId)
+                                            openPresetsModal(load = true)
                                         }
                                     }
-                                    i("bi-caret-right-fill")
                                 }
-                                +" "
-                                button(
-                                    type = ButtonType.button,
-                                    classes = "btn btn-outline-secondary text-save-preset-short"
-                                ) {
-                                    id = "actor-save-preset-$actorId"
-                                    +localized(".text-save-preset-short", "Save")
-                                    onClickFunction = {
-                                        activeActorOptions = ActorOptions(options, actorId)
-                                        openPresetsModal(save = true, delete = true, new = true)
-                                    }
-                                }
-                                +" "
-                                button(
-                                    type = ButtonType.button,
-                                    classes = "btn btn-outline-secondary text-load-preset-short"
-                                ) {
-                                    id = "actor-load-preset-$actorId"
-                                    +localized(".text-load-preset-short", "Load")
-                                    onClickFunction = {
-                                        activeActorOptions = ActorOptions(options, actorId)
-                                        openPresetsModal(load = true)
+                                div("col-auto") {
+                                    button(type = ButtonType.button, classes = "btn btn-danger") {
+                                        id = "actor-delete-$actorId"
+                                        onClickFunction = {
+                                            val actorIds = actorTabsDiv.children.asList()
+                                                .map { it.attributes["data-actor-id"]!!.value.toInt() }
+                                            val tab = document.getElementById("actor-tab-$actorId") as HTMLElement
+                                            val options = document.getElementById("actor-options-$actorId") as HTMLElement
+                                            tab.remove()
+                                            options.remove()
+                                            actorElementCache.add(
+                                                CachedActorElements(
+                                                    id = actorId,
+                                                    tab = tab,
+                                                    options = options
+                                                )
+                                            )
+                                            updateGuestStyling()
+                                            if (actorId == activeActorId) {
+                                                val index = actorIds.indexOf(actorId)
+                                                setActiveActor(
+                                                    actorIds.filter { it != actorId }.take(index + 1).lastOrNull()
+                                                )
+                                            }
+                                        }
+                                        i("bi-x-lg")
                                     }
                                 }
                             }
-                            div("col-auto") {
-                                button(type = ButtonType.button, classes = "btn btn-danger") {
-                                    id = "actor-delete-$actorId"
-                                    onClickFunction = {
-                                        val actorIds = actorTabsDiv.children.asList()
-                                            .map { it.attributes["data-actor-id"]!!.value.toInt() }
-                                        (document.getElementById("actor-options-$actorId") as HTMLElement).remove()
-                                        (document.getElementById("actor-tab-$actorId") as HTMLElement).remove()
-                                        updateGuestStyling()
-                                        if (actorId == activeActorId) {
-                                            val index = actorIds.indexOf(actorId)
-                                            setActiveActor(
-                                                actorIds.filter { it != actorId }.take(index + 1).lastOrNull()
+                            div("row mx-2 mb-2") {
+                                div("col-12 my-1") {
+                                    val inputId = "actor-name-$actorId"
+                                    label("form-label text-actor-name") {
+                                        htmlFor = inputId
+                                        +localized(".text-actor-name", "Name")
+                                    }
+                                    input(InputType.text, classes = "form-control actor-name") {
+                                        id = inputId
+                                        onChangeFunction = {
+                                            ActorOptions(options, actorId).update()
+                                        }
+                                    }
+                                }
+                            }
+                            div("row mx-2 mb-2") {
+                                div("col-12 col-md-8 col-lg-6 my-1") {
+                                    val selectId = "actor-dress-$actorId"
+                                    label("form-label text-dress") {
+                                        htmlFor = selectId
+                                        +localized(".text-dress", "Dress")
+                                    }
+                                    select("selectpicker actor-selectpicker-$actorId form-control actor-dress") {
+                                        id = selectId
+                                        attributes["data-live-search"] = "true"
+                                        options.dresses.forEach {
+                                            option {
+                                                attributes["data-img"] = it.imagePath ?: ""
+                                                value = it.id
+                                                +it[locale]
+                                            }
+                                        }
+                                        onChangeFunction = {
+                                            ActorOptions(options, actorId).update()
+                                        }
+                                    }
+                                }
+
+                                div("col-8 col-md-4 col-lg-3 my-1") {
+                                    val selectId = "actor-remake-$actorId"
+                                    label("form-label text-actor-remake") {
+                                        htmlFor = selectId
+                                        +localized(".text-actor-remake", "Remake")
+                                    }
+                                    +" "
+                                    img(classes = "actor-remake-icon") {
+                                        id = "actor-remake-icon-$actorId"
+                                        style = "height: 0.8em; margin-top: -0.125em"
+                                        src = getRemakeLevelHorizontalImagePath(0)
+                                    }
+                                    div("btn-group w-100 actor-remake") {
+                                        role = "group"
+                                        attributes["data-prev-value"] = "0"
+                                        (0..4).forEach { level ->
+                                            input(InputType.radio, classes = "btn-check") {
+                                                id = "actor-remake-$actorId-radio-$level"
+                                                name = "actor-remake-$actorId-radio"
+                                                autoComplete = false
+                                                value = level.toString()
+                                                if (level == 0) {
+                                                    attributes["checked"] = "checked"
+                                                }
+                                                onChangeFunction = {
+                                                    val opt = ActorOptions(options, actorId)
+                                                    val prev = opt.remake.element.attributes["data-prev-value"]
+                                                        ?.value?.toInt() ?: 0
+                                                    val params = opt.parameters
+                                                    val newLevel =
+                                                        if (params.level == 20 + 10 * params.rarity + 5 * prev) {
+                                                            20 + 10 * params.rarity + 5 * params.remake
+                                                        } else {
+                                                            params.level
+                                                        }
+                                                    val newFriendship =
+                                                        if (params.friendship == 5 * params.rarity + 5 * prev) {
+                                                            5 * params.rarity + 5 * params.remake
+                                                        } else {
+                                                            params.friendship
+                                                        }
+                                                    opt.parameters = params.copy(
+                                                        level = newLevel,
+                                                        friendship = newFriendship
+                                                    )
+                                                }
+                                            }
+                                            label(classes = "btn btn-outline-secondary") {
+                                                htmlFor = "actor-remake-$actorId-radio-$level"
+                                                +"$level"
+                                            }
+                                        }
+                                    }
+                                }
+                                div("col-4 col-md-4 col-lg-3 my-1") {
+                                    val inputId = "actor-level-$actorId"
+                                    label("form-label text-actor-level") {
+                                        htmlFor = inputId
+                                        +localized(".text-actor-level", "Level")
+                                    }
+                                    input(InputType.number, classes = "form-control actor-level") {
+                                        id = inputId
+                                        placeholder = "80"
+                                        onChangeFunction = {
+                                            ActorOptions(options, actorId).update()
+                                        }
+                                    }
+                                }
+                                div("col-4 col-md-4 col-lg-2 my-1") {
+                                    val selectId = "actor-rarity-$actorId"
+                                    label("form-label text-actor-rarity") {
+                                        htmlFor = selectId
+                                        +localized(".text-actor-rarity", "Stars")
+                                    }
+                                    select(classes = "form-select actor-rarity") {
+                                        id = selectId
+                                        option {
+                                            value = "6"
+                                            +"6"
+                                            selected = true
+                                        }
+                                        option {
+                                            value = "5"
+                                            +"5"
+                                        }
+                                        option {
+                                            value = "4"
+                                            +"4"
+                                        }
+                                        option {
+                                            value = "3"
+                                            +"3"
+                                        }
+                                        option {
+                                            value = "2"
+                                            +"2"
+                                        }
+                                    }
+                                }
+                                div("col-4 col-md-4 col-lg-2 my-1") {
+                                    val inputId = "actor-friendship-$actorId"
+                                    label("form-label text-actor-friendship") {
+                                        htmlFor = inputId
+                                        +localized(".text-actor-friendship", "Bond")
+                                    }
+                                    input(InputType.number, classes = "form-control actor-friendship") {
+                                        id = inputId
+                                        placeholder = "30"
+                                    }
+                                }
+                                div("col-4 col-md-4 col-lg-2 my-1") {
+                                    val inputId = "actor-unit-skill-$actorId"
+                                    label("form-label text-unit-skill-level") {
+                                        htmlFor = inputId
+                                        +localized(".text-unit-skill-level", "US")
+                                    }
+                                    +" "
+                                    img {
+                                        style = "height: 1.2em; margin-top: -0.1em;"
+                                        src = "img/common/button_unitskill.png"
+                                    }
+                                    input(InputType.number, classes = "form-control actor-unit-skill") {
+                                        id = inputId
+                                        placeholder = "21"
+                                        onChangeFunction = {
+                                            ActorOptions(options, actorId).update()
+                                        }
+                                    }
+                                }
+                                div("col-6 col-md-4 col-lg-3 my-1") {
+                                    val selectId = "actor-rank-$actorId"
+                                    label("form-label text-actor-rank") {
+                                        htmlFor = selectId
+                                        +localized(".text-actor-rank", "Rank")
+                                    }
+                                    select(classes = "form-select actor-rank") {
+                                        id = selectId
+                                        option {
+                                            value = "9"
+                                            +"9"
+                                            selected = true
+                                        }
+                                        option {
+                                            value = "8"
+                                            +"8"
+                                        }
+                                        option {
+                                            value = "7"
+                                            +"7"
+                                        }
+                                        option {
+                                            value = "6"
+                                            +"6"
+                                        }
+                                        option {
+                                            value = "5"
+                                            +"5"
+                                        }
+                                        option {
+                                            value = "4"
+                                            +"4"
+                                        }
+                                        option {
+                                            value = "3"
+                                            +"3"
+                                        }
+                                        option {
+                                            value = "2"
+                                            +"2"
+                                        }
+                                        option {
+                                            value = "1"
+                                            +"1"
+                                        }
+                                    }
+                                }
+                                div("col-6 col-md-4 col-lg-3 my-1") {
+                                    val selectId = "actor-rank-panel-pattern-$actorId"
+                                    label("form-label text-actor-rank-panel-pattern") {
+                                        htmlFor = selectId
+                                        +localized(".text-actor-rank-panel-pattern", "Panel Pattern")
+                                    }
+                                    select(classes = "form-select actor-rank-panel-pattern") {
+                                        id = selectId
+                                        rankPanelIds.entries.forEachIndexed { i, (name, id) ->
+                                            option {
+                                                value = name
+                                                +localized(id, name)
+                                                selected = i == 0
+                                            }
+                                        }
+                                    }
+                                }
+                                div("col-12 my-1") {
+                                    val selectId = "actor-remake-skill-$actorId"
+                                    label("form-label text-remake-skill") {
+                                        htmlFor = selectId
+                                        +localized(".text-remake-skill", "Remake Skill")
+                                    }
+                                    select("selectpicker actor-selectpicker-$actorId form-control actor-remake-skill") {
+                                        id = selectId
+                                        attributes["data-live-search"] = "true"
+                                        attributes["disabled"] = "disabled"
+                                        options.remakeSkills.forEach {
+                                            option {
+                                                attributes["data-img"] = it.imagePath ?: ""
+                                                value = it.id
+                                                +it[locale]
+                                            }
+                                        }
+                                        onChangeFunction = {
+                                            val opt = ActorOptions(options, actorId)
+                                            opt.remakeSkillText.textContent =
+                                                opt.remakeSkill.element.selectedOptions.single<HTMLElement>().textContent
+                                        }
+                                    }
+                                    p("mt-2 mb-1 mx-1 d-md-none actor-remake-skill-text") {
+                                        id = "$selectId-text"
+                                        style = "font-size: 0.85em;"
+                                        +options.remakeSkills.first()[locale]
+                                    }
+                                }
+                                div("col-12 col-md-6 my-1") {
+                                    val selectId = "actor-memoir-$actorId"
+                                    label("form-label text-memoir") {
+                                        htmlFor = selectId
+                                        +localized(".text-memoir", "Memoir")
+                                    }
+                                    select("selectpicker actor-selectpicker-$actorId form-control actor-memoir") {
+                                        id = selectId
+                                        attributes["data-live-search"] = "true"
+                                        options.memoirs.forEach {
+                                            option {
+                                                val name = it[locale]
+                                                val description = it.description?.get(locale)
+                                                attributes["data-img"] = it.imagePath ?: ""
+                                                attributes["data-subtext"] = description ?: ""
+                                                value = it.id
+                                                +name
+                                                attributes["data-tokens"] =
+                                                    it.tags?.get(locale)?.joinToString(" ") ?: ""
+                                            }
+                                        }
+                                        onChangeFunction = {
+                                            ActorOptions(options, actorId).update()
+                                        }
+                                    }
+                                }
+                                div("col-8 col-md-4 col-lg-3 my-1") {
+                                    val selectId = "actor-memoir-unbind-$actorId"
+                                    label("form-label text-memoir-unbind") {
+                                        htmlFor = selectId
+                                        +localized(".text-memoir-unbind", "Unbind")
+                                    }
+                                    +" "
+                                    img(classes = "actor-memoir-unbind-icon") {
+                                        id = "actor-memoir-unbind-icon-$actorId"
+                                        style = "height: 0.85em; margin-top: -0.15em"
+                                        src = getMemoirUnbindLevelHorizontalImagePath(4)
+                                    }
+                                    div("btn-group w-100 actor-memoir-unbind") {
+                                        role = "group"
+                                        attributes["data-prev-value"] = "4"
+                                        (0..4).forEach { level ->
+                                            input(InputType.radio, classes = "btn-check") {
+                                                id = "actor-memoir-unbind-$actorId-radio-$level"
+                                                name = "actor-memoir-unbind-$actorId-radio"
+                                                autoComplete = false
+                                                value = level.toString()
+                                                if (level == 4) {
+                                                    attributes["checked"] = "checked"
+                                                }
+                                                onChangeFunction = {
+                                                    val opt = ActorOptions(options, actorId)
+                                                    val prev = opt.memoirUnbind.element.attributes["data-prev-value"]
+                                                        ?.value?.toInt() ?: 0
+                                                    val params = opt.parameters
+                                                    // only works for 4* memos, which is almost all of them
+                                                    val newMemoirLevel = if (params.memoirLevel == 60 + 5 * prev) {
+                                                        60 + 5 * params.memoirLimitBreak
+                                                    } else {
+                                                        params.memoirLevel
+                                                    }
+                                                    opt.parameters = params.copy(
+                                                        memoirLevel = newMemoirLevel
+                                                    )
+                                                }
+                                            }
+                                            label(classes = "btn btn-outline-secondary") {
+                                                htmlFor = "actor-memoir-unbind-$actorId-radio-$level"
+                                                +"$level"
+                                            }
+                                        }
+                                    }
+                                }
+                                div("col-4 col-md-2 col-lg-3 my-1") {
+                                    val inputId = "actor-memoir-level-$actorId"
+                                    label("form-label text-memoir-level") {
+                                        htmlFor = inputId
+                                        +localized(".text-memoir-level", "Level")
+                                    }
+                                    input(InputType.number, classes = "form-control actor-memoir-level") {
+                                        id = inputId
+                                        placeholder = "80"
+                                        onChangeFunction = {
+                                            ActorOptions(options, actorId).update()
+                                        }
+                                    }
+                                }
+                                div("col-12 my-1") {
+                                    button(
+                                        type = ButtonType.button,
+                                        classes = "btn btn-outline-secondary text-actor-preset-min"
+                                    ) {
+                                        id = "actor-preset-min-$actorId"
+                                        +"Min"
+                                        onClickFunction = {
+                                            val opt = ActorOptions(options, actorId)
+                                            opt.parameters = opt.parameters.copy(
+                                                level = 1,
+                                                rarity = 4,
+                                                remake = 0,
+                                                friendship = 1,
+                                                rank = 1,
+                                                rankPanelPattern = List(8) { false },
+                                                memoirLevel = 1,
                                             )
                                         }
                                     }
-                                    i("bi-x-lg")
-                                }
-                            }
-                        }
-                        div("row mx-2 mb-2") {
-                            div("col-12 my-1") {
-                                val inputId = "actor-name-$actorId"
-                                label("form-label text-actor-name") {
-                                    htmlFor = inputId
-                                    +localized(".text-actor-name", "Name")
-                                }
-                                input(InputType.text, classes = "form-control actor-name") {
-                                    id = inputId
-                                    onChangeFunction = {
-                                        ActorOptions(options, actorId).update()
-                                    }
-                                }
-                            }
-                        }
-                        div("row mx-2 mb-2") {
-                            div("col-12 col-md-8 col-lg-6 my-1") {
-                                val selectId = "actor-dress-$actorId"
-                                label("form-label text-dress") {
-                                    htmlFor = selectId
-                                    +localized(".text-dress", "Dress")
-                                }
-                                select("selectpicker actor-selectpicker-$actorId form-control actor-dress") {
-                                    id = selectId
-                                    attributes["data-live-search"] = "true"
-                                    options.dresses.forEach {
-                                        option {
-                                            attributes["data-img"] = it.imagePath ?: ""
-                                            value = it.id
-                                            +it[locale]
+                                    +" "
+                                    button(
+                                        type = ButtonType.button,
+                                        classes = "btn btn-outline-secondary text-actor-preset-max"
+                                    ) {
+                                        id = "actor-preset-max-$actorId"
+                                        +"Max"
+                                        onClickFunction = {
+                                            val opt = ActorOptions(options, actorId)
+                                            val param = opt.parameters
+                                            opt.parameters = param.copy(
+                                                level = 80 + 5 * param.remake,
+                                                rarity = 6,
+                                                friendship = 30 + 5 * param.remake,
+                                                rank = 9,
+                                                rankPanelPattern = List(8) { true },
+                                                memoirLevel = 60 + 5 * param.memoirLimitBreak,
+                                            )
                                         }
-                                    }
-                                    onChangeFunction = {
-                                        ActorOptions(options, actorId).update()
-                                    }
-                                }
-                            }
-
-                            div("col-8 col-md-4 col-lg-3 my-1") {
-                                val selectId = "actor-remake-$actorId"
-                                label("form-label text-actor-remake") {
-                                    htmlFor = selectId
-                                    +localized(".text-actor-remake", "Remake")
-                                }
-                                +" "
-                                img(classes = "actor-remake-icon") {
-                                    id = "actor-remake-icon-$actorId"
-                                    style = "height: 0.8em; margin-top: -0.125em"
-                                    src = getRemakeLevelHorizontalImagePath(0)
-                                }
-                                div("btn-group w-100 actor-remake") {
-                                    role = "group"
-                                    attributes["data-prev-value"] = "0"
-                                    (0..4).forEach { level ->
-                                        input(InputType.radio, classes = "btn-check") {
-                                            id = "actor-remake-$actorId-radio-$level"
-                                            name = "actor-remake-$actorId-radio"
-                                            autoComplete = false
-                                            value = level.toString()
-                                            if (level == 0) {
-                                                attributes["checked"] = "checked"
-                                            }
-                                            onChangeFunction = {
-                                                val opt = ActorOptions(options, actorId)
-                                                val prev = opt.remake.element.attributes["data-prev-value"]
-                                                    ?.value?.toInt() ?: 0
-                                                val params = opt.parameters
-                                                val newLevel =
-                                                    if (params.level == 20 + 10 * params.rarity + 5 * prev) {
-                                                        20 + 10 * params.rarity + 5 * params.remake
-                                                    } else {
-                                                        params.level
-                                                    }
-                                                val newFriendship =
-                                                    if (params.friendship == 5 * params.rarity + 5 * prev) {
-                                                        5 * params.rarity + 5 * params.remake
-                                                    } else {
-                                                        params.friendship
-                                                    }
-                                                opt.parameters = params.copy(
-                                                    level = newLevel,
-                                                    friendship = newFriendship
-                                                )
-                                            }
-                                        }
-                                        label(classes = "btn btn-outline-secondary") {
-                                            htmlFor = "actor-remake-$actorId-radio-$level"
-                                            +"$level"
-                                        }
-                                    }
-                                }
-                            }
-                            div("col-4 col-md-4 col-lg-3 my-1") {
-                                val inputId = "actor-level-$actorId"
-                                label("form-label text-actor-level") {
-                                    htmlFor = inputId
-                                    +localized(".text-actor-level", "Level")
-                                }
-                                input(InputType.number, classes = "form-control actor-level") {
-                                    id = inputId
-                                    placeholder = "80"
-                                    onChangeFunction = {
-                                        ActorOptions(options, actorId).update()
-                                    }
-                                }
-                            }
-                            div("col-4 col-md-4 col-lg-2 my-1") {
-                                val selectId = "actor-rarity-$actorId"
-                                label("form-label text-actor-rarity") {
-                                    htmlFor = selectId
-                                    +localized(".text-actor-rarity", "Stars")
-                                }
-                                select(classes = "form-select actor-rarity") {
-                                    id = selectId
-                                    option {
-                                        value = "6"
-                                        +"6"
-                                        selected = true
-                                    }
-                                    option {
-                                        value = "5"
-                                        +"5"
-                                    }
-                                    option {
-                                        value = "4"
-                                        +"4"
-                                    }
-                                    option {
-                                        value = "3"
-                                        +"3"
-                                    }
-                                    option {
-                                        value = "2"
-                                        +"2"
-                                    }
-                                }
-                            }
-                            div("col-4 col-md-4 col-lg-2 my-1") {
-                                val inputId = "actor-friendship-$actorId"
-                                label("form-label text-actor-friendship") {
-                                    htmlFor = inputId
-                                    +localized(".text-actor-friendship", "Bond")
-                                }
-                                input(InputType.number, classes = "form-control actor-friendship") {
-                                    id = inputId
-                                    placeholder = "30"
-                                }
-                            }
-                            div("col-4 col-md-4 col-lg-2 my-1") {
-                                val inputId = "actor-unit-skill-$actorId"
-                                label("form-label text-unit-skill-level") {
-                                    htmlFor = inputId
-                                    +localized(".text-unit-skill-level", "US")
-                                }
-                                +" "
-                                img {
-                                    style = "height: 1.2em; margin-top: -0.1em;"
-                                    src = "img/common/button_unitskill.png"
-                                }
-                                input(InputType.number, classes = "form-control actor-unit-skill") {
-                                    id = inputId
-                                    placeholder = "21"
-                                    onChangeFunction = {
-                                        ActorOptions(options, actorId).update()
-                                    }
-                                }
-                            }
-                            div("col-6 col-md-4 col-lg-3 my-1") {
-                                val selectId = "actor-rank-$actorId"
-                                label("form-label text-actor-rank") {
-                                    htmlFor = selectId
-                                    +localized(".text-actor-rank", "Rank")
-                                }
-                                select(classes = "form-select actor-rank") {
-                                    id = selectId
-                                    option {
-                                        value = "9"
-                                        +"9"
-                                        selected = true
-                                    }
-                                    option {
-                                        value = "8"
-                                        +"8"
-                                    }
-                                    option {
-                                        value = "7"
-                                        +"7"
-                                    }
-                                    option {
-                                        value = "6"
-                                        +"6"
-                                    }
-                                    option {
-                                        value = "5"
-                                        +"5"
-                                    }
-                                    option {
-                                        value = "4"
-                                        +"4"
-                                    }
-                                    option {
-                                        value = "3"
-                                        +"3"
-                                    }
-                                    option {
-                                        value = "2"
-                                        +"2"
-                                    }
-                                    option {
-                                        value = "1"
-                                        +"1"
-                                    }
-                                }
-                            }
-                            div("col-6 col-md-4 col-lg-3 my-1") {
-                                val selectId = "actor-rank-panel-pattern-$actorId"
-                                label("form-label text-actor-rank-panel-pattern") {
-                                    htmlFor = selectId
-                                    +localized(".text-actor-rank-panel-pattern", "Panel Pattern")
-                                }
-                                select(classes = "form-select actor-rank-panel-pattern") {
-                                    id = selectId
-                                    rankPanelIds.entries.forEachIndexed { i, (name, id) ->
-                                        option {
-                                            value = name
-                                            +localized(id, name)
-                                            selected = i == 0
-                                        }
-                                    }
-                                }
-                            }
-                            div("col-12 my-1") {
-                                val selectId = "actor-remake-skill-$actorId"
-                                label("form-label text-remake-skill") {
-                                    htmlFor = selectId
-                                    +localized(".text-remake-skill", "Remake Skill")
-                                }
-                                select("selectpicker actor-selectpicker-$actorId form-control actor-remake-skill") {
-                                    id = selectId
-                                    attributes["data-live-search"] = "true"
-                                    attributes["disabled"] = "disabled"
-                                    options.remakeSkills.forEach {
-                                        option {
-                                            attributes["data-img"] = it.imagePath ?: ""
-                                            value = it.id
-                                            +it[locale]
-                                        }
-                                    }
-                                    onChangeFunction = {
-                                        val opt = ActorOptions(options, actorId)
-                                        opt.remakeSkillText.textContent =
-                                            opt.remakeSkill.element.selectedOptions.single<HTMLElement>().textContent
-                                    }
-                                }
-                                p("mt-2 mb-1 mx-1 d-md-none actor-remake-skill-text") {
-                                    id = "$selectId-text"
-                                    style = "font-size: 0.85em;"
-                                    +options.remakeSkills.first()[locale]
-                                }
-                            }
-                            div("col-12 col-md-6 my-1") {
-                                val selectId = "actor-memoir-$actorId"
-                                label("form-label text-memoir") {
-                                    htmlFor = selectId
-                                    +localized(".text-memoir", "Memoir")
-                                }
-                                select("selectpicker actor-selectpicker-$actorId form-control actor-memoir") {
-                                    id = selectId
-                                    attributes["data-live-search"] = "true"
-                                    options.memoirs.forEach {
-                                        option {
-                                            val name = it[locale]
-                                            val description = it.description?.get(locale)
-                                            attributes["data-img"] = it.imagePath ?: ""
-                                            attributes["data-subtext"] = description ?: ""
-                                            value = it.id
-                                            +name
-                                            attributes["data-tokens"] =
-                                                it.tags?.get(locale)?.joinToString(" ") ?: ""
-                                        }
-                                    }
-                                    onChangeFunction = {
-                                        ActorOptions(options, actorId).update()
-                                    }
-                                }
-                            }
-                            div("col-8 col-md-4 col-lg-3 my-1") {
-                                val selectId = "actor-memoir-unbind-$actorId"
-                                label("form-label text-memoir-unbind") {
-                                    htmlFor = selectId
-                                    +localized(".text-memoir-unbind", "Unbind")
-                                }
-                                +" "
-                                img(classes = "actor-memoir-unbind-icon") {
-                                    id = "actor-memoir-unbind-icon-$actorId"
-                                    style = "height: 0.85em; margin-top: -0.15em"
-                                    src = getMemoirUnbindLevelHorizontalImagePath(4)
-                                }
-                                div("btn-group w-100 actor-memoir-unbind") {
-                                    role = "group"
-                                    attributes["data-prev-value"] = "4"
-                                    (0..4).forEach { level ->
-                                        input(InputType.radio, classes = "btn-check") {
-                                            id = "actor-memoir-unbind-$actorId-radio-$level"
-                                            name = "actor-memoir-unbind-$actorId-radio"
-                                            autoComplete = false
-                                            value = level.toString()
-                                            if (level == 4) {
-                                                attributes["checked"] = "checked"
-                                            }
-                                            onChangeFunction = {
-                                                val opt = ActorOptions(options, actorId)
-                                                val prev = opt.memoirUnbind.element.attributes["data-prev-value"]
-                                                    ?.value?.toInt() ?: 0
-                                                val params = opt.parameters
-                                                // only works for 4* memos, which is almost all of them
-                                                val newMemoirLevel = if (params.memoirLevel == 60 + 5 * prev) {
-                                                    60 + 5 * params.memoirLimitBreak
-                                                } else {
-                                                    params.memoirLevel
-                                                }
-                                                opt.parameters = params.copy(
-                                                    memoirLevel = newMemoirLevel
-                                                )
-                                            }
-                                        }
-                                        label(classes = "btn btn-outline-secondary") {
-                                            htmlFor = "actor-memoir-unbind-$actorId-radio-$level"
-                                            +"$level"
-                                        }
-                                    }
-                                }
-                            }
-                            div("col-4 col-md-2 col-lg-3 my-1") {
-                                val inputId = "actor-memoir-level-$actorId"
-                                label("form-label text-memoir-level") {
-                                    htmlFor = inputId
-                                    +localized(".text-memoir-level", "Level")
-                                }
-                                input(InputType.number, classes = "form-control actor-memoir-level") {
-                                    id = inputId
-                                    placeholder = "80"
-                                    onChangeFunction = {
-                                        ActorOptions(options, actorId).update()
-                                    }
-                                }
-                            }
-                            div("col-12 my-1") {
-                                button(
-                                    type = ButtonType.button,
-                                    classes = "btn btn-outline-secondary text-actor-preset-min"
-                                ) {
-                                    id = "actor-preset-min-$actorId"
-                                    +"Min"
-                                    onClickFunction = {
-                                        val opt = ActorOptions(options, actorId)
-                                        opt.parameters = opt.parameters.copy(
-                                            level = 1,
-                                            rarity = 4,
-                                            remake = 0,
-                                            friendship = 1,
-                                            rank = 1,
-                                            rankPanelPattern = List(8) { false },
-                                            memoirLevel = 1,
-                                        )
-                                    }
-                                }
-                                +" "
-                                button(
-                                    type = ButtonType.button,
-                                    classes = "btn btn-outline-secondary text-actor-preset-max"
-                                ) {
-                                    id = "actor-preset-max-$actorId"
-                                    +"Max"
-                                    onClickFunction = {
-                                        val opt = ActorOptions(options, actorId)
-                                        val param = opt.parameters
-                                        opt.parameters = param.copy(
-                                            level = 80 + 5 * param.remake,
-                                            rarity = 6,
-                                            friendship = 30 + 5 * param.remake,
-                                            rank = 9,
-                                            rankPanelPattern = List(8) { true },
-                                            memoirLevel = 60 + 5 * param.memoirLimitBreak,
-                                        )
                                     }
                                 }
                             }
                         }
                     }
+                },
+            )
+            GlobalScope.launch {
+                val elements = js("$")(".actor-selectpicker-$actorId").toArray() as Array<dynamic>
+                for (element in elements) {
+                    delay(4)
+                    js("$")(element).selectpicker()
                 }
-            },
-        )
+            }
+        } else {
+            val (id, tab, settings) = actorElementCache.removeLast()
+            actorId = id
+            actorTabsDiv.appendChild(tab)
+            actorSettingsDiv.appendChild(settings)
+            ActorOptions(options, actorId).reset()
+        }
         setActiveActor(actorId)
         updateGuestStyling()
-        GlobalScope.launch {
-            val elements = js("$")(".actor-selectpicker-$actorId").toArray() as Array<dynamic>
-            for (element in elements) {
-                delay(4)
-                js("$")(element).selectpicker()
-            }
-        }
         return actorId
     }
 
@@ -1308,13 +1334,33 @@ class SimulatorClient(val simulator: Simulator) {
     fun setSetup(setup: SimulationParameters) = setup.run {
         turnsInput.value = maxTurns
         iterationsInput.value = maxIterations
-        actorSettingsDiv.clear()
-        actorTabsDiv.clear()
+        when {
+            actorTabsDiv.children.length < team.size -> {
+                repeat(team.size - actorTabsDiv.children.length) {
+                    addActor()
+                }
+            }
+            actorTabsDiv.children.length > team.size -> {
+                actorTabsDiv.children
+                    .asList()
+                    .take(actorTabsDiv.children.length - team.size)
+                    .forEach { tab ->
+                        val id = tab.attributes["data-actor-id"]!!.value.toInt()
+                        val options = ActorOptions(options, id)
+                        options.tabElement.remove()
+                        options.optionsElement.remove()
+                        actorElementCache.add(
+                            CachedActorElements(
+                                id,
+                                options.tabElement,
+                                options.optionsElement,
+                            )
+                        )
+                    }
+            }
+        }
         val team = listOfNotNull(guest) + this.team
         guestCheckbox.checked = guest != null
-        repeat(team.size) {
-            addActor()
-        }
         actorTabsDiv.children.asList().reversed().zip(team).forEach { (tab, parameters) ->
             ActorOptions(options, tab.attributes["data-actor-id"]!!.value.toInt()).parameters = parameters
         }
@@ -1938,6 +1984,8 @@ class SimulatorClient(val simulator: Simulator) {
         })
 
         fun updateLocaleText() {
+            actorElementCache.clear()
+
             val rankPanelOptions = rankPanelIds.mapNotNull { (name, id) ->
                 commonText[id]?.let { name to it }
             }.toMap()

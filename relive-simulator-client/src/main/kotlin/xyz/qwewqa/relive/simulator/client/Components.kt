@@ -215,7 +215,7 @@ fun getRemakeLevelVerticalImagePath(level: Int) = "img/custom/icon_remake_$level
 fun getRemakeLevelHorizontalImagePath(level: Int) = "img/common/icon_remake_$level.png"
 fun getMemoirUnbindLevelHorizontalImagePath(level: Int) = "img/custom/icon_equip_evolution_$level.png"
 
-class ActorOptions(private val options: SimulationOptions, tabElement: Element, optionsElement: Element) {
+class ActorOptions(private val options: SimulationOptions, val tabElement: Element, val optionsElement: Element) {
     constructor(options: SimulationOptions, actorId: Int) : this(
         options,
         document.getElementById("actor-tab-$actorId")!!,
@@ -267,6 +267,41 @@ class ActorOptions(private val options: SimulationOptions, tabElement: Element, 
 
     fun update() {
         parameters = parameters
+    }
+
+    fun reset() {
+        val dressId = options.dresses.first().id
+        val memoirId = options.memoirs.first().id
+
+        parameters = PlayerLoadoutParameters(
+            name = "",
+            dress = dressId,
+            memoir = options.memoirs.first().id,
+            memoirLevel = 80,
+            memoirLimitBreak = 4,
+            unitSkillLevel = 21,
+            level = 80,
+            rarity = 6,
+            friendship = 30,
+            rank = 9,
+            rankPanelPattern = List(8) { true },
+            remake = 0,
+            remakeSkill = "None",
+        )
+
+        name.value = ""
+        memoirLevel.element.value = ""
+        unitSkillLevel.element.value = ""
+        level.element.value = ""
+        friendship.element.value = ""
+
+        val jquery = js("$")
+
+        // Necessary for some reason or it doesn't reflect changes
+        // after being moved in the DOM
+        jquery(dress.element).selectpicker("val", dressId)
+        jquery(memoir.element).selectpicker("val", memoirId)
+        jquery(remakeSkill.element).selectpicker("val", "None")
     }
 
     var parameters: PlayerLoadoutParameters
