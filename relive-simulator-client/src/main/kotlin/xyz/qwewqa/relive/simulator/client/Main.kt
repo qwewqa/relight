@@ -312,6 +312,11 @@ class SimulatorClient(val simulator: Simulator) {
             optionsModalBs.hide()
         }
         saveNewOptionButton.onclick = { saveOption() }
+        optionNameInput.element.onkeypress = {
+            if (it.key == "Enter") {
+                saveOption()
+            }
+        }
         optionsTitle.textContent = localized(".text-presets", "Presets")
         optionsModalBs.show()
     }
@@ -402,6 +407,11 @@ class SimulatorClient(val simulator: Simulator) {
             optionsModalBs.hide()
         }
         saveNewOptionButton.onclick = { saveOption() }
+        optionNameInput.element.onkeypress = {
+            if (it.key == "Enter") {
+                saveOption()
+            }
+        }
         optionsTitle.textContent = localized(".text-setups", "Setups")
         optionsModalBs.show()
     }
