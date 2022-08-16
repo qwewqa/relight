@@ -1876,8 +1876,8 @@ class SimulatorClient(val simulator: Simulator) {
         })
 
         importOptionsModal.addEventListener("shown.bs.modal", {
-            importText.focus()
-            importText.select()
+            importOptionsText.focus()
+            importOptionsText.select()
         })
 
         selectOptionsSearch.addEventListener("keyup", {
