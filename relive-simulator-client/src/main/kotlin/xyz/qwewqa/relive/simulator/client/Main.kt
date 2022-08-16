@@ -41,7 +41,7 @@ class SimulatorClient(val simulator: Simulator) {
     var interactiveSimulation: InteractiveSimulation? = null
 
     val versionLink = document.getElementById("version-link") as HTMLAnchorElement
-    val languageSelect = document.getElementById("language-select").singleSelect()
+    val languageSelect = document.getElementById("language-select").singleSelect(false)
     val shutdownContainer = document.getElementById("shutdown-container") as HTMLDivElement
     val shutdownButton = document.getElementById("shutdown-button") as HTMLButtonElement
     val exportButton = document.getElementById("export-button") as HTMLButtonElement
@@ -58,8 +58,8 @@ class SimulatorClient(val simulator: Simulator) {
     val addActorFromPresetButton = document.getElementById("add-actor-from-preset-button") as HTMLButtonElement
     val sortByPositionButton = document.getElementById("sort-by-position-button") as HTMLButtonElement
     val autoNameButton = document.getElementById("auto-name-button") as HTMLButtonElement
-    val bossSelect = document.getElementById("boss-select").singleSelect()
-    val strategyTypeSelect = document.getElementById("strategy-type-select").singleSelect()
+    val bossSelect = document.getElementById("boss-select").singleSelect(true)
+    val strategyTypeSelect = document.getElementById("strategy-type-select").singleSelect(true)
     val strategyContainer = document.getElementById("strategy-container") as HTMLDivElement
     val bossStrategyContainer = document.getElementById("boss-strategy-container") as HTMLDivElement
     val simulateButton = document.getElementById("simulate-button") as HTMLButtonElement
@@ -71,7 +71,7 @@ class SimulatorClient(val simulator: Simulator) {
     val turnsInput = document.getElementById("turns-input").integerInput(3)
     val iterationsInput = document.getElementById("iterations-input").integerInput(100000)
     val strategyEditor = CodeMirror(strategyContainer, js("{lineNumbers: true, mode: null}"))
-    val bossStrategyTypeSelect = document.getElementById("boss-strategy-type-select").singleSelect()
+    val bossStrategyTypeSelect = document.getElementById("boss-strategy-type-select").singleSelect(true)
     val bossStrategyCollapse = document.getElementById("boss-strategy-collapse").collapse()
     val toastsCheckbox = document.getElementById("toasts-checkbox") as HTMLInputElement
     val toastContainer = document.getElementById("toast-container") as HTMLDivElement
@@ -1392,7 +1392,6 @@ class SimulatorClient(val simulator: Simulator) {
         eventMultiplierInput.value = eventMultiplier
         seedInput.value = seed
         updateGuestStyling()
-        refreshSelectPicker()
     }
 
     fun getUrlParameter(url: String, name: String): String? {
@@ -1740,13 +1739,13 @@ class SimulatorClient(val simulator: Simulator) {
             .asList()
             .filterIsInstance<HTMLSelectElement>()
             .forEach { select ->
-                SingleSelect(select).populate(songEffects, locale)
+                SingleSelect(select, true).populate(songEffects, locale)
             }
         document.getElementsByClassName("song-effect-condition")
             .asList()
             .filterIsInstance<HTMLSelectElement>()
             .forEach { select ->
-                MultipleSelect(select).populate(conditions, locale)
+                MultipleSelect(select, true).populate(conditions, locale)
             }
 
         simulateButton.addEventListener("click", {
@@ -1997,31 +1996,31 @@ class SimulatorClient(val simulator: Simulator) {
                 .asList()
                 .filterIsInstance<HTMLSelectElement>()
                 .forEach { select ->
-                    SingleSelect(select).localize(rankPanelOptions, locale)
+                    SingleSelect(select, false).localize(rankPanelOptions, locale)
                 }
             document.getElementsByClassName("song-effect-type")
                 .asList()
                 .filterIsInstance<HTMLSelectElement>()
                 .forEach { select ->
-                    SingleSelect(select).localize(songEffects, locale)
+                    SingleSelect(select, true).localize(songEffects, locale)
                 }
             document.getElementsByClassName("song-effect-condition")
                 .asList()
                 .filterIsInstance<HTMLSelectElement>()
                 .forEach { select ->
-                    MultipleSelect(select).localize(conditions, locale)
+                    MultipleSelect(select, true).localize(conditions, locale)
                 }
             document.getElementsByClassName("actor-dress")
                 .asList()
                 .filterIsInstance<HTMLSelectElement>()
                 .forEach { select ->
-                    SingleSelect(select).localize(dresses, locale)
+                    SingleSelect(select, true).localize(dresses, locale)
                 }
             document.getElementsByClassName("actor-remake-skill")
                 .asList()
                 .filterIsInstance<HTMLSelectElement>()
                 .forEach { select ->
-                    SingleSelect(select).localize(remakeSkills, locale)
+                    SingleSelect(select, true).localize(remakeSkills, locale)
                     document.getElementById("${select.id}-text")!!.textContent =
                         remakeSkills[select.value]?.get(locale) ?: ""
                 }
@@ -2029,7 +2028,7 @@ class SimulatorClient(val simulator: Simulator) {
                 .asList()
                 .filterIsInstance<HTMLSelectElement>()
                 .forEach { select ->
-                    SingleSelect(select).localize(memoirs, locale)
+                    SingleSelect(select, true).localize(memoirs, locale)
                 }
             songSettings
                 .getElementsByClassName("song-effect-item")
@@ -2042,7 +2041,6 @@ class SimulatorClient(val simulator: Simulator) {
                     element.textContent = v[locale]
                 }
             }
-            refreshSelectPicker()
         }
 
         languageSelect.element.addEventListener("change", {

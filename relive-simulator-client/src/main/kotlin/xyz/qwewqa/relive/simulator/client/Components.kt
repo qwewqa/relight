@@ -5,7 +5,6 @@ import kotlinx.dom.addClass
 import kotlinx.dom.clear
 import kotlinx.dom.hasClass
 import kotlinx.dom.removeClass
-import kotlinx.html.HTML
 import kotlinx.html.dom.create
 import kotlinx.html.option
 import org.w3c.dom.*
@@ -13,13 +12,13 @@ import xyz.qwewqa.relive.simulator.common.*
 
 fun HTMLInputElement.integerInput(default: Int) = IntegerInput(this, default)
 fun HTMLInputElement.textInput() = TextInput(this)
-fun HTMLSelectElement.singleSelect() = SingleSelect(this)
-fun HTMLSelectElement.multipleSelect() = MultipleSelect(this)
+fun HTMLSelectElement.singleSelect(selectpicker: Boolean) = SingleSelect(this, selectpicker)
+fun HTMLSelectElement.multipleSelect(selectpicker: Boolean) = MultipleSelect(this, selectpicker)
 fun HTMLDivElement.collapse() = Collapse(this)
 fun Element?.integerInput(default: Int) = IntegerInput(this as HTMLInputElement, default)
 fun Element?.textInput() = TextInput(this as HTMLInputElement)
-fun Element?.singleSelect() = SingleSelect(this as HTMLSelectElement)
-fun Element?.multipleSelect() = MultipleSelect(this as HTMLSelectElement)
+fun Element?.singleSelect(selectpicker: Boolean) = SingleSelect(this as HTMLSelectElement, selectpicker)
+fun Element?.multipleSelect(selectpicker: Boolean) = MultipleSelect(this as HTMLSelectElement, selectpicker)
 fun Element?.collapse() = Collapse(this as HTMLDivElement)
 
 val HTMLInputElement.valueOrPlaceholder: String get() = value.ifEmpty { placeholder }
@@ -64,20 +63,25 @@ class Collapse(val element: HTMLDivElement) {
 }
 
 @Suppress("UNCHECKED_CAST_TO_EXTERNAL_INTERFACE")
-sealed class Select(val element: HTMLSelectElement) {
+sealed class Select(val element: HTMLSelectElement, val selectpicker: Boolean) {
     fun HTMLSelectElement.getSelected() = selectedOptions.asList().map {
         it.asDynamic().value as String
     }
 
     fun HTMLSelectElement.setSelected(selected: List<String>) {
+        if (selectpicker) {
+            js("$")(element).selectpicker("val", selected.toTypedArray())
+        }
         this.options.asList().filterIsInstance<HTMLOptionElement>().forEach {
             it.selected = it.value in selected
         }
     }
 
     fun HTMLSelectElement.setSelected(selected: String) {
-        this.options.asList().filterIsInstance<HTMLOptionElement>().forEach {
-            it.selected = it.value == selected
+        if (selectpicker) {
+            js("$")(element).selectpicker("val", selected)
+        } else {
+            element.value = selected
         }
     }
 
@@ -172,7 +176,7 @@ sealed class Select(val element: HTMLSelectElement) {
     }
 }
 
-class SingleSelect(element: HTMLSelectElement) : Select(element) {
+class SingleSelect(element: HTMLSelectElement, selectpicker: Boolean) : Select(element, selectpicker) {
     var value: String
         get() = element.getSelected().single()
         set(value) {
@@ -194,7 +198,7 @@ class ButtonGroup(val element: HTMLElement) {
 }
 
 
-class MultipleSelect(element: HTMLSelectElement) : Select(element) {
+class MultipleSelect(element: HTMLSelectElement, selectpicker: Boolean) : Select(element, selectpicker) {
     var value: List<String>
         get() = element.getSelected()
         set(value) {
@@ -223,18 +227,18 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
     )
 
     val name = TextInput(optionsElement.getElementsByClassName("actor-name").single())
-    val dress = SingleSelect(optionsElement.getElementsByClassName("actor-dress").single())
-    val memoir = SingleSelect(optionsElement.getElementsByClassName("actor-memoir").single())
+    val dress = SingleSelect(optionsElement.getElementsByClassName("actor-dress").single(), true)
+    val memoir = SingleSelect(optionsElement.getElementsByClassName("actor-memoir").single(), true)
     val memoirLevel = IntegerInput(optionsElement.getElementsByClassName("actor-memoir-level").single(), 1)
     val memoirUnbind = ButtonGroup(optionsElement.getElementsByClassName("actor-memoir-unbind").single())
     val unitSkillLevel = IntegerInput(optionsElement.getElementsByClassName("actor-unit-skill").single(), 21)
     val level = IntegerInput(optionsElement.getElementsByClassName("actor-level").single(), 80)
-    val rarity = SingleSelect(optionsElement.getElementsByClassName("actor-rarity").single())
+    val rarity = SingleSelect(optionsElement.getElementsByClassName("actor-rarity").single(), false)
     val friendship = IntegerInput(optionsElement.getElementsByClassName("actor-friendship").single(), 30)
-    val rank = SingleSelect(optionsElement.getElementsByClassName("actor-rank").single())
-    val rankPanelPattern = SingleSelect(optionsElement.getElementsByClassName("actor-rank-panel-pattern").single())
+    val rank = SingleSelect(optionsElement.getElementsByClassName("actor-rank").single(), false)
+    val rankPanelPattern = SingleSelect(optionsElement.getElementsByClassName("actor-rank-panel-pattern").single(), false)
     val remake = ButtonGroup(optionsElement.getElementsByClassName("actor-remake").single())
-    val remakeSkill = SingleSelect(optionsElement.getElementsByClassName("actor-remake-skill").single())
+    val remakeSkill = SingleSelect(optionsElement.getElementsByClassName("actor-remake-skill").single(), true)
 
     val remakeIcon = optionsElement.getElementsByClassName("actor-remake-icon").single<HTMLImageElement>()
     val memoirUnbindIcon = optionsElement.getElementsByClassName("actor-memoir-unbind-icon").single<HTMLImageElement>()
@@ -294,14 +298,6 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
         unitSkillLevel.element.value = ""
         level.element.value = ""
         friendship.element.value = ""
-
-        val jquery = js("$")
-
-        // Necessary for some reason or it doesn't reflect changes
-        // after being moved in the DOM
-        jquery(dress.element).selectpicker("val", dressId)
-        jquery(memoir.element).selectpicker("val", memoirId)
-        jquery(remakeSkill.element).selectpicker("val", "None")
     }
 
     var parameters: PlayerLoadoutParameters
@@ -349,8 +345,7 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
             tabDressImage.src = options.dressesById[param.dress]?.imagePath ?: ""
             tabMemoirImage.src = options.memoirsById[param.memoir]?.imagePath ?: ""
 
-            dress.renderSelectPicker()
-            memoir.renderSelectPicker()
+            // Check for disabled change
             remakeSkill.renderSelectPicker()
 
             remakeSkillText.textContent = remakeSkill.element.selectedOptions.single<HTMLElement>().textContent
@@ -361,12 +356,12 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
 }
 
 class SongEffect(val element: Element) {
-    private val type = SingleSelect(element.getElementsByClassName("song-effect-type").single())
+    private val type = SingleSelect(element.getElementsByClassName("song-effect-type").single(), true)
     private val value = IntegerInput(element.getElementsByClassName("song-effect-value").single(), 0)
     private val conditions = element.getElementsByClassName("song-effect-condition")
         .multiple<HTMLSelectElement>()
         .map {
-        MultipleSelect(it)
+        MultipleSelect(it, true)
     }
     private val description = element.getElementsByClassName("song-effect-description").single<HTMLElement>()
 
@@ -408,8 +403,6 @@ class SongEffect(val element: Element) {
                     .joinToString(" ") { conditions -> "[${conditions.joinToString(" | ")}]" }
             }"
         }
-        type.refreshSelectPicker()
-        conditions.forEach { it.refreshSelectPicker() }
     }
 
     var parameters: SongEffectParameter?
