@@ -1819,6 +1819,21 @@ class SimulatorClient(val simulator: Simulator) {
             }
         })
 
+        optionsModal.addEventListener("shown.bs.modal", {
+            optionSearch.focus()
+            optionSearch.select()
+        })
+
+        selectOptionsModal.addEventListener("shown.bs.modal", {
+            selectOptionsSearch.focus()
+            selectOptionsSearch.select()
+        })
+
+        importOptionsModal.addEventListener("shown.bs.modal", {
+            importText.focus()
+            importText.select()
+        })
+
         selectOptionsSearch.addEventListener("keyup", {
             val value = selectOptionsSearch.value.trim().lowercase()
             if (value.isEmpty()) {
