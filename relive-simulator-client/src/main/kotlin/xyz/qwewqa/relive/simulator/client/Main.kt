@@ -1,7 +1,6 @@
 package xyz.qwewqa.relive.simulator.client
 
 import kotlinx.browser.document
-import kotlinx.browser.localStorage
 import kotlinx.browser.sessionStorage
 import kotlinx.browser.window
 import kotlinx.coroutines.*
@@ -90,32 +89,35 @@ class SimulatorClient(val simulator: Simulator) {
     val interactiveSendButton = document.getElementById("interactive-send-button") as HTMLButtonElement
     val songSettings = document.getElementById("song-settings") as HTMLDivElement
 
-    val presetsModal = document.getElementById("presets-modal") as HTMLDivElement
-    val presetsModalBS = Bootstrap.Modal(presetsModal)
-    val presetSearch = document.getElementById("preset-search") as HTMLInputElement
-    val presetList = document.getElementById("presets-list") as HTMLDivElement
-    val presetNameInput = document.getElementById("new-preset-name-input").textInput()
-    val savePresetButton = document.getElementById("save-new-preset-button") as HTMLButtonElement
-    val newPresetContainer = document.getElementById("new-preset-container") as HTMLDivElement
+    val optionsModal = document.getElementById("options-modal") as HTMLDivElement
+    val optionsModalBs = Bootstrap.Modal(optionsModal)
+    val optionSearch = document.getElementById("option-search") as HTMLInputElement
+    val optionList = document.getElementById("options-list") as HTMLDivElement
+    val optionNameInput = document.getElementById("new-option-name-input").textInput()
+    val saveOptionButton = document.getElementById("save-new-option-button") as HTMLButtonElement
+    val newOptionContainer = document.getElementById("new-option-container") as HTMLDivElement
 
     val sharePresetsButton = document.getElementById("share-presets-button") as HTMLButtonElement
-    val sharePresetsModal = document.getElementById("share-presets-modal") as HTMLDivElement
-    val sharePresetsModalBS = Bootstrap.Modal(sharePresetsModal)
-    val sharePresetsText = document.getElementById("share-presets-text") as HTMLTextAreaElement
-    val sharePresetsUrlText = document.getElementById("share-presets-url-text") as HTMLTextAreaElement
     val importPresetsButton = document.getElementById("import-presets-button") as HTMLButtonElement
-    val importPresetsModal = document.getElementById("import-presets-modal") as HTMLDivElement
-    val importPresetsModalBS = Bootstrap.Modal(importPresetsModal)
-    val importPresetsText = document.getElementById("import-presets-text") as HTMLTextAreaElement
-    val doImportPresetsButton = document.getElementById("do-import-presets-button") as HTMLButtonElement
 
-    val selectPresetsModal = document.getElementById("select-presets-modal") as HTMLDivElement
-    val selectPresetsModalBS = Bootstrap.Modal(selectPresetsModal)
-    val selectPresetsList = document.getElementById("select-presets-list") as HTMLDivElement
-    val selectPresetsSearch = document.getElementById("select-presets-search") as HTMLInputElement
-    val confirmSelectPresetsButton = document.getElementById("confirm-select-presets-button") as HTMLButtonElement
-    val selectPrestsAllYesButton = document.getElementById("select-presets-all-yes-button") as HTMLButtonElement
-    val selectPrestsAllNoButton = document.getElementById("select-presets-all-no-button") as HTMLButtonElement
+    val shareOptionsModal = document.getElementById("share-options-modal") as HTMLDivElement
+    val shareOptionsModalBS = Bootstrap.Modal(shareOptionsModal)
+    val shareOptionsTitle = document.getElementById("share-options-title") as HTMLHeadingElement
+    val shareOptionsText = document.getElementById("share-options-text") as HTMLTextAreaElement
+    val shareOptionsUrlText = document.getElementById("share-options-url-text") as HTMLTextAreaElement
+    val importOptionsModal = document.getElementById("import-options-modal") as HTMLDivElement
+    val importOptionsModalBS = Bootstrap.Modal(importOptionsModal)
+    val importOptionsText = document.getElementById("import-options-text") as HTMLTextAreaElement
+    val doImportOptionsButton = document.getElementById("do-import-options-button") as HTMLButtonElement
+
+    val selectOptionsModal = document.getElementById("select-options-modal") as HTMLDivElement
+    val selectOptionsModalBS = Bootstrap.Modal(selectOptionsModal)
+    val selectOptionsTitle = document.getElementById("select-options-title") as HTMLHeadingElement
+    val selectOptionsList = document.getElementById("select-options-list") as HTMLDivElement
+    val selectOptionsSearch = document.getElementById("select-options-search") as HTMLInputElement
+    val confirmSelectOptionsButton = document.getElementById("confirm-select-options-button") as HTMLButtonElement
+    val selectOptionsAllYesButton = document.getElementById("select-options-all-yes-button") as HTMLButtonElement
+    val selectOptionsAllNoButton = document.getElementById("select-options-all-no-button") as HTMLButtonElement
 
     val loginButton = document.getElementById("login-button") as HTMLButtonElement
     val logoutButton = document.getElementById("logout-button") as HTMLButtonElement
@@ -210,8 +212,8 @@ class SimulatorClient(val simulator: Simulator) {
         new: Boolean = false,
     ) {
         api.reloadSettings()
-        presetList.clear()
-        presetList.run {
+        optionList.clear()
+        optionList.run {
             api.settings.presetData.values.sortedBy { it.name }.forEachIndexed { index, preset ->
                 append.div("d-flex p-1 preset-item") {
                     id = "preset-$index"
@@ -239,7 +241,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         api.reloadSettings()
                                         api.settings.presetData[preset.name] = parameters
                                         api.saveSettings()
-                                        presetsModalBS.hide()
+                                        optionsModalBs.hide()
                                     }
                                 }
                             }
@@ -258,7 +260,7 @@ class SimulatorClient(val simulator: Simulator) {
                                             memoirLevel = if (retainMemoir) current.parameters.memoirLevel else preset.memoirLevel,
                                             memoirLimitBreak = if (retainMemoir) current.parameters.memoirLimitBreak else preset.memoirLimitBreak,
                                         )
-                                        presetsModalBS.hide()
+                                        optionsModalBs.hide()
                                     } else {
                                         ActorOptions(options, addActor()).parameters = preset.copy(
                                             name = "",
@@ -285,11 +287,25 @@ class SimulatorClient(val simulator: Simulator) {
             }
         }
         if (new) {
-            newPresetContainer.removeClass("d-none")
+            newOptionContainer.removeClass("d-none")
         } else {
-            newPresetContainer.addClass("d-none")
+            newOptionContainer.addClass("d-none")
         }
-        presetsModalBS.show()
+        fun saveOption() {
+            val param = activeActorOptions?.parameters ?: return
+            val name = optionNameInput.value
+            if (name in api.settings.presetData) {
+                toast("Save Preset", "Preset already exists.", "red")
+                return
+            }
+            optionNameInput.value = ""
+            api.reloadSettings()
+            api.settings.presetData[name] = param.copy(name = name)
+            api.saveSettings()
+            optionsModalBs.hide()
+        }
+        saveOptionButton.onclick = { saveOption() }
+        optionsModalBs.show()
     }
 
     private enum class PresetStatus {
@@ -314,8 +330,8 @@ class SimulatorClient(val simulator: Simulator) {
         defaultSelected: Boolean = false,
         callback: (List<PlayerLoadoutParameters>) -> Unit,
     ) {
-        selectPresetsList.clear()
-        selectPresetsList.run {
+        selectOptionsList.clear()
+        selectOptionsList.run {
             presets.sortedBy { (preset, _) -> preset.name }.forEachIndexed { index, (preset, status) ->
                 append.div("d-flex p-1 preset-item") {
                     id = "preset-$index"
@@ -362,7 +378,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 PresetStatus.OVERRIDING -> "bi-slash-circle"
                                 PresetStatus.REDUNDANT -> ""
                             }
-                            input(InputType.radio, classes = "btn-check select-presets-yes-button") {
+                            input(InputType.radio, classes = "btn-check select-options-yes-button") {
                                 id = "actor-preset-select-$index-yes"
                                 autoComplete = false
                                 name = "actor-preset-select-radio-$index"
@@ -375,7 +391,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 htmlFor = "actor-preset-select-$index-yes"
                                 i("bi $yesButtonIcon")
                             }
-                            input(InputType.radio, classes = "btn-check select-presets-no-button") {
+                            input(InputType.radio, classes = "btn-check select-options-no-button") {
                                 id = "actor-preset-select-$index-no"
                                 autoComplete = false
                                 name = "actor-preset-select-radio-$index"
@@ -393,15 +409,16 @@ class SimulatorClient(val simulator: Simulator) {
                 }
             }
         }
-        confirmSelectPresetsButton.onclick = {
-            val selected = selectPresetsList.querySelectorAll(".select-presets-yes-button:checked")
+        confirmSelectOptionsButton.onclick = {
+            val selected = selectOptionsList.querySelectorAll(".select-options-yes-button:checked")
                 .asList()
                 .filterIsInstance<HTMLInputElement>()
             val selectedNames = selected.map { it.value }.toSet()
             callback(presets.map { it.first }.filter { it.name in selectedNames })
-            selectPresetsModalBS.hide()
+            selectOptionsModalBS.hide()
         }
-        selectPresetsModalBS.show()
+        selectOptionsTitle.textContent = localized(".text-select-presets", "Select Presets")
+        selectOptionsModalBS.show()
     }
 
     private fun startPresetsImport(id: String) {
@@ -424,8 +441,8 @@ class SimulatorClient(val simulator: Simulator) {
                     api.reloadSettings()
                     api.settings.presetData.putAll(selected.associateBy { it.name })
                     api.saveSettings()
-                    importPresetsModalBS.hide()
-                    importPresetsText.value = ""
+                    importOptionsModalBS.hide()
+                    importOptionsText.value = ""
                     toast("Import Presets", "Presets imported.", "green")
                 }
             } catch (e: Throwable) {
@@ -1305,14 +1322,14 @@ class SimulatorClient(val simulator: Simulator) {
             exportText.select()
         })
 
-        sharePresetsText.addEventListener("click", {
-            sharePresetsText.focus()
-            sharePresetsText.select()
+        shareOptionsText.addEventListener("click", {
+            shareOptionsText.focus()
+            shareOptionsText.select()
         })
 
-        sharePresetsUrlText.addEventListener("click", {
-            sharePresetsUrlText.focus()
-            sharePresetsUrlText.select()
+        shareOptionsUrlText.addEventListener("click", {
+            shareOptionsUrlText.focus()
+            shareOptionsUrlText.select()
         })
 
         doImportButton.addEventListener("click", {
@@ -1513,15 +1530,15 @@ class SimulatorClient(val simulator: Simulator) {
                 }
             }
 
-        presetSearch.addEventListener("keyup", {
-            val value = presetSearch.value.trim().lowercase()
+        optionSearch.addEventListener("keyup", {
+            val value = optionSearch.value.trim().lowercase()
             if (value.isEmpty()) {
-                presetList.children.asList().forEach {
+                optionList.children.asList().forEach {
                     it.removeClass("d-none")
                 }
                 return@addEventListener
             }
-            presetList.children.asList().forEach {
+            optionList.children.asList().forEach {
                 if (it.attributes["data-name"]?.value?.contains(value) == true) {
                     it.removeClass("d-none")
                 } else {
@@ -1530,15 +1547,15 @@ class SimulatorClient(val simulator: Simulator) {
             }
         })
 
-        selectPresetsSearch.addEventListener("keyup", {
-            val value = selectPresetsSearch.value.trim().lowercase()
+        selectOptionsSearch.addEventListener("keyup", {
+            val value = selectOptionsSearch.value.trim().lowercase()
             if (value.isEmpty()) {
-                selectPresetsList.children.asList().forEach {
+                selectOptionsList.children.asList().forEach {
                     it.removeClass("d-none")
                 }
                 return@addEventListener
             }
-            selectPresetsList.children.asList().forEach {
+            selectOptionsList.children.asList().forEach {
                 if (it.attributes["data-name"]?.value?.contains(value) == true) {
                     it.removeClass("d-none")
                 } else {
@@ -1547,40 +1564,26 @@ class SimulatorClient(val simulator: Simulator) {
             }
         })
 
-        selectPrestsAllYesButton.addEventListener("click", {
-            selectPresetsList.children.asList().filter { !it.hasClass("d-none") }.forEach { entry ->
-                entry.getElementsByClassName("select-presets-yes-button")
+        selectOptionsAllYesButton.addEventListener("click", {
+            selectOptionsList.children.asList().filter { !it.hasClass("d-none") }.forEach { entry ->
+                entry.getElementsByClassName("select-options-yes-button")
                     .multiple<HTMLInputElement>()
                     .forEach { it.checked = true }
-                entry.getElementsByClassName("select-presets-no-button")
+                entry.getElementsByClassName("select-options-no-button")
                     .multiple<HTMLInputElement>()
                     .forEach { it.checked = false }
             }
         })
 
-        selectPrestsAllNoButton.addEventListener("click", {
-            selectPresetsList.children.asList().filter { !it.hasClass("d-none") }.forEach { entry ->
-                entry.getElementsByClassName("select-presets-yes-button")
+        selectOptionsAllNoButton.addEventListener("click", {
+            selectOptionsList.children.asList().filter { !it.hasClass("d-none") }.forEach { entry ->
+                entry.getElementsByClassName("select-options-yes-button")
                     .multiple<HTMLInputElement>()
                     .forEach { it.checked = false }
-                entry.getElementsByClassName("select-presets-no-button")
+                entry.getElementsByClassName("select-options-no-button")
                     .multiple<HTMLInputElement>()
                     .forEach { it.checked = true }
             }
-        })
-
-        savePresetButton.addEventListener("click", {
-            val param = activeActorOptions?.parameters ?: return@addEventListener
-            val name = presetNameInput.value
-            if (name in api.settings.presetData) {
-                toast("Save Preset", "Preset already exists.", "red")
-                return@addEventListener
-            }
-            presetNameInput.value = ""
-            api.reloadSettings()
-            api.settings.presetData[name] = param.copy(name = name)
-            api.saveSettings()
-            presetsModalBS.hide()
         })
 
         sharePresetsButton.addEventListener("click", {
@@ -1590,9 +1593,10 @@ class SimulatorClient(val simulator: Simulator) {
                 GlobalScope.launch {
                     try {
                         val id = api.createPresets(selected)
-                        sharePresetsText.textContent = id
-                        sharePresetsUrlText.textContent = urlWithQuery(mapOf("import-presets" to id))
-                        sharePresetsModalBS.show()
+                        shareOptionsTitle.textContent = localized(".text-share-presets", "Share Presets")
+                        shareOptionsText.textContent = id
+                        shareOptionsUrlText.textContent = urlWithQuery(mapOf("import-presets" to id))
+                        shareOptionsModalBS.show()
                     } catch (e: Throwable) {
                         toast("Share Presets", "Failed to share presets.", "red")
                         throw e
@@ -1602,16 +1606,16 @@ class SimulatorClient(val simulator: Simulator) {
         })
 
         importPresetsButton.addEventListener("click", {
-            importPresetsModalBS.show()
-        })
-
-        doImportPresetsButton.addEventListener("click", {
-            val id = importPresetsText.value.trim()
-            if (id.startsWith("http")) {
-                importPresetsFromUrl(id)
-            } else {
-                startPresetsImport(id)
+            fun importPresets() {
+                val id = importOptionsText.value.trim()
+                if (id.startsWith("http")) {
+                    importPresetsFromUrl(id)
+                } else {
+                    startPresetsImport(id)
+                }
             }
+            doImportOptionsButton.onclick = { importPresets() }
+            importOptionsModalBS.show()
         })
 
         fun updateLocaleText() {
