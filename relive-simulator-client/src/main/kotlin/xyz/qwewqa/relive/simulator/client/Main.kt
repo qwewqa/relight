@@ -300,7 +300,14 @@ class SimulatorClient(val simulator: Simulator) {
         }
         fun saveOption() {
             val param = activeActorOptions?.parameters ?: return
-            val name = optionNameInput.value
+            var name = optionNameInput.value
+            if (name.isBlank()) {
+                name = optionSearch.value
+            }
+            if (name.isBlank()) {
+                toast("Error", "Name cannot be blank.", "red")
+                return
+            }
             if (name in api.settings.presetData) {
                 toast("Save Preset", "Preset already exists.", "red")
                 return
@@ -395,7 +402,14 @@ class SimulatorClient(val simulator: Simulator) {
         }
         fun saveOption() {
             val current = getSetup()
-            val name = optionNameInput.value
+            var name = optionNameInput.value
+            if (name.isBlank()) {
+                name = optionSearch.value
+            }
+            if (name.isBlank()) {
+                toast("Error", "Name cannot be blank.", "red")
+                return
+            }
             if (name in api.settings.setupData) {
                 toast("Save Preset", "Preset already exists.", "red")
                 return
