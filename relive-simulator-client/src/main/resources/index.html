@@ -26,7 +26,7 @@
         }
 
         #actor-tabs {
-            --actor-tab-width: clamp(60px, 17vw, 120px);
+            --actor-tab-width: max(60px, 17vw);
             overflow-x: scroll;
         }
 
@@ -126,6 +126,17 @@
 
             .filter-option .select-option-subtext {
                 display: none;
+            }
+
+            #actor-tabs {
+                --actor-tab-width: 95px;
+            }
+        }
+
+        @media (min-width: 992px) {
+
+            #actor-tabs {
+                --actor-tab-width: 120px;
             }
         }
 
