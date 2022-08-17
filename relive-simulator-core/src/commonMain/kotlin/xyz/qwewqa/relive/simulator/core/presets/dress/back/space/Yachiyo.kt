@@ -276,4 +276,5 @@ val CollectionYachiyo = dress4050019(
         ),
     ),
     unitSkill = ActCritical50UnitSkill + SpaceOnlyCondition,
+    multipleCA = true,
 )
