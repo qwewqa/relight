@@ -2069,14 +2069,14 @@ class SimulatorClient(val simulator: Simulator) {
                 SongEffect(it).registerListeners()
             }
 
-        handleFirstLoadUrlOptions()
-
         updateLocaleText()
         refreshSelectPicker()
 
         window.onpopstate = {
             updateSetupFromUrl()
         }
+
+        handleFirstLoadUrlOptions()
 
         toast("Ready", "Initialization complete.", "green")
 
