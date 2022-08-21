@@ -250,6 +250,8 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
 
         context.variables["hand"] = CsList(hand)
         context.variables["internalHand"] = CsList(internalHand)
+        context.variables["drawPile"] = CsList(drawPile)
+        context.variables["discardPile"] = CsList(discardPile)
     }
 
     override fun endTurn(stage: Stage, team: Team, enemy: Team, teamQueue: QueueResult, enemyQueue: QueueResult) {
