@@ -88,7 +88,7 @@ val SnowWhitePrinceSuzu = dress5020005(
             TeamEffectiveDamageDealtUpBuffPassive.new(20, 3),
         ),
         listOf(
-            TeamAPDownBuffPassive.new(time = 1) + CloudOnlyCondition,
+            TeamAPDownBuffPassive.new(time = 2) + CloudOnlyCondition,
         ),
         //Oath Revue +50% Dmg to Self
     ),
