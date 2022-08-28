@@ -26,6 +26,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.back.dream.WhiteFrontierAr
 val playerDresses = listOf(
     AceMisora,
     AnastasiaJunna,
+    BlackShizuha,
     BloodyDevilShiori,
     CatalinaKaoruko,
     CerberusIchie,
@@ -36,6 +37,7 @@ val playerDresses = listOf(
     CoyoteCainYachiyo,
     DancerClaudine,
     DeathTamao,
+    DelightAkira,
     DemonKingNana,
     DevilKaoruko,
     DonJoseFumi,
@@ -87,6 +89,7 @@ val playerDresses = listOf(
     ShutendojiShiori,
     SleepingBeautyHikari,
     SnowWhiteKoharu,
+    SnowWhitePrinceSuzu,
     SonokoYachiyo,
     SorcererMahiru,
     SoulRevueClaudine,

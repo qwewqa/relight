@@ -357,6 +357,7 @@ val brilliantBirthdays = listOf(
     brilliantBirthday(Character.Maya, equip4000289),
     brilliantBirthday(Character.Claudine, equip4000290),
     brilliantBirthday(Character.Shizuha, equip4000293),
+    brilliantBirthday(Character.Suzu, equip4000296),
 )
 
 private fun slapMemo(
@@ -750,6 +751,98 @@ val YachiyosFashionTips = equip4000292(
                 applyCountableBuff(
                     effect = CountableBuff.Daze,
                     count = times1,
+                )
+            }
+        }
+    },
+)
+
+val MatchingCardigan = equip4000291(
+    name = "Matching Cardigan",
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(28)
+    ),
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(40)
+    ),
+    cutinTarget = CutinTarget.BeforeAllyAct(3),
+    cutinAct = {
+        Act {
+            targetCutinTarget().act {
+                applyBuff(
+                    effect = NegativeEffectResistanceBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val FestivalKaren = equip4000294(
+    name = "[On the Night of the Festival] Aijo Karen",
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(28)
+    ),
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(40)
+    ),
+    cutinTarget = CutinTarget.BeforeEnemyAct(2),
+    cutinAct = {
+        Act {
+            targetCutinTarget().act {
+                applyBuff(
+                    effect = AgonyBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val MyOwnStage = equip4000297(
+    name = "My Own Stage",
+    baseAutoskills = listOf(
+        DexterityPassive.new(14),
+    ),
+    maxAutoskills = listOf(
+        DexterityPassive.new(20),
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyBack(5).act {
+                applyBuff(
+                    effect = CriticalUpBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val RipeTomato = equip4000298(
+    name = "Ripe Tomato",
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(22),
+        SelfDexterityUpBuffPassive.new(11, 6),
+        SelfEffectiveDamageDealtUpBuffPassive.new(8, 6),
+    ),
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(32),
+        SelfDexterityUpBuffPassive.new(16, 6),
+        SelfEffectiveDamageDealtUpBuffPassive.new(12, 6),
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyFront(5).act {
+                applyBuff(
+                    effect = DamageDealtUpBuff,
+                    value = values1,
+                    turns = times1,
                 )
             }
         }

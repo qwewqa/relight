@@ -6,10 +6,15 @@ import xyz.qwewqa.relive.simulator.core.stage.condition.plus
 
 data class UnitSkill(
     val values: List<List<Int>>,
-    val effects: List<PassiveEffect>,
-    val condition: NamedCondition? = null,
+    val effects: List<Pair<PassiveEffect, NamedCondition?>>,
 ) {
-    fun forLevel(level: Int) = effects.mapIndexed { i, effect ->
+    constructor(
+        values: List<List<Int>>,
+        effects: List<PassiveEffect>,
+        condition: NamedCondition? = null,
+    ) : this(values, effects.map { it to condition })
+
+    fun forLevel(level: Int) = effects.mapIndexed { i, (effect, condition) ->
         PassiveData(
             effect,
             values[i][level - 1],
@@ -20,14 +25,18 @@ data class UnitSkill(
 
     operator fun plus(condition: NamedCondition) = UnitSkill(
         values,
-        effects,
-        this.condition + condition,
+        effects.map { (effect, cond) -> effect to cond + condition },
+    )
+
+    operator fun plus(other: UnitSkill) = UnitSkill(
+        values + other.values,
+        effects + other.effects,
     )
 }
 
 val EmptyUnitSkill = UnitSkill(
     listOf(),
-    listOf(),
+    listOf<PassiveEffect>(),
 )
 
 val ActCritical50UnitSkill = UnitSkill(
