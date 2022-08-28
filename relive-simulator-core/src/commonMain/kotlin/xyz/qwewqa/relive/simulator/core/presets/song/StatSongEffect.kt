@@ -54,6 +54,22 @@ object CriticalUpSongEffect : SongEffect {
     }
 }
 
+object DamageDealtUpSongEffect : SongEffect {
+    override val displayName = "Damage Dealt Up"
+
+    override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {
+        condition.applyIfTrue(self) {
+            self.valueDamageDealtUp += value
+        }
+    }
+
+    override fun end(context: ActionContext, value: Int, condition: Condition) = context.run {
+        condition.applyIfTrue(self) {
+            self.valueDamageDealtUp -= value
+        }
+    }
+}
+
 private data class DamageAgainstAttributeUpSongEffect(val attribute: Attribute) : SongEffect {
     override val name = "DamageAgainst${attribute.name}UpSongEffect"
     override val displayName = "Damage Against ${attribute.name} Up"

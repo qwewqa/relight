@@ -6,6 +6,7 @@ val songEffects = listOf(
     ActPowerUpSongEffect,
     DexterityUpSongEffect,
     CriticalUpSongEffect,
+    DamageDealtUpSongEffect,
     *nonNeutralAttributes.map { AttributeDamageDealtUpSongEffect(it) }.toTypedArray(),
     *nonNeutralAttributes.map { AgainstAttributeDamageDealtUpSongEffect(it) }.toTypedArray(),
 ).associateBy { it.displayName }
