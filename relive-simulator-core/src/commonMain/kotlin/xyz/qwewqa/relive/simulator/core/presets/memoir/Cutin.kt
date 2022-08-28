@@ -398,6 +398,7 @@ val slapMemos = listOf(
     slapMemo("Revue of Emperor, Fool, and Empress", Attribute.Space, equip4000266),
     slapMemo("Revue of Death and Hanged Man", Attribute.Wind, equip4000278),
     slapMemo("Revue of Wheel of Fortune and Moon", Attribute.Dream, equip4000278),
+    slapMemo("Revue of Moon, Judgement, Faith, Hope, and Charity", Attribute.Snow, equip4000255)
 )
 
 val XXJudgementUpright = equip4000188(
