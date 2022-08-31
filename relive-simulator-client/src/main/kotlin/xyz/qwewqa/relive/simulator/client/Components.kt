@@ -361,6 +361,7 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
             accessory.element.children.multiple<HTMLOptionElement>().forEach { opt ->
                 opt.setAttribute("data-hidden", if (opt.value in validAccessories) "false" else "true")
             }
+            accessory.refreshSelectPicker()
 
             if (validAccessories.size > 1) {
                 accessory.element.parentElement?.removeClass("d-none")
@@ -422,9 +423,6 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
             remakeSkill.renderSelectPicker()
 
             remakeSkillText.textContent = remakeSkill.element.selectedOptions.single<HTMLElement>().textContent
-
-            // Due to changes in hidden options
-            accessory.refreshSelectPicker()
 
             remake.element.setAttribute("data-prev-value", param.remake.toString())
             memoirUnbind.element.setAttribute("data-prev-value", param.memoirLimitBreak.toString())
