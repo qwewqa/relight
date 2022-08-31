@@ -1303,7 +1303,7 @@ class SimulatorClient(val simulator: Simulator) {
                                     div("btn-group w-100 actor-accessory-unbind") {
                                         role = "group"
                                         attributes["data-prev-value"] = "10"
-                                        listOf(1, 3, 6, 9, 10).forEach { level ->
+                                        listOf(0, 1, 3, 6, 9, 10).forEach { level ->
                                             input(InputType.radio, classes = "btn-check") {
                                                 id = "actor-accessory-unbind-$actorId-radio-$level"
                                                 name = "actor-accessory-unbind-$actorId-radio"
