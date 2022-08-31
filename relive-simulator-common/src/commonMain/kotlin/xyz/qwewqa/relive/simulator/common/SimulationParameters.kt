@@ -71,6 +71,7 @@ data class SimulationOptions(
     val strategyTypes: List<SimulationOption>,
     val bossStrategyTypes: List<SimulationOption>,
     val remakeSkills: List<SimulationOption>,
+    val accessories: List<DataSimulationOption<AccessoryData>>,
 )  {
     val commonTextById by lazy { commonText.associateBy { it.id } }
     val dressesById by lazy { dresses.associateBy { it.id } }
@@ -81,6 +82,7 @@ data class SimulationOptions(
     val strategyTypesById by lazy { strategyTypes.associateBy { it.id } }
     val bossStrategyTypesById by lazy { bossStrategyTypes.associateBy { it.id } }
     val remakeSkillsById by lazy { remakeSkills.associateBy { it.id } }
+    val accessoriesById by lazy { accessories.associateBy { it.id } }
 }
 
 typealias SimulationOption = DataSimulationOption<Unit>
@@ -123,6 +125,12 @@ data class DressData(
 }
 
 @Serializable
+data class AccessoryData(
+    val id: Int,
+    val dressIds: Set<Int>,
+)
+
+@Serializable
 data class SimulatorFeatures(
     val shutdown: Boolean = false
 )
@@ -155,6 +163,9 @@ data class PlayerLoadoutParameters(
     val rankPanelPattern: List<Boolean> = listOf(true, true, true, true, true, true, true, true),
     val remake: Int = 0,
     val remakeSkill: String? = null,
+    val accessory: String? = null,
+    val accessoryLevel: Int = 100,
+    val accessoryLimitBreak: Int = 10,
 )
 
 @Serializable

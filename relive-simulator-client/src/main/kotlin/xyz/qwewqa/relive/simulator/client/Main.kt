@@ -774,12 +774,20 @@ class SimulatorClient(val simulator: Simulator) {
                                 src = options.dresses.first().imagePath!!
                             }
                             img(classes = "actor-memoir-image") {
-                                style = "position: absolute; right: 2%; bottom: 2%; width: 52%;"
+                                style = "position: absolute; right: 2%; bottom: 2%; width: 48%;"
                                 src = options.memoirs.first().imagePath!!
                             }
                             img(classes = "actor-memoir-unbind-image") {
-                                style = "position: absolute; right: 2%; bottom: 2%; width: 52%;"
+                                style = "position: absolute; right: 2%; bottom: 2%; width: 48%;"
                                 src = getMemoirUnbindImagePath(4)
+                            }
+                            img(classes = "actor-accessory-image d-none") {
+                                style = "position: absolute; right: 2%; top: 2%; width: 38%;"
+                                src = options.accessories.first().imagePath!!
+                            }
+                            img(classes = "actor-accessory-unbind-image d-none") {
+                                style = "position: absolute; right: 2%; top: 2%; width: 38%;"
+                                src = getAccessoryUnbindImagePath(10)
                             }
                             img(classes = "actor-remake-level-image") {
                                 style =
@@ -808,6 +816,14 @@ class SimulatorClient(val simulator: Simulator) {
                                 div("actor-unit-skill-level") {
                                     style = "color: indigo; font-size: 0.85em;"
                                     +"21"
+                                }
+                            }
+                            div("d-flex flex-column d-none") {
+                                style = "position: absolute; right: 6%; top: 0%;" +
+                                        "text-shadow: #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px;"
+                                div("actor-accessory-level") {
+                                    style = "color: orange; font-size: 0.85em;"
+                                    +"100"
                                 }
                             }
                         }
@@ -1243,6 +1259,90 @@ class SimulatorClient(val simulator: Simulator) {
                                     input(InputType.number, classes = "form-control actor-memoir-level") {
                                         id = inputId
                                         placeholder = "80"
+                                        onChangeFunction = {
+                                            ActorOptions(options, actorId).update()
+                                        }
+                                    }
+                                }
+                                val activeAccessories = options.accessories.filter {
+                                    it.id == "None" || options.dresses.first().data.id in it.data.dressIds
+                                }.toSet()
+                                div("col-12 col-md-6 my-1${if (activeAccessories.size <= 1) " d-none" else ""}") {
+                                    val selectId = "actor-accessory-$actorId"
+                                    label("form-label text-accessory") {
+                                        htmlFor = selectId
+                                        +localized(".text-accessory", "Accessory")
+                                    }
+                                    select("selectpicker actor-selectpicker-$actorId form-control actor-accessory") {
+                                        id = selectId
+                                        attributes["data-live-search"] = "true"
+                                        options.accessories.forEach {
+                                            option {
+                                                val name = it[locale]
+                                                val description = it.description?.get(locale)
+                                                attributes["data-img"] = it.imagePath ?: ""
+                                                attributes["data-subtext"] = description ?: ""
+                                                attributes["data-hidden"] = if (it in activeAccessories) "false" else "true"
+                                                value = it.id
+                                                +name
+                                                attributes["data-tokens"] =
+                                                    it.tags?.get(locale)?.joinToString(" ") ?: ""
+                                            }
+                                        }
+                                        onChangeFunction = {
+                                            ActorOptions(options, actorId).update()
+                                        }
+                                    }
+                                }
+                                div("col-8 col-md-4 col-lg-3 my-1${if (activeAccessories.size <= 1) " d-none" else ""}") {
+                                    val selectId = "actor-accessory-unbind-$actorId"
+                                    label("form-label text-accessory-unbind") {
+                                        htmlFor = selectId
+                                        +localized(".text-accessory-unbind", "Unbind")
+                                    }
+                                    div("btn-group w-100 actor-accessory-unbind") {
+                                        role = "group"
+                                        attributes["data-prev-value"] = "10"
+                                        listOf(1, 3, 6, 9, 10).forEach { level ->
+                                            input(InputType.radio, classes = "btn-check") {
+                                                id = "actor-accessory-unbind-$actorId-radio-$level"
+                                                name = "actor-accessory-unbind-$actorId-radio"
+                                                autoComplete = false
+                                                value = level.toString()
+                                                if (level == 10) {
+                                                    attributes["checked"] = "checked"
+                                                }
+                                                onChangeFunction = {
+                                                    val opt = ActorOptions(options, actorId)
+                                                    val prev = opt.accessoryUnbind.element.attributes["data-prev-value"]
+                                                        ?.value?.toInt() ?: 0
+                                                    val params = opt.parameters
+                                                    val newAccessoryLevel = (if (params.accessoryLevel == 50 + 5 * prev) {
+                                                        50 + 5 * params.accessoryLimitBreak
+                                                    } else {
+                                                        params.accessoryLevel
+                                                    }).coerceAtMost(50 + 5 * params.accessoryLimitBreak)
+                                                    opt.parameters = params.copy(
+                                                        accessoryLevel = newAccessoryLevel
+                                                    )
+                                                }
+                                            }
+                                            label(classes = "btn btn-outline-secondary") {
+                                                htmlFor = "actor-accessory-unbind-$actorId-radio-$level"
+                                                +"$level"
+                                            }
+                                        }
+                                    }
+                                }
+                                div("col-4 col-md-2 col-lg-3 my-1${if (activeAccessories.size <= 1) " d-none" else ""}") {
+                                    val inputId = "actor-accessory-level-$actorId"
+                                    label("form-label text-accessory-level") {
+                                        htmlFor = inputId
+                                        +localized(".text-accessory-level", "Level")
+                                    }
+                                    input(InputType.number, classes = "form-control actor-accessory-level") {
+                                        id = inputId
+                                        placeholder = "100"
                                         onChangeFunction = {
                                             ActorOptions(options, actorId).update()
                                         }

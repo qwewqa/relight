@@ -26,7 +26,9 @@ class PlayerLoadoutParameters(BaseModel):
     rankPanelPattern: conlist(bool, min_items=8, max_items=8) = Field(default_factory=lambda: [True] * 8)
     remake: int = 0
     remakeSkill: constr(max_length=100)
-
+    accessory: Optional[constr(max_length=100)] = None
+    accessoryLevel: int = 100
+    accessoryLimitBreak: int = 10
 
 class CreatePresetsRequest(BaseModel):
     name: Optional[constr(max_length=100)] = None

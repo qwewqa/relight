@@ -11,6 +11,7 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import xyz.qwewqa.relive.simulator.common.*
+import xyz.qwewqa.relive.simulator.core.presets.accessory.accessories
 import xyz.qwewqa.relive.simulator.core.presets.condition.conditions
 import xyz.qwewqa.relive.simulator.core.presets.dress.bossLoadouts
 import xyz.qwewqa.relive.simulator.core.presets.dress.playerDresses
@@ -199,6 +200,20 @@ fun Application.configureRouting() {
                         id = skill.name,
                         name = remakeSkillNames[skill.id.toString()]!!,
                         imagePath = "img/skill_icon/skill_icon_${skill.icon}.png",
+                    )
+                },
+                getLocalizationConfig("accessory.yaml", accessories.keys).map { option ->
+                    val accessory = accessories[option.id]!!
+                    DataSimulationOption(
+                        id = option.id,
+                        name = option.name,
+                        description = option.description,
+                        tags = option.tags,
+                        imagePath = if (accessory.iconId == 0) "img/common/plate_unselected_6.png" else "img/medium_icon/38_${accessory.iconId}.png",
+                        data = AccessoryData(
+                            id = accessory.id,
+                            dressIds = accessory.dressIds,
+                        ),
                     )
                 },
             )

@@ -5,6 +5,7 @@ import kotlinx.dom.addClass
 import kotlinx.dom.clear
 import kotlinx.dom.hasClass
 import kotlinx.dom.removeClass
+import kotlinx.html.dom.append
 import kotlinx.html.dom.create
 import kotlinx.html.option
 import org.w3c.dom.*
@@ -214,6 +215,20 @@ fun getMemoirUnbindImagePath(level: Int) = when (level) {
     else -> "img/common/frame_large_equip_blue.png"
 }
 
+fun getAccessoryUnbindImagePath(level: Int) = when (level) {
+    10 -> "img/common/frame_medium_accessory_rainbow.png"
+    9 -> "img/common/frame_medium_accessory_gold.png"
+    8 -> "img/common/frame_medium_accessory_gold.png"
+    7 -> "img/common/frame_medium_accessory_gold.png"
+    6 -> "img/common/frame_medium_accessory_silver.png"
+    5 -> "img/common/frame_medium_accessory_silver.png"
+    4 -> "img/common/frame_medium_accessory_silver.png"
+    3 -> "img/common/frame_medium_accessory_bronze.png"
+    2 -> "img/common/frame_medium_accessory_bronze.png"
+    1 -> "img/common/frame_medium_accessory_blue.png"
+    else -> "img/common/frame_medium_accessory_blue.png"
+}
+
 fun getEquipEvolutionImagePath(level: Int) = "img/common/icon_equip_evolution_$level.png"
 fun getRemakeLevelVerticalImagePath(level: Int) = "img/custom/icon_remake_$level.png"
 fun getRemakeLevelHorizontalImagePath(level: Int) = "img/common/icon_remake_$level.png"
@@ -231,6 +246,9 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
     val memoir = SingleSelect(optionsElement.getElementsByClassName("actor-memoir").single(), true)
     val memoirLevel = IntegerInput(optionsElement.getElementsByClassName("actor-memoir-level").single(), 1)
     val memoirUnbind = ButtonGroup(optionsElement.getElementsByClassName("actor-memoir-unbind").single())
+    val accessory = SingleSelect(optionsElement.getElementsByClassName("actor-accessory").single(), true)
+    val accessoryLevel = IntegerInput(optionsElement.getElementsByClassName("actor-accessory-level").single(), 1)
+    val accessoryUnbind = ButtonGroup(optionsElement.getElementsByClassName("actor-accessory-unbind").single())
     val unitSkillLevel = IntegerInput(optionsElement.getElementsByClassName("actor-unit-skill").single(), 21)
     val level = IntegerInput(optionsElement.getElementsByClassName("actor-level").single(), 80)
     val rarity = SingleSelect(optionsElement.getElementsByClassName("actor-rarity").single(), false)
@@ -252,6 +270,9 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
     val tabMemoirUnbindImage = tabElement.getElementsByClassName("actor-memoir-unbind-image").single<HTMLImageElement>()
     val tabDressImage = tabElement.getElementsByClassName("actor-dress-image").single<HTMLImageElement>()
     val tabMemoirImage = tabElement.getElementsByClassName("actor-memoir-image").single<HTMLImageElement>()
+    val tabAccessoryImage = tabElement.getElementsByClassName("actor-accessory-image").single<HTMLImageElement>()
+    val tabAccessoryUnbindImage = tabElement.getElementsByClassName("actor-accessory-unbind-image").single<HTMLImageElement>()
+    val tabAccessoryLevel = tabElement.getElementsByClassName("actor-accessory-level").single<HTMLElement>()
 
     companion object {
         val rankPanelPatterns = mapOf(
@@ -291,37 +312,76 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
             rankPanelPattern = List(8) { true },
             remake = 0,
             remakeSkill = "None",
+            accessory = "None",
+            accessoryLevel = 100,
+            accessoryLimitBreak = 10,
         )
 
         name.value = ""
         memoirLevel.element.value = ""
+        accessoryLevel.element.value = ""
         unitSkillLevel.element.value = ""
         level.element.value = ""
         friendship.element.value = ""
+        accessory.value = "None"
+        accessoryUnbind.value = "10"
     }
 
     var parameters: PlayerLoadoutParameters
-        get() = PlayerLoadoutParameters(
-            name.value,
-            dress.value,
-            memoir.value,
-            memoirLevel.value,
-            memoirUnbind.value.toInt(),
-            unitSkillLevel.value,
-            level.value,
-            rarity.value.toInt(),
-            friendship.value,
-            rank.value.toInt(),
-            rankPanelPatterns[rankPanelPattern.value]!!,
-            remake.value.toInt(),
-            remakeSkill.value,
-        )
+        get() {
+            val validAccessory = options.dressesById[dress.value]!!.data.id in options.accessoriesById[accessory.value]!!.data.dressIds
+            return PlayerLoadoutParameters(
+                name.value,
+                dress.value,
+                memoir.value,
+                memoirLevel.value,
+                memoirUnbind.value.toInt(),
+                unitSkillLevel.value,
+                level.value,
+                rarity.value.toInt(),
+                friendship.value,
+                rank.value.toInt(),
+                rankPanelPatterns[rankPanelPattern.value]!!,
+                remake.value.toInt(),
+                remakeSkill.value,
+                if (validAccessory) accessory.value else null,
+                accessoryLevel.value,
+                accessoryUnbind.value.toInt(),
+            )
+        }
         set(param) {
+            val dressData = options.dressesById[param.dress]
+            val validAccessories = options.accessories
+                .filter {
+                    (dressData?.data?.id ?: 0) in it.data.dressIds || it.data.dressIds.isEmpty()
+                }
+                .map { it.id }
+                .toSet()
+
+            accessory.element.children.multiple<HTMLOptionElement>().forEach { opt ->
+                opt.setAttribute("data-hidden", if (opt.value in validAccessories) "false" else "true")
+            }
+
+            if (validAccessories.size > 1) {
+                accessory.element.parentElement?.removeClass("d-none")
+                accessoryLevel.element.parentElement?.removeClass("d-none")
+                accessoryUnbind.element.parentElement?.removeClass("d-none")
+            } else {
+                accessory.element.parentElement?.addClass("d-none")
+                accessoryLevel.element.parentElement?.addClass("d-none")
+                accessoryUnbind.element.parentElement?.addClass("d-none")
+            }
+
             name.value = param.name
             dress.value = param.dress
             memoir.value = param.memoir
             memoirLevel.value = param.memoirLevel
             memoirUnbind.value = param.memoirLimitBreak.toString()
+            if (validAccessories.size > 1) {
+                accessory.value = param.accessory.takeIf { it in validAccessories } ?: "None"
+                accessoryLevel.value = param.accessoryLevel
+                accessoryUnbind.value = param.accessoryLimitBreak.toString()
+            }
             unitSkillLevel.value = param.unitSkillLevel
             level.value = param.level
             rarity.value = param.rarity.toString()
@@ -344,14 +404,31 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
             tabMemoirUnbindImage.src = getMemoirUnbindImagePath(param.memoirLimitBreak)
             tabDressImage.src = options.dressesById[param.dress]?.imagePath ?: ""
             tabMemoirImage.src = options.memoirsById[param.memoir]?.imagePath ?: ""
+            tabAccessoryImage.src = options.accessoriesById[param.accessory]?.imagePath ?: ""
+            tabAccessoryLevel.textContent = param.accessoryLevel.toString()
+            tabAccessoryUnbindImage.src = getAccessoryUnbindImagePath(param.accessoryLimitBreak)
+
+            if (validAccessories.size > 1 && accessory.value != "None") {
+                tabAccessoryImage.removeClass("d-none")
+                tabAccessoryLevel.parentElement?.removeClass("d-none")
+                tabAccessoryUnbindImage.removeClass("d-none")
+            } else {
+                tabAccessoryImage.addClass("d-none")
+                tabAccessoryLevel.parentElement?.addClass("d-none")
+                tabAccessoryUnbindImage.addClass("d-none")
+            }
 
             // Check for disabled change
             remakeSkill.renderSelectPicker()
 
             remakeSkillText.textContent = remakeSkill.element.selectedOptions.single<HTMLElement>().textContent
 
+            // Due to changes in hidden options
+            accessory.refreshSelectPicker()
+
             remake.element.setAttribute("data-prev-value", param.remake.toString())
             memoirUnbind.element.setAttribute("data-prev-value", param.memoirLimitBreak.toString())
+            accessoryUnbind.element.setAttribute("data-prev-value", param.accessoryLimitBreak.toString())
         }
 }
 

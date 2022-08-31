@@ -3,6 +3,7 @@ package xyz.qwewqa.relive.simulator.core.stage.actor
 import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.accessory.Accessory
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
@@ -15,6 +16,7 @@ class Actor(
     val name: String,
     val dress: Dress,
     val memoir: Memoir?,
+    val accessory: Accessory?
 ) {
     val passives = if (memoir != null) {
         dress.autoSkills + memoir.autoskills
@@ -162,6 +164,7 @@ class Actor(
         hp = maxHp
         context.log("Init") { "Dress Stats: ${dress.stats.display()}." }
         context.log("Init") { "Memoir Stats: ${memoir?.stats?.display()}." }
+        context.log("Init") { "Accessory Stats: ${accessory?.stats?.display()}." }
     }
 
     fun tick() {
@@ -422,5 +425,10 @@ class Actor(
     init {
         dress.stats.addToActor(this)
         memoir?.stats?.addToActor(this)
+        accessory?.stats?.addToActor(this)
+
+        accessory?.act?.let { actData ->
+            acts[actData.type] = actData
+        }
     }
 }

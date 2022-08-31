@@ -4,6 +4,7 @@ package xyz.qwewqa.relive.simulator.core.stage
 import xyz.qwewqa.relive.simulator.common.SimulationMarginResultType
 import xyz.qwewqa.relive.simulator.common.SimulationParameters
 import xyz.qwewqa.relive.simulator.common.SimulationResultType
+import xyz.qwewqa.relive.simulator.core.presets.accessory.accessories
 import xyz.qwewqa.relive.simulator.core.presets.condition.conditions
 import xyz.qwewqa.relive.simulator.core.presets.dress.bossLoadouts
 import xyz.qwewqa.relive.simulator.core.presets.dress.playerDresses
@@ -45,6 +46,7 @@ fun SimulationParameters.createStageLoadout(): StageLoadout {
                             remakeSkill = it.remakeSkill?.let { id -> remakeSkills[id]!! },
                         ),
                         memoirs[it.memoir]!!.create(it.memoirLevel, it.memoirLimitBreak),
+                        accessories[it.accessory ?: "None"]!!.create(it.accessoryLevel, it.accessoryLimitBreak),
                     )
                 },
                 guest?.let {
@@ -61,6 +63,7 @@ fun SimulationParameters.createStageLoadout(): StageLoadout {
                             remakeSkill = null,
                         ),
                         memoirs[it.memoir]!!.create(it.memoirLevel, it.memoirLimitBreak),
+                        accessories[it.accessory ?: "None"]!!.create(it.accessoryLevel, it.accessoryLimitBreak),
                     )
                 },
                 Song(
