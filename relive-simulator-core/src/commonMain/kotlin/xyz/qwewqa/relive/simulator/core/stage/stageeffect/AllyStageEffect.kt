@@ -394,3 +394,41 @@ val SweetMoment = StageEffect(
     ),
     StageEffectTarget.All,
 )
+
+val WeAreRivals = StageEffect(
+    "We are rivals!",
+    listOf(
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(DexterityUpBuff, 30),
+            StageBuff(CriticalUpBuff, 30),
+            StageBuff(DamageTakenDownBuff, 30),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(DexterityUpBuff, 40),
+            StageBuff(CriticalUpBuff, 40),
+            StageBuff(DamageTakenDownBuff, 40),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(DexterityUpBuff, 50),
+            StageBuff(CriticalUpBuff, 50),
+            StageBuff(DamageTakenDownBuff, 50),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(DexterityUpBuff, 60),
+            StageBuff(CriticalUpBuff, 60),
+            StageBuff(DamageTakenDownBuff, 60),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(DexterityUpBuff, 70),
+            StageBuff(CriticalUpBuff, 70),
+            StageBuff(DamageTakenDownBuff, 70),
+        ),
+    ),
+    StageEffectTarget.All,
+    SeishoOnlyCondition
+)

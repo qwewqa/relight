@@ -16,6 +16,7 @@ val ConcentrationWind = concentrationAttributeStageEffect(Attribute.Wind)
 val ConcentrationSnow = concentrationAttributeStageEffect(Attribute.Snow)
 val ApplauseSpace = applauseAttributeStageEffect(Attribute.Space)
 val ApplauseCloud = applauseAttributeStageEffect(Attribute.Cloud)
+val ApplauseSnow = applauseAttributeStageEffect(Attribute.Snow)
 
 private fun weAreOnTheStageAttributeStageEffect(attribute: Attribute) = StageEffect(
     "We Are on the Stage (${attribute.name})",
