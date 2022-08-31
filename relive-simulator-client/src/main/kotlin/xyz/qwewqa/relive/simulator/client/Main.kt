@@ -822,7 +822,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 style = "position: absolute; right: 6%; top: 0%;" +
                                         "text-shadow: #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px;"
                                 div("actor-accessory-level") {
-                                    style = "color: orange; font-size: 0.85em;"
+                                    style = "color: darkgoldenrod; font-size: 0.85em;"
                                     +"100"
                                 }
                             }
