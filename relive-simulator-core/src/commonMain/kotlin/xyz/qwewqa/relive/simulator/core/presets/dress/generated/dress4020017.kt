@@ -140,7 +140,7 @@ val dress4020017 = PartialDressBlueprint(
       ),
     ),
     ActType.ClimaxAct to ActBlueprint(
-      name = "王の右腕",
+      name = "わが宿命は、王と共に！",
       type = ActType.ClimaxAct,
       apCost = 2,
       icon = 236,
