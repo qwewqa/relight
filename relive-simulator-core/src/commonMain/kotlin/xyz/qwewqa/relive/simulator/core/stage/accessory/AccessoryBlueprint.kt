@@ -45,7 +45,7 @@ data class AccessoryBlueprint(
     val actData: ActBlueprint? = null,
 ) {
     fun create(level: Int, limitBreak: Int): Accessory {
-        val actLevel = ACCESSORY_SKILL_LEVELS[limitBreak - 1] ?: error("Accessory limit break $limitBreak is not supported.")
+        val actLevel = ACCESSORY_SKILL_LEVELS[limitBreak] ?: error("Accessory limit break $limitBreak is not supported.")
         require(level in 1..(50 + limitBreak * 5)) { "Accessory level must be between 1 and ${50 + limitBreak * 5}." }
         val factor = growValues[level - 1]
         return Accessory(
