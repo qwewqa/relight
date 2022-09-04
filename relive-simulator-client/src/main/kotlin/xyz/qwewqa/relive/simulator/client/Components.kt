@@ -146,6 +146,7 @@ sealed class Select(val element: HTMLSelectElement, val selectpicker: Boolean) {
                 text = mapping[option.value]?.get(locale) ?: option.value
             }
         }
+        refreshSelectPicker()
     }
 
     fun localize(mapping: Map<String, DataSimulationOption<*>>, locale: String) {
@@ -164,6 +165,7 @@ sealed class Select(val element: HTMLSelectElement, val selectpicker: Boolean) {
                 text = name
             }
         }
+        refreshSelectPicker()
     }
 
     fun refreshSelectPicker() {
