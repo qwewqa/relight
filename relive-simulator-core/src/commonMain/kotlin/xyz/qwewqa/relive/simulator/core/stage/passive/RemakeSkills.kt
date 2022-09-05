@@ -2638,212 +2638,212 @@ val remakeSkill526 = RemakeSkill(
 val remakeSkill527 = RemakeSkill(
     id = 527,
     effects = listOf(RemakeEffectEntry(targetings[4008]!!, startEffects[123]!!, 10, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill528 = RemakeSkill(
     id = 528,
     effects = listOf(RemakeEffectEntry(targetings[4008]!!, startEffects[123]!!, 11, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill529 = RemakeSkill(
     id = 529,
     effects = listOf(RemakeEffectEntry(targetings[4008]!!, startEffects[123]!!, 12, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill530 = RemakeSkill(
     id = 530,
     effects = listOf(RemakeEffectEntry(targetings[4008]!!, startEffects[123]!!, 13, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill531 = RemakeSkill(
     id = 531,
     effects = listOf(RemakeEffectEntry(targetings[4008]!!, startEffects[123]!!, 14, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill532 = RemakeSkill(
     id = 532,
     effects = listOf(RemakeEffectEntry(targetings[4008]!!, startEffects[123]!!, 15, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill533 = RemakeSkill(
     id = 533,
     effects = listOf(RemakeEffectEntry(targetings[4009]!!, startEffects[123]!!, 10, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill534 = RemakeSkill(
     id = 534,
     effects = listOf(RemakeEffectEntry(targetings[4009]!!, startEffects[123]!!, 11, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill535 = RemakeSkill(
     id = 535,
     effects = listOf(RemakeEffectEntry(targetings[4009]!!, startEffects[123]!!, 12, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill536 = RemakeSkill(
     id = 536,
     effects = listOf(RemakeEffectEntry(targetings[4009]!!, startEffects[123]!!, 13, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill537 = RemakeSkill(
     id = 537,
     effects = listOf(RemakeEffectEntry(targetings[4009]!!, startEffects[123]!!, 14, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill538 = RemakeSkill(
     id = 538,
     effects = listOf(RemakeEffectEntry(targetings[4009]!!, startEffects[123]!!, 15, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill539 = RemakeSkill(
     id = 539,
     effects = listOf(RemakeEffectEntry(targetings[4010]!!, startEffects[123]!!, 10, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill540 = RemakeSkill(
     id = 540,
     effects = listOf(RemakeEffectEntry(targetings[4010]!!, startEffects[123]!!, 11, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill541 = RemakeSkill(
     id = 541,
     effects = listOf(RemakeEffectEntry(targetings[4010]!!, startEffects[123]!!, 12, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill542 = RemakeSkill(
     id = 542,
     effects = listOf(RemakeEffectEntry(targetings[4010]!!, startEffects[123]!!, 13, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill543 = RemakeSkill(
     id = 543,
     effects = listOf(RemakeEffectEntry(targetings[4010]!!, startEffects[123]!!, 14, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill544 = RemakeSkill(
     id = 544,
     effects = listOf(RemakeEffectEntry(targetings[4010]!!, startEffects[123]!!, 15, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill545 = RemakeSkill(
     id = 545,
     effects = listOf(RemakeEffectEntry(targetings[4011]!!, startEffects[123]!!, 10, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill546 = RemakeSkill(
     id = 546,
     effects = listOf(RemakeEffectEntry(targetings[4011]!!, startEffects[123]!!, 11, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill547 = RemakeSkill(
     id = 547,
     effects = listOf(RemakeEffectEntry(targetings[4011]!!, startEffects[123]!!, 12, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill548 = RemakeSkill(
     id = 548,
     effects = listOf(RemakeEffectEntry(targetings[4011]!!, startEffects[123]!!, 13, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill549 = RemakeSkill(
     id = 549,
     effects = listOf(RemakeEffectEntry(targetings[4011]!!, startEffects[123]!!, 14, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill550 = RemakeSkill(
     id = 550,
     effects = listOf(RemakeEffectEntry(targetings[4011]!!, startEffects[123]!!, 15, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill551 = RemakeSkill(
     id = 551,
     effects = listOf(RemakeEffectEntry(targetings[4012]!!, startEffects[123]!!, 10, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill552 = RemakeSkill(
     id = 552,
     effects = listOf(RemakeEffectEntry(targetings[4012]!!, startEffects[123]!!, 11, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill553 = RemakeSkill(
     id = 553,
     effects = listOf(RemakeEffectEntry(targetings[4012]!!, startEffects[123]!!, 12, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill554 = RemakeSkill(
     id = 554,
     effects = listOf(RemakeEffectEntry(targetings[4012]!!, startEffects[123]!!, 13, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill555 = RemakeSkill(
     id = 555,
     effects = listOf(RemakeEffectEntry(targetings[4012]!!, startEffects[123]!!, 14, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill556 = RemakeSkill(
     id = 556,
     effects = listOf(RemakeEffectEntry(targetings[4012]!!, startEffects[123]!!, 15, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill557 = RemakeSkill(
     id = 557,
     effects = listOf(RemakeEffectEntry(targetings[4013]!!, startEffects[123]!!, 10, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill558 = RemakeSkill(
     id = 558,
     effects = listOf(RemakeEffectEntry(targetings[4013]!!, startEffects[123]!!, 11, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill559 = RemakeSkill(
     id = 559,
     effects = listOf(RemakeEffectEntry(targetings[4013]!!, startEffects[123]!!, 12, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill560 = RemakeSkill(
     id = 560,
     effects = listOf(RemakeEffectEntry(targetings[4013]!!, startEffects[123]!!, 13, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill561 = RemakeSkill(
     id = 561,
     effects = listOf(RemakeEffectEntry(targetings[4013]!!, startEffects[123]!!, 14, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill562 = RemakeSkill(
     id = 562,
     effects = listOf(RemakeEffectEntry(targetings[4013]!!, startEffects[123]!!, 15, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill563 = RemakeSkill(
     id = 563,
     effects = listOf(RemakeEffectEntry(targetings[4014]!!, startEffects[123]!!, 10, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill564 = RemakeSkill(
     id = 564,
     effects = listOf(RemakeEffectEntry(targetings[4014]!!, startEffects[123]!!, 11, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill565 = RemakeSkill(
     id = 565,
     effects = listOf(RemakeEffectEntry(targetings[4014]!!, startEffects[123]!!, 12, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill566 = RemakeSkill(
     id = 566,
     effects = listOf(RemakeEffectEntry(targetings[4014]!!, startEffects[123]!!, 13, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill567 = RemakeSkill(
     id = 567,
     effects = listOf(RemakeEffectEntry(targetings[4014]!!, startEffects[123]!!, 14, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill568 = RemakeSkill(
     id = 568,
     effects = listOf(RemakeEffectEntry(targetings[4014]!!, startEffects[123]!!, 15, 2)),
-    icon = 8,
+    icon = 111,
 )
 val remakeSkill569 = RemakeSkill(
     id = 569,
@@ -3058,177 +3058,177 @@ val remakeSkill610 = RemakeSkill(
 val remakeSkill611 = RemakeSkill(
     id = 611,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[66]!!, 30, 2)),
-    icon = 114,
+    icon = 66,
 )
 val remakeSkill612 = RemakeSkill(
     id = 612,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[66]!!, 40, 2)),
-    icon = 114,
+    icon = 66,
 )
 val remakeSkill613 = RemakeSkill(
     id = 613,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[66]!!, 50, 2)),
-    icon = 114,
+    icon = 66,
 )
 val remakeSkill614 = RemakeSkill(
     id = 614,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[66]!!, 60, 2)),
-    icon = 114,
+    icon = 66,
 )
 val remakeSkill615 = RemakeSkill(
     id = 615,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[66]!!, 70, 2)),
-    icon = 114,
+    icon = 66,
 )
 val remakeSkill616 = RemakeSkill(
     id = 616,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[67]!!, 30, 2)),
-    icon = 114,
+    icon = 67,
 )
 val remakeSkill617 = RemakeSkill(
     id = 617,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[67]!!, 40, 2)),
-    icon = 114,
+    icon = 67,
 )
 val remakeSkill618 = RemakeSkill(
     id = 618,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[67]!!, 50, 2)),
-    icon = 114,
+    icon = 67,
 )
 val remakeSkill619 = RemakeSkill(
     id = 619,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[67]!!, 60, 2)),
-    icon = 114,
+    icon = 67,
 )
 val remakeSkill620 = RemakeSkill(
     id = 620,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[67]!!, 70, 2)),
-    icon = 114,
+    icon = 67,
 )
 val remakeSkill621 = RemakeSkill(
     id = 621,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[68]!!, 30, 2)),
-    icon = 114,
+    icon = 68,
 )
 val remakeSkill622 = RemakeSkill(
     id = 622,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[68]!!, 40, 2)),
-    icon = 114,
+    icon = 68,
 )
 val remakeSkill623 = RemakeSkill(
     id = 623,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[68]!!, 50, 2)),
-    icon = 114,
+    icon = 68,
 )
 val remakeSkill624 = RemakeSkill(
     id = 624,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[68]!!, 60, 2)),
-    icon = 114,
+    icon = 68,
 )
 val remakeSkill625 = RemakeSkill(
     id = 625,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[68]!!, 70, 2)),
-    icon = 114,
+    icon = 68,
 )
 val remakeSkill626 = RemakeSkill(
     id = 626,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[69]!!, 30, 2)),
-    icon = 114,
+    icon = 69,
 )
 val remakeSkill627 = RemakeSkill(
     id = 627,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[69]!!, 40, 2)),
-    icon = 114,
+    icon = 69,
 )
 val remakeSkill628 = RemakeSkill(
     id = 628,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[69]!!, 50, 2)),
-    icon = 114,
+    icon = 69,
 )
 val remakeSkill629 = RemakeSkill(
     id = 629,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[69]!!, 60, 2)),
-    icon = 114,
+    icon = 69,
 )
 val remakeSkill630 = RemakeSkill(
     id = 630,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[69]!!, 70, 2)),
-    icon = 114,
+    icon = 69,
 )
 val remakeSkill631 = RemakeSkill(
     id = 631,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[70]!!, 30, 2)),
-    icon = 114,
+    icon = 70,
 )
 val remakeSkill632 = RemakeSkill(
     id = 632,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[70]!!, 40, 2)),
-    icon = 114,
+    icon = 70,
 )
 val remakeSkill633 = RemakeSkill(
     id = 633,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[70]!!, 50, 2)),
-    icon = 114,
+    icon = 70,
 )
 val remakeSkill634 = RemakeSkill(
     id = 634,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[70]!!, 60, 2)),
-    icon = 114,
+    icon = 70,
 )
 val remakeSkill635 = RemakeSkill(
     id = 635,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[70]!!, 70, 2)),
-    icon = 114,
+    icon = 70,
 )
 val remakeSkill636 = RemakeSkill(
     id = 636,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[71]!!, 30, 2)),
-    icon = 114,
+    icon = 71,
 )
 val remakeSkill637 = RemakeSkill(
     id = 637,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[71]!!, 40, 2)),
-    icon = 114,
+    icon = 71,
 )
 val remakeSkill638 = RemakeSkill(
     id = 638,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[71]!!, 50, 2)),
-    icon = 114,
+    icon = 71,
 )
 val remakeSkill639 = RemakeSkill(
     id = 639,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[71]!!, 60, 2)),
-    icon = 114,
+    icon = 71,
 )
 val remakeSkill640 = RemakeSkill(
     id = 640,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[71]!!, 70, 2)),
-    icon = 114,
+    icon = 71,
 )
 val remakeSkill641 = RemakeSkill(
     id = 641,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[72]!!, 30, 2)),
-    icon = 114,
+    icon = 72,
 )
 val remakeSkill642 = RemakeSkill(
     id = 642,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[72]!!, 40, 2)),
-    icon = 114,
+    icon = 72,
 )
 val remakeSkill643 = RemakeSkill(
     id = 643,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[72]!!, 50, 2)),
-    icon = 114,
+    icon = 72,
 )
 val remakeSkill644 = RemakeSkill(
     id = 644,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[72]!!, 60, 2)),
-    icon = 114,
+    icon = 72,
 )
 val remakeSkill645 = RemakeSkill(
     id = 645,
     effects = listOf(RemakeEffectEntry(targetings[1002]!!, startEffects[72]!!, 70, 2)),
-    icon = 114,
+    icon = 72,
 )
 val remakeSkill646 = RemakeSkill(
     id = 646,
