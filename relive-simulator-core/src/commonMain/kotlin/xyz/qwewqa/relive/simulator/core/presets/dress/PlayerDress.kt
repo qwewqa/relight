@@ -84,6 +84,7 @@ val playerDresses = listOf(
     ParisCombatRevueFlowerDivisionErika,
     RedFrontierLalafin,
     RomeoKaren,
+    SakataNoKintokiMeiFan,
     SakuraShingujiHikari,
     SakuyahimeMahiru,
     SanadaMahiru,
