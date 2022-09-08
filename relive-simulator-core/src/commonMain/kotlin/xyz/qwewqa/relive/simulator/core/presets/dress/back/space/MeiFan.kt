@@ -13,7 +13,7 @@ import xyz.qwewqa.relive.simulator.core.presets.condition.*
 val SakataNoKintokiMeiFan = dressdress4030018(
     name = "Sakata no Kintoki Mei Fan",
     acts = listOf(
-        ActType.Act1.blueprint("A Bear Killing Blow") {
+        ActType.Act1.blueprint("Bear Slayer") {
             Act {
                 targetAllyAoe().act {
                     applyCountableBuff(
@@ -29,7 +29,7 @@ val SakataNoKintokiMeiFan = dressdress4030018(
                 }
             }
         },
-        ActType.Act2.blueprint("A Spider Killing Blow") {
+        ActType.Act2.blueprint("Earth Spider Slayer") {
             Act {
                 targetAllyAoe().act {
                     applyBuff(
@@ -49,7 +49,7 @@ val SakataNoKintokiMeiFan = dressdress4030018(
                 }
             }
         },
-        ActType.Act3.blueprint("Carrying an Axe") {
+        ActType.Act3.blueprint("Axe-Bearer") {
             Act {
                 targetAllyFront(3).act {
                     addBrilliance(values1)
@@ -62,7 +62,7 @@ val SakataNoKintokiMeiFan = dressdress4030018(
                 }
             }
         },
-        ActType.ClimaxAct.blueprint("Arm Wrestling Contest") {
+        ActType.ClimaxAct.blueprint("Contest of Strength") {
             Act {
                 targetAllyAoe().act {
                     applyCountableBuff(
