@@ -9,8 +9,9 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 
-val SakataNoKintokiMeiFan = dressdress4030018(
+val SakataNoKintokiMeiFan = dress4030018(
     name = "Sakata no Kintoki Mei Fan",
     acts = listOf(
         ActType.Act1.blueprint("Bear Slayer") {
