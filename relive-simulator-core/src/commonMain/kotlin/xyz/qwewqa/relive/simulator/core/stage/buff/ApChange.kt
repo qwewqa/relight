@@ -44,10 +44,14 @@ object LockedApUpBuff : BuffEffect {
 
 val Actor.apChange: Int
     get() {
-        var result = 0
-        if (buffs.count(ApDownBuff) > 0) result--
-        if (buffs.count(ApUpBuff) > 0) result++
-        if (buffs.count(Ap2DownBuff) > 0) result -= 2
-//        if (buffs.count(Ap2UpBuff) > 0) result += 2
-        return result
+        val apDecrease = when {
+            buffs.any(Ap2DownBuff) -> 2
+            buffs.any(ApDownBuff) -> 1
+            else -> 0
+        }
+        val apIncrease = when {
+            buffs.any(ApUpBuff) -> 1
+            else -> 0
+        }
+        return apIncrease - apDecrease
     }
