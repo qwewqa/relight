@@ -5,10 +5,12 @@ import com.github.h0tk3y.betterParse.grammar.Grammar
 import com.github.h0tk3y.betterParse.lexer.literalToken
 import com.github.h0tk3y.betterParse.lexer.regexToken
 import com.github.h0tk3y.betterParse.parser.Parser
+import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.stage.Stage
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
+import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
 sealed class SimpleStrategyLine
@@ -114,6 +116,7 @@ class SimpleStrategy(val commands: Map<Int, List<SimpleStrategyCommand>>) : Stra
         val queue = mutableListOf<QueueTile>()
         val cutins = mutableListOf<BoundCutin>()
         var climax = false
+        val assertionFailures = mutableListOf<String>()
         commands[stage.turn]?.forEach { command ->
             when (command) {
                 SimpleStrategyCommand.EnterClimax -> {
@@ -147,13 +150,20 @@ class SimpleStrategy(val commands: Map<Int, List<SimpleStrategyCommand>>) : Stra
                     val actor = team.actors[command.actor] ?: error("Unknown actor ${command.actor}")
                     val propertyInfo = actorProperties[command.property]!!
                     if (!propertyInfo.check(actor, command.operator, command.operand)) {
-                        stage.tags = listOf("(t${stage.turn}) assert ${command.actor} ${command.property}${
+                        assertionFailures += "assert ${command.actor} ${command.property}${
                             if (command.operator != null) " ${command.operator} ${command.operand}" else ""
-                        }")
-                        error("Assertion failed for actor ${command.actor} property ${command.property}.")
+                        }"
+                        stage.log("Strategy", category = LogCategory.ERROR) {
+                            "Assertion failed for actor ${command.actor} property ${command.property}."
+                        }
                     }
                 }
             }
+        }
+        if (assertionFailures.isNotEmpty()) {
+            stage.tags += "t${stage.turn}"
+            stage.tags += assertionFailures
+            error("Assertions failed: [${assertionFailures.joinToString(", ")}]")
         }
         require(queue.size <= 6) { "Queue must be at most 6 tiles long." }
         return QueueResult(queue, climax, cutins)
