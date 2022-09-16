@@ -119,6 +119,9 @@ class SimpleStrategy(val commands: Map<Int, List<SimpleStrategyCommand>>) : Stra
         var climax = false
         val assertionFailures = mutableListOf<String>()
         commands[stage.turn]?.forEach { command ->
+            if (command !is SimpleStrategyCommand.Assert && assertionFailures.isNotEmpty()) {
+                return@forEach
+            }
             when (command) {
                 SimpleStrategyCommand.EnterClimax -> {
                     if (team.cxTurns > 0) error("Player already in climax.")
