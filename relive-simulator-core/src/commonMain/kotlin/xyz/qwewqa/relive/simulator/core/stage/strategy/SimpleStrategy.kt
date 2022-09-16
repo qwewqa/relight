@@ -58,8 +58,9 @@ val actorProperties = mapOf(
 val actNameMapping = ActType.values().associateBy { it.shortName }
 
 object SimpleStrategyGrammar : Grammar<Map<Int, List<SimpleStrategyCommand>>>() {
+    val comment by regexToken("""#.*""", ignore = true)
     val num by regexToken("""\d+""")
-    val turn by literalToken("Turn")
+    val turn by regexToken("[Tt]urn")
     val colon by literalToken(":")
     val climax by literalToken("climax")
     val assert by literalToken("assert")
@@ -88,7 +89,7 @@ object SimpleStrategyGrammar : Grammar<Map<Int, List<SimpleStrategyCommand>>>() 
         SimpleStrategyCommand.Assert(actor, property, operator, operand)
     } or climax.asJust(SimpleStrategyCommand.EnterClimax)
 
-    val lines by separatedTerms(line, newlines, acceptZero = true)
+    val lines by separatedTerms(line, oneOrMore(newlines), acceptZero = true)
 
     override val rootParser by (-optional(newlines) * lines * -optional(newlines)).map { lines ->
         val results = mutableMapOf<Int, List<SimpleStrategyCommand>>()
