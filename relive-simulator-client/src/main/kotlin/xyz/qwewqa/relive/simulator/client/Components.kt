@@ -169,11 +169,13 @@ sealed class Select(val element: HTMLSelectElement, val selectpicker: Boolean) {
     }
 
     fun refreshSelectPicker() {
+        if (!selectpicker) return
         val jquery = js("$")
         jquery(element).selectpicker("refresh")
     }
 
     fun renderSelectPicker() {
+        if (!selectpicker) return
         val jquery = js("$")
         jquery(element).selectpicker("render")
     }
