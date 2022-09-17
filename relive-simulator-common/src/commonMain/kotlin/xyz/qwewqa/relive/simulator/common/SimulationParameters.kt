@@ -2,7 +2,6 @@ package xyz.qwewqa.relive.simulator.common
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 
 @Serializable
 data class SimulationParameters(

@@ -257,4 +257,111 @@
   zh_hant: 雲端同步
 '.text-account':
   en: Account
-  zh_hant: 帳號
+attribute-neutral:
+  en: Neutral
+attribute-flower:
+  en: Flower
+attribute-wind:
+  en: Wind
+attribute-snow:
+  en: Snow
+attribute-moon:
+  en: Moon
+attribute-space:
+  en: Space
+attribute-cloud:
+  en: Cloud
+attribute-dream:
+  en: Dream
+damage-type-normal:
+  en: Normal
+damage-type-special:
+  en: Special
+position-back:
+  en: Back
+position-middle:
+  en: Middle
+position-front:
+  en: Front
+character-karen:
+  en: Karen
+character-hikari:
+  en: Hikari
+character-mahiru:
+  en: Mahiru
+character-claudine:
+  en: Claudine
+character-maya:
+  en: Maya
+character-junna:
+  en: Junna
+character-nana:
+  en: Nana
+character-futaba:
+  en: Futaba
+character-kaoruko:
+  en: Kaoruko
+character-tamao:
+  en: Tamao
+character-ichie:
+  en: Ichie
+character-fumi:
+  en: Fumi
+character-rui:
+  en: Rui
+character-yuyuko:
+  en: Yuyuko
+character-aruru:
+  en: Aruru
+character-misora:
+  en: Misora
+character-lalafin:
+  en: Lalafin
+character-tsukasa:
+  en: Tsukasa
+character-shizuha:
+  en: Shizuha
+character-akira:
+  en: Akira
+character-michiru:
+  en: Michiru
+character-meifan:
+  en: Mei Fan
+character-shiori:
+  en: Shiori
+character-yachiyo:
+  en: Yachiyo
+character-stella:
+  en: Stella
+character-shiro:
+  en: Shiro
+character-ryoko:
+  en: Ryoko
+character-minku:
+  en: Minku
+character-kuina:
+  en: Kuina
+character-koharu:
+  en: Koharu
+character-suzu:
+  en: Suzu
+character-hisame:
+  en: Hisame
+character-sakura:
+  en: Sakura
+character-erika:
+  en: Erika
+character-gemie:
+  en: Gemini  
+school-seisho:
+  en: Seisho
+school-rinmeikan:
+  en: Rinmeikan
+school-frontier:
+  en: Frontier
+school-siegfeld:
+  en: Siegfeld
+school-seiran:
+  en: Seiran
+school-none:
+  en: ""

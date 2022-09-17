@@ -382,6 +382,9 @@
             ],
             searchSuccess = false;
 
+        // split string by unescaped commas and trim whitespace
+        let searchTokens = searchString.replace(/\\,/g, '\u0000').split(',').map(token => token.trim().replace(/\u0000/g, ','));
+
         for (var i = 0; i < stringTypes.length; i++) {
             var stringType = stringTypes[i],
                 string = li[stringType];
@@ -400,7 +403,10 @@
                 if (typeof method === 'function') {
                     searchSuccess = method(string, searchString);
                 } else if (method === 'contains') {
-                    searchSuccess = string.indexOf(searchString) >= 0;
+                    // remove search tokens that match
+                    searchTokens = searchTokens.filter(token => string.indexOf(token) === -1);
+                    // if all tokens are removed, search is successful
+                    searchSuccess = !searchTokens.length;
                 } else {
                     searchSuccess = string.startsWith(searchString);
                 }

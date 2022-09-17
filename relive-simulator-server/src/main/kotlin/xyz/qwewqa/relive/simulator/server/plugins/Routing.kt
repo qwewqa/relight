@@ -150,16 +150,30 @@ fun Application.configureRouting() {
             val remakeSkillNames = getLocalizationConfig("remakeSkill.yaml").associate {
                 it.id to it.name
             }
+            val commonText = getLocalizationConfig("commonText.yaml")
+            val commonTextById = commonText.associate { it.id to it }
             SimulationOptions(
                 locales,
-                getLocalizationConfig("commonText.yaml"),
+                commonText,
                 getLocalizationConfig("dress.yaml", playerDresses.keys).map { option ->
                     val dress = playerDresses[option.id]!!
                     DataSimulationOption(
                         id = option.id,
                         name = option.name,
                         description = option.description,
-                        tags = option.tags,
+                        tags = (option.tags ?: locales.keys.associateWith { emptyList() }).mapValues { (locale, tags) ->
+                            val characterTag = commonTextById["character-${dress.character.name.lowercase()}"]
+                                ?.get(locale)
+                            val schoolTag = commonTextById["school-${dress.character.school.name.lowercase()}"]
+                                ?.get(locale)
+                            val attributeTag = commonTextById["attribute-${dress.attribute.name.lowercase()}"]
+                                ?.get(locale)
+                            val damageTypeTag = commonTextById["damage-type-${dress.damageType.name.lowercase()}"]
+                                ?.get(locale)
+                            val positionTag = commonTextById["position-${dress.position.name.lowercase()}"]
+                                ?.get(locale)
+                            tags + listOfNotNull(characterTag, schoolTag, attributeTag, damageTypeTag, positionTag)
+                        },
                         imagePath = "img/large_icon/1_${dress.id}.png".takeIf { dress.id > 0 },
                         data = DressData(
                             id = dress.id,
