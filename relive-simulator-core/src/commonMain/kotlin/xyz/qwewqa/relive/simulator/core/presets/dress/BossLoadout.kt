@@ -108,7 +108,7 @@ val bossLoadouts = listOf(
     BossLoadout(tr13KomachiTamao, tr13KomachiTamaoStrategy),
     BossLoadout(tr13KomachiTamaoDiff4, tr13KomachiTamaoDiff4Strategy),
     BossLoadout(tr13EmperorAkira, tr13EmperorAkiraStrategy),
-    BossLoadout(tr13EmperorAkiraDiff4, tr13EmperorAkiraStrategy),
+    BossLoadout(tr13EmperorAkiraDiff4, tr13EmperorAkiraDiff4Strategy),
     BossLoadout(tr12VampireShiori, tr12VampireShioriStrategy),
     BossLoadout(tr12TowerHikari, tr12TowerHikariStrategy),
     BossLoadout(tr11CheerAkira, tr11CheerAkiraStrategy),
