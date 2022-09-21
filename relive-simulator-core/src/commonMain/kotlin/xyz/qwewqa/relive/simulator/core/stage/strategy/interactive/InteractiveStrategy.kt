@@ -170,6 +170,8 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
     private data class TurnStatus(
         val actorStatuses: List<ActorStatus>,
         val climax: Boolean,
+        val held: BoundAct?,
+        val discarded: BoundAct?,
     )
 
     private inner class InteractiveStrategy(
@@ -206,7 +208,8 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         private val usedClimaxActs = mutableSetOf<BoundAct>()
         private var hasUsedGuestClimaxAct = false
         private var held: BoundAct? = null
-        private var hasPerformedHoldAction = true
+        private var holdActionTarget: BoundAct? = null
+        private val hasPerformedHoldAction get() = holdActionTarget != null
 
         private var incremental = false
 
@@ -337,7 +340,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
             if (team.cxTurns == 0) {
                 usedClimaxActs.clear()
             }
-            hasPerformedHoldAction = false
+            holdActionTarget = null
             climax = false
             queue.clear()
             cutinQueue.clear()
@@ -403,6 +406,8 @@ ${formattedHand()}
                 statusHistory += TurnStatus(
                     team.actors.values.map { actor -> actor.status() },
                     team.cxTurns > 0 || it.climax,
+                    held = holdActionTarget.takeIf { held != null },
+                    discarded = holdActionTarget.takeIf { held == null },
                 )
             }
         }
@@ -557,7 +562,7 @@ ${
                             internalHand -= act
                             internalHand += newAct
                             hand[hand.indexOf(act)] = newAct
-                            hasPerformedHoldAction = true
+                            holdActionTarget = act
                             log("Hold", summary = { "Successfully held '${act}'." }) {
                                 formattedHand()
                             }
@@ -595,7 +600,7 @@ ${
                             internalHand += held!!
                             hand[hand.indexOf(act)] = held!!
                             held = null
-                            hasPerformedHoldAction = true
+                            holdActionTarget = act
                             log("Discard", summary = { "Successfully discarded '${act}'." }) {
                                 formattedHand()
                             }
@@ -773,6 +778,7 @@ ${
                     var strict = false
                     when (data) {
                         "strict" -> strict = true
+                        "simple" -> strict = false
                         "" -> {}
                         else -> {
                             log("Export") { "Error: Unknown parameters." }
@@ -785,6 +791,10 @@ ${
                             "Turn $turn:\n${
                                 if (strict) {
                                     "${
+                                        status.held?.let { held -> "# held ${held.actor.name} ${held.act.type.shortName}\n" } ?: ""
+                                    }${
+                                        status.discarded?.let { discarded -> "# discarded ${discarded.actor.name} ${discarded.act.type.shortName}\n" } ?: ""
+                                    }${
                                         status.actorStatuses.joinToString("") { "assert ${it.name} ${if (it.hp > 0) "alive" else "dead"}\n" }
                                     }${
                                         if (status.climax) status.actorStatuses.joinToString("") { "assert ${it.name} ${if (it.brilliance >= 100) "charged" else "uncharged"}\n" }
@@ -1385,7 +1395,7 @@ enum class InteractiveCommandType(
     ),
     CLIMAX(
         title = "climax",
-        aliases = listOf("cx"),
+        aliases = listOf("cx", "ca"),
         synopsis = """
             climax
         """.trimIndent(),
