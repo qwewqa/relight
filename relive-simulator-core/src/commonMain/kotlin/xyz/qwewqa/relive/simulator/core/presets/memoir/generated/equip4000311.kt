@@ -55,5 +55,5 @@ val equip4000311 = PartialMemoirBlueprint(
       ),
     ),
   ),
-  additionalTags = listOf(EffectTag.Kunia)
+  additionalTags = listOf(EffectTag.Kuina)
 )
