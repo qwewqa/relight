@@ -25,7 +25,7 @@ class PlayerLoadoutParameters(BaseModel):
     rank: int = 9
     rankPanelPattern: conlist(bool, min_items=8, max_items=8) = Field(default_factory=lambda: [True] * 8)
     remake: int = 0
-    remakeSkill: constr(max_length=100)
+    remakeSkill: Optional[constr(max_length=100)] = None
     accessory: Optional[constr(max_length=100)] = None
     accessoryLevel: int = 100
     accessoryLimitBreak: int = 10
@@ -48,7 +48,7 @@ class SongParameters(BaseModel):
 
 class StrategyParameter(BaseModel):
     type: constr(max_length=100)
-    value: constr(max_length=100)
+    value: constr(max_length=5000)
 
 
 class SimulationParameters(BaseModel):
