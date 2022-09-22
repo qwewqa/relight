@@ -8,6 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.presets.condition.characterCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.schoolCondition
+import xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow.HopeLalafin
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.EffectTag
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinTarget
@@ -358,6 +359,8 @@ val brilliantBirthdays = listOf(
     brilliantBirthday(Character.Claudine, equip4000290),
     brilliantBirthday(Character.Shizuha, equip4000293),
     brilliantBirthday(Character.Suzu, equip4000296),
+    brilliantBirthday(Character.MeiFan, equip4000303),
+    brilliantBirthday(Character.Karen, equip4000315),
 )
 
 private fun slapMemo(
@@ -844,6 +847,53 @@ val RipeTomato = equip4000298(
                     effect = DamageDealtUpBuff,
                     value = values1,
                     turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val JesterontheStageoftheGods = equip4000300(
+    name = "Jester on the Stage of the Gods",
+    baseAutoskills = listOf(
+        DexterityPassive.new(14),
+    ),
+    maxAutoskills = listOf(
+        DexterityPassive.new(20),
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyBack(5).act {
+                applyBuff(
+                    effect = DexterityUpBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val SingDanceandBattle = equip4000299(
+    name = "Sing, Dance, and Battle",
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(22),
+        SelfDexterityUpBuffPassive.new(11, 6),
+        SelfEffectiveDamageDealtUpBuffPassive.new(8, 6),
+    ),
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(32),
+        SelfDexterityUpBuffPassive.new(16, 6),
+        SelfEffectiveDamageDealtUpBuffPassive.new(12, 6),
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyFront(5).act {
+                applyCountableBuff(
+                    effect = CountableBuff.Hope,
+                    count = times1,
                 )
             }
         }
