@@ -50,7 +50,7 @@ val HyakkaRyoran = StageEffect(
 )
 
 val Bullseye = StageEffect(
-    "百発百中、一発必中",
+    "Bullseye",
     listOf(
         listOf(
             StageBuff(DexterityUpBuff, 100),
