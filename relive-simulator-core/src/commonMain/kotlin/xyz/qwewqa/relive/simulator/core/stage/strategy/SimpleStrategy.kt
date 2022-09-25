@@ -11,10 +11,13 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
 import xyz.qwewqa.relive.simulator.core.stage.log
+import xyz.qwewqa.relive.simulator.core.stage.strategy.SimpleStrategyGrammar.getValue
+import xyz.qwewqa.relive.simulator.core.stage.strategy.SimpleStrategyGrammar.provideDelegate
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
 sealed class SimpleStrategyLine
 data class TurnStatement(val turn: Int) : SimpleStrategyLine()
+data class MovesetStatement(val name: String?, val weight: Int) : SimpleStrategyLine()
 sealed class SimpleStrategyCommand : SimpleStrategyLine() {
     object EnterClimax : SimpleStrategyCommand()
     data class QueueAct(val actor: String, val act: ActType) : SimpleStrategyCommand()
@@ -27,6 +30,13 @@ sealed class SimpleStrategyCommand : SimpleStrategyLine() {
         val operand: String?,
     ) : SimpleStrategyCommand()
 }
+
+
+data class SimpleStrategyMoveset(
+    val name: String?,
+    val weight: Int,
+    val commands: Map<Int, List<SimpleStrategyCommand>>,
+)
 
 
 data class ActorProperty(
@@ -57,9 +67,12 @@ val actorProperties = mapOf(
 
 val actNameMapping = ActType.values().associateBy { it.shortName }
 
-object SimpleStrategyGrammar : Grammar<Map<Int, List<SimpleStrategyCommand>>>() {
+object SimpleStrategyGrammar : Grammar<List<SimpleStrategyMoveset>>() {
     val comment by regexToken("""#.*""", ignore = true)
     val num by regexToken("""\d+""")
+    val stringLit by regexToken(""""([^"\\]|\\.)*"""")
+    val quotIdent by regexToken("""`[^`]+`""")
+    val moveset by regexToken("""[Mm]oveset""")
     val turn by regexToken("[Tt]urn")
     val colon by literalToken(":")
     val climax by literalToken("climax")
@@ -68,11 +81,14 @@ object SimpleStrategyGrammar : Grammar<Map<Int, List<SimpleStrategyCommand>>>() 
     val newlines by regexToken("""\s*[\r\n]+\s*""")
     val ws by regexToken("""[^\S\r\n]+""", ignore = true)
 
-    val identifier: Parser<String> by ident use { text }
+    val string: Parser<String> by stringLit use { text.substring(1, text.length - 1) }
+    val identifier: Parser<String> by (ident use { text }) or (quotIdent use { text.drop(1).dropLast(1) })
     val anyIdentifier: Parser<String> by (num or ident) use { text }
     val number: Parser<Int> by num use { text.toInt() }
 
-    val line: Parser<SimpleStrategyLine> by (-turn * number * -colon).map { turn ->
+    val line: Parser<SimpleStrategyLine> by (-moveset * optional(string or identifier) * optional(number) * -colon).map { (name, weight) ->
+        MovesetStatement(name, weight ?: 100)
+    } or (-turn * number * -colon).map { turn ->
         TurnStatement(turn)
     } or (anyIdentifier * anyIdentifier).map { (actor, act) ->
         when (act) {
@@ -92,15 +108,25 @@ object SimpleStrategyGrammar : Grammar<Map<Int, List<SimpleStrategyCommand>>>() 
     val lines by separatedTerms(line, oneOrMore(newlines), acceptZero = true)
 
     override val rootParser by (-optional(newlines) * lines * -optional(newlines)).map { lines ->
-        val results = mutableMapOf<Int, List<SimpleStrategyCommand>>()
+        val movesets = mutableListOf<SimpleStrategyMoveset>()
+        var currentMoveset: MutableMap<Int, List<SimpleStrategyCommand>>? = null
         var currentGroup: MutableList<SimpleStrategyCommand>? = null
         lines.forEach { line ->
             when (line) {
+                is MovesetStatement -> {
+                    currentMoveset = mutableMapOf()
+                    movesets += SimpleStrategyMoveset(line.name, line.weight, currentMoveset!!)
+                    currentGroup = null
+                }
                 is TurnStatement -> {
+                    if (currentMoveset == null) {
+                        currentMoveset = mutableMapOf()
+                        movesets += SimpleStrategyMoveset(null, 100, currentMoveset!!)
+                    }
                     require(line.turn > 0) { "Turn must be positive." }
-                    require(line.turn !in results) { "Turn must not be repeated." }
+                    require(line.turn !in currentMoveset!!) { "Turn must not be repeated." }
                     currentGroup = mutableListOf()
-                    results[line.turn] = currentGroup!!
+                    currentMoveset!![line.turn] = currentGroup!!
                 }
                 is SimpleStrategyCommand -> {
                     requireNotNull(currentGroup != null) { "Missing turn." }
@@ -108,11 +134,41 @@ object SimpleStrategyGrammar : Grammar<Map<Int, List<SimpleStrategyCommand>>>() 
                 }
             }
         }
-        results
+        movesets
     }
 }
 
-class SimpleStrategy(val commands: Map<Int, List<SimpleStrategyCommand>>) : Strategy {
+class SimpleStrategy(val movesets: List<SimpleStrategyMoveset>) : Strategy {
+    var movesetName: String? = null
+    lateinit var commands: Map<Int, List<SimpleStrategyCommand>>
+
+    override fun initialize(stage: Stage, team: Team, enemy: Team) {
+        when (movesets.size) {
+            0 -> error("No movesets defined.")
+            1 -> {
+                movesetName = movesets[0].name
+                commands = movesets[0].commands
+            }
+            else -> {
+                val totalWeight = movesets.sumOf { it.weight }
+                val random = stage.random.nextInt(totalWeight)
+                var weight = 0
+                for (moveset in movesets) {
+                    weight += moveset.weight
+                    if (weight > random) {
+                        movesetName = moveset.name
+                        commands = moveset.commands
+                        break
+                    }
+                }
+                stage.log("Strategy", category = LogCategory.EMPHASIS) {
+                    "Using moveset ${movesetName ?: "<unnamed>"} with weight $weight/$totalWeight"
+                }
+            }
+        }
+        movesetName?.let { stage.tags += it }
+    }
+
     override fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
         val queue = mutableListOf<QueueTile>()
         val cutins = mutableListOf<BoundCutin>()

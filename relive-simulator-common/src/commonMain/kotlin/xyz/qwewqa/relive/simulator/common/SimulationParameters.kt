@@ -214,7 +214,11 @@ enum class LogCategory {
 }
 
 @Serializable
-data class SimulationResultValue(val tags: List<String>, val result: SimulationResultType, val count: Int)
+data class SimulationResultValue(
+    val tags: List<String>,
+    val result: SimulationResultType,
+    val count: Int,
+)
 
 @Serializable
 sealed class SimulationResultType {

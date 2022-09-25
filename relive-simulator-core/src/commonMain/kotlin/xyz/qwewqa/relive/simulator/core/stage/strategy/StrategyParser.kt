@@ -10,8 +10,7 @@ fun interface StrategyParser {
 
 val strategyParsers = mapOf(
     "Simple" to StrategyParser {
-        val strategy = SimpleStrategy(SimpleStrategyGrammar.parseToEnd(it))
-        return@StrategyParser { strategy }
+        return@StrategyParser { SimpleStrategy(SimpleStrategyGrammar.parseToEnd(it)) }
     },
     "Complete" to StrategyParser {
         val script = CsParser.parseToEnd(it)
@@ -21,7 +20,7 @@ val strategyParsers = mapOf(
 
 val bossStrategyParsers = mapOf(
     "Simple" to StrategyParser {
-        val strategy = BossSimpleStrategy(SimpleStrategyGrammar.parseToEnd(it))
+        val strategy = BossSimpleStrategy(SimpleStrategyGrammar.parseToEnd(it).elementAtOrElse(0) { error("Expected exactly one moveset in boss strategy.") }.commands)
         return@StrategyParser { strategy }
     },
 )
