@@ -1,11 +1,13 @@
 package xyz.qwewqa.relive.simulator.core.stage.utils
 
+import xyz.qwewqa.relive.simulator.common.MarginResult
+import xyz.qwewqa.relive.simulator.common.SimulationMarginResultType
 import xyz.qwewqa.relive.simulator.common.StatisticsSummary
+import xyz.qwewqa.relive.simulator.core.stage.MarginStageResult
+import xyz.qwewqa.relive.simulator.core.stage.marginResultType
 import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.pow
-import kotlin.time.ExperimentalTime
-import kotlin.time.measureTime
 
 fun List<Int>.statistics() = if (isEmpty()) {
     null
@@ -21,8 +23,15 @@ fun List<Int>.statistics() = if (isEmpty()) {
     StatisticsSummary(mean, standardDeviation, min, q1, median, q3, max)
 }
 
-fun resultMarginKernelDensityEstimate(data: List<Int>) =
-    epanechnikovKernelDensityEstimate(data.map { it.toDouble() }, 1_000_000.0, 10000)
+fun resultMarginKernelDensityEstimate(data: List<Int>, h: Double): Map<Double, Double> {
+    // Bin the data to reduce the number of points.
+    return epanechnikovKernelDensityEstimate(data.map { it.toDouble() }, h, 1_000)
+}
+
+fun chooseBandwidth(data: List<Int>): Double {
+    val stats = data.statistics() ?: return 1.0
+    return 0.6 * stats.stdDev * data.size.toDouble().pow(-0.2)
+}
 
 fun epanechnikovKernelDensityEstimate(data: List<Double>, h: Double, count: Int): Map<Double, Double> {
     if (data.isEmpty()) return emptyMap()
@@ -40,4 +49,37 @@ fun epanechnikovKernelDensityEstimate(data: List<Double>, h: Double, count: Int)
         }
     }
     return (0 until count).associate { min + it * step to results[it] }
+}
+
+fun Map<String, List<MarginStageResult>>.summarize() = SimulationMarginResultType.values().associateWith { type ->
+    val typeValues = values.flatten().filter { it.marginResultType() == type }
+    val damageH: Double
+    val marginH: Double
+    val typeResults = typeValues.run {
+        val damage = map { it.damage }
+        val margins = map { it.margin }
+        damageH = chooseBandwidth(damage)
+        marginH = chooseBandwidth(margins)
+        MarginResult(
+            resultMarginKernelDensityEstimate(damage, damageH),
+            damage.statistics(),
+            resultMarginKernelDensityEstimate(margins, marginH),
+            margins.statistics(),
+        )
+    }
+    mapValues { (_, results) ->
+        results.filter { it.marginResultType() == type }.run {
+            val damage = map { it.damage }
+            val margins = map { it.margin }
+            val scale = size.toDouble() / typeValues.size
+            MarginResult(
+                resultMarginKernelDensityEstimate(damage, damageH).mapValues { (_, v) -> v * scale },
+                damage.statistics(),
+                resultMarginKernelDensityEstimate(margins, marginH).mapValues { (_, v) -> v * scale },
+                margins.statistics(),
+            )
+        }
+    } + mapOf(
+        null to typeResults,
+    )
 }

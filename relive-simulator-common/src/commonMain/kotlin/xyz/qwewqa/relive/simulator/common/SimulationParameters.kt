@@ -2,7 +2,6 @@ package xyz.qwewqa.relive.simulator.common
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlin.math.pow
 
 @Serializable
 data class SimulationParameters(
@@ -200,7 +199,7 @@ data class MarginResult(
 @Serializable
 data class StatisticsSummary(
     val mean: Double,
-    val standardDeviation: Double,
+    val stdDev: Double,
     val min: Double,
     val q1: Double,
     val median: Double,

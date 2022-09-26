@@ -9,8 +9,7 @@ import org.slf4j.Logger
 import xyz.qwewqa.relive.simulator.common.*
 import xyz.qwewqa.relive.simulator.core.stage.*
 import xyz.qwewqa.relive.simulator.core.stage.strategy.interactive.InteractiveSimulationController
-import xyz.qwewqa.relive.simulator.core.stage.utils.resultMarginKernelDensityEstimate
-import xyz.qwewqa.relive.simulator.core.stage.utils.statistics
+import xyz.qwewqa.relive.simulator.core.stage.utils.summarize
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
 import kotlin.random.Random
@@ -30,7 +29,8 @@ private val pool = Executors
     .asCoroutineDispatcher()
 
 private const val SIMULATE_CHUNK_SIZE = 10000
-private const val SIMULATE_RESULT_UPDATE_INTERVAL = 10000
+private const val BASE_SIMULATE_RESULT_UPDATE_INTERVAL = 1000
+private const val SIMULATE_RESULT_UPDATE_INCREMENT = 1000
 
 fun simulate(parameters: SimulationParameters, logger: Logger? = null): String {
     val token = generateToken()
@@ -66,26 +66,6 @@ fun simulateInteractive(parameters: SimulationParameters, logger: Logger? = null
     val controller = InteractiveSimulationController(parameters.maxTurns, parameters.seed, loadout)
     interactiveSimulations[token] = controller
     return token
-}
-
-fun Map<String, List<MarginStageResult>>.summarize() = SimulationMarginResultType.values().associateWith { type ->
-    val typeValues = values.flatten().filter { it.marginResultType() == type }
-    mapValues { (_, results) ->
-        results.filter { it.marginResultType() == type }.let { it.summarize(it.size.toDouble() / typeValues.size) }
-    } + mapOf(
-        null to typeValues.summarize(),
-    )
-}
-
-fun List<MarginStageResult>.summarize(kdeScale: Double = 1.0): MarginResult {
-    val damage = map { it.damage }
-    val margins = map { it.margin }
-    return MarginResult(
-        resultMarginKernelDensityEstimate(damage).mapValues { (_, v) -> v * kdeScale },
-        damage.statistics(),
-        resultMarginKernelDensityEstimate(margins).mapValues { (_, v) -> v * kdeScale },
-        margins.statistics(),
-    )
 }
 
 private fun simulateSingle(
@@ -160,6 +140,8 @@ private fun simulateMany(
     val resultCounts = mutableMapOf<Pair<List<String>, SimulationResultType>, Int>()
     val marginResults = mutableMapOf<String, MutableList<MarginStageResult>>()
     var firstApplicableIteration: IterationResult? = null
+    var updateInterval = BASE_SIMULATE_RESULT_UPDATE_INTERVAL
+    var nextUpdateIndex = BASE_SIMULATE_RESULT_UPDATE_INTERVAL
     while (resultCount < parameters.maxIterations) {
         val nextIteration = resultsChannel.receive()
         if (firstApplicableIteration == null ||
@@ -176,7 +158,9 @@ private fun simulateMany(
         }
         resultCount++
         resultCounts[resultKey] = resultCounts.getOrDefault(resultKey, 0) + 1
-        if (resultCount % SIMULATE_RESULT_UPDATE_INTERVAL == 0) {
+        if (resultCount == nextUpdateIndex) {
+            updateInterval += SIMULATE_RESULT_UPDATE_INCREMENT
+            nextUpdateIndex += updateInterval
             simulationResults[token] = SimulationResult(
                 maxIterations = parameters.maxIterations,
                 currentIterations = resultCount,
