@@ -71,7 +71,7 @@ object SimpleStrategyGrammar : Grammar<List<SimpleStrategyMoveset>>() {
     val comment by regexToken("""#.*""", ignore = true)
     val num by regexToken("""\d+""")
     val stringLit by regexToken(""""([^"\\]|\\.)*"""")
-    val quotIdent by regexToken("""`[^`]+`""")
+    val quotIdent by regexToken("""`[^`]*`""")
     val moveset by regexToken("""[Mm]oveset""")
     val turn by regexToken("[Tt]urn")
     val colon by literalToken(":")
@@ -82,11 +82,11 @@ object SimpleStrategyGrammar : Grammar<List<SimpleStrategyMoveset>>() {
     val ws by regexToken("""[^\S\r\n]+""", ignore = true)
 
     val string: Parser<String> by stringLit use { text.substring(1, text.length - 1) }
-    val identifier: Parser<String> by (ident use { text }) or (quotIdent use { text.drop(1).dropLast(1) })
-    val anyIdentifier: Parser<String> by (num or ident) use { text }
+    val identifier: Parser<String> by (quotIdent use { text.drop(1).dropLast(1) }) or (ident use { text })
+    val anyIdentifier: Parser<String> by (num use { text }) or identifier
     val number: Parser<Int> by num use { text.toInt() }
 
-    val line: Parser<SimpleStrategyLine> by (-moveset * optional(string or identifier) * optional(number) * -colon).map { (name, weight) ->
+    val line: Parser<SimpleStrategyLine> by (-moveset * optional(anyIdentifier) * optional(number) * -colon).map { (name, weight) ->
         MovesetStatement(name, weight ?: 100)
     } or (-turn * number * -colon).map { turn ->
         TurnStatement(turn)
@@ -129,7 +129,7 @@ object SimpleStrategyGrammar : Grammar<List<SimpleStrategyMoveset>>() {
                     currentMoveset!![line.turn] = currentGroup!!
                 }
                 is SimpleStrategyCommand -> {
-                    requireNotNull(currentGroup != null) { "Missing turn." }
+                    requireNotNull(currentGroup) { "Missing turn." }
                     currentGroup!!.add(line)
                 }
             }

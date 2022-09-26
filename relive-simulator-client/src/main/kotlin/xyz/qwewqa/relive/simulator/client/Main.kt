@@ -2284,6 +2284,20 @@ class SimulatorClient(val simulator: Simulator) {
                                     staticPlot = true
                                 } as Any,
                             )
+
+                            if (result.log != null) {
+                                logText.displayLog(result.log ?: emptyList(), interactive = false)
+                                logRow.removeClass("d-none")
+                            } else {
+                                logRow.addClass("d-none")
+                            }
+                            if (result.error != null) {
+                                errorText.textContent = result.error
+                                errorRow.removeClass("d-none")
+                            } else {
+                                errorRow.addClass("d-none")
+                            }
+
                             data class PlotType(
                                 val title: String,
                                 val element: Element,
@@ -2315,6 +2329,7 @@ class SimulatorClient(val simulator: Simulator) {
                                             l = 60
                                             r = 60
                                         }
+                                        autosize = true
                                     } as Any,
                                     config = jsObject {
                                         responsive = true
@@ -2327,21 +2342,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 }
                             }
                             resultsRow.removeClass("d-none")
-
-                            if (result.log != null) {
-                                logText.displayLog(result.log ?: emptyList(), interactive = false)
-                                logRow.removeClass("d-none")
-                            } else {
-                                logRow.addClass("d-none")
-                            }
-                            if (result.error != null) {
-                                errorText.textContent = result.error
-                                errorRow.removeClass("d-none")
-                            } else {
-                                errorRow.addClass("d-none")
-                            }
                             done = result.done
-                            window.dispatchEvent(Event("resize")) // Makes plotly resize immediately
                             if (result.done) {
                                 simulateButton.disabled = false
                                 cancelButton.disabled = true

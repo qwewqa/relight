@@ -24,8 +24,7 @@ fun List<Int>.statistics() = if (isEmpty()) {
 }
 
 fun resultMarginKernelDensityEstimate(data: List<Int>, h: Double): Map<Double, Double> {
-    // Bin the data to reduce the number of points.
-    return epanechnikovKernelDensityEstimate(data.map { it.toDouble() }, h, 1_000)
+    return epanechnikovKernelDensityEstimate(data.map { it.toDouble() }, h, 2_000)
 }
 
 fun chooseBandwidth(data: List<Int>): Double {
