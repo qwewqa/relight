@@ -6,7 +6,6 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.browser.window
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -15,10 +14,10 @@ import org.w3c.dom.Worker
 import org.w3c.dom.url.URL
 import xyz.qwewqa.relive.simulator.client.*
 import xyz.qwewqa.relive.simulator.common.*
-import xyz.qwewqa.relive.simulator.core.stage.createStageLoadout
+import xyz.qwewqa.relive.simulator.core.stage.*
 import xyz.qwewqa.relive.simulator.core.stage.strategy.interactive.InteractiveSimulationController
+import xyz.qwewqa.relive.simulator.core.stage.utils.summarize
 import kotlin.collections.List
-import kotlin.collections.MutableMap
 import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.emptyList
@@ -27,11 +26,9 @@ import kotlin.collections.forEach
 import kotlin.collections.getOrPut
 import kotlin.collections.listOf
 import kotlin.collections.map
-import kotlin.collections.mapValues
 import kotlin.collections.mutableMapOf
 import kotlin.collections.set
 import kotlin.collections.single
-import kotlin.collections.toMap
 import kotlin.random.Random
 
 class JsSimulator : Simulator {
@@ -85,11 +82,14 @@ const val BATCH_SIZE = 500
 class JsSimulation(val parameters: SimulationParameters) : Simulation {
     var resultCount = 0
     val resultCounts = mutableMapOf<Pair<List<String>, SimulationResultType>, Int>()
-    val marginResults = mutableMapOf<SimulationMarginResultType, MutableMap<Int, Int>>()
+    val marginResults = mutableMapOf<String, MutableList<MarginStageResult>>()
     val seedProducer = Random(parameters.seed)
     var requestCount = 0
     val startTime = window.performance.now()
     var firstApplicableIteration: IterationResult? = null
+
+    var marginSummary: Map<SimulationMarginResultType, Map<String?, MarginResult>> = emptyMap()
+    var lastUpdatedMarginSummary = 0
 
     var overallResult = SimulationResult(
         maxIterations = parameters.maxIterations,
@@ -98,6 +98,21 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
         marginResults = emptyMap(),
         log = null,
     )
+
+    fun updateResults() {
+        if (resultCount > lastUpdatedMarginSummary * 1.5 || resultCount == parameters.maxIterations) {
+            lastUpdatedMarginSummary = resultCount
+            marginSummary = marginResults.summarize()
+        }
+        overallResult = SimulationResult(
+            maxIterations = parameters.maxIterations,
+            currentIterations = resultCount,
+            results = resultCounts.map { (k, v) -> SimulationResultValue(k.first, k.second, v) },
+            marginResults = marginSummary,
+            log = null,
+            runtime = (window.performance.now() - startTime) / 1_000.0,
+        )
+    }
 
     val workers = List(
         window.navigator.hardwareConcurrency.toInt().coerceAtMost(parameters.maxIterations / BATCH_SIZE)
@@ -132,27 +147,15 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
                         ) {
                             firstApplicableIteration = result
                         }
-                        when (result.result) {
-                            SimulationResultType.End -> SimulationMarginResultType.End
-                            is SimulationResultType.Wipe -> SimulationMarginResultType.Wipe
-                            else -> null
-                        }?.let { marginType ->
-                            val roundedMargin = (result.margin!! + 10000 - 1) / 10000 * 10000
-                            val typeResults = marginResults.getOrPut(marginType) { mutableMapOf() }
-                            typeResults[roundedMargin] = (typeResults[roundedMargin] ?: 0) + 1
+                        val stageResult = result.toStageResult()
+                        if (stageResult is MarginStageResult) {
+                            marginResults.getOrPut(stageResult.metadata.groupName) { mutableListOf() }.add(stageResult)
                         }
                         resultCount++
                         resultCounts[result.tags to result.result] =
                             (resultCounts[result.tags to result.result] ?: 0) + 1
                     }
-                    overallResult = SimulationResult(
-                        maxIterations = parameters.maxIterations,
-                        currentIterations = resultCount,
-                        results = resultCounts.map { (k, v) -> SimulationResultValue(k.first, k.second, v) },
-                        marginResults = marginResults.mapValues { (_, v) -> v.toMap() },
-                        log = null,
-                        runtime = (window.performance.now() - startTime) / 1_000.0,
-                    )
+                    updateResults()
                     val batchSize = (parameters.maxIterations - requestCount).coerceAtMost(BATCH_SIZE)
                     if (batchSize > 0) {
                         worker.postMessage(Json.encodeToString(List(batchSize) {
@@ -234,11 +237,40 @@ data class IterationRequest(
 data class IterationResult(
     val request: IterationRequest,
     val result: SimulationResultType,
+    val groupName: String,
     val tags: List<String> = emptyList(),
     val margin: Int? = 0,
+    val damage: Int? = 0,
     val log: List<LogEntry>? = null,
     val error: String? = null,
-)
+)  {
+    fun toStageResult() = when (result) {
+        is SimulationResultType.Excluded -> ExcludedRun(
+            StageResultMetadata(groupName, tags),
+        )
+        is SimulationResultType.Victory -> Victory(
+            result.turn,
+            result.tile,
+            StageResultMetadata(groupName, tags),
+        )
+        is SimulationResultType.End -> OutOfTurns(
+            damage ?: 0,
+            margin ?: 0,
+            StageResultMetadata(groupName, tags),
+        )
+        is SimulationResultType.Wipe -> TeamWipe(
+            damage ?: 0,
+            margin ?: 0,
+            result.turn,
+            result.tile,
+            StageResultMetadata(groupName, tags),
+        )
+        is SimulationResultType.Error -> PlayError(
+            Exception(error),
+            StageResultMetadata(groupName, tags),
+        )
+    }
+}
 
 private val IterationResult.resultPriority
     get() = when (this.result) {

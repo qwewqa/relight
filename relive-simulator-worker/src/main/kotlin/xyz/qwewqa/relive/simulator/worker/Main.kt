@@ -48,8 +48,10 @@ fun main() {
                             IterationResult(
                                 request,
                                 result.toSimulationResult(),
-                                result.tags,
+                                result.metadata.groupName,
+                                result.metadata.tags,
                                 (result as? MarginStageResult)?.margin,
+                                (result as? MarginStageResult)?.damage,
                                 error = (result as? PlayError)?.exception?.stackTraceToString(),
                                 log = stage.logger.get(),
                             )
@@ -58,8 +60,10 @@ fun main() {
                             IterationResult(
                                 request,
                                 result.toSimulationResult(),
-                                result.tags,
+                                result.metadata.groupName,
+                                result.metadata.tags,
                                 (result as? MarginStageResult)?.margin,
+                                (result as? MarginStageResult)?.damage,
                             )
                         }
                     })
@@ -70,10 +74,11 @@ fun main() {
                         IterationResult(
                             request,
                             SimulationResultType.Error,
+                            "Default",
                             error = initializationError,
                         )
                     } else {
-                        IterationResult(request, SimulationResultType.Error)
+                        IterationResult(request, SimulationResultType.Error, "Default")
                     }
                 }))
             }
@@ -90,10 +95,12 @@ data class IterationRequest(
 
 @Serializable
 data class IterationResult(
-        val request: IterationRequest,
-        val result: SimulationResultType,
-        val tags: List<String> = emptyList(),
-        val margin: Int? = 0,
-        val log: List<LogEntry>? = null,
-        val error: String? = null,
+    val request: IterationRequest,
+    val result: SimulationResultType,
+    val groupName: String,
+    val tags: List<String> = emptyList(),
+    val margin: Int? = 0,
+    val damage: Int? = 0,
+    val log: List<LogEntry>? = null,
+    val error: String? = null,
 )
