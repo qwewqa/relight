@@ -51,7 +51,7 @@ fun epanechnikovKernelDensityEstimate(data: List<Double>, h: Double, count: Int)
     return (0 until count).associate { min + it * step to results[it] }
 }
 
-fun Map<String, List<MarginStageResult>>.summarize() = SimulationMarginResultType.values().associateWith { type ->
+fun Map<String, List<MarginStageResult>>.summarize(): Map<SimulationMarginResultType, Map<String?, MarginResult>> = SimulationMarginResultType.values().associateWith { type ->
     val typeValues = values.flatten().filter { it.marginResultType() == type }
     val damageH: Double
     val marginH: Double
@@ -67,19 +67,25 @@ fun Map<String, List<MarginStageResult>>.summarize() = SimulationMarginResultTyp
             margins.statistics(),
         )
     }
-    mapValues { (_, results) ->
-        results.filter { it.marginResultType() == type }.run {
-            val damage = map { it.damage }
-            val margins = map { it.margin }
-            val scale = size.toDouble() / typeValues.size
-            MarginResult(
-                resultMarginKernelDensityEstimate(damage, damageH).mapValues { (_, v) -> v * scale },
-                damage.statistics(),
-                resultMarginKernelDensityEstimate(margins, marginH).mapValues { (_, v) -> v * scale },
-                margins.statistics(),
-            )
-        }
-    } + mapOf(
-        null to typeResults,
-    )
+    if (values.size == 1) {
+        mapOf(
+            null to typeResults,
+        )
+    } else {
+        mapValues { (_, results) ->
+            results.filter { it.marginResultType() == type }.run {
+                val damage = map { it.damage }
+                val margins = map { it.margin }
+                val scale = size.toDouble() / typeValues.size
+                MarginResult(
+                    resultMarginKernelDensityEstimate(damage, damageH).mapValues { (_, v) -> v * scale },
+                    damage.statistics(),
+                    resultMarginKernelDensityEstimate(margins, marginH).mapValues { (_, v) -> v * scale },
+                    margins.statistics(),
+                )
+            }
+        } + mapOf(
+            null to typeResults,
+        )
+    }
 }
