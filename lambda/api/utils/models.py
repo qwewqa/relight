@@ -48,7 +48,7 @@ class SongParameters(BaseModel):
 
 class StrategyParameter(BaseModel):
     type: constr(max_length=100)
-    value: constr(max_length=5000)
+    value: constr(max_length=50000)
 
 
 class SimulationParameters(BaseModel):
