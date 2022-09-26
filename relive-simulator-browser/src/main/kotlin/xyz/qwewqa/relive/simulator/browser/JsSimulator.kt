@@ -30,6 +30,8 @@ import kotlin.collections.mutableMapOf
 import kotlin.collections.set
 import kotlin.collections.single
 import kotlin.random.Random
+import kotlin.time.ExperimentalTime
+import kotlin.time.measureTime
 
 class JsSimulator : Simulator {
     override suspend fun simulate(parameters: SimulationParameters): Simulation {
@@ -77,7 +79,7 @@ class JsSimulator : Simulator {
     }
 }
 
-const val BATCH_SIZE = 500
+const val BATCH_SIZE = 200
 
 class JsSimulation(val parameters: SimulationParameters) : Simulation {
     var resultCount = 0
