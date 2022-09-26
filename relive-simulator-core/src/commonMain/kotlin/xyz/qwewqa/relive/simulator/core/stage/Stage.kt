@@ -30,7 +30,9 @@ class Stage(
     var move = 0
         private set
 
+    var groupName: String = "Default"
     var tags: List<String> = emptyList()
+    val resultMetadata get() = StageResultMetadata(groupName, tags)
 
     var cutinTarget: Actor? = null
 
@@ -240,28 +242,28 @@ class Stage(
                 player.strategy.finalize(this, player, enemy)
                 enemy.strategy.finalize(this, enemy, player)
                 log("Stage") { "End." }
-                return OutOfTurns(enemy.active.sumOf { it.hp }, tags)
+                return OutOfTurns(enemy.active.sumOf { it.maxHp - it.hp }, enemy.active.sumOf { it.hp }, resultMetadata)
             } catch (e: IgnoreRunException) {
                 log("Stage") { "Early run end." }
                 player.strategy.finalize(this, player, enemy)
                 enemy.strategy.finalize(this, enemy, player)
                 log("Stage") { "End." }
-                return ExcludedRun(tags)
+                return ExcludedRun(resultMetadata)
             } catch (e: Exception) {
                 log("Error") { e.stackTraceToString() }
                 player.strategy.finalize(this, player, enemy)
                 enemy.strategy.finalize(this, enemy, player)
                 log("Stage") { "End." }
-                return PlayError(e, tags)
+                return PlayError(e, resultMetadata)
             }
         } catch (e: IgnoreRunException) {
             log("Stage") { "Run ignored in finalizer." }
             log("Stage") { "End." }
-            return ExcludedRun(tags)
+            return ExcludedRun(resultMetadata)
         } catch (e: Exception) {
             log("Finalizer Error.") { e.stackTraceToString() }
             log("Stage") { "End." }
-            return PlayError(e, tags)
+            return PlayError(e, resultMetadata)
         }
     }
 
@@ -270,13 +272,13 @@ class Stage(
             player.strategy.finalize(this, player, enemy)
             enemy.strategy.finalize(this, enemy, player)
             log("Stage") { "End." }
-            return TeamWipe(enemy.active.sumOf { it.hp }, turn, tile, tags)
+            return TeamWipe(enemy.active.sumOf { it.maxHp - it.hp }, enemy.active.sumOf { it.hp }, turn, tile, resultMetadata)
         }
         if (enemy.active.isEmpty()) {
             player.strategy.finalize(this, player, enemy)
             enemy.strategy.finalize(this, enemy, player)
             log("Stage") { "End." }
-            return Victory(turn, tile, tags)
+            return Victory(turn, tile, resultMetadata)
         }
         return null
     }
@@ -298,20 +300,34 @@ expect class IgnoreRunException : Exception
 expect fun ignoreRun(): Nothing
 
 sealed class StageResult {
-    abstract val tags: List<String>
+    abstract val metadata: StageResultMetadata
 }
 
+data class StageResultMetadata(
+    val groupName: String,
+    val tags: List<String>,
+)
+
 sealed class MarginStageResult : StageResult() {
+    abstract val damage: Int
     abstract val margin: Int
 }
 
-data class TeamWipe(override val margin: Int, val turn: Int, val tile: Int, override val tags: List<String>) :
-    MarginStageResult()
-
-data class OutOfTurns(override val margin: Int, override val tags: List<String>) : MarginStageResult()
-data class Victory(val turn: Int, val tile: Int, override val tags: List<String>) : StageResult()
-data class PlayError(val exception: Exception, override val tags: List<String>) : StageResult()
-data class ExcludedRun(override val tags: List<String>) : StageResult()
+data class TeamWipe(
+    override val damage: Int,
+    override val margin: Int,
+    val turn: Int,
+    val tile: Int,
+    override val metadata: StageResultMetadata,
+) : MarginStageResult()
+data class OutOfTurns(
+    override val damage: Int,
+    override val margin: Int,
+    override val metadata: StageResultMetadata,
+) : MarginStageResult()
+data class Victory(val turn: Int, val tile: Int, override val metadata: StageResultMetadata) : StageResult()
+data class PlayError(val exception: Exception, override val metadata: StageResultMetadata) : StageResult()
+data class ExcludedRun(override val metadata: StageResultMetadata) : StageResult()
 
 @OptIn(ExperimentalContracts::class)
 inline fun Stage.log(

@@ -2222,8 +2222,10 @@ class SimulatorClient(val simulator: Simulator) {
                             val errorText = document.getElementById("error-text") as HTMLPreElement
                             val logText = document.getElementById("log-text") as HTMLDivElement
                             val resultsPlot = document.getElementById("results-plot")!!
-                            val endPlot = document.getElementById("end-plot")!!
-                            val wipePlot = document.getElementById("wipe-plot")!!
+                            val endPlotDamage = document.getElementById("end-plot-damage")!!
+                            val endPlotMargin = document.getElementById("end-plot-margin")!!
+                            val wipePlotDamage = document.getElementById("wipe-plot-damage")!!
+                            val wipePlotMargin = document.getElementById("wipe-plot-margin")!!
 
                             val currentIterationsText = result.currentIterations.toString()
                             val maxIterationsText = result.maxIterations.toString()
@@ -2282,43 +2284,48 @@ class SimulatorClient(val simulator: Simulator) {
                                     staticPlot = true
                                 } as Any,
                             )
+                            data class PlotType(
+                                val title: String,
+                                val element: Element,
+                                val type: SimulationMarginResultType,
+                                val accessor: MarginResult.() -> Map<Double, Double>,
+                            )
                             listOf(
-                                SimulationMarginResultType.End to endPlot,
-                                SimulationMarginResultType.Wipe to wipePlot,
-                            ).forEach { (resultType, element) ->
+                                PlotType("End Damage", endPlotDamage, SimulationMarginResultType.End, MarginResult::damage),
+                                PlotType("End Margin", endPlotMargin, SimulationMarginResultType.End, MarginResult::margin),
+                                PlotType("Wipe Damage", wipePlotDamage, SimulationMarginResultType.Wipe, MarginResult::damage),
+                                PlotType("Wipe Margin", wipePlotMargin, SimulationMarginResultType.Wipe, MarginResult::margin),
+                            ).forEach { (plotTitle, element, resultType, accessor) ->
                                 val data = result.marginResults[resultType] ?: emptyMap()
                                 react(
                                     graphDiv = element,
-                                    data = arrayOf(
+                                    data = data.entries.sortedBy { (k, _) -> k }.map { (groupName, result) ->
                                         jsObject {
-                                            type = "bar"
-                                            x = data.keys.toTypedArray()
-                                            y = data.values.toTypedArray()
-                                            marker = jsObject {
-                                                color = resultType.color
-                                            }
+                                            type = "scatter"
+                                            mode = "lines"
+                                            x = result.accessor().keys.toTypedArray()
+                                            y = result.accessor().values.toTypedArray()
+                                            name = groupName ?: "All"
                                         } as Any
-                                    ),
+                                    }.toTypedArray(),
                                     layout = jsObject {
-                                        title = "${resultType.name} Margin"
+                                        title = plotTitle
                                         height = 400
                                         margin = jsObject {
                                             l = 60
                                             r = 60
                                         }
-                                        bargap = 0
                                     } as Any,
                                     config = jsObject {
                                         responsive = true
                                     } as Any,
                                 )
-                                if (data.isEmpty()) {
+                                if (data.values.all { it.accessor().isEmpty() }) {
                                     element.addClass("d-none")
                                 } else {
                                     element.removeClass("d-none")
                                 }
                             }
-                            window.dispatchEvent(Event("resize")) // Makes plotly resize immediately
                             resultsRow.removeClass("d-none")
 
                             if (result.log != null) {
@@ -2334,6 +2341,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 errorRow.addClass("d-none")
                             }
                             done = result.done
+                            window.dispatchEvent(Event("resize")) // Makes plotly resize immediately
                             if (result.done) {
                                 simulateButton.disabled = false
                                 cancelButton.disabled = true

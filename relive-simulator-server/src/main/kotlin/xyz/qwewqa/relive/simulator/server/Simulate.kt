@@ -7,9 +7,10 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.encodeToString
 import org.slf4j.Logger
 import xyz.qwewqa.relive.simulator.common.*
-import xyz.qwewqa.relive.simulator.common.LogEntry
 import xyz.qwewqa.relive.simulator.core.stage.*
 import xyz.qwewqa.relive.simulator.core.stage.strategy.interactive.InteractiveSimulationController
+import xyz.qwewqa.relive.simulator.core.stage.utils.resultMarginKernelDensityEstimate
+import xyz.qwewqa.relive.simulator.core.stage.utils.statistics
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
 import kotlin.random.Random
@@ -30,8 +31,6 @@ private val pool = Executors
 
 private const val SIMULATE_CHUNK_SIZE = 10000
 private const val SIMULATE_RESULT_UPDATE_INTERVAL = 10000
-
-private const val RESULT_MARGIN_ROUNDING_FACTOR = 10000
 
 fun simulate(parameters: SimulationParameters, logger: Logger? = null): String {
     val token = generateToken()
@@ -69,6 +68,26 @@ fun simulateInteractive(parameters: SimulationParameters, logger: Logger? = null
     return token
 }
 
+fun Map<String, List<MarginStageResult>>.summarize() = SimulationMarginResultType.values().associateWith { type ->
+    val typeValues = values.flatten().filter { it.marginResultType() == type }
+    mapValues { (_, results) ->
+        results.filter { it.marginResultType() == type }.let { it.summarize(it.size.toDouble() / typeValues.size) }
+    } + mapOf(
+        null to typeValues.summarize(),
+    )
+}
+
+fun List<MarginStageResult>.summarize(kdeScale: Double = 1.0): MarginResult {
+    val damage = map { it.damage }
+    val margins = map { it.margin }
+    return MarginResult(
+        resultMarginKernelDensityEstimate(damage).mapValues { (_, v) -> v * kdeScale },
+        damage.statistics(),
+        resultMarginKernelDensityEstimate(margins).mapValues { (_, v) -> v * kdeScale },
+        margins.statistics(),
+    )
+}
+
 private fun simulateSingle(
     parameters: SimulationParameters,
     token: String,
@@ -81,7 +100,7 @@ private fun simulateSingle(
             StageConfiguration(logging = true)
         )  // Seed the same was as one iteration of simulateMany
     val result = stage.play(parameters.maxTurns)
-    val results = listOf(SimulationResultValue(result.tags, result.toSimulationResult(), 1))
+    val results = listOf(SimulationResultValue(result.metadata.tags, result.toSimulationResult(), 1))
     val log = stage.logger.get()
     simulationResults[token] = SimulationResult(
         maxIterations = parameters.maxIterations,
@@ -139,7 +158,7 @@ private fun simulateMany(
         }
     var resultCount = 0
     val resultCounts = mutableMapOf<Pair<List<String>, SimulationResultType>, Int>()
-    val marginResults = mutableMapOf<SimulationMarginResultType, MutableMap<Int, Int>>()
+    val marginResults = mutableMapOf<String, MutableList<MarginStageResult>>()
     var firstApplicableIteration: IterationResult? = null
     while (resultCount < parameters.maxIterations) {
         val nextIteration = resultsChannel.receive()
@@ -151,12 +170,9 @@ private fun simulateMany(
             firstApplicableIteration = nextIteration
         }
         val nextResult = nextIteration.result
-        val resultKey = nextResult.tags to nextResult.toSimulationResult()
-        (nextResult as? MarginStageResult)?.marginResultType()?.let { marginResultType ->
-            val roundedMargin = (nextResult.margin + RESULT_MARGIN_ROUNDING_FACTOR - 1) /
-                    RESULT_MARGIN_ROUNDING_FACTOR * RESULT_MARGIN_ROUNDING_FACTOR
-            val typeResults = marginResults.getOrPut(marginResultType) { mutableMapOf() }
-            typeResults[roundedMargin] = (typeResults[roundedMargin] ?: 0) + 1
+        val resultKey = nextResult.metadata.tags to nextResult.toSimulationResult()
+        if (nextResult is MarginStageResult) {
+            marginResults.getOrPut(nextResult.metadata.groupName) { mutableListOf() } += nextResult
         }
         resultCount++
         resultCounts[resultKey] = resultCounts.getOrDefault(resultKey, 0) + 1
@@ -165,7 +181,7 @@ private fun simulateMany(
                 maxIterations = parameters.maxIterations,
                 currentIterations = resultCount,
                 results = resultCounts.map { (k, v) -> SimulationResultValue(k.first, k.second, v) },
-                marginResults = marginResults.mapValues { (_, v) -> v.toMap() },
+                marginResults = marginResults.summarize(),
                 log = null,
                 runtime = (System.nanoTime() - startTime) / 1_000_000_000.0,
             )
@@ -186,7 +202,7 @@ private fun simulateMany(
         maxIterations = parameters.maxIterations,
         currentIterations = resultCount,
         results = results,
-        marginResults = marginResults,
+        marginResults = marginResults.summarize(),
         log = loggedResult?.first,
         runtime = (System.nanoTime() - startTime) / 1_000_000_000.0,
         cancelled = false,

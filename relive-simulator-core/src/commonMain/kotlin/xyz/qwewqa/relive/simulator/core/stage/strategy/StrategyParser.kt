@@ -10,7 +10,8 @@ fun interface StrategyParser {
 
 val strategyParsers = mapOf(
     "Simple" to StrategyParser {
-        return@StrategyParser { SimpleStrategy(SimpleStrategyGrammar.parseToEnd(it)) }
+        val data = SimpleStrategyGrammar.parseToEnd(it)
+        return@StrategyParser { SimpleStrategy(data) }
     },
     "Complete" to StrategyParser {
         val script = CsParser.parseToEnd(it)

@@ -157,6 +157,8 @@ class SimpleStrategy(val movesets: List<SimpleStrategyMoveset>) : Strategy {
                     weight += moveset.weight
                     if (weight > random) {
                         movesetName = moveset.name
+                        stage.tags += moveset.name ?: "<unnamed>"
+                        stage.groupName = moveset.name ?: "<unnamed>"
                         commands = moveset.commands
                         break
                     }
@@ -166,7 +168,6 @@ class SimpleStrategy(val movesets: List<SimpleStrategyMoveset>) : Strategy {
                 }
             }
         }
-        movesetName?.let { stage.tags += it }
     }
 
     override fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {

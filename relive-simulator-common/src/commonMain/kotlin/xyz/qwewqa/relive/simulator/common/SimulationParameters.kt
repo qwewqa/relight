@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.common
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.math.pow
 
 @Serializable
 data class SimulationParameters(
@@ -178,7 +179,7 @@ data class SimulationResult(
     val maxIterations: Int,
     val currentIterations: Int,
     val results: List<SimulationResultValue>,
-    val marginResults: Map<SimulationMarginResultType, Map<Int, Int>>,
+    val marginResults: Map<SimulationMarginResultType, Map<String?, MarginResult>>,
     val log: List<LogEntry>?,
     val runtime: Double? = null,
     val cancelled: Boolean = false,
@@ -187,6 +188,25 @@ data class SimulationResult(
 ) {
     val done get() = cancelled || complete
 }
+
+@Serializable
+data class MarginResult(
+    val damage: Map<Double, Double>,
+    val damageSummary: StatisticsSummary?,
+    val margin: Map<Double, Double>,
+    val marginSummary: StatisticsSummary?,
+)
+
+@Serializable
+data class StatisticsSummary(
+    val mean: Double,
+    val standardDeviation: Double,
+    val min: Double,
+    val q1: Double,
+    val median: Double,
+    val q3: Double,
+    val max: Double,
+)
 
 @Serializable
 data class LogEntry(
