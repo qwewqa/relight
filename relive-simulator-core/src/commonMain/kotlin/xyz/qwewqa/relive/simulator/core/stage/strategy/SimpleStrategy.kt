@@ -6,6 +6,7 @@ import com.github.h0tk3y.betterParse.lexer.literalToken
 import com.github.h0tk3y.betterParse.lexer.regexToken
 import com.github.h0tk3y.betterParse.parser.Parser
 import xyz.qwewqa.relive.simulator.common.LogCategory
+import xyz.qwewqa.relive.simulator.core.stage.PlayInfo
 import xyz.qwewqa.relive.simulator.core.stage.Stage
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
@@ -67,6 +68,8 @@ val actorProperties = mapOf(
 
 val actNameMapping = ActType.values().associateBy { it.shortName }
 
+const val DEFAULT_MOVESET_WEIGHT = 100
+
 object SimpleStrategyGrammar : Grammar<List<SimpleStrategyMoveset>>() {
     val comment by regexToken("""#.*""", ignore = true)
     val num by regexToken("""\d+""")
@@ -87,7 +90,7 @@ object SimpleStrategyGrammar : Grammar<List<SimpleStrategyMoveset>>() {
     val number: Parser<Int> by num use { text.toInt() }
 
     val line: Parser<SimpleStrategyLine> by (-moveset * optional(anyIdentifier) * optional(number) * -colon).map { (name, weight) ->
-        MovesetStatement(name, weight ?: 100)
+        MovesetStatement(name, weight ?: DEFAULT_MOVESET_WEIGHT)
     } or (-turn * number * -colon).map { turn ->
         TurnStatement(turn)
     } or (anyIdentifier * anyIdentifier).map { (actor, act) ->
@@ -142,7 +145,7 @@ class SimpleStrategy(val movesets: List<SimpleStrategyMoveset>) : Strategy {
     var movesetName: String? = null
     lateinit var commands: Map<Int, List<SimpleStrategyCommand>>
 
-    override fun initialize(stage: Stage, team: Team, enemy: Team) {
+    override fun initialize(stage: Stage, team: Team, enemy: Team, playInfo: PlayInfo) {
         when (movesets.size) {
             0 -> error("No movesets defined.")
             1 -> {
@@ -150,21 +153,37 @@ class SimpleStrategy(val movesets: List<SimpleStrategyMoveset>) : Strategy {
                 commands = movesets[0].commands
             }
             else -> {
-                val totalWeight = movesets.sumOf { it.weight }
-                val random = stage.random.nextInt(totalWeight)
-                var weight = 0
-                for (moveset in movesets) {
-                    weight += moveset.weight
-                    if (weight > random) {
-                        movesetName = moveset.name
-                        stage.tags += moveset.name ?: "<unnamed>"
-                        stage.groupName = moveset.name ?: "<unnamed>"
-                        commands = moveset.commands
-                        break
+                if (
+                    playInfo.iterationNumber != null &&
+                    playInfo.maxIterations != null &&
+                    playInfo.maxIterations >= movesets.size &&
+                    movesets.all { it.weight == DEFAULT_MOVESET_WEIGHT }
+                ) {
+                    val moveset = movesets[playInfo.iterationNumber % movesets.size]
+                    movesetName = moveset.name
+                    stage.tags += moveset.name ?: "<unnamed>"
+                    stage.groupName = moveset.name ?: "<unnamed>"
+                    commands = moveset.commands
+                    stage.log("Strategy", category = LogCategory.EMPHASIS) {
+                        "Using moveset ${movesetName ?: "<unnamed>"}"
                     }
-                }
-                stage.log("Strategy", category = LogCategory.EMPHASIS) {
-                    "Using moveset ${movesetName ?: "<unnamed>"} with weight $weight/$totalWeight"
+                } else {
+                    val totalWeight = movesets.sumOf { it.weight }
+                    val random = stage.random.nextInt(totalWeight)
+                    var weight = 0
+                    for (moveset in movesets) {
+                        weight += moveset.weight
+                        if (weight > random) {
+                            movesetName = moveset.name
+                            stage.tags += moveset.name ?: "<unnamed>"
+                            stage.groupName = moveset.name ?: "<unnamed>"
+                            commands = moveset.commands
+                            break
+                        }
+                    }
+                    stage.log("Strategy", category = LogCategory.EMPHASIS) {
+                        "Using moveset ${movesetName ?: "<unnamed>"} with weight $weight/$totalWeight"
+                    }
                 }
             }
         }

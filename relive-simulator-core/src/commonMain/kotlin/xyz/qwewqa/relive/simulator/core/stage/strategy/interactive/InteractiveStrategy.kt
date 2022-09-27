@@ -39,7 +39,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
             configuration = StageConfiguration(logging = true),
         )
         try {
-            stage.play(maxTurns)
+            stage.play(PlayInfo(maxTurns = maxTurns, null, null))
         } catch (_: UserInput) {
 
         }

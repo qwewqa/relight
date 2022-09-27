@@ -79,7 +79,7 @@ private fun simulateSingle(
             Random(Random(parameters.seed).nextInt()),
             StageConfiguration(logging = true)
         )  // Seed the same was as one iteration of simulateMany
-    val result = stage.play(parameters.maxTurns)
+    val result = stage.play(PlayInfo(parameters.maxTurns, 0, 1))
     val results = listOf(SimulationResultValue(result.metadata.tags, result.toSimulationResult(), 1))
     val log = stage.logger.get()
     simulationResults[token] = SimulationResult(
@@ -130,7 +130,9 @@ private fun simulateMany(
                         IterationResult(
                             index,
                             seed,
-                            loadout.create(Random(seed), StageConfiguration(logging = false)).play(parameters.maxTurns),
+                            loadout
+                                .create(Random(seed), StageConfiguration(logging = false))
+                                .play(PlayInfo(parameters.maxTurns, index, parameters.maxIterations)),
                         )
                     )
                 }
@@ -173,7 +175,7 @@ private fun simulateMany(
     }
     val loggedResult = firstApplicableIteration?.let {
         val stage = loadout.create(Random(it.seed), StageConfiguration(logging = true))
-        val playResult = stage.play(parameters.maxTurns)
+        val playResult = stage.play(PlayInfo(parameters.maxTurns, it.index, parameters.maxIterations))
         val header = LogEntry(
                 turn = 0, tile = 0, move = 0,
                 tags = listOf("Info"),

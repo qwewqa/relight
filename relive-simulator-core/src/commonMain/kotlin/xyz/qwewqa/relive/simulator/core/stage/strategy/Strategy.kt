@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.strategy
 
 import xyz.qwewqa.relive.simulator.common.LogCategory
+import xyz.qwewqa.relive.simulator.core.stage.PlayInfo
 import xyz.qwewqa.relive.simulator.core.stage.Stage
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActData
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -17,6 +18,9 @@ interface Strategy {
     /**
      * Called once at the start of the first turn before [nextQueue].
      */
+    fun initialize(stage: Stage, team: Team, enemy: Team, playInfo: PlayInfo) {
+        initialize(stage, team, enemy)
+    }
 
     fun initialize(stage: Stage, team: Team, enemy: Team) {}
 

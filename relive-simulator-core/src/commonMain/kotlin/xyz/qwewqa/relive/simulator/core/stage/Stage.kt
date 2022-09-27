@@ -14,6 +14,12 @@ import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 import kotlin.random.Random
 
+data class PlayInfo(
+    val maxTurns: Int,
+    val iterationNumber: Int?,
+    val maxIterations: Int?,
+)
+
 class Stage(
     val player: Team,
     val enemy: Team,
@@ -46,7 +52,7 @@ class Stage(
         player.strategy.afterAct(this, player, enemy)
     }
 
-    fun play(maxTurns: Int = 6): StageResult {
+    fun play(playInfo: PlayInfo): StageResult {
         try {
             try {
                 log("Stage") { "Begin." }
@@ -106,9 +112,9 @@ class Stage(
 
                 player.finalizeTurnZero()
                 enemy.finalizeTurnZero()
-                player.strategy.initialize(this, player, enemy)
-                enemy.strategy.initialize(this, enemy, player)
-                while (turn < maxTurns) {
+                player.strategy.initialize(this, player, enemy, playInfo)
+                enemy.strategy.initialize(this, enemy, player, playInfo)
+                while (turn < playInfo.maxTurns) {
                     turn++
                     tile = 0
                     log("Turn", category = LogCategory.EMPHASIS) { "Turn $turn begin." }

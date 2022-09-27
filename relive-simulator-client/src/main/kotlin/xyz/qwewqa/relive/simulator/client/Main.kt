@@ -2335,7 +2335,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         margin = jsObject {
                                             l = 60
                                             r = 60
-                                            b = 40
+                                            b = 60
                                             t = 60
                                         }
                                     } as Any,
@@ -2367,7 +2367,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         margin = jsObject {
                                             l = 60
                                             r = 60
-                                            b = 40
+                                            b = 60
                                             t = 60
                                         }
                                         yaxis = jsObject {
