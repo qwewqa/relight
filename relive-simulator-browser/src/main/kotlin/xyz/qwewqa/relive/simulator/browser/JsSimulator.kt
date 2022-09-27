@@ -163,6 +163,7 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
                         worker.postMessage(Json.encodeToString(List(batchSize) {
                             IterationRequest(
                                 requestCount++,
+                                parameters.maxIterations,
                                 seedProducer.nextInt(),
                             )
                         }))
@@ -184,6 +185,7 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
                 worker.postMessage(Json.encodeToString(List(batchSize) {
                     IterationRequest(
                         requestCount++,
+                        parameters.maxIterations,
                         seedProducer.nextInt(),
                     )
                 }))
@@ -231,6 +233,7 @@ class JsInteractiveSimulation(val parameters: SimulationParameters) : Interactiv
 @Serializable
 data class IterationRequest(
     val index: Int,
+    val maxIterations: Int,
     val seed: Int,
     val log: Boolean = false,
 )

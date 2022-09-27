@@ -44,7 +44,7 @@ fun main() {
                                 random = Random(request.seed),
                                 configuration = StageConfiguration(logging = true)
                             )
-                            val result = stage.play(turns)
+                            val result = stage.play(PlayInfo(turns, request.index, request.maxIterations))
                             IterationResult(
                                 request,
                                 result.toSimulationResult(),
@@ -56,7 +56,7 @@ fun main() {
                                 log = stage.logger.get(),
                             )
                         } else {
-                            val result = ld.create(random = Random(request.seed)).play(turns)
+                            val result = ld.create(random = Random(request.seed)).play(PlayInfo(turns, request.index, request.maxIterations))
                             IterationResult(
                                 request,
                                 result.toSimulationResult(),
@@ -89,6 +89,7 @@ fun main() {
 @Serializable
 data class IterationRequest(
     val index: Int,
+    val maxIterations: Int,
     val seed: Int,
     val log: Boolean = false,
 )
