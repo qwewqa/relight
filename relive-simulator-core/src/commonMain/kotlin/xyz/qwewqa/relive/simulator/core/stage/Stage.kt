@@ -44,11 +44,9 @@ class Stage(
 
     private inline fun executeAct(block: () -> Unit) {
         move++
-        player.stageEffects.activate()
-        enemy.stageEffects.activate()
+        player.stageEffects.refresh()
+        enemy.stageEffects.refresh()
         block()
-        player.stageEffects.deactivate()
-        enemy.stageEffects.deactivate()
         player.strategy.afterAct(this, player, enemy)
     }
 
@@ -118,12 +116,10 @@ class Stage(
                     turn++
                     tile = 0
                     log("Turn", category = LogCategory.EMPHASIS) { "Turn $turn begin." }
-                    player.stageEffects.activate()
-                    enemy.stageEffects.activate()
+                    player.stageEffects.refresh()
+                    enemy.stageEffects.refresh()
                     val playerQueue = player.strategy.nextQueue(this, player, enemy)
                     val enemyQueue = enemy.strategy.nextQueue(this, enemy, player)
-                    player.stageEffects.deactivate()
-                    enemy.stageEffects.deactivate()
                     if (playerQueue.climax) {
                         log("Climax", category = LogCategory.EMPHASIS) { "Player Climax." }
                         player.enterCX()
