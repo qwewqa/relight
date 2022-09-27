@@ -2223,9 +2223,13 @@ class SimulatorClient(val simulator: Simulator) {
                             val logText = document.getElementById("log-text") as HTMLDivElement
                             val resultsPlot = document.getElementById("results-plot")!!
                             val endPlotDamage = document.getElementById("end-plot-damage")!!
+                            val endPlotDamageBox = document.getElementById("end-plot-damage-box")!!
                             val endPlotMargin = document.getElementById("end-plot-margin")!!
+                            val endPlotMarginBox = document.getElementById("end-plot-margin-box")!!
                             val wipePlotDamage = document.getElementById("wipe-plot-damage")!!
+                            val wipePlotDamageBox = document.getElementById("wipe-plot-damage-box")!!
                             val wipePlotMargin = document.getElementById("wipe-plot-margin")!!
+                            val wipePlotMarginBox = document.getElementById("wipe-plot-margin-box")!!
 
                             val currentIterationsText = result.currentIterations.toString()
                             val maxIterationsText = result.maxIterations.toString()
@@ -2252,6 +2256,20 @@ class SimulatorClient(val simulator: Simulator) {
                             }
                             resultsText.innerHTML = progressDisplay + "\n\n" + iterationResultsText
 
+                            if (result.log != null) {
+                                logText.displayLog(result.log ?: emptyList(), interactive = false)
+                                logRow.removeClass("d-none")
+                            } else {
+                                logRow.addClass("d-none")
+                            }
+                            if (result.error != null) {
+                                errorText.textContent = result.error
+                                errorRow.removeClass("d-none")
+                            } else {
+                                errorRow.addClass("d-none")
+                            }
+                            resultsRow.removeClass("d-none")
+
                             // Plotly goes upwards from the y-axis, so entries have to be reversed
                             val plotEntries = simpleResults.reversed().toMap()
                             react(
@@ -2276,7 +2294,7 @@ class SimulatorClient(val simulator: Simulator) {
                                         l = 120
                                         r = 60
                                         b = 40
-                                        t = 20
+                                        t = 40
                                     }
                                 } as Any,
                                 config = jsObject {
@@ -2285,31 +2303,20 @@ class SimulatorClient(val simulator: Simulator) {
                                 } as Any,
                             )
 
-                            if (result.log != null) {
-                                logText.displayLog(result.log ?: emptyList(), interactive = false)
-                                logRow.removeClass("d-none")
-                            } else {
-                                logRow.addClass("d-none")
-                            }
-                            if (result.error != null) {
-                                errorText.textContent = result.error
-                                errorRow.removeClass("d-none")
-                            } else {
-                                errorRow.addClass("d-none")
-                            }
-
                             data class PlotType(
                                 val title: String,
                                 val element: Element,
+                                val boxElement: Element,
                                 val type: SimulationMarginResultType,
                                 val accessor: MarginResult.() -> Map<Double, Double>,
+                                val statisticsAccessor: MarginResult.() -> StatisticsSummary?,
                             )
                             listOf(
-                                PlotType("End Damage", endPlotDamage, SimulationMarginResultType.End, MarginResult::damage),
-                                PlotType("End Margin", endPlotMargin, SimulationMarginResultType.End, MarginResult::margin),
-                                PlotType("Wipe Damage", wipePlotDamage, SimulationMarginResultType.Wipe, MarginResult::damage),
-                                PlotType("Wipe Margin", wipePlotMargin, SimulationMarginResultType.Wipe, MarginResult::margin),
-                            ).forEach { (plotTitle, element, resultType, accessor) ->
+                                PlotType("End Damage", endPlotDamage, endPlotDamageBox, SimulationMarginResultType.End, MarginResult::damage, MarginResult::damageSummary),
+                                PlotType("End Margin", endPlotMargin, endPlotMarginBox, SimulationMarginResultType.End, MarginResult::margin, MarginResult::marginSummary),
+                                PlotType("Wipe Damage", wipePlotDamage, wipePlotDamageBox, SimulationMarginResultType.Wipe, MarginResult::damage, MarginResult::damageSummary),
+                                PlotType("Wipe Margin", wipePlotMargin, wipePlotMarginBox, SimulationMarginResultType.Wipe, MarginResult::margin, MarginResult::marginSummary),
+                            ).forEach { (plotTitle, element, boxElement, resultType, accessor, statisticsAccessor) ->
                                 val data = result.marginResults[resultType] ?: emptyMap()
                                 react(
                                     graphDiv = element,
@@ -2317,9 +2324,9 @@ class SimulatorClient(val simulator: Simulator) {
                                         jsObject {
                                             type = "scatter"
                                             mode = "lines"
+                                            name = groupName ?: "All"
                                             x = result.accessor().keys.toTypedArray()
                                             y = result.accessor().values.toTypedArray()
-                                            name = groupName ?: "All"
                                         } as Any
                                     }.toTypedArray(),
                                     layout = jsObject {
@@ -2328,8 +2335,45 @@ class SimulatorClient(val simulator: Simulator) {
                                         margin = jsObject {
                                             l = 60
                                             r = 60
+                                            b = 40
+                                            t = 60
                                         }
-                                        autosize = true
+                                    } as Any,
+                                    config = jsObject {
+                                        responsive = true
+                                    } as Any,
+                                )
+                                react(
+                                    graphDiv = boxElement,
+                                    data = data.entries.sortedBy { (k, _) -> k }.map { (groupName, result) ->
+                                        val summary = result.statisticsAccessor()
+                                        jsObject {
+                                            type = "box"
+                                            boxpoints = false
+                                            orientation = "h"
+                                            name = groupName ?: "All"
+                                            q1 = arrayOf(summary?.q1 ?: 0.0)
+                                            median = arrayOf(summary?.median ?: 0.0)
+                                            q3 = arrayOf(summary?.q3 ?: 0.0)
+                                            mean = arrayOf(summary?.mean ?: 0.0)
+                                            sd = arrayOf(summary?.stdDev ?: 0.0)
+                                            lowerfence = arrayOf(summary?.min ?: 0.0)
+                                            upperfence = arrayOf(summary?.max ?: 0.0)
+                                            y = arrayOf(groupName ?: "All")
+                                        } as Any
+                                    }.toTypedArray(),
+                                    layout = jsObject {
+                                        title = plotTitle
+                                        margin = jsObject {
+                                            l = 60
+                                            r = 60
+                                            b = 40
+                                            t = 60
+                                        }
+                                        yaxis = jsObject {
+                                            categoryorder = "array"
+                                            categoryarray = data.keys.sortedBy { it }.map { it ?: "All" }.reversed().toTypedArray()
+                                        }
                                     } as Any,
                                     config = jsObject {
                                         responsive = true
@@ -2337,11 +2381,14 @@ class SimulatorClient(val simulator: Simulator) {
                                 )
                                 if (data.values.all { it.accessor().isEmpty() }) {
                                     element.addClass("d-none")
+                                    boxElement.addClass("d-none")
                                 } else {
                                     element.removeClass("d-none")
+                                    boxElement.removeClass("d-none")
+                                    element.dispatchEvent(Event("resize"))
+                                    boxElement.dispatchEvent(Event("resize"))
                                 }
                             }
-                            resultsRow.removeClass("d-none")
                             done = result.done
                             if (result.done) {
                                 simulateButton.disabled = false

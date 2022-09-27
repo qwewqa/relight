@@ -85,6 +85,14 @@
             margin-bottom: 0.1rem;
         }
 
+        .result-pdf-plot {
+            height: 350px;
+        }
+
+        .result-box-plot {
+            height: 350px;
+        }
+
         #log-text {
             font-size: 0.7em;
             font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -780,10 +788,14 @@
                     <label for="results-text" class="form-label text-error-info">Results</label>
                     <pre id="results-text"></pre>
                     <div id="results-plot"></div>
-                    <div id="end-plot-damage"></div>
-                    <div id="end-plot-margin"></div>
-                    <div id="wipe-plot-damage"></div>
-                    <div id="wipe-plot-margin"></div>
+                    <div id="end-plot-damage" class="result-pdf-plot"></div>
+                    <div id="end-plot-damage-box" class="result-box-plot"></div>
+                    <div id="end-plot-margin" class="result-pdf-plot"></div>
+                    <div id="end-plot-margin-box" class="result-box-plot"></div>
+                    <div id="wipe-plot-damage" class="result-pdf-plot"></div>
+                    <div id="wipe-plot-damage-box" class="result-box-plot"></div>
+                    <div id="wipe-plot-margin" class="result-pdf-plot"></div>
+                    <div id="wipe-plot-margin-box" class="result-box-plot"></div>
                 </div>
             </div>
             <div class="row d-none" id="results-error-row">
