@@ -2331,7 +2331,6 @@ class SimulatorClient(val simulator: Simulator) {
                                     }.toTypedArray(),
                                     layout = jsObject {
                                         title = plotTitle
-                                        height = 400
                                         margin = jsObject {
                                             l = 60
                                             r = 60
