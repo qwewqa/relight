@@ -427,10 +427,16 @@ ${formattedHand()}
 
         private fun String.parseQueueActs(): List<BoundAct>? {
             val args = splitArgs()
-            return if (args.all { it.toIntOrNull()?.minus(1) in hand.indices }) {
-                args.map { hand[it.toInt() - 1] }
-            } else {
-                parseActs(args)
+            return when {
+                args.size == 1 && args[0].all { it.isDigit() } -> {
+                    args[0].map { (it - '0') - 1 }.map { hand[it] }
+                }
+                args.all { it.toIntOrNull()?.minus(1) in hand.indices } -> {
+                    args.map { hand[it.toInt() - 1] }
+                }
+                else -> {
+                    parseActs(args)
+                }
             }
         }
 
