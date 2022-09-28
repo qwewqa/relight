@@ -20,7 +20,7 @@ val tr23MafiaMaya = ActorLoadout(
     Dress(
         name = "Mafia Maya",
         character = Character.Maya,
-        attribute = Attribute.Cloud,
+        attribute = Attribute.Flower,
         damageType = DamageType.Special,
         position = Position.None,
         stats = defaultDressStats.copy(
@@ -191,7 +191,7 @@ val tr23MafiaMayaDiff4 = ActorLoadout(
     Dress(
         name = "Mafia Maya",
         character = Character.Maya,
-        attribute = Attribute.Cloud,
+        attribute = Attribute.Flower,
         damageType = DamageType.Special,
         position = Position.None,
         stats = defaultDressStats.copy(
