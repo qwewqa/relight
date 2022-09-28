@@ -44,7 +44,7 @@ class Actor(
     val hopeFactor get() = if (buffs.any(CountableBuff.Hope)) 20 else 0
 
     val actPower get() = valueActPower * (100 + boostActPower + actBurnFactor + hopeFactor) / 100 + songActPower
-    val actBurnFactor get() = if (buffs.any(BurnBuff)) -10 else 0
+    val actBurnFactor get() = if (isBurned) -10 else 0
     var valueActPower = 0
     var boostActPower = 0
     var songActPower = 0
@@ -136,6 +136,45 @@ class Actor(
     // For bosses
     val innateAgainstAttributeDamageTakenDown = mutableMapOf<Attribute, Int>().withDefault { 0 }
 
+    inline val isInvincible get() = invincible > 0
+    var invincible = 0
+
+    inline val isStopped get() = stop > 0
+    var stop = 0
+
+    inline val isSleeping get() = sleep > 0
+    var sleep = 0
+
+    inline val isNightmaring get() = nightmare > 0
+    var nightmare = 0
+
+    inline val isConfused get() = confusion > 0
+    var confusion = 0
+
+    inline val isFrozen get() = frozen > 0
+    var frozen = 0
+
+    inline val isStunned get() = stun > 0
+    var stun = 0
+
+    inline val isBurned get() = burn > 0
+    var burn = 0
+
+    inline val isPoisoned get() = poison > 0
+    var poison = 0
+
+    inline val isShocked get() = shock > 0
+    var shock = 0
+
+    inline val isLovesick get() = lovesickness > 0
+    var lovesickness = 0
+
+    inline val isAgonized get() = agony > 0
+    var agony = 0
+
+    inline val isBlinded get() = blindness > 0
+    var blindness = 0
+
     var brillianceRegen = 0
     var hpRegen = 0
     var hpPercentRegen = 0
@@ -183,31 +222,31 @@ class Actor(
                 context.log("Act", category = LogCategory.EMPHASIS) { "Actor has already exited." }
                 return
             }
-            if (buffs.any(StopBuff)) {
+            if (isStopped) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by stop." }
                 return
             }
-            if (buffs.any(AgonyBuff)) {
+            if (isAgonized) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by agony." }
                 return
             }
-            if (buffs.any(FreezeBuff)) {
+            if (isFrozen) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by freeze." }
                 return
             }
-            if (buffs.any(SleepBuff)) {
+            if (isSleeping) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by sleep." }
                 return
             }
-            if (buffs.any(NightmareBuff)) {
+            if (isNightmaring) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by nightmare." }
                 return
             }
-            if (buffs.any(StunBuff) && context.stage.random.nextDouble() < 0.5) {
+            if (isStunned && context.stage.random.nextDouble() < 0.5) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by stun." }
                 return
             }
-            if (buffs.any(LovesicknessBuff) && context.stage.random.nextDouble() < 0.5) {
+            if (isLovesick && context.stage.random.nextDouble() < 0.5) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by lovesickness." }
                 return
             }
@@ -223,7 +262,7 @@ class Actor(
                 }.execute(context)
                 return
             }
-            if (buffs.any(ConfusionBuff, LockedConfusionBuff) && context.stage.random.nextDouble() < 0.3) {
+            if (isConfused && context.stage.random.nextDouble() < 0.3) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by confuse." }
                 val confusionAct = acts[ActType.ConfusionAct]?.act ?: Act {
                     targetAllyRandom().act {
@@ -236,7 +275,7 @@ class Actor(
                 confusionAct.execute(context)
                 return
             }
-            if (buffs.any(ElectricShockBuff, LockedElectricShockBuff) && context.stage.random.nextDouble() < 0.3) {
+            if (isShocked && context.stage.random.nextDouble() < 0.3) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by electric shock." }
                 Act {
                     damage(7500)
@@ -382,11 +421,11 @@ class Actor(
     }
 
     fun addBrilliance(base: Int) = context.run {
-        if (buffs.any(StopBuff)) {
+        if (isStopped) {
             context.log("Abnormal") { "Brilliance gain prevented by stop." }
             return
         }
-        if (buffs.any(AgonyBuff)) {
+        if (isAgonized) {
             context.log("Abnormal") { "Brilliance gain prevented by agony." }
             return
         }

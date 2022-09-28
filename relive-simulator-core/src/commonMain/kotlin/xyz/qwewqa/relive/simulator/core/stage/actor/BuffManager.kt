@@ -26,6 +26,9 @@ class BuffManager(val actor: Actor) {
     fun countable(): Map<CountableBuff, Int> = positiveCountableBuffs + negativeCountableBuffs
     fun countablePositive(): Map<CountableBuff, Int> = positiveCountableBuffs
     fun countableNegative(): Map<CountableBuff, Int> = negativeCountableBuffs
+
+    // Note that this can be slow if called very frequently (e.g. in the damage formula)
+    // In those cases it is better to increment/decrement a variable on the actor in the buff and then check it directly
     fun any(vararg buffEffect: BuffEffect) = buffEffect.any { any(it) }
     fun any(buffEffect: BuffEffect) = count(buffEffect) > 0
     fun any(buff: CountableBuff) = count(buff) > 0

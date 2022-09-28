@@ -79,7 +79,7 @@ object NegativeCountableResistanceBuff : BuffEffect {
 }
 
 object LockedNegativeCountableResistanceBuff : BuffEffect {
-    override val name = "Negative Countable Resistance"
+    override val name = "Locked Negative Countable Resistance"
     override val category = BuffCategory.Positive
     override val locked: Boolean = true
 

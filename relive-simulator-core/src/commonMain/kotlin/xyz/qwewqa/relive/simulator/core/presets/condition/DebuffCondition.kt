@@ -1,24 +1,23 @@
 package xyz.qwewqa.relive.simulator.core.presets.condition
 
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.condition.NamedCondition
 
 val FreezeOnlyCondition = NamedCondition("Freeze") {
-    it.buffs.any(FreezeBuff)
+    it.isFrozen
 }
 
 val ElectricShockOnlyCondition = NamedCondition("Electric Shock") {
-    it.buffs.any(ElectricShockBuff, LockedElectricShockBuff)
+    it.isShocked
 }
 
 val LovesicknessOnlyCondition = NamedCondition("Lovesickness") {
-    it.buffs.any(LovesicknessBuff, LockedLovesicknessBuff)
+    it.isLovesick
 }
 
 val BurnOnlyCondition = NamedCondition("Burn") {
-    it.buffs.any(BurnBuff, LockedBurnBuff)
+    it.isBurned
 }
 
 val PoisonOnlyCondition = NamedCondition("Poison") {
-    it.buffs.any(PoisonBuff, LockedPoisonBuff)
+    it.isPoisoned
 }

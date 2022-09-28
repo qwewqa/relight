@@ -33,7 +33,7 @@ object AggroBuff : BuffEffect {
 }
 
 object LockedAggroBuff : BuffEffect {
-    override val name = "Aggro"
+    override val name = "Locked Aggro"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
     override val locked = true
@@ -92,6 +92,14 @@ object AbsorbBuff : BuffEffect {
 object InvincibilityBuff : BuffEffect {
     override val name = "Invincibility"
     override val category = BuffCategory.Positive
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.invincible += 1
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.invincible -= 1
+    }
 }
 
 object ExitEvasionBuff : BuffEffect {
@@ -105,7 +113,7 @@ object ResilienceBuff : BuffEffect {
 }
 
 object LockedResilienceBuff : BuffEffect {
-    override val name = "Resilience"
+    override val name = "Locked Resilience"
     override val category = BuffCategory.Positive
     override val locked = true
     override val related = ResilienceBuff

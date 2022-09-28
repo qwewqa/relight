@@ -4,6 +4,9 @@ import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 
 interface BuffEffect {
+    /**
+     * The name of this effect. Must be unique unless the buffs are interchangeable.
+     */
     val name: String
     val category: BuffCategory
     val locked: Boolean get() = false

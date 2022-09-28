@@ -5,7 +5,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 
-data class StageEffect(
+class StageEffect(
     val name: String,
     val buffs: List<List<StageBuff>>,
     val target: StageEffectTarget,

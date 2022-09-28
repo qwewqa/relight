@@ -1,17 +1,14 @@
 package xyz.qwewqa.relive.simulator.core.stage
 
 import xyz.qwewqa.relive.simulator.common.LogCategory
-import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
-import xyz.qwewqa.relive.simulator.core.stage.actor.effectiveCoefTable
-import xyz.qwewqa.relive.simulator.core.stage.buff.BlindnessBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.FreezeBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.InvincibilityBuff
+import xyz.qwewqa.relive.simulator.core.stage.actor.getEffectiveCoef
 import xyz.qwewqa.relive.simulator.core.stage.buff.NormalBarrierBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.SpecialBarrierBuff
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
+import xyz.qwewqa.relive.simulator.stage.character.DamageType
 
 interface DamageCalculator {
     fun damage(attacker: Actor, target: Actor, hitAttribute: HitAttribute)
@@ -117,9 +114,9 @@ class RandomDamageCalculator : DamageCalculator {
 
     fun calculateDamage(attacker: Actor, target: Actor, hitAttribute: HitAttribute): DamageResult {
         val acc = (100 + attacker.accuracy - target.evasion).coerceIn(0, 100) *
-                (if (attacker.buffs.any(BlindnessBuff)) 0.3 else 1.0)
+                (if (attacker.isBlinded) 0.3 else 1.0)
 
-        if (target.buffs.any(InvincibilityBuff)) {
+        if (target.isInvincible) {
             // Critical chance isn't actually 0 against invincible targets, but
             // it doesn't matter, so we'll skip calculating it.
             return DamageResult(0, 0, 0.0, acc / 100.0, false)
@@ -158,7 +155,7 @@ class RandomDamageCalculator : DamageCalculator {
         }
 
         val attribute = hitAttribute.attribute
-        val eleCoef = effectiveCoefTable[attribute to target.dress.attribute]!!
+        val eleCoef = getEffectiveCoef(attribute, target.dress.attribute)
         val effEleCoef = if (eleCoef > 100) {
             100 + attacker.effectiveDamageUp
         } else {
@@ -185,7 +182,7 @@ class RandomDamageCalculator : DamageCalculator {
         val targetInnateAgainstAttributeDamageTakenDownCoef =
             100 - target.innateAgainstAttributeDamageTakenDown.getValue(attribute)
 
-        val freezeCoef = if (target.buffs.any(FreezeBuff)) 130 else 100
+        val freezeCoef = if (target.isFrozen) 130 else 100
 
         // cx damage up
         val cxDmgCoef = if (attacker.inCXAct) {

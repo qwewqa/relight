@@ -42,7 +42,7 @@ class StageEffectManager(val team: Team) {
                     previousStatus.deactivate()
                     statuses[effect] = StageEffectStatus(effect, effect.activate(targets, level), level)
                 } else {
-                    (previousStatus.effectBuffs - targets.toSet()).forEach { (actor, buffs) ->
+                    previousStatus.effectBuffs.filter { (actor, _)  -> actor !in targets }.forEach { (actor, buffs) ->
                         buffs.forEach { buff ->
                             actor.buffs.remove(buff)
                         }
