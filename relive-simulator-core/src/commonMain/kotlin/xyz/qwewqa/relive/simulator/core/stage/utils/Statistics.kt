@@ -27,9 +27,11 @@ fun resultMarginKernelDensityEstimate(data: List<Int>, h: Double): Map<Double, D
     return epanechnikovKernelDensityEstimate(data.map { it.toDouble() }, h, 2_000)
 }
 
-fun chooseBandwidth(data: List<Int>): Double {
-    val stats = data.statistics() ?: return 1.0
-    return 0.6 * stats.stdDev * data.size.toDouble().pow(-0.2)
+fun chooseBandwidth(data: List<Int>): Double = if (data.isEmpty()) {
+    1.0
+} else {
+    // Intuitively bandwidth should be higher when average damage is higher.
+    0.02 * data.average() * data.size.toDouble().pow(-0.2)
 }
 
 fun epanechnikovKernelDensityEstimate(data: List<Double>, h: Double, count: Int): Map<Double, Double> {
@@ -52,17 +54,15 @@ fun epanechnikovKernelDensityEstimate(data: List<Double>, h: Double, count: Int)
 
 fun Map<String, List<MarginStageResult>>.summarize(): Map<SimulationMarginResultType, Map<String?, MarginResult>> = SimulationMarginResultType.values().associateWith { type ->
     val typeValues = values.flatten().filter { it.marginResultType() == type }
-    val damageH: Double
-    val marginH: Double
+    val h: Double
     val typeResults = typeValues.run {
         val damage = map { it.damage }
         val margins = map { it.margin }
-        damageH = chooseBandwidth(damage)
-        marginH = chooseBandwidth(margins)
+        h = chooseBandwidth(damage)
         MarginResult(
-            resultMarginKernelDensityEstimate(damage, damageH),
+            resultMarginKernelDensityEstimate(damage, h),
             damage.statistics(),
-            resultMarginKernelDensityEstimate(margins, marginH),
+            resultMarginKernelDensityEstimate(margins, h),
             margins.statistics(),
         )
     }
@@ -77,9 +77,9 @@ fun Map<String, List<MarginStageResult>>.summarize(): Map<SimulationMarginResult
                 val margins = map { it.margin }
                 val scale = size.toDouble() / typeValues.size
                 MarginResult(
-                    resultMarginKernelDensityEstimate(damage, damageH).mapValues { (_, v) -> v * scale },
+                    resultMarginKernelDensityEstimate(damage, h).mapValues { (_, v) -> v * scale },
                     damage.statistics(),
-                    resultMarginKernelDensityEstimate(margins, marginH).mapValues { (_, v) -> v * scale },
+                    resultMarginKernelDensityEstimate(margins, h).mapValues { (_, v) -> v * scale },
                     margins.statistics(),
                 )
             }
