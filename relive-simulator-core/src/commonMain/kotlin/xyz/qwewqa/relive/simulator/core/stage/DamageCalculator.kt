@@ -175,12 +175,12 @@ class RandomDamageCalculator : DamageCalculator {
         if (target.buffs.any(CountableBuff.WeakSpot)) buffDmgTakenDownCoef += 60
         val buffDmgDealtUpCoef = 100 + attacker.damageDealtUpBuff + dmgDealtUp
 
-        val attributeDamageDealtUpCoef = 100 + attacker.attributeDamageDealtUp.getValue(attribute)
+        val attributeDamageDealtUpCoef = 100 + attacker.attributeDamageDealtUp[attribute]
         val againstAttributeDamageDealtUpCoef =
-            100 + attacker.againstAttributeDamageDealtUp.getValue(target.dress.attribute)
-        val targetAgainstAttributeDamageTakenDownCoef = (100 - target.againstAttributeDamageTakenDown.getValue(attribute)).coerceAtLeast(50)
+            100 + attacker.againstAttributeDamageDealtUp[target.dress.attribute]
+        val targetAgainstAttributeDamageTakenDownCoef = (100 - target.againstAttributeDamageTakenDown[attribute]).coerceAtLeast(50)
         val targetInnateAgainstAttributeDamageTakenDownCoef =
-            100 - target.innateAgainstAttributeDamageTakenDown.getValue(attribute)
+            100 - target.innateAgainstAttributeDamageTakenDown[attribute]
 
         val freezeCoef = if (target.isFrozen) 130 else 100
 

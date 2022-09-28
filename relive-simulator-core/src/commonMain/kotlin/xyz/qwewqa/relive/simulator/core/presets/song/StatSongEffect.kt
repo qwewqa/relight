@@ -76,30 +76,30 @@ private data class DamageAgainstAttributeUpSongEffect(val attribute: Attribute) 
 
     override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.againstAttributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) + value
+            self.againstAttributeDamageDealtUp[attribute] = self.againstAttributeDamageDealtUp[attribute] + value
         }
     }
 
     override fun end(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.againstAttributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) - value
+            self.againstAttributeDamageDealtUp[attribute] = self.againstAttributeDamageDealtUp[attribute] - value
         }
     }
 }
 
-data class AgainstAttributeDamageDealtUpSongEffect(val attribute: Attribute) : SongEffect {
+data class againstAttributeDamageDealtUpSongEffect(val attribute: Attribute) : SongEffect {
     override val name = "Against ${attribute.name}DamageDealtUpSongEffect"
     override val displayName = "Against ${attribute.name} Damage Dealt Up"
 
     override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.againstAttributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) + value
+            self.againstAttributeDamageDealtUp[attribute] = self.againstAttributeDamageDealtUp[attribute] + value
         }
     }
 
     override fun end(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.againstAttributeDamageDealtUp[attribute] = (self.againstAttributeDamageDealtUp[attribute] ?: 0) - value
+            self.againstAttributeDamageDealtUp[attribute] = self.againstAttributeDamageDealtUp[attribute] - value
         }
     }
 }
@@ -110,13 +110,13 @@ data class AttributeDamageDealtUpSongEffect(val attribute: Attribute) : SongEffe
 
     override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.attributeDamageDealtUp[attribute] = (self.attributeDamageDealtUp[attribute] ?: 0) + value
+            self.attributeDamageDealtUp[attribute] = self.attributeDamageDealtUp[attribute] + value
         }
     }
 
     override fun end(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.attributeDamageDealtUp[attribute] = (self.attributeDamageDealtUp[attribute] ?: 0) - value
+            self.attributeDamageDealtUp[attribute] = self.attributeDamageDealtUp[attribute] - value
         }
     }
 }

@@ -129,12 +129,12 @@ class Actor(
     val damageTakenDownDebuff get() = valueDamageTakenDownDebuff
     var valueDamageTakenDownDebuff = 0
 
-    val againstAttributeDamageDealtUp = mutableMapOf<Attribute, Int>().withDefault { 0 }
-    val againstAttributeDamageTakenDown = mutableMapOf<Attribute, Int>().withDefault { 0 }
-    val attributeDamageDealtUp = mutableMapOf<Attribute, Int>().withDefault { 0 }
+    val againstAttributeDamageDealtUp = AttributeMap(0)
+    val againstAttributeDamageTakenDown = AttributeMap(0)
+    val attributeDamageDealtUp = AttributeMap(0)
 
     // For bosses
-    val innateAgainstAttributeDamageTakenDown = mutableMapOf<Attribute, Int>().withDefault { 0 }
+    val innateAgainstAttributeDamageTakenDown = AttributeMap(0)
 
     inline val isInvincible get() = invincible > 0
     var invincible = 0

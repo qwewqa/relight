@@ -31,7 +31,7 @@ private fun weAreOnTheStageAttributeStageEffect(attribute: Attribute) = StageEff
             StageBuff(ActPowerUpBuff, value),
             StageBuff(NormalDefenseUpBuff, value),
             StageBuff(SpecialDefenseUpBuff, value),
-            StageBuff(AgainstAttributeDamageDealtUpBuff(attribute.advantagedAgainst ?: error("Invalid attribute.")), value),
+            StageBuff(againstAttributeDamageDealtUpBuff(attribute.advantagedAgainst ?: error("Invalid attribute.")), value),
         )
     },
     StageEffectTarget.All,

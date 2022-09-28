@@ -338,16 +338,16 @@ object SpecialReflectBuff : BuffEffect {
     }
 }
 
-data class AgainstAttributeDamageDealtUpBuff(val attribute: Attribute) : BuffEffect {
+data class againstAttributeDamageDealtUpBuff(val attribute: Attribute) : BuffEffect {
     override val name = "Against ${attribute.name} Damage Dealt Up"
     override val category = BuffCategory.Positive
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.againstAttributeDamageDealtUp[attribute] = self.againstAttributeDamageDealtUp.getValue(attribute) + value
+        self.againstAttributeDamageDealtUp[attribute] = self.againstAttributeDamageDealtUp[attribute] + value
     }
 
     override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.againstAttributeDamageDealtUp[attribute] = self.againstAttributeDamageDealtUp.getValue(attribute) - value
+        self.againstAttributeDamageDealtUp[attribute] = self.againstAttributeDamageDealtUp[attribute] - value
     }
 }
 
@@ -356,11 +356,11 @@ data class AgainstAttributeDamageTakenUpBuff(val attribute: Attribute) : BuffEff
     override val category = BuffCategory.Negative
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.againstAttributeDamageTakenDown[attribute] = self.againstAttributeDamageTakenDown.getValue(attribute) - value
+        self.againstAttributeDamageTakenDown[attribute] = self.againstAttributeDamageTakenDown[attribute] - value
     }
 
     override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.againstAttributeDamageTakenDown[attribute] = self.againstAttributeDamageTakenDown.getValue(attribute) + value
+        self.againstAttributeDamageTakenDown[attribute] = self.againstAttributeDamageTakenDown[attribute] + value
     }
 }
 
@@ -369,11 +369,11 @@ data class AgainstAttributeDamageTakenDownBuff(val attribute: Attribute) : BuffE
     override val category = BuffCategory.Positive
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.againstAttributeDamageTakenDown[attribute] = self.againstAttributeDamageTakenDown.getValue(attribute) + value
+        self.againstAttributeDamageTakenDown[attribute] = self.againstAttributeDamageTakenDown[attribute] + value
     }
 
     override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.againstAttributeDamageTakenDown[attribute] = self.againstAttributeDamageTakenDown.getValue(attribute) - value
+        self.againstAttributeDamageTakenDown[attribute] = self.againstAttributeDamageTakenDown[attribute] - value
     }
 }
 
