@@ -359,10 +359,10 @@ class Actor(
             self.addBrilliance(amount * 70 / self.maxHp)
             self.buffs.removeAll(FreezeBuff)
             self.buffs.tryRemove(CountableBuff.WeakSpot)
-            if (self.buffs.count(SleepBuff) > 0 && stage.random.nextDouble() > 0.2) {
+            if (self.isSleeping && stage.random.nextDouble() > 0.2) {
                 self.buffs.removeAll(SleepBuff)
             }
-            if (self.buffs.count(NightmareBuff) > 0 && stage.random.nextDouble() > 0.2) {
+            if (self.isNightmaring && stage.random.nextDouble() > 0.2) {
                 self.buffs.removeAll(NightmareBuff)
             }
             if (self.counterHeal > 0) {

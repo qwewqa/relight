@@ -3,12 +3,14 @@ package xyz.qwewqa.relive.simulator.core.stage.actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.log
 
+expect fun activeBuffSet(): MutableSet<ActiveBuff>
+expect fun <V> buffEffectMap(): MutableMap<BuffEffect, V>
 expect fun countableBuffMap(): MutableMap<CountableBuff, Int>
 
 class BuffManager(val actor: Actor) {
-    private val positiveBuffs = LinkedHashSet<ActiveBuff>()
-    private val negativeBuffs = LinkedHashSet<ActiveBuff>()
-    private val buffsByEffect = mutableMapOf<BuffEffect, LinkedHashSet<ActiveBuff>>()
+    private val positiveBuffs = activeBuffSet()
+    private val negativeBuffs = activeBuffSet()
+    private val buffsByEffect = buffEffectMap<MutableSet<ActiveBuff>>()
 
     private val _effectNameMapping = mutableMapOf<String, BuffEffect>()
     val effectNameMapping: Map<String, BuffEffect> get() = _effectNameMapping
@@ -17,6 +19,8 @@ class BuffManager(val actor: Actor) {
     private val negativeCountableBuffs = countableBuffMap()
 
     var guardOnAbnormal = false
+
+    private var buffIndex = 0
 
     fun get(buff: BuffEffect) = buffsByEffect[buff] ?: emptySet()
     fun all() = positiveBuffs + negativeBuffs
@@ -45,7 +49,7 @@ class BuffManager(val actor: Actor) {
         ephemeral: Boolean = false,
         relatedBuff: ActiveBuff? = null
     ) =
-        ActiveBuff(this, value, turns, ephemeral, relatedBuff).also { activeBuff ->
+        ActiveBuff((buffIndex++).toString(), this, value, turns, ephemeral, relatedBuff).also { activeBuff ->
             onApply(source, actor)
             activeBuff.start()
             when (category) {
@@ -54,7 +58,7 @@ class BuffManager(val actor: Actor) {
             }.add(activeBuff)
             buffsByEffect.getOrPut(this) {
                 _effectNameMapping[name] = this
-                LinkedHashSet()
+                activeBuffSet()
             }.add(activeBuff)
             actor.context.log("Buff", debug = true) { "Buff ${activeBuff.name} added." }
         }
@@ -245,9 +249,14 @@ class BuffManager(val actor: Actor) {
 
     private fun ActiveBuff.start() = effect.onStart(actor.context, value)
     private fun ActiveBuff.end() = effect.onEnd(actor.context, value)
+
+    operator fun BuffEffect.invoke(value: Int, turns: Int, ephemeral: Boolean = false, relatedBuff: ActiveBuff? = null) =
+        ActiveBuff((buffIndex++).toString(), this, value, turns, ephemeral, relatedBuff)
+
 }
 
 class ActiveBuff(
+    val key: String, // Used for JS specific map optimization
     val effect: BuffEffect,
     var value: Int,
     var turns: Int,
@@ -264,9 +273,6 @@ class ActiveBuff(
 
     override fun toString() = "[${effect.name}](value = $value, turns = $turns)"
 }
-
-operator fun BuffEffect.invoke(value: Int, turns: Int, ephemeral: Boolean = false, relatedBuff: ActiveBuff? = null) =
-    ActiveBuff(this, value, turns, ephemeral, relatedBuff)
 
 enum class CountableBuff(val category: BuffCategory) {
     Evasion(BuffCategory.Positive),
