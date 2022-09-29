@@ -4,7 +4,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
 
 actual fun activeBuffSet(): MutableSet<ActiveBuff> = ActiveBuffSet()
 actual fun <V> buffEffectMap(): MutableMap<BuffEffect, V> = BuffEffectMap()
-actual fun countableBuffMap(): MutableMap<CountableBuff, Int> = mutableMapOf()
+actual fun countableBuffMap(): MutableMap<CountableBuff, Int> = EnumMap()
 
 class BuffEffectMap<V> : MutableMap<BuffEffect, V> {
     private val map = stringMapOf<V>()
@@ -64,4 +64,35 @@ class ActiveBuffSet : MutableSet<ActiveBuff> {
     override fun removeAll(elements: Collection<ActiveBuff>): Boolean = map.keys.removeAll(elements.map { it.key })
 
     override fun remove(element: ActiveBuff): Boolean = map.remove(element.key) != null
+}
+
+class EnumMap<K : Enum<K>, V> : MutableMap<K, V> {
+    private val map = stringMapOf<V>()
+
+    override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
+        get() {
+            throw UnsupportedOperationException()
+        }
+    override val keys: MutableSet<K>
+        get() {
+            throw UnsupportedOperationException()
+        }
+    override val size: Int get() = map.size
+    override val values: MutableCollection<V> get() = map.values
+
+    override fun clear() = map.clear()
+
+    override fun isEmpty(): Boolean = map.isEmpty()
+
+    override fun remove(key: K): V? = map.remove(key.name)
+
+    override fun putAll(from: Map<out K, V>) = map.putAll(from.mapKeys { it.key.name })
+
+    override fun put(key: K, value: V): V? = map.put(key.name, value)
+
+    override fun get(key: K): V? = map[key.name]
+
+    override fun containsValue(value: V): Boolean = map.containsValue(value)
+
+    override fun containsKey(key: K): Boolean = map.containsKey(key.name)
 }

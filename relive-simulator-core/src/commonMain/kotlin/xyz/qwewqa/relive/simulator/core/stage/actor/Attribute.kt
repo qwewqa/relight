@@ -12,17 +12,10 @@ enum class Attribute {
 }
 
 // Has a minor performance benefit
-class AttributeMap<V>(val default: V) : MutableMap<Attribute, V> {
-    private var neutral: V = default
-    private var flower: V = default
-    private var wind: V = default
-    private var snow: V = default
-    private var moon: V = default
-    private var space: V = default
-    private var cloud: V = default
-    private var dream: V = default
+class AttributeMap(val default: Int) : MutableMap<Attribute, Int> {
+    private val array = IntArray(8) { default }
 
-    override val entries: MutableSet<MutableMap.MutableEntry<Attribute, V>>
+    override val entries: MutableSet<MutableMap.MutableEntry<Attribute, Int>>
         get() {
             throw UnsupportedOperationException()
         }
@@ -34,7 +27,7 @@ class AttributeMap<V>(val default: V) : MutableMap<Attribute, V> {
         get() {
             throw UnsupportedOperationException()
         }
-    override val values: MutableCollection<V>
+    override val values: MutableCollection<Int>
         get() {
             throw UnsupportedOperationException()
         }
@@ -45,48 +38,21 @@ class AttributeMap<V>(val default: V) : MutableMap<Attribute, V> {
 
     override fun isEmpty(): Boolean = false
 
-    override fun remove(key: Attribute): V? {
+    override fun remove(key: Attribute): Int? {
         throw UnsupportedOperationException()
     }
 
-    override fun putAll(from: Map<out Attribute, V>) {
+    override fun putAll(from: Map<out Attribute, Int>) {
         for ((key, value) in from) {
             this[key] = value
         }
     }
 
-    override fun put(key: Attribute, value: V): V? = when (key) {
-        Attribute.Neutral -> neutral.also { neutral = value }
-        Attribute.Flower -> flower.also { flower = value }
-        Attribute.Wind -> wind.also { wind = value }
-        Attribute.Snow -> snow.also { snow = value }
-        Attribute.Moon -> moon.also { moon = value }
-        Attribute.Space -> space.also { space = value }
-        Attribute.Cloud -> cloud.also { cloud = value }
-        Attribute.Dream -> dream.also { dream = value }
-    }
+    override fun put(key: Attribute, value: Int): Int = array[key.ordinal].also { array[key.ordinal] = value }
 
-    override fun get(key: Attribute) = when (key) {
-        Attribute.Neutral -> neutral
-        Attribute.Flower -> flower
-        Attribute.Wind -> wind
-        Attribute.Snow -> snow
-        Attribute.Moon -> moon
-        Attribute.Space -> space
-        Attribute.Cloud -> cloud
-        Attribute.Dream -> dream
-    }
+    override fun get(key: Attribute) = array[key.ordinal]
 
-    override fun containsValue(value: V) = (
-            neutral == value ||
-                    flower == value ||
-                    wind == value ||
-                    snow == value ||
-                    moon == value ||
-                    space == value ||
-                    cloud == value ||
-                    dream == value
-            )
+    override fun containsValue(value: Int) = array.contains(value)
 
     override fun containsKey(key: Attribute) = true
 
@@ -116,7 +82,14 @@ val Attribute.disadvantagedAgainst
         else -> null
     }
 
-fun getEffectiveCoef(attacker: Attribute, defender: Attribute) = when (defender) {
+fun getEffectiveCoef(attacker: Attribute, defender: Attribute) = effectiveCoefs[attacker.ordinal * attributeCount + defender.ordinal]
+private val attributeCount = Attribute.values().size
+private val effectiveCoefs = IntArray(attributeCount * attributeCount) {  i ->
+    val attacker = Attribute.values()[i / attributeCount]
+    val defender = Attribute.values()[i % attributeCount]
+    effectiveCoef(attacker, defender)
+}
+private fun effectiveCoef(attacker: Attribute, defender: Attribute) = when (defender) {
     Attribute.Flower -> when (attacker) {
         Attribute.Snow -> 150
         Attribute.Wind -> 50
@@ -164,6 +137,5 @@ fun getEffectiveCoef(attacker: Attribute, defender: Attribute) = when (defender)
         Attribute.Neutral -> 100
         else -> 150
     }
-
     else -> 100
 }

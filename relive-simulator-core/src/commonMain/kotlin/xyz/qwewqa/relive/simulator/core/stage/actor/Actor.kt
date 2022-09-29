@@ -175,6 +175,18 @@ class Actor(
     inline val isBlinded get() = blindness > 0
     var blindness = 0
 
+    inline val isApUp get() = apUp > 0
+    var apUp = 0
+
+    inline val isAp2Up get() = ap2Up > 0
+    var ap2Up = 0
+
+    inline val isApDown get() = apDown > 0
+    var apDown = 0
+
+    inline val isAp2Down get() = ap2Down > 0
+    var ap2Down = 0
+
     var brillianceRegen = 0
     var hpRegen = 0
     var hpPercentRegen = 0

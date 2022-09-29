@@ -1,23 +1,48 @@
 package xyz.qwewqa.relive.simulator.core.stage.buff
 
+import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 
 object ApDownBuff : BuffEffect {
     override val name = "AP Down"
     override val category = BuffCategory.Positive
     override val flipped get() = ApUpBuff
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.apDown += 1
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.apDown -= 1
+    }
 }
 
 object Ap2DownBuff : BuffEffect {
     override val name = "AP 2 Down"
     override val category = BuffCategory.Positive
 //    override val flipped get() = Ap2UpBuff TODO: Check if AP 2 Down flips
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.ap2Down += 1
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.ap2Down -= 1
+    }
 }
 
 object ApUpBuff : BuffEffect {
     override val name = "AP Up"
     override val category = BuffCategory.Negative
     override val flipped get() = ApDownBuff
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.apUp += 1
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.apUp -= 1
+    }
 }
 
 /*object Ap2UpBuff : BuffEffect {
@@ -45,12 +70,13 @@ object LockedApUpBuff : BuffEffect {
 val Actor.apChange: Int
     get() {
         val apDecrease = when {
-            buffs.any(Ap2DownBuff) -> 2
-            buffs.any(ApDownBuff) -> 1
+            isAp2Down -> 2
+            isApDown -> 1
             else -> 0
         }
         val apIncrease = when {
-            buffs.any(ApUpBuff) -> 1
+            isAp2Up -> 2
+            isApUp -> 1
             else -> 0
         }
         return apIncrease - apDecrease
