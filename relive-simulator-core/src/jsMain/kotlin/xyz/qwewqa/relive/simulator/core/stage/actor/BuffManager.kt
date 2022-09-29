@@ -67,12 +67,12 @@ class ActiveBuffSet : MutableSet<ActiveBuff> {
 }
 
 class EnumMap<K : Enum<K>, V> : MutableMap<K, V> {
+    private val originalKeys  = stringMapOf<K>()
     private val map = stringMapOf<V>()
 
     override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
-        get() {
-            throw UnsupportedOperationException()
-        }
+        get() = map.entries.map { ProxyEntry(originalKeys[it.key]!!, it) }.toMutableSet()
+
     override val keys: MutableSet<K>
         get() {
             throw UnsupportedOperationException()
@@ -86,9 +86,17 @@ class EnumMap<K : Enum<K>, V> : MutableMap<K, V> {
 
     override fun remove(key: K): V? = map.remove(key.name)
 
-    override fun putAll(from: Map<out K, V>) = map.putAll(from.mapKeys { it.key.name })
+    override fun putAll(from: Map<out K, V>) {
+        from.forEach {
+            originalKeys[it.key.name] = it.key
+            map[it.key.name] = it.value
+        }
+    }
 
-    override fun put(key: K, value: V): V? = map.put(key.name, value)
+    override fun put(key: K, value: V): V? {
+        originalKeys[key.name] = key
+        return map.put(key.name, value)
+    }
 
     override fun get(key: K): V? = map[key.name]
 
@@ -96,3 +104,12 @@ class EnumMap<K : Enum<K>, V> : MutableMap<K, V> {
 
     override fun containsKey(key: K): Boolean = map.containsKey(key.name)
 }
+
+class ProxyEntry<K, V>(
+    override val key: K,
+    private val entry: MutableMap.MutableEntry<String, V>,
+) : MutableMap.MutableEntry<K, V> {
+    override val value: V get() = entry.value
+    override fun setValue(newValue: V): V = entry.setValue(newValue)
+}
+
