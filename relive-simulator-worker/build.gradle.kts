@@ -17,7 +17,6 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-js"))
     implementation(project(":relive-simulator-core"))
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
 }
 
 kotlin {

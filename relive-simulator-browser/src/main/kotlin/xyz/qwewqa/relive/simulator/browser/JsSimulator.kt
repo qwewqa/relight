@@ -12,26 +12,19 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.w3c.dom.Worker
 import org.w3c.dom.url.URL
-import xyz.qwewqa.relive.simulator.client.*
+import xyz.qwewqa.relive.simulator.client.InteractiveSimulation
+import xyz.qwewqa.relive.simulator.client.Simulation
+import xyz.qwewqa.relive.simulator.client.Simulator
+import xyz.qwewqa.relive.simulator.client.SimulatorClient
 import xyz.qwewqa.relive.simulator.common.*
 import xyz.qwewqa.relive.simulator.core.stage.*
 import xyz.qwewqa.relive.simulator.core.stage.strategy.interactive.InteractiveSimulationController
 import xyz.qwewqa.relive.simulator.core.stage.utils.summarize
-import kotlin.collections.List
 import kotlin.collections.component1
 import kotlin.collections.component2
-import kotlin.collections.emptyList
-import kotlin.collections.emptyMap
-import kotlin.collections.forEach
-import kotlin.collections.getOrPut
-import kotlin.collections.listOf
-import kotlin.collections.map
-import kotlin.collections.mutableMapOf
 import kotlin.collections.set
 import kotlin.collections.single
 import kotlin.random.Random
-import kotlin.time.ExperimentalTime
-import kotlin.time.measureTime
 
 class JsSimulator : Simulator {
     override suspend fun simulate(parameters: SimulationParameters): Simulation {
@@ -93,6 +86,10 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
     var marginSummary: Map<SimulationMarginResultType, Map<String?, MarginResult>> = emptyMap()
     var lastUpdatedMarginSummary = 0
 
+    val json = Json {
+        encodeDefaults = true
+    }
+
     var overallResult = SimulationResult(
         maxIterations = parameters.maxIterations,
         currentIterations = 0,
@@ -140,6 +137,7 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
                         runtime = (window.performance.now() - startTime) / 1_000.0,
                         complete = true,
                     )
+                    finish()
                 } else {
                     results.forEach { result ->
                         if (firstApplicableIteration == null ||
@@ -160,17 +158,16 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
                     updateResults()
                     val batchSize = (parameters.maxIterations - requestCount).coerceAtMost(BATCH_SIZE)
                     if (batchSize > 0) {
-                        worker.postMessage(Json.encodeToString(List(batchSize) {
+                        worker.postMessage(json.encodeToString(List(batchSize) {
                             IterationRequest(
                                 requestCount++,
-                                parameters.maxIterations,
                                 seedProducer.nextInt(),
                             )
                         }))
                     }
                     if (resultCount == parameters.maxIterations) {
                         worker.postMessage(
-                            Json.encodeToString(
+                            json.encodeToString(
                                 listOf(
                                     firstApplicableIteration!!.request.copy(log = true)
                                 )
@@ -179,13 +176,12 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
                     }
                 }
             }
-            worker.postMessage(Json.encodeToString(parameters))
+            worker.postMessage(json.encodeToString(parameters))
             val batchSize = (parameters.maxIterations - requestCount).coerceAtMost(BATCH_SIZE)
             if (batchSize > 0) {
-                worker.postMessage(Json.encodeToString(List(batchSize) {
+                worker.postMessage(json.encodeToString(List(batchSize) {
                     IterationRequest(
                         requestCount++,
-                        parameters.maxIterations,
                         seedProducer.nextInt(),
                     )
                 }))
@@ -197,6 +193,10 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
     override suspend fun cancel() {
         workers.forEach { it.terminate() }
         overallResult = overallResult.copy(cancelled = true)
+    }
+
+    private fun finish() {
+        workers.forEach { it.terminate() }
     }
 }
 
@@ -233,7 +233,6 @@ class JsInteractiveSimulation(val parameters: SimulationParameters) : Interactiv
 @Serializable
 data class IterationRequest(
     val index: Int,
-    val maxIterations: Int,
     val seed: Int,
     val log: Boolean = false,
 )
