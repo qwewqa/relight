@@ -870,7 +870,7 @@ ${
                             log("Set Hp") { "Error: Cannot cause card to exit while queuing." }
                             return@run
                         }
-                        actor.adjustHp(if (isPercent) (value.toLong() * actor.maxHp / 100).toInt() else value)
+                        actor.adjustHp(if (isPercent) (value.toDouble() * actor.maxHp / 100).toInt() else value)
                         log("Set Hp") { "Adjusted Hp." }
                     }
                 }

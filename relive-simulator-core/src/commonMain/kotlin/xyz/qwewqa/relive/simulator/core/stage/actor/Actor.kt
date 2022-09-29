@@ -37,9 +37,21 @@ class Actor(
      */
     var forceInvulnerable = false
 
-    val maxHp get() = (valueMaxHp.toLong() * (100 + boostMaxHp) / 100).toInt()
+    var maxHp = 0
+        private set
+    private fun updateMaxHp() {
+        maxHp = (valueMaxHp.toDouble() * (100 + boostMaxHp) / 100).toInt()
+    }
     var valueMaxHp = 0
+        set(value) {
+            field = value
+            updateMaxHp()
+        }
     var boostMaxHp = 0
+        set(value) {
+            field = value
+            updateMaxHp()
+        }
 
     val hopeFactor get() = if (buffs.any(CountableBuff.Hope)) 20 else 0
 

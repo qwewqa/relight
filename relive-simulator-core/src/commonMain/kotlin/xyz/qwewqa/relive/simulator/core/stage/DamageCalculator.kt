@@ -9,6 +9,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.NormalBarrierBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.SpecialBarrierBuff
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
+import kotlin.math.floor
 
 interface DamageCalculator {
     fun damage(attacker: Actor, target: Actor, hitAttribute: HitAttribute)
@@ -46,9 +47,9 @@ class RandomDamageCalculator : DamageCalculator {
             val n = if (result.variance) stage.random.nextInt(-8, 9) else 0
             val isCritical = stage.random.nextDouble() < result.criticalChance
             val damage = if (isCritical) {
-                result.critical.toLong() * (100 + n) / 100
+                result.critical.toDouble() * (100 + n) / 100
             } else {
-                result.base.toLong() * (100 + n) / 100
+                result.base.toDouble() * (100 + n) / 100
             }.toInt()
             val reflect = when (hitAttribute.damageType) {
                 DamageType.Normal -> target.normalReflect
@@ -130,12 +131,12 @@ class RandomDamageCalculator : DamageCalculator {
             )
         }
 
-        val base: Long
+        val base: Int
 
         if (hitAttribute.mode == HitMode.ELEMENTAL_FIXED) {
-            base = hitAttribute.modifier.toLong() / hitAttribute.hitCount
+            base = hitAttribute.modifier / hitAttribute.hitCount
         } else {
-            var atk = attacker.actPower.toLong()
+            var atk = attacker.actPower
             if (attacker.inCX) atk = atk * 110 / 100
             atk = atk * 2 * hitAttribute.modifier / 100
 
@@ -193,41 +194,43 @@ class RandomDamageCalculator : DamageCalculator {
 
         val eventBonusCoef = 100 + attacker.eventBonus
         val eventMultiplier = attacker.eventMultiplier
+        
+        infix fun Double.pfmul(other: Int) = floor(this * other / 100.0)
 
-        var dmg = base
-        dmg = dmg * eleCoef / 100
-        dmg = dmg * effEleCoef / 100
-        dmg = dmg * attributeDamageDealtUpCoef / 100
-        dmg = dmg * againstAttributeDamageDealtUpCoef / 100
-        dmg = dmg * bonusCoef / 100  // tentative
-        dmg = dmg * eventBonusCoef / 100
-        dmg = dmg * targetAgainstAttributeDamageTakenDownCoef / 100 // tentative
-        dmg = dmg * targetInnateAgainstAttributeDamageTakenDownCoef / 100
-        dmg = dmg * freezeCoef / 100
-//        dmg = dmg * dmgDealtUpCoef / 100
-        dmg = dmg * cxDmgCoef / 100
-        dmg = dmg * dmgDealtDownCoef / 100
-        dmg = dmg * buffDmgTakenDownCoef / 100
-        dmg = dmg * buffDmgDealtUpCoef / 100
-        dmg = dmg * eventMultiplier / 100 // tentative
+        var dmg = base.toDouble()
+        dmg = dmg pfmul eleCoef
+        dmg = dmg pfmul effEleCoef
+        dmg = dmg pfmul attributeDamageDealtUpCoef
+        dmg = dmg pfmul againstAttributeDamageDealtUpCoef
+        dmg = dmg pfmul bonusCoef  // tentative
+        dmg = dmg pfmul eventBonusCoef
+        dmg = dmg pfmul targetAgainstAttributeDamageTakenDownCoef // tentative
+        dmg = dmg pfmul targetInnateAgainstAttributeDamageTakenDownCoef
+        dmg = dmg pfmul freezeCoef
+//        dmg = dmg pfmul dmgDealtUpCoef
+        dmg = dmg pfmul cxDmgCoef
+        dmg = dmg pfmul dmgDealtDownCoef
+        dmg = dmg pfmul buffDmgTakenDownCoef
+        dmg = dmg pfmul buffDmgDealtUpCoef
+        dmg = dmg pfmul eventMultiplier // tentative
 
-        var criticalDmg = base
-        criticalDmg = criticalDmg * eleCoef / 100
-        criticalDmg = criticalDmg * effEleCoef / 100
-        criticalDmg = criticalDmg * critCoef / 100
-        criticalDmg = criticalDmg * attributeDamageDealtUpCoef / 100
-        criticalDmg = criticalDmg * againstAttributeDamageDealtUpCoef / 100
-        criticalDmg = criticalDmg * bonusCoef / 100  // tentative
-        criticalDmg = criticalDmg * eventBonusCoef / 100
-        criticalDmg = criticalDmg * targetAgainstAttributeDamageTakenDownCoef / 100 // tentative
-        criticalDmg = criticalDmg * targetInnateAgainstAttributeDamageTakenDownCoef / 100
-        criticalDmg = criticalDmg * freezeCoef / 100
-//        criticalDmg = criticalDmg * dmgDealtUpCoef / 100
-        criticalDmg = criticalDmg * cxDmgCoef / 100
-        criticalDmg = criticalDmg * dmgDealtDownCoef / 100
-        criticalDmg = criticalDmg * buffDmgTakenDownCoef / 100
-        criticalDmg = criticalDmg * buffDmgDealtUpCoef / 100
-        criticalDmg = criticalDmg * eventMultiplier / 100
+        var criticalDmg = base.toDouble()
+        criticalDmg = criticalDmg pfmul eleCoef
+        criticalDmg = criticalDmg pfmul effEleCoef
+        criticalDmg = criticalDmg pfmul critCoef
+        criticalDmg = criticalDmg pfmul attributeDamageDealtUpCoef
+        criticalDmg = criticalDmg pfmul againstAttributeDamageDealtUpCoef
+        criticalDmg = criticalDmg pfmul bonusCoef  // tentative
+        criticalDmg = criticalDmg pfmul eventBonusCoef
+        criticalDmg = criticalDmg pfmul targetAgainstAttributeDamageTakenDownCoef // tentative
+        criticalDmg = criticalDmg pfmul targetInnateAgainstAttributeDamageTakenDownCoef
+        criticalDmg = criticalDmg pfmul freezeCoef
+//        criticalDmg = criticalDmg pfmul dmgDealtUpCoef
+        criticalDmg = criticalDmg pfmul cxDmgCoef
+        criticalDmg = criticalDmg pfmul dmgDealtDownCoef
+        criticalDmg = criticalDmg pfmul buffDmgTakenDownCoef
+        criticalDmg = criticalDmg pfmul buffDmgDealtUpCoef
+        criticalDmg = criticalDmg pfmul eventMultiplier
 
         return DamageResult(
             base = dmg.toInt(),
@@ -248,7 +251,7 @@ data class DamageResult(
 ) {
     fun possibleRolls(critical: Boolean = false) = if (variance) {
         (-8..8).map {
-            ((if (critical) this.critical else this.base).toLong() * (100 + it) / 100).toInt()
+            ((if (critical) this.critical else this.base).toDouble() * (100 + it) / 100).toInt()
         }
     } else {
         listOf(if (critical) this.critical else this.base)
