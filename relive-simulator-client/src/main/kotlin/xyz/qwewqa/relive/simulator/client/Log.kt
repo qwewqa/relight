@@ -1,7 +1,9 @@
 package xyz.qwewqa.relive.simulator.client
 
 import kotlinx.browser.document
+import kotlinx.dom.addClass
 import kotlinx.dom.clear
+import kotlinx.dom.removeClass
 import kotlinx.html.*
 import kotlinx.html.dom.append
 import kotlinx.html.js.onClickFunction
@@ -197,7 +199,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
 }
 
 fun HTMLElement.displayLog(log: List<LogEntry>, interactive: Boolean, prev: List<LogEntry> = emptyList()) {
-    fun TagConsumer<HTMLElement>.makeLogEntry(entry: LogEntry, showDetail: Boolean = false) = entry.run {
+    fun TagConsumer<HTMLElement>.makeLogEntry(entry: LogEntry) = entry.run {
         div(classes = "log-entry") {
             style = "background-color: ${category.backgroundColor};"
             when {
@@ -210,21 +212,19 @@ fun HTMLElement.displayLog(log: List<LogEntry>, interactive: Boolean, prev: List
                         +" "
                         processLogContent(summary!!)
                         +" "
-                        if (!showDetail) {
-                            span {
-                                +"["
-                                a {
-                                    role = "button"
-                                    href = "#"
-                                    attributes["data-bs-toggle"] = "collapse"
-                                    attributes["data-bs-target"] = "#$collapseId"
-                                    +"details"
-                                }
-                                +"]"
+                        span {
+                            +"["
+                            a {
+                                role = "button"
+                                href = "#"
+                                attributes["data-bs-toggle"] = "collapse"
+                                attributes["data-bs-target"] = "#$collapseId"
+                                +"details"
                             }
+                            +"]"
                         }
                     }
-                    div(classes = if (!showDetail) "collapse" else "") {
+                    div(classes = "log-collapse collapse") {
                         id = collapseId
                         span {
                             style = "padding-left: 1em;display: block;white-space: pre;overflow-x: auto;"
@@ -270,11 +270,16 @@ fun HTMLElement.displayLog(log: List<LogEntry>, interactive: Boolean, prev: List
     }
 
     val newEntries = log.drop(matchingCount)
-    val lastSummaryIndex = newEntries.indexOfLast { it.summary != null }.takeIf { interactive }
     append {
-        newEntries.forEachIndexed { i, entry ->
-            makeLogEntry(entry, i == lastSummaryIndex)
+        newEntries.forEach { entry ->
+            makeLogEntry(entry)
         }
+    }
+
+    if (interactive) {
+        val logCollapses = getElementsByClassName("log-collapse").asList()
+        logCollapses.forEach { it.removeClass("show") }
+        logCollapses.lastOrNull()?.addClass("show")
     }
 }
 

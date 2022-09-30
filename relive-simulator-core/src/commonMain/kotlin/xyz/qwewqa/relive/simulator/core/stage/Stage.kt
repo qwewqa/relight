@@ -27,7 +27,7 @@ class Stage(
     val configuration: StageConfiguration = StageConfiguration(),
     val random: Random = Random.Default,
 ) {
-    val logger = StageLogger()
+    val logger = StageLogger(configuration.skipLogging)
 
     var turn = 0
         private set
@@ -35,6 +35,12 @@ class Stage(
         private set
     var move = 0
         private set
+
+    fun setTime(turn: Int, tile: Int, move: Int) {
+        this.turn = turn
+        this.tile = tile
+        this.move = move
+    }
 
     var groupName: String = "Default"
     var tags: List<String> = emptyList()
@@ -343,7 +349,7 @@ inline fun Stage.log(
         callsInPlace(value, InvocationKind.AT_MOST_ONCE)
     }
 
-    if (configuration.logging && (!debug || configuration.debug)) {
+    if (configuration.logging && (!debug || configuration.debug) && logger.prepare()) {
         logger.log(turn, tile, move, category, *tags, summary = summary(), content = value())
     }
 }

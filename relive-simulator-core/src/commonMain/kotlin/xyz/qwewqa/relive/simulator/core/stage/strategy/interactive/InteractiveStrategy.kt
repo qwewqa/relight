@@ -21,33 +21,143 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
     private val fullHistory = mutableListOf<String>()
 
-    private val playHistory = mutableListOf<ParsedCommand>()
-    private val saves = mutableMapOf<String, List<ParsedCommand>>()
+    private val saves = mutableMapOf<String, CacheableStatus>()
 
     private class UserInput : Throwable("Awaiting user input.")
 
     private var rev = 0
-    private var resultLog = emptyList<LogEntry>()
-    private var enemyStatus: List<ActorStatus>? = null
-    private var playerStatus: List<ActorStatus>? = null
+    private var resultLog = emptyList<LogEntry>()  // Has transient entries compared to status.entries
+    private var status = CacheableStatus()
 
-    private inline fun playStage(after: Stage.() -> Unit = {}) {
+    private class CacheableStatus {
+        var initialized = false
+            private set
+
+        private val playHistory = mutableListOf<ParsedCommand>()
+        private val stageLog = mutableListOf<LogEntry>()
+        private val lengths = mutableListOf<Int>()
+        private val enemyStatuses = mutableListOf<List<ActorStatus>?>()
+        private val playerStatuses = mutableListOf<List<ActorStatus>?>()
+
+        val history: List<ParsedCommand> get() = playHistory
+        val log: List<LogEntry> get() = stageLog
+
+        val enemyStatus: List<ActorStatus>? get() = enemyStatuses.lastOrNull()
+        val playerStatus: List<ActorStatus>? get() = playerStatuses.lastOrNull()
+
+        fun update(
+            command: ParsedCommand,
+            entries: List<LogEntry>,
+            enemyStatus: List<ActorStatus>,
+            playerStatus: List<ActorStatus>,
+        ) {
+            playHistory += command
+            stageLog.addAll(entries.asSequence().drop(stageLog.size))
+            lengths.add(entries.size)
+            enemyStatuses += enemyStatus
+            playerStatuses += playerStatus
+        }
+
+        fun init(
+            entries: List<LogEntry>,
+            enemyStatus: List<ActorStatus>,
+            playerStatus: List<ActorStatus>,
+        ) {
+            if (initialized) {
+                throw IllegalStateException("Status already initialized.")
+            }
+            stageLog.addAll(entries)
+            lengths.add(entries.size)
+            enemyStatuses += enemyStatus
+            playerStatuses += playerStatus
+            initialized = true
+        }
+
+        fun tryUndo(): Boolean {
+            if (playHistory.isEmpty()) return false
+            undo()
+            return true
+        }
+
+        fun undo() {
+            // lengths always has at least 1 left over from init (otherwise this shouldn't be called)
+            lengths.removeLast()
+            playHistory.removeLast()
+            repeat(stageLog.size - lengths.last()) { stageLog.removeLast() }
+            enemyStatuses.removeLast()
+            playerStatuses.removeLast()
+        }
+
+        fun copy() = CacheableStatus().also {
+            it.initialized = initialized
+            it.playHistory.addAll(playHistory)
+            it.stageLog.addAll(stageLog)
+            it.lengths.addAll(lengths)
+            it.enemyStatuses.addAll(enemyStatuses)
+            it.playerStatuses.addAll(playerStatuses)
+        }
+
+        fun replace(other: CacheableStatus) {
+            initialized = other.initialized
+            playHistory.clear()
+            playHistory.addAll(other.playHistory)
+            stageLog.clear()
+            stageLog.addAll(other.stageLog)
+            lengths.clear()
+            lengths.addAll(other.lengths)
+            enemyStatuses.clear()
+            enemyStatuses.addAll(other.enemyStatuses)
+            playerStatuses.clear()
+            playerStatuses.addAll(other.playerStatuses)
+        }
+    }
+
+    private inline fun playStage(command: ParsedCommand?, after: Stage.() -> Unit = {}) {
         val managedRandom = ManagedRandom(Random(Random(seed).nextInt()))
-        val strategy = InteractiveStrategy(managedRandom, playHistory)
+        val strategy = InteractiveStrategy(managedRandom, status.history + listOfNotNull(command))
         val stage = loadout.copy(player = loadout.player.copy(strategy = { strategy })).create(
             random = managedRandom,
-            configuration = StageConfiguration(logging = true),
+            configuration = StageConfiguration(
+                logging = true,
+                skipLogging = if (command != null) status.log.size else 0,
+            ),
         )
-        try {
-            stage.play(PlayInfo(maxTurns = maxTurns, null, null))
-        } catch (_: UserInput) {
+        stage.logger.appendEntries(status.log)
+        when {
+            command != null -> {
+                try {
+                    stage.play(PlayInfo(maxTurns = maxTurns, null, null))
+                } catch (_: UserInput) {
 
+                }
+                status.update(
+                    command,
+                    stage.logger.get(),
+                    enemyStatus = stage.enemy.actors.values.map { it.status() },
+                    playerStatus = stage.player.actors.values.map { it.status() },
+                )
+            }
+            !status.initialized -> {
+                try {
+                    stage.play(PlayInfo(maxTurns = maxTurns, null, null))
+                } catch (_: UserInput) {
+
+                }
+                status.init(
+                    stage.logger.get(),
+                    enemyStatus = stage.enemy.actors.values.map { it.status() },
+                    playerStatus = stage.player.actors.values.map { it.status() },
+                )
+            }
+            else -> {
+                status.log.lastOrNull()?.let { lastEntry ->
+                    stage.setTime(lastEntry.turn, lastEntry.tile, lastEntry.move)
+                }
+            }
         }
         stage.after()
         rev++
         resultLog = stage.logger.get()
-        enemyStatus = stage.enemy.actors.values.map { it.status() }
-        playerStatus = stage.player.actors.values.map { it.status() }
     }
 
     fun Actor.status() =
@@ -55,12 +165,12 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
 
     init {
-        playStage()
+        playStage(null)
     }
 
     suspend fun getLog(rev: Int = -1) = mutex.withLock {
         if (rev != this.rev) {
-            InteractiveLog(InteractiveLogData(resultLog, enemyStatus, playerStatus), this.rev)
+            InteractiveLog(InteractiveLogData(resultLog, status.enemyStatus, status.playerStatus), this.rev)
         } else {
             InteractiveLog(null, this.rev)
         }
@@ -68,7 +178,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
     suspend fun sendCommand(text: String) = mutex.withLock {
         val command = parseCommand(text) ?: run {
-            playStage {
+            playStage(null) {
                 log("Command", category = LogCategory.COMMAND) {
                     "Error: Unknown command '$text'. Use 'help' for information."
                 }
@@ -78,15 +188,15 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         fullHistory += command.raw
         when (command.type) {
             InteractiveCommandType.SAVE -> {
-                saves[command.data] = playHistory.toList()
-                playStage {
+                saves[command.data] = status.copy()
+                playStage(null) {
                     log("Command", "Save", category = LogCategory.COMMAND) { "Saved state as '${command.data}'." }
                 }
             }
             InteractiveCommandType.LOAD -> {
-                val save = saves[command.data]
-                if (save == null) {
-                    playStage {
+                val saveData = saves[command.data]
+                if (saveData == null) {
+                    playStage(null) {
                         log(
                             "Command",
                             "Load",
@@ -94,9 +204,8 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                         ) { "No save state with name '${command.data}' found." }
                     }
                 } else {
-                    playHistory.clear()
-                    playHistory += save
-                    playStage {
+                    status.replace(saveData)
+                    playStage(null) {
                         log(
                             "Command",
                             "Load",
@@ -106,18 +215,18 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 }
             }
             InteractiveCommandType.UNDO -> {
-                if (playHistory.removeLastOrNull() != null) {
-                    playStage {
+                if (status.tryUndo()) {
+                    playStage(null) {
                         log("Command", "Undo", category = LogCategory.COMMAND) { "Successfully undid command." }
                     }
                 } else {
-                    playStage {
+                    playStage(null) {
                         log("Command", "Undo", category = LogCategory.COMMAND) { "Error: History is empty." }
                     }
                 }
             }
             InteractiveCommandType.EIGHT_BALL -> {
-                playStage {
+                playStage(null) {
                     if (command.data.isNotBlank()) {
                         log("Magic 8-Ball", "Question", category = LogCategory.EMPHASIS) { command.data }
                     }
@@ -134,15 +243,13 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
             }
             InteractiveCommandType.SEED -> {
                 val seed = Random.nextInt()
-                if (playHistory.lastOrNull()?.type == InteractiveCommandType.SEED) {
-                    playHistory.removeLast()
+                if (status.history.lastOrNull()?.type == InteractiveCommandType.SEED) {
+                    status.undo()
                 }
-                playHistory += command.copy(data = "$seed", raw = "${command.raw} $seed")
-                playStage()
+                playStage(command.copy(data = "$seed", raw = "${command.raw} $seed"))
             }
             else -> {
-                playHistory += command
-                playStage()
+                playStage(command)
             }
         }
     }
