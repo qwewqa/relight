@@ -368,11 +368,11 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
             accessory.refreshSelectPicker()
 
             if (validAccessories.size > 1) {
-                accessory.element.parentElement?.removeClass("d-none")
+                accessory.element.parentElement?.parentElement?.removeClass("d-none")
                 accessoryLevel.element.parentElement?.removeClass("d-none")
                 accessoryUnbind.element.parentElement?.removeClass("d-none")
             } else {
-                accessory.element.parentElement?.addClass("d-none")
+                accessory.element.parentElement?.parentElement?.addClass("d-none")
                 accessoryLevel.element.parentElement?.addClass("d-none")
                 accessoryUnbind.element.parentElement?.addClass("d-none")
             }

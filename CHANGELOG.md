@@ -448,4 +448,8 @@
 
 # v0.28.4
 - Improved interactive performance
-- Multiple commands can now be pasted into the interactive command prompt 
+- Multiple commands can now be pasted into the interactive command prompt
+
+# v0.28.5
+- Added CHANGELOG.md to repo
+- Fixed accessory label not being hidden in actor setup 
