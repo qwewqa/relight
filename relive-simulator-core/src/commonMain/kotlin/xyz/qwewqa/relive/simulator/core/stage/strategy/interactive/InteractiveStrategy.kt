@@ -70,7 +70,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         val command = parseCommand(text) ?: run {
             playStage {
                 log("Command", category = LogCategory.COMMAND) {
-                    "Error: Unknown command. Use 'help' for information."
+                    "Error: Unknown command '$text'. Use 'help' for information."
                 }
             }
             return@withLock

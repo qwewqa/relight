@@ -18,6 +18,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.w3c.dom.*
+import org.w3c.dom.clipboard.ClipboardEvent
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.KeyboardEvent
 import org.w3c.dom.url.URL
@@ -1912,8 +1913,8 @@ class SimulatorClient(val simulator: Simulator) {
             }
         })
 
-        suspend fun sendInteractiveCommand() {
-            when (interactiveInput.value.trim()) {
+        suspend fun sendInteractiveCommand(command: String) {
+            when (command) {
                 "bars" -> {
                     if (interactiveStatusContainer.hasClass("d-none")) {
                         interactiveStatusContainer.removeClass("d-none")
@@ -1929,8 +1930,12 @@ class SimulatorClient(val simulator: Simulator) {
                 }
 
                 "" -> interactiveSimulation?.sendCommand("go")
-                else -> interactiveSimulation?.sendCommand(interactiveInput.value)
+                else -> interactiveSimulation?.sendCommand(command)
             }
+        }
+
+        suspend fun sendInteractiveCommand() {
+            sendInteractiveCommand(interactiveInput.value.trim())
             interactiveInput.value = ""
         }
 
@@ -1943,6 +1948,27 @@ class SimulatorClient(val simulator: Simulator) {
             if ((it as KeyboardEvent).key == "Enter") {
                 GlobalScope.launch {
                     sendInteractiveCommand()
+                }
+            }
+        })
+        var isProcessingInteractivePaste = false
+        interactiveInput.element.addEventListener("paste", { e ->
+            val data = (e as? ClipboardEvent)?.clipboardData?.getData("Text")?.trim()
+            val lineBreakRe = Regex("[\\r\\n]+")
+            if (data != null && lineBreakRe.find(data) != null) {
+                e.preventDefault()
+                e.stopPropagation()
+                if (!isProcessingInteractivePaste) {
+                    isProcessingInteractivePaste = true
+                    GlobalScope.launch {
+                        try {
+                            data.split(lineBreakRe).forEach {
+                                sendInteractiveCommand(it)
+                            }
+                        } finally {
+                            isProcessingInteractivePaste = false
+                        }
+                    }
                 }
             }
         })
