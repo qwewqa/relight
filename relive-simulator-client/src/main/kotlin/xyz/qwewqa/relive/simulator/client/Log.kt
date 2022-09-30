@@ -196,70 +196,84 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
     }
 }
 
-fun HTMLElement.displayLog(log: List<LogEntry>, interactive: Boolean) {
-    clear()
-
-    val lastSummaryIndex = log.indexOfLast { it.summary != null }.takeIf { interactive }
-    append {
-        log.forEachIndexed { i, entry ->
-            entry.run {
-                div(classes = "log-entry") {
-                    style = "background-color: ${category.backgroundColor};"
-                    when {
-                        summary != null -> {
-                            val collapseId = "log-contents-${idCounter++}"
-                            span {
-                                b {
-                                    +"$turn.$tile.$move [${tags.joinToString(" / ")}]"
-                                }
-                                +" "
-                                processLogContent(summary!!)
-                                +" "
-                                if (i != lastSummaryIndex) {
-                                    span {
-                                        +"["
-                                        a {
-                                            role = "button"
-                                            href = "#"
-                                            attributes["data-bs-toggle"] = "collapse"
-                                            attributes["data-bs-target"] = "#$collapseId"
-                                            +"details"
-                                        }
-                                        +"]"
-                                    }
-                                }
-                            }
-                            div(classes = if (i != lastSummaryIndex) "collapse" else "") {
-                                id = collapseId
-                                span {
-                                    style = "padding-left: 1em;display: block;white-space: pre;overflow-x: auto;"
-                                    processLogContent(content)
-                                }
-                            }
+fun HTMLElement.displayLog(log: List<LogEntry>, interactive: Boolean, prev: List<LogEntry> = emptyList()) {
+    fun TagConsumer<HTMLElement>.makeLogEntry(entry: LogEntry, showDetail: Boolean = false) = entry.run {
+        div(classes = "log-entry") {
+            style = "background-color: ${category.backgroundColor};"
+            when {
+                summary != null -> {
+                    val collapseId = "log-contents-${idCounter++}"
+                    span {
+                        b {
+                            +"$turn.$tile.$move [${tags.joinToString(" / ")}]"
                         }
-                        content.contains("\n") -> {
+                        +" "
+                        processLogContent(summary!!)
+                        +" "
+                        if (!showDetail) {
                             span {
-                                b {
-                                    +"$turn.$tile.$move [${tags.joinToString(" / ")}]"
+                                +"["
+                                a {
+                                    role = "button"
+                                    href = "#"
+                                    attributes["data-bs-toggle"] = "collapse"
+                                    attributes["data-bs-target"] = "#$collapseId"
+                                    +"details"
                                 }
-                            }
-                            span {
-                                style = "padding-left: 1em;display: block;white-space: pre;overflow-x: auto;"
-                                processLogContent(content)
-                            }
-                        }
-                        else -> {
-                            span {
-                                b {
-                                    +"$turn.$tile.$move [${tags.joinToString(" / ")}]"
-                                }
-                                +" "
-                                processLogContent(content)
+                                +"]"
                             }
                         }
                     }
+                    div(classes = if (!showDetail) "collapse" else "") {
+                        id = collapseId
+                        span {
+                            style = "padding-left: 1em;display: block;white-space: pre;overflow-x: auto;"
+                            processLogContent(content)
+                        }
+                    }
+                }
+                content.contains("\n") -> {
+                    span {
+                        b {
+                            +"$turn.$tile.$move [${tags.joinToString(" / ")}]"
+                        }
+                    }
+                    span {
+                        style = "padding-left: 1em;display: block;white-space: pre;overflow-x: auto;"
+                        processLogContent(content)
+                    }
+                }
+                else -> {
+                    span {
+                        b {
+                            +"$turn.$tile.$move [${tags.joinToString(" / ")}]"
+                        }
+                        +" "
+                        processLogContent(content)
+                    }
                 }
             }
+        }
+    }
+
+    var matchingCount = 0
+    for ((old, new) in prev.zip(log)) {
+        if (old == new) {
+            matchingCount++
+        } else {
+            break
+        }
+    }
+
+    repeat(children.length - matchingCount) {
+        lastElementChild?.remove()
+    }
+
+    val newEntries = log.drop(matchingCount)
+    val lastSummaryIndex = newEntries.indexOfLast { it.summary != null }.takeIf { interactive }
+    append {
+        newEntries.forEachIndexed { i, entry ->
+            makeLogEntry(entry, i == lastSummaryIndex)
         }
     }
 }
