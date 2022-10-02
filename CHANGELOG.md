@@ -452,4 +452,7 @@
 
 # v0.28.5
 - Added CHANGELOG.md to repo
-- Fixed accessory label not being hidden in actor setup 
+- Fixed accessory label not being hidden in actor setup
+
+# v0.28.6
+- Minor performance improvements

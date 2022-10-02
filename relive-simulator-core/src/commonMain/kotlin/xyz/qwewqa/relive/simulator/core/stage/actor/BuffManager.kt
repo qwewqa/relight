@@ -20,8 +20,6 @@ class BuffManager(val actor: Actor) {
 
     var guardOnAbnormal = false
 
-    private var buffIndex = 0
-
     fun get(buff: BuffEffect) = buffsByEffect[buff] ?: emptySet()
     fun all() = positiveBuffs + negativeBuffs
     fun timed(): Set<ActiveBuff> = positiveBuffs + negativeBuffs
@@ -49,7 +47,7 @@ class BuffManager(val actor: Actor) {
         ephemeral: Boolean = false,
         relatedBuff: ActiveBuff? = null
     ) =
-        ActiveBuff((buffIndex++).toString(), this, value, turns, ephemeral, relatedBuff).also { activeBuff ->
+        ActiveBuff(this, value, turns, ephemeral, relatedBuff).also { activeBuff ->
             onApply(source, actor)
             activeBuff.start()
             when (category) {
@@ -251,12 +249,11 @@ class BuffManager(val actor: Actor) {
     private fun ActiveBuff.end() = effect.onEnd(actor.context, value)
 
     operator fun BuffEffect.invoke(value: Int, turns: Int, ephemeral: Boolean = false, relatedBuff: ActiveBuff? = null) =
-        ActiveBuff((buffIndex++).toString(), this, value, turns, ephemeral, relatedBuff)
+        ActiveBuff(this, value, turns, ephemeral, relatedBuff)
 
 }
 
 class ActiveBuff(
-    val key: String, // Used for JS specific map optimization
     val effect: BuffEffect,
     var value: Int,
     var turns: Int,
