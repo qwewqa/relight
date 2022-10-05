@@ -59,6 +59,10 @@ class SimulatorClient(val simulator: Simulator) {
     val addActorFromPresetButton = document.getElementById("add-actor-from-preset-button") as HTMLButtonElement
     val sortByPositionButton = document.getElementById("sort-by-position-button") as HTMLButtonElement
     val autoNameButton = document.getElementById("auto-name-button") as HTMLButtonElement
+    val teamImageButton = document.getElementById("team-image-button") as HTMLButtonElement
+    val teamImageModal = document.getElementById("team-image-modal") as HTMLDivElement
+    val teamImageModalBs = Bootstrap.Modal(teamImageModal)
+    val teamImageContainer = document.getElementById("team-image-container") as HTMLDivElement
     val bossSelect = document.getElementById("boss-select").singleSelect(true)
     val strategyTypeSelect = document.getElementById("strategy-type-select").singleSelect(true)
     val strategyContainer = document.getElementById("strategy-container") as HTMLDivElement
@@ -161,7 +165,7 @@ class SimulatorClient(val simulator: Simulator) {
         value: String,
         color: String = "grey",
         autohide: Boolean = true,
-        dismissible: Boolean = !autohide
+        dismissible: Boolean = !autohide,
     ): Bootstrap.Toast? {
         if (!toastsCheckbox.checked) return null
         val element = toastElement(color, dismissible) {
@@ -1843,6 +1847,19 @@ class SimulatorClient(val simulator: Simulator) {
                     val options = ActorOptions(options, tab.attributes["data-actor-id"]!!.value.toInt())
                     options.parameters = options.parameters.copy(name = "guest")
                 }
+            }
+        })
+
+        teamImageButton.addEventListener("click", {
+            GlobalScope.launch {
+                val imageData = TeamImage(getSetup().team, options).drawTeamImage()
+                teamImageContainer.clear()
+                teamImageContainer.append {
+                    img(src = imageData) {
+                        style = "max-height: 200px; max-width: 100%;"
+                    }
+                }
+                teamImageModalBs.show()
             }
         })
 

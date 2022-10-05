@@ -361,6 +361,18 @@
                         </div>
                     </div>
                 </div>
+                <div class="modal fade" id="team-image-modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="team-image-container">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <form>
@@ -458,8 +470,13 @@
                 </div>
             </div>
             <div class="row my-4">
-                <div class="col-12">
-                    <h4 class="text-actors">Actors</h4>
+                <div class="col-12 d-flex">
+                    <h4 class="text-actors">
+                        Actors
+                    </h4>
+                    <button id="team-image-button" type="button" class="btn btn-link px-2 mb-1 py-0 ms-1">
+                        <i class="bi bi-card-image"></i>
+                    </button>
                 </div>
                 <div class="col-12">
                     <div class="actor-settings-container">

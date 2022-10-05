@@ -69,7 +69,7 @@ data class SimulationOptions(
     val bosses: List<SimulationOption>,
     val strategyTypes: List<SimulationOption>,
     val bossStrategyTypes: List<SimulationOption>,
-    val remakeSkills: List<SimulationOption>,
+    val remakeSkills: List<DataSimulationOption<RemakeSkillData>>,
     val accessories: List<DataSimulationOption<AccessoryData>>,
 )  {
     val commonTextById by lazy { commonText.associateBy { it.id } }
@@ -127,6 +127,12 @@ data class DressData(
 data class AccessoryData(
     val id: Int,
     val dressIds: Set<Int>,
+)
+
+@Serializable
+data class RemakeSkillData(
+    val value: String?,
+    val targeting: String,
 )
 
 @Serializable

@@ -211,10 +211,19 @@ fun Application.configureRouting() {
                 getLocalizationConfig("strategy.yaml", strategyParsers.keys),
                 getLocalizationConfig("strategy.yaml", bossStrategyParsers.keys),
                 remakeSkills.values.map { skill ->
-                    SimulationOption(
+                    DataSimulationOption(
                         id = skill.name,
                         name = remakeSkillNames[skill.id.toString()]!!,
                         imagePath = "img/skill_icon/skill_icon_${skill.icon}.png",
+                        data = RemakeSkillData(
+                            value = run {
+                                val effect = skill.effects.firstOrNull()
+                                val value = effect?.value ?: 0
+                                val suffix = effect?.effect?.valueSuffix
+                                "$value$suffix".takeIf { suffix != null }
+                            },
+                            targeting = skill.effects.firstOrNull()?.targeting?.name ?: "None",
+                        )
                     )
                 },
                 getLocalizationConfig("accessory.yaml", accessories.keys).map { option ->
