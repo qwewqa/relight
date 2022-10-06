@@ -193,11 +193,16 @@
                 </div>
             </div>
             <div class="col-auto">
-                <button id="import-button" type="button" class="btn btn-primary text-import" data-bs-toggle="modal"
-                        data-bs-target="#import-modal">Import
+                <button id="import-button" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#import-modal">
+                    <i class="bi bi-box-arrow-in-down-left"></i>
                 </button>
-                <button id="export-button" type="button" class="btn btn-secondary text-export" data-bs-toggle="modal"
-                        data-bs-target="#export-modal">Export
+                <button id="export-button" type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                        data-bs-target="#export-modal">
+                    <i class="bi bi-box-arrow-up-right"></i>
+                </button>
+                <button id="share-setup-button-alt" type="button" class="btn btn-success">
+                    <i class="bi bi-share"></i>
                 </button>
                 <div class="modal fade" id="import-modal" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
@@ -365,10 +370,37 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
+                                <h5 class="modal-title text-team-image">Team Image</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                             </div>
                             <div class="modal-body" id="team-image-container">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary text-close-dialog" data-bs-dismiss="modal">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="share-setup-modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-share-setup">Share Setup</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="share-setup-image-container" class="mb-2"></div>
+                                <textarea id="share-setup-text" class="form-control text-monospace" rows="1"
+                                          style="white-space: pre;" readonly></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary text-close-dialog" data-bs-dismiss="modal">
+                                    Close
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -432,8 +464,11 @@
                 </div>
             </div>
             <div class="row my-2 gy-2">
-                <div class="col-12">
+                <div class="col-12 d-flex">
                     <h4 class="text-stage-configuration">Stage Configuration</h4>
+                    <button id="share-setup-button" type="button" class="btn btn-link px-2 mb-1 py-0 ms-1">
+                        <i class="bi bi-share"></i>
+                    </button>
                 </div>
                 <div class="col-md-4 col-6">
                     <label for="iterations-input" class="form-label text-iterations">Iterations</label>

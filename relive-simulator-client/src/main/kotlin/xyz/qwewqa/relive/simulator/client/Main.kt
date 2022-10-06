@@ -94,6 +94,13 @@ class SimulatorClient(val simulator: Simulator) {
     val interactiveSendButton = document.getElementById("interactive-send-button") as HTMLButtonElement
     val songSettings = document.getElementById("song-settings") as HTMLDivElement
 
+    val shareSetupModal = document.getElementById("share-setup-modal") as HTMLDivElement
+    val shareSetupModalBs = Bootstrap.Modal(shareSetupModal)
+    val shareSetupImageContainer = document.getElementById("share-setup-image-container") as HTMLDivElement
+    val shareSetupText = document.getElementById("share-setup-text") as HTMLTextAreaElement
+    val shareSetupButton = document.getElementById("share-setup-button") as HTMLButtonElement
+    val shareSetupButtonAlt = document.getElementById("share-setup-button-alt") as HTMLButtonElement
+
     val optionsModal = document.getElementById("options-modal") as HTMLDivElement
     val optionsModalBs = Bootstrap.Modal(optionsModal)
     val optionsTitle = document.getElementById("options-title") as HTMLHeadingElement
@@ -1522,7 +1529,15 @@ class SimulatorClient(val simulator: Simulator) {
 
     fun updateSetupFromUrl(url: String = window.location.href) {
         val urlOptions = getUrlParameter(url, "options")
-        if (urlOptions != null) {
+        val urlSetup = getUrlParameter(url, "load-setup")
+        if (urlSetup != null) {
+            toast("Setup", "Loading setup.", "yellow")
+            GlobalScope.launch {
+                val setup = api.getSetup(urlSetup)
+                setSetup(setup)
+                toast("Setup", "Loaded setup.", "green")
+            }
+        } else if (urlOptions != null) {
             try {
                 val setup = json.decodeFromString<SimulationParameters>(compressor.decompressFromEncodedURIComponent(urlOptions))
                 setSetup(setup)
@@ -1770,6 +1785,11 @@ class SimulatorClient(val simulator: Simulator) {
             shareOptionsUrlText.select()
         })
 
+        shareSetupText.addEventListener("click", {
+            shareSetupText.focus()
+            shareSetupText.select()
+        })
+
         doImportButton.addEventListener("click", {
             try {
                 val data = importText.value
@@ -1852,15 +1872,39 @@ class SimulatorClient(val simulator: Simulator) {
 
         teamImageButton.addEventListener("click", {
             GlobalScope.launch {
-                val imageData = TeamImage(getSetup().team, options).drawTeamImage()
+                val imageData = TeamImage(getSetup(), options).drawTeamImage()
                 teamImageContainer.clear()
                 teamImageContainer.append {
-                    img(src = imageData) {
-                        style = "max-height: 200px; max-width: 100%;"
+                    img(src = imageData.toDataURL()) {
+                        style = "max-height: 250px; max-width: 100%;"
                     }
                 }
                 teamImageModalBs.show()
             }
+        })
+
+        fun shareSetup() {
+            GlobalScope.launch {
+                toast("Share", "Sharing setup...", "yellow")
+                val setup = getSetup()
+                val imageData = TeamImage(setup, options).drawOpenGraphImage()
+                shareSetupImageContainer.clear()
+                shareSetupImageContainer.append {
+                    img(src = imageData.toDataURL()) {
+                        width = "100%"
+                    }
+                }
+                val url = api.shareSetup(setup, options)
+                shareSetupText.value = url
+                shareSetupModalBs.show()
+            }
+        }
+
+        shareSetupButton.addEventListener("click", {
+            shareSetup()
+        })
+        shareSetupButtonAlt.addEventListener("click", {
+            shareSetup()
         })
 
         addActor() // Start with one already here by default

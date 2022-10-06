@@ -1,9 +1,13 @@
 package xyz.qwewqa.relive.simulator.client
 
 import kotlinx.browser.document
+import org.khronos.webgl.get
 import org.w3c.dom.*
+import org.w3c.files.Blob
 import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
 import xyz.qwewqa.relive.simulator.common.SimulationOptions
+import xyz.qwewqa.relive.simulator.common.SimulationParameters
+import xyz.qwewqa.relive.simulator.common.SongEffectParameter
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
@@ -26,15 +30,16 @@ fun downloadDataUrl(url: String) {
 }
 
 class TeamImage(
-    val team: List<PlayerLoadoutParameters>,
+    val parameters: SimulationParameters,
     val options: SimulationOptions,
 ) {
+    private val team = parameters.team
     private val canvas = document.createElement("canvas") as HTMLCanvasElement
     private val ctx = canvas.getContext("2d") as CanvasRenderingContext2D
 
-    suspend fun drawTeamImage(): String {
+    suspend fun drawTeamImage(): HTMLCanvasElement {
         canvas.width = ((team.size * (DRESS_WIDTH + PADDING_X) + PADDING_X) * SUPERSCALE).toInt()
-        canvas.height = (DRESS_HEIGHT * SUPERSCALE).toInt() + 112
+        canvas.height = ((DRESS_HEIGHT + 56) * SUPERSCALE).toInt()
         ctx.scale(SUPERSCALE, SUPERSCALE)
 
         ctx.withState {
@@ -49,7 +54,68 @@ class TeamImage(
             }
         }
 
-        return canvas.toDataURL()
+        return canvas
+    }
+
+    suspend fun drawOpenGraphImage(): HTMLCanvasElement {
+        canvas.width = 1200
+        canvas.height = 600
+
+        ctx.withState {
+            ctx.fillStyle = "white"
+            ctx.fillRect(0.0, 0.0, canvas.width.toDouble(), canvas.height.toDouble())
+        }
+
+        ctx.withState {
+            ctx.font = "bold 36px $FONT"
+            ctx.fillStyle = "black"
+            ctx.textBaseline = CanvasTextBaseline.TOP
+            ctx.fillText("Boss: ", 20.0, 22.0)
+            withState {
+                val offset = ctx.measureText("Boss: ").width
+                ctx.font = "36px $FONT"
+                ctx.fillText(parameters.boss, 20.0 + offset, 22.0)
+            }
+            ctx.fillText("Song:", 20.0, 416.0)
+            withState {
+                ctx.font = "32px $FONT"
+                val effect1 = parameters.song.activeEffects.getOrElse(0) { null }
+                val effect2 = parameters.song.activeEffects.getOrElse(1) { null }
+                val effect3 = parameters.song.passiveEffect
+                ctx.fillText("Effect 1: ${effect1.format()}", 20.0, 462.0)
+                ctx.fillText("Effect 2: ${effect2.format()}", 20.0, 462.0 + 42.0)
+                ctx.fillText("Effect 3: ${effect3.format()}", 20.0, 462.0 + 84.0)
+            }
+        }
+
+        ctx.withState {
+            ctx.translate(10.0, 64.0)
+            val scaleFactor = (canvas.width - 20.0) / (team.size.coerceAtLeast(5) * (DRESS_WIDTH + PADDING_X) + PADDING_X)
+            scale(scaleFactor, scaleFactor)
+            team.reversed().forEachIndexed { i, loadout ->
+                ctx.withState {
+                    ctx.translate((i * (DRESS_WIDTH + PADDING_X) + PADDING_X), MARGIN_TOP)
+                    drawDress(loadout)
+                }
+            }
+        }
+
+        return canvas
+    }
+
+    fun toDataURL(): String = canvas.toDataURL()
+    fun toByteArray(): ByteArray {
+        val data = ctx.getImageData(0.0, 0.0, canvas.width.toDouble(), canvas.height.toDouble()).data
+        return ByteArray(data.length) { i -> data[i] }
+    }
+
+    val width: Int get() = canvas.width
+    val height: Int get() = canvas.height
+
+    private fun SongEffectParameter?.format() = if (this == null) {
+        "None"
+    } else {
+        "$name $value ${conditions.joinToString(" ") { cs -> "[${cs.joinToString(" | ")}]" }}"
     }
 
     private val PlayerLoadoutParameters.hasAccessory get() = accessory != null && accessory != "None"
@@ -264,6 +330,12 @@ suspend fun getImage(url: String): Image = suspendCoroutine { continuation ->
         continuation.resume(image)
     }
     image.src = url
+}
+
+suspend fun HTMLCanvasElement.getBlob() = suspendCoroutine { continuation ->
+    toBlob({ blob ->
+        continuation.resume(blob)
+    })
 }
 
 @OptIn(ExperimentalContracts::class)

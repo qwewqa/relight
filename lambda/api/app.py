@@ -1,3 +1,4 @@
+import base64
 import hashlib
 import json
 import uuid
@@ -11,17 +12,21 @@ from aws_lambda_powertools.event_handler import APIGatewayHttpResolver, Response
 from aws_lambda_powertools.event_handler.exceptions import BadRequestError, NotFoundError, UnauthorizedError
 from aws_lambda_powertools.utilities.typing import LambdaContext
 
-from utils.models import CreatePresetsRequest, Settings, CreateSetupsRequest
+from utils.models import CreatePresetsRequest, Settings, CreateSetupsRequest, CreateSetupRequest
 
 session = boto3.Session(region_name="us-west-2")
 dynamodb = session.resource("dynamodb")
 table = dynamodb.Table("relight-legacy-sharedata")
 s3 = session.resource("s3")
 bucket = s3.Bucket("relight-legacy-sharedata")
+img_bucket = s3.Bucket("relight-share-images")
+
+IMG_BASE_URL = "https://i.relight.qwewqa.xyz"
+SHARE_BASE_URL = "https://share.relight.qwewqa.xyz"
+SIM_BASE_URL = "https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/index.html"
 
 settings = Settings()
 app = APIGatewayHttpResolver()
-
 
 MAX_SYNC_DATA_SIZE = 20_000_000
 MAX_PRESET_SHARE_DATA_SIZE = 100_000
@@ -158,6 +163,82 @@ def create_setups():
         }
     )
     return {"id": setup_id}
+
+
+@app.post("/share/setup/create")
+def create_setup():
+    try:
+        json_data = app.current_event.json_body
+        data = CreateSetupRequest(**json_data)
+    except pydantic.ValidationError as e:
+        print(e)
+        raise BadRequestError(f"Invalid setup data.")
+    setup_id = generate_id()
+    s3_key = f"setup/{setup_id}"
+    bucket.Object(s3_key).put(Body=data.parameters.json())
+    img_s3_key = f"preview/{setup_id}.png"
+    img_bucket.Object(img_s3_key).put(Body=base64.b64decode(data.preview_image))
+    ddb_key = f"setup#{setup_id}"
+    table.put_item(
+        Item={
+            "id": ddb_key,
+            "s3_key": s3_key,
+            "img_s3_key": img_s3_key,
+            "img_width": data.preview_width,
+            "img_height": data.preview_height,
+        }
+    )
+    return {"id": setup_id, "url": f"{SHARE_BASE_URL}/to/{setup_id}"}
+
+
+@app.get("/share/setup/get/<setup_id>")
+def get_setup(setup_id: str):
+    if len(setup_id) != 32:
+        raise BadRequestError("Invalid setup ID")
+    ddb_key = f"setup#{setup_id}"
+    response = table.get_item(Key={"id": ddb_key})
+    if "Item" not in response:
+        raise NotFoundError
+    item = response["Item"]
+    s3_key = item["s3_key"]
+    data = json.loads(bucket.Object(s3_key).get()["Body"].read())
+    return {"parameters": data}
+
+
+@app.get("/to/<setup_id>")
+def to_setup(setup_id: str):
+    if len(setup_id) != 32:
+        raise BadRequestError("Invalid setup ID")
+    ddb_key = f"setup#{setup_id}"
+    response = table.get_item(Key={"id": ddb_key})
+    if "Item" not in response:
+        raise NotFoundError
+    item = response["Item"]
+    img_s3_key = item["img_s3_key"]
+    img_width = item["img_width"]
+    img_height = item["img_height"]
+    img_url = f"{IMG_BASE_URL}/{img_s3_key}"
+    redirect_url = f"{SIM_BASE_URL}?load-setup={setup_id}"
+    html = f"""<!DOCTYPE html>
+<html prefix="og: https://ogp.me/ns#">
+<head>
+<meta property="og:title" content="Relight" />
+<meta property="og:url" content="{redirect_url}" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="{img_url}" />
+<meta property="og:image:width" content="{img_width}" />
+<meta property="og:image:height" content="{img_height}" />
+<meta property="og:image:type" content="image/png" />
+<meta name="twitter:image:src" content="{img_url}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Relight" />
+<meta http-equiv="refresh" content="0; url={redirect_url}" />
+</head>
+<body>
+</body>
+</html>
+"""
+    return Response(200, content_type="text/html", body=html, headers={"Location": redirect_url})
 
 
 def get_sync_data(user_id: str) -> dict:

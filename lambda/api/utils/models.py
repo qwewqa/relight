@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel, constr, conlist, Field, BaseSettings
+from pydantic import BaseModel, constr, conlist, Field, BaseSettings, conint
 
 
 class Settings(BaseSettings):
@@ -74,3 +74,10 @@ class SetupData(BaseModel):
 class CreateSetupsRequest(BaseModel):
     name: Optional[constr(max_length=100)] = None
     setups: conlist(SetupData, min_items=1, max_items=100)
+
+
+class CreateSetupRequest(BaseModel):
+    parameters: SimulationParameters
+    preview_image: constr(max_length=8_000_000)
+    preview_width: conint(ge=16, le=5000)
+    preview_height: conint(ge=16, le=5000)

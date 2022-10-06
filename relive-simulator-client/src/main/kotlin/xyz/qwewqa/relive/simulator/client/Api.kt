@@ -18,6 +18,8 @@ import kotlinx.serialization.json.Json
 import org.w3c.dom.get
 import org.w3c.dom.set
 import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
+import xyz.qwewqa.relive.simulator.common.SimulationOptions
+import xyz.qwewqa.relive.simulator.common.SimulationParameters
 import kotlin.js.Date
 
 const val BASE_API_URL = "https://api-legacy.relight.qwewqa.xyz"
@@ -158,6 +160,18 @@ class RelightApi(val simulator: SimulatorClient) {
     suspend fun getSetups(id: String): List<SetupData> {
         return client.get("$BASE_API_URL/share/setups/get/$id").body<GetSetupsResponse>().setups
     }
+
+    suspend fun shareSetup(parameters: SimulationParameters, options: SimulationOptions): String {
+        val image = TeamImage(parameters, options).drawOpenGraphImage()
+        return client.post("$BASE_API_URL/share/setup/create") {
+            contentType(ContentType.Application.Json)
+            setBody(CreateSetupRequest(parameters, image.toDataURL().split(",", limit = 2)[1], image.width, image.height))
+        }.body<CreateSetupResponse>().url
+    }
+
+    suspend fun getSetup(id: String): SimulationParameters {
+        return client.get("$BASE_API_URL/share/setup/get/$id").body<GetSetupResponse>().parameters
+    }
 }
 
 
@@ -205,3 +219,21 @@ data class PutSyncRequest(
     val data: UserData,
 )
 
+@Serializable
+data class CreateSetupRequest(
+    val parameters: SimulationParameters,
+    val preview_image: String,
+    val preview_width: Int,
+    val preview_height: Int,
+)
+
+@Serializable
+data class CreateSetupResponse(
+    val id: String,
+    val url: String,
+)
+
+@Serializable
+data class GetSetupResponse(
+    val parameters: SimulationParameters,
+)
