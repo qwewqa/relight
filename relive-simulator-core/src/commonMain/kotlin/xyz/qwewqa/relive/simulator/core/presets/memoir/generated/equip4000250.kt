@@ -10,6 +10,7 @@ val equip4000250 = PartialMemoirBlueprint(
   id = 4000250,
   name = "VIII 正義【正位置】",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 520,
     actPower = 0,

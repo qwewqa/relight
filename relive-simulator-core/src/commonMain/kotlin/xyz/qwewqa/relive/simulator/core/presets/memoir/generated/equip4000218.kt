@@ -10,6 +10,7 @@ val equip4000218 = PartialMemoirBlueprint(
   id = 4000218,
   name = "【Star of the day】シークフェルト音楽学院",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 520,
     actPower = 0,

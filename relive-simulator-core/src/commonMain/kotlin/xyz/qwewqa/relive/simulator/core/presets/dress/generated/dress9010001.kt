@@ -16,6 +16,7 @@ val dress9010001 = PartialDressBlueprint(
   id = 9010001,
   name = "帝国華撃団・花組",
   baseRarity = 4,
+  cost = 15,
   character = Character.Sakura,
   attribute = Attribute.Wind,
   damageType = DamageType.Normal,

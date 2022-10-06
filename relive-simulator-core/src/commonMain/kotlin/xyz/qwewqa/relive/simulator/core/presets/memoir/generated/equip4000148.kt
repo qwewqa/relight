@@ -10,6 +10,7 @@ val equip4000148 = PartialMemoirBlueprint(
   id = 4000148,
   name = "決意のオーディション",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 0,
     actPower = 0,

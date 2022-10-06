@@ -16,6 +16,7 @@ val dress1020009 = PartialDressBlueprint(
   id = 1020009,
   name = "オリオン",
   baseRarity = 4,
+  cost = 12,
   character = Character.Hikari,
   attribute = Attribute.Wind,
   damageType = DamageType.Normal,

@@ -10,6 +10,7 @@ val equip4000124 = PartialMemoirBlueprint(
   id = 4000124,
   name = "叡智集いし方舟",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 0,
     actPower = 0,

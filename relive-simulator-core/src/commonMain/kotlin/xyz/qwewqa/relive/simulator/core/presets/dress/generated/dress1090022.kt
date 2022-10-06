@@ -16,6 +16,7 @@ val dress1090022 = PartialDressBlueprint(
   id = 1090022,
   name = "叛逆の将 カタリーナ",
   baseRarity = 4,
+  cost = 13,
   character = Character.Kaoruko,
   attribute = Attribute.Wind,
   damageType = DamageType.Normal,

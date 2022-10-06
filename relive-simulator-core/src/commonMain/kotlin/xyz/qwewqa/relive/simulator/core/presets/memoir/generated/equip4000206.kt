@@ -10,6 +10,7 @@ val equip4000206 = PartialMemoirBlueprint(
   id = 4000206,
   name = "II 女教皇【正位置】",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 445,
     actPower = 113,

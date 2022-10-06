@@ -10,6 +10,7 @@ val equip4000098 = PartialMemoirBlueprint(
   id = 4000098,
   name = "初音ミクと夢の共演！",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 0,
     actPower = 15,

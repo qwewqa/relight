@@ -10,6 +10,7 @@ val equip2000017 = PartialMemoirBlueprint(
   id = 2000017,
   name = "ヘルメットの中の表情",
   rarity = 2,
+  cost = 4,
   baseStats = StatData(
     hp = 105,
     actPower = 0,

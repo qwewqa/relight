@@ -63,7 +63,7 @@ data class SimulationOptions(
     val locales: Map<String, String>,
     val commonText: List<SimulationOption>,
     val dresses: List<DataSimulationOption<DressData>>,
-    val memoirs: List<SimulationOption>,
+    val memoirs: List<DataSimulationOption<MemoirData>>,
     val songEffects: List<SimulationOption>,
     val conditions: List<SimulationOption>,
     val bosses: List<SimulationOption>,
@@ -115,6 +115,7 @@ data class DressData(
     val positionValue: Int,
     val positionName: String,
     val characterName: String = "",
+    val cost: Int,
 ) : Comparable<DressData> {
     override fun compareTo(other: DressData): Int {
         if (positionValue != other.positionValue) return positionValue - other.positionValue
@@ -122,6 +123,12 @@ data class DressData(
         return 0
     }
 }
+
+@Serializable
+data class MemoirData(
+    val id: Int,
+    val cost: Int,
+)
 
 @Serializable
 data class AccessoryData(

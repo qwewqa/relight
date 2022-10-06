@@ -16,6 +16,7 @@ val dress1010009 = PartialDressBlueprint(
   id = 1010009,
   name = "怪傑ゾロ",
   baseRarity = 4,
+  cost = 12,
   character = Character.Karen,
   attribute = Attribute.Moon,
   damageType = DamageType.Special,

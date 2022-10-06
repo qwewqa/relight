@@ -16,6 +16,7 @@ val dress2010005 = PartialDressBlueprint(
   id = 2010005,
   name = "乙姫",
   baseRarity = 4,
+  cost = 12,
   character = Character.Tamao,
   attribute = Attribute.Moon,
   damageType = DamageType.Normal,

@@ -10,6 +10,7 @@ val equip4000196 = PartialMemoirBlueprint(
   id = 4000196,
   name = "月夜のロミオとジュリエット",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 445,
     actPower = 113,

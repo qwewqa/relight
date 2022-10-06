@@ -10,6 +10,7 @@ val equip4000195 = PartialMemoirBlueprint(
   id = 4000195,
   name = "絆のステップ",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 0,
     actPower = 0,

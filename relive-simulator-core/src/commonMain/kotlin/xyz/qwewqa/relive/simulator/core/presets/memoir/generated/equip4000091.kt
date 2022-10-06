@@ -10,6 +10,7 @@ val equip4000091 = PartialMemoirBlueprint(
   id = 4000091,
   name = "“Starry Diamond”開催記念",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 150,
     actPower = 7,

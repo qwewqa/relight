@@ -10,6 +10,7 @@ val equip4000064 = PartialMemoirBlueprint(
   id = 4000064,
   name = "ガルパ×スタリラ コラボ開催記念",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 0,
     actPower = 15,

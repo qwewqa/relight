@@ -10,6 +10,7 @@ val equip2000002 = PartialMemoirBlueprint(
   id = 2000002,
   name = "「Elysion」の大竪琴",
   rarity = 2,
+  cost = 4,
   baseStats = StatData(
     hp = 105,
     actPower = 0,

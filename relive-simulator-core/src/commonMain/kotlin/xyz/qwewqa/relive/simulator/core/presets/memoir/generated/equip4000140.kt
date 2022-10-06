@@ -10,6 +10,7 @@ val equip4000140 = PartialMemoirBlueprint(
   id = 4000140,
   name = "ファイターズ×華恋＆ひかり",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 445,
     actPower = 113,

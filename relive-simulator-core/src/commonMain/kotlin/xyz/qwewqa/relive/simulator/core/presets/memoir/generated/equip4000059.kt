@@ -10,6 +10,7 @@ val equip4000059 = PartialMemoirBlueprint(
   id = 4000059,
   name = "Deux JUNO!?～６月の花嫁たち～",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 150,
     actPower = 7,

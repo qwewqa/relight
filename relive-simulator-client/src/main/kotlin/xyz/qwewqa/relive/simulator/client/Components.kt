@@ -294,10 +294,6 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
         val inverseRankPanelPatterns = rankPanelPatterns.map { (k, v) -> v to k }.toMap()
     }
 
-    fun update() {
-        parameters = parameters
-    }
-
     fun reset() {
         val dressId = options.dresses.first().id
         val memoirId = options.memoirs.first().id

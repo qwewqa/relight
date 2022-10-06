@@ -10,6 +10,7 @@ val equip4000125 = PartialMemoirBlueprint(
   id = 4000125,
   name = "夕陽に染まるラボメンバッジ",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 0,
     actPower = 30,

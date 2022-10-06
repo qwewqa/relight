@@ -10,6 +10,7 @@ val equip4000127 = PartialMemoirBlueprint(
   id = 4000127,
   name = "未来のヒーロー育成中？",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 0,
     actPower = 30,

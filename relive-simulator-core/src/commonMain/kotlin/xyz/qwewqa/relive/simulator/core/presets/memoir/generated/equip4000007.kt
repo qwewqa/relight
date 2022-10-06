@@ -10,6 +10,7 @@ val equip4000007 = PartialMemoirBlueprint(
   id = 4000007,
   name = "帝都の平和を守るもの達",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 0,
     actPower = 0,

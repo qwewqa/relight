@@ -10,6 +10,7 @@ val equip4000113 = PartialMemoirBlueprint(
   id = 4000113,
   name = "はぐれないでね！",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 0,
     actPower = 15,

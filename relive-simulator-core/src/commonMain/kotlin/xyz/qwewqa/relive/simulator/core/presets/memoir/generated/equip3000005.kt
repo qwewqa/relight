@@ -10,6 +10,7 @@ val equip3000005 = PartialMemoirBlueprint(
   id = 3000005,
   name = "熱を帯びた視線、見つめる先は",
   rarity = 3,
+  cost = 6,
   baseStats = StatData(
     hp = 147,
     actPower = 0,

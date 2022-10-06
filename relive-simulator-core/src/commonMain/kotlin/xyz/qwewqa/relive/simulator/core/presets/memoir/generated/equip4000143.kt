@@ -10,6 +10,7 @@ val equip4000143 = PartialMemoirBlueprint(
   id = 4000143,
   name = "楽天イーグルス×純那",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 260,
     actPower = 163,

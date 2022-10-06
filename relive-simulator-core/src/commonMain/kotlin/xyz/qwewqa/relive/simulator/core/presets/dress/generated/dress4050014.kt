@@ -16,6 +16,7 @@ val dress4050014 = PartialDressBlueprint(
   id = 4050014,
   name = "コヨーテ・ケイン准尉",
   baseRarity = 4,
+  cost = 13,
   character = Character.Yachiyo,
   attribute = Attribute.Space,
   damageType = DamageType.Normal,

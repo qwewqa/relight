@@ -10,6 +10,7 @@ val equip4000035 = PartialMemoirBlueprint(
   id = 4000035,
   name = "新シンデレラは正義の味方！",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 150,
     actPower = 7,

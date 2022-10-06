@@ -10,6 +10,7 @@ val equip4000110 = PartialMemoirBlueprint(
   id = 4000110,
   name = "キラキラのステージ クロディーヌ＆真矢",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 300,
     actPower = 0,

@@ -14,8 +14,9 @@ import xyz.qwewqa.relive.simulator.stage.character.Position
 
 val dress5030002 = PartialDressBlueprint(
   id = 5030002,
-  name = "関羽 ",
+  name = "関羽",
   baseRarity = 4,
+  cost = 13,
   character = Character.Hisame,
   attribute = Attribute.Cloud,
   damageType = DamageType.Normal,

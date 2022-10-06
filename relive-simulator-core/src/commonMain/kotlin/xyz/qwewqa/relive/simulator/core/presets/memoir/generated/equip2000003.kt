@@ -10,6 +10,7 @@ val equip2000003 = PartialMemoirBlueprint(
   id = 2000003,
   name = "船長の相棒オウム「マリリン」",
   rarity = 2,
+  cost = 4,
   baseStats = StatData(
     hp = 0,
     actPower = 4,

@@ -16,6 +16,7 @@ val dress2030012 = PartialDressBlueprint(
   id = 2030012,
   name = "PONZU DEVIL",
   baseRarity = 4,
+  cost = 15,
   character = Character.Fumi,
   attribute = Attribute.Snow,
   damageType = DamageType.Special,

@@ -16,6 +16,7 @@ val dress3050007 = PartialDressBlueprint(
   id = 3050007,
   name = "水兵長 マリオン",
   baseRarity = 4,
+  cost = 12,
   character = Character.Shizuha,
   attribute = Attribute.Space,
   damageType = DamageType.Special,

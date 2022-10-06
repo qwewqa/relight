@@ -10,6 +10,7 @@ val equip4000154 = PartialMemoirBlueprint(
   id = 4000154,
   name = "クレーンゲームに大はしゃぎ",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 445,
     actPower = 113,

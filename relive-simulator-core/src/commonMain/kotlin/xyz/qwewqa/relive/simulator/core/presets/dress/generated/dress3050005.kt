@@ -16,6 +16,7 @@ val dress3050005 = PartialDressBlueprint(
   id = 3050005,
   name = "ハートの女王",
   baseRarity = 4,
+  cost = 12,
   character = Character.Shizuha,
   attribute = Attribute.Moon,
   damageType = DamageType.Normal,

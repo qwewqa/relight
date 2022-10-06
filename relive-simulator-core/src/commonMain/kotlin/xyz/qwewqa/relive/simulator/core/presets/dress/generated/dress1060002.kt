@@ -16,6 +16,7 @@ val dress1060002 = PartialDressBlueprint(
   id = 1060002,
   name = "黒獅子の国の騎士",
   baseRarity = 3,
+  cost = 9,
   character = Character.Junna,
   attribute = Attribute.Wind,
   damageType = DamageType.Special,

@@ -10,6 +10,7 @@ val equip3000014 = PartialMemoirBlueprint(
   id = 3000014,
   name = "手作りお菓子は危険な香り？",
   rarity = 3,
+  cost = 6,
   baseStats = StatData(
     hp = 0,
     actPower = 6,

@@ -10,6 +10,7 @@ val equip4000219 = PartialMemoirBlueprint(
   id = 4000219,
   name = "【Star of the day】青嵐総合芸術院",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 520,
     actPower = 0,

@@ -10,6 +10,7 @@ val equip4000012 = PartialMemoirBlueprint(
   id = 4000012,
   name = "接客業も演劇の糧",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 210,
     actPower = 0,

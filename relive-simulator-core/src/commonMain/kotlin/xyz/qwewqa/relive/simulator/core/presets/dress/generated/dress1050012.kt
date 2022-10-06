@@ -16,6 +16,7 @@ val dress1050012 = PartialDressBlueprint(
   id = 1050012,
   name = "花婿 エドワード",
   baseRarity = 4,
+  cost = 12,
   character = Character.Maya,
   attribute = Attribute.Cloud,
   damageType = DamageType.Normal,

@@ -10,6 +10,7 @@ val equip4000295 = PartialMemoirBlueprint(
   id = 4000295,
   name = "【祭りの夜に】神楽ひかり",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 445,
     actPower = 113,

@@ -10,6 +10,7 @@ val equip4000105 = PartialMemoirBlueprint(
   id = 4000105,
   name = "『未知なる主役』の座をかけて",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 0,
     actPower = 0,

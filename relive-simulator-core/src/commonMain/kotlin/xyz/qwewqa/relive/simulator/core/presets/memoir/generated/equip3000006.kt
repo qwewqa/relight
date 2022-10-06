@@ -10,6 +10,7 @@ val equip3000006 = PartialMemoirBlueprint(
   id = 3000006,
   name = "今ドキ少女に似合わぬ特技",
   rarity = 3,
+  cost = 6,
   baseStats = StatData(
     hp = 0,
     actPower = 6,

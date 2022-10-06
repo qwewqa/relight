@@ -16,6 +16,7 @@ val dress4020012 = PartialDressBlueprint(
   id = 4020012,
   name = "Delight",
   baseRarity = 4,
+  cost = 20,
   character = Character.Michiru,
   attribute = Attribute.Snow,
   damageType = DamageType.Normal,

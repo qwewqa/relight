@@ -16,6 +16,7 @@ val dress4020007 = PartialDressBlueprint(
   id = 4020007,
   name = "ハーメルンの笛吹き",
   baseRarity = 4,
+  cost = 12,
   character = Character.Michiru,
   attribute = Attribute.Flower,
   damageType = DamageType.Special,

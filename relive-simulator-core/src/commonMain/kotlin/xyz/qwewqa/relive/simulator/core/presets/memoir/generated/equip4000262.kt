@@ -10,6 +10,7 @@ val equip4000262 = PartialMemoirBlueprint(
   id = 4000262,
   name = "XVIII 月【逆位置】",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 0,
     actPower = 0,

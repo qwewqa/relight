@@ -16,6 +16,7 @@ val dress3030013 = PartialDressBlueprint(
   id = 3030013,
   name = "正義の探偵ジョーカー",
   baseRarity = 4,
+  cost = 13,
   character = Character.Lalafin,
   attribute = Attribute.Moon,
   damageType = DamageType.Normal,

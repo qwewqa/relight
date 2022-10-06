@@ -16,6 +16,7 @@ val dress4040011 = PartialDressBlueprint(
   id = 4040011,
   name = "BLOODY DEVIL",
   baseRarity = 4,
+  cost = 20,
   character = Character.Shiori,
   attribute = Attribute.Snow,
   damageType = DamageType.Special,

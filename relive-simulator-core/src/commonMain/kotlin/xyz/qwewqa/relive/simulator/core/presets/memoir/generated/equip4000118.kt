@@ -10,6 +10,7 @@ val equip4000118 = PartialMemoirBlueprint(
   id = 4000118,
   name = "舞台に轟く歌声 翼＆真矢",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 300,
     actPower = 0,

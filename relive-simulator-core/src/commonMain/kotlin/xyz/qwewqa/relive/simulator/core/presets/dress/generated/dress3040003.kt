@@ -16,6 +16,7 @@ val dress3040003 = PartialDressBlueprint(
   id = 3040003,
   name = "奔放なクモの魔女",
   baseRarity = 3,
+  cost = 9,
   character = Character.Tsukasa,
   attribute = Attribute.Flower,
   damageType = DamageType.Special,

@@ -16,6 +16,7 @@ val dress3020007 = PartialDressBlueprint(
   id = 3020007,
   name = "フロンティア芸術学校",
   baseRarity = 3,
+  cost = 9,
   character = Character.Misora,
   attribute = Attribute.Snow,
   damageType = DamageType.Special,

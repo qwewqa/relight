@@ -10,6 +10,7 @@ val equip4000265 = PartialMemoirBlueprint(
   id = 4000265,
   name = "継承と転換と覚醒のレヴュー",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 445,
     actPower = 113,

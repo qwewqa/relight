@@ -10,6 +10,7 @@ val equip4000069 = PartialMemoirBlueprint(
   id = 4000069,
   name = "-The LIVE-#2 revival公演記念",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 150,
     actPower = 7,

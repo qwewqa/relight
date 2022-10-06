@@ -10,6 +10,7 @@ val equip4000229 = PartialMemoirBlueprint(
   id = 4000229,
   name = "IX 隠者【逆位置】",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 445,
     actPower = 113,

@@ -10,6 +10,7 @@ val equip3000093 = PartialMemoirBlueprint(
   id = 3000093,
   name = "秘密の水泳特訓",
   rarity = 3,
+  cost = 6,
   baseStats = StatData(
     hp = 0,
     actPower = 6,

@@ -16,6 +16,7 @@ val dress4050004 = PartialDressBlueprint(
   id = 4050004,
   name = "アルセーヌ・ルパン",
   baseRarity = 4,
+  cost = 12,
   character = Character.Yachiyo,
   attribute = Attribute.Wind,
   damageType = DamageType.Special,

@@ -10,6 +10,7 @@ val equip3000067 = PartialMemoirBlueprint(
   id = 3000067,
   name = "選手兼監督 露崎 まひる",
   rarity = 3,
+  cost = 6,
   baseStats = StatData(
     hp = 147,
     actPower = 0,

@@ -16,6 +16,7 @@ val dress3050002 = PartialDressBlueprint(
   id = 3050002,
   name = "海賊女王",
   baseRarity = 4,
+  cost = 12,
   character = Character.Shizuha,
   attribute = Attribute.Flower,
   damageType = DamageType.Normal,

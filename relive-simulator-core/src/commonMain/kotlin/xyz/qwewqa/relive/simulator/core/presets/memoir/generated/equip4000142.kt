@@ -10,6 +10,7 @@ val equip4000142 = PartialMemoirBlueprint(
   id = 4000142,
   name = "マリーンズ×クロディーヌ＆真矢",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 0,
     actPower = 0,

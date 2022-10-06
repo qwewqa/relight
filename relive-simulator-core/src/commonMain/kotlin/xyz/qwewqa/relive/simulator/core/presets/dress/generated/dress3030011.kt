@@ -16,6 +16,7 @@ val dress3030011 = PartialDressBlueprint(
   id = 3030011,
   name = "サンタセイバー",
   baseRarity = 4,
+  cost = 12,
   character = Character.Lalafin,
   attribute = Attribute.Space,
   damageType = DamageType.Special,

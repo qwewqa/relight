@@ -10,6 +10,7 @@ val equip1000010 = PartialMemoirBlueprint(
   id = 1000010,
   name = "黄金のオペラグラス",
   rarity = 1,
+  cost = 2,
   baseStats = StatData(
     hp = 0,
     actPower = 4,

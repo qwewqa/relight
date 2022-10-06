@@ -10,6 +10,7 @@ val equip2000004 = PartialMemoirBlueprint(
   id = 2000004,
   name = "「あやかし見廻り浪漫譚」小道具",
   rarity = 2,
+  cost = 4,
   baseStats = StatData(
     hp = 0,
     actPower = 4,

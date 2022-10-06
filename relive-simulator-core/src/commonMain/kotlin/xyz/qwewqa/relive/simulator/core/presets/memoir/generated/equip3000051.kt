@@ -10,6 +10,7 @@ val equip3000051 = PartialMemoirBlueprint(
   id = 3000051,
   name = "ガラスの靴に選ばれざる者？",
   rarity = 3,
+  cost = 6,
   baseStats = StatData(
     hp = 147,
     actPower = 0,

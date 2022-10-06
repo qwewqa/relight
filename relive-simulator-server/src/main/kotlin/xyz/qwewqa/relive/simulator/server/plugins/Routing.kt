@@ -168,7 +168,7 @@ fun Application.configureRouting() {
                             ?.get(locale)
                         val positionTag = commonTextById["position-${dress.position.name.lowercase()}"]
                             ?.get(locale)
-                        tags + listOfNotNull(characterTag, schoolTag, attributeTag, damageTypeTag, positionTag)
+                        tags + listOfNotNull(characterTag, schoolTag, attributeTag, damageTypeTag, positionTag, "c${dress.cost}")
                     }
                     DataSimulationOption(
                         id = option.id,
@@ -183,26 +183,33 @@ fun Application.configureRouting() {
                             positionValue = dress.positionValue,
                             positionName = dress.position.name.lowercase(),
                             characterName = dress.character.displayName,
+                            cost = dress.cost,
                         ),
                     )
                 },
                 getLocalizationConfig("memoir.yaml", memoirs.keys).map { option ->
                     val memoir = memoirs[option.id]!!
                     val tags = memoir.tags
-                    option.copy(
+                    DataSimulationOption(
+                        id = option.id,
+                        name = option.name,
                         description = locales.keys.associateWith { locale ->
-                            tags.joinToString(", ") { tag ->
+                            (tags.map { tag ->
                                 tagConfig[tag.name]?.get(locale)?.first() ?: tag.name
-                            }
+                            } + listOf("c${memoir.cost}")).joinToString(", ")
                         },
                         tags = locales.keys.associateWith { locale ->
-                            tags.flatMap { tag -> tagConfig[tag.name]?.get(locale) ?: listOf(tag.name) }
+                            tags.flatMap { tag -> tagConfig[tag.name]?.get(locale) ?: listOf(tag.name) } + listOf("c${memoir.cost}")
                         },
                         imagePath = if (memoir.id > 0) {
                             "img/large_icon/2_${memoir.id}.png"
                         } else {
                             "img/common/plate_unselected_3.png"
-                        }
+                        },
+                        data = MemoirData(
+                            id = memoir.id,
+                            cost = memoir.cost,
+                        )
                     )
                 },
                 getLocalizationConfig("songEffect.yaml", songEffects.keys),

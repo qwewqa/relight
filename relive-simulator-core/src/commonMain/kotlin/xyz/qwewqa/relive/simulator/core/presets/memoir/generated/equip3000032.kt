@@ -10,6 +10,7 @@ val equip3000032 = PartialMemoirBlueprint(
   id = 3000032,
   name = "フレーム選びは念入りに",
   rarity = 3,
+  cost = 6,
   baseStats = StatData(
     hp = 0,
     actPower = 0,

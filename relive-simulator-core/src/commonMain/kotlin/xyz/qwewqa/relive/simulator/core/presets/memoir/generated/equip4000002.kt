@@ -10,6 +10,7 @@ val equip4000002 = PartialMemoirBlueprint(
   id = 4000002,
   name = "夏の始まりとプール掃除",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 150,
     actPower = 7,

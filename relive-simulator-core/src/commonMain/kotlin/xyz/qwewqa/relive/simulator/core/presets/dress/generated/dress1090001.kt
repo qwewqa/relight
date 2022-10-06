@@ -16,6 +16,7 @@ val dress1090001 = PartialDressBlueprint(
   id = 1090001,
   name = "聖翔音楽学園",
   baseRarity = 2,
+  cost = 6,
   character = Character.Kaoruko,
   attribute = Attribute.Moon,
   damageType = DamageType.Normal,

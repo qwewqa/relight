@@ -10,6 +10,7 @@ val equip2000025 = PartialMemoirBlueprint(
   id = 2000025,
   name = "The Star Knows",
   rarity = 2,
+  cost = 4,
   baseStats = StatData(
     hp = 105,
     actPower = 0,

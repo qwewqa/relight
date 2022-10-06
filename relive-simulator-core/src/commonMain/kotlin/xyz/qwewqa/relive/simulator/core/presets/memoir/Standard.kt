@@ -15,6 +15,7 @@ val EmptyMemoir = MemoirBlueprint(
     -1,
     name = "None",
     rarity = 4,
+    cost = 0,
     baseStats = StatData(),
     growthStats = StatData(),
     baseAutoskills = listOf(),

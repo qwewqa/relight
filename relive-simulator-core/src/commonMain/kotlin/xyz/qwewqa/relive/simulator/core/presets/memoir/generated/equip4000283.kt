@@ -10,6 +10,7 @@ val equip4000283 = PartialMemoirBlueprint(
   id = 4000283,
   name = "幸福な時間",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 445,
     actPower = 113,
@@ -55,5 +56,5 @@ val equip4000283 = PartialMemoirBlueprint(
       ),
     ),
   ),
-  additionalTags = listOf()
+  additionalTags = listOf(EffectTag.Shiro)
 )

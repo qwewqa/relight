@@ -16,6 +16,7 @@ val dress9030001 = PartialDressBlueprint(
   id = 9030001,
   name = "紐育華撃団・星組",
   baseRarity = 4,
+  cost = 15,
   character = Character.Gemie,
   attribute = Attribute.Flower,
   damageType = DamageType.Normal,

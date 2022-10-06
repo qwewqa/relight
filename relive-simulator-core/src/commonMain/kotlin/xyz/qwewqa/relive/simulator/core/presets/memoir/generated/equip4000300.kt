@@ -10,6 +10,7 @@ val equip4000300 = PartialMemoirBlueprint(
   id = 4000300,
   name = "神の舞台に立つ道化",
   rarity = 4,
+  cost = 100,
   baseStats = StatData(
     hp = 10000,
     actPower = 500,

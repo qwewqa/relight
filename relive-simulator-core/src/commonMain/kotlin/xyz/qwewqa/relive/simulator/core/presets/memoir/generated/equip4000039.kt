@@ -10,6 +10,7 @@ val equip4000039 = PartialMemoirBlueprint(
   id = 4000039,
   name = "自撮りマスターの指南",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 210,
     actPower = 0,

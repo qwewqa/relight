@@ -10,6 +10,7 @@ val equip1000003 = PartialMemoirBlueprint(
   id = 1000003,
   name = "ネコ型鉢植えのサボテン",
   rarity = 1,
+  cost = 2,
   baseStats = StatData(
     hp = 45,
     actPower = 2,

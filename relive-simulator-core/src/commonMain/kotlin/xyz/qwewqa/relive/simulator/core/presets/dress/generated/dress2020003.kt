@@ -16,6 +16,7 @@ val dress2020003 = PartialDressBlueprint(
   id = 2020003,
   name = "太陽",
   baseRarity = 4,
+  cost = 15,
   character = Character.Ichie,
   attribute = Attribute.Flower,
   damageType = DamageType.Special,

@@ -10,6 +10,7 @@ val equip4000082 = PartialMemoirBlueprint(
   id = 4000082,
   name = "Sailor's Call",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 300,
     actPower = 0,

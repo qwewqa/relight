@@ -10,6 +10,7 @@ val equip4000211 = PartialMemoirBlueprint(
   id = 4000211,
   name = "目指せ天下統一！",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 520,
     actPower = 0,

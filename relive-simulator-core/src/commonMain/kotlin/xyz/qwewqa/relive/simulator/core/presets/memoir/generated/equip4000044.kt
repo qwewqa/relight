@@ -10,6 +10,7 @@ val equip4000044 = PartialMemoirBlueprint(
   id = 4000044,
   name = "あなたに届け、天使の歌声！",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 300,
     actPower = 0,

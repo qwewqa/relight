@@ -10,6 +10,7 @@ val equip4000313 = PartialMemoirBlueprint(
   id = 4000313,
   name = "つかさと絶品スイーツ",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 0,
     actPower = 0,

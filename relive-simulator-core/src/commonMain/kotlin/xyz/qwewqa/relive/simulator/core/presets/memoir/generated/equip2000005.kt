@@ -10,6 +10,7 @@ val equip2000005 = PartialMemoirBlueprint(
   id = 2000005,
   name = "「別れの戦記」の王国旗",
   rarity = 2,
+  cost = 4,
   baseStats = StatData(
     hp = 0,
     actPower = 0,

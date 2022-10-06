@@ -10,6 +10,7 @@ val equip4000153 = PartialMemoirBlueprint(
   id = 4000153,
   name = "燃えぬ花、枯れぬ炎",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 445,
     actPower = 113,

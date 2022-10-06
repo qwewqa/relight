@@ -10,6 +10,7 @@ val equip3000043 = PartialMemoirBlueprint(
   id = 3000043,
   name = "アラビアンなスカーフ",
   rarity = 3,
+  cost = 6,
   baseStats = StatData(
     hp = 0,
     actPower = 6,

@@ -10,6 +10,7 @@ val equip4000054 = PartialMemoirBlueprint(
   id = 4000054,
   name = "シークフェルト総合病院",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 150,
     actPower = 7,

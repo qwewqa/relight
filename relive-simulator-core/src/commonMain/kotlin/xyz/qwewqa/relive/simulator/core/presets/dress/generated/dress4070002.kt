@@ -16,6 +16,7 @@ val dress4070002 = PartialDressBlueprint(
   id = 4070002,
   name = "未来の舞台少女",
   baseRarity = 4,
+  cost = 20,
   character = Character.Shiro,
   attribute = Attribute.Wind,
   damageType = DamageType.Special,

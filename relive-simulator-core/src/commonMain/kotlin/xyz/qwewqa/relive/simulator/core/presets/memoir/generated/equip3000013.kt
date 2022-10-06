@@ -10,6 +10,7 @@ val equip3000013 = PartialMemoirBlueprint(
   id = 3000013,
   name = "煌めく水槽、輝く瞳",
   rarity = 3,
+  cost = 6,
   baseStats = StatData(
     hp = 147,
     actPower = 0,

@@ -16,6 +16,7 @@ val dress9020001 = PartialDressBlueprint(
   id = 9020001,
   name = "巴里華撃団・花組",
   baseRarity = 4,
+  cost = 15,
   character = Character.Erika,
   attribute = Attribute.Moon,
   damageType = DamageType.Special,

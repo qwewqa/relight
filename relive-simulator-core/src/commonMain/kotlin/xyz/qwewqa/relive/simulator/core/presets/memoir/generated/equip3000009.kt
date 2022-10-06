@@ -10,6 +10,7 @@ val equip3000009 = PartialMemoirBlueprint(
   id = 3000009,
   name = "氷上の華麗なるプラチナ",
   rarity = 3,
+  cost = 6,
   baseStats = StatData(
     hp = 210,
     actPower = 0,

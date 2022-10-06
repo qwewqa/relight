@@ -10,6 +10,7 @@ val equip1000004 = PartialMemoirBlueprint(
   id = 1000004,
   name = "クラシカルな宝箱",
   rarity = 1,
+  cost = 2,
   baseStats = StatData(
     hp = 63,
     actPower = 0,

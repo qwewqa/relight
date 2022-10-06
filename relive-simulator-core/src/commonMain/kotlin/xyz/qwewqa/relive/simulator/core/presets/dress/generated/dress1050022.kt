@@ -16,6 +16,7 @@ val dress1050022 = PartialDressBlueprint(
   id = 1050022,
   name = "悲劇の将 マリアヴェーラ",
   baseRarity = 4,
+  cost = 14,
   character = Character.Maya,
   attribute = Attribute.Snow,
   damageType = DamageType.Special,

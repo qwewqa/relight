@@ -10,6 +10,7 @@ val equip3000034 = PartialMemoirBlueprint(
   id = 3000034,
   name = "ウィッチ・ツインズ結成！",
   rarity = 3,
+  cost = 6,
   baseStats = StatData(
     hp = 0,
     actPower = 6,

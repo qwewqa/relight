@@ -10,6 +10,7 @@ val equip3000070 = PartialMemoirBlueprint(
   id = 3000070,
   name = "名探偵へのプレゼント",
   rarity = 3,
+  cost = 6,
   baseStats = StatData(
     hp = 147,
     actPower = 0,

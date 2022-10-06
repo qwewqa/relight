@@ -10,6 +10,7 @@ val equip3000054 = PartialMemoirBlueprint(
   id = 3000054,
   name = "屈伸のお手伝い……それとも？",
   rarity = 3,
+  cost = 6,
   baseStats = StatData(
     hp = 0,
     actPower = 6,

@@ -16,6 +16,7 @@ val dress3050004 = PartialDressBlueprint(
   id = 3050004,
   name = "イースターバニー",
   baseRarity = 4,
+  cost = 12,
   character = Character.Shizuha,
   attribute = Attribute.Space,
   damageType = DamageType.Normal,

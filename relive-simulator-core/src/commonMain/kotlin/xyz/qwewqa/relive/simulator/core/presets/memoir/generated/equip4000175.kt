@@ -10,6 +10,7 @@ val equip4000175 = PartialMemoirBlueprint(
   id = 4000175,
   name = "XI 力【正位置】",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 0,
     actPower = 105,

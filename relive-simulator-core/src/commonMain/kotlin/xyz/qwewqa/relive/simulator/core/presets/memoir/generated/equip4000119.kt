@@ -10,6 +10,7 @@ val equip4000119 = PartialMemoirBlueprint(
   id = 4000119,
   name = "舞台に輝く歌声 マリア＆クロディーヌ",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 300,
     actPower = 0,

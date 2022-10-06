@@ -16,6 +16,7 @@ val dress2010004 = PartialDressBlueprint(
   id = 2010004,
   name = "羽根つきで勝負！？",
   baseRarity = 3,
+  cost = 9,
   character = Character.Tamao,
   attribute = Attribute.Space,
   damageType = DamageType.Normal,

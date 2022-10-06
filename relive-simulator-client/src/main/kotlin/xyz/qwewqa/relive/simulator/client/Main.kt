@@ -59,6 +59,7 @@ class SimulatorClient(val simulator: Simulator) {
     val addActorFromPresetButton = document.getElementById("add-actor-from-preset-button") as HTMLButtonElement
     val sortByPositionButton = document.getElementById("sort-by-position-button") as HTMLButtonElement
     val autoNameButton = document.getElementById("auto-name-button") as HTMLButtonElement
+    val costDisplay = document.getElementById("cost-display") as HTMLSpanElement
     val teamImageButton = document.getElementById("team-image-button") as HTMLButtonElement
     val teamImageModal = document.getElementById("team-image-modal") as HTMLDivElement
     val teamImageModalBs = Bootstrap.Modal(teamImageModal)
@@ -150,6 +151,30 @@ class SimulatorClient(val simulator: Simulator) {
 
     val compressor = LZString
     val baseHref = "${window.location.protocol}//${window.location.host}${window.location.pathname}"
+
+    private val maxCost = 400
+
+    private fun ActorOptions.update() {
+        parameters = parameters
+        teamUpdate()
+    }
+
+    private fun teamUpdate() {
+        val setup = getSetup()
+        val cost = setup.team.sumOf { params ->
+            val dressCost = options.dressesById[params.dress]?.data?.cost ?: 0
+            val memoirCost = options.memoirsById[params.memoir]?.data?.cost ?: 0
+            dressCost + memoirCost
+        }
+        costDisplay.textContent = cost.toString()
+        if (cost > maxCost) {
+            costDisplay.addClass("text-danger")
+        } else {
+            costDisplay.removeClass("text-danger")
+        }
+
+        updateGuestStyling()
+    }
 
     private fun toastElement(color: String = "grey", dismissible: Boolean, value: DIV.() -> Unit) =
         document.create.div("toast") {
@@ -917,7 +942,7 @@ class SimulatorClient(val simulator: Simulator) {
                                                     options = options
                                                 )
                                             )
-                                            updateGuestStyling()
+                                            teamUpdate()
                                             if (actorId == activeActorId) {
                                                 val index = actorIds.indexOf(actorId)
                                                 setActiveActor(
@@ -1423,7 +1448,7 @@ class SimulatorClient(val simulator: Simulator) {
             ActorOptions(options, actorId).reset()
         }
         setActiveActor(actorId)
-        updateGuestStyling()
+        teamUpdate()
         return actorId
     }
 
@@ -1519,7 +1544,7 @@ class SimulatorClient(val simulator: Simulator) {
         eventBonusInput.value = additionalEventBonus
         eventMultiplierInput.value = eventMultiplier
         seedInput.value = seed
-        updateGuestStyling()
+        teamUpdate()
     }
 
     fun getUrlParameter(url: String, name: String): String? {
@@ -1767,7 +1792,7 @@ class SimulatorClient(val simulator: Simulator) {
         })
 
         guestCheckbox.addEventListener("click", {
-            updateGuestStyling()
+            teamUpdate()
         })
 
         exportText.addEventListener("click", {
@@ -1906,8 +1931,6 @@ class SimulatorClient(val simulator: Simulator) {
         shareSetupButtonAlt.addEventListener("click", {
             shareSetup()
         })
-
-        addActor() // Start with one already here by default
 
         languageSelect.populate(options.locales)
         bossSelect.populate(bosses, locale)
@@ -2264,6 +2287,8 @@ class SimulatorClient(val simulator: Simulator) {
         window.onpopstate = {
             updateSetupFromUrl()
         }
+
+        addActor() // Start with one already here by default
 
         handleFirstLoadUrlOptions()
 

@@ -10,6 +10,7 @@ val equip3000019 = PartialMemoirBlueprint(
   id = 3000019,
   name = "武道と舞台に青春を燃やして",
   rarity = 3,
+  cost = 6,
   baseStats = StatData(
     hp = 105,
     actPower = 5,

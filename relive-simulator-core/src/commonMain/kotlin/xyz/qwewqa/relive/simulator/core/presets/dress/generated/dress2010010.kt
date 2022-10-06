@@ -16,6 +16,7 @@ val dress2010010 = PartialDressBlueprint(
   id = 2010010,
   name = "イニシャル キーボード",
   baseRarity = 4,
+  cost = 12,
   character = Character.Tamao,
   attribute = Attribute.Cloud,
   damageType = DamageType.Normal,

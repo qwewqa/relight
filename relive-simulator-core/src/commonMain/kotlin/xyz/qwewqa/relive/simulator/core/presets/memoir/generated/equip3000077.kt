@@ -10,6 +10,7 @@ val equip3000077 = PartialMemoirBlueprint(
   id = 3000077,
   name = "イタズラ忍者絶賛逃走中！",
   rarity = 3,
+  cost = 6,
   baseStats = StatData(
     hp = 105,
     actPower = 5,

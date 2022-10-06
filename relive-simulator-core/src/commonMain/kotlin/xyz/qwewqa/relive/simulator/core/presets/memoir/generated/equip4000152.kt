@@ -10,6 +10,7 @@ val equip4000152 = PartialMemoirBlueprint(
   id = 4000152,
   name = "そびえ立つ塔",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 0,
     actPower = 105,

@@ -10,6 +10,7 @@ val equip4000079 = PartialMemoirBlueprint(
   id = 4000079,
   name = "『戦姫絶唱シンフォギアAXZ』衣裳",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 210,
     actPower = 0,

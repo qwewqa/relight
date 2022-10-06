@@ -10,6 +10,7 @@ val equip4000203 = PartialMemoirBlueprint(
   id = 4000203,
   name = "『新選組凛風伝』",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 445,
     actPower = 113,

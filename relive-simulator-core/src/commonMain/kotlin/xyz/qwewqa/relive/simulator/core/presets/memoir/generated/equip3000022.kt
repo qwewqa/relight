@@ -10,6 +10,7 @@ val equip3000022 = PartialMemoirBlueprint(
   id = 3000022,
   name = "女子更衣室への闖入者！？",
   rarity = 3,
+  cost = 6,
   baseStats = StatData(
     hp = 0,
     actPower = 6,

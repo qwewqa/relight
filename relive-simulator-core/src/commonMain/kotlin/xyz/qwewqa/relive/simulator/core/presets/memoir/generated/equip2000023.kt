@@ -10,6 +10,7 @@ val equip2000023 = PartialMemoirBlueprint(
   id = 2000023,
   name = "世界を灰にするまで",
   rarity = 2,
+  cost = 4,
   baseStats = StatData(
     hp = 0,
     actPower = 7,

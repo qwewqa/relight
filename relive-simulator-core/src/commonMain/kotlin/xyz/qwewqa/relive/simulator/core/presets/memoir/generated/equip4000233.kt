@@ -10,6 +10,7 @@ val equip4000233 = PartialMemoirBlueprint(
   id = 4000233,
   name = "旧人類 VS 新人類",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 520,
     actPower = 0,

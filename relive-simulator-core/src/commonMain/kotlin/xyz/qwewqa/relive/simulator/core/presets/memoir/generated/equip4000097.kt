@@ -10,6 +10,7 @@ val equip4000097 = PartialMemoirBlueprint(
   id = 4000097,
   name = "王子と姫のエチュード",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 0,
     actPower = 15,

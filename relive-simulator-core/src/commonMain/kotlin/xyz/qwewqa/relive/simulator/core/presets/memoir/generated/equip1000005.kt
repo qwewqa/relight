@@ -10,6 +10,7 @@ val equip1000005 = PartialMemoirBlueprint(
   id = 1000005,
   name = "完全無敵のやきそば＆コッペパン",
   rarity = 1,
+  cost = 2,
   baseStats = StatData(
     hp = 63,
     actPower = 0,

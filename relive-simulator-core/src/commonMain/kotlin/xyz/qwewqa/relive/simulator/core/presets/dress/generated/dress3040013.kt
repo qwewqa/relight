@@ -16,6 +16,7 @@ val dress3040013 = PartialDressBlueprint(
   id = 3040013,
   name = "騙し撃ちのクイーン",
   baseRarity = 4,
+  cost = 13,
   character = Character.Tsukasa,
   attribute = Attribute.Wind,
   damageType = DamageType.Special,

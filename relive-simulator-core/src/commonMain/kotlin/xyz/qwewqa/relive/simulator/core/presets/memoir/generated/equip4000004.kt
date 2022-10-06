@@ -10,6 +10,7 @@ val equip4000004 = PartialMemoirBlueprint(
   id = 4000004,
   name = "模擬戦でも火花バチバチ",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 210,
     actPower = 0,

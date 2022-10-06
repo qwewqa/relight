@@ -16,6 +16,7 @@ val dress4050002 = PartialDressBlueprint(
   id = 4050002,
   name = "大地の神",
   baseRarity = 4,
+  cost = 12,
   character = Character.Yachiyo,
   attribute = Attribute.Dream,
   damageType = DamageType.Special,

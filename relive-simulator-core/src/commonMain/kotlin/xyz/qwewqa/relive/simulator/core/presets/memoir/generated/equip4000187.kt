@@ -10,6 +10,7 @@ val equip4000187 = PartialMemoirBlueprint(
   id = 4000187,
   name = "魅惑のスパイシーカレー",
   rarity = 4,
+  cost = 12,
   baseStats = StatData(
     hp = 0,
     actPower = 105,

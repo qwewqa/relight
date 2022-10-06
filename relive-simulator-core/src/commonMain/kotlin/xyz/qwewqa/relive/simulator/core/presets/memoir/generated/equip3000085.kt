@@ -10,6 +10,7 @@ val equip3000085 = PartialMemoirBlueprint(
   id = 3000085,
   name = "トランプの塔",
   rarity = 3,
+  cost = 6,
   baseStats = StatData(
     hp = 0,
     actPower = 10,

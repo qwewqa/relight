@@ -10,6 +10,7 @@ val equip4000038 = PartialMemoirBlueprint(
   id = 4000038,
   name = "大道具室のアーサー王！？",
   rarity = 4,
+  cost = 9,
   baseStats = StatData(
     hp = 150,
     actPower = 7,

@@ -16,6 +16,7 @@ val dress1090003 = PartialDressBlueprint(
   id = 1090003,
   name = "悪戯なコウモリの魔女",
   baseRarity = 4,
+  cost = 12,
   character = Character.Kaoruko,
   attribute = Attribute.Flower,
   damageType = DamageType.Special,

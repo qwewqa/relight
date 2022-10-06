@@ -10,6 +10,7 @@ val equip3000042 = PartialMemoirBlueprint(
   id = 3000042,
   name = "月刊ブシロード12月号連動記念",
   rarity = 3,
+  cost = 6,
   baseStats = StatData(
     hp = 210,
     actPower = 0,

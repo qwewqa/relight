@@ -16,6 +16,7 @@ val dress4010014 = PartialDressBlueprint(
   id = 4010014,
   name = "昼行燈 クラウス大尉",
   baseRarity = 4,
+  cost = 13,
   character = Character.Akira,
   attribute = Attribute.Cloud,
   damageType = DamageType.Normal,
