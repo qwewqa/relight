@@ -463,3 +463,9 @@
 
 # v0.29.1
 - Adjusted the styling of team images
+
+# v0.29.2
+- Added a team cost display
+- Dresses and memoirs can now be searched by cost
+- Fixed Agony not preventing action
+- Fixed buffs with irrelevant values displaying their value
