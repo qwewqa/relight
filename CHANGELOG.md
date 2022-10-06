@@ -456,3 +456,7 @@
 
 # v0.28.6
 - Minor performance improvements
+
+# v0.29.0
+- Added a team image export button
+- Added share buttons and short share links with image previews
