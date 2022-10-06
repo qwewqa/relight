@@ -16,9 +16,9 @@ import kotlin.coroutines.suspendCoroutine
 
 const val DRESS_WIDTH = 144.0
 const val DRESS_HEIGHT = 160.0
-const val PADDING_X = 6.0
+const val PADDING_X = 8.0
 const val MARGIN_TOP = 6.0
-const val SUPERSCALE = 2.0
+const val SUPERSCALE = 2.0  // At base resolution, some images can be slightly misaligned
 const val FONT =
     "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", \"Noto Sans\", \"Liberation Sans\", Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
 
@@ -39,7 +39,7 @@ class TeamImage(
 
     suspend fun drawTeamImage(): HTMLCanvasElement {
         canvas.width = ((team.size * (DRESS_WIDTH + PADDING_X) + PADDING_X) * SUPERSCALE).toInt()
-        canvas.height = ((DRESS_HEIGHT + 56) * SUPERSCALE).toInt()
+        canvas.height = ((DRESS_HEIGHT + 32) * SUPERSCALE).toInt()
         ctx.scale(SUPERSCALE, SUPERSCALE)
 
         ctx.withState {
@@ -50,11 +50,17 @@ class TeamImage(
         team.reversed().forEachIndexed { i, loadout ->
             ctx.withState {
                 ctx.translate((i * (DRESS_WIDTH + PADDING_X) + PADDING_X), MARGIN_TOP)
-                drawDress(loadout)
+                drawDress(loadout, names = false)
             }
         }
 
-        return canvas
+        val finalCanvas = document.createElement("canvas") as HTMLCanvasElement
+        finalCanvas.width = (canvas.width / SUPERSCALE).toInt()
+        finalCanvas.height = (canvas.height / SUPERSCALE).toInt()
+        val finalCtx = finalCanvas.getContext("2d") as CanvasRenderingContext2D
+        finalCtx.scale(1.0 / SUPERSCALE, 1.0 / SUPERSCALE)
+        finalCtx.drawImage(canvas, 0.0, 0.0)
+        return finalCanvas
     }
 
     suspend fun drawOpenGraphImage(): HTMLCanvasElement {
@@ -120,7 +126,7 @@ class TeamImage(
 
     private val PlayerLoadoutParameters.hasAccessory get() = accessory != null && accessory != "None"
 
-    private suspend fun drawDress(loadout: PlayerLoadoutParameters) {
+    private suspend fun drawDress(loadout: PlayerLoadoutParameters, names: Boolean = true) {
         withState {
             rect(width = DRESS_WIDTH, height = DRESS_HEIGHT).run {
                 drawImage(options.dressesById[loadout.dress]?.imagePath)
@@ -179,27 +185,33 @@ class TeamImage(
                     }
                 }
             }
-            rect(x = DRESS_WIDTH / 2, y = DRESS_HEIGHT + 20.0, width = DRESS_WIDTH, height = 0.0).run {
-                withState {
-                    font = "bold 20px $FONT"
-                    fillStyle = "black"
-                    textAlign = CanvasTextAlign.CENTER
-                    drawSingleLineText(loadout.name)
+            translate(0.0, DRESS_HEIGHT)
+            if (names) {
+                translate(0.0, 20.0)
+                rect(x = DRESS_WIDTH / 2, width = DRESS_WIDTH, height = 0.0).run {
+                    withState {
+                        font = "bold 20px $FONT"
+                        fillStyle = "black"
+                        textAlign = CanvasTextAlign.CENTER
+                        drawSingleLineText(loadout.name)
+                    }
                 }
+                translate(0.0, 4.0)
             }
             if (loadout.remake == 4 && loadout.remakeSkill != null && loadout.remakeSkill != "None") {
+                translate(0.0, 4.0)
                 withState {
-                    font = "14px $FONT"
+                    font = if (names) "18px $FONT" else "bold 18px $FONT"
                     val remakeSkill = options.remakeSkillsById[loadout.remakeSkill]
                     val desc = "${remakeSkill?.data?.value?.plus(" ") ?: ""}${remakeSkill?.data?.targeting ?: ""}"
                     val totalWidth = 20.0 + measureText(desc).width
-                    rect(x = (DRESS_WIDTH - totalWidth) / 2, y = DRESS_HEIGHT + 28.0, width = DRESS_WIDTH, height = 16.0).run {
+                    rect(x = (DRESS_WIDTH - totalWidth) / 2, width = DRESS_WIDTH, height = 16.0).run {
                         val iconPosition = RelativePosition.TopLeft.withHeight(100.percent)
                         drawImage(remakeSkill?.imagePath, iconPosition)
                         fillText(
                             desc,
                             x + 20.0,
-                            y + 12.5
+                            y + 14.0,
                         )
                     }
                 }
