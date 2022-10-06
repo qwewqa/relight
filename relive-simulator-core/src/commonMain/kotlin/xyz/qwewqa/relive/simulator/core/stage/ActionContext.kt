@@ -167,7 +167,7 @@ class TargetContext(
         }
     }
 
-    fun applyBuff(effect: BuffEffect, value: Int = 1, turns: Int, chance: Int = 100) {
+    fun applyBuff(effect: BuffEffect, value: Int = 0, turns: Int, chance: Int = 100) {
         if (!self.isAlive) return
         for (originalTarget in targets) {
             val target = aggroTarget ?: originalTarget
