@@ -3,7 +3,6 @@ package xyz.qwewqa.relive.simulator.client
 import kotlinx.browser.document
 import org.khronos.webgl.get
 import org.w3c.dom.*
-import org.w3c.files.Blob
 import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
 import xyz.qwewqa.relive.simulator.common.SimulationOptions
 import xyz.qwewqa.relive.simulator.common.SimulationParameters
@@ -16,8 +15,8 @@ import kotlin.coroutines.suspendCoroutine
 
 const val DRESS_WIDTH = 144.0
 const val DRESS_HEIGHT = 160.0
-const val PADDING_X = 8.0
-const val MARGIN_TOP = 6.0
+const val PADDING_X = 6.0
+const val MARGIN_TOP = 5.0
 const val SUPERSCALE = 2.0  // At base resolution, some images can be slightly misaligned
 const val FONT =
     "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", \"Noto Sans\", \"Liberation Sans\", Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
@@ -39,7 +38,7 @@ class TeamImage(
 
     suspend fun drawTeamImage(): HTMLCanvasElement {
         canvas.width = ((team.size * (DRESS_WIDTH + PADDING_X) + PADDING_X) * SUPERSCALE).toInt()
-        canvas.height = ((DRESS_HEIGHT + 32) * SUPERSCALE).toInt()
+        canvas.height = ((DRESS_HEIGHT + 44) * SUPERSCALE).toInt()
         ctx.scale(SUPERSCALE, SUPERSCALE)
 
         ctx.withState {
@@ -88,14 +87,20 @@ class TeamImage(
                 val effect1 = parameters.song.activeEffects.getOrElse(0) { null }
                 val effect2 = parameters.song.activeEffects.getOrElse(1) { null }
                 val effect3 = parameters.song.passiveEffect
-                ctx.fillText("Effect 1: ${effect1.format()}", 20.0, 462.0)
-                ctx.fillText("Effect 2: ${effect2.format()}", 20.0, 462.0 + 42.0)
-                ctx.fillText("Effect 3: ${effect3.format()}", 20.0, 462.0 + 84.0)
+                ctx.fillText("Effect 1: ", 20.0, 462.0, 1200.0 - 40.0)
+                val effect1Offset = measureText("Effect 1: ").width
+                ctx.fillText(effect1.format(), 20.0 + effect1Offset, 462.0, 1200.0 - 40.0 - effect1Offset)
+                ctx.fillText("Effect 2: ", 20.0, 462.0 + 42.0, 1200.0 - 40.0)
+                val effect2Offset = measureText("Effect 2: ").width
+                ctx.fillText(effect2.format(), 20.0 + effect2Offset, 462.0 + 42.0, 1200.0 - 40.0 - effect2Offset)
+                ctx.fillText("Effect 3: ", 20.0, 462.0 + 84.0, 1200.0 - 40.0)
+                val effect3Offset = measureText("Effect 3: ").width
+                ctx.fillText(effect3.format(), 20.0 + effect3Offset, 462.0 + 84.0, 1200.0 - 40.0 - effect3Offset)
             }
         }
 
         ctx.withState {
-            ctx.translate(10.0, 64.0)
+            ctx.translate(10.0, 56.0)
             val scaleFactor = (canvas.width - 20.0) / (team.size.coerceAtLeast(5) * (DRESS_WIDTH + PADDING_X) + PADDING_X)
             scale(scaleFactor, scaleFactor)
             team.reversed().forEachIndexed { i, loadout ->
@@ -142,7 +147,11 @@ class TeamImage(
                 }
 
                 val remakePosition = RelativePosition(bottom = 23.percent, left = 5.percent).withWidth(16.percent)
-                drawImage(getRemakeLevelVerticalImagePath(loadout.remake), remakePosition)
+                withState {
+                    shadowColor = "darkred"
+                    shadowBlur = 8.0
+                    drawImage(getRemakeLevelVerticalImagePath(loadout.remake), remakePosition)
+                }
 
                 withState {
                     withState {
@@ -199,20 +208,21 @@ class TeamImage(
                 translate(0.0, 4.0)
             }
             if (loadout.remake == 4 && loadout.remakeSkill != null && loadout.remakeSkill != "None") {
-                translate(0.0, 4.0)
+                translate(0.0, 6.0)
                 withState {
-                    font = if (names) "18px $FONT" else "bold 18px $FONT"
+                    font = if (names) "20px $FONT" else "bold 20px $FONT"
                     val remakeSkill = options.remakeSkillsById[loadout.remakeSkill]
                     val desc = "${remakeSkill?.data?.value?.plus(" ") ?: ""}${remakeSkill?.data?.targeting ?: ""}"
-                    val totalWidth = 20.0 + measureText(desc).width
-                    rect(x = (DRESS_WIDTH - totalWidth) / 2, width = DRESS_WIDTH, height = 16.0).run {
+                    val iconSize = 27.0
+                    val paddedWidth = iconSize + 3.0
+                    val totalWidth = (paddedWidth + measureText(desc).width).coerceAtMost(DRESS_WIDTH)
+                    rect(x = (DRESS_WIDTH - totalWidth) / 2, width = DRESS_WIDTH, height = iconSize).run {
                         val iconPosition = RelativePosition.TopLeft.withHeight(100.percent)
                         drawImage(remakeSkill?.imagePath, iconPosition)
-                        fillText(
-                            desc,
-                            x + 20.0,
-                            y + 14.0,
-                        )
+                        withState {
+                            translate(x + paddedWidth, y + 20.0)
+                            fillText(desc, 0.0, 0.0, DRESS_WIDTH - paddedWidth)
+                        }
                     }
                 }
             }
