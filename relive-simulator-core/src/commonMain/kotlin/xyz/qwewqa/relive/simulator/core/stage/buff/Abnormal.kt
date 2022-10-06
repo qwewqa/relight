@@ -243,10 +243,12 @@ object AgonyBuff : BuffEffect {
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.valueDamageTakenDownDebuff -= 30
+        self.agony += 1
     }
 
     override fun onEnd(context: ActionContext, value: Int) = context.run {
         self.valueDamageTakenDownDebuff += 30
+        self.agony -= 1
     }
 }
 
