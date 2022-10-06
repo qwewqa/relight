@@ -30,6 +30,7 @@ class PlayerLoadoutParameters(BaseModel):
     accessoryLevel: int = 100
     accessoryLimitBreak: int = 10
 
+
 class CreatePresetsRequest(BaseModel):
     name: Optional[constr(max_length=100)] = None
     presets: conlist(PlayerLoadoutParameters, min_items=1, max_items=1000)

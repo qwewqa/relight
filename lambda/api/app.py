@@ -174,15 +174,13 @@ def create_setup():
         print(e)
         raise BadRequestError(f"Invalid setup data.")
     setup_id = generate_id()
-    s3_key = f"setup/{setup_id}"
-    bucket.Object(s3_key).put(Body=data.parameters.json())
     img_s3_key = f"preview/{setup_id}.png"
     img_bucket.Object(img_s3_key).put(Body=base64.b64decode(data.preview_image))
     ddb_key = f"setup#{setup_id}"
     table.put_item(
         Item={
             "id": ddb_key,
-            "s3_key": s3_key,
+            "parameters": data.parameters.dict(),
             "img_s3_key": img_s3_key,
             "img_width": data.preview_width,
             "img_height": data.preview_height,
@@ -200,8 +198,11 @@ def get_setup(setup_id: str):
     if "Item" not in response:
         raise NotFoundError
     item = response["Item"]
-    s3_key = item["s3_key"]
-    data = json.loads(bucket.Object(s3_key).get()["Body"].read())
+    if "parameters" not in item:
+        s3_key = item["s3_key"]
+        data = json.loads(bucket.Object(s3_key).get()["Body"].read())
+    else:
+        data = item["parameters"]
     return {"parameters": data}
 
 
