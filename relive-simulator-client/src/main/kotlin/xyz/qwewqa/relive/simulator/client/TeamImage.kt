@@ -212,7 +212,9 @@ class TeamImage(
                 withState {
                     font = if (names) "20px $FONT" else "bold 20px $FONT"
                     val remakeSkill = options.remakeSkillsById[loadout.remakeSkill]
-                    val desc = "${remakeSkill?.data?.value?.plus(" ") ?: ""}${remakeSkill?.data?.targeting ?: ""}"
+                    val desc = remakeSkill?.data?.run {
+                        listOfNotNull(time, value, targeting).joinToString(" ")
+                    } ?: ""
                     val iconSize = 27.0
                     val paddedWidth = iconSize + 3.0
                     val totalWidth = (paddedWidth + measureText(desc).width).coerceAtMost(DRESS_WIDTH)

@@ -139,6 +139,7 @@ data class AccessoryData(
 @Serializable
 data class RemakeSkillData(
     val value: String?,
+    val time: String?,
     val targeting: String,
 )
 

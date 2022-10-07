@@ -14,6 +14,7 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 
 data class Targeting(
     val name: String,
+    val shortName: String = name,
     val value: ActionContext.() -> TargetContext,
 )
 
@@ -21,30 +22,31 @@ data class Effect(
     val name: String,
     val category: PassiveEffectCategory,
     val valueSuffix: String?,
+    val timeSuffix: String?,
     val value: TargetContext.(value: Int, time: Int) -> Unit,
 )
 
 val targetings = buildMap {
     this[1001] = Targeting("Self") { targetSelf() }
-    this[1002] = Targeting("All Allies") { targetAllyAoe() }
+    this[1002] = Targeting("All Allies", "All") { targetAllyAoe() }
     Character.values().drop(2).forEachIndexed { index, character ->
-        this[index + 2501] = Targeting("Allied ${character.displayName}") {
+        this[index + 2501] = Targeting("Allied ${character.displayName}", character.displayName) {
             targetAllyAoe { it.dress.character == character }
         }
-        this[index + 2601] = Targeting("Enemy ${character.displayName}") {
+        this[index + 2601] = Targeting("Enemy ${character.displayName}", character.displayName) {
             targetAoe { it.dress.character == character }
         }
     }
     Attribute.values().drop(1).forEachIndexed { index, attribute ->
-        this[index + 4008] = Targeting("Allied ${attribute.name}") {
+        this[index + 4008] = Targeting("Allied ${attribute.name}", attribute.name) {
             targetAllyAoe { it.dress.attribute == attribute }
         }
     }
     (1..5).forEachIndexed { index, value ->
-        this[index + 2111] = Targeting("Front $value Enemies") {
+        this[index + 2111] = Targeting("Front $value Enemies", "Front $value") {
             targetFront(value)
         }
-        this[index + 2121] = Targeting("Back $value Enemies") {
+        this[index + 2121] = Targeting("Back $value Enemies", "Back $value") {
             targetBack(value)
         }
     }
@@ -55,6 +57,7 @@ val passiveEffects = buildMap {
         "Damage Dealt Up",
         category = PassiveEffectCategory.Passive,
         valueSuffix = "%",
+        timeSuffix = null,
     ) { value, time ->
         targets.forEach { it.valueDamageDealtUp += value }
     }
@@ -62,6 +65,7 @@ val passiveEffects = buildMap {
         "Effective Damage Dealt Up",
         category = PassiveEffectCategory.Passive,
         valueSuffix = "%",
+        timeSuffix = null,
     ) { value, time ->
         targets.forEach { it.valueEffectiveDamageUp += value }
     }
@@ -69,6 +73,7 @@ val passiveEffects = buildMap {
         "Damage Taken Down",
         category = PassiveEffectCategory.Passive,
         valueSuffix = "%",
+        timeSuffix = null,
     ) { value, time ->
         targets.forEach { it.valueDamageTakenDown += value }
     }
@@ -76,6 +81,7 @@ val passiveEffects = buildMap {
         "Act Power Up",
         category = PassiveEffectCategory.Passive,
         valueSuffix = "%",
+        timeSuffix = null,
     ) { value, time ->
         targets.forEach { it.valueActPower += value }
     }
@@ -83,6 +89,7 @@ val passiveEffects = buildMap {
         "Normal Defense Up",
         category = PassiveEffectCategory.Passive,
         valueSuffix = "%",
+        timeSuffix = null,
     ) { value, time ->
         targets.forEach { it.valueNormalDefense += value }
     }
@@ -90,6 +97,7 @@ val passiveEffects = buildMap {
         "Special Defense Up",
         category = PassiveEffectCategory.Passive,
         valueSuffix = "%",
+        timeSuffix = null,
     ) { value, time ->
         targets.forEach { it.valueSpecialDefense += value }
     }
@@ -97,6 +105,7 @@ val passiveEffects = buildMap {
         "Agility Up",
         category = PassiveEffectCategory.Passive,
         valueSuffix = "%",
+        timeSuffix = null,
     ) { value, time ->
         targets.forEach { it.valueAgility += value }
     }
@@ -104,6 +113,7 @@ val passiveEffects = buildMap {
         "Evasion Up",
         category = PassiveEffectCategory.Passive,
         valueSuffix = "%",
+        timeSuffix = null,
     ) { value, time ->
         targets.forEach { it.valueEvasion += value }
     }
@@ -111,6 +121,7 @@ val passiveEffects = buildMap {
         "Dexterity Up",
         category = PassiveEffectCategory.Passive,
         valueSuffix = "%",
+        timeSuffix = null,
     ) { value, time ->
         targets.forEach { it.valueDexterity += value }
     }
@@ -118,6 +129,7 @@ val passiveEffects = buildMap {
         "Critical Up",
         category = PassiveEffectCategory.Passive,
         valueSuffix = "%",
+        timeSuffix = null,
     ) { value, time ->
         targets.forEach { it.valueCritical += value }
     }
@@ -125,6 +137,7 @@ val passiveEffects = buildMap {
         "Max HP Up",
         category = PassiveEffectCategory.Passive,
         valueSuffix = "%",
+        timeSuffix = null,
     ) { value, time ->
         targets.forEach { it.valueMaxHp += value }
     }
@@ -132,6 +145,7 @@ val passiveEffects = buildMap {
         "Continuous Negative Effect Resistance Up",
         category = PassiveEffectCategory.Passive,
         valueSuffix = "%",
+        timeSuffix = null,
     ) { value, time ->
         targets.forEach { it.valueNegativeEffectResist += value }
     }
@@ -139,13 +153,15 @@ val passiveEffects = buildMap {
         "Climax Damage Up",
         category = PassiveEffectCategory.Passive,
         valueSuffix = "%",
+        timeSuffix = null,
     ) { value, time ->
         targets.forEach { it.valueClimaxDamageUp += value }
     }
     this[244] = Effect(
         "Turn HP Recovery",
         category = PassiveEffectCategory.Passive,
-        valueSuffix = "%",
+        valueSuffix = "%/t",
+        timeSuffix = null,
     ) { value, time ->
         targets.forEach {
             if (value <= 100) {
@@ -158,7 +174,8 @@ val passiveEffects = buildMap {
     this[29] = Effect(
         "Turn Brilliance Recovery",
         category = PassiveEffectCategory.Passive,
-        valueSuffix = "",
+        valueSuffix = "/t",
+        timeSuffix = null,
     ) { value, time ->
         targets.forEach { it.brillianceRegen += value }
     }
@@ -177,6 +194,7 @@ val passiveEffects = buildMap {
             "${buffEffect.name} Resistance Up",
             category = PassiveEffectCategory.Passive,
             valueSuffix = "%",
+            timeSuffix = null,
         ) { value, time ->
             targets.forEach {
                 it.specificBuffResist[buffEffect] = (it.specificBuffResist[buffEffect] ?: 0) + value
@@ -187,6 +205,7 @@ val passiveEffects = buildMap {
         "${MarkBuff.name} Resistance Up",
         category = PassiveEffectCategory.Passive,
         valueSuffix = "%",
+        timeSuffix = null,
     ) { value, time ->
         targets.forEach {
             it.specificBuffResist[MarkBuff] = (it.specificBuffResist[MarkBuff] ?: 0) + value
@@ -196,6 +215,7 @@ val passiveEffects = buildMap {
         "${AggroBuff.name} Resistance Up",
         category = PassiveEffectCategory.Passive,
         valueSuffix = "%",
+        timeSuffix = null,
     ) { value, time ->
         targets.forEach {
             it.specificBuffResist[AggroBuff] = (it.specificBuffResist[AggroBuff] ?: 0) + value
@@ -208,6 +228,7 @@ val startEffects = buildMap {
         "Brilliance Recovery",
         category = PassiveEffectCategory.TurnStartPositiveA,
         valueSuffix = "",
+        timeSuffix = null,
     ) { value, time ->
         addBrilliance(value)
     }
@@ -215,6 +236,7 @@ val startEffects = buildMap {
         "Brilliance Reduction",
         category = PassiveEffectCategory.TurnStartNegative,
         valueSuffix = "",
+        timeSuffix = null,
     ) { value, time ->
         removeBrilliance(value)
     }
@@ -222,6 +244,7 @@ val startEffects = buildMap {
         "Damage Dealt Up Buff",
         category = PassiveEffectCategory.TurnStartPositiveB,
         valueSuffix = "%",
+        timeSuffix = "t",
     ) { value, time ->
         applyBuff(DamageDealtUpBuff, value, time)
     }
@@ -229,6 +252,7 @@ val startEffects = buildMap {
         "Damage Taken Down Buff",
         category = PassiveEffectCategory.TurnStartPositiveB,
         valueSuffix = "%",
+        timeSuffix = "t",
     ) { value, time ->
         applyBuff(DamageTakenDownBuff, value, time)
     }
@@ -237,6 +261,7 @@ val startEffects = buildMap {
             "${attribute.name} Damage Taken Down Buff",
             category = PassiveEffectCategory.TurnStartPositiveB,
             valueSuffix = "%",
+            timeSuffix = "t",
         ) { value, time ->
             applyBuff(AgainstAttributeDamageTakenDownBuff(attribute), value, time)
         }
@@ -244,14 +269,16 @@ val startEffects = buildMap {
     this[34] = Effect(
         "Evasion",
         category = PassiveEffectCategory.TurnStartPositiveB,
-        valueSuffix = "x",
+        valueSuffix = null,
+        timeSuffix = "x",
     ) { value, time ->
         applyCountableBuff(CountableBuff.Evasion, time)
     }
     this[36] = Effect(
         "Fortitude",
         category = PassiveEffectCategory.TurnStartPositiveB,
-        valueSuffix = "x",
+        valueSuffix = null,
+        timeSuffix = "x",
     ) { value, time ->
         applyCountableBuff(CountableBuff.Fortitude, time)
     }
@@ -259,6 +286,7 @@ val startEffects = buildMap {
         "Normal Barrier Buff",
         category = PassiveEffectCategory.TurnStartPositiveB,
         valueSuffix = "",
+        timeSuffix = "t",
     ) { value, time ->
         applyBuff(NormalBarrierBuff, value, time)
     }
@@ -266,6 +294,7 @@ val startEffects = buildMap {
         "Special Barrier Buff",
         category = PassiveEffectCategory.TurnStartPositiveB,
         valueSuffix = "",
+        timeSuffix = "t",
     ) { value, time ->
         applyBuff(SpecialBarrierBuff, value, time)
     }
@@ -273,6 +302,7 @@ val startEffects = buildMap {
         "Provoke Buff",
         category = PassiveEffectCategory.TurnStartNegative,
         valueSuffix = null,
+        timeSuffix = "t",
     ) { value, time ->
         applyBuff(ProvokeBuff, value, time)
     }
@@ -280,6 +310,7 @@ val startEffects = buildMap {
         "Aggro Buff",
         category = PassiveEffectCategory.TurnStartNegative,
         valueSuffix = null,
+        timeSuffix = "t",
     ) { value, time ->
         applyBuff(AggroBuff, value, time)
     }
