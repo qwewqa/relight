@@ -469,3 +469,7 @@
 - Dresses and memoirs can now be searched by cost
 - Fixed Agony not preventing action
 - Fixed buffs with irrelevant values displaying their value
+
+# v0.29.3
+- Adjusted the size of remake skill text and icons in team images
+- Adjusted the content of remake skill text in team images
