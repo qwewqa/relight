@@ -2,10 +2,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.flower.*
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.CourtChampionYachiyo
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.FuMeiFan
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.StageGirlHikari
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.WorldMaya
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.snow.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.space.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.wind.*
@@ -28,10 +25,12 @@ val playerDresses = listOf(
     AnastasiaJunna,
     BlackShizuha,
     BloodyDevilShiori,
+    BlueFrontierMisora,
     CatalinaKaoruko,
     CerberusIchie,
     ChariotShiori,
     CharityTsukasa,
+    CollectionKaoruko,
     CollectionYachiyo,
     CompetitionRevueMahiru,
     CourtChampionYachiyo,
