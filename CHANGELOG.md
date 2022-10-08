@@ -473,3 +473,6 @@
 # v0.29.3
 - Adjusted the size of remake skill text and icons in team images
 - Adjusted the content of remake skill text in team images
+
+# v0.30.0
+- Added result save/load functionality
