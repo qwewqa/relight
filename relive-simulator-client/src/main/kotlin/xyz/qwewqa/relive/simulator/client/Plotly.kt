@@ -14,4 +14,15 @@ external object Plotly {
         layout: Any = definedExternally,
         config: Any = definedExternally,
     )
+
+    fun addTraces(
+        graphDiv: Any,
+        data: Any,
+        index: Int = definedExternally,
+    )
+
+    fun deleteTraces(
+        graphDiv: Any,
+        index: Any,
+    )
 }

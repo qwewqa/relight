@@ -23,6 +23,7 @@ import org.w3c.dom.events.Event
 import org.w3c.dom.events.KeyboardEvent
 import org.w3c.dom.url.URL
 import xyz.qwewqa.relive.simulator.client.ActorOptions.Companion.rankPanelIds
+import xyz.qwewqa.relive.simulator.client.Plotly.addTraces
 import xyz.qwewqa.relive.simulator.client.Plotly.react
 import xyz.qwewqa.relive.simulator.common.*
 import kotlin.js.Promise
@@ -35,6 +36,7 @@ suspend fun main() {
 @OptIn(DelicateCoroutinesApi::class, kotlinx.serialization.ExperimentalSerializationApi::class)
 class SimulatorClient(val simulator: Simulator) {
     var simulation: Simulation? = null
+    var activeSetup: SimulationParameters? = null
     var done = false
 
     val api = RelightApi(this)
@@ -143,6 +145,27 @@ class SimulatorClient(val simulator: Simulator) {
     val logoutButton = document.getElementById("logout-button") as HTMLButtonElement
     val syncButton = document.getElementById("sync-button") as HTMLButtonElement
     val profile = document.getElementById("profile") as HTMLDivElement
+
+    val resultsRow = document.getElementById("results-row") as HTMLDivElement
+    val resultsProgressText = document.getElementById("results-progress-text") as HTMLPreElement
+    val resultsText = document.getElementById("results-text") as HTMLPreElement
+    val errorRow = document.getElementById("results-error-row") as HTMLDivElement
+    val logRow = document.getElementById("results-log-row") as HTMLDivElement
+    val errorText = document.getElementById("error-text") as HTMLPreElement
+    val logText = document.getElementById("log-text") as HTMLDivElement
+    val resultsPlot = document.getElementById("results-plot")!!
+    val endPlotDamage = document.getElementById("end-plot-damage")!!
+    val endPlotDamageBox = document.getElementById("end-plot-damage-box")!!
+    val endPlotMargin = document.getElementById("end-plot-margin")!!
+    val endPlotMarginBox = document.getElementById("end-plot-margin-box")!!
+    val wipePlotDamage = document.getElementById("wipe-plot-damage")!!
+    val wipePlotDamageBox = document.getElementById("wipe-plot-damage-box")!!
+    val wipePlotMargin = document.getElementById("wipe-plot-margin")!!
+    val wipePlotMarginBox = document.getElementById("wipe-plot-margin-box")!!
+
+    val saveResultsButton = document.getElementById("save-results-button") as HTMLButtonElement
+    val clearGraphsButton = document.getElementById("clear-graphs-button") as HTMLButtonElement
+    val savedResultsRow = document.getElementById("saved-results-row") as HTMLDivElement
 
     var activeActorOptions: ActorOptions? = null
 
@@ -1957,6 +1980,7 @@ class SimulatorClient(val simulator: Simulator) {
                 try {
                     val setup = getSetup()
                     simulation = simulator.simulate(setup)
+                    activeSetup = setup
                     updateUrlForSetup(setup)
                 } catch (e: Throwable) {
                     toast("Simulate", "Simulation failed to start.", "red")
@@ -2281,6 +2305,171 @@ class SimulatorClient(val simulator: Simulator) {
                 SongEffect(it).registerListeners()
             }
 
+        data class PlotType(
+            val title: String,
+            val element: Element,
+            val boxElement: Element,
+            val type: SimulationMarginResultType,
+            val accessor: MarginResult.() -> Map<Double, Double>,
+            val statisticsAccessor: MarginResult.() -> StatisticsSummary?,
+        )
+        val plotTypes = listOf(
+            PlotType("End Damage", endPlotDamage, endPlotDamageBox, SimulationMarginResultType.End, MarginResult::damage, MarginResult::damageSummary),
+            PlotType("End Margin", endPlotMargin, endPlotMarginBox, SimulationMarginResultType.End, MarginResult::margin, MarginResult::marginSummary),
+            PlotType("Wipe Damage", wipePlotDamage, wipePlotDamageBox, SimulationMarginResultType.Wipe, MarginResult::damage, MarginResult::damageSummary),
+            PlotType("Wipe Margin", wipePlotMargin, wipePlotMarginBox, SimulationMarginResultType.Wipe, MarginResult::margin, MarginResult::marginSummary),
+        )
+
+        fun addToGraph(resultName: String, result: SimulationResult) {
+            plotTypes.forEach { (_, element, boxElement, resultType, accessor, statisticsAccessor) ->
+                val data = result.marginResults[resultType] ?: emptyMap()
+                addTraces(
+                    graphDiv = element,
+                    data = data.entries.sortedBy { (k, _) -> k }.map { (groupName, result) ->
+                        jsObject {
+                            type = "scatter"
+                            mode = "lines"
+                            name = "$resultName - ${groupName ?: "All"}"
+                            x = result.accessor().keys.toTypedArray()
+                            y = result.accessor().values.toTypedArray()
+                        } as Any
+                    }.toTypedArray(),
+                )
+                addTraces(
+                    graphDiv = boxElement,
+                    data = data.entries.sortedBy { (k, _) -> k }.map { (groupName, result) ->
+                        val summary = result.statisticsAccessor()
+                        jsObject {
+                            type = "box"
+                            boxpoints = false
+                            orientation = "h"
+                            name = "$resultName - ${groupName ?: "All"}"
+                            q1 = arrayOf(summary?.q1 ?: 0.0)
+                            median = arrayOf(summary?.median ?: 0.0)
+                            q3 = arrayOf(summary?.q3 ?: 0.0)
+                            mean = arrayOf(summary?.mean ?: 0.0)
+                            sd = arrayOf(summary?.stdDev ?: 0.0)
+                            lowerfence = arrayOf(summary?.min ?: 0.0)
+                            upperfence = arrayOf(summary?.max ?: 0.0)
+                            y = arrayOf("$resultName - ${groupName ?: "All"}")
+                        } as Any
+                    }.toTypedArray(),
+                )
+                if (!data.values.all { it.accessor().isEmpty() }) {
+                    element.removeClass("d-none")
+                    boxElement.removeClass("d-none")
+                    element.dispatchEvent(Event("resize"))
+                    boxElement.dispatchEvent(Event("resize"))
+                }
+            }
+        }
+
+        fun resetGraph() {
+            plotTypes.forEach { (plotTitle, element, boxElement, _, _, _) ->
+                react(
+                    graphDiv = element,
+                    data = arrayOf(),
+                    layout = jsObject {
+                        title = plotTitle
+                        margin = jsObject {
+                            l = 60
+                            r = 60
+                            b = 60
+                            t = 60
+                        }
+                    } as Any,
+                    config = jsObject {
+                        responsive = true
+                    } as Any,
+                )
+                react(
+                    graphDiv = boxElement,
+                    data = arrayOf(),
+                    layout = jsObject {
+                        title = plotTitle
+                        margin = jsObject {
+                            l = 150
+                            r = 120
+                            b = 60
+                            t = 60
+                        }
+                        yaxis = jsObject {
+                            autorange = "reversed"
+                        }
+                    } as Any,
+                    config = jsObject {
+                        responsive = true
+                    } as Any,
+                )
+                element.addClass("d-none")
+                boxElement.addClass("d-none")
+            }
+        }
+
+        fun resetSavedResultButtons() {
+            document.getElementsByClassName("saved-results-add-button").multiple<HTMLButtonElement>().forEach {
+                it.disabled = false
+            }
+        }
+
+        var savedResultCounter = 0
+        saveResultsButton.addEventListener("click", {
+            GlobalScope.launch {
+                val result = simulation?.pollResult() ?: return@launch
+                val setup = activeSetup ?: return@launch
+                if (!result.done) {
+                    return@launch
+                }
+                val resultId = savedResultCounter++
+                savedResultsRow.append {
+                    div("m-1 p-1 border rounded") {
+                        style = "max-width: 180px; min-width: 180px"
+                        id = "saved-results-$resultId"
+                        input(classes = "form-control") {
+                            id = "saved-results-name-$resultId"
+                            type = InputType.text
+                            placeholder = "Name"
+                        }
+                        div("mt-1 d-flex") {
+                            button(type = ButtonType.button, classes = "btn btn-success flex-grow-1 saved-results-add-button") {
+                                id = "saved-results-add-button-$resultId"
+                                i("bi bi-plus-lg") {}
+                                onClickFunction = onClick@{
+                                    val nameInput = document.getElementById("saved-results-name-$resultId") as HTMLInputElement
+                                    val name = nameInput.value.takeIf { it.isNotBlank() } ?: "Result $resultId"
+                                    if (!done) {
+                                        return@onClick
+                                    }
+                                    addToGraph(name, result)
+                                    val btn = document.getElementById("saved-results-add-button-$resultId") as HTMLButtonElement
+                                    btn.disabled = true
+                                }
+                            }
+                            button(classes = "btn btn-primary ms-1") {
+                                id = "saved-results-load-setup-button-$resultId"
+                                i("bi bi-upload") {}
+                                onClickFunction = {
+                                    setSetup(setup)
+                                    toast("Setup", "Loaded setup", "green")
+                                }
+                            }
+                            button(classes = "btn btn-outline-danger ms-1") {
+                                id = "saved-results-cancel-button-$resultId"
+                                i("bi bi-x-lg") {}
+                                onClickFunction = {
+                                    document.getElementById("saved-results-$resultId")!!.remove()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })
+        clearGraphsButton.addEventListener("click", {
+            resetGraph()
+            resetSavedResultButtons()
+        })
+
         updateLocaleText()
         refreshSelectPicker()
 
@@ -2334,21 +2523,6 @@ class SimulatorClient(val simulator: Simulator) {
                         simulation?.let { sim ->
                             val result = sim.pollResult()
                             val iterationResults = result.results.sortedWith(simulationResultValueComparator)
-                            val resultsRow = document.getElementById("results-row") as HTMLDivElement
-                            val resultsText = document.getElementById("results-text") as HTMLPreElement
-                            val errorRow = document.getElementById("results-error-row") as HTMLDivElement
-                            val logRow = document.getElementById("results-log-row") as HTMLDivElement
-                            val errorText = document.getElementById("error-text") as HTMLPreElement
-                            val logText = document.getElementById("log-text") as HTMLDivElement
-                            val resultsPlot = document.getElementById("results-plot")!!
-                            val endPlotDamage = document.getElementById("end-plot-damage")!!
-                            val endPlotDamageBox = document.getElementById("end-plot-damage-box")!!
-                            val endPlotMargin = document.getElementById("end-plot-margin")!!
-                            val endPlotMarginBox = document.getElementById("end-plot-margin-box")!!
-                            val wipePlotDamage = document.getElementById("wipe-plot-damage")!!
-                            val wipePlotDamageBox = document.getElementById("wipe-plot-damage-box")!!
-                            val wipePlotMargin = document.getElementById("wipe-plot-margin")!!
-                            val wipePlotMarginBox = document.getElementById("wipe-plot-margin-box")!!
 
                             val currentIterationsText = result.currentIterations.toString()
                             val maxIterationsText = result.maxIterations.toString()
@@ -2373,7 +2547,8 @@ class SimulatorClient(val simulator: Simulator) {
                                     }
                                 }.format()
                             }
-                            resultsText.innerHTML = progressDisplay + "\n\n" + iterationResultsText
+                            resultsProgressText.textContent = progressDisplay
+                            resultsText.innerHTML = iterationResultsText
 
                             if (result.log != null) {
                                 logText.displayLog(result.log ?: emptyList(), interactive = false)
@@ -2422,20 +2597,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 } as Any,
                             )
 
-                            data class PlotType(
-                                val title: String,
-                                val element: Element,
-                                val boxElement: Element,
-                                val type: SimulationMarginResultType,
-                                val accessor: MarginResult.() -> Map<Double, Double>,
-                                val statisticsAccessor: MarginResult.() -> StatisticsSummary?,
-                            )
-                            listOf(
-                                PlotType("End Damage", endPlotDamage, endPlotDamageBox, SimulationMarginResultType.End, MarginResult::damage, MarginResult::damageSummary),
-                                PlotType("End Margin", endPlotMargin, endPlotMarginBox, SimulationMarginResultType.End, MarginResult::margin, MarginResult::marginSummary),
-                                PlotType("Wipe Damage", wipePlotDamage, wipePlotDamageBox, SimulationMarginResultType.Wipe, MarginResult::damage, MarginResult::damageSummary),
-                                PlotType("Wipe Margin", wipePlotMargin, wipePlotMarginBox, SimulationMarginResultType.Wipe, MarginResult::margin, MarginResult::marginSummary),
-                            ).forEach { (plotTitle, element, boxElement, resultType, accessor, statisticsAccessor) ->
+                            plotTypes.forEach { (plotTitle, element, boxElement, resultType, accessor, statisticsAccessor) ->
                                 val data = result.marginResults[resultType] ?: emptyMap()
                                 react(
                                     graphDiv = element,
@@ -2483,14 +2645,13 @@ class SimulatorClient(val simulator: Simulator) {
                                     layout = jsObject {
                                         title = plotTitle
                                         margin = jsObject {
-                                            l = 60
-                                            r = 60
+                                            l = 150
+                                            r = 120
                                             b = 60
                                             t = 60
                                         }
                                         yaxis = jsObject {
-                                            categoryorder = "array"
-                                            categoryarray = data.keys.sortedBy { it }.map { it ?: "All" }.reversed().toTypedArray()
+                                            autorange = "reversed"
                                         }
                                     } as Any,
                                     config = jsObject {
@@ -2511,6 +2672,7 @@ class SimulatorClient(val simulator: Simulator) {
                             if (result.done) {
                                 simulateButton.disabled = false
                                 cancelButton.disabled = true
+                                resetSavedResultButtons()
                                 if (result.error != null) {
                                     toast("Simulate", "Simulation completed with errors.", "orange")
                                 } else if (result.cancelled) {

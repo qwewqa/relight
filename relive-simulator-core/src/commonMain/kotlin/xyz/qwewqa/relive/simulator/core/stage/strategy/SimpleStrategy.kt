@@ -89,7 +89,7 @@ object SimpleStrategyGrammar : Grammar<List<SimpleStrategyMoveset>>() {
     val anyIdentifier: Parser<String> by (num use { text }) or identifier
     val number: Parser<Int> by num use { text.toInt() }
 
-    val line: Parser<SimpleStrategyLine> by (-moveset * optional(string or anyIdentifier) * optional(number) * -colon).map { (name, weight) ->
+    val line: Parser<SimpleStrategyLine> by (-moveset * optional(string or identifier) * optional(number) * -colon).map { (name, weight) ->
         MovesetStatement(name, weight ?: DEFAULT_MOVESET_WEIGHT)
     } or (-turn * number * -colon).map { turn ->
         TurnStatement(turn)

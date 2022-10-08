@@ -169,6 +169,18 @@
         pwa-update::part(offlineToast) {
             z-index: 999;
         }
+
+        #saved-results-row {
+            overflow-x: scroll;
+        }
+
+        #plot-container-outer {
+            overflow-x: scroll;
+        }
+
+        #plot-container-inner {
+            min-width: 720px;
+        }
     </style>
 </head>
 <body>
@@ -841,16 +853,34 @@
             <div class="row d-none" id="results-row">
                 <div class="col-12">
                     <label for="results-text" class="form-label text-error-info">Results</label>
-                    <pre id="results-text"></pre>
+                    [<a href="#" id="show-result-details" class="text-details" data-bs-toggle="collapse" data-bs-target="#result-details-collapse">Details</a>]
+                    <pre id="results-progress-text"></pre>
+                    <div id="result-details-collapse" class="collapse hide mt-2">
+                        <pre id="results-text"></pre>
+                    </div>
                     <div id="results-plot"></div>
-                    <div id="end-plot-damage" class="result-pdf-plot"></div>
-                    <div id="end-plot-damage-box" class="result-box-plot"></div>
-                    <div id="end-plot-margin" class="result-pdf-plot"></div>
-                    <div id="end-plot-margin-box" class="result-box-plot"></div>
-                    <div id="wipe-plot-damage" class="result-pdf-plot"></div>
-                    <div id="wipe-plot-damage-box" class="result-box-plot"></div>
-                    <div id="wipe-plot-margin" class="result-pdf-plot"></div>
-                    <div id="wipe-plot-margin-box" class="result-box-plot"></div>
+                    <div id="saved-results-container">
+                        <button id="save-results-button" class="btn btn-primary text-save-results" type="button">
+                            Save Results
+                        </button>
+                        <button id="clear-graphs-button" class="btn btn-danger text-clear-graphs" type="button">
+                            Clear Graphs
+                        </button>
+                        <div id="saved-results-row" class="d-flex mt-1">
+                        </div>
+                    </div>
+                    <div id="plot-container-outer">
+                        <div id="plot-container-inner">
+                            <div id="end-plot-damage" class="result-pdf-plot"></div>
+                            <div id="end-plot-damage-box" class="result-box-plot"></div>
+                            <div id="end-plot-margin" class="result-pdf-plot"></div>
+                            <div id="end-plot-margin-box" class="result-box-plot"></div>
+                            <div id="wipe-plot-damage" class="result-pdf-plot"></div>
+                            <div id="wipe-plot-damage-box" class="result-box-plot"></div>
+                            <div id="wipe-plot-margin" class="result-pdf-plot"></div>
+                            <div id="wipe-plot-margin-box" class="result-box-plot"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row d-none" id="results-error-row">
