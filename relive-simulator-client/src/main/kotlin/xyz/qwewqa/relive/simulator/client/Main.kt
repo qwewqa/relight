@@ -43,6 +43,10 @@ class SimulatorClient(val simulator: Simulator) {
 
     var interactiveSimulation: InteractiveSimulation? = null
 
+    init {
+        registerMovesetMode()
+    }
+
     val versionLink = document.getElementById("version-link") as HTMLAnchorElement
     val languageSelect = document.getElementById("language-select").singleSelect(false)
     val shutdownContainer = document.getElementById("shutdown-container") as HTMLDivElement
@@ -78,7 +82,7 @@ class SimulatorClient(val simulator: Simulator) {
     val bossHpInput = document.getElementById("boss-hp-input").integerInput(-1)
     val turnsInput = document.getElementById("turns-input").integerInput(3)
     val iterationsInput = document.getElementById("iterations-input").integerInput(100000)
-    val strategyEditor = CodeMirror(strategyContainer, js("{lineNumbers: true, mode: null}"))
+    val strategyEditor = CodeMirror(strategyContainer, js("{lineNumbers: true, mode: 'moveset'}"))
     val bossStrategyTypeSelect = document.getElementById("boss-strategy-type-select").singleSelect(true)
     val bossStrategyCollapse = document.getElementById("boss-strategy-collapse").collapse()
     val toastsCheckbox = document.getElementById("toasts-checkbox") as HTMLInputElement
@@ -86,7 +90,7 @@ class SimulatorClient(val simulator: Simulator) {
     val bossStrategyEditor = run {
         // Will not display properly otherwise
         bossStrategyCollapse.show = true
-        val value = CodeMirror(bossStrategyContainer, js("{lineNumbers: true, mode: null}"))
+        val value = CodeMirror(bossStrategyContainer, js("{lineNumbers: true, mode: 'moveset'}"))
         bossStrategyCollapse.show = false
         value
     }
