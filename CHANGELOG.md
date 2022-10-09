@@ -477,3 +477,6 @@
 # v0.30.0
 - Added result save/load functionality
 - Moved result details into a collapsible section
+
+# v0.30.1
+- New dresses added by Pointy
