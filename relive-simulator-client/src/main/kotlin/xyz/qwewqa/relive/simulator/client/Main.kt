@@ -44,7 +44,22 @@ class SimulatorClient(val simulator: Simulator) {
     var interactiveSimulation: InteractiveSimulation? = null
 
     init {
+        foldcodeDummy
+        foldgutterDummy
         registerMovesetMode()
+    }
+
+    fun codeMirrorConfig() = jsObject {
+        mode = "moveset"
+        lineNumbers = true
+        extraKeys = jsObject {
+            this["Ctrl-Q"] = { cm: dynamic -> cm.foldCode(cm.getCursor()) }
+        }
+        foldGutter = true
+        foldOptions = jsObject {
+            scanUp = true
+        }
+        gutters = arrayOf("CodeMirror-linenumbers", "CodeMirror-foldgutter")
     }
 
     val versionLink = document.getElementById("version-link") as HTMLAnchorElement
@@ -82,7 +97,7 @@ class SimulatorClient(val simulator: Simulator) {
     val bossHpInput = document.getElementById("boss-hp-input").integerInput(-1)
     val turnsInput = document.getElementById("turns-input").integerInput(3)
     val iterationsInput = document.getElementById("iterations-input").integerInput(100000)
-    val strategyEditor = CodeMirror(strategyContainer, js("{lineNumbers: true, mode: 'moveset'}"))
+    val strategyEditor = CodeMirror(strategyContainer, codeMirrorConfig())
     val bossStrategyTypeSelect = document.getElementById("boss-strategy-type-select").singleSelect(true)
     val bossStrategyCollapse = document.getElementById("boss-strategy-collapse").collapse()
     val toastsCheckbox = document.getElementById("toasts-checkbox") as HTMLInputElement
@@ -90,7 +105,7 @@ class SimulatorClient(val simulator: Simulator) {
     val bossStrategyEditor = run {
         // Will not display properly otherwise
         bossStrategyCollapse.show = true
-        val value = CodeMirror(bossStrategyContainer, js("{lineNumbers: true, mode: 'moveset'}"))
+        val value = CodeMirror(bossStrategyContainer, codeMirrorConfig())
         bossStrategyCollapse.show = false
         value
     }

@@ -19,8 +19,13 @@ external fun CodeMirror(element: dynamic, config: dynamic): dynamic
 @JsNonModule
 external object CodeMirror {
     fun defineMode(name: String, mode: dynamic)
+
+    fun registerHelper(type: String, name: String, helper: dynamic)
+
+    fun Pos(line: Int, ch: Int = definedExternally, sticky: String = definedExternally): dynamic
 }
 
+@Suppress("UnsafeCastFromDynamic")
 fun registerMovesetMode() {
     fun <T> Array<T>?.isNotEmpty() = this != null && this.size > 0
 
@@ -128,8 +133,45 @@ fun registerMovesetMode() {
             "token" to token,
             "startState" to startState,
             "lineComment" to "#",
-            "fold" to "indent",
+            "fold" to "moveset",
         )
+    }
+
+    val movesetRe = Regex("^\\s*[Mm]oveset(:| .*)?$")
+    val turnRe = Regex("^\\s*[Tt]urn(:| .*)?$")
+    fun headerLevel(cm: dynamic, lineNo: Int): Int {
+        val line = cm.getLine(lineNo) as String
+        return when {
+            movesetRe.matches(line) -> 2
+            turnRe.matches(line) -> 1
+            else -> -1
+        }
+    }
+
+    CodeMirror.registerHelper("fold", "moveset") { cm: dynamic, start: dynamic ->
+        val startLine = start.line as Int
+        val lastLine = cm.lastLine() as Int
+
+        val startLevel = headerLevel(cm, startLine)
+
+        if (startLevel < 0) return@registerHelper null
+
+        var lastLineInFold: Int? = null
+        for (i in startLine + 1..lastLine) {
+            if (headerLevel(cm, i) >= startLevel) {
+                break
+            }
+            lastLineInFold = i
+        }
+
+        if (lastLineInFold != null) {
+            jsObject {
+                from = CodeMirror.Pos(startLine, cm.getLine(startLine).length)
+                to = CodeMirror.Pos(lastLineInFold, cm.getLine(lastLineInFold).length)
+            }
+        } else {
+            null
+        }
     }
 }
 
