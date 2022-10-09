@@ -480,3 +480,8 @@
 
 # v0.30.1
 - New dresses added by Pointy
+
+# v0.31.0
+- Added syntax highlighting for simple strategies
+- Added code folding for simple strategies
+- Added keyboard shortcuts for simple strategy code folding (Ctrl-Q) and commenting (Ctrl-/)
