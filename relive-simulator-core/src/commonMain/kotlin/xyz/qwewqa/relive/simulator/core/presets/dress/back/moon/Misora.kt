@@ -94,7 +94,7 @@ val BlueFrontierMisora = dress3020018(
                 targetAoe().act {
                     dispelTimed(BuffCategory.Positive)
                 }
-                targetAnyRandom(times3).act {
+                targetAnyRandom(times4).act {
                     attack(
                         modifier = values4,
                         hitCount = times4,
@@ -115,8 +115,8 @@ val BlueFrontierMisora = dress3020018(
             TeamNegativeEffectResistanceBuffPassive.new(100, 3) + MoonOnlyCondition,
         ),
         listOf(
-            EnemyBrillianceDrainPassive.new(50))
-        )
+            EnemyBrillianceDrainPassive.new(50),
+        ),
         listOf(
             TeamAPDownBuffPassive.new(time = 1),
             TeamAP2DownBuffPassive.new(time = 1) + MoonOnlyCondition,
