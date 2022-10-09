@@ -16,7 +16,8 @@ class Actor(
     val name: String,
     val dress: Dress,
     val memoir: Memoir?,
-    val accessory: Accessory?
+    val accessory: Accessory?,
+    val isSupport: Boolean = false,
 ) {
     val passives = if (memoir != null) {
         dress.autoSkills + memoir.autoskills

@@ -247,6 +247,7 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
 
     val name = TextInput(optionsElement.getElementsByClassName("actor-name").single())
     val dress = SingleSelect(optionsElement.getElementsByClassName("actor-dress").single(), true)
+    val support = ButtonGroup(optionsElement.getElementsByClassName("actor-support-toggle").single())
     val memoir = SingleSelect(optionsElement.getElementsByClassName("actor-memoir").single(), true)
     val memoirLevel = IntegerInput(optionsElement.getElementsByClassName("actor-memoir-level").single(), 1)
     val memoirUnbind = ButtonGroup(optionsElement.getElementsByClassName("actor-memoir-unbind").single())
@@ -267,6 +268,7 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
     val remakeSkillText = optionsElement.getElementsByClassName("actor-remake-skill-text").single() as HTMLParagraphElement
 
     val tabName = tabElement.getElementsByClassName("actor-name").single<HTMLElement>()
+    val tabSupportIndicator = tabElement.getElementsByClassName("actor-support-indicator").single<HTMLElement>()
     val tabLevel = tabElement.getElementsByClassName("actor-level").single<HTMLElement>()
     val tabUnitSkillLevel = tabElement.getElementsByClassName("actor-unit-skill-level").single<HTMLElement>()
     val tabRemakeLevelImage = tabElement.getElementsByClassName("actor-remake-level-image").single<HTMLImageElement>()
@@ -315,6 +317,7 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
             accessory = "None",
             accessoryLevel = 100,
             accessoryLimitBreak = 10,
+            isSupport = false,
         )
 
         name.value = ""
@@ -347,6 +350,7 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
                 if (validAccessory) accessory.value else null,
                 accessoryLevel.value,
                 accessoryUnbind.value.toInt(),
+                support.value == "true",
             )
         }
         set(param) {
@@ -375,6 +379,7 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
 
             name.value = param.name
             dress.value = param.dress
+            support.value = param.isSupport.toString()
             memoir.value = param.memoir
             memoirLevel.value = param.memoirLevel
             memoirUnbind.value = param.memoirLimitBreak.toString()
@@ -398,6 +403,7 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
             memoirUnbindIcon.src = getMemoirUnbindLevelHorizontalImagePath(param.memoirLimitBreak)
 
             tabName.textContent = param.name
+            tabSupportIndicator.textContent = if (param.isSupport) "S" else ""
             tabLevel.textContent = param.level.toString()
             tabUnitSkillLevel.textContent = param.unitSkillLevel.toString()
             tabRemakeLevelImage.src = getRemakeLevelVerticalImagePath(param.remake)

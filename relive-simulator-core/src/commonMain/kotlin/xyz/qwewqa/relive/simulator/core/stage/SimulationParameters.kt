@@ -47,6 +47,7 @@ fun SimulationParameters.createStageLoadout(): StageLoadout {
                         ),
                         memoirs[it.memoir]!!.create(it.memoirLevel, it.memoirLimitBreak),
                         accessories[it.accessory ?: "None"]!!.create(it.accessoryLevel, it.accessoryLimitBreak),
+                        it.isSupport,
                     )
                 },
                 guest?.let {

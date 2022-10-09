@@ -179,6 +179,7 @@ data class PlayerLoadoutParameters(
     val accessory: String? = null,
     val accessoryLevel: Int = 100,
     val accessoryLimitBreak: Int = 10,
+    val isSupport: Boolean = false,
 )
 
 @Serializable

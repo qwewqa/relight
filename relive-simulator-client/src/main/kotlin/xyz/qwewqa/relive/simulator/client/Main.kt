@@ -892,6 +892,14 @@ class SimulatorClient(val simulator: Simulator) {
                                 }
                             }
                             div("d-flex flex-column") {
+                                style = "position: absolute; left: 6%; top: 18%;" +
+                                        "text-shadow: #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px;"
+                                div("actor-support-indicator") {
+                                    style = "color: green; font-size: 0.85em;"
+                                    +""
+                                }
+                            }
+                            div("d-flex flex-column") {
                                 style = "position: absolute; left: 6%; top: 0%;" +
                                         "text-shadow: #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px;"
                                 div("actor-unit-skill-level") {
@@ -999,7 +1007,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 }
                             }
                             div("row mx-2 mb-2") {
-                                div("col-12 my-1") {
+                                div("col-8 col-sm-9 col-md-10 col-xxl-11 my-1") {
                                     val inputId = "actor-name-$actorId"
                                     label("form-label text-actor-name") {
                                         htmlFor = inputId
@@ -1009,6 +1017,33 @@ class SimulatorClient(val simulator: Simulator) {
                                         id = inputId
                                         onChangeFunction = {
                                             ActorOptions(options, actorId).update()
+                                        }
+                                    }
+                                }
+                                div("col-4 col-sm-3 col-md-2 col-xxl-1 my-1") {
+                                    label("form-label text-support-toggle") {
+                                        +localized(".text-support-toggle", "Support")
+                                    }
+                                    div("btn-group w-100 actor-support-toggle") {
+                                        role = "group"
+                                        attributes["data-prev-value"] = "10"
+                                        listOf(false, true).forEach { enable ->
+                                            input(InputType.radio, classes = "btn-check") {
+                                                id = "actor-support-toggle-$actorId-radio-$enable"
+                                                name = "actor-support-toggle-$actorId-radio"
+                                                autoComplete = false
+                                                value = enable.toString()
+                                                if (!enable) {
+                                                    attributes["checked"] = "checked"
+                                                }
+                                                onChangeFunction = {
+                                                    ActorOptions(options, actorId).update()
+                                                }
+                                            }
+                                            label(classes = "btn btn-outline-${if (enable) "success" else "secondary"}") {
+                                                htmlFor = "actor-support-toggle-$actorId-radio-$enable"
+                                                i("bi bi-${if (enable) "check" else "x"}-lg")
+                                            }
                                         }
                                     }
                                 }
@@ -1895,8 +1930,8 @@ class SimulatorClient(val simulator: Simulator) {
                 .asList()
                 .drop(if (guestCheckbox.checked) 1 else 0)
                 .reversed()
-                .zip(setup.team.map { options.dressesById[it.dress]!!.data })
-                .sortedBy { (_, data) -> data }
+                .zip(setup.team.map { it.isSupport to options.dressesById[it.dress]!!.data })
+                .sortedWith(compareBy({ it.second.first }, { it.second.second }))
                 .reversed()
                 .forEach { (tab, _) ->
                     actorTabsDiv.appendChild(tab)
@@ -1906,7 +1941,6 @@ class SimulatorClient(val simulator: Simulator) {
         autoNameButton.addEventListener("click", {
             val setup = getSetup()
             val useCounts = mutableMapOf<String, Int>().withDefault { 0 }
-            val usedDresses = mutableSetOf<String>()
             actorTabsDiv.children
                 .asList()
                 .drop(if (guestCheckbox.checked) 1 else 0)
@@ -1915,14 +1949,13 @@ class SimulatorClient(val simulator: Simulator) {
                 .forEach { (tab, params) ->
                     val data = options.dressesById[params.dress]!!.data
                     var name = data.characterName.replace(" ", "").lowercase()
-                    if (params.dress in usedDresses) {
+                    if (params.isSupport) {
                         name = "supp_$name"
                     }
                     if (params.level == 1) {
                         name = "baby_$name"
                     }
                     val useCount = useCounts.getValue(name)
-                    usedDresses.add(params.dress)
                     useCounts[name] = useCount + 1
                     if (useCount > 0) {
                         name += "_${useCount + 1}"
@@ -1952,20 +1985,29 @@ class SimulatorClient(val simulator: Simulator) {
             }
         })
 
+        var isSharing = false
         fun shareSetup() {
+            if (isSharing) return
+            isSharing = true
             GlobalScope.launch {
-                toast("Share", "Sharing setup...", "yellow")
-                val setup = getSetup()
-                val imageData = TeamImage(setup, options).drawOpenGraphImage()
-                shareSetupImageContainer.clear()
-                shareSetupImageContainer.append {
-                    img(src = imageData.toDataURL()) {
-                        width = "100%"
+                try {
+                    toast("Share", "Sharing setup...", "yellow")
+                    val setup = getSetup()
+                    val imageData = TeamImage(setup, options).drawOpenGraphImage()
+                    shareSetupImageContainer.clear()
+                    shareSetupImageContainer.append {
+                        img(src = imageData.toDataURL()) {
+                            width = "100%"
+                        }
                     }
+                    val url = api.shareSetup(setup, options)
+                    shareSetupText.value = url
+                    shareSetupModalBs.show()
+                } catch (e: Throwable) {
+                    toast("Share", "An error occurred when attempting to share setup.", "red")
+                } finally {
+                    isSharing = false
                 }
-                val url = api.shareSetup(setup, options)
-                shareSetupText.value = url
-                shareSetupModalBs.show()
             }
         }
 

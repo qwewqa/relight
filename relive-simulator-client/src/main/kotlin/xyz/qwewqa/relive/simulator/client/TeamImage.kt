@@ -163,6 +163,17 @@ class TeamImage(
                         val (x, y) = resolvePointPosition(position)
                         fillGlowText(loadout.unitSkillLevel.toString(), x, y)
                     }
+                    if (loadout.isSupport) {
+                        withState {
+                            val position = RelativePosition(left = 6.percent, top = 22.percent)
+                            textAlign = CanvasTextAlign.START
+                            textBaseline = CanvasTextBaseline.TOP
+                            font = "bold 26px $FONT"
+                            fillStyle = "green"
+                            val (x, y) = resolvePointPosition(position)
+                            fillGlowText("S", x, y)
+                        }
+                    }
                     if (loadout.hasAccessory) {
                         withState {
                             val position = RelativePosition(right = 6.percent, top = 5.percent)

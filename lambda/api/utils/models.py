@@ -29,6 +29,7 @@ class PlayerLoadoutParameters(BaseModel):
     accessory: Optional[constr(max_length=100)] = None
     accessoryLevel: int = 100
     accessoryLimitBreak: int = 10
+    isSupport: bool = False
 
 
 class CreatePresetsRequest(BaseModel):
