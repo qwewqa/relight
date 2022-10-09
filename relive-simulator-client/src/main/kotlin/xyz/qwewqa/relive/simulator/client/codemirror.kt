@@ -11,6 +11,10 @@ external val foldcodeDummy: Any?
 @JsNonModule
 external val foldgutterDummy: Any?
 
+@JsModule("codemirror/addon/comment/comment")
+@JsNonModule
+external val commentDummy: Any?
+
 @JsModule("codemirror")
 @JsNonModule
 external fun CodeMirror(element: dynamic, config: dynamic): dynamic

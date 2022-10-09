@@ -46,6 +46,7 @@ class SimulatorClient(val simulator: Simulator) {
     init {
         foldcodeDummy
         foldgutterDummy
+        commentDummy
         registerMovesetMode()
     }
 
@@ -54,6 +55,7 @@ class SimulatorClient(val simulator: Simulator) {
         lineNumbers = true
         extraKeys = jsObject {
             this["Ctrl-Q"] = { cm: dynamic -> cm.foldCode(cm.getCursor()) }
+            this["Ctrl-/"] = { cm: dynamic -> cm.toggleComment() }
         }
         foldGutter = true
         foldOptions = jsObject {
