@@ -485,3 +485,6 @@
 - Added syntax highlighting for simple strategies
 - Added code folding for simple strategies
 - Added keyboard shortcuts for simple strategy code folding (Ctrl-Q) and commenting (Ctrl-/)
+
+# v0.31.1
+- Added support toggle and indicators
