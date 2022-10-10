@@ -165,7 +165,7 @@ class TeamImage(
                     }
                     if (loadout.isSupport) {
                         withState {
-                            val position = RelativePosition(left = 6.percent, top = 22.percent)
+                            val position = RelativePosition(left = 6.percent, top = 21.5.percent)
                             textAlign = CanvasTextAlign.START
                             textBaseline = CanvasTextBaseline.TOP
                             font = "bold 26px $FONT"
@@ -358,6 +358,7 @@ data class Point(
 )
 
 val Int.percent get() = this / 100.0
+val Double.percent get() = this / 100.0
 
 suspend fun getImage(url: String): Image = suspendCoroutine { continuation ->
     val image = Image()

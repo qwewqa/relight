@@ -892,7 +892,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 }
                             }
                             div("d-flex flex-column") {
-                                style = "position: absolute; left: 6%; top: 18%;" +
+                                style = "position: absolute; left: 6%; top: 17.5%;" +
                                         "text-shadow: #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px;"
                                 div("actor-support-indicator") {
                                     style = "color: green; font-size: 0.85em;"
@@ -1930,7 +1930,7 @@ class SimulatorClient(val simulator: Simulator) {
                 .asList()
                 .drop(if (guestCheckbox.checked) 1 else 0)
                 .reversed()
-                .zip(setup.team.map { it.isSupport to options.dressesById[it.dress]!!.data })
+                .zip(setup.team.map { options.dressesById[it.dress]!!.data to it.isSupport })
                 .sortedWith(compareBy({ it.second.first }, { it.second.second }))
                 .reversed()
                 .forEach { (tab, _) ->
