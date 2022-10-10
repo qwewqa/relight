@@ -42,6 +42,7 @@ data class InteractiveLog(
 @Serializable
 data class InteractiveLogData(
     val entries: List<LogEntry>,
+    val queueStatus: InteractiveQueueStatus? = null,
     val enemyStatus: List<ActorStatus>? = null,
     val playerStatus: List<ActorStatus>? = null,
 )
@@ -54,6 +55,51 @@ data class ActorStatus(
     val brilliance: Int,
     val damageContribution: Int,
 )
+
+@Serializable
+data class InteractiveQueueStatus(
+    val turn: Int,
+    val queue: List<ActCardStatus>,
+    val hand: List<ActCardStatus>,
+    val hold: ActCardStatus?,
+    val cutins: List<CutinCardStatus>,
+    val holdAction: Boolean,
+    val climaxTurns: Int,
+    val canClimax: Boolean,
+)
+
+@Serializable
+data class ActCardStatus(
+    val dressId: Int,
+    val iconId: Int,
+    val cost: Int,
+    val baseCost: Int,
+    val isClimax: Boolean,
+    val isSupport: Boolean,
+    val status: ActionStatus,
+    val handIndex: Int,
+)
+
+@Serializable
+data class CutinCardStatus(
+    val dressId: Int,
+    val memoirId: Int,
+    val cost: Int,
+    val remainingColdown: Int,
+    val useCount: Int,
+    val maxUses: Int,
+    val status: ActionStatus,
+)
+
+enum class ActionStatus {
+    READY,
+    QUEUED,
+    TOO_EXPENSIVE,
+    SEALED,
+    COOLDOWN,
+    NO_MORE_USES,
+    HOLDER_EXITED,
+}
 
 @Serializable
 data class InteractiveCommand(val text: String)

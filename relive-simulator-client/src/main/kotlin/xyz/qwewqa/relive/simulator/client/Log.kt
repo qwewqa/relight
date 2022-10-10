@@ -98,7 +98,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
             div(classes = "row justify-content-evenly g-1 g-md-2") {
                 // Reversed since frontmost is the first in the list
                 data.enemyStatus?.reversed()?.forEachIndexed { i, status ->
-                    div(classes = "col-$bossWidth") {
+                    div(classes = "col-$bossWidth col-xl") {
                         p(classes = "mt-1 mb-0") {
                             id = "boss-name-$i"
                             style = "font-size: 0.75rem;"
@@ -129,7 +129,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
             div(classes = "row justify-content-evenly g-1 g-md-2") {
                 val totalDamage = data.playerStatus?.sumOf { it.damageContribution } ?: 0
                 data.playerStatus?.reversed()?.forEachIndexed { i, status ->
-                    div(classes = "col-$playerWidth") {
+                    div(classes = "col-$playerWidth col-xl") {
                         p(classes = "mt-1 mb-0") {
                             id = "player-name-$i"
                             style = "font-size: 0.75rem;"

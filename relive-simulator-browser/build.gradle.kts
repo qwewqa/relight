@@ -102,6 +102,7 @@ tasks.register<Copy>("copyServiceWorker") {
 {url: 'bootstrap-select.js', revision: '$timestamp'},
 {url: 'options.json', revision: '$timestamp'},
 {url: 'codemirror.css', revision: '$timestamp'},
+{url: 'style.css', revision: '$timestamp'},
 ${imageData.joinToString(",\n") { (url, revision) -> "{url: '$url', revision: '$revision'}" }}
             """.trimIndent()
             )

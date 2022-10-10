@@ -4,6 +4,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import xyz.qwewqa.relive.simulator.common.*
 import xyz.qwewqa.relive.simulator.core.stage.*
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActData
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.countableBuffsByName
@@ -35,6 +36,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
         private val playHistory = mutableListOf<ParsedCommand>()
         private val stageLog = mutableListOf<LogEntry>()
+        private val queueStatusHistory = mutableListOf<InteractiveQueueStatus?>()
         private val lengths = mutableListOf<Int>()
         private val enemyStatuses = mutableListOf<List<ActorStatus>?>()
         private val playerStatuses = mutableListOf<List<ActorStatus>?>()
@@ -42,18 +44,22 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         val history: List<ParsedCommand> get() = playHistory
         val log: List<LogEntry> get() = stageLog
 
+        val queueStatus: InteractiveQueueStatus? get() = queueStatusHistory.lastOrNull()
+
         val enemyStatus: List<ActorStatus>? get() = enemyStatuses.lastOrNull()
         val playerStatus: List<ActorStatus>? get() = playerStatuses.lastOrNull()
 
         fun update(
             command: ParsedCommand,
             entries: List<LogEntry>,
+            queueStatus: InteractiveQueueStatus,
             enemyStatus: List<ActorStatus>,
             playerStatus: List<ActorStatus>,
         ) {
             playHistory += command
-            stageLog.addAll(entries.asSequence().drop(stageLog.size))
-            lengths.add(entries.size)
+            stageLog += entries.asSequence().drop(stageLog.size)
+            lengths += entries.size
+            queueStatusHistory += queueStatus
             enemyStatuses += enemyStatus
             playerStatuses += playerStatus
         }
@@ -67,7 +73,8 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 throw IllegalStateException("Status already initialized.")
             }
             stageLog.addAll(entries)
-            lengths.add(entries.size)
+            queueStatusHistory += null
+            lengths += entries.size
             enemyStatuses += enemyStatus
             playerStatuses += playerStatus
             initialized = true
@@ -84,31 +91,35 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
             lengths.removeLast()
             playHistory.removeLast()
             repeat(stageLog.size - lengths.last()) { stageLog.removeLast() }
+            queueStatusHistory.removeLast()
             enemyStatuses.removeLast()
             playerStatuses.removeLast()
         }
 
         fun copy() = CacheableStatus().also {
             it.initialized = initialized
-            it.playHistory.addAll(playHistory)
-            it.stageLog.addAll(stageLog)
-            it.lengths.addAll(lengths)
-            it.enemyStatuses.addAll(enemyStatuses)
-            it.playerStatuses.addAll(playerStatuses)
+            it.playHistory += playHistory
+            it.stageLog += stageLog
+            it.queueStatusHistory += queueStatusHistory
+            it.lengths += lengths
+            it.enemyStatuses += enemyStatuses
+            it.playerStatuses += playerStatuses
         }
 
         fun replace(other: CacheableStatus) {
             initialized = other.initialized
             playHistory.clear()
-            playHistory.addAll(other.playHistory)
+            playHistory += other.playHistory
             stageLog.clear()
-            stageLog.addAll(other.stageLog)
+            stageLog += other.stageLog
             lengths.clear()
-            lengths.addAll(other.lengths)
+            lengths += other.lengths
+            queueStatusHistory.clear()
+            queueStatusHistory += other.queueStatusHistory
             enemyStatuses.clear()
-            enemyStatuses.addAll(other.enemyStatuses)
+            enemyStatuses += other.enemyStatuses
             playerStatuses.clear()
-            playerStatuses.addAll(other.playerStatuses)
+            playerStatuses += other.playerStatuses
         }
     }
 
@@ -133,6 +144,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 status.update(
                     command,
                     stage.logger.get(),
+                    strategy.queueStatus,
                     enemyStatus = stage.enemy.actors.values.map { it.status() },
                     playerStatus = stage.player.actors.values.map { it.status() },
                 )
@@ -170,7 +182,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
     suspend fun getLog(rev: Int = -1) = mutex.withLock {
         if (rev != this.rev) {
-            InteractiveLog(InteractiveLogData(resultLog, status.enemyStatus, status.playerStatus), this.rev)
+            InteractiveLog(InteractiveLogData(resultLog, status.queueStatus, status.enemyStatus, status.playerStatus), this.rev)
         } else {
             InteractiveLog(null, this.rev)
         }
@@ -322,6 +334,53 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
         private val statusHistory = mutableListOf<TurnStatus>()
         private val queueHistory = mutableListOf<QueueResult>()
+
+        val queueStatus: InteractiveQueueStatus get() {
+            return InteractiveQueueStatus(
+                stage.turn,
+                queue.map { it.status },
+                if (queuing) hand.map { it.status } else emptyList(),
+                held?.status,
+                team.actors.values.mapNotNull { it.cutin?.status },
+                queuing && !hasPerformedHoldAction,
+                team.cxTurns,
+                queuing && team.cxTurns == 0 && team.actors.values.any { it.brilliance >= 100 },
+            )
+        }
+
+        val BoundAct.status
+            get() = ActCardStatus(
+                actor.dress.id,
+                act.icon ?: 0,
+                apCost,
+                act.apCost,
+                act.type == ActType.ClimaxAct,
+                actor.isSupport,
+                when {
+                    queue.count { it == this } >= hand.count { it == this } -> ActionStatus.QUEUED
+                    queue.sumOf { it.apCost } + apCost > 6 -> ActionStatus.TOO_EXPENSIVE
+                    else -> ActionStatus.READY
+                },
+                hand.indexOf(this) + 1,  // 1-indexed
+            )
+
+        val BoundCutin.status
+            get() = CutinCardStatus(
+                actor.dress.id,
+                actor.memoir!!.id,
+                data.cost,
+                (currentCooldownValue + 1 - (cutinLastUseTurns.getValue(this) - stage.turn)).coerceAtLeast(0),
+                cutinUseCounts.getValue(this),
+                data.usageLimit,
+                when {
+                    !actor.isAlive -> ActionStatus.HOLDER_EXITED
+                    data.cost + cutinQueue.sumOf { it.data.cost } > cutinEnergy -> ActionStatus.TOO_EXPENSIVE
+                    cutinUseCounts.getValue(this) >= data.usageLimit -> ActionStatus.NO_MORE_USES
+                    stage.turn - cutinLastUseTurns.getValue(this) <= currentCooldownValue -> ActionStatus.COOLDOWN
+                    this in cutinQueue -> ActionStatus.QUEUED
+                    else -> ActionStatus.READY
+                }
+            )
 
         private inline fun log(value: () -> String) {
             stage.log("Command", category = LogCategory.COMMAND) {
