@@ -1950,10 +1950,10 @@ class SimulatorClient(val simulator: Simulator) {
                     val data = options.dressesById[params.dress]!!.data
                     var name = data.characterName.replace(" ", "").lowercase()
                     if (params.isSupport) {
-                        name = "supp_$name"
+                        name = "s_$name"
                     }
                     if (params.level == 1) {
-                        name = "baby_$name"
+                        name = "f_$name"
                     }
                     val useCount = useCounts.getValue(name)
                     useCounts[name] = useCount + 1
