@@ -488,3 +488,7 @@
 
 # v0.31.1
 - Added support toggle and indicators
+
+# v0.31.2
+- Fixed support sorting
+- Added status command button
