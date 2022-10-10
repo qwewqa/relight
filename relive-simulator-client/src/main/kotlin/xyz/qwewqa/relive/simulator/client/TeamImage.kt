@@ -165,7 +165,7 @@ class TeamImage(
                     }
                     if (loadout.isSupport) {
                         withState {
-                            val position = RelativePosition(left = 6.percent, top = 21.5.percent)
+                            val position = RelativePosition(left = 6.percent, top = 20.percent)
                             textAlign = CanvasTextAlign.START
                             textBaseline = CanvasTextBaseline.TOP
                             font = "bold 26px $FONT"

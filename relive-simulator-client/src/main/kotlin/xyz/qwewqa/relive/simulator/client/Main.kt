@@ -892,7 +892,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 }
                             }
                             div("d-flex flex-column") {
-                                style = "position: absolute; left: 6%; top: 17.5%;" +
+                                style = "position: absolute; left: 6%; top: 16%;" +
                                         "text-shadow: #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px;"
                                 div("actor-support-indicator") {
                                     style = "color: green; font-size: 0.85em;"
