@@ -64,6 +64,8 @@ data class InteractiveQueueStatus(
     val hand: List<ActCardStatus>,
     val hold: ActCardStatus?,
     val cutins: List<CutinCardStatus>,
+    val cutinCostUsed: Int,
+    val cutinCostMax: Int,
     val holdAction: Boolean,
     val climaxTurns: Int,
     val canClimax: Boolean,
@@ -84,6 +86,7 @@ data class ActCardStatus(
 
 @Serializable
 data class CutinCardStatus(
+    val actorName: String,
     val dressId: Int,
     val memoirId: Int,
     val cost: Int,
@@ -91,6 +94,7 @@ data class CutinCardStatus(
     val useCount: Int,
     val maxUses: Int,
     val status: ActionStatus,
+    val isSupport: Boolean,
 )
 
 enum class ActionStatus {

@@ -4,7 +4,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import xyz.qwewqa.relive.simulator.common.*
 import xyz.qwewqa.relive.simulator.core.stage.*
-import xyz.qwewqa.relive.simulator.core.stage.actor.ActData
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.countableBuffsByName
@@ -81,6 +80,8 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 emptyList(),
                 null,
                 emptyList(),
+                0,
+                0,
                 false,
                 0,
                 false,
@@ -350,17 +351,36 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
         private var lastExport: String? = null
 
-        val queueStatus: InteractiveQueueStatus get() {
-            return InteractiveQueueStatus(
+        private var finished = false
+
+        val queueStatus: InteractiveQueueStatus get() = if (!finished) {
+            InteractiveQueueStatus(
                 stage.turn,
                 maxTurns,
                 queue.map { it.status },
                 if (queuing) hand.map { it.status } else emptyList(),
                 held?.status,
                 team.actors.values.mapNotNull { it.cutin?.status },
-                queuing && !hasPerformedHoldAction,
+                cutinQueue.sumOf { it.data.cost },
+                cutinEnergy,
+                queuing && !hasPerformedHoldAction && team.active.size > 1,
                 if (climax) 2 else team.cxTurns,
                 queuing && team.cxTurns == 0 && team.actors.values.any { it.brilliance >= 100 } && !climax,
+                lastExport,
+            )
+        } else {
+            InteractiveQueueStatus(
+                stage.turn,
+                maxTurns,
+                emptyList(),
+                emptyList(),
+                null,
+                emptyList(),
+                0,
+                0,
+                false,
+                0,
+                false,
                 lastExport,
             )
         }
@@ -384,20 +404,22 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
         val BoundCutin.status
             get() = CutinCardStatus(
+                actor.name,
                 actor.dress.id,
                 actor.memoir!!.id,
                 data.cost,
-                (currentCooldownValue + 1 - (cutinLastUseTurns.getValue(this) - stage.turn)).coerceAtLeast(0),
+                (currentCooldownValue + 1 + (cutinLastUseTurns.getValue(this) - stage.turn)).coerceAtLeast(0),
                 cutinUseCounts.getValue(this),
                 data.usageLimit,
                 when {
+                    this in cutinQueue -> ActionStatus.QUEUED
                     !actor.isAlive -> ActionStatus.HOLDER_EXITED
-                    data.cost + cutinQueue.sumOf { it.data.cost } > cutinEnergy -> ActionStatus.TOO_EXPENSIVE
                     cutinUseCounts.getValue(this) >= data.usageLimit -> ActionStatus.NO_MORE_USES
                     stage.turn - cutinLastUseTurns.getValue(this) <= currentCooldownValue -> ActionStatus.COOLDOWN
-                    this in cutinQueue -> ActionStatus.QUEUED
+                    data.cost + cutinQueue.sumOf { it.data.cost } > cutinEnergy -> ActionStatus.TOO_EXPENSIVE
                     else -> ActionStatus.READY
-                }
+                },
+                actor.isSupport,
             )
 
         private inline fun log(value: () -> String) {
@@ -443,7 +465,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         }
 
         override fun finalize(stage: Stage, team: Team, enemy: Team) {
-            queuing = false
+            finished = true
             while (true) {
                 val command = nextCommand()
                 processCommand(command)

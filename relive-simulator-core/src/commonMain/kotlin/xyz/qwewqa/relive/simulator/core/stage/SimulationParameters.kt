@@ -10,7 +10,6 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.bossLoadouts
 import xyz.qwewqa.relive.simulator.core.presets.dress.playerDresses
 import xyz.qwewqa.relive.simulator.core.presets.memoir.memoirs
 import xyz.qwewqa.relive.simulator.core.presets.song.songEffects
-import xyz.qwewqa.relive.simulator.core.stage.RandomDamageCalculator
 import xyz.qwewqa.relive.simulator.core.stage.condition.NamedCondition
 import xyz.qwewqa.relive.simulator.core.stage.condition.or
 import xyz.qwewqa.relive.simulator.core.stage.condition.plus
@@ -24,17 +23,18 @@ import xyz.qwewqa.relive.simulator.core.stage.strategy.bossStrategyParsers
 import xyz.qwewqa.relive.simulator.core.stage.strategy.strategyParsers
 
 fun SimulationParameters.createStageLoadout(): StageLoadout {
-        require(bossHp == null || bossHp!! > 0) { "Boss HP positive integer." }
-        require(maxTurns > 0) { "Max turns should be a positive integer." }
-        require(maxIterations > 0) { "Max iterations should be a positive integer" }
-        require(team.isNotEmpty()) { "Team should not be empty." }
-        require(team.map { it.name }.toSet().size == team.size) { "Team must not have duplicate names." }
+        require(bossHp == null || bossHp!! > 0) { "Boss HP must be a positive integer." }
+        require(maxTurns > 0) { "Max turns must be a positive integer." }
+        require(maxIterations > 0) { "Max iterations must be a positive integer" }
+        require(team.isNotEmpty()) { "Team must not be empty." }
+        require(team.all { it.name.isNotBlank() }) { "Team members must have non-blank names." }
+        require(team.map { it.name.trim() }.toSet().size == team.size) { "Team must not have duplicate names." }
         require(team.all { it.memoirLimitBreak in 0..4 }) { "Memoir limit break must be between 0 and 4 inclusive" }
         return StageLoadout(
             TeamLoadout(
                 team.map {
                     ActorLoadout(
-                        it.name,
+                        it.name.trim(),
                         playerDresses[it.dress]!!.create(
                             rarity = it.rarity,
                             level = it.level,
@@ -52,7 +52,7 @@ fun SimulationParameters.createStageLoadout(): StageLoadout {
                 },
                 guest?.let {
                     ActorLoadout(
-                        it.name,
+                        it.name.trim(),
                         playerDresses[it.dress]!!.create(
                             rarity = it.rarity,
                             level = it.level,

@@ -169,6 +169,7 @@ class SimulatorClient(val simulator: Simulator) {
 
     val interactiveExportButton = document.getElementById("interactive-ui-export-button") as HTMLButtonElement
     val interactiveUndoButton = document.getElementById("interactive-ui-undo-button") as HTMLButtonElement
+    val interactiveGoButton = document.getElementById("interactive-ui-go-button") as HTMLButtonElement
 
     val resultsRow = document.getElementById("results-row") as HTMLDivElement
     val resultsProgressText = document.getElementById("results-progress-text") as HTMLPreElement
@@ -2554,6 +2555,11 @@ class SimulatorClient(val simulator: Simulator) {
                     }
                     toast("Export", "Exported moveset to strategy.", "green")
                 }
+            }
+        })
+        interactiveGoButton.addEventListener("click", {
+            GlobalScope.launch {
+                interactiveSimulation?.sendCommand("go")
             }
         })
 

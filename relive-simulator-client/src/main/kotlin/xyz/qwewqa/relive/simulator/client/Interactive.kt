@@ -13,17 +13,16 @@ import kotlinx.html.js.div
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLSpanElement
-import xyz.qwewqa.relive.simulator.common.ActCardStatus
-import xyz.qwewqa.relive.simulator.common.ActionStatus
-import xyz.qwewqa.relive.simulator.common.InteractiveQueueStatus
+import xyz.qwewqa.relive.simulator.common.*
 
 fun updateInteractiveUi(simulation: InteractiveSimulation, status: InteractiveQueueStatus?) {
-    updateTopBar(simulation, status)
+    updateTopBar(status)
     updateTimeline(simulation, status)
     updateActs(simulation, status)
+    updateMemoirs(simulation, status)
 }
 
-private fun updateTopBar(simulation: InteractiveSimulation, status: InteractiveQueueStatus?) {
+private fun updateTopBar(status: InteractiveQueueStatus?) {
     val turnText = document.getElementById("interactive-turn-text") as HTMLSpanElement
     turnText.textContent = "${status?.turn ?: 0}/${status?.maxTurns ?: 0}"
 }
@@ -37,7 +36,7 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
         return
     }
 
-    fun TagConsumer<HTMLElement>.cardImage(card: ActCardStatus) {
+    fun TagConsumer<HTMLElement>.cardImage(index: Int, card: ActCardStatus) {
         div("interactive-timeline-image-container") {
             div("interactive-queue-image-container") {
                 img(classes = "queue-actor-img") { src = "img/large_icon/1_${card.dressId}.png" }
@@ -47,7 +46,7 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
                 }
                 onClickFunction = {
                     GlobalScope.launch {
-                        simulation.sendCommand("unqueue ${card.handIndex}")
+                        simulation.sendCommand("unqueue #${index + 1}")
                     }
                 }
             }
@@ -56,7 +55,7 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
 
     timelineContainer.append {
         div("interactive-timeline-connector-bg") { }
-        status.queue.forEach { card ->
+        status.queue.forEachIndexed { i, card ->
             val type = when {
                 card.isClimax -> "interactive-timeline-climax"
                 else -> "interactive-timeline-normal"
@@ -64,7 +63,7 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
             when (card.cost) {
                 1 -> {
                     div("interactive-timeline-item $type") {
-                        cardImage(card)
+                        cardImage(i, card)
                     }
                 }
 
@@ -74,13 +73,13 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
                         div("interactive-timeline-marker") { }
                         onClickFunction = {
                             GlobalScope.launch {
-                                simulation.sendCommand("unqueue ${card.handIndex}")
+                                simulation.sendCommand("unqueue #${i + 1}")
                             }
                         }
                     }
                     div("interactive-timeline-item $type") {
                         div("interactive-timeline-connector-end")
-                        cardImage(card)
+                        cardImage(i, card)
                     }
                 }
 
@@ -90,7 +89,7 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
                         div("interactive-timeline-marker") { }
                         onClickFunction = {
                             GlobalScope.launch {
-                                simulation.sendCommand("unqueue ${card.handIndex}")
+                                simulation.sendCommand("unqueue #${i + 1}")
                             }
                         }
                     }
@@ -100,14 +99,14 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
                             div("interactive-timeline-marker") { }
                             onClickFunction = {
                                 GlobalScope.launch {
-                                    simulation.sendCommand("unqueue ${card.handIndex}")
+                                    simulation.sendCommand("unqueue #${i + 1}")
                                 }
                             }
                         }
                     }
                     div("interactive-timeline-item $type") {
                         div("interactive-timeline-connector-end")
-                        cardImage(card)
+                        cardImage(i, card)
                     }
                 }
             }
@@ -233,8 +232,17 @@ private fun updateActs(simulation: InteractiveSimulation, status: InteractiveQue
         ) {
             role = "button"
             id = "interactive-climax-button"
-            if (status.climaxTurns > 0) {
-                +"${status.climaxTurns}"
+            when {
+                status.canClimax -> {
+                    div {
+                        +"CA"
+                    }
+                }
+                status.climaxTurns > 0 -> {
+                    div {
+                        +"${status.climaxTurns}"
+                    }
+                }
             }
             onClickFunction = {
                 GlobalScope.launch {
@@ -251,5 +259,89 @@ private fun updateActs(simulation: InteractiveSimulation, status: InteractiveQue
             id = "interactive-acts-container"
             status.hand.forEach { act(it) }
         }
+    }
+}
+
+private fun updateMemoirs(simulation: InteractiveSimulation, status: InteractiveQueueStatus?) {
+    val memoirCostText = document.getElementById("interactive-available-memoir-cost-text") as HTMLSpanElement
+    val remainingCost = (status?.cutinCostMax ?: 0) - (status?.cutinCostUsed ?: 0)
+    memoirCostText.textContent = "$remainingCost"
+
+    val interactiveMemoirsContainer = document.getElementById("interactive-memoirs-container") as HTMLElement
+
+    interactiveMemoirsContainer.clear()
+
+    if (status == null) {
+        return
+    }
+
+    fun TagConsumer<HTMLElement>.memoir(cutin: CutinCardStatus) {
+        div("interactive-memoir") {
+            div(
+                "interactive-memoir-image-container ${
+                    when(cutin.status) {
+                        ActionStatus.QUEUED -> "interactive-memoir-queued"
+                        ActionStatus.TOO_EXPENSIVE -> "interactive-memoir-too-expensive"
+                        ActionStatus.HOLDER_EXITED -> "interactive-memoir-holder-exited"
+                        ActionStatus.COOLDOWN -> "interactive-memoir-cooldown"
+                        ActionStatus.NO_MORE_USES -> "interactive-memoir-no-more-uses"
+                        else -> ""
+                    }
+                }"
+            ) {
+                img(classes = "interactive-memoir-img") { src = "img/large_icon/2_${cutin.memoirId}.png" }
+                img(classes = "interactive-memoir-actor-img") { src = "img/large_icon/1_${cutin.dressId}.png" }
+                if (cutin.isSupport) {
+                    img(classes = "interactive-memoir-support-indicator") { src = "img/common/icon_support_dress.png" }
+                }
+                span("interactive-memoir-cost-text") {
+                    +"${cutin.cost}"
+                }
+                span("interactive-memoir-uses-text") {
+                    +"${cutin.maxUses - cutin.useCount}/${cutin.maxUses}"
+                }
+                when (cutin.status) {
+                    ActionStatus.READY -> {
+                        onClickFunction = {
+                            GlobalScope.launch {
+                                simulation.sendCommand("cutin ${cutin.actorName}")
+                            }
+                        }
+                    }
+
+                    ActionStatus.QUEUED -> {
+                        onClickFunction = {
+                            GlobalScope.launch {
+                                simulation.sendCommand("cutin ${cutin.actorName}")
+                            }
+                        }
+                    }
+
+                    ActionStatus.COOLDOWN -> {
+                        span("interactive-memoir-cooldown-text") {
+                            +"${cutin.remainingColdown}t"
+                        }
+                    }
+
+                    ActionStatus.TOO_EXPENSIVE -> {
+                        span("interactive-memoir-too-expensive-text") {
+                            +"C"
+                        }
+                    }
+
+                    ActionStatus.HOLDER_EXITED -> {
+                        span("interactive-memoir-holder-exited-text") {
+                            +"X"
+                        }
+                    }
+
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    interactiveMemoirsContainer.append {
+        status.cutins.forEach { memoir(it) }
     }
 }
