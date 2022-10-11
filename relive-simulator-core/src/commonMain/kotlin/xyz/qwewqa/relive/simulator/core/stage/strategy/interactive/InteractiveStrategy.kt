@@ -73,7 +73,16 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 throw IllegalStateException("Status already initialized.")
             }
             stageLog.addAll(entries)
-            queueStatusHistory += null
+            queueStatusHistory += InteractiveQueueStatus(
+                0,
+                emptyList(),
+                emptyList(),
+                null,
+                emptyList(),
+                false,
+                0,
+                false,
+            )
             lengths += entries.size
             enemyStatuses += enemyStatus
             playerStatuses += playerStatus
@@ -343,8 +352,8 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 held?.status,
                 team.actors.values.mapNotNull { it.cutin?.status },
                 queuing && !hasPerformedHoldAction,
-                team.cxTurns,
-                queuing && team.cxTurns == 0 && team.actors.values.any { it.brilliance >= 100 },
+                if (climax) 2 else team.cxTurns,
+                queuing && team.cxTurns == 0 && team.actors.values.any { it.brilliance >= 100 } && !climax,
             )
         }
 
@@ -357,6 +366,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 act.type == ActType.ClimaxAct,
                 actor.isSupport,
                 when {
+                    this == held -> ActionStatus.HELD
                     queue.count { it == this } >= hand.count { it == this } -> ActionStatus.QUEUED
                     queue.sumOf { it.apCost } + apCost > 6 -> ActionStatus.TOO_EXPENSIVE
                     else -> ActionStatus.READY

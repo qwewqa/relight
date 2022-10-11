@@ -99,6 +99,7 @@ enum class ActionStatus {
     COOLDOWN,
     NO_MORE_USES,
     HOLDER_EXITED,
+    HELD,
 }
 
 @Serializable
