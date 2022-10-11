@@ -492,3 +492,7 @@
 # v0.31.2
 - Fixed support sorting
 - Added status command button
+
+# v0.32.0
+- Added new interactive interface
+- Interactive console is now hidden by default
