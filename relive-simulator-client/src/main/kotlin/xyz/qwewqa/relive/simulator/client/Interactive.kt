@@ -10,22 +10,28 @@ import kotlinx.dom.clear
 import kotlinx.html.*
 import kotlinx.html.dom.append
 import kotlinx.html.js.div
-import kotlinx.html.js.img
 import kotlinx.html.js.onClickFunction
 import org.w3c.dom.HTMLElement
+import org.w3c.dom.HTMLSpanElement
 import xyz.qwewqa.relive.simulator.common.ActCardStatus
 import xyz.qwewqa.relive.simulator.common.ActionStatus
 import xyz.qwewqa.relive.simulator.common.InteractiveQueueStatus
 
 fun updateInteractiveUi(simulation: InteractiveSimulation, status: InteractiveQueueStatus?) {
-    val timelineContainer = document.getElementById("interactive-timeline-container") as HTMLElement
-    timelineContainer.updateTimeline(simulation, status)
-    val interactiveActsRow = document.getElementById("interactive-acts-row") as HTMLElement
-    interactiveActsRow.updateActs(simulation, status)
+    updateTopBar(simulation, status)
+    updateTimeline(simulation, status)
+    updateActs(simulation, status)
 }
 
-private fun HTMLElement.updateTimeline(simulation: InteractiveSimulation, status: InteractiveQueueStatus?) {
-    clear()
+private fun updateTopBar(simulation: InteractiveSimulation, status: InteractiveQueueStatus?) {
+    val turnText = document.getElementById("interactive-turn-text") as HTMLSpanElement
+    turnText.textContent = "${status?.turn ?: 0}/${status?.maxTurns ?: 0}"
+}
+
+private fun updateTimeline(simulation: InteractiveSimulation, status: InteractiveQueueStatus?) {
+    val timelineContainer = document.getElementById("interactive-timeline-container") as HTMLElement
+
+    timelineContainer.clear()
 
     if (status == null) {
         return
@@ -48,7 +54,7 @@ private fun HTMLElement.updateTimeline(simulation: InteractiveSimulation, status
         }
     }
 
-    append {
+    timelineContainer.append {
         div("interactive-timeline-connector-bg") { }
         status.queue.forEach { card ->
             val type = when {
@@ -114,8 +120,10 @@ private fun HTMLElement.updateTimeline(simulation: InteractiveSimulation, status
     }
 }
 
-private fun HTMLElement.updateActs(simulation: InteractiveSimulation, status: InteractiveQueueStatus?) {
-    clear()
+private fun updateActs(simulation: InteractiveSimulation, status: InteractiveQueueStatus?) {
+    val interactiveActsRow = document.getElementById("interactive-acts-row") as HTMLElement
+
+    interactiveActsRow.clear()
 
     if (status == null) {
         return
@@ -213,7 +221,7 @@ private fun HTMLElement.updateActs(simulation: InteractiveSimulation, status: In
         }
     }
 
-    append {
+    interactiveActsRow.append {
         button(
             classes = "btn btn-secondary ${
                 when {

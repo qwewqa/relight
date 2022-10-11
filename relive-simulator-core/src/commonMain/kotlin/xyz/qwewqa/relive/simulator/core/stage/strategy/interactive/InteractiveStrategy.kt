@@ -65,6 +65,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         }
 
         fun init(
+            controller: InteractiveSimulationController,
             entries: List<LogEntry>,
             enemyStatus: List<ActorStatus>,
             playerStatus: List<ActorStatus>,
@@ -75,6 +76,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
             stageLog.addAll(entries)
             queueStatusHistory += InteractiveQueueStatus(
                 0,
+                controller.maxTurns,
                 emptyList(),
                 emptyList(),
                 null,
@@ -82,6 +84,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 false,
                 0,
                 false,
+                null,
             )
             lengths += entries.size
             enemyStatuses += enemyStatus
@@ -165,6 +168,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
                 }
                 status.init(
+                    this,
                     stage.logger.get(),
                     enemyStatus = stage.enemy.actors.values.map { it.status() },
                     playerStatus = stage.player.actors.values.map { it.status() },
@@ -344,9 +348,12 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         private val statusHistory = mutableListOf<TurnStatus>()
         private val queueHistory = mutableListOf<QueueResult>()
 
+        private var lastExport: String? = null
+
         val queueStatus: InteractiveQueueStatus get() {
             return InteractiveQueueStatus(
                 stage.turn,
+                maxTurns,
                 queue.map { it.status },
                 if (queuing) hand.map { it.status } else emptyList(),
                 held?.status,
@@ -354,6 +361,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 queuing && !hasPerformedHoldAction,
                 if (climax) 2 else team.cxTurns,
                 queuing && team.cxTurns == 0 && team.actors.values.any { it.brilliance >= 100 } && !climax,
+                lastExport,
             )
         }
 
@@ -993,7 +1001,7 @@ ${
                                     .filterIsInstance<ActionTile>()
                                     .joinToString("") { "${it.actor.name} ${it.actData.type.shortName}\n" }
                             }"
-                        }.joinToString("\n").trimEnd()
+                        }.joinToString("\n").trimEnd().also { lastExport = it }
                     }
                 }
                 InteractiveCommandType.INCREMENTAL -> {

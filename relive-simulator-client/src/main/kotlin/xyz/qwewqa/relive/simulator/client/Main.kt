@@ -167,6 +167,9 @@ class SimulatorClient(val simulator: Simulator) {
     val syncButton = document.getElementById("sync-button") as HTMLButtonElement
     val profile = document.getElementById("profile") as HTMLDivElement
 
+    val interactiveExportButton = document.getElementById("interactive-ui-export-button") as HTMLButtonElement
+    val interactiveUndoButton = document.getElementById("interactive-ui-undo-button") as HTMLButtonElement
+
     val resultsRow = document.getElementById("results-row") as HTMLDivElement
     val resultsProgressText = document.getElementById("results-progress-text") as HTMLPreElement
     val resultsText = document.getElementById("results-text") as HTMLPreElement
@@ -2531,6 +2534,27 @@ class SimulatorClient(val simulator: Simulator) {
         clearGraphsButton.addEventListener("click", {
             resetGraph()
             resetSavedResultButtons()
+        })
+
+        interactiveUndoButton.addEventListener("click", {
+            GlobalScope.launch {
+                interactiveSimulation?.sendCommand("undo")
+            }
+        })
+        interactiveExportButton.addEventListener("click", {
+            GlobalScope.launch {
+                interactiveSimulation?.sendCommand("export strict")
+                val export = interactiveSimulation?.getLog()?.data?.queueStatus?.lastExport
+                if (export != null && export.isNotBlank()) {
+                    val currentStrategy = (strategyEditor.getValue() as String).trim()
+                    if (currentStrategy.isBlank()) {
+                        strategyEditor.setValue("Moveset:\n$export")
+                    } else {
+                        strategyEditor.setValue("$currentStrategy\n\nMoveset:\n$export")
+                    }
+                    toast("Export", "Exported moveset to strategy.", "green")
+                }
+            }
         })
 
         updateLocaleText()

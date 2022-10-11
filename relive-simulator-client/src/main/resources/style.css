@@ -167,12 +167,58 @@ pwa-update::part(offlineToast) {
 
 #interactive-ui-container {
     margin-top: 0.6em;
+    --container-max-width: 100vw;
+}
+
+@media (min-width: 576px) {
+    #interactive-ui-container {
+        --container-max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    #interactive-ui-container {
+        --container-max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    #interactive-ui-container {
+        --container-max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    #interactive-ui-container {
+        --container-max-width: 1140px;
+    }
+}
+
+@media (min-width: 1400px) {
+    #interactive-ui-container {
+        --container-max-width: 1320px;
+    }
+}
+
+#interactive-top-container {
+    --size-ref: min(720px, calc(0.80 * var(--container-max-width)));
+    display: flex;
+    width: var(--size-ref);
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.6em;
+}
+
+#interactive-turn-text {
+    font-size: 28px;
+    line-height: 28px;
+    font-weight: bold;
 }
 
 #interactive-timeline-container {
     position: relative;
     display: flex;
-    --tl-width: min(480px, 80vw);
+    --tl-width: min(720px, calc(0.80 * var(--container-max-width)));
     --size-ref: var(--tl-width);
     --tl-height: calc(var(--tl-width) / 6);
     --tl-entry-width: calc(var(--tl-width) / 6);
@@ -325,9 +371,10 @@ pwa-update::part(offlineToast) {
 }
 
 #interactive-acts-row {
-    --size-ref: min(440px, 76vw);
+    --size-ref: min(680px, calc(0.76 * var(--container-max-width)));
     display: flex;
     overflow-x: scroll;
+    overflow-y: clip;
     align-items: center;
     justify-content: center;
     margin-top: 0.6em;
