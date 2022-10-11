@@ -625,66 +625,74 @@
                 </div>
             </div>
         </form>
-        <div class="border border-2 rounded px-3 py-2 my-3 " id="interactive-container">
-            <div class="row" id="interactive-display-row">
-                <div class="col-12">
-                    <div id="interactive-log"></div>
-                </div>
-            </div>
-            <div class="row" id="interactive-input-row">
-                <div class="col-12">
-                    <div class="input-group input-group-sm">
-                        <input id="interactive-input" class="form-control" value="" type="text" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="off" name="interactive-input">
-                        <button id="interactive-send-button" class="btn btn-outline-secondary" type="button"><i
-                                class="bi-send"></i></button>
+        <div class="border border-2 rounded px-3 py-2 my-3 d-none" id="interactive-container">
+            <div id="interactive-console-container" class="collapse">
+                <div class="row" id="interactive-display-row">
+                    <div class="col-12">
+                        <div id="interactive-log"></div>
                     </div>
                 </div>
-            </div>
-            <div class="row" id="interactive-shortcuts-row">
-                <div class="col-auto ms-auto my-1">
-                    <div class="input-group">
-                        <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
-                                data-interactive-command="undo"
-                                type="button" title="undo">
-                            <i class="bi bi-arrow-90deg-left"></i></button>
-                        <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
-                                data-interactive-command="save temp"
-                                type="button" title="save">
-                            <i class="bi bi-download"></i></button>
-                        <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
-                                data-interactive-command="load temp"
-                                type="button" title="load">
-                            <i class="bi bi-upload"></i></button>
-                        <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
-                                data-interactive-command="export strict"
-                                type="button" title="export">
-                            <i class="bi bi-box-arrow-up-right"></i></button>
-                        <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
-                                data-interactive-command="seed"
-                                type="button" title="reseed">
-                            <i class="bi bi-shuffle"></i></button>
-                        <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
-                                data-interactive-command="status"
-                                type="button" title="status">
-                            <i class="bi bi-activity"></i></button>
-                        <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
-                                data-interactive-command="info"
-                                type="button" title="info">
-                            <i class="bi bi-info-circle"></i></button>
+                <div class="row" id="interactive-input-row">
+                    <div class="col-12">
+                        <div class="input-group input-group-sm">
+                            <input id="interactive-input" class="form-control" value="" type="text" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="off" name="interactive-input">
+                            <button id="interactive-send-button" class="btn btn-outline-secondary" type="button"><i
+                                    class="bi-send"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="interactive-shortcuts-row">
+                    <div class="col-auto ms-auto my-1">
+                        <div class="input-group">
+                            <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                    data-interactive-command="undo"
+                                    type="button" title="undo">
+                                <i class="bi bi-arrow-90deg-left"></i></button>
+                            <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                    data-interactive-command="save temp"
+                                    type="button" title="save">
+                                <i class="bi bi-download"></i></button>
+                            <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                    data-interactive-command="load temp"
+                                    type="button" title="load">
+                                <i class="bi bi-upload"></i></button>
+                            <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                    data-interactive-command="export strict"
+                                    type="button" title="export">
+                                <i class="bi bi-box-arrow-up-right"></i></button>
+                            <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                    data-interactive-command="seed"
+                                    type="button" title="reseed">
+                                <i class="bi bi-shuffle"></i></button>
+                            <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                    data-interactive-command="status"
+                                    type="button" title="status">
+                                <i class="bi bi-activity"></i></button>
+                            <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                    data-interactive-command="info"
+                                    type="button" title="info">
+                                <i class="bi bi-info-circle"></i></button>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
                     <div id="interactive-status-container"></div>
-                    <div id="interactive-ui-container">
+                    <div id="interactive-ui-container" class="d-none">
                         <div id="interactive-top-container">
                             <button id="interactive-ui-undo-button" role="button" class="btn btn-secondary" type="button">
                                 <i class="bi bi-arrow-90deg-left"></i>
                             </button>
+                            <button id="interactive-ui-restart-button" role="button" class="btn btn-danger" type="button">
+                                <i class="bi bi-arrow-counterclockwise"></i>
+                            </button>
                             <div class="mx-auto">
                                 <span id="interactive-turn-text">3/6</span>
                             </div>
+                            <button id="interactive-ui-console-button" role="button" class="btn btn-warning" type="button" data-bs-toggle="collapse" data-bs-target="#interactive-console-container">
+                                <i class="bi bi-terminal"></i>
+                            </button>
                             <button id="interactive-ui-export-button" role="button" class="btn btn-primary" type="button">
                                 <i class="bi bi-box-arrow-up-right"></i>
                             </button>

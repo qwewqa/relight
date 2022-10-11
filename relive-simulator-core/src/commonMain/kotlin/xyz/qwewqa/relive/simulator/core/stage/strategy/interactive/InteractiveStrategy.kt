@@ -251,6 +251,12 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                     }
                 }
             }
+            InteractiveCommandType.RESTART -> {
+                status.replace(CacheableStatus())
+                playStage(null) {
+                    log("Command", "Restart", category = LogCategory.COMMAND) { "Successfully restarted." }
+                }
+            }
             InteractiveCommandType.EIGHT_BALL -> {
                 playStage(null) {
                     if (command.data.isNotBlank()) {
@@ -1244,6 +1250,7 @@ ${
                 InteractiveCommandType.SAVE -> {}
                 InteractiveCommandType.LOAD -> {}
                 InteractiveCommandType.UNDO -> {}
+                InteractiveCommandType.RESTART -> {}
                 InteractiveCommandType.EIGHT_BALL -> {}
             }
         }
@@ -1935,6 +1942,20 @@ enum class InteractiveCommandType(
         examples = """
             Lists all acts.
                 acts
+        """.trimIndent(),
+    ),
+    RESTART(
+        title = "restart",
+        aliases = listOf("reset"),
+        synopsis = """
+            restart
+        """.trimIndent(),
+        description = """
+            Restart the simulation.
+        """.trimIndent(),
+        examples = """
+            Restarts the simulation.
+                restart
         """.trimIndent(),
     ),
     EIGHT_BALL(

@@ -169,6 +169,7 @@ class SimulatorClient(val simulator: Simulator) {
 
     val interactiveExportButton = document.getElementById("interactive-ui-export-button") as HTMLButtonElement
     val interactiveUndoButton = document.getElementById("interactive-ui-undo-button") as HTMLButtonElement
+    val interactiveRestartButton = document.getElementById("interactive-ui-restart-button") as HTMLButtonElement
     val interactiveGoButton = document.getElementById("interactive-ui-go-button") as HTMLButtonElement
 
     val resultsRow = document.getElementById("results-row") as HTMLDivElement
@@ -2560,6 +2561,11 @@ class SimulatorClient(val simulator: Simulator) {
         interactiveGoButton.addEventListener("click", {
             GlobalScope.launch {
                 interactiveSimulation?.sendCommand("go")
+            }
+        })
+        interactiveRestartButton.addEventListener("click", {
+            GlobalScope.launch {
+                interactiveSimulation?.sendCommand("restart")
             }
         })
 

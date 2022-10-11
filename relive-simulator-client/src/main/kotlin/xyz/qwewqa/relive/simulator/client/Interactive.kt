@@ -7,6 +7,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.dom.clear
+import kotlinx.dom.removeClass
 import kotlinx.html.*
 import kotlinx.html.dom.append
 import kotlinx.html.js.div
@@ -20,6 +21,8 @@ fun updateInteractiveUi(simulation: InteractiveSimulation, status: InteractiveQu
     updateTimeline(simulation, status)
     updateActs(simulation, status)
     updateMemoirs(simulation, status)
+
+    document.getElementById("interactive-ui-container")?.removeClass("d-none")
 }
 
 private fun updateTopBar(status: InteractiveQueueStatus?) {
