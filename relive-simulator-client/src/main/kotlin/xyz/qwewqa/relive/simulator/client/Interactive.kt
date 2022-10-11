@@ -176,8 +176,16 @@ private fun updateActs(simulation: InteractiveSimulation, status: InteractiveQue
 
                         else -> {}
                     }
-                    if (card.status == ActionStatus.TOO_EXPENSIVE) {
-                        span("queue-act-too-expensive-text") { +"C" }
+                    when (card.status) {
+                        ActionStatus.TOO_EXPENSIVE -> {
+                            span("queue-act-too-expensive-text") { +"C" }
+                        }
+
+                        ActionStatus.QUEUED -> {
+                            i("bi bi-check queue-act-queued-icon") { }
+                        }
+
+                        else -> {}
                     }
                 }
             }
@@ -241,6 +249,7 @@ private fun updateActs(simulation: InteractiveSimulation, status: InteractiveQue
                         +"CA"
                     }
                 }
+
                 status.climaxTurns > 0 -> {
                     div {
                         +"${status.climaxTurns}"
@@ -282,7 +291,7 @@ private fun updateMemoirs(simulation: InteractiveSimulation, status: Interactive
         div("interactive-memoir") {
             div(
                 "interactive-memoir-image-container ${
-                    when(cutin.status) {
+                    when (cutin.status) {
                         ActionStatus.QUEUED -> "interactive-memoir-queued"
                         ActionStatus.TOO_EXPENSIVE -> "interactive-memoir-too-expensive"
                         ActionStatus.HOLDER_EXITED -> "interactive-memoir-holder-exited"
@@ -318,6 +327,7 @@ private fun updateMemoirs(simulation: InteractiveSimulation, status: Interactive
                                 simulation.sendCommand("cutin ${cutin.actorName}")
                             }
                         }
+                        i("bi bi-check interactive-memoir-queued-icon") { }
                     }
 
                     ActionStatus.COOLDOWN -> {
