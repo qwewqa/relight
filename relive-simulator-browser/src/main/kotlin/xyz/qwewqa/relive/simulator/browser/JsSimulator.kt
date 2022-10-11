@@ -218,7 +218,8 @@ class JsInteractiveSimulation(val parameters: SimulationParameters) : Interactiv
                         tags = listOf("Error"),
                         content = error!!
                     )
-                )
+                ),
+                error = error,
             )
         )
     }

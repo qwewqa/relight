@@ -92,6 +92,7 @@ fun Application.configureRouting() {
                                         content = errorMessage
                                     ),
                                 ),
+                                error = errorMessage,
                             ),
                         )
                     )

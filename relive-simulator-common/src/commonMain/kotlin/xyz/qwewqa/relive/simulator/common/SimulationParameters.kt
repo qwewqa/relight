@@ -42,6 +42,7 @@ data class InteractiveLog(
 @Serializable
 data class InteractiveLogData(
     val entries: List<LogEntry>,
+    val error: String? = null,
     val queueStatus: InteractiveQueueStatus? = null,
     val enemyStatus: List<ActorStatus>? = null,
     val playerStatus: List<ActorStatus>? = null,
@@ -70,6 +71,7 @@ data class InteractiveQueueStatus(
     val climaxTurns: Int,
     val canClimax: Boolean,
     val lastExport: String?,
+    val finished: Boolean,
 )
 
 @Serializable

@@ -6,21 +6,25 @@ import kotlinx.browser.document
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.dom.addClass
 import kotlinx.dom.clear
 import kotlinx.dom.removeClass
 import kotlinx.html.*
 import kotlinx.html.dom.append
 import kotlinx.html.js.div
 import kotlinx.html.js.onClickFunction
+import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLSpanElement
 import xyz.qwewqa.relive.simulator.common.*
 
-fun updateInteractiveUi(simulation: InteractiveSimulation, status: InteractiveQueueStatus?) {
+fun updateInteractiveUi(simulation: InteractiveSimulation, status: InteractiveQueueStatus?, error: String?) {
     updateTopBar(status)
+    updateError(error)
     updateTimeline(simulation, status)
     updateActs(simulation, status)
     updateMemoirs(simulation, status)
+    updateGoButton(status)
 
     document.getElementById("interactive-ui-container")?.removeClass("d-none")
 }
@@ -28,6 +32,18 @@ fun updateInteractiveUi(simulation: InteractiveSimulation, status: InteractiveQu
 private fun updateTopBar(status: InteractiveQueueStatus?) {
     val turnText = document.getElementById("interactive-turn-text") as HTMLSpanElement
     turnText.textContent = "${status?.turn ?: 0}/${status?.maxTurns ?: 0}"
+}
+
+private fun updateError(error: String?) {
+    val errorContainer = document.getElementById("interactive-error-container") as HTMLElement
+    val errorText = document.getElementById("interactive-error-text") as HTMLElement
+
+    if (error != null) {
+        errorContainer.removeClass("d-none")
+        errorText.textContent = error.split("\n").first()
+    } else {
+        errorContainer.addClass("d-none")
+    }
 }
 
 private fun updateTimeline(simulation: InteractiveSimulation, status: InteractiveQueueStatus?) {
@@ -357,4 +373,9 @@ private fun updateMemoirs(simulation: InteractiveSimulation, status: Interactive
     interactiveMemoirsContainer.append {
         status.cutins.forEach { memoir(it) }
     }
+}
+
+private fun updateGoButton(status: InteractiveQueueStatus?) {
+    val goButton = document.getElementById("interactive-ui-go-button") as HTMLButtonElement
+    goButton.disabled = status == null || status.finished
 }

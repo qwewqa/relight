@@ -2606,7 +2606,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 }
                             }
                             interactiveStatusContainer.displayStatus(data)
-                            updateInteractiveUi(sim, data.queueStatus)
+                            updateInteractiveUi(sim, data.queueStatus, data.error)
                             prev = data
                         }
                     }

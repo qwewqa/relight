@@ -86,6 +86,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 0,
                 false,
                 null,
+                false,
             )
             lengths += entries.size
             enemyStatuses += enemyStatus
@@ -196,7 +197,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
     suspend fun getLog(rev: Int = -1) = mutex.withLock {
         if (rev != this.rev) {
-            InteractiveLog(InteractiveLogData(resultLog, status.queueStatus, status.enemyStatus, status.playerStatus), this.rev)
+            InteractiveLog(InteractiveLogData(resultLog, null, status.queueStatus, status.enemyStatus, status.playerStatus), this.rev)
         } else {
             InteractiveLog(null, this.rev)
         }
@@ -373,6 +374,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 if (climax) 2 else team.cxTurns,
                 queuing && team.cxTurns == 0 && team.actors.values.any { it.brilliance >= 100 } && !climax,
                 lastExport,
+                false,
             )
         } else {
             InteractiveQueueStatus(
@@ -388,6 +390,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 0,
                 false,
                 lastExport,
+                true,
             )
         }
 
