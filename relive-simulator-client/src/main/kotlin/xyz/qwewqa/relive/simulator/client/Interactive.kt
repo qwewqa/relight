@@ -72,6 +72,17 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
         }
     }
 
+    var tile = 0
+    fun tileClass(): String {
+        tile++
+        return when {
+            status.runState == InteractiveRunState.QUEUE -> ""
+            tile < status.tile -> "interactive-timeline-past"
+            tile == status.tile -> "interactive-timeline-current"
+            else -> "interactive-timeline-future"
+        }
+    }
+
     timelineContainer.append {
         div("interactive-timeline-connector-bg") { }
         status.queue.forEachIndexed { i, card ->
@@ -81,13 +92,13 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
             }
             when (card.cost) {
                 1 -> {
-                    div("interactive-timeline-item $type") {
+                    div("interactive-timeline-item $type ${tileClass()}") {
                         cardImage(i, card)
                     }
                 }
 
                 2 -> {
-                    div("interactive-timeline-item $type") {
+                    div("interactive-timeline-item $type ${tileClass()}") {
                         div("interactive-timeline-connector-start")
                         div("interactive-timeline-marker") { }
                         onClickFunction = {
@@ -96,14 +107,14 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
                             }
                         }
                     }
-                    div("interactive-timeline-item $type") {
+                    div("interactive-timeline-item $type ${tileClass()}") {
                         div("interactive-timeline-connector-end")
                         cardImage(i, card)
                     }
                 }
 
                 else -> {
-                    div("interactive-timeline-item $type") {
+                    div("interactive-timeline-item $type ${tileClass()}") {
                         div("interactive-timeline-connector-start")
                         div("interactive-timeline-marker") { }
                         onClickFunction = {
@@ -113,7 +124,7 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
                         }
                     }
                     repeat(card.cost - 2) {
-                        div("interactive-timeline-item $type") {
+                        div("interactive-timeline-item $type ${tileClass()}") {
                             div("interactive-timeline-connector-middle")
                             div("interactive-timeline-marker") { }
                             onClickFunction = {
@@ -123,7 +134,7 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
                             }
                         }
                     }
-                    div("interactive-timeline-item $type") {
+                    div("interactive-timeline-item $type ${tileClass()}") {
                         div("interactive-timeline-connector-end")
                         cardImage(i, card)
                     }
@@ -131,7 +142,7 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
             }
         }
         repeat(6 - status.queue.sumOf { it.cost }) {
-            div("interactive-timeline-item interactive-timeline-empty") {
+            div("interactive-timeline-item interactive-timeline-empty ${tileClass()}") {
                 div("interactive-timeline-marker") { }
             }
         }
@@ -381,5 +392,5 @@ private fun updateMemoirs(simulation: InteractiveSimulation, status: Interactive
 
 private fun updateGoButton(status: InteractiveQueueStatus?) {
     val goButton = document.getElementById("interactive-ui-go-button") as HTMLButtonElement
-    goButton.disabled = status == null || status.finished
+    goButton.disabled = status == null || status.runState == InteractiveRunState.FINISHED
 }

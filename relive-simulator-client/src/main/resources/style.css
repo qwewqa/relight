@@ -259,6 +259,16 @@ pwa-update::part(offlineToast) {
     --marker-color: purple;
 }
 
+.interactive-timeline-current {
+}
+
+.interactive-timeline-past {
+}
+
+.interactive-timeline-future {
+    filter: brightness(60%);
+}
+
 .interactive-timeline-item {
     position: relative;
     display: flex;

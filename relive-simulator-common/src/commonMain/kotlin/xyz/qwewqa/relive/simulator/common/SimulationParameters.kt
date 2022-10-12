@@ -60,6 +60,7 @@ data class ActorStatus(
 @Serializable
 data class InteractiveQueueStatus(
     val turn: Int,
+    val tile: Int,
     val maxTurns: Int,
     val queue: List<ActCardStatus>,
     val hand: List<ActCardStatus>,
@@ -71,8 +72,16 @@ data class InteractiveQueueStatus(
     val climaxTurns: Int,
     val canClimax: Boolean,
     val lastExport: String?,
-    val finished: Boolean,
+    val runState: InteractiveRunState,
 )
+
+@Serializable
+enum class InteractiveRunState {
+    SETUP,
+    QUEUE,
+    RUN,
+    FINISHED,
+}
 
 @Serializable
 data class ActCardStatus(

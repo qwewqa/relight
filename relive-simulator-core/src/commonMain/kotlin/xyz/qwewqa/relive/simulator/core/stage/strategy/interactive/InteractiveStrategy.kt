@@ -75,6 +75,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
             stageLog.addAll(entries)
             queueStatusHistory += InteractiveQueueStatus(
                 0,
+                0,
                 controller.maxTurns,
                 emptyList(),
                 emptyList(),
@@ -86,7 +87,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 0,
                 false,
                 null,
-                false,
+                InteractiveRunState.SETUP,
             )
             lengths += entries.size
             enemyStatuses += enemyStatus
@@ -360,39 +361,30 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
         private var finished = false
 
-        val queueStatus: InteractiveQueueStatus get() = if (!finished) {
-            InteractiveQueueStatus(
+        private var lastQueueStatus: List<ActCardStatus> = emptyList()
+        private var lastCutinStatus: List<CutinCardStatus> = emptyList()
+
+        val queueStatus: InteractiveQueueStatus get() = InteractiveQueueStatus(
                 stage.turn,
+                stage.tile,
                 maxTurns,
-                queue.map { it.status },
+                if (queuing) queue.map { it.status } else lastQueueStatus,
                 if (queuing) hand.map { it.status } else emptyList(),
-                held?.status,
-                team.actors.values.mapNotNull { it.cutin?.status },
+                if (!finished) held?.status else null,
+                if (queuing) team.actors.values.mapNotNull { it.cutin?.status } else lastCutinStatus,
                 cutinQueue.sumOf { it.data.cost },
                 cutinEnergy,
                 queuing && !hasPerformedHoldAction && team.active.size > 1,
                 if (climax) 2 else team.cxTurns,
                 queuing && team.cxTurns == 0 && team.actors.values.any { it.brilliance >= 100 } && !climax,
                 lastExport,
-                false,
+                when {
+                    finished -> InteractiveRunState.FINISHED
+                    queuing -> InteractiveRunState.QUEUE
+                    stage.turn == 0 -> InteractiveRunState.SETUP
+                    else -> InteractiveRunState.RUN
+                },
             )
-        } else {
-            InteractiveQueueStatus(
-                stage.turn,
-                maxTurns,
-                emptyList(),
-                emptyList(),
-                null,
-                emptyList(),
-                0,
-                0,
-                false,
-                0,
-                false,
-                lastExport,
-                true,
-            )
-        }
 
         val BoundAct.status
             get() = ActCardStatus(
@@ -616,14 +608,16 @@ ${formattedHand()}
                 },
                 climax,
                 cutinQueue.toList(),
-            ).also {
-                queueHistory += it
+            ).also { queueResult ->
+                queueHistory += queueResult
                 statusHistory += TurnStatus(
                     team.actors.values.map { actor -> actor.status() },
-                    team.cxTurns > 0 || it.climax,
+                    team.cxTurns > 0 || queueResult.climax,
                     held = holdActionTarget.takeIf { held != null },
                     discarded = holdActionTarget.takeIf { held == null },
                 )
+                lastQueueStatus = queue.map { it.status }
+                lastCutinStatus = team.actors.values.mapNotNull { it.cutin?.status }
             }
         }
 
