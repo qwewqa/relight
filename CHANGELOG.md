@@ -496,3 +496,8 @@
 # v0.32.0
 - Added new interactive interface
 - Interactive console is now hidden by default
+
+# v0.32.1
+- Adjusted the appearance of queued interactive acts and memoirs
+- Other visual adjustments
+- Added an error message display to the interactive ui
