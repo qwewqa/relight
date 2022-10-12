@@ -504,3 +504,6 @@
 
 # v0.32.2
 - The current tile is now indicated in the interactive ui
+
+# v0.32.3
+- Adjusted when the service worker is loaded
