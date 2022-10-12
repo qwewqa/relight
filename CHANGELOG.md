@@ -501,3 +501,6 @@
 - Adjusted the appearance of queued interactive acts and memoirs
 - Other visual adjustments
 - Added an error message display to the interactive ui
+
+# v0.32.2
+- The current tile is now indicated in the interactive ui
