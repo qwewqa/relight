@@ -1945,7 +1945,8 @@ class SimulatorClient(val simulator: Simulator) {
 
         autoNameButton.addEventListener("click", {
             val setup = getSetup()
-            val useCounts = mutableMapOf<String, Int>().withDefault { 0 }
+            val nameUseCounts = mutableMapOf<String, Int>().withDefault { 0 }
+            val dressUseCounts = mutableMapOf<String, Int>().withDefault { 0 }
             actorTabsDiv.children
                 .asList()
                 .drop(if (guestCheckbox.checked) 1 else 0)
@@ -1954,25 +1955,36 @@ class SimulatorClient(val simulator: Simulator) {
                 .forEach { (tab, params) ->
                     val data = options.dressesById[params.dress]!!.data
                     var name = data.characterName.replace(" ", "").lowercase()
-                    if (params.isSupport) {
-                        name = "s_$name"
+
+                    val dressUseCount = dressUseCounts.getValue(params.dress)
+                    dressUseCounts[params.dress] = dressUseCount + 1
+
+                    when {
+                        dressUseCount > 0 -> {
+                            name = "s_$name"
+                        }
+                        params.level == 1 -> {
+                            name = "f_$name"
+                        }
                     }
-                    if (params.level == 1) {
-                        name = "f_$name"
+
+                    val nameUseCount = nameUseCounts.getValue(name)
+                    nameUseCounts[name] = nameUseCount + 1
+                    if (nameUseCount > 0) {
+                        name += "_${nameUseCount + 1}"
                     }
-                    val useCount = useCounts.getValue(name)
-                    useCounts[name] = useCount + 1
-                    if (useCount > 0) {
-                        name += "_${useCount + 1}"
-                    }
+
                     val options = ActorOptions(options, tab.attributes["data-actor-id"]!!.value.toInt())
-                    options.parameters = options.parameters.copy(name = name)
+                    options.parameters = options.parameters.copy(
+                        name = name,
+                        isSupport = dressUseCount > 0
+                    )
                 }
             if (guestCheckbox.checked) {
                 val tab = actorTabsDiv.firstChild as HTMLDivElement?
                 if (tab != null) {
                     val options = ActorOptions(options, tab.attributes["data-actor-id"]!!.value.toInt())
-                    options.parameters = options.parameters.copy(name = "guest")
+                    options.parameters = options.parameters.copy(name = "guest", isSupport = false)
                 }
             }
         })
