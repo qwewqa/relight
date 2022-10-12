@@ -261,14 +261,18 @@ private fun updateActs(simulation: InteractiveSimulation, status: InteractiveQue
             id = "interactive-climax-button"
             when {
                 status.canClimax -> {
-                    div {
-                        +"CA"
+                    div("interactive-climax-button-text-container") {
+                        div("interactive-climax-button-text font-monospace") {
+                            +"CA"
+                        }
                     }
                 }
 
                 status.climaxTurns > 0 -> {
-                    div {
-                        +"${status.climaxTurns}"
+                    div("interactive-climax-button-text-container") {
+                        div("interactive-climax-button-text font-monospace") {
+                            +"${status.climaxTurns}"
+                        }
                     }
                 }
             }

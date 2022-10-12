@@ -625,7 +625,7 @@
                 </div>
             </div>
         </form>
-        <div class="border border-2 rounded px-3 py-2 my-3" id="interactive-container">
+        <div class="border border-2 rounded px-3 py-2 my-3 d-none" id="interactive-container">
             <div id="interactive-console-container" class="collapse">
                 <div class="row" id="interactive-display-row">
                     <div class="col-12">
@@ -679,7 +679,7 @@
             <div class="row">
                 <div class="col-12">
                     <div id="interactive-status-container"></div>
-                    <div id="interactive-ui-container" class="">
+                    <div id="interactive-ui-container" class="d-none">
                         <div id="interactive-top-container">
                             <button id="interactive-ui-undo-button" role="button" class="btn btn-secondary" type="button">
                                 <i class="bi bi-arrow-90deg-left"></i>
@@ -750,7 +750,11 @@
                         </div>
                         <div id="interactive-acts-row">
                             <button id="interactive-climax-button" role="button" class="btn btn-secondary interactive-climax-button-activated" disabled>
-                                <div>2</div>
+                                <div class="interactive-climax-button-text-container">
+                                    <div class="interactive-climax-button-text font-monospace">
+                                        2t
+                                    </div>
+                                </div>
                             </button>
                             <div id="interactive-hold-container">
                                 <div class="interactive-act">

@@ -345,8 +345,8 @@ pwa-update::part(offlineToast) {
 
 .queue-act-cost {
     position: absolute;
-    top: 3%;
-    right: 8%;
+    top: 0;
+    right: 6%;
     font-size: calc(var(--size-ref) / 16);
     line-height: calc(var(--size-ref) / 16);
     font-weight: bold;
@@ -379,7 +379,7 @@ pwa-update::part(offlineToast) {
 }
 
 #interactive-acts-row {
-    --size-ref: calc(0.88 * min(720px, calc(0.80 * var(--container-max-width))));
+    --size-ref: calc(0.86 * min(720px, calc(0.80 * var(--container-max-width))));
     display: flex;
     overflow-x: scroll;
     overflow-y: visible;
@@ -387,28 +387,18 @@ pwa-update::part(offlineToast) {
     justify-content: center;
     padding-top: calc(var(--size-ref) / 44);
     padding-bottom: calc(var(--size-ref) / 44);
-    gap: max(10px, 2vw);
+    gap: max(10px, 1.2vw);
 }
 
 #interactive-climax-button {
-    height: calc(var(--size-ref) / 8);
-    width: calc(var(--size-ref) / 8);
+    height: calc(var(--size-ref) / 9);
+    width: calc(var(--size-ref) / 9);
+    transform: rotate(45deg);
 }
 
 .interactive-climax-button-available {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border: darkblue 2px solid;
     background: darkblue;
-}
-
-.interactive-climax-button-available div {
-    font-weight: bold;
-    font-size: calc(var(--size-ref) / 16);
-    height: 100%;
-    text-align: center;
-    vertical-align: center;
 }
 
 .interactive-climax-button-available:hover {
@@ -417,22 +407,25 @@ pwa-update::part(offlineToast) {
 }
 
 .interactive-climax-button-activated:disabled {
+    background: midnightblue;
+}
+
+.interactive-climax-button-text-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: midnightblue;
-    font-size: calc(var(--size-ref) / 16);
+    transform: rotate(-45deg);
 }
 
-.interactive-climax-button-activated:disabled div {
-    height: 100%;
+.interactive-climax-button-text {
     font-weight: bold;
-    vertical-align: center;
+    font-size: calc(var(--size-ref) / 15);
+    line-height: 0;
 }
 
 #interactive-acts-container {
     display: flex;
-    gap: max(4px, 0.4vw);
+    gap: max(4px, 0.48vw);
 }
 
 .interactive-act {
@@ -476,6 +469,7 @@ pwa-update::part(offlineToast) {
     transform: translate(-50%, -50%);
     color: green;
     font-size: calc(var(--size-ref) / 8);
+    line-height: 0;
     filter: drop-shadow(0 0 3px white) drop-shadow(0 0 3px white) drop-shadow(0 0 2px white) drop-shadow(0 0 2px white);
 }
 
@@ -584,7 +578,7 @@ pwa-update::part(offlineToast) {
     top: 1%;
     right: 6%;
     font-weight: bold;
-    font-size: calc(var(--size-ref) / 18);
+    font-size: calc(var(--size-ref) / 20);
     line-height: calc(var(--size-ref) / 20);
     color: rebeccapurple;
     filter: drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 2px white) drop-shadow(0 0 2px white);
@@ -705,6 +699,7 @@ pwa-update::part(offlineToast) {
     transform: translate(-50%, -50%);
     color: purple;
     font-size: calc(var(--size-ref) / 9);
+    line-height: 0;
     filter: drop-shadow(0 0 3px white) drop-shadow(0 0 3px white) drop-shadow(0 0 2px white) drop-shadow(0 0 2px white);
 }
 
