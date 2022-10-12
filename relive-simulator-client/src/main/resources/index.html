@@ -681,14 +681,19 @@
                     <div id="interactive-status-container"></div>
                     <div id="interactive-ui-container" class="d-none">
                         <div id="interactive-top-container">
-                            <button id="interactive-ui-undo-button" role="button" class="btn btn-secondary" type="button">
-                                <i class="bi bi-arrow-90deg-left"></i>
+                            <button id="interactive-ui-rewind-button" role="button" class="btn btn-secondary" type="button">
+                                <i class="bi bi-skip-start-fill"></i>
                             </button>
-                            <button id="interactive-ui-restart-button" role="button" class="btn btn-danger" type="button">
-                                <i class="bi bi-arrow-counterclockwise"></i>
+                            <button id="interactive-ui-undo-button" role="button" class="btn btn-secondary" type="button">
+                                <i class="bi bi-caret-left-fill"></i>
+                            </button>
+                            <button id="interactive-ui-redo-button" role="button" class="btn btn-secondary" type="button">
+                                <i class="bi bi-caret-right-fill"></i>
+                            </button>
+                            <button id="interactive-ui-fast-forward-button" role="button" class="btn btn-secondary" type="button">
+                                <i class="bi bi-skip-end-fill"></i>
                             </button>
                             <div class="mx-auto">
-                                <span id="interactive-turn-text">3/6</span>
                             </div>
                             <button id="interactive-ui-console-button" role="button" class="btn btn-warning" type="button" data-bs-toggle="collapse" data-bs-target="#interactive-console-container">
                                 <i class="bi bi-terminal"></i>
@@ -696,6 +701,7 @@
                             <button id="interactive-ui-export-button" role="button" class="btn btn-primary" type="button">
                                 <i class="bi bi-box-arrow-up-right"></i>
                             </button>
+                            <div id="interactive-turn-text">3/6</div>
                         </div>
                         <div id="interactive-timeline-container">
                             <div class="interactive-timeline-connector-bg"></div>

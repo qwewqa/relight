@@ -73,6 +73,8 @@ data class InteractiveQueueStatus(
     val canClimax: Boolean,
     val lastExport: String?,
     val runState: InteractiveRunState,
+    val canUndo: Boolean = false,
+    val canRedo: Boolean = false,
 )
 
 @Serializable

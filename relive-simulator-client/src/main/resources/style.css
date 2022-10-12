@@ -201,6 +201,7 @@ pwa-update::part(offlineToast) {
 }
 
 #interactive-top-container {
+    position: relative;
     --size-ref: min(720px, calc(0.80 * var(--container-max-width)));
     display: flex;
     width: var(--size-ref);
@@ -211,6 +212,10 @@ pwa-update::part(offlineToast) {
 }
 
 #interactive-turn-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     font-size: 28px;
     line-height: 28px;
     font-weight: bold;

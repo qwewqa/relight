@@ -33,6 +33,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         var initialized = false
             private set
 
+        private var index = -1
         private val playHistory = mutableListOf<ParsedCommand>()
         private val stageLog = mutableListOf<LogEntry>()
         private val queueStatusHistory = mutableListOf<InteractiveQueueStatus?>()
@@ -40,13 +41,20 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         private val enemyStatuses = mutableListOf<List<ActorStatus>?>()
         private val playerStatuses = mutableListOf<List<ActorStatus>?>()
 
-        val history: List<ParsedCommand> get() = playHistory
-        val log: List<LogEntry> get() = stageLog
+        // First entry is just a placeholder
+        val history: List<ParsedCommand> get() = if (index >= 1) playHistory.subList(1, index + 1) else emptyList()
+        val log: List<LogEntry> get() = stageLog.subList(0, lengths.getOrElse(index) { 0 })
 
-        val queueStatus: InteractiveQueueStatus? get() = queueStatusHistory.lastOrNull()
+        val queueStatus: InteractiveQueueStatus? get() = queueStatusHistory.getOrNull(index)?.copy(
+            canUndo = canUndo,
+            canRedo = canRedo,
+        )
 
-        val enemyStatus: List<ActorStatus>? get() = enemyStatuses.lastOrNull()
-        val playerStatus: List<ActorStatus>? get() = playerStatuses.lastOrNull()
+        val enemyStatus: List<ActorStatus>? get() = enemyStatuses.getOrNull(index)
+        val playerStatus: List<ActorStatus>? get() = playerStatuses.getOrNull(index)
+
+        val canUndo get() = index > 0
+        val canRedo get() = index < playHistory.lastIndex
 
         fun update(
             command: ParsedCommand,
@@ -55,6 +63,10 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
             enemyStatus: List<ActorStatus>,
             playerStatus: List<ActorStatus>,
         ) {
+            if (canRedo) {
+                truncate()
+            }
+            index++
             playHistory += command
             stageLog += entries.asSequence().drop(stageLog.size)
             lengths += entries.size
@@ -72,6 +84,8 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
             if (initialized) {
                 throw IllegalStateException("Status already initialized.")
             }
+            index = 0
+            playHistory += ParsedCommand(InteractiveCommandType.HELP, "", "")
             stageLog.addAll(entries)
             queueStatusHistory += InteractiveQueueStatus(
                 0,
@@ -95,24 +109,37 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
             initialized = true
         }
 
+        fun undo() {
+            index--
+        }
+
+        fun redo() {
+            index++
+        }
+
         fun tryUndo(): Boolean {
-            if (playHistory.isEmpty()) return false
+            if (!canUndo) return false
             undo()
             return true
         }
 
-        fun undo() {
-            // lengths always has at least 1 left over from init (otherwise this shouldn't be called)
-            lengths.removeLast()
-            playHistory.removeLast()
-            repeat(stageLog.size - lengths.last()) { stageLog.removeLast() }
-            queueStatusHistory.removeLast()
-            enemyStatuses.removeLast()
-            playerStatuses.removeLast()
+        fun tryRedo(): Boolean {
+            if (!canRedo) return false
+            redo()
+            return true
+        }
+
+        fun rewind() {
+            index = 0
+        }
+
+        fun fastForward() {
+            index = playHistory.lastIndex
         }
 
         fun copy() = CacheableStatus().also {
             it.initialized = initialized
+            it.index = index
             it.playHistory += playHistory
             it.stageLog += stageLog
             it.queueStatusHistory += queueStatusHistory
@@ -123,6 +150,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
         fun replace(other: CacheableStatus) {
             initialized = other.initialized
+            index = other.index
             playHistory.clear()
             playHistory += other.playHistory
             stageLog.clear()
@@ -135,6 +163,19 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
             enemyStatuses += other.enemyStatuses
             playerStatuses.clear()
             playerStatuses += other.playerStatuses
+        }
+
+        private fun truncate() {
+            playHistory.truncate(index)
+            stageLog.truncate(lengths[index])
+            lengths.truncate(index)
+            queueStatusHistory.truncate(index)
+            enemyStatuses.truncate(index)
+            playerStatuses.truncate(index)
+        }
+
+        private fun <T> MutableList<T>.truncate(lastIndex: Int) {
+            subList(lastIndex + 1, size).clear()
         }
     }
 
@@ -253,10 +294,27 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                     }
                 }
             }
+            InteractiveCommandType.REDO -> {
+                if (status.tryRedo()) {
+                    playStage(null) {
+                        log("Command", "Redo", category = LogCategory.COMMAND) { "Successfully redid command." }
+                    }
+                } else {
+                    playStage(null) {
+                        log("Command", "Redo", category = LogCategory.COMMAND) { "Error: History is empty." }
+                    }
+                }
+            }
             InteractiveCommandType.RESTART -> {
-                status.replace(CacheableStatus())
+                status.rewind()
                 playStage(null) {
                     log("Command", "Restart", category = LogCategory.COMMAND) { "Successfully restarted." }
+                }
+            }
+            InteractiveCommandType.FAST_FORWARD -> {
+                status.fastForward()
+                playStage(null) {
+                    log("Command", "Fast Forward", category = LogCategory.COMMAND) { "Successfully fast forwarded." }
                 }
             }
             InteractiveCommandType.EIGHT_BALL -> {
@@ -1247,6 +1305,8 @@ ${
                 InteractiveCommandType.SAVE -> {}
                 InteractiveCommandType.LOAD -> {}
                 InteractiveCommandType.UNDO -> {}
+                InteractiveCommandType.REDO -> {}
+                InteractiveCommandType.FAST_FORWARD -> {}
                 InteractiveCommandType.RESTART -> {}
                 InteractiveCommandType.EIGHT_BALL -> {}
             }
@@ -1738,6 +1798,34 @@ enum class InteractiveCommandType(
                 undo
         """.trimIndent(),
     ),
+    REDO(
+        title = "redo",
+        aliases = listOf("rd"),
+        synopsis = """
+            redo
+        """.trimIndent(),
+        description = """
+            Redo a previously undid command, provided history was not overwritten.
+        """.trimIndent(),
+        examples = """
+            Redoes a command.
+                redo
+        """.trimIndent(),
+    ),
+    FAST_FORWARD(
+        title = "fast_forward",
+        aliases = listOf("fastforward", "ff"),
+        synopsis = """
+            fast_forward
+        """.trimIndent(),
+        description = """
+            Repeatedly redo commands until no more commands can be redone.
+        """.trimIndent(),
+        examples = """
+            Repeadetly redoes commands until no more commands can be redone.
+                fast_forward
+        """.trimIndent(),
+    ),
     SEED(
         title = "seed",
         aliases = listOf("sd"),
@@ -1943,7 +2031,7 @@ enum class InteractiveCommandType(
     ),
     RESTART(
         title = "restart",
-        aliases = listOf("reset"),
+        aliases = listOf("reset", "rewind", "rw"),
         synopsis = """
             restart
         """.trimIndent(),
