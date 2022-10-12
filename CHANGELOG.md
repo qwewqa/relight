@@ -506,4 +506,9 @@
 - The current tile is now indicated in the interactive ui
 
 # v0.32.3
-- Adjusted when the service worker is loaded
+- Adjusted when the service worker is loaded\
+
+# v0.32.4
+- Auto name now sets supports
+- Removed the restart button from interactive
+- Added seek back and forward buttons, and a redo button to interactive
