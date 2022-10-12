@@ -212,10 +212,6 @@ pwa-update::part(offlineToast) {
 }
 
 #interactive-turn-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     font-size: 28px;
     line-height: 28px;
     font-weight: bold;

@@ -36,10 +36,10 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         private var index = -1
         private val playHistory = mutableListOf<ParsedCommand>()
         private val stageLog = mutableListOf<LogEntry>()
-        private val queueStatusHistory = mutableListOf<InteractiveQueueStatus?>()
+        private val queueStatusHistory = mutableListOf<InteractiveQueueStatus>()
         private val lengths = mutableListOf<Int>()
-        private val enemyStatuses = mutableListOf<List<ActorStatus>?>()
-        private val playerStatuses = mutableListOf<List<ActorStatus>?>()
+        private val enemyStatuses = mutableListOf<List<ActorStatus>>()
+        private val playerStatuses = mutableListOf<List<ActorStatus>>()
 
         // First entry is just a placeholder
         val history: List<ParsedCommand> get() = if (index >= 1) playHistory.subList(1, index + 1) else emptyList()
@@ -115,6 +115,32 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
         fun redo() {
             index++
+        }
+
+        fun seekBack(): Boolean {
+            if (!canUndo) return false
+            val initialTurn = queueStatusHistory[index].turn
+            if (queueStatusHistory[index - 1].turn != initialTurn) {
+                index--
+                return true
+            }
+            while (index > 0 && queueStatusHistory[index - 1].turn == initialTurn) {
+                index--
+            }
+            return true
+        }
+
+        fun seekForward(): Boolean {
+            if (!canRedo) return false
+            val initialTurn = queueStatusHistory[index].turn
+            if (queueStatusHistory[index + 1].turn != initialTurn) {
+                index++
+                return true
+            }
+            while (index < queueStatusHistory.lastIndex && queueStatusHistory[index + 1].turn == initialTurn) {
+                index++
+            }
+            return true
         }
 
         fun tryUndo(): Boolean {
@@ -302,6 +328,28 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 } else {
                     playStage(null) {
                         log("Command", "Redo", category = LogCategory.COMMAND) { "Error: History is empty." }
+                    }
+                }
+            }
+            InteractiveCommandType.SEEK_BACK -> {
+                if (status.seekBack()) {
+                    playStage(null) {
+                        log("Command", "Seek Back", category = LogCategory.COMMAND) { "Successfully seeked back." }
+                    }
+                } else {
+                    playStage(null) {
+                        log("Command", "Seek Back", category = LogCategory.COMMAND) { "Error: History is empty." }
+                    }
+                }
+            }
+            InteractiveCommandType.SEEK_FORWARD -> {
+                if (status.seekForward()) {
+                    playStage(null) {
+                        log("Command", "Seek Forward", category = LogCategory.COMMAND) { "Successfully seeked forward." }
+                    }
+                } else {
+                    playStage(null) {
+                        log("Command", "Seek Forward", category = LogCategory.COMMAND) { "Error: History is empty." }
                     }
                 }
             }
@@ -1306,6 +1354,8 @@ ${
                 InteractiveCommandType.LOAD -> {}
                 InteractiveCommandType.UNDO -> {}
                 InteractiveCommandType.REDO -> {}
+                InteractiveCommandType.SEEK_BACK -> {}
+                InteractiveCommandType.SEEK_FORWARD -> {}
                 InteractiveCommandType.FAST_FORWARD -> {}
                 InteractiveCommandType.RESTART -> {}
                 InteractiveCommandType.EIGHT_BALL -> {}
@@ -1810,6 +1860,34 @@ enum class InteractiveCommandType(
         examples = """
             Redoes a command.
                 redo
+        """.trimIndent(),
+    ),
+    SEEK_BACK(
+        title = "seek_back",
+        aliases = listOf("seekback", "seek_backwards", "seekbackwards", "sb"),
+        synopsis = """
+            seek_back
+        """.trimIndent(),
+        description = """
+            Seek back to start of the turn, or end of the previous turn if already at the start.
+        """.trimIndent(),
+        examples = """
+            Seeks back to the start of the turn, or end of the previous turn if already at the start.
+                seek_back
+        """.trimIndent(),
+    ),
+    SEEK_FORWARD(
+        title = "seek_forward",
+        aliases = listOf("seekforward", "seek_forwards", "seekforwards", "sf"),
+        synopsis = """
+            seek_forward
+        """.trimIndent(),
+        description = """
+            Seek forward to the end of the turn, or start of the next turn if already at the end.
+        """.trimIndent(),
+        examples = """
+            Seeks forward to the end of the turn, or start of the next turn if already at the end.
+                seek_forward
         """.trimIndent(),
     ),
     FAST_FORWARD(

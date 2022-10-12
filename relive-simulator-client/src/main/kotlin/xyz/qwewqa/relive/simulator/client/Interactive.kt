@@ -34,12 +34,16 @@ private fun updateTopBar(status: InteractiveQueueStatus?) {
     turnText.textContent = "${status?.turn ?: 0}/${status?.maxTurns ?: 0}"
 
     val rewindButton = document.getElementById("interactive-ui-rewind-button") as HTMLButtonElement
+    val seekBackButton = document.getElementById("interactive-ui-seek-back-button") as HTMLButtonElement
     val undoButton = document.getElementById("interactive-ui-undo-button") as HTMLButtonElement
     val redoButton = document.getElementById("interactive-ui-redo-button") as HTMLButtonElement
+    val seekForwardButton = document.getElementById("interactive-ui-seek-forward-button") as HTMLButtonElement
     val fastForwardButton = document.getElementById("interactive-ui-fast-forward-button") as HTMLButtonElement
     rewindButton.disabled = !(status?.canUndo ?: false)
+    seekBackButton.disabled = !(status?.canUndo ?: false)
     undoButton.disabled = !(status?.canUndo ?: false)
     redoButton.disabled = !(status?.canRedo ?: false)
+    seekForwardButton.disabled = !(status?.canRedo ?: false)
     fastForwardButton.disabled = !(status?.canRedo ?: false)
 }
 

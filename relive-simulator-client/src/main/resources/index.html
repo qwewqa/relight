@@ -681,7 +681,10 @@
                     <div id="interactive-status-container"></div>
                     <div id="interactive-ui-container" class="d-none">
                         <div id="interactive-top-container">
-                            <button id="interactive-ui-rewind-button" role="button" class="btn btn-secondary" type="button">
+                            <button id="interactive-ui-rewind-button" role="button" class="btn btn-secondary d-none" type="button">
+                                <i class="bi bi-skip-backward-fill"></i>
+                            </button>
+                            <button id="interactive-ui-seek-back-button" role="button" class="btn btn-secondary" type="button">
                                 <i class="bi bi-skip-start-fill"></i>
                             </button>
                             <button id="interactive-ui-undo-button" role="button" class="btn btn-secondary" type="button">
@@ -690,8 +693,11 @@
                             <button id="interactive-ui-redo-button" role="button" class="btn btn-secondary" type="button">
                                 <i class="bi bi-caret-right-fill"></i>
                             </button>
-                            <button id="interactive-ui-fast-forward-button" role="button" class="btn btn-secondary" type="button">
+                            <button id="interactive-ui-seek-forward-button" role="button" class="btn btn-secondary" type="button">
                                 <i class="bi bi-skip-end-fill"></i>
+                            </button>
+                            <button id="interactive-ui-fast-forward-button" role="button" class="btn btn-secondary d-none" type="button">
+                                <i class="bi bi-skip-forward-fill"></i>
                             </button>
                             <div class="mx-auto">
                             </div>
@@ -701,6 +707,8 @@
                             <button id="interactive-ui-export-button" role="button" class="btn btn-primary" type="button">
                                 <i class="bi bi-box-arrow-up-right"></i>
                             </button>
+                        </div>
+                        <div id="interactive-turn-text-container" class="my-1 d-flex justify-content-center align-content-center">
                             <div id="interactive-turn-text">3/6</div>
                         </div>
                         <div id="interactive-timeline-container">

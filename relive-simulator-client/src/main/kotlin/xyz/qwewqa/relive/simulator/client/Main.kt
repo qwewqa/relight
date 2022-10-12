@@ -169,8 +169,10 @@ class SimulatorClient(val simulator: Simulator) {
 
     val interactiveExportButton = document.getElementById("interactive-ui-export-button") as HTMLButtonElement
     val interactiveRewindButton = document.getElementById("interactive-ui-rewind-button") as HTMLButtonElement
+    val interactiveSeekBackButton = document.getElementById("interactive-ui-seek-back-button") as HTMLButtonElement
     val interactiveUndoButton = document.getElementById("interactive-ui-undo-button") as HTMLButtonElement
     val interactiveRedoButton = document.getElementById("interactive-ui-redo-button") as HTMLButtonElement
+    val interactiveSeekForwardButton = document.getElementById("interactive-ui-seek-forward-button") as HTMLButtonElement
     val interactiveFastForwardButton = document.getElementById("interactive-ui-fast-forward-button") as HTMLButtonElement
     val interactiveGoButton = document.getElementById("interactive-ui-go-button") as HTMLButtonElement
 
@@ -2557,6 +2559,11 @@ class SimulatorClient(val simulator: Simulator) {
                 interactiveSimulation?.sendCommand("rewind")
             }
         })
+        interactiveSeekBackButton.addEventListener("click", {
+            GlobalScope.launch {
+                interactiveSimulation?.sendCommand("seek_back")
+            }
+        })
         interactiveUndoButton.addEventListener("click", {
             GlobalScope.launch {
                 interactiveSimulation?.sendCommand("undo")
@@ -2565,6 +2572,11 @@ class SimulatorClient(val simulator: Simulator) {
         interactiveRedoButton.addEventListener("click", {
             GlobalScope.launch {
                 interactiveSimulation?.sendCommand("redo")
+            }
+        })
+        interactiveSeekForwardButton.addEventListener("click", {
+            GlobalScope.launch {
+                interactiveSimulation?.sendCommand("seek_forward")
             }
         })
         interactiveFastForwardButton.addEventListener("click", {
