@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Relight</title>
     <!-- PWA Placeholder (Do Not Remove) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/css/bootstrap-select.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="codemirror.css">
     <link rel="stylesheet" href="style.css">
@@ -123,7 +125,8 @@
                                         aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <textarea id="import-options-text" class="form-control text-monospace" rows="1"></textarea>
+                                <textarea id="import-options-text" class="form-control text-monospace"
+                                          rows="1"></textarea>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary text-close-dialog"
@@ -155,8 +158,10 @@
                                 <div id="new-option-container" class="row">
                                     <div class="col-12">
                                         <div class="input-group mt-1">
-                                            <input id="new-option-name-input" class="form-control form-control-sm" type="text">
-                                            <button id="save-new-option-button" type="button" class="btn btn-primary btn-sm text-new">
+                                            <input id="new-option-name-input" class="form-control form-control-sm"
+                                                   type="text">
+                                            <button id="save-new-option-button" type="button"
+                                                    class="btn btn-primary btn-sm text-new">
                                                 New
                                             </button>
                                         </div>
@@ -170,24 +175,29 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header py-2">
-                                <h5 id="select-options-title" class="modal-title text-select-options">Select Options</h5>
+                                <h5 id="select-options-title" class="modal-title text-select-options">Select
+                                    Options</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                             </div>
                             <div class="modal-body pt-2">
                                 <div class="row mb-1">
                                     <div class="col-12">
-                                        <label for="select-options-search" class="form-label text-search mb-1">Search</label>
-                                        <input id="select-options-search" type="text" class="form-control form-control-sm">
+                                        <label for="select-options-search"
+                                               class="form-label text-search mb-1">Search</label>
+                                        <input id="select-options-search" type="text"
+                                               class="form-control form-control-sm">
                                     </div>
                                 </div>
                                 <div class="d-flex p-1 option-item">
                                     <div class="text-all m-1">All</div>
                                     <div class="d-flex gap-1 ms-auto pe-2" role="group">
-                                        <button role="button" id="select-options-all-yes-button" class="btn btn-sm btn-outline-success select-options-no-button">
+                                        <button role="button" id="select-options-all-yes-button"
+                                                class="btn btn-sm btn-outline-success select-options-no-button">
                                             <i class="bi bi-check-lg my-auto"></i>
                                         </button>
-                                        <button role="button" id="select-options-all-no-button" class="btn btn-sm btn-outline-danger">
+                                        <button role="button" id="select-options-all-no-button"
+                                                class="btn btn-sm btn-outline-danger">
                                             <i class="bi bi-x-lg my-auto"></i>
                                         </button>
                                     </div>
@@ -195,10 +205,12 @@
                                 <div id="select-options-list" class="d-flex flex-column"></div>
                             </div>
                             <div class="modal-footer py-1">
-                                <button type="button" class="btn btn-secondary btn-sm text-cancel" data-bs-dismiss="modal">
+                                <button type="button" class="btn btn-secondary btn-sm text-cancel"
+                                        data-bs-dismiss="modal">
                                     Cancel
                                 </button>
-                                <button type="button" class="btn btn-primary btn-sm text-confirm" id="confirm-select-options-button">
+                                <button type="button" class="btn btn-primary btn-sm text-confirm"
+                                        id="confirm-select-options-button">
                                     Confirm
                                 </button>
                             </div>
@@ -362,15 +374,18 @@
                                 <button id="add-actor-button" type="button" class="btn btn-secondary text-add-actor">
                                     Add
                                 </button>
-                                <button id="add-actor-from-preset-button" type="button" class="btn btn-secondary text-add-actor-from-preset">
+                                <button id="add-actor-from-preset-button" type="button"
+                                        class="btn btn-secondary text-add-actor-from-preset">
                                     Presets
                                 </button>
                             </div>
                             <div class="col-auto my-1">
-                                <button id="auto-name-button" type="button" class="btn btn-outline-secondary text-auto-name">
+                                <button id="auto-name-button" type="button"
+                                        class="btn btn-outline-secondary text-auto-name">
                                     Auto Name
                                 </button>
-                                <button id="sort-by-position-button" type="button" class="btn btn-outline-secondary text-sort-by-position">
+                                <button id="sort-by-position-button" type="button"
+                                        class="btn btn-outline-secondary text-sort-by-position">
                                     Sort
                                 </button>
                             </div>
@@ -430,27 +445,31 @@
                                                    type="number" placeholder="0">
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-1-condition-1" class="form-label text-song-condition-1">
+                                            <label for="song-effect-1-condition-1"
+                                                   class="form-label text-song-condition-1">
                                                 Condition 1
                                             </label>
                                             <div class="input-group">
                                                 <select id="song-effect-1-condition-1"
                                                         class="selectpicker form-control song-effect-condition"
                                                         data-live-search="true" multiple></select>
-                                                <button class="btn btn-outline-secondary clear-select-button text-clear" type="button">
+                                                <button class="btn btn-outline-secondary clear-select-button text-clear"
+                                                        type="button">
                                                     Clear
                                                 </button>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-1-condition-2" class="form-label text-song-condition-2">
+                                            <label for="song-effect-1-condition-2"
+                                                   class="form-label text-song-condition-2">
                                                 Condition 2
                                             </label>
                                             <div class="input-group">
                                                 <select id="song-effect-1-condition-2"
                                                         class="selectpicker form-control song-effect-condition"
                                                         data-live-search="true" multiple></select>
-                                                <button class="btn btn-outline-secondary clear-select-button text-clear" type="button">
+                                                <button class="btn btn-outline-secondary clear-select-button text-clear"
+                                                        type="button">
                                                     Clear
                                                 </button>
                                             </div>
@@ -488,27 +507,31 @@
                                                    type="number" placeholder="0">
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-2-condition-1" class="form-label text-song-condition-1">
+                                            <label for="song-effect-2-condition-1"
+                                                   class="form-label text-song-condition-1">
                                                 Condition 1
                                             </label>
                                             <div class="input-group">
                                                 <select id="song-effect-2-condition-1"
                                                         class="selectpicker form-control song-effect-condition"
                                                         data-live-search="true" multiple></select>
-                                                <button class="btn btn-outline-secondary clear-select-button text-clear" type="button">
+                                                <button class="btn btn-outline-secondary clear-select-button text-clear"
+                                                        type="button">
                                                     Clear
                                                 </button>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-2-condition-2" class="form-label text-song-condition-2">
+                                            <label for="song-effect-2-condition-2"
+                                                   class="form-label text-song-condition-2">
                                                 Condition 2
                                             </label>
                                             <div class="input-group">
                                                 <select id="song-effect-2-condition-2"
                                                         class="selectpicker form-control song-effect-condition"
                                                         data-live-search="true" multiple></select>
-                                                <button class="btn btn-outline-secondary clear-select-button text-clear" type="button">
+                                                <button class="btn btn-outline-secondary clear-select-button text-clear"
+                                                        type="button">
                                                     Clear
                                                 </button>
                                             </div>
@@ -546,27 +569,31 @@
                                                    type="number" placeholder="0">
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-3-condition-1" class="form-label text-song-condition-1">
+                                            <label for="song-effect-3-condition-1"
+                                                   class="form-label text-song-condition-1">
                                                 Condition 1
                                             </label>
                                             <div class="input-group">
                                                 <select id="song-effect-3-condition-1"
                                                         class="selectpicker form-control song-effect-condition"
                                                         data-live-search="true" multiple></select>
-                                                <button class="btn btn-outline-secondary clear-select-button text-clear" type="button">
+                                                <button class="btn btn-outline-secondary clear-select-button text-clear"
+                                                        type="button">
                                                     Clear
                                                 </button>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-3-condition-2" class="form-label text-song-condition-2">
+                                            <label for="song-effect-3-condition-2"
+                                                   class="form-label text-song-condition-2">
                                                 Condition 2
                                             </label>
                                             <div class="input-group">
                                                 <select id="song-effect-3-condition-2"
                                                         class="selectpicker form-control song-effect-condition"
                                                         data-live-search="true" multiple></select>
-                                                <button class="btn btn-outline-secondary clear-select-button text-clear" type="button">
+                                                <button class="btn btn-outline-secondary clear-select-button text-clear"
+                                                        type="button">
                                                     Clear
                                                 </button>
                                             </div>
@@ -611,7 +638,8 @@
             </div>
             <div class="row justify-content-end mt-3 mb-2">
                 <div class="col-12 d-grid d-sm-flex gap-1">
-                    <a id="donate-button" href="https://ko-fi.com/qwewqa" target="_blank" role="button" class="btn btn-primary text-donate">
+                    <a id="donate-button" href="https://ko-fi.com/qwewqa" target="_blank" role="button"
+                       class="btn btn-primary text-donate">
                         Donate
                     </a>
                     <div class="m-auto d-none d-sm-block"></div>
@@ -625,7 +653,7 @@
                 </div>
             </div>
         </form>
-        <div class="border border-2 rounded px-3 py-2 my-3 d-none" id="interactive-container">
+        <div class="border border-2 rounded px-3 py-2 my-3" id="interactive-container">
             <div id="interactive-console-container" class="collapse">
                 <div class="row" id="interactive-display-row">
                     <div class="col-12">
@@ -635,7 +663,8 @@
                 <div class="row" id="interactive-input-row">
                     <div class="col-12">
                         <div class="input-group input-group-sm">
-                            <input id="interactive-input" class="form-control" value="" type="text" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="off" name="interactive-input">
+                            <input id="interactive-input" class="form-control" value="" type="text" autocomplete="off"
+                                   autocorrect="off" spellcheck="false" autocapitalize="off" name="interactive-input">
                             <button id="interactive-send-button" class="btn btn-outline-secondary" type="button"><i
                                     class="bi-send"></i></button>
                         </div>
@@ -678,37 +707,249 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <div id="interactive-status-container"></div>
-                    <div id="interactive-ui-container" class="d-none">
+                    <div id="interactive-status-container">
+                        <div class="row justify-content-evenly g-1 g-md-2">
+                            <div class="col-4 col-xl interactive-status-container">
+                                <div class="interactive-status-image-container">
+                                    <img class="interactive-status-actor-img"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                    <img class="interactive-status-support-indicator"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                </div>
+                                <div class="interactive-status-bars-container">
+                                    <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
+                                        <div class="progress-bar bg-success"
+                                             style="width: 100%; font-weight: bold; z-index: 2;">36940
+                                        </div>
+                                        <div
+                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                            36940
+                                        </div>
+                                    </div>
+                                    <div class="progress"
+                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                        <div class="progress-bar bg-warning"
+                                             style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
+                                        </div>
+                                        <div
+                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                            20
+                                        </div>
+                                    </div>
+                                    <div class="progress d-none damage-shares"
+                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                        <div class="progress-bar bg-info"
+                                             style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
+                                        </div>
+                                        <div
+                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                            0
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4 col-xl interactive-status-container">
+                                <div class="interactive-status-image-container">
+                                    <img class="interactive-status-actor-img"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                    <img class="interactive-status-support-indicator"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                </div>
+                                <div class="interactive-status-bars-container">
+                                    <p class="mt-1 mb-0"  style="font-size: 0.75rem;">misora</p>
+                                    <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
+                                        <div class="progress-bar bg-success"
+                                             style="width: 100%; font-weight: bold; z-index: 2;">36940
+                                        </div>
+                                        <div
+                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                            36940
+                                        </div>
+                                    </div>
+                                    <div class="progress"
+                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                        <div class="progress-bar bg-warning"
+                                             style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
+                                        </div>
+                                        <div
+                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                            20
+                                        </div>
+                                    </div>
+                                    <div class="progress d-none damage-shares"
+                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                        <div class="progress-bar bg-info"
+                                             style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
+                                        </div>
+                                        <div
+                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                            0
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4 col-xl interactive-status-container">
+                                <div class="interactive-status-image-container">
+                                    <img class="interactive-status-actor-img"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                    <img class="interactive-status-support-indicator"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                </div>
+                                <div class="interactive-status-bars-container">
+                                    <p class="mt-1 mb-0"  style="font-size: 0.75rem;">misora</p>
+                                    <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
+                                        <div class="progress-bar bg-success"
+                                             style="width: 100%; font-weight: bold; z-index: 2;">36940
+                                        </div>
+                                        <div
+                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                            36940
+                                        </div>
+                                    </div>
+                                    <div class="progress"
+                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                        <div class="progress-bar bg-warning"
+                                             style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
+                                        </div>
+                                        <div
+                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                            20
+                                        </div>
+                                    </div>
+                                    <div class="progress d-none damage-shares"
+                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                        <div class="progress-bar bg-info"
+                                             style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
+                                        </div>
+                                        <div
+                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                            0
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4 col-xl interactive-status-container">
+                                <div class="interactive-status-image-container">
+                                    <img class="interactive-status-actor-img"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                    <img class="interactive-status-support-indicator"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                </div>
+                                <div class="interactive-status-bars-container">
+                                    <p class="mt-1 mb-0"  style="font-size: 0.75rem;">misora</p>
+                                    <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
+                                        <div class="progress-bar bg-success"
+                                             style="width: 100%; font-weight: bold; z-index: 2;">36940
+                                        </div>
+                                        <div
+                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                            36940
+                                        </div>
+                                    </div>
+                                    <div class="progress"
+                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                        <div class="progress-bar bg-warning"
+                                             style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
+                                        </div>
+                                        <div
+                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                            20
+                                        </div>
+                                    </div>
+                                    <div class="progress d-none damage-shares"
+                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                        <div class="progress-bar bg-info"
+                                             style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
+                                        </div>
+                                        <div
+                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                            0
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4 col-xl interactive-status-container">
+                                <div class="interactive-status-image-container">
+                                    <img class="interactive-status-actor-img"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                    <img class="interactive-status-support-indicator"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                </div>
+                                <div class="interactive-status-bars-container">
+                                    <p class="mt-1 mb-0"  style="font-size: 0.75rem;">misora</p>
+                                    <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
+                                        <div class="progress-bar bg-success"
+                                             style="width: 100%; font-weight: bold; z-index: 2;">36940
+                                        </div>
+                                        <div
+                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                            36940
+                                        </div>
+                                    </div>
+                                    <div class="progress"
+                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                        <div class="progress-bar bg-warning"
+                                             style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
+                                        </div>
+                                        <div
+                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                            20
+                                        </div>
+                                    </div>
+                                    <div class="progress d-none damage-shares"
+                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                        <div class="progress-bar bg-info"
+                                             style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
+                                        </div>
+                                        <div
+                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                            0
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="interactive-ui-container">
                         <div id="interactive-top-container">
-                            <button id="interactive-ui-rewind-button" role="button" class="btn btn-secondary d-none" type="button">
+                            <button id="interactive-ui-rewind-button" role="button" class="btn btn-secondary d-none"
+                                    type="button">
                                 <i class="bi bi-skip-backward-fill"></i>
                             </button>
-                            <button id="interactive-ui-seek-back-button" role="button" class="btn btn-secondary" type="button">
+                            <button id="interactive-ui-seek-back-button" role="button" class="btn btn-secondary"
+                                    type="button">
                                 <i class="bi bi-skip-start-fill"></i>
                             </button>
-                            <button id="interactive-ui-undo-button" role="button" class="btn btn-secondary" type="button">
+                            <button id="interactive-ui-undo-button" role="button" class="btn btn-secondary"
+                                    type="button">
                                 <i class="bi bi-caret-left-fill"></i>
                             </button>
-                            <button id="interactive-ui-redo-button" role="button" class="btn btn-secondary" type="button">
+                            <button id="interactive-ui-redo-button" role="button" class="btn btn-secondary"
+                                    type="button">
                                 <i class="bi bi-caret-right-fill"></i>
                             </button>
-                            <button id="interactive-ui-seek-forward-button" role="button" class="btn btn-secondary" type="button">
+                            <button id="interactive-ui-seek-forward-button" role="button" class="btn btn-secondary"
+                                    type="button">
                                 <i class="bi bi-skip-end-fill"></i>
                             </button>
-                            <button id="interactive-ui-fast-forward-button" role="button" class="btn btn-secondary d-none" type="button">
+                            <button id="interactive-ui-fast-forward-button" role="button"
+                                    class="btn btn-secondary d-none" type="button">
                                 <i class="bi bi-skip-forward-fill"></i>
                             </button>
                             <div class="mx-auto">
                             </div>
-                            <button id="interactive-ui-console-button" role="button" class="btn btn-warning" type="button" data-bs-toggle="collapse" data-bs-target="#interactive-console-container">
+                            <button id="interactive-ui-console-button" role="button" class="btn btn-warning"
+                                    type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#interactive-console-container">
                                 <i class="bi bi-terminal"></i>
                             </button>
-                            <button id="interactive-ui-export-button" role="button" class="btn btn-primary" type="button">
+                            <button id="interactive-ui-export-button" role="button" class="btn btn-primary"
+                                    type="button">
                                 <i class="bi bi-box-arrow-up-right"></i>
                             </button>
                         </div>
-                        <div id="interactive-turn-text-container" class="my-1 d-flex justify-content-center align-content-center">
+                        <div id="interactive-turn-text-container"
+                             class="my-1 d-flex justify-content-center align-content-center">
                             <div id="interactive-turn-text">3/6</div>
                         </div>
                         <div id="interactive-timeline-container">
@@ -726,9 +967,12 @@
                                 <div class="interactive-timeline-marker"></div>
                                 <div class="interactive-timeline-image-container">
                                     <div class="interactive-queue-image-container">
-                                        <img class="queue-actor-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="queue-act-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
-                                        <img class="queue-support-indicator" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                        <img class="queue-actor-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                        <img class="queue-act-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
+                                        <img class="queue-support-indicator"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
                                     </div>
                                 </div>
                             </div>
@@ -737,9 +981,12 @@
                                 <div class="interactive-timeline-marker"></div>
                                 <div class="interactive-timeline-image-container">
                                     <div class="interactive-queue-image-container">
-                                        <img class="queue-actor-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="queue-act-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
-                                        <img class="queue-support-indicator" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                        <img class="queue-actor-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                        <img class="queue-act-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
+                                        <img class="queue-support-indicator"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
                                     </div>
                                 </div>
                             </div>
@@ -752,91 +999,116 @@
                                 <div class="interactive-timeline-marker"></div>
                                 <div class="interactive-timeline-image-container">
                                     <div class="interactive-queue-image-container">
-                                        <img class="queue-actor-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="queue-act-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
-                                        <img class="queue-support-indicator" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                        <img class="queue-actor-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                        <img class="queue-act-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
+                                        <img class="queue-support-indicator"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div id="interactive-error-container">
-                            <div id="interactive-error-text" class="text-danger text-center fs-3">Some error happened. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi quis elementum tortor. Ut bibendum libero vitae justo finibus gravida. Cras sodales efficitur arcu sit amet accumsan.</div>
+                            <div id="interactive-error-text" class="text-danger text-center"></div>
                         </div>
-                        <div id="interactive-acts-row">
-                            <button id="interactive-climax-button" role="button" class="btn btn-secondary interactive-climax-button-activated" disabled>
-                                <div class="interactive-climax-button-text-container">
-                                    <div class="interactive-climax-button-text font-monospace">
-                                        2t
+                        <div id="interactive-acts-row-container">
+                            <div id="interactive-acts-row">
+                                <button id="interactive-climax-button" role="button"
+                                        class="btn btn-secondary interactive-climax-button-activated" disabled>
+                                    <div class="interactive-climax-button-text-container">
+                                        <div class="interactive-climax-button-text font-monospace">
+                                            2t
+                                        </div>
+                                    </div>
+                                </button>
+                                <div id="interactive-hold-container">
+                                    <div class="interactive-act">
+                                        <div class="interactive-queue-image-container">
+                                            <img class="queue-actor-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_empty_large.png">
+                                        </div>
+                                        <button class="btn btn-sm btn-secondary interactive-act-button" disabled>
+                                            <i class="bi bi-archive"></i>
+                                        </button>
                                     </div>
                                 </div>
-                            </button>
-                            <div id="interactive-hold-container">
-                                <div class="interactive-act">
-                                    <div class="interactive-queue-image-container">
-                                        <img class="queue-actor-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_empty_large.png">
+                                <div id="interactive-acts-container">
+                                    <div class="interactive-act">
+                                        <div class="interactive-queue-image-container">
+                                            <img class="queue-actor-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                            <img class="queue-act-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
+                                            <img class="queue-support-indicator"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                            <span class="queue-act-cost queue-act-cost-down">1</span>
+                                        </div>
+                                        <button class="btn btn-sm btn-primary interactive-act-button">
+                                            <i class="bi bi-arrow-bar-up"></i>
+                                        </button>
                                     </div>
-                                    <button class="btn btn-sm btn-secondary interactive-act-button" disabled>
-                                        <i class="bi bi-archive"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div id="interactive-acts-container">
-                                <div class="interactive-act">
-                                    <div class="interactive-queue-image-container">
-                                        <img class="queue-actor-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="queue-act-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
-                                        <img class="queue-support-indicator" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                        <span class="queue-act-cost queue-act-cost-down">1</span>
+                                    <div class="interactive-act">
+                                        <div class="interactive-queue-image-container">
+                                            <img class="queue-actor-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                            <img class="queue-act-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
+                                            <img class="queue-support-indicator"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                            <span class="queue-act-cost queue-act-cost-up">3</span>
+                                        </div>
+                                        <button class="btn btn-sm btn-warning interactive-act-button">
+                                            <i class="bi bi-arrow-bar-down"></i>
+                                        </button>
                                     </div>
-                                    <button class="btn btn-sm btn-primary interactive-act-button">
-                                        <i class="bi bi-arrow-bar-up"></i>
-                                    </button>
-                                </div>
-                                <div class="interactive-act">
-                                    <div class="interactive-queue-image-container">
-                                        <img class="queue-actor-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="queue-act-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
-                                        <img class="queue-support-indicator" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                        <span class="queue-act-cost queue-act-cost-up">3</span>
+                                    <div class="interactive-act interactive-act-queued">
+                                        <div class="interactive-queue-image-container">
+                                            <img class="queue-actor-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                            <img class="queue-act-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
+                                            <img class="queue-support-indicator"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                            <span class="queue-act-cost">2</span>
+                                            <i class="bi bi-check queue-act-queued-icon"></i>
+                                        </div>
+                                        <button class="btn btn-sm btn-primary interactive-act-button interactive-act-button-climax"
+                                                disabled>
+                                            <i class="bi bi-stars"></i>
+                                        </button>
                                     </div>
-                                    <button class="btn btn-sm btn-warning interactive-act-button">
-                                        <i class="bi bi-arrow-bar-down"></i>
-                                    </button>
-                                </div>
-                                <div class="interactive-act interactive-act-queued">
-                                    <div class="interactive-queue-image-container">
-                                        <img class="queue-actor-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="queue-act-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
-                                        <img class="queue-support-indicator" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                        <span class="queue-act-cost">2</span>
-                                        <i class="bi bi-check queue-act-queued-icon"></i>
+                                    <div class="interactive-act">
+                                        <div class="interactive-queue-image-container">
+                                            <img class="queue-actor-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                            <img class="queue-act-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
+                                            <img class="queue-support-indicator"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                            <span class="queue-act-cost">2</span>
+                                        </div>
+                                        <button class="btn btn-sm btn-primary interactive-act-button interactive-act-button-climax"
+                                                disabled>
+                                            <i class="bi bi-stars"></i>
+                                        </button>
                                     </div>
-                                    <button class="btn btn-sm btn-primary interactive-act-button interactive-act-button-climax" disabled>
-                                        <i class="bi bi-stars"></i>
-                                    </button>
-                                </div>
-                                <div class="interactive-act">
-                                    <div class="interactive-queue-image-container">
-                                        <img class="queue-actor-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="queue-act-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
-                                        <img class="queue-support-indicator" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                        <span class="queue-act-cost">2</span>
+                                    <div class="interactive-act interactive-act-too-expensive">
+                                        <div class="interactive-queue-image-container">
+                                            <img class="queue-actor-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                            <img class="queue-act-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
+                                            <img class="queue-support-indicator"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                            <span class="queue-act-cost">6</span>
+                                            <span class="queue-act-too-expensive-text">C</span>
+                                        </div>
+                                        <button class="btn btn-sm btn-primary interactive-act-button interactive-act-button-climax"
+                                                disabled>
+                                            <i class="bi bi-stars"></i>
+                                        </button>
                                     </div>
-                                    <button class="btn btn-sm btn-primary interactive-act-button interactive-act-button-climax" disabled>
-                                        <i class="bi bi-stars"></i>
-                                    </button>
-                                </div>
-                                <div class="interactive-act interactive-act-too-expensive">
-                                    <div class="interactive-queue-image-container">
-                                        <img class="queue-actor-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="queue-act-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
-                                        <img class="queue-support-indicator" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                        <span class="queue-act-cost">6</span>
-                                        <span class="queue-act-too-expensive-text">C</span>
-                                    </div>
-                                    <button class="btn btn-sm btn-primary interactive-act-button interactive-act-button-climax" disabled>
-                                        <i class="bi bi-stars"></i>
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -847,9 +1119,12 @@
                             <div id="interactive-memoirs-container">
                                 <div class="interactive-memoir">
                                     <div class="interactive-memoir-image-container interactive-memoir-queued">
-                                        <img class="interactive-memoir-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
-                                        <img class="interactive-memoir-actor-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="interactive-memoir-support-indicator" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                        <img class="interactive-memoir-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
+                                        <img class="interactive-memoir-actor-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                        <img class="interactive-memoir-support-indicator"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
                                         <span class="interactive-memoir-cost-text">2</span>
                                         <span class="interactive-memoir-uses-text">2/2</span>
                                         <i class="bi bi-check interactive-memoir-queued-icon"></i>
@@ -857,9 +1132,12 @@
                                 </div>
                                 <div class="interactive-memoir">
                                     <div class="interactive-memoir-image-container interactive-memoir-too-expensive">
-                                        <img class="interactive-memoir-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
-                                        <img class="interactive-memoir-actor-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="interactive-memoir-support-indicator" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                        <img class="interactive-memoir-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
+                                        <img class="interactive-memoir-actor-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                        <img class="interactive-memoir-support-indicator"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
                                         <span class="interactive-memoir-cost-text">2</span>
                                         <span class="interactive-memoir-uses-text">2/2</span>
                                         <span class="interactive-memoir-too-expensive-text">C</span>
@@ -867,9 +1145,12 @@
                                 </div>
                                 <div class="interactive-memoir">
                                     <div class="interactive-memoir-image-container interactive-memoir-cooldown">
-                                        <img class="interactive-memoir-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
-                                        <img class="interactive-memoir-actor-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="interactive-memoir-support-indicator" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                        <img class="interactive-memoir-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
+                                        <img class="interactive-memoir-actor-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                        <img class="interactive-memoir-support-indicator"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
                                         <span class="interactive-memoir-cost-text">2</span>
                                         <span class="interactive-memoir-uses-text">2/2</span>
                                         <span class="interactive-memoir-cooldown-text">2t</span>
@@ -877,18 +1158,24 @@
                                 </div>
                                 <div class="interactive-memoir">
                                     <div class="interactive-memoir-image-container interactive-memoir-no-more-uses">
-                                        <img class="interactive-memoir-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
-                                        <img class="interactive-memoir-actor-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="interactive-memoir-support-indicator" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                        <img class="interactive-memoir-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
+                                        <img class="interactive-memoir-actor-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                        <img class="interactive-memoir-support-indicator"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
                                         <span class="interactive-memoir-cost-text">2</span>
                                         <span class="interactive-memoir-uses-text">0/2</span>
                                     </div>
                                 </div>
                                 <div class="interactive-memoir">
                                     <div class="interactive-memoir-image-container">
-                                        <img class="interactive-memoir-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
-                                        <img class="interactive-memoir-actor-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="interactive-memoir-support-indicator" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                        <img class="interactive-memoir-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
+                                        <img class="interactive-memoir-actor-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                        <img class="interactive-memoir-support-indicator"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
                                         <span class="interactive-memoir-cost-text">2</span>
                                         <span class="interactive-memoir-uses-text">2/2</span>
                                     </div>
@@ -906,7 +1193,8 @@
             <div class="row d-none" id="results-row">
                 <div class="col-12">
                     <label for="results-text" class="form-label text-error-info">Results</label>
-                    [<a href="#" id="show-result-details" class="text-details" data-bs-toggle="collapse" data-bs-target="#result-details-collapse">Details</a>]
+                    [<a href="#" id="show-result-details" class="text-details" data-bs-toggle="collapse"
+                        data-bs-target="#result-details-collapse">Details</a>]
                     <pre id="results-progress-text"></pre>
                     <div id="result-details-collapse" class="collapse hide mt-2">
                         <pre id="results-text"></pre>
@@ -951,8 +1239,11 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="bootstrap-select.js"></script>
 <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
 <script src="https://cdn.auth0.com/js/auth0-spa-js/1.22/auth0-spa-js.production.js"></script>

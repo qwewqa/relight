@@ -67,20 +67,32 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
         }
         val totalDamage = data.playerStatus?.sumOf { it.damageContribution } ?: 0
         data.playerStatus?.reversed()?.forEachIndexed { i, status ->
-            val nameElement = document.getElementById("player-name-$i") as HTMLParagraphElement
+            val statusImageContainer = document.getElementById("player-status-image-container-$i") as HTMLDivElement
             val hpElement = document.getElementById("player-hp-$i") as HTMLDivElement
             val hpLabelElement = document.getElementById("player-hp-label-$i") as HTMLDivElement
             val brillianceElement = document.getElementById("player-brilliance-$i") as HTMLDivElement
             val brillianceLabelElement = document.getElementById("player-brilliance-label-$i") as HTMLDivElement
             val damageElement = document.getElementById("player-damage-$i") as HTMLDivElement
             val damageLabelElement = document.getElementById("player-damage-label-$i") as HTMLDivElement
-            nameElement.textContent = status.name
+            statusImageContainer.run {
+                clear()
+                append {
+                    img(classes = "interactive-status-actor-img") {
+                        src = "img/large_icon/1_${status.dressId}.png"
+                    }
+                    if (status.isSupport) {
+                        img(classes = "interactive-status-support-indicator") {
+                            src = "img/common/icon_support_dress.png"
+                        }
+                    }
+                }
+            }
             hpElement.style.width = "${status.hp.toDouble() / status.maxHp * 100}%"
             brillianceElement.style.width = "${status.brilliance}%"
             damageElement.style.width = "${status.damageContribution.toDouble() / totalDamage.coerceAtLeast(1) * 100}%"
             if (status.hp > 0) {
-                hpElement.textContent = "${status.hp}/${status.maxHp}"
-                hpLabelElement.textContent = "${status.hp}/${status.maxHp}"
+                hpElement.textContent = "${status.hp}"
+                hpLabelElement.textContent = "${status.hp}"
                 brillianceElement.textContent = "${status.brilliance}"
                 brillianceLabelElement.textContent = "${status.brilliance}"
             } else {
@@ -126,68 +138,76 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                     }
                 }
             }
-            div(classes = "row justify-content-evenly g-1 g-md-2") {
+            div(classes = "row justify-content-evenly g-1 g-md-2 mt-1") {
                 val totalDamage = data.playerStatus?.sumOf { it.damageContribution } ?: 0
                 data.playerStatus?.reversed()?.forEachIndexed { i, status ->
-                    div(classes = "col-$playerWidth col-xl") {
-                        p(classes = "mt-1 mb-0") {
-                            id = "player-name-$i"
-                            style = "font-size: 0.75rem;"
-                            +status.name
-                        }
-                        div(classes = "progress") {
-                            style = "font-size: 0.7rem;height: 0.8rem;position: relative;"
-                            div(classes = "progress-bar bg-success") {
-                                id = "player-hp-$i"
-                                style =
-                                    "width: ${status.hp.toDouble() / status.maxHp * 100}%;font-weight: bold;z-index: 2;"
-                                if (status.hp > 0) {
-                                    +"${status.hp}/${status.maxHp}"
-                                }
+                    div(classes = "col-$playerWidth col-xl interactive-status-container") {
+                        div(classes = "interactive-status-image-container") {
+                            id = "player-status-image-container-$i"
+                            img(classes = "interactive-status-actor-img") {
+                                src = "img/large_icon/1_${status.dressId}.png"
                             }
-                            div {
-                                id = "player-hp-label-$i"
-                                style =
-                                    "font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;"
-                                if (status.hp > 0) {
-                                    +"${status.hp}/${status.maxHp}"
+                            if (status.isSupport) {
+                                img(classes = "interactive-status-support-indicator") {
+                                    src = "img/common/icon_support_dress.png"
                                 }
                             }
                         }
-                        div(classes = "progress") {
-                            style = "font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;"
-                            div(classes = "progress-bar bg-warning") {
-                                id = "player-brilliance-$i"
-                                style = "width: ${status.brilliance}%;color: black;font-weight: bold;z-index: 2;"
-                                if (status.hp > 0) {
-                                    +"${status.brilliance}"
+                        div(classes = "interactive-status-bars-container") {
+                            div(classes = "progress") {
+                                style = "font-size: 0.7rem;height: 0.8rem;position: relative;"
+                                div(classes = "progress-bar bg-success") {
+                                    id = "player-hp-$i"
+                                    style =
+                                        "width: ${status.hp.toDouble() / status.maxHp * 100}%;font-weight: bold;z-index: 2;"
+                                    if (status.hp > 0) {
+                                        +"${status.hp}"
+                                    }
+                                }
+                                div {
+                                    id = "player-hp-label-$i"
+                                    style =
+                                        "font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;"
+                                    if (status.hp > 0) {
+                                        +"${status.hp}"
+                                    }
                                 }
                             }
-                            div {
-                                id = "player-brilliance-label-$i"
-                                style =
-                                    "font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;"
-                                if (status.hp > 0) {
-                                    +"${status.brilliance}"
+                            div(classes = "progress") {
+                                style = "font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;"
+                                div(classes = "progress-bar bg-warning") {
+                                    id = "player-brilliance-$i"
+                                    style = "width: ${status.brilliance}%;color: black;font-weight: bold;z-index: 2;"
+                                    if (status.hp > 0) {
+                                        +"${status.brilliance}"
+                                    }
+                                }
+                                div {
+                                    id = "player-brilliance-label-$i"
+                                    style =
+                                        "font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;"
+                                    if (status.hp > 0) {
+                                        +"${status.brilliance}"
+                                    }
                                 }
                             }
-                        }
-                        div(classes = "progress d-none damage-shares") {
-                            style = "font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;"
-                            div(classes = "progress-bar bg-info") {
-                                id = "player-damage-$i"
-                                style =
-                                    "width: ${status.damageContribution.toDouble() / totalDamage.coerceAtLeast(1) * 100}%;color: black;font-weight: bold;z-index: 2;"
-                                if (status.damageContribution > 0) {
-                                    +"${status.damageContribution}"
+                            div(classes = "progress d-none damage-shares") {
+                                style = "font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;"
+                                div(classes = "progress-bar bg-info") {
+                                    id = "player-damage-$i"
+                                    style =
+                                        "width: ${status.damageContribution.toDouble() / totalDamage.coerceAtLeast(1) * 100}%;color: black;font-weight: bold;z-index: 2;"
+                                    if (status.damageContribution > 0) {
+                                        +"${status.damageContribution}"
+                                    }
                                 }
-                            }
-                            div {
-                                id = "player-damage-label-$i"
-                                style =
-                                    "font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;"
-                                if (status.damageContribution > 0) {
-                                    +"${status.damageContribution}"
+                                div {
+                                    id = "player-damage-label-$i"
+                                    style =
+                                        "font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;"
+                                    if (status.damageContribution > 0) {
+                                        +"${status.damageContribution}"
+                                    }
                                 }
                             }
                         }
@@ -195,6 +215,14 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                 }
             }
         }
+    }
+}
+
+private fun Int.formatShort(): String {
+    return when {
+        this >= 1000000 -> "${(this.toDouble() / 1000000).toFixed(1)}M"
+        this >= 1000 -> "${(this.toDouble() / 1000).toFixed(1)}K"
+        else -> this.toString()
     }
 }
 

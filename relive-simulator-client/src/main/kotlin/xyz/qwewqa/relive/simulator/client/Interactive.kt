@@ -26,7 +26,7 @@ fun updateInteractiveUi(simulation: InteractiveSimulation, status: InteractiveQu
     updateMemoirs(simulation, status)
     updateGoButton(status)
 
-    document.getElementById("interactive-ui-container")?.removeClass("d-none")
+    document.getElementById("interactive-container")?.removeClass("d-none")
 }
 
 private fun updateTopBar(status: InteractiveQueueStatus?) {

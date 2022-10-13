@@ -256,7 +256,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
     }
 
     fun Actor.status() =
-        ActorStatus(name, hp, maxHp, brilliance, context.actionLog.damageDealtToEnemy)
+        ActorStatus(name, dress.id, isSupport, hp, maxHp, brilliance, context.actionLog.damageDealtToEnemy)
 
 
     init {

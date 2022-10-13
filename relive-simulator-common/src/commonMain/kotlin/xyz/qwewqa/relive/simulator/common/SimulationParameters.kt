@@ -51,6 +51,8 @@ data class InteractiveLogData(
 @Serializable
 data class ActorStatus(
     val name: String,
+    val dressId: Int,
+    val isSupport: Boolean,
     val hp: Int,
     val maxHp: Int,
     val brilliance: Int,
