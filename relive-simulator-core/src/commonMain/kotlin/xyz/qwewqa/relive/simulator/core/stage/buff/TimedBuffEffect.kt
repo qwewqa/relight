@@ -8,20 +8,24 @@ interface BuffEffect {
      * The name of this effect. Must be unique unless the buffs are interchangeable.
      */
     val name: String
+    val iconId: Int
     val category: BuffCategory
     val locked: Boolean get() = false
+}
+
+interface TimedBuffEffect : BuffEffect {
     val exclusive: Boolean get() = false
 
     /**
      * A buff effect to apply at the same time as this buff.
      * Intended for use with locked buffs, which may simply reference their original version.
      */
-    val related: BuffEffect? get() = null
+    val related: TimedBuffEffect? get() = null
 
     /**
      * The flipped version of this buff. For example, Act Power Up flipped is Act Power Down.
      */
-    val flipped: BuffEffect? get() = null
+    val flipped: TimedBuffEffect? get() = null
 
     fun onApply(source: Actor?, target: Actor) {}
     fun onStart(context: ActionContext, value: Int) {}

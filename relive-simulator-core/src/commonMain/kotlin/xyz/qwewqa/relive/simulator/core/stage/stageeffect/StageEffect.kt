@@ -2,7 +2,7 @@ package xyz.qwewqa.relive.simulator.core.stage.stageeffect
 
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActiveBuff
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
-import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
+import xyz.qwewqa.relive.simulator.core.stage.buff.TimedBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 
 class StageEffect(
@@ -20,7 +20,7 @@ sealed class StageEffectTarget {
     data class Back(val count: Int) : StageEffectTarget()
 }
 
-data class StageBuff(val effect: BuffEffect, val value: Int) {
+data class StageBuff(val effect: TimedBuffEffect, val value: Int) {
     fun activate(actor: Actor): ActiveBuff {
         return actor.buffs.addEphemeral(null, effect, value)
     }

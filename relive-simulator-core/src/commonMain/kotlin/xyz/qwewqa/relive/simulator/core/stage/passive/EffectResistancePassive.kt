@@ -36,8 +36,8 @@ object NegativeCountableResistancePassive : PassiveEffect {
     }
 }
 
-private data class BuffResistancePassive(val tag: EffectTag, var effects: List<BuffEffect>) : PassiveEffect {
-    constructor(tag: EffectTag, vararg effects: BuffEffect) : this(tag, effects.toList())
+private data class BuffResistancePassive(val tag: EffectTag, var effects: List<TimedBuffEffect>) : PassiveEffect {
+    constructor(tag: EffectTag, vararg effects: TimedBuffEffect) : this(tag, effects.toList())
 
     override val name = "[${effects.joinToString(", ") { it.name }}] Resistance Passive"
     override val category = PassiveEffectCategory.Passive

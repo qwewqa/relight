@@ -1,20 +1,20 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
-import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
+import xyz.qwewqa.relive.simulator.core.stage.buff.TimedBuffEffect
 
 actual fun activeBuffSet(): MutableSet<ActiveBuff> = JsSet()
-actual fun <V> buffEffectMap(): MutableMap<BuffEffect, V> = BuffEffectMap()
+actual fun <V> buffEffectMap(): MutableMap<TimedBuffEffect, V> = BuffEffectMap()
 actual fun countableBuffMap(): MutableMap<CountableBuff, Int> = JsMap()
 
-class BuffEffectMap<V> : MutableMap<BuffEffect, V> {
+class BuffEffectMap<V> : MutableMap<TimedBuffEffect, V> {
     private val map = JsMap<String, V>()
 
-    override val entries: MutableSet<MutableMap.MutableEntry<BuffEffect, V>>
+    override val entries: MutableSet<MutableMap.MutableEntry<TimedBuffEffect, V>>
         get() {
             throw UnsupportedOperationException()
         }
 
-    override val keys: MutableSet<BuffEffect>
+    override val keys: MutableSet<TimedBuffEffect>
         get() {
             throw UnsupportedOperationException()
         }
@@ -27,17 +27,17 @@ class BuffEffectMap<V> : MutableMap<BuffEffect, V> {
 
     override fun isEmpty(): Boolean = map.isEmpty()
 
-    override fun remove(key: BuffEffect): V? = map.remove(key.name)
+    override fun remove(key: TimedBuffEffect): V? = map.remove(key.name)
 
-    override fun putAll(from: Map<out BuffEffect, V>) = map.putAll(from.mapKeys { it.key.name })
+    override fun putAll(from: Map<out TimedBuffEffect, V>) = map.putAll(from.mapKeys { it.key.name })
 
-    override fun put(key: BuffEffect, value: V): V? = map.put(key.name, value)
+    override fun put(key: TimedBuffEffect, value: V): V? = map.put(key.name, value)
 
-    override fun get(key: BuffEffect): V? = map[key.name]
+    override fun get(key: TimedBuffEffect): V? = map[key.name]
 
     override fun containsValue(value: V): Boolean = map.containsValue(value)
 
-    override fun containsKey(key: BuffEffect): Boolean = map.containsKey(key.name)
+    override fun containsKey(key: TimedBuffEffect): Boolean = map.containsKey(key.name)
 }
 
 @JsName("Map")

@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
-import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
+import xyz.qwewqa.relive.simulator.core.stage.buff.TimedBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.StageEffect
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
@@ -167,7 +167,7 @@ class TargetContext(
         }
     }
 
-    fun applyBuff(effect: BuffEffect, value: Int = 0, turns: Int, chance: Int = 100) {
+    fun applyBuff(effect: TimedBuffEffect, value: Int = 0, turns: Int, chance: Int = 100) {
         if (!self.isAlive) return
         for (originalTarget in targets) {
             val target = aggroTarget ?: originalTarget
@@ -243,7 +243,7 @@ class TargetContext(
         }
     }
 
-    fun dispelTimed(effect: BuffEffect) {
+    fun dispelTimed(effect: TimedBuffEffect) {
         if (!self.isAlive) return
         for (originalTarget in targets) {
             val target = aggroTarget ?: originalTarget

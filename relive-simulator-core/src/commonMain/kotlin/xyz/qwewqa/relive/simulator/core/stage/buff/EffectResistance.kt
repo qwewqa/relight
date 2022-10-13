@@ -2,18 +2,19 @@ package xyz.qwewqa.relive.simulator.core.stage.buff
 
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 
-val ConfusionResistanceBuff: BuffEffect = BuffResistanceBuff(ConfusionBuff)
-val StopResistanceBuff: BuffEffect = BuffResistanceBuff(StopBuff)
-val StunResistanceBuff: BuffEffect = BuffResistanceBuff(listOf(StunBuff, LockedStunBuff))
-val BurnResistanceBuff: BuffEffect = BuffResistanceBuff(listOf(BurnBuff, LockedBurnBuff))
-val FreezeResistanceBuff: BuffEffect = BuffResistanceBuff(FreezeBuff)
-val BlindnessResistanceBuff: BuffEffect = BuffResistanceBuff(BlindnessBuff)
-val SleepResistanceBuff: BuffEffect = BuffResistanceBuff(SleepBuff)
-val AggroResistanceBuff: BuffEffect = BuffResistanceBuff(AggroBuff)
+val ConfusionResistanceBuff: TimedBuffEffect = BuffResistanceBuff(ConfusionBuff, iconId = 80)
+val StopResistanceBuff: TimedBuffEffect = BuffResistanceBuff(StopBuff,  iconId = 81)
+val StunResistanceBuff: TimedBuffEffect = BuffResistanceBuff(listOf(StunBuff, LockedStunBuff), iconId = 78)
+val BurnResistanceBuff: TimedBuffEffect = BuffResistanceBuff(listOf(BurnBuff, LockedBurnBuff), iconId = 76)
+val FreezeResistanceBuff: TimedBuffEffect = BuffResistanceBuff(FreezeBuff, iconId = 82)
+val BlindnessResistanceBuff: TimedBuffEffect = BuffResistanceBuff(BlindnessBuff, iconId = 83)
+val SleepResistanceBuff: TimedBuffEffect = BuffResistanceBuff(SleepBuff, iconId = 79)
+val AggroResistanceBuff: TimedBuffEffect = BuffResistanceBuff(AggroBuff, iconId = 102)
 
-object NegativeEffectResistanceBuff : BuffEffect {
+object NegativeEffectResistanceBuff : TimedBuffEffect {
     override val name = "Negative Effect Resistance"
     override val category = BuffCategory.Positive
+    override val iconId: Int = 19
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.valueNegativeEffectResist += value
@@ -24,10 +25,11 @@ object NegativeEffectResistanceBuff : BuffEffect {
     }
 }
 
-object LockedNegativeEffectResistanceBuff : BuffEffect {
+object LockedNegativeEffectResistanceBuff : TimedBuffEffect {
     override val name = "Locked Negative Effect Resistance"
     override val category = BuffCategory.Positive
     override val locked: Boolean = true
+    override val iconId: Int = 19
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.valueNegativeEffectResist += value
@@ -38,9 +40,10 @@ object LockedNegativeEffectResistanceBuff : BuffEffect {
     }
 }
 
-object PositiveEffectResistanceBuff : BuffEffect {
+object PositiveEffectResistanceBuff : TimedBuffEffect {
     override val name = "Positive Effect Resistance"
     override val category = BuffCategory.Negative
+    override val iconId: Int = 166
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.valuePositiveEffectResist += value
@@ -51,10 +54,11 @@ object PositiveEffectResistanceBuff : BuffEffect {
     }
 }
 
-object LockedPositiveEffectResistanceBuff : BuffEffect {
+object LockedPositiveEffectResistanceBuff : TimedBuffEffect {
     override val name = "Locked Positive Effect Resistance"
     override val category = BuffCategory.Negative
     override val locked: Boolean = true
+    override val iconId: Int = 166
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.valuePositiveEffectResist += value
@@ -65,9 +69,10 @@ object LockedPositiveEffectResistanceBuff : BuffEffect {
     }
 }
 
-object NegativeCountableResistanceBuff : BuffEffect {
+object NegativeCountableResistanceBuff : TimedBuffEffect {
     override val name = "Negative Countable Resistance"
     override val category = BuffCategory.Positive
+    override val iconId: Int = 173
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.valueNegativeCountableResist += value
@@ -78,10 +83,11 @@ object NegativeCountableResistanceBuff : BuffEffect {
     }
 }
 
-object LockedNegativeCountableResistanceBuff : BuffEffect {
+object LockedNegativeCountableResistanceBuff : TimedBuffEffect {
     override val name = "Locked Negative Countable Resistance"
     override val category = BuffCategory.Positive
     override val locked: Boolean = true
+    override val iconId: Int = 173
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.valueNegativeCountableResist += value
@@ -93,8 +99,8 @@ object LockedNegativeCountableResistanceBuff : BuffEffect {
 }
 
 
-private data class BuffResistanceBuff(var effects: List<BuffEffect>) : BuffEffect {
-    constructor(vararg effects: BuffEffect) : this(effects.toList())
+private data class BuffResistanceBuff(var effects: List<TimedBuffEffect>, override val iconId: Int) : TimedBuffEffect {
+    constructor(vararg effects: TimedBuffEffect, iconId: Int) : this(effects.toList(), iconId)
     override val name = "[${effects.joinToString(", ") {it.name}}] Resistance Buff"
     override val category: BuffCategory = BuffCategory.Positive
 

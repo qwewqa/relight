@@ -4,7 +4,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.log
 
 expect fun activeBuffSet(): MutableSet<ActiveBuff>
-expect fun <V> buffEffectMap(): MutableMap<BuffEffect, V>
+expect fun <V> buffEffectMap(): MutableMap<TimedBuffEffect, V>
 expect fun countableBuffMap(): MutableMap<CountableBuff, Int>
 
 class BuffManager(val actor: Actor) {
@@ -12,15 +12,15 @@ class BuffManager(val actor: Actor) {
     private val negativeBuffs = activeBuffSet()
     private val buffsByEffect = buffEffectMap<MutableSet<ActiveBuff>>()
 
-    private val _effectNameMapping = mutableMapOf<String, BuffEffect>()
-    val effectNameMapping: Map<String, BuffEffect> get() = _effectNameMapping
+    private val _effectNameMapping = mutableMapOf<String, TimedBuffEffect>()
+    val effectNameMapping: Map<String, TimedBuffEffect> get() = _effectNameMapping
 
     private val positiveCountableBuffs = countableBuffMap()
     private val negativeCountableBuffs = countableBuffMap()
 
     var guardOnAbnormal = false
 
-    fun get(buff: BuffEffect) = buffsByEffect[buff] ?: emptySet()
+    fun get(buff: TimedBuffEffect) = buffsByEffect[buff] ?: emptySet()
     fun all() = positiveBuffs + negativeBuffs
     fun timed(): Set<ActiveBuff> = positiveBuffs + negativeBuffs
     fun timedPositive(): Set<ActiveBuff> = positiveBuffs
@@ -31,16 +31,16 @@ class BuffManager(val actor: Actor) {
 
     // Note that this can be slow if called very frequently (e.g. in the damage formula)
     // In those cases it is better to increment/decrement a variable on the actor in the buff and then check it directly
-    fun any(vararg buffEffect: BuffEffect) = buffEffect.any { any(it) }
-    fun any(buffEffect: BuffEffect) = count(buffEffect) > 0
+    fun any(vararg buffEffect: TimedBuffEffect) = buffEffect.any { any(it) }
+    fun any(buffEffect: TimedBuffEffect) = count(buffEffect) > 0
     fun any(buff: CountableBuff) = count(buff) > 0
-    fun count(buffEffect: BuffEffect) = buffsByEffect[buffEffect]?.size ?: 0
+    fun count(buffEffect: TimedBuffEffect) = buffsByEffect[buffEffect]?.size ?: 0
     fun count(buff: CountableBuff) = when (buff.category) {
         BuffCategory.Positive -> positiveCountableBuffs[buff]
         BuffCategory.Negative -> negativeCountableBuffs[buff]
     } ?: 0
 
-    fun BuffEffect.activate(
+    fun TimedBuffEffect.activate(
         source: Actor?,
         value: Int,
         turns: Int,
@@ -66,11 +66,11 @@ class BuffManager(val actor: Actor) {
      * Intended for stage effects and locked buffs.
      * Removed like normal buffs using the [remove] method.
      */
-    fun addEphemeral(source: Actor?, buffEffect: BuffEffect, value: Int): ActiveBuff {
+    fun addEphemeral(source: Actor?, buffEffect: TimedBuffEffect, value: Int): ActiveBuff {
         return buffEffect.activate(source, value, -1, true)
     }
 
-    fun add(source: Actor?, buffEffect: BuffEffect, value: Int, turns: Int): ActiveBuff? {
+    fun add(source: Actor?, buffEffect: TimedBuffEffect, value: Int, turns: Int): ActiveBuff? {
         require(turns >= 0) { "Buff turns should not be negative." }
         if (buffEffect.exclusive) {
             val existing = get(buffEffect).singleOrNull { !it.ephemeral }
@@ -148,7 +148,7 @@ class BuffManager(val actor: Actor) {
         negativeCountableBuffs.clear()
     }
 
-    fun removeAll(buffEffect: BuffEffect) {
+    fun removeAll(buffEffect: TimedBuffEffect) {
         (buffsByEffect[buffEffect] ?: return).toList().forEach { remove(it) }
     }
 
@@ -186,7 +186,7 @@ class BuffManager(val actor: Actor) {
         }
     }
 
-    private fun hpSlipTotal(effect: BuffEffect): Int {
+    private fun hpSlipTotal(effect: TimedBuffEffect): Int {
         val values = get(effect).map { it.value }
         val fixed = values.filter { it > 100 }.sum()
         val percent = values.filter { it <= 100 }.sumOf { actor.maxHp * it / 100 }
@@ -248,13 +248,13 @@ class BuffManager(val actor: Actor) {
     private fun ActiveBuff.start() = effect.onStart(actor.context, value)
     private fun ActiveBuff.end() = effect.onEnd(actor.context, value)
 
-    operator fun BuffEffect.invoke(value: Int, turns: Int, ephemeral: Boolean = false, relatedBuff: ActiveBuff? = null) =
+    operator fun TimedBuffEffect.invoke(value: Int, turns: Int, ephemeral: Boolean = false, relatedBuff: ActiveBuff? = null) =
         ActiveBuff(this, value, turns, ephemeral, relatedBuff)
 
 }
 
 class ActiveBuff(
-    val effect: BuffEffect,
+    val effect: TimedBuffEffect,
     var value: Int,
     var turns: Int,
     val ephemeral: Boolean = false,
@@ -271,14 +271,17 @@ class ActiveBuff(
     override fun toString() = "[${effect.name}](value = $value, turns = $turns)"
 }
 
-enum class CountableBuff(val category: BuffCategory) {
-    Evasion(BuffCategory.Positive),
-    Fortitude(BuffCategory.Positive),
-    Revive(BuffCategory.Positive),
-    Daze(BuffCategory.Negative),
-    Pride(BuffCategory.Negative),
-    Hope(BuffCategory.Positive),
-    WeakSpot(BuffCategory.Negative),
+enum class CountableBuff(
+    override val category: BuffCategory,
+    override val iconId: Int,
+) : BuffEffect {
+    Evasion(BuffCategory.Positive, 27),
+    Fortitude(BuffCategory.Positive, 29),
+    Revive(BuffCategory.Positive, 164),
+    Daze(BuffCategory.Negative, 167),
+    Pride(BuffCategory.Negative, 168),
+    Hope(BuffCategory.Positive, 169),
+    WeakSpot(BuffCategory.Negative, 170),
 }
 
 val countableBuffsByName = CountableBuff.values().associateBy { it.name.lowercase() } + mapOf(

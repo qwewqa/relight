@@ -3,10 +3,11 @@ package xyz.qwewqa.relive.simulator.core.stage.buff
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 
-object PerfectAimBuff : BuffEffect {
+object PerfectAimBuff : TimedBuffEffect {
     override val name = "Perfect Aim"
     override val category = BuffCategory.Positive
     override val exclusive: Boolean = true
+    override val iconId: Int = 28
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.perfectAimCounter += 1
@@ -17,12 +18,13 @@ object PerfectAimBuff : BuffEffect {
     }
 }
 
-object AggroBuff : BuffEffect {
+object AggroBuff : TimedBuffEffect {
     override val name = "Aggro"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
+    override val iconId: Int = 101
 
-    override fun onApply(source: Actor?, target: Actor) {
+        override fun onApply(source: Actor?, target: Actor) {
         requireNotNull(source)
         target.aggroTarget = source
     }
@@ -32,13 +34,14 @@ object AggroBuff : BuffEffect {
     }
 }
 
-object LockedAggroBuff : BuffEffect {
+object LockedAggroBuff : TimedBuffEffect {
     override val name = "Locked Aggro"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
     override val locked = true
+    override val iconId: Int = 101
 
-    override fun onApply(source: Actor?, target: Actor) {
+        override fun onApply(source: Actor?, target: Actor) {
         requireNotNull(source)
         target.aggroTarget = source
     }
@@ -48,12 +51,13 @@ object LockedAggroBuff : BuffEffect {
     }
 }
 
-object ProvokeBuff : BuffEffect {
+object ProvokeBuff : TimedBuffEffect {
     override val name = "Provoke"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
+    override val iconId: Int = 49
 
-    override fun onApply(source: Actor?, target: Actor) {
+        override fun onApply(source: Actor?, target: Actor) {
         requireNotNull(source)
         target.provokeTarget = source
     }
@@ -63,9 +67,10 @@ object ProvokeBuff : BuffEffect {
     }
 }
 
-object CounterHealBuff : BuffEffect {
+object CounterHealBuff : TimedBuffEffect {
     override val name = "Counter Heal"
     override val category = BuffCategory.Positive
+    override val iconId: Int = 38
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.counterHeal += value
@@ -76,9 +81,10 @@ object CounterHealBuff : BuffEffect {
     }
 }
 
-object AbsorbBuff : BuffEffect {
+object AbsorbBuff : TimedBuffEffect {
     override val name = "Absorb"
     override val category = BuffCategory.Positive
+    override val iconId: Int = 37
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.valueAbsorb += value
@@ -89,9 +95,10 @@ object AbsorbBuff : BuffEffect {
     }
 }
 
-object InvincibilityBuff : BuffEffect {
+object InvincibilityBuff : TimedBuffEffect {
     override val name = "Invincibility"
     override val category = BuffCategory.Positive
+    override val iconId: Int = 104
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.invincible += 1
@@ -102,19 +109,22 @@ object InvincibilityBuff : BuffEffect {
     }
 }
 
-object ExitEvasionBuff : BuffEffect {
+object ExitEvasionBuff : TimedBuffEffect {
     override val name = "Exit Evasion"
     override val category = BuffCategory.Positive
+    override val iconId: Int = 103
 }
 
-object ResilienceBuff : BuffEffect {
+object ResilienceBuff : TimedBuffEffect {
     override val name = "Resilience"
     override val category = BuffCategory.Positive
+    override val iconId: Int = 128
 }
 
-object LockedResilienceBuff : BuffEffect {
+object LockedResilienceBuff : TimedBuffEffect {
     override val name = "Locked Resilience"
     override val category = BuffCategory.Positive
     override val locked = true
     override val related = ResilienceBuff
+    override val iconId: Int = 128
 }

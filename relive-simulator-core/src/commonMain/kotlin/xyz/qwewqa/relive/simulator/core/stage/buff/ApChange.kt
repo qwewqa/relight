@@ -3,10 +3,11 @@ package xyz.qwewqa.relive.simulator.core.stage.buff
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 
-object ApDownBuff : BuffEffect {
+object ApDownBuff : TimedBuffEffect {
     override val name = "AP Down"
     override val category = BuffCategory.Positive
-    override val flipped get() = ApUpBuff
+    override val iconId: Int = 105
+        override val flipped get() = ApUpBuff
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.apDown += 1
@@ -17,10 +18,11 @@ object ApDownBuff : BuffEffect {
     }
 }
 
-object Ap2DownBuff : BuffEffect {
+object Ap2DownBuff : TimedBuffEffect {
     override val name = "AP 2 Down"
     override val category = BuffCategory.Positive
 //    override val flipped get() = Ap2UpBuff TODO: Check if AP 2 Down flips
+    override val iconId: Int = 105
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.ap2Down += 1
@@ -31,10 +33,11 @@ object Ap2DownBuff : BuffEffect {
     }
 }
 
-object ApUpBuff : BuffEffect {
+object ApUpBuff : TimedBuffEffect {
     override val name = "AP Up"
     override val category = BuffCategory.Negative
     override val flipped get() = ApDownBuff
+    override val iconId: Int = 106
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.apUp += 1
@@ -53,18 +56,20 @@ object ApUpBuff : BuffEffect {
 
 // TODO: Test if locked buffs are flippable
 
-object LockedApDownBuff : BuffEffect {
+object LockedApDownBuff : TimedBuffEffect {
     override val name = "Locked AP Down"
     override val category = BuffCategory.Positive
     override val related = ApDownBuff
     override val locked = true
+    override val iconId: Int = 105
 }
 
-object LockedApUpBuff : BuffEffect {
+object LockedApUpBuff : TimedBuffEffect {
     override val name = "Locked AP Up"
     override val category = BuffCategory.Negative
     override val related = ApUpBuff
     override val locked = true
+    override val iconId: Int = 106
 }
 
 val Actor.apChange: Int

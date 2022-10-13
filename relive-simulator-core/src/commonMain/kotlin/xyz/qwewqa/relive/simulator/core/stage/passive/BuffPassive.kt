@@ -88,7 +88,7 @@ val EnemyPoisonBuffPassive: PassiveEffect = DebuffPassive(PoisonBuff, EffectTag.
 val EnemyBack2SleepBuffPassive: PassiveEffect = DebuffPassive(SleepBuff, EffectTag.Sleep, "Enemy Back 2") { targetBack(2) }
 
 private data class GenericBuffPassive(
-    val buffEffect: BuffEffect,
+    val buffEffect: TimedBuffEffect,
     val tag: EffectTag,
     val targetName: String = "Self",
     val target: ActionContext.(Condition) -> TargetContext,
@@ -120,7 +120,7 @@ private data class GenericCountableBuffPassive(
 }
 
 private data class ResistanceBuffPassive(
-    val buffEffect: BuffEffect,
+    val buffEffect: TimedBuffEffect,
     val tag: EffectTag,
     val targetName: String = "Team",
     val target: ActionContext.(Condition) -> TargetContext,
@@ -136,7 +136,7 @@ private data class ResistanceBuffPassive(
 }
 
 private data class DebuffPassive(
-    val buffEffect: BuffEffect,
+    val buffEffect: TimedBuffEffect,
     val tag: EffectTag,
     val targetName: String = "Enemy Team",
     val chance: Int = 100,

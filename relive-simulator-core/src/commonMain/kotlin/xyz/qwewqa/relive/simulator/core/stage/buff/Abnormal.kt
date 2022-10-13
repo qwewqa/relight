@@ -3,10 +3,11 @@ package xyz.qwewqa.relive.simulator.core.stage.buff
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.abnormalCountableBuffs
 
-object StopBuff : BuffEffect {
+object StopBuff : TimedBuffEffect {
     override val name = "Stop"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
+    override val iconId: Int = 53
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.stop += 1
@@ -17,10 +18,11 @@ object StopBuff : BuffEffect {
     }
 }
 
-object SleepBuff : BuffEffect {
+object SleepBuff : TimedBuffEffect {
     override val name = "Sleep"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
+    override val iconId: Int = 51
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.sleep += 1
@@ -31,10 +33,11 @@ object SleepBuff : BuffEffect {
     }
 }
 
-object NightmareBuff : BuffEffect {
+object NightmareBuff : TimedBuffEffect {
     override val name = "Nightmare"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
+    override val iconId: Int = 165
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.nightmare += 1
@@ -45,10 +48,11 @@ object NightmareBuff : BuffEffect {
     }
 }
 
-object ConfusionBuff : BuffEffect {
+object ConfusionBuff : TimedBuffEffect {
     override val name = "Confusion"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
+    override val iconId: Int = 52
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.confusion += 1
@@ -59,19 +63,21 @@ object ConfusionBuff : BuffEffect {
     }
 }
 
-object LockedConfusionBuff : BuffEffect {
+object LockedConfusionBuff : TimedBuffEffect {
     override val name = "Locked Confusion"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
     override val locked: Boolean = true
+    override val iconId: Int = 52
 }
 
-object FreezeBuff : BuffEffect {
+object FreezeBuff : TimedBuffEffect {
     override val name = "Freeze"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
+    override val iconId: Int = 54
 
-    // 30% bonus handled directly within damage formula
+        // 30% bonus handled directly within damage formula
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.frozen += 1
@@ -82,10 +88,11 @@ object FreezeBuff : BuffEffect {
     }
 }
 
-object StunBuff : BuffEffect {
+object StunBuff : TimedBuffEffect {
     override val name = "Stun"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
+    override val iconId: Int = 50
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.stun += 1
@@ -96,18 +103,20 @@ object StunBuff : BuffEffect {
     }
 }
 
-object LockedStunBuff : BuffEffect {
+object LockedStunBuff : TimedBuffEffect {
     override val name = "Locked Stun"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = false
     override val locked: Boolean = true
-    override val related = StunBuff
+    override val iconId: Int = 50
+        override val related = StunBuff
 }
 
-object BurnBuff : BuffEffect {
+object BurnBuff : TimedBuffEffect {
     override val name = "Burn"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = false
+    override val iconId: Int = 48
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.burn += 1
@@ -118,18 +127,20 @@ object BurnBuff : BuffEffect {
     }
 }
 
-object LockedBurnBuff : BuffEffect {
+object LockedBurnBuff : TimedBuffEffect {
     override val name = "Locked Burn"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = false
     override val locked: Boolean = true
     override val related = BurnBuff
+    override val iconId: Int = 48
 }
 
-object PoisonBuff : BuffEffect {
+object PoisonBuff : TimedBuffEffect {
     override val name = "Poison"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = false
+    override val iconId: Int = 47
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.poison += 1
@@ -140,18 +151,20 @@ object PoisonBuff : BuffEffect {
     }
 }
 
-object LockedPoisonBuff : BuffEffect {
+object LockedPoisonBuff : TimedBuffEffect {
     override val name = "Locked Poison"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = false
     override val locked: Boolean = true
     override val related = PoisonBuff
+    override val iconId: Int = 47
 }
 
-object BlindnessBuff : BuffEffect {
+object BlindnessBuff : TimedBuffEffect {
     override val name = "Blindness"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
+    override val iconId: Int = 55
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.blindness += 1
@@ -162,18 +175,20 @@ object BlindnessBuff : BuffEffect {
     }
 }
 
-object LockedBlindnessBuff : BuffEffect {
+object LockedBlindnessBuff : TimedBuffEffect {
     override val name = "Locked Blindness"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
     override val locked: Boolean = true
     override val related = BlindnessBuff
+    override val iconId: Int = 55
 }
 
-object ElectricShockBuff : BuffEffect {
+object ElectricShockBuff : TimedBuffEffect {
     override val name = "Electric Shock"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
+    override val iconId: Int = 50
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.shock += 1
@@ -184,17 +199,20 @@ object ElectricShockBuff : BuffEffect {
     }
 }
 
-object LockedElectricShockBuff : BuffEffect {
+object LockedElectricShockBuff : TimedBuffEffect {
     override val name = "Locked Electric Shock"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
     override val locked: Boolean = true
+    override val iconId: Int = 50
+    override val related = ElectricShockBuff
 }
 
-object LovesicknessBuff : BuffEffect {
+object LovesicknessBuff : TimedBuffEffect {
     override val name = "Lovesickness"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
+    override val iconId: Int = 162
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.lovesickness += 1
@@ -205,17 +223,20 @@ object LovesicknessBuff : BuffEffect {
     }
 }
 
-object LockedLovesicknessBuff : BuffEffect {
+object LockedLovesicknessBuff : TimedBuffEffect {
     override val name = "Locked Lovesickness"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
     override val locked: Boolean = true
+    override val iconId: Int = 162
+    override val related = LovesicknessBuff
 }
 
-object AbnormalGuardBuff : BuffEffect {
+object AbnormalGuardBuff : TimedBuffEffect {
     override val name = "Abnormal Guard"
     override val category = BuffCategory.Positive
     override val locked = true
+    override val iconId: Int = 74
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         abnormalBuffs.forEach { buff ->
@@ -236,10 +257,11 @@ object AbnormalGuardBuff : BuffEffect {
     }
 }
 
-object AgonyBuff : BuffEffect {
+object AgonyBuff : TimedBuffEffect {
     override val name = "Agony"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
+    override val iconId: Int = 172
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.valueDamageTakenDownDebuff -= 30
