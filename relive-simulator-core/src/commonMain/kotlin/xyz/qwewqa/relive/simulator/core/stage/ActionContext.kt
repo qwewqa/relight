@@ -344,7 +344,7 @@ inline fun ActionContext.log(vararg tags: String, category: LogCategory = LogCat
     // Inlining the stage.log call avoids the overhead of the spread operator
     stage.run {
         if (configuration.logging && (!debug || configuration.debug) && logger.prepare()) {
-            logger.log(turn, tile, move, category, *tags, summary = summary(), content = value())
+            logger.log(turn, tile, move, category, self.name, *tags, summary = summary(), content = value())
         }
     }
 }

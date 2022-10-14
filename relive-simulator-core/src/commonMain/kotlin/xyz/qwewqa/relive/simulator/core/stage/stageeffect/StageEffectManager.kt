@@ -67,7 +67,7 @@ class StageEffectManager(val team: Team) {
 
     private fun StageEffect.activate(targets: List<Actor>, level: Int) = targets.associateWith { target ->
         target.context.log("Stage Effect", category = LogCategory.BUFF) {
-            "Stage effect $name (lv. $level) activate on [${target.name}]."
+            "Stage effect $name (lv. $level) activate."
         }
         this[level].map { stageBuff ->
             stageBuff.activate(target)
@@ -77,7 +77,7 @@ class StageEffectManager(val team: Team) {
     private fun StageEffectStatus.deactivate() {
         effectBuffs.forEach { (actor, buffs) ->
             actor.context.log("Stage Effect", category = LogCategory.BUFF) {
-                "Stage effect ${effect.name} (lv. $level) deactivate on [${actor.name}]."
+                "Stage effect ${effect.name} (lv. $level) deactivate."
             }
             buffs.forEach { buff ->
                 actor.buffs.remove(buff)
