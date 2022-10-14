@@ -213,9 +213,26 @@ pwa-update::part(offlineToast) {
     gap: 0.2em;
 }
 
+#interactive-turn-text-container {
+    position: relative;
+    width: var(--size-ref);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#interactive-turn-text-container::before {
+    font-size: max(56px, calc(var(--size-ref) / 10));
+    line-height: max(56px, calc(var(--size-ref) / 10));
+    content: "\feff";
+}
+
 #interactive-turn-text {
-    font-size: max(28px, calc(var(--size-ref) / 18));
-    line-height: max(28px, calc(var(--size-ref) / 18));
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    font-size: max(28px, calc(var(--size-ref) / 16));
+    line-height: max(28px, calc(var(--size-ref) / 16));
     font-weight: bold;
 }
 
@@ -402,7 +419,7 @@ pwa-update::part(offlineToast) {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: max(10px, 1.2vw);
+    gap: calc(var(--size-ref) / 20);
     transform: scale(88%);
 }
 
@@ -441,7 +458,7 @@ pwa-update::part(offlineToast) {
 
 #interactive-acts-container {
     display: flex;
-    gap: max(4px, 0.48vw);
+    gap: calc(var(--size-ref) / 96);
 }
 
 .interactive-act {
@@ -860,4 +877,65 @@ pwa-update::part(offlineToast) {
 .interactive-status-more-buffs-icon {
     font-size: calc(1.2 * var(--buff-icon-size));
     line-height: calc(1.2 * var(--buff-icon-size));
+}
+
+.interactive-stage-effects-container {
+    display: flex;
+    --se-size: calc(0.5 * max(28px, calc(var(--size-ref) / 18)));
+    gap: calc(var(--se-size) / 4);
+    flex-wrap: wrap;
+    max-width: calc(var(--size-ref) / 2.5);
+    align-content: center;
+    align-items: center;
+}
+
+#interactive-team-stage-effects-container {
+    flex-direction: row;
+    margin-right: auto;
+}
+
+#interactive-enemy-stage-effects-container {
+    flex-direction: row-reverse;
+    margin-left: auto;
+}
+
+.interactive-stage-effect {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--se-size) / 12);
+    padding: calc(var(--se-size) / 6);
+    border-radius: calc(var(--se-size) / 4);
+}
+
+.interactive-stage-effect-lv-1 {
+    background: #c6d7f6;
+}
+
+.interactive-stage-effect-lv-2 {
+    background: #fcc8c8;
+}
+
+.interactive-stage-effect-lv-3 {
+    background: #d5d5d5;
+}
+
+.interactive-stage-effect-lv-4 {
+    background: #f6e6aa;
+}
+
+.interactive-stage-effect-lv-5 {
+    background: #f7cffa;
+}
+
+.interactive-stage-effect-img {
+    width: var(--se-size);
+    height: var(--se-size);
+}
+
+.interactive-stage-effect-text {
+    font-size: var(--se-size);
+    line-height: var(--se-size);
+    font-weight: bold;
+    height: var(--se-size);
 }

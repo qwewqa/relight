@@ -33,7 +33,7 @@ private var idCounter = 0
 
 fun HTMLElement.displayStatus(data: InteractiveLogData) {
     fun TagConsumer<HTMLElement>.buffElements(status: ActorStatus) {
-        status.displayBuffs.take(11).forEach { buffData ->
+        status.displayBuffs.take(10).forEach { buffData ->
             div("interactive-status-buff") {
                 div("interactive-status-buff-value") {
                     +buffData.value.toString()

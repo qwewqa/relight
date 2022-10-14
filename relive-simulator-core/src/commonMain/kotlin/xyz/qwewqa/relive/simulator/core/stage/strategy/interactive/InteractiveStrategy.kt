@@ -490,6 +490,8 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                     stage.turn == 0 -> InteractiveRunState.SETUP
                     else -> InteractiveRunState.RUN
                 },
+                team.stageEffects.getDisplayData(),
+                enemy.stageEffects.getDisplayData(),
             )
 
         val BoundAct.status

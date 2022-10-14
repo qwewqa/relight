@@ -4,6 +4,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.*
 
 val SelfTrapping = StageEffect(
     "Self Trapping",
+    23,
     listOf(
         20,
         25,
@@ -22,6 +23,7 @@ val SelfTrapping = StageEffect(
 
 val AlluringEyes = StageEffect(
     "Alluring Eyes",
+    45,
     listOf(
         20,
         25,
@@ -41,6 +43,7 @@ val AlluringEyes = StageEffect(
 // TODO: Find out how fumbling affects AI with set moves
 val DeathsKiss = StageEffect(
     "Death's Kiss",
+    25,
     listOf(
         5,
         10,
@@ -59,6 +62,7 @@ val DeathsKiss = StageEffect(
 // TODO: Find out how curse affects AI with set moves
 val AfterlifeTrials = StageEffect(
     "Afterlife Trials",
+    28,
     listOf(
         5,
         10,
@@ -76,6 +80,7 @@ val AfterlifeTrials = StageEffect(
 
 val DisasterHail = StageEffect(
     "Disaster Hail",
+    24,
     listOf(
         3000,
         3500,
@@ -94,6 +99,7 @@ val DisasterHail = StageEffect(
 
 val RoaringFire = StageEffect(
     "Roaring Fire",
+    21,
     listOf(
         listOf(
             StageBuff(BurnBuff, 3000),
@@ -131,6 +137,7 @@ val RoaringFire = StageEffect(
 
 val Thunder = StageEffect(
     "Thunder",
+    13,
     listOf(
         20,
         30,
@@ -148,6 +155,7 @@ val Thunder = StageEffect(
 
 val SunsetTune = StageEffect(
     "Sunset Tune",
+    8,
     listOf(
         listOf(
             StageBuff(ActPowerDownBuff, 30),

@@ -83,8 +83,17 @@ data class InteractiveQueueStatus(
     val canClimax: Boolean,
     val lastExport: String?,
     val runState: InteractiveRunState,
+    val teamStageEffects: List<DisplayStageEffectData> = emptyList(),
+    val enemyStageEffects: List<DisplayStageEffectData> = emptyList(),
     val canUndo: Boolean = false,
     val canRedo: Boolean = false,
+)
+
+@Serializable
+data class DisplayStageEffectData(
+    val iconId: Int,
+    val level: Int,
+    val turns: Int,
 )
 
 @Serializable

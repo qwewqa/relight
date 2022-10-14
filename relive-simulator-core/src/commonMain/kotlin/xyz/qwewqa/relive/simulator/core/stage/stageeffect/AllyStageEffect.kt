@@ -6,6 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.condition.or
 
 val AngelicSmile = StageEffect(
     "Angelic Smile",
+    22,
     listOf(
         30,
         35,
@@ -24,6 +25,7 @@ val AngelicSmile = StageEffect(
 
 val HyakkaRyoran = StageEffect(
     "Hyakka Ryoran",
+    27,
     listOf(
         listOf(
             StageBuff(DexterityUpBuff, 100),
@@ -51,6 +53,7 @@ val HyakkaRyoran = StageEffect(
 
 val Bullseye = StageEffect(
     "Bullseye",
+    36,
     listOf(
         listOf(
             StageBuff(DexterityUpBuff, 100),
@@ -83,6 +86,7 @@ val Bullseye = StageEffect(
 
 val TheStageWhereHoshimiJunnaPlaysTheLead = StageEffect(
     "The Stage Where Hoshimi Junna Plays The Lead",
+    29,
     listOf(
         25,
         50,
@@ -100,6 +104,7 @@ val TheStageWhereHoshimiJunnaPlaysTheLead = StageEffect(
 
 val LightOfCourage = StageEffect(
     "Light of Courage",
+    1,
     listOf(
         listOf(
             StageBuff(ActPowerUpBuff, 30),
@@ -132,6 +137,7 @@ val LightOfCourage = StageEffect(
 
 val TrialsForHeroesTemptationsForSaints = StageEffect(
     "Trials for Heroes, Temptations for Saints",
+    30,
     listOf(
         listOf(
             StageBuff(ApDownBuff,0),
@@ -175,6 +181,7 @@ val TrialsForHeroesTemptationsForSaints = StageEffect(
 
 val FlamesFallingTogether = StageEffect(
     "Flames Falling Together",
+    32,
     listOf(
         listOf(
             StageBuff(ApDownBuff,0),
@@ -213,6 +220,7 @@ val FlamesFallingTogether = StageEffect(
 
 val WildHope = StageEffect(
     "Wild Hope",
+    20,
     listOf(
         listOf(
             StageBuff(ActPowerUpBuff,20),
@@ -251,6 +259,7 @@ val WildHope = StageEffect(
 
 val ThisIsSeparation = StageEffect(
     "This is Separation",
+    33,
     listOf(
         listOf(
             StageBuff(ApDownBuff,0),
@@ -289,6 +298,7 @@ val ThisIsSeparation = StageEffect(
 
 val YoureAllHopeless = StageEffect(
     "You're All Hopeless",
+    34,
     listOf(
         listOf(
             StageBuff(ApDownBuff,0),
@@ -327,6 +337,7 @@ val YoureAllHopeless = StageEffect(
 
 val GlitteringStage = StageEffect(
     "Glittering Stage",
+    35,
     listOf(
         listOf(
             StageBuff(ActPowerUpBuff,30),
@@ -370,6 +381,7 @@ val GlitteringStage = StageEffect(
 
 val SweetMoment = StageEffect(
     "Sweet Moment",
+    31,
     listOf(
         listOf(
             StageBuff(NegativeEffectResistanceBuff, 50),
@@ -397,6 +409,7 @@ val SweetMoment = StageEffect(
 
 val WeAreRivals = StageEffect(
     "We are rivals!",
+    43,
     listOf(
         listOf(
             StageBuff(ApDownBuff, 0),

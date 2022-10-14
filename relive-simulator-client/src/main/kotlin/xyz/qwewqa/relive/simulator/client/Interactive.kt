@@ -20,6 +20,7 @@ import xyz.qwewqa.relive.simulator.common.*
 
 fun updateInteractiveUi(simulation: InteractiveSimulation, status: InteractiveQueueStatus?, error: String?) {
     updateTopBar(status)
+    updateStageEffects(status)
     updateError(error)
     updateTimeline(simulation, status)
     updateActs(simulation, status)
@@ -45,6 +46,35 @@ private fun updateTopBar(status: InteractiveQueueStatus?) {
     redoButton.disabled = !(status?.canRedo ?: false)
     seekForwardButton.disabled = !(status?.canRedo ?: false)
     fastForwardButton.disabled = !(status?.canRedo ?: false)
+}
+
+private fun updateStageEffects(status: InteractiveQueueStatus?) {
+    val teamStageEffectsContainer = document.getElementById("interactive-team-stage-effects-container") as HTMLElement
+    val enemyStageEffectsContainer = document.getElementById("interactive-enemy-stage-effects-container") as HTMLElement
+
+    teamStageEffectsContainer.clear()
+    enemyStageEffectsContainer.clear()
+    
+    val teamStageEffects = status?.teamStageEffects ?: emptyList()
+    val enemyStageEffects = status?.enemyStageEffects ?: emptyList()
+
+    listOf(
+        teamStageEffectsContainer to teamStageEffects,
+        enemyStageEffectsContainer to enemyStageEffects,
+    ).forEach { (container, effects) ->
+        container.append {
+            effects.forEach { (iconId, level, turns) ->
+                div("interactive-stage-effect interactive-stage-effect-lv-${level.coerceIn(1..5)}") {
+                    div("interactive-stage-effect-text") {
+                        +turns.toString()
+                    }
+                    img(classes = "interactive-stage-effect-img") {
+                        src = "img/field_effect_icon/$iconId.png"
+                    }
+                }
+            }
+        }
+    }
 }
 
 private fun updateError(error: String?) {

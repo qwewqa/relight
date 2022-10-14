@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage.stageeffect
 
+import xyz.qwewqa.relive.simulator.common.DisplayStageEffectData
 import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActiveBuff
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
@@ -62,6 +63,20 @@ class StageEffectManager(val team: Team) {
                     statuses[effect] = StageEffectStatus(effect, effectBuffs, level)
                 }
             }
+        }
+    }
+
+    fun getDisplayData(): List<DisplayStageEffectData> {
+        val maxTurns = mutableMapOf<StageEffect, Int>()
+        activeStacks.forEach { stack ->
+            maxTurns[stack.effect] = maxOf(maxTurns[stack.effect] ?: 0, stack.turns)
+        }
+        return maxTurns.mapNotNull { (effect, turns) ->
+            DisplayStageEffectData(
+                effect.iconId,
+                levels[effect]!!.coerceAtMost(5),
+                turns,
+            )
         }
     }
 

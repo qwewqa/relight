@@ -7,6 +7,7 @@ import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 
 class StageEffect(
     val name: String,
+    val iconId: Int,
     val buffs: List<List<StageBuff>>,
     val target: StageEffectTarget,
     val condition: Condition? = null,

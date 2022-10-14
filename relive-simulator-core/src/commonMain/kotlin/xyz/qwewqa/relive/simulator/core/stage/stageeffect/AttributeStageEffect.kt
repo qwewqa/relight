@@ -11,9 +11,9 @@ val WeAreOnTheStageMoon = weAreOnTheStageAttributeStageEffect(Attribute.Moon)
 val WeAreOnTheStageFlower = weAreOnTheStageAttributeStageEffect(Attribute.Flower)
 val WeAreOnTheStageWind = weAreOnTheStageAttributeStageEffect(Attribute.Wind)
 val WeAreOnTheStageSpace = weAreOnTheStageAttributeStageEffect(Attribute.Space)
-val ConcentrationSpace = concentrationAttributeStageEffect(Attribute.Space)
-val ConcentrationWind = concentrationAttributeStageEffect(Attribute.Wind)
-val ConcentrationSnow = concentrationAttributeStageEffect(Attribute.Snow)
+val ConcentrationSpace = concentrationAttributeStageEffect(Attribute.Space, 15)
+val ConcentrationWind = concentrationAttributeStageEffect(Attribute.Wind, 17)
+val ConcentrationSnow = concentrationAttributeStageEffect(Attribute.Snow, 17)
 val ApplauseFlower = applauseAttributeStageEffect(Attribute.Flower)
 val ApplauseWind = applauseAttributeStageEffect(Attribute.Wind)
 val ApplauseSnow = applauseAttributeStageEffect(Attribute.Snow)
@@ -23,6 +23,7 @@ val ApplauseSpace = applauseAttributeStageEffect(Attribute.Space)
 
 private fun weAreOnTheStageAttributeStageEffect(attribute: Attribute) = StageEffect(
     "We Are on the Stage (${attribute.name})",
+    0 + attribute.ordinal,
     listOf(
         20,
         25,
@@ -42,8 +43,9 @@ private fun weAreOnTheStageAttributeStageEffect(attribute: Attribute) = StageEff
 )
 
 //TODO: Check if this SE works correctly
-private fun concentrationAttributeStageEffect(attribute: Attribute) = StageEffect(
+private fun concentrationAttributeStageEffect(attribute: Attribute, iconId: Int) = StageEffect(
     "Concentration (${attribute.name})",
+    iconId,
     listOf(
         20,
         25,
@@ -63,6 +65,7 @@ private fun concentrationAttributeStageEffect(attribute: Attribute) = StageEffec
 )
 private fun applauseAttributeStageEffect(attribute: Attribute) = StageEffect(
     "Applause (${attribute.name})",
+    36 + attribute.ordinal,
     listOf(
         listOf(
             StageBuff(DamageDealtUpBuff, 20),
