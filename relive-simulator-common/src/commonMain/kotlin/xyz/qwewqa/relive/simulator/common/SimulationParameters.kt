@@ -57,6 +57,14 @@ data class ActorStatus(
     val maxHp: Int,
     val brilliance: Int,
     val damageContribution: Int,
+    val displayBuffs: List<DisplayBuffData>,
+)
+
+@Serializable
+data class DisplayBuffData(
+    val iconId: Int,
+    val isLocked: Boolean,
+    val value: Int,
 )
 
 @Serializable

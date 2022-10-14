@@ -16,7 +16,7 @@ object LockedNormalBarrierBuff : TimedBuffEffect {
     override val name = "Locked Normal Barrier"
     override val category = BuffCategory.Positive
     override val related = NormalBarrierBuff
-    override val locked = true
+    override val isLocked = true
     override val iconId: Int = 23
 }
 
@@ -24,6 +24,6 @@ object LockedSpecialBarrierBuff : TimedBuffEffect {
     override val name = "Locked Special Barrier"
     override val category = BuffCategory.Positive
     override val related = SpecialBarrierBuff
-    override val locked = true
+    override val isLocked = true
     override val iconId: Int = 24
 }

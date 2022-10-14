@@ -60,7 +60,7 @@ object LockedApDownBuff : TimedBuffEffect {
     override val name = "Locked AP Down"
     override val category = BuffCategory.Positive
     override val related = ApDownBuff
-    override val locked = true
+    override val isLocked = true
     override val iconId: Int = 105
 }
 
@@ -68,7 +68,7 @@ object LockedApUpBuff : TimedBuffEffect {
     override val name = "Locked AP Up"
     override val category = BuffCategory.Negative
     override val related = ApUpBuff
-    override val locked = true
+    override val isLocked = true
     override val iconId: Int = 106
 }
 

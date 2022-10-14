@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
+import xyz.qwewqa.relive.simulator.common.DisplayBuffData
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.log
 
@@ -156,7 +157,7 @@ class BuffManager(val actor: Actor) {
         when (category) {
             BuffCategory.Positive -> positiveBuffs
             BuffCategory.Negative -> negativeBuffs
-        }.filter { !it.ephemeral && !it.effect.locked }.forEach { remove(it) }
+        }.filter { !it.ephemeral && !it.effect.isLocked }.forEach { remove(it) }
     }
 
     fun dispelCountable(category: BuffCategory) {
@@ -184,6 +185,24 @@ class BuffManager(val actor: Actor) {
             remove(it)
             add(null, it.effect.flipped!!, it.value, it.turns)
         }
+    }
+
+    fun getDisplayBuffs(): List<DisplayBuffData> = buildList {
+        buffsByEffect.forEach { (effect, values) ->
+            add(effect to (values.filter { !it.ephemeral }.maxOfOrNull { it.turns } ?: 0))
+        }
+        positiveCountableBuffs.forEach { (effect, count) ->
+            add(effect to count)
+        }
+        negativeCountableBuffs.forEach { (effect, count) ->
+            add(effect to -count)
+        }
+    }.filter { (_, value) ->
+        value > 0
+    }.sortedByDescending { (effect, _) ->
+        effect.displayPriority
+    }.map { (effect, value) ->
+        DisplayBuffData(effect.iconId, effect.isLocked, value)
     }
 
     private fun hpSlipTotal(effect: TimedBuffEffect): Int {

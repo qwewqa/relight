@@ -38,7 +38,7 @@ object LockedAggroBuff : TimedBuffEffect {
     override val name = "Locked Aggro"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
-    override val locked = true
+    override val isLocked = true
     override val iconId: Int = 101
 
         override fun onApply(source: Actor?, target: Actor) {
@@ -124,7 +124,7 @@ object ResilienceBuff : TimedBuffEffect {
 object LockedResilienceBuff : TimedBuffEffect {
     override val name = "Locked Resilience"
     override val category = BuffCategory.Positive
-    override val locked = true
+    override val isLocked = true
     override val related = ResilienceBuff
     override val iconId: Int = 128
 }

@@ -653,7 +653,7 @@
                 </div>
             </div>
         </form>
-        <div class="border border-2 rounded px-3 py-2 my-3" id="interactive-container">
+        <div class="border border-2 rounded px-3 py-2 my-3 d-none" id="interactive-container">
             <div id="interactive-console-container" class="collapse">
                 <div class="row" id="interactive-display-row">
                     <div class="col-12">
@@ -707,209 +707,6 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <div id="interactive-status-container">
-                        <div class="row justify-content-evenly g-1 g-md-2">
-                            <div class="col-4 col-xl interactive-status-container">
-                                <div class="interactive-status-image-container">
-                                    <img class="interactive-status-actor-img"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                    <img class="interactive-status-support-indicator"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                </div>
-                                <div class="interactive-status-bars-container">
-                                    <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
-                                        <div class="progress-bar bg-success"
-                                             style="width: 100%; font-weight: bold; z-index: 2;">36940
-                                        </div>
-                                        <div
-                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                            36940
-                                        </div>
-                                    </div>
-                                    <div class="progress"
-                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                        <div class="progress-bar bg-warning"
-                                             style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
-                                        </div>
-                                        <div
-                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                            20
-                                        </div>
-                                    </div>
-                                    <div class="progress d-none damage-shares"
-                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                        <div class="progress-bar bg-info"
-                                             style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
-                                        </div>
-                                        <div
-                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                            0
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-4 col-xl interactive-status-container">
-                                <div class="interactive-status-image-container">
-                                    <img class="interactive-status-actor-img"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                    <img class="interactive-status-support-indicator"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                </div>
-                                <div class="interactive-status-bars-container">
-                                    <p class="mt-1 mb-0"  style="font-size: 0.75rem;">misora</p>
-                                    <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
-                                        <div class="progress-bar bg-success"
-                                             style="width: 100%; font-weight: bold; z-index: 2;">36940
-                                        </div>
-                                        <div
-                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                            36940
-                                        </div>
-                                    </div>
-                                    <div class="progress"
-                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                        <div class="progress-bar bg-warning"
-                                             style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
-                                        </div>
-                                        <div
-                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                            20
-                                        </div>
-                                    </div>
-                                    <div class="progress d-none damage-shares"
-                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                        <div class="progress-bar bg-info"
-                                             style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
-                                        </div>
-                                        <div
-                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                            0
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-4 col-xl interactive-status-container">
-                                <div class="interactive-status-image-container">
-                                    <img class="interactive-status-actor-img"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                    <img class="interactive-status-support-indicator"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                </div>
-                                <div class="interactive-status-bars-container">
-                                    <p class="mt-1 mb-0"  style="font-size: 0.75rem;">misora</p>
-                                    <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
-                                        <div class="progress-bar bg-success"
-                                             style="width: 100%; font-weight: bold; z-index: 2;">36940
-                                        </div>
-                                        <div
-                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                            36940
-                                        </div>
-                                    </div>
-                                    <div class="progress"
-                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                        <div class="progress-bar bg-warning"
-                                             style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
-                                        </div>
-                                        <div
-                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                            20
-                                        </div>
-                                    </div>
-                                    <div class="progress d-none damage-shares"
-                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                        <div class="progress-bar bg-info"
-                                             style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
-                                        </div>
-                                        <div
-                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                            0
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-4 col-xl interactive-status-container">
-                                <div class="interactive-status-image-container">
-                                    <img class="interactive-status-actor-img"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                    <img class="interactive-status-support-indicator"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                </div>
-                                <div class="interactive-status-bars-container">
-                                    <p class="mt-1 mb-0"  style="font-size: 0.75rem;">misora</p>
-                                    <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
-                                        <div class="progress-bar bg-success"
-                                             style="width: 100%; font-weight: bold; z-index: 2;">36940
-                                        </div>
-                                        <div
-                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                            36940
-                                        </div>
-                                    </div>
-                                    <div class="progress"
-                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                        <div class="progress-bar bg-warning"
-                                             style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
-                                        </div>
-                                        <div
-                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                            20
-                                        </div>
-                                    </div>
-                                    <div class="progress d-none damage-shares"
-                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                        <div class="progress-bar bg-info"
-                                             style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
-                                        </div>
-                                        <div
-                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                            0
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-4 col-xl interactive-status-container">
-                                <div class="interactive-status-image-container">
-                                    <img class="interactive-status-actor-img"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                    <img class="interactive-status-support-indicator"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                </div>
-                                <div class="interactive-status-bars-container">
-                                    <p class="mt-1 mb-0"  style="font-size: 0.75rem;">misora</p>
-                                    <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
-                                        <div class="progress-bar bg-success"
-                                             style="width: 100%; font-weight: bold; z-index: 2;">36940
-                                        </div>
-                                        <div
-                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                            36940
-                                        </div>
-                                    </div>
-                                    <div class="progress"
-                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                        <div class="progress-bar bg-warning"
-                                             style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
-                                        </div>
-                                        <div
-                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                            20
-                                        </div>
-                                    </div>
-                                    <div class="progress d-none damage-shares"
-                                         style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                        <div class="progress-bar bg-info"
-                                             style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
-                                        </div>
-                                        <div
-                                                style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                            0
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div id="interactive-ui-container">
                         <div id="interactive-top-container">
                             <button id="interactive-ui-rewind-button" role="button" class="btn btn-secondary d-none"
@@ -948,8 +745,341 @@
                                 <i class="bi bi-box-arrow-up-right"></i>
                             </button>
                         </div>
+                        <div id="interactive-status-container">
+                            <div class="row justify-content-evenly g-1 g-md-2">
+                                <div class="col-12 col-md-6 col-xl-4 interactive-status-container">
+                                    <div class="interactive-status-image-container">
+                                        <img class="interactive-status-actor-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                        <img class="interactive-status-support-indicator"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                    </div>
+                                    <div class="interactive-status-bars-container">
+                                        <div class="interactive-status-buffs-container">
+                                            <div class="interactive-status-buff">
+                                                <div class="interactive-status-buff-value">1</div>
+                                                <div class="interactive-status-buff-image-container">
+                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_1.png">
+                                                    <img class="interactive-status-buff-lock" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_lock.png">
+                                                </div>
+                                            </div>
+                                            <div class="interactive-status-buff">
+                                                <div class="interactive-status-buff-value">2</div>
+                                                <div class="interactive-status-buff-image-container">
+                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                                </div>
+                                            </div>
+                                            <div class="interactive-status-buff">
+                                                <div class="interactive-status-buff-value">3</div>
+                                                <div class="interactive-status-buff-image-container">
+                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                                </div>
+                                            </div>
+                                            <div class="interactive-status-buff">
+                                                <div class="interactive-status-buff-value">40</div>
+                                                <div class="interactive-status-buff-image-container">
+                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                                </div>
+                                            </div>
+                                            <div class="interactive-status-buff">
+                                                <div class="interactive-status-buff-value">50</div>
+                                                <div class="interactive-status-buff-image-container">
+                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                                </div>
+                                            </div>
+                                            <div class="interactive-status-buff">
+                                                <div class="interactive-status-buff-value">60</div>
+                                                <div class="interactive-status-buff-image-container">
+                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                                </div>
+                                            </div>
+                                            <div class="interactive-status-buff">
+                                                <div class="interactive-status-buff-value">70</div>
+                                                <div class="interactive-status-buff-image-container">
+                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                                </div>
+                                            </div>
+                                            <i class="bi bi-three-dots interactive-status-more-buffs-icon"></i>
+                                        </div>
+                                        <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
+                                            <div class="progress-bar bg-success"
+                                                 style="width: 100%; font-weight: bold; z-index: 2;">36940
+                                            </div>
+                                            <div
+                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                                36940
+                                            </div>
+                                        </div>
+                                        <div class="progress"
+                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                            <div class="progress-bar bg-warning"
+                                                 style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
+                                            </div>
+                                            <div
+                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                                20
+                                            </div>
+                                        </div>
+                                        <div class="progress d-none damage-shares"
+                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                            <div class="progress-bar bg-info"
+                                                 style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
+                                            </div>
+                                            <div
+                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                                0
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4 interactive-status-container">
+                                    <div class="interactive-status-image-container">
+                                        <img class="interactive-status-actor-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                        <img class="interactive-status-support-indicator"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                    </div>
+                                    <div class="interactive-status-bars-container">
+                                        <div class="interactive-status-buffs-container">
+                                            <div class="interactive-status-buff">
+                                                <div class="interactive-status-buff-value">11</div>
+                                                <div class="interactive-status-buff-image-container">
+                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_1.png">
+                                                    <img class="interactive-status-buff-lock" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_lock.png">
+                                                </div>
+                                            </div>
+                                            <div class="interactive-status-buff">
+                                                <div class="interactive-status-buff-value">33</div>
+                                                <div class="interactive-status-buff-image-container">
+                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                                </div>
+                                            </div>
+                                            <div class="interactive-status-buff">
+                                                <div class="interactive-status-buff-value">33</div>
+                                                <div class="interactive-status-buff-image-container">
+                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                                </div>
+                                            </div>
+                                            <i class="bi bi-three-dots interactive-status-more-buffs-icon"></i>
+                                        </div>
+                                        <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
+                                            <div class="progress-bar bg-success"
+                                                 style="width: 100%; font-weight: bold; z-index: 2;">36940
+                                            </div>
+                                            <div
+                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                                36940
+                                            </div>
+                                        </div>
+                                        <div class="progress"
+                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                            <div class="progress-bar bg-warning"
+                                                 style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
+                                            </div>
+                                            <div
+                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                                20
+                                            </div>
+                                        </div>
+                                        <div class="progress d-none damage-shares"
+                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                            <div class="progress-bar bg-info"
+                                                 style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
+                                            </div>
+                                            <div
+                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                                0
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4 interactive-status-container">
+                                    <div class="interactive-status-image-container">
+                                        <img class="interactive-status-actor-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                        <img class="interactive-status-support-indicator"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                    </div>
+                                    <div class="interactive-status-bars-container">
+                                        <div class="interactive-status-buffs-container">
+                                            <div class="interactive-status-buff">
+                                                <div class="interactive-status-buff-value">11</div>
+                                                <div class="interactive-status-buff-image-container">
+                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_1.png">
+                                                    <img class="interactive-status-buff-lock" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_lock.png">
+                                                </div>
+                                            </div>
+                                            <div class="interactive-status-buff">
+                                                <div class="interactive-status-buff-value">33</div>
+                                                <div class="interactive-status-buff-image-container">
+                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                                </div>
+                                            </div>
+                                            <div class="interactive-status-buff">
+                                                <div class="interactive-status-buff-value">33</div>
+                                                <div class="interactive-status-buff-image-container">
+                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                                </div>
+                                            </div>
+                                            <i class="bi bi-three-dots interactive-status-more-buffs-icon"></i>
+                                        </div>
+                                        <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
+                                            <div class="progress-bar bg-success"
+                                                 style="width: 100%; font-weight: bold; z-index: 2;">36940
+                                            </div>
+                                            <div
+                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                                36940
+                                            </div>
+                                        </div>
+                                        <div class="progress"
+                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                            <div class="progress-bar bg-warning"
+                                                 style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
+                                            </div>
+                                            <div
+                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                                20
+                                            </div>
+                                        </div>
+                                        <div class="progress d-none damage-shares"
+                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                            <div class="progress-bar bg-info"
+                                                 style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
+                                            </div>
+                                            <div
+                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                                0
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4 interactive-status-container">
+                                    <div class="interactive-status-image-container">
+                                        <img class="interactive-status-actor-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                        <img class="interactive-status-support-indicator"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                    </div>
+                                    <div class="interactive-status-bars-container">
+                                        <div class="interactive-status-buffs-container">
+                                            <div class="interactive-status-buff">
+                                                <div class="interactive-status-buff-value">11</div>
+                                                <div class="interactive-status-buff-image-container">
+                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_1.png">
+                                                    <img class="interactive-status-buff-lock" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_lock.png">
+                                                </div>
+                                            </div>
+                                            <div class="interactive-status-buff">
+                                                <div class="interactive-status-buff-value">33</div>
+                                                <div class="interactive-status-buff-image-container">
+                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                                </div>
+                                            </div>
+                                            <div class="interactive-status-buff">
+                                                <div class="interactive-status-buff-value">33</div>
+                                                <div class="interactive-status-buff-image-container">
+                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                                </div>
+                                            </div>
+                                            <i class="bi bi-three-dots interactive-status-more-buffs-icon"></i>
+                                        </div>
+                                        <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
+                                            <div class="progress-bar bg-success"
+                                                 style="width: 100%; font-weight: bold; z-index: 2;">36940
+                                            </div>
+                                            <div
+                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                                36940
+                                            </div>
+                                        </div>
+                                        <div class="progress"
+                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                            <div class="progress-bar bg-warning"
+                                                 style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
+                                            </div>
+                                            <div
+                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                                20
+                                            </div>
+                                        </div>
+                                        <div class="progress d-none damage-shares"
+                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                            <div class="progress-bar bg-info"
+                                                 style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
+                                            </div>
+                                            <div
+                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                                0
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4 interactive-status-container">
+                                    <div class="interactive-status-image-container">
+                                        <img class="interactive-status-actor-img"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                        <img class="interactive-status-support-indicator"
+                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                    </div>
+                                    <div class="interactive-status-bars-container">
+                                        <div class="interactive-status-buffs-container">
+                                            <div class="interactive-status-buff">
+                                                <div class="interactive-status-buff-value">11</div>
+                                                <div class="interactive-status-buff-image-container">
+                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_1.png">
+                                                    <img class="interactive-status-buff-lock" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_lock.png">
+                                                </div>
+                                            </div>
+                                            <div class="interactive-status-buff">
+                                                <div class="interactive-status-buff-value">33</div>
+                                                <div class="interactive-status-buff-image-container">
+                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                                </div>
+                                            </div>
+                                            <div class="interactive-status-buff">
+                                                <div class="interactive-status-buff-value">33</div>
+                                                <div class="interactive-status-buff-image-container">
+                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                                </div>
+                                            </div>
+                                            <i class="bi bi-three-dots interactive-status-more-buffs-icon"></i>
+                                        </div>
+                                        <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
+                                            <div class="progress-bar bg-success"
+                                                 style="width: 100%; font-weight: bold; z-index: 2;">36940
+                                            </div>
+                                            <div
+                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                                36940
+                                            </div>
+                                        </div>
+                                        <div class="progress"
+                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                            <div class="progress-bar bg-warning"
+                                                 style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
+                                            </div>
+                                            <div
+                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                                20
+                                            </div>
+                                        </div>
+                                        <div class="progress d-none damage-shares"
+                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                            <div class="progress-bar bg-info"
+                                                 style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
+                                            </div>
+                                            <div
+                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                                0
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div id="interactive-turn-text-container"
-                             class="my-1 d-flex justify-content-center align-content-center">
+                             class="mt-2 mb-1 d-flex justify-content-center align-content-center">
                             <div id="interactive-turn-text">3/6</div>
                         </div>
                         <div id="interactive-timeline-container">

@@ -67,7 +67,7 @@ object LockedConfusionBuff : TimedBuffEffect {
     override val name = "Locked Confusion"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
-    override val locked: Boolean = true
+    override val isLocked: Boolean = true
     override val iconId: Int = 52
 }
 
@@ -107,7 +107,7 @@ object LockedStunBuff : TimedBuffEffect {
     override val name = "Locked Stun"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = false
-    override val locked: Boolean = true
+    override val isLocked: Boolean = true
     override val iconId: Int = 50
         override val related = StunBuff
 }
@@ -131,7 +131,7 @@ object LockedBurnBuff : TimedBuffEffect {
     override val name = "Locked Burn"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = false
-    override val locked: Boolean = true
+    override val isLocked: Boolean = true
     override val related = BurnBuff
     override val iconId: Int = 48
 }
@@ -155,7 +155,7 @@ object LockedPoisonBuff : TimedBuffEffect {
     override val name = "Locked Poison"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = false
-    override val locked: Boolean = true
+    override val isLocked: Boolean = true
     override val related = PoisonBuff
     override val iconId: Int = 47
 }
@@ -179,7 +179,7 @@ object LockedBlindnessBuff : TimedBuffEffect {
     override val name = "Locked Blindness"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
-    override val locked: Boolean = true
+    override val isLocked: Boolean = true
     override val related = BlindnessBuff
     override val iconId: Int = 55
 }
@@ -203,7 +203,7 @@ object LockedElectricShockBuff : TimedBuffEffect {
     override val name = "Locked Electric Shock"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
-    override val locked: Boolean = true
+    override val isLocked: Boolean = true
     override val iconId: Int = 50
     override val related = ElectricShockBuff
 }
@@ -227,7 +227,7 @@ object LockedLovesicknessBuff : TimedBuffEffect {
     override val name = "Locked Lovesickness"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
-    override val locked: Boolean = true
+    override val isLocked: Boolean = true
     override val iconId: Int = 162
     override val related = LovesicknessBuff
 }
@@ -235,7 +235,7 @@ object LockedLovesicknessBuff : TimedBuffEffect {
 object AbnormalGuardBuff : TimedBuffEffect {
     override val name = "Abnormal Guard"
     override val category = BuffCategory.Positive
-    override val locked = true
+    override val isLocked = true
     override val iconId: Int = 74
 
     override fun onStart(context: ActionContext, value: Int) = context.run {

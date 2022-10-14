@@ -28,7 +28,7 @@ object NegativeEffectResistanceBuff : TimedBuffEffect {
 object LockedNegativeEffectResistanceBuff : TimedBuffEffect {
     override val name = "Locked Negative Effect Resistance"
     override val category = BuffCategory.Positive
-    override val locked: Boolean = true
+    override val isLocked: Boolean = true
     override val iconId: Int = 19
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
@@ -57,7 +57,7 @@ object PositiveEffectResistanceBuff : TimedBuffEffect {
 object LockedPositiveEffectResistanceBuff : TimedBuffEffect {
     override val name = "Locked Positive Effect Resistance"
     override val category = BuffCategory.Negative
-    override val locked: Boolean = true
+    override val isLocked: Boolean = true
     override val iconId: Int = 166
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
@@ -86,7 +86,7 @@ object NegativeCountableResistanceBuff : TimedBuffEffect {
 object LockedNegativeCountableResistanceBuff : TimedBuffEffect {
     override val name = "Locked Negative Countable Resistance"
     override val category = BuffCategory.Positive
-    override val locked: Boolean = true
+    override val isLocked: Boolean = true
     override val iconId: Int = 173
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
