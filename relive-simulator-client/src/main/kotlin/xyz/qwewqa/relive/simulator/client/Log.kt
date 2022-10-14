@@ -33,7 +33,7 @@ private var idCounter = 0
 
 fun HTMLElement.displayStatus(data: InteractiveLogData) {
     fun TagConsumer<HTMLElement>.buffElements(status: ActorStatus) {
-        status.displayBuffs.take(7).forEach { buffData ->
+        status.displayBuffs.take(11).forEach { buffData ->
             div("interactive-status-buff") {
                 div("interactive-status-buff-value") {
                     +buffData.value.toString()
@@ -57,19 +57,19 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
 
     val bossWidth = when (data.enemyStatus?.size) {
         1 -> "col-12"
-        2 -> "col-12 col-md-6"
+        2 -> "col-12 col-lg-6"
         3 -> "col-6 col-xl-4"
-        4 -> "col-12 col-md-6"
-        5 -> "col-12 col-md-6 col-xl-4"
-        else -> "col-12 col-md-6 col-xl-4"
+        4 -> "col-12 col-lg-6"
+        5 -> "col-12 col-lg-6 col-xl-4"
+        else -> "col-12 col-lg-6 col-xl-4"
     }
     val playerWidth = when (data.playerStatus?.size) {
         1 -> "col-12"
-        2 -> "col-12 col-md-6"
+        2 -> "col-12 col-lg-6"
         3 -> "col-6 col-xl-4"
-        4 -> "col-12 col-md-6"
-        5 -> "col-12 col-md-6 col-xl-4"
-        else -> "col-12 col-md-6 col-xl-4"
+        4 -> "col-12 col-lg-6"
+        5 -> "col-12 col-lg-6 col-xl-4"
+        else -> "col-12 col-lg-6 col-xl-4"
     }
     if (
         children[0]?.children?.length == (data.enemyStatus?.size ?: 0) &&

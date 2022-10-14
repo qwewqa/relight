@@ -782,7 +782,7 @@ pwa-update::part(offlineToast) {
 }
 
 .interactive-status-image-container {
-    --status-image-size: max(44px, calc(var(--size-ref) / 15));
+    --status-image-size: max(44px, calc(var(--size-ref) / 14));
     position: relative;
 }
 
@@ -811,8 +811,9 @@ pwa-update::part(offlineToast) {
     overflow-x: clip;
     margin-left: 2px;
     margin-bottom: 2px;
-    --buff-icon-size: max(12px, calc(var(--size-ref) / 68));
+    --buff-icon-size: max(12px, calc(var(--size-ref) / 72));
     gap: calc(var(--buff-icon-size) / 4);
+    flex-wrap: wrap;
 }
 
 .interactive-status-buffs-container:empty::before {
