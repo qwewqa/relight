@@ -529,3 +529,6 @@
 
 # v0.33.3
 - Interactive UI sizing adjustments
+
+# v0.33.4
+- Fix interactive UI empty climax button appearance on some display sizes
