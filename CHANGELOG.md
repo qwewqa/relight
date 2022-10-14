@@ -522,3 +522,7 @@
 # v0.33.1
 - Fixed negative countable buff display in interactive
 - Increased the maximum displayed buffs in interactive
+
+# v0.33.2
+- Reduced the maximum interactive ui size
+- Added stage effect display to interactive
