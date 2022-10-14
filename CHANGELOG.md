@@ -512,3 +512,9 @@
 - Auto name now sets supports
 - Removed the restart button from interactive
 - Added seek back and forward buttons, and a redo button to interactive
+
+# v0.33.0
+- Fixed names not appearing in logs
+- Added dress icons to interactive bars
+- Added buffs display to interactive
+- Simplified displayed version numbers
