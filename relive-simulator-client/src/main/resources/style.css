@@ -392,7 +392,7 @@ pwa-update::part(offlineToast) {
 }
 
 #interactive-acts-row-container {
-    overflow-x: scroll;
+    overflow-x: auto;
     overflow-y: visible;
     padding-top: calc(var(--size-ref) / 44);
     padding-bottom: calc(var(--size-ref) / 44);
