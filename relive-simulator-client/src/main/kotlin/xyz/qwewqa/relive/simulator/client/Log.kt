@@ -50,7 +50,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                 }
             }
         }
-        if (status.displayBuffs.size > 7) {
+        if (status.displayBuffs.size > 10) {
             i("bi bi-three-dots interactive-status-more-buffs-icon") {}
         }
     }

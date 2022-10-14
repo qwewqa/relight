@@ -189,6 +189,14 @@ pwa-update::part(offlineToast) {
     :root {
         --container-max-width: 960px;
     }
+
+    @media (min-aspect-ratio: 4/3) and (max-height: 900px) {
+        #interactive-ui-container {
+            scale: 0.9;
+            margin-top: -1%;
+            margin-bottom: -2%;
+        }
+    }
 }
 
 @media (min-width: 1200px) {
@@ -411,8 +419,8 @@ pwa-update::part(offlineToast) {
 #interactive-acts-row-container {
     overflow-x: auto;
     overflow-y: visible;
-    padding-top: calc(var(--size-ref) / 44);
-    padding-bottom: calc(var(--size-ref) / 44);
+    padding-top: calc(var(--size-ref) / 96);
+    padding-bottom: calc(var(--size-ref) / 96);
 }
 
 #interactive-acts-row {
@@ -540,7 +548,7 @@ pwa-update::part(offlineToast) {
     width: var(--size-ref);
     margin-left: auto;
     margin-right: auto;
-    margin-top: calc(var(--size-ref) / 40);
+    margin-top: calc(var(--size-ref) / 96);
 }
 
 #interactive-available-memoir-cost-text {
@@ -789,7 +797,11 @@ pwa-update::part(offlineToast) {
 }
 
 #interactive-container {
-    --size-ref: min(780px, calc(0.84 * var(--container-max-width)));
+    --size-ref: min(800px, calc(0.9 * var(--container-max-width)));
+}
+
+#interactive-console-container {
+    width: var(--size-ref);
 }
 
 #interactive-status-container {

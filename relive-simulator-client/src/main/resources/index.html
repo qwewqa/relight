@@ -653,768 +653,787 @@
                 </div>
             </div>
         </form>
-        <div class="border border-2 rounded px-3 py-2 my-3 d-none" id="interactive-container">
-            <div id="interactive-console-container" class="collapse">
-                <div class="row" id="interactive-display-row">
-                    <div class="col-12">
-                        <div id="interactive-log"></div>
-                    </div>
-                </div>
-                <div class="row" id="interactive-input-row">
-                    <div class="col-12">
-                        <div class="input-group input-group-sm">
-                            <input id="interactive-input" class="form-control" value="" type="text" autocomplete="off"
-                                   autocorrect="off" spellcheck="false" autocapitalize="off" name="interactive-input">
-                            <button id="interactive-send-button" class="btn btn-outline-secondary" type="button"><i
-                                    class="bi-send"></i></button>
+        <div class="border border-2 rounded pb-3 pb-md-1 my-3 d-none" id="interactive-container">
+            <div id="interactive-ui-container">
+                <div id="interactive-console-container" class="mx-auto pb-2 collapse">
+                    <div class="row" id="interactive-display-row">
+                        <div class="col-12">
+                            <div id="interactive-log"></div>
                         </div>
                     </div>
-                </div>
-                <div class="row" id="interactive-shortcuts-row">
-                    <div class="col-auto ms-auto my-1">
-                        <div class="input-group">
-                            <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
-                                    data-interactive-command="undo"
-                                    type="button" title="undo">
-                                <i class="bi bi-arrow-90deg-left"></i></button>
-                            <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
-                                    data-interactive-command="save temp"
-                                    type="button" title="save">
-                                <i class="bi bi-download"></i></button>
-                            <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
-                                    data-interactive-command="load temp"
-                                    type="button" title="load">
-                                <i class="bi bi-upload"></i></button>
-                            <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
-                                    data-interactive-command="export strict"
-                                    type="button" title="export">
-                                <i class="bi bi-box-arrow-up-right"></i></button>
-                            <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
-                                    data-interactive-command="seed"
-                                    type="button" title="reseed">
-                                <i class="bi bi-shuffle"></i></button>
-                            <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
-                                    data-interactive-command="status"
-                                    type="button" title="status">
-                                <i class="bi bi-activity"></i></button>
-                            <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
-                                    data-interactive-command="info"
-                                    type="button" title="info">
-                                <i class="bi bi-info-circle"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div id="interactive-ui-container">
-                        <div id="interactive-top-container">
-                            <button id="interactive-ui-rewind-button" role="button" class="btn btn-secondary d-none"
-                                    type="button">
-                                <i class="bi bi-skip-backward-fill"></i>
-                            </button>
-                            <button id="interactive-ui-seek-back-button" role="button" class="btn btn-secondary"
-                                    type="button">
-                                <i class="bi bi-skip-start-fill"></i>
-                            </button>
-                            <button id="interactive-ui-undo-button" role="button" class="btn btn-secondary"
-                                    type="button">
-                                <i class="bi bi-caret-left-fill"></i>
-                            </button>
-                            <button id="interactive-ui-redo-button" role="button" class="btn btn-secondary"
-                                    type="button">
-                                <i class="bi bi-caret-right-fill"></i>
-                            </button>
-                            <button id="interactive-ui-seek-forward-button" role="button" class="btn btn-secondary"
-                                    type="button">
-                                <i class="bi bi-skip-end-fill"></i>
-                            </button>
-                            <button id="interactive-ui-fast-forward-button" role="button"
-                                    class="btn btn-secondary d-none" type="button">
-                                <i class="bi bi-skip-forward-fill"></i>
-                            </button>
-                            <div class="mx-auto">
+                    <div class="row" id="interactive-input-row">
+                        <div class="col-12">
+                            <div class="input-group input-group-sm">
+                                <input id="interactive-input" class="form-control" value="" type="text"
+                                       autocomplete="off"
+                                       autocorrect="off" spellcheck="false" autocapitalize="off"
+                                       name="interactive-input">
+                                <button id="interactive-send-button" class="btn btn-outline-secondary" type="button"><i
+                                        class="bi-send"></i></button>
                             </div>
-                            <button id="interactive-ui-console-button" role="button" class="btn btn-warning"
-                                    type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#interactive-console-container">
-                                <i class="bi bi-terminal"></i>
-                            </button>
-                            <button id="interactive-ui-export-button" role="button" class="btn btn-primary"
-                                    type="button">
-                                <i class="bi bi-box-arrow-up-right"></i>
-                            </button>
                         </div>
-                        <div id="interactive-status-container">
-                            <div class="row justify-content-evenly g-1 g-md-2">
-                                <div class="col-12 col-md-6 col-xl-4 interactive-status-container">
-                                    <div class="interactive-status-image-container">
-                                        <img class="interactive-status-actor-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="interactive-status-support-indicator"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                    </div>
+                    <div class="row" id="interactive-shortcuts-row">
+                        <div class="col-auto ms-auto my-1">
+                            <div class="input-group">
+                                <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                        data-interactive-command="undo"
+                                        type="button" title="undo">
+                                    <i class="bi bi-arrow-90deg-left"></i></button>
+                                <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                        data-interactive-command="save temp"
+                                        type="button" title="save">
+                                    <i class="bi bi-download"></i></button>
+                                <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                        data-interactive-command="load temp"
+                                        type="button" title="load">
+                                    <i class="bi bi-upload"></i></button>
+                                <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                        data-interactive-command="export strict"
+                                        type="button" title="export">
+                                    <i class="bi bi-box-arrow-up-right"></i></button>
+                                <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                        data-interactive-command="seed"
+                                        type="button" title="reseed">
+                                    <i class="bi bi-shuffle"></i></button>
+                                <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                        data-interactive-command="status"
+                                        type="button" title="status">
+                                    <i class="bi bi-activity"></i></button>
+                                <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
+                                        data-interactive-command="info"
+                                        type="button" title="info">
+                                    <i class="bi bi-info-circle"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="interactive-top-container">
+                    <button id="interactive-ui-rewind-button" role="button" class="btn btn-secondary d-none"
+                            type="button">
+                        <i class="bi bi-skip-backward-fill"></i>
+                    </button>
+                    <button id="interactive-ui-seek-back-button" role="button" class="btn btn-secondary"
+                            type="button">
+                        <i class="bi bi-skip-start-fill"></i>
+                    </button>
+                    <button id="interactive-ui-undo-button" role="button" class="btn btn-secondary"
+                            type="button">
+                        <i class="bi bi-caret-left-fill"></i>
+                    </button>
+                    <button id="interactive-ui-redo-button" role="button" class="btn btn-secondary"
+                            type="button">
+                        <i class="bi bi-caret-right-fill"></i>
+                    </button>
+                    <button id="interactive-ui-seek-forward-button" role="button" class="btn btn-secondary"
+                            type="button">
+                        <i class="bi bi-skip-end-fill"></i>
+                    </button>
+                    <button id="interactive-ui-fast-forward-button" role="button"
+                            class="btn btn-secondary d-none" type="button">
+                        <i class="bi bi-skip-forward-fill"></i>
+                    </button>
+                    <div class="mx-auto">
+                    </div>
+                    <button id="interactive-ui-console-button" role="button" class="btn btn-warning"
+                            type="button" data-bs-toggle="collapse"
+                            data-bs-target="#interactive-console-container">
+                        <i class="bi bi-terminal"></i>
+                    </button>
+                    <button id="interactive-ui-export-button" role="button" class="btn btn-primary"
+                            type="button">
+                        <i class="bi bi-box-arrow-up-right"></i>
+                    </button>
+                </div>
+                <div id="interactive-status-container">
+                    <div class="row justify-content-evenly g-1 g-md-2">
+                        <div class="col-12 col-md-6 col-lg-4 interactive-status-container">
+                            <div class="interactive-status-image-container">
+                                <img class="interactive-status-actor-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                <img class="interactive-status-support-indicator"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                            </div>
+                            <div class="interactive-status-bars-container">
+                                <div class="interactive-status-buffs-container">
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">11</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_1.png">
+                                            <img class="interactive-status-buff-lock"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_lock.png">
+                                        </div>
                                     </div>
-                                    <div class="interactive-status-bars-container">
-                                        <div class="interactive-status-buffs-container">
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">1</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_1.png">
-                                                    <img class="interactive-status-buff-lock" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_lock.png">
-                                                </div>
-                                            </div>
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">2</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
-                                                </div>
-                                            </div>
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">3</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
-                                                </div>
-                                            </div>
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">4</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
-                                                </div>
-                                            </div>
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">5</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
-                                                </div>
-                                            </div>
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">66</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
-                                                </div>
-                                            </div>
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">77</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
-                                                </div>
-                                            </div>
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">88</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
-                                                </div>
-                                            </div>
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">99</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
-                                                </div>
-                                            </div>
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">00</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
-                                                </div>
-                                            </div>
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">01</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
-                                                </div>
-                                            </div>
-                                            <i class="bi bi-three-dots interactive-status-more-buffs-icon"></i>
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">22</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
                                         </div>
-                                        <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
-                                            <div class="progress-bar bg-success"
-                                                 style="width: 100%; font-weight: bold; z-index: 2;">36940
-                                            </div>
-                                            <div
-                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                                36940
-                                            </div>
+                                    </div>
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">33</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
                                         </div>
-                                        <div class="progress"
-                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                            <div class="progress-bar bg-warning"
-                                                 style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
-                                            </div>
-                                            <div
-                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                                20
-                                            </div>
+                                    </div>
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">44</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
                                         </div>
-                                        <div class="progress d-none damage-shares"
-                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                            <div class="progress-bar bg-info"
-                                                 style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
-                                            </div>
-                                            <div
-                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                                0
-                                            </div>
+                                    </div>
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">5</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
                                         </div>
+                                    </div>
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">6</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                        </div>
+                                    </div>
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">7</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                        </div>
+                                    </div>
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">8</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                        </div>
+                                    </div>
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">9</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                        </div>
+                                    </div>
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">0</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                        </div>
+                                    </div>
+                                    <i class="bi bi-three-dots interactive-status-more-buffs-icon"></i>
+                                </div>
+                                <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
+                                    <div class="progress-bar bg-success"
+                                         style="width: 100%; font-weight: bold; z-index: 2;">36940
+                                    </div>
+                                    <div
+                                            style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                        36940
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-4 interactive-status-container">
-                                    <div class="interactive-status-image-container">
-                                        <img class="interactive-status-actor-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="interactive-status-support-indicator"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                <div class="progress"
+                                     style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                    <div class="progress-bar bg-warning"
+                                         style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
                                     </div>
-                                    <div class="interactive-status-bars-container">
-                                        <div class="interactive-status-buffs-container">
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">11</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_1.png">
-                                                    <img class="interactive-status-buff-lock" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_lock.png">
-                                                </div>
-                                            </div>
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">33</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
-                                                </div>
-                                            </div>
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">33</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
-                                                </div>
-                                            </div>
-                                            <i class="bi bi-three-dots interactive-status-more-buffs-icon"></i>
-                                        </div>
-                                        <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
-                                            <div class="progress-bar bg-success"
-                                                 style="width: 100%; font-weight: bold; z-index: 2;">36940
-                                            </div>
-                                            <div
-                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                                36940
-                                            </div>
-                                        </div>
-                                        <div class="progress"
-                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                            <div class="progress-bar bg-warning"
-                                                 style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
-                                            </div>
-                                            <div
-                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                                20
-                                            </div>
-                                        </div>
-                                        <div class="progress d-none damage-shares"
-                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                            <div class="progress-bar bg-info"
-                                                 style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
-                                            </div>
-                                            <div
-                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                                0
-                                            </div>
-                                        </div>
+                                    <div
+                                            style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                        20
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-4 interactive-status-container">
-                                    <div class="interactive-status-image-container">
-                                        <img class="interactive-status-actor-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="interactive-status-support-indicator"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                <div class="progress d-none damage-shares"
+                                     style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                    <div class="progress-bar bg-info"
+                                         style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
                                     </div>
-                                    <div class="interactive-status-bars-container">
-                                        <div class="interactive-status-buffs-container">
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">11</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_1.png">
-                                                    <img class="interactive-status-buff-lock" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_lock.png">
-                                                </div>
-                                            </div>
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">33</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
-                                                </div>
-                                            </div>
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">33</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
-                                                </div>
-                                            </div>
-                                            <i class="bi bi-three-dots interactive-status-more-buffs-icon"></i>
-                                        </div>
-                                        <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
-                                            <div class="progress-bar bg-success"
-                                                 style="width: 100%; font-weight: bold; z-index: 2;">36940
-                                            </div>
-                                            <div
-                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                                36940
-                                            </div>
-                                        </div>
-                                        <div class="progress"
-                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                            <div class="progress-bar bg-warning"
-                                                 style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
-                                            </div>
-                                            <div
-                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                                20
-                                            </div>
-                                        </div>
-                                        <div class="progress d-none damage-shares"
-                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                            <div class="progress-bar bg-info"
-                                                 style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
-                                            </div>
-                                            <div
-                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                                0
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4 interactive-status-container">
-                                    <div class="interactive-status-image-container">
-                                        <img class="interactive-status-actor-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="interactive-status-support-indicator"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                    </div>
-                                    <div class="interactive-status-bars-container">
-                                        <div class="interactive-status-buffs-container">
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">11</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_1.png">
-                                                    <img class="interactive-status-buff-lock" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_lock.png">
-                                                </div>
-                                            </div>
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">33</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
-                                                </div>
-                                            </div>
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">33</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
-                                                </div>
-                                            </div>
-                                            <i class="bi bi-three-dots interactive-status-more-buffs-icon"></i>
-                                        </div>
-                                        <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
-                                            <div class="progress-bar bg-success"
-                                                 style="width: 100%; font-weight: bold; z-index: 2;">36940
-                                            </div>
-                                            <div
-                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                                36940
-                                            </div>
-                                        </div>
-                                        <div class="progress"
-                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                            <div class="progress-bar bg-warning"
-                                                 style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
-                                            </div>
-                                            <div
-                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                                20
-                                            </div>
-                                        </div>
-                                        <div class="progress d-none damage-shares"
-                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                            <div class="progress-bar bg-info"
-                                                 style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
-                                            </div>
-                                            <div
-                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                                0
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4 interactive-status-container">
-                                    <div class="interactive-status-image-container">
-                                        <img class="interactive-status-actor-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="interactive-status-support-indicator"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                    </div>
-                                    <div class="interactive-status-bars-container">
-                                        <div class="interactive-status-buffs-container">
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">11</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_1.png">
-                                                    <img class="interactive-status-buff-lock" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_lock.png">
-                                                </div>
-                                            </div>
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">33</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
-                                                </div>
-                                            </div>
-                                            <div class="interactive-status-buff">
-                                                <div class="interactive-status-buff-value">33</div>
-                                                <div class="interactive-status-buff-image-container">
-                                                    <img class="interactive-status-buff-img" src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
-                                                </div>
-                                            </div>
-                                            <i class="bi bi-three-dots interactive-status-more-buffs-icon"></i>
-                                        </div>
-                                        <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
-                                            <div class="progress-bar bg-success"
-                                                 style="width: 100%; font-weight: bold; z-index: 2;">36940
-                                            </div>
-                                            <div
-                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                                36940
-                                            </div>
-                                        </div>
-                                        <div class="progress"
-                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                            <div class="progress-bar bg-warning"
-                                                 style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
-                                            </div>
-                                            <div
-                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                                20
-                                            </div>
-                                        </div>
-                                        <div class="progress d-none damage-shares"
-                                             style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
-                                            <div class="progress-bar bg-info"
-                                                 style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
-                                            </div>
-                                            <div
-                                                    style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
-                                                0
-                                            </div>
-                                        </div>
+                                    <div
+                                            style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                        0
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div id="interactive-turn-text-container"
-                             class="mt-2 mb-1 d-flex">
-                            <div id="interactive-team-stage-effects-container" class="interactive-stage-effects-container">
-                                <div class="interactive-stage-effect interactive-stage-effect-lv-1">
-                                    <div class="interactive-stage-effect-text">
-                                        2
+                        <div class="col-12 col-md-6 col-lg-4 interactive-status-container">
+                            <div class="interactive-status-image-container">
+                                <img class="interactive-status-actor-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                <img class="interactive-status-support-indicator"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                            </div>
+                            <div class="interactive-status-bars-container">
+                                <div class="interactive-status-buffs-container">
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">11</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_1.png">
+                                            <img class="interactive-status-buff-lock"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_lock.png">
+                                        </div>
                                     </div>
-                                    <img class="interactive-stage-effect-img"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">33</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                        </div>
+                                    </div>
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">33</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                        </div>
+                                    </div>
+                                    <i class="bi bi-three-dots interactive-status-more-buffs-icon"></i>
                                 </div>
-                                <div class="interactive-stage-effect interactive-stage-effect-lv-2">
-                                    <div class="interactive-stage-effect-text">
-                                        2
+                                <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
+                                    <div class="progress-bar bg-success"
+                                         style="width: 100%; font-weight: bold; z-index: 2;">36940
                                     </div>
-                                    <img class="interactive-stage-effect-img"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
+                                    <div
+                                            style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                        36940
+                                    </div>
                                 </div>
-                                <div class="interactive-stage-effect interactive-stage-effect-lv-3">
-                                    <div class="interactive-stage-effect-text">
-                                        2
+                                <div class="progress"
+                                     style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                    <div class="progress-bar bg-warning"
+                                         style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
                                     </div>
-                                    <img class="interactive-stage-effect-img"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
+                                    <div
+                                            style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                        20
+                                    </div>
                                 </div>
-                                <div class="interactive-stage-effect interactive-stage-effect-lv-4">
-                                    <div class="interactive-stage-effect-text">
-                                        2
+                                <div class="progress d-none damage-shares"
+                                     style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                    <div class="progress-bar bg-info"
+                                         style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
                                     </div>
-                                    <img class="interactive-stage-effect-img"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
-                                </div>
-                                <div class="interactive-stage-effect interactive-stage-effect-lv-5">
-                                    <div class="interactive-stage-effect-text">
-                                        2
+                                    <div
+                                            style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                        0
                                     </div>
-                                    <img class="interactive-stage-effect-img"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
-                                </div>
-                                <div class="interactive-stage-effect interactive-stage-effect-lv-4">
-                                    <div class="interactive-stage-effect-text">
-                                        2
-                                    </div>
-                                    <img class="interactive-stage-effect-img"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
-                                </div>
-                                <div class="interactive-stage-effect interactive-stage-effect-lv-5">
-                                    <div class="interactive-stage-effect-text">
-                                        2
-                                    </div>
-                                    <img class="interactive-stage-effect-img"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
                                 </div>
                             </div>
-                            <div id="interactive-turn-text">3/6</div>
-                            <div id="interactive-enemy-stage-effects-container" class="interactive-stage-effects-container">
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4 interactive-status-container">
+                            <div class="interactive-status-image-container">
+                                <img class="interactive-status-actor-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                <img class="interactive-status-support-indicator"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                            </div>
+                            <div class="interactive-status-bars-container">
+                                <div class="interactive-status-buffs-container">
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">11</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_1.png">
+                                            <img class="interactive-status-buff-lock"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_lock.png">
+                                        </div>
+                                    </div>
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">33</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                        </div>
+                                    </div>
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">33</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                        </div>
+                                    </div>
+                                    <i class="bi bi-three-dots interactive-status-more-buffs-icon"></i>
+                                </div>
+                                <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
+                                    <div class="progress-bar bg-success"
+                                         style="width: 100%; font-weight: bold; z-index: 2;">36940
+                                    </div>
+                                    <div
+                                            style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                        36940
+                                    </div>
+                                </div>
+                                <div class="progress"
+                                     style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                    <div class="progress-bar bg-warning"
+                                         style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
+                                    </div>
+                                    <div
+                                            style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                        20
+                                    </div>
+                                </div>
+                                <div class="progress d-none damage-shares"
+                                     style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                    <div class="progress-bar bg-info"
+                                         style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
+                                    </div>
+                                    <div
+                                            style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                        0
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4 interactive-status-container">
+                            <div class="interactive-status-image-container">
+                                <img class="interactive-status-actor-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                <img class="interactive-status-support-indicator"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                            </div>
+                            <div class="interactive-status-bars-container">
+                                <div class="interactive-status-buffs-container">
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">11</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_1.png">
+                                            <img class="interactive-status-buff-lock"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_lock.png">
+                                        </div>
+                                    </div>
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">33</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                        </div>
+                                    </div>
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">33</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                        </div>
+                                    </div>
+                                    <i class="bi bi-three-dots interactive-status-more-buffs-icon"></i>
+                                </div>
+                                <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
+                                    <div class="progress-bar bg-success"
+                                         style="width: 100%; font-weight: bold; z-index: 2;">36940
+                                    </div>
+                                    <div
+                                            style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                        36940
+                                    </div>
+                                </div>
+                                <div class="progress"
+                                     style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                    <div class="progress-bar bg-warning"
+                                         style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
+                                    </div>
+                                    <div
+                                            style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                        20
+                                    </div>
+                                </div>
+                                <div class="progress d-none damage-shares"
+                                     style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                    <div class="progress-bar bg-info"
+                                         style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
+                                    </div>
+                                    <div
+                                            style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                        0
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4 interactive-status-container">
+                            <div class="interactive-status-image-container">
+                                <img class="interactive-status-actor-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                <img class="interactive-status-support-indicator"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                            </div>
+                            <div class="interactive-status-bars-container">
+                                <div class="interactive-status-buffs-container">
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">11</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_1.png">
+                                            <img class="interactive-status-buff-lock"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_lock.png">
+                                        </div>
+                                    </div>
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">33</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                        </div>
+                                    </div>
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">33</div>
+                                        <div class="interactive-status-buff-image-container">
+                                            <img class="interactive-status-buff-img"
+                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_3.png">
+                                        </div>
+                                    </div>
+                                    <i class="bi bi-three-dots interactive-status-more-buffs-icon"></i>
+                                </div>
+                                <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
+                                    <div class="progress-bar bg-success"
+                                         style="width: 100%; font-weight: bold; z-index: 2;">36940
+                                    </div>
+                                    <div
+                                            style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                        36940
+                                    </div>
+                                </div>
+                                <div class="progress"
+                                     style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                    <div class="progress-bar bg-warning"
+                                         style="width: 20%; color: black; font-weight: bold; z-index: 2;">20
+                                    </div>
+                                    <div
+                                            style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                        20
+                                    </div>
+                                </div>
+                                <div class="progress d-none damage-shares"
+                                     style="font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;">
+                                    <div class="progress-bar bg-info"
+                                         style="width: 0%;color: black;font-weight: bold;z-index: 2;">0
+                                    </div>
+                                    <div
+                                            style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                        0
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="interactive-turn-text-container"
+                     class="mt-2 mb-1 d-flex">
+                    <div id="interactive-team-stage-effects-container" class="interactive-stage-effects-container">
+                        <div class="interactive-stage-effect interactive-stage-effect-lv-1">
+                            <div class="interactive-stage-effect-text">
+                                2
+                            </div>
+                            <img class="interactive-stage-effect-img"
+                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
+                        </div>
+                        <div class="interactive-stage-effect interactive-stage-effect-lv-2">
+                            <div class="interactive-stage-effect-text">
+                                2
+                            </div>
+                            <img class="interactive-stage-effect-img"
+                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
+                        </div>
+                        <div class="interactive-stage-effect interactive-stage-effect-lv-3">
+                            <div class="interactive-stage-effect-text">
+                                2
+                            </div>
+                            <img class="interactive-stage-effect-img"
+                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
+                        </div>
+                        <div class="interactive-stage-effect interactive-stage-effect-lv-4">
+                            <div class="interactive-stage-effect-text">
+                                2
+                            </div>
+                            <img class="interactive-stage-effect-img"
+                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
+                        </div>
+                        <div class="interactive-stage-effect interactive-stage-effect-lv-5">
+                            <div class="interactive-stage-effect-text">
+                                2
+                            </div>
+                            <img class="interactive-stage-effect-img"
+                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
+                        </div>
+                        <div class="interactive-stage-effect interactive-stage-effect-lv-4">
+                            <div class="interactive-stage-effect-text">
+                                2
+                            </div>
+                            <img class="interactive-stage-effect-img"
+                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
+                        </div>
+                        <div class="interactive-stage-effect interactive-stage-effect-lv-5">
+                            <div class="interactive-stage-effect-text">
+                                2
+                            </div>
+                            <img class="interactive-stage-effect-img"
+                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
+                        </div>
+                    </div>
+                    <div id="interactive-turn-text">3/6</div>
+                    <div id="interactive-enemy-stage-effects-container" class="interactive-stage-effects-container">
 
-                                <div class="interactive-stage-effect interactive-stage-effect-lv-1">
-                                    <div class="interactive-stage-effect-text">
-                                        2
-                                    </div>
-                                    <img class="interactive-stage-effect-img"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
-                                </div>
-                                <div class="interactive-stage-effect interactive-stage-effect-lv-2">
-                                    <div class="interactive-stage-effect-text">
-                                        2
-                                    </div>
-                                    <img class="interactive-stage-effect-img"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
-                                </div>
-                                <div class="interactive-stage-effect interactive-stage-effect-lv-3">
-                                    <div class="interactive-stage-effect-text">
-                                        2
-                                    </div>
-                                    <img class="interactive-stage-effect-img"
-                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
-                                </div>
+                        <div class="interactive-stage-effect interactive-stage-effect-lv-1">
+                            <div class="interactive-stage-effect-text">
+                                2
                             </div>
+                            <img class="interactive-stage-effect-img"
+                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
                         </div>
-                        <div id="interactive-timeline-container">
-                            <div class="interactive-timeline-connector-bg"></div>
-                            <div class="interactive-timeline-item interactive-timeline-normal">
-                                <div class="interactive-timeline-connector-start"></div>
-                                <div class="interactive-timeline-marker"></div>
+                        <div class="interactive-stage-effect interactive-stage-effect-lv-2">
+                            <div class="interactive-stage-effect-text">
+                                2
                             </div>
-                            <div class="interactive-timeline-item interactive-timeline-normal">
-                                <div class="interactive-timeline-connector-middle"></div>
-                                <div class="interactive-timeline-marker"></div>
-                            </div>
-                            <div class="interactive-timeline-item interactive-timeline-normal">
-                                <div class="interactive-timeline-connector-end"></div>
-                                <div class="interactive-timeline-marker"></div>
-                                <div class="interactive-timeline-image-container">
-                                    <div class="interactive-queue-image-container">
-                                        <img class="queue-actor-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="queue-act-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
-                                        <img class="queue-support-indicator"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="interactive-timeline-item interactive-timeline-normal">
-                                <div class="interactive-timeline-connector-none"></div>
-                                <div class="interactive-timeline-marker"></div>
-                                <div class="interactive-timeline-image-container">
-                                    <div class="interactive-queue-image-container">
-                                        <img class="queue-actor-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="queue-act-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
-                                        <img class="queue-support-indicator"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="interactive-timeline-item interactive-timeline-climax">
-                                <div class="interactive-timeline-connector-start"></div>
-                                <div class="interactive-timeline-marker"></div>
-                            </div>
-                            <div class="interactive-timeline-item interactive-timeline-climax">
-                                <div class="interactive-timeline-connector-end"></div>
-                                <div class="interactive-timeline-marker"></div>
-                                <div class="interactive-timeline-image-container">
-                                    <div class="interactive-queue-image-container">
-                                        <img class="queue-actor-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="queue-act-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
-                                        <img class="queue-support-indicator"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                    </div>
-                                </div>
-                            </div>
+                            <img class="interactive-stage-effect-img"
+                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
                         </div>
-                        <div id="interactive-error-container">
-                            <div id="interactive-error-text" class="text-danger text-center"></div>
-                        </div>
-                        <div id="interactive-acts-row-container">
-                            <div id="interactive-acts-row">
-                                <button id="interactive-climax-button" role="button"
-                                        class="btn btn-secondary interactive-climax-button-activated" disabled>
-                                    <div class="interactive-climax-button-text-container">
-                                        <div class="interactive-climax-button-text font-monospace">
-                                            2t
-                                        </div>
-                                    </div>
-                                </button>
-                                <div id="interactive-hold-container">
-                                    <div class="interactive-act">
-                                        <div class="interactive-queue-image-container">
-                                            <img class="queue-actor-img"
-                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_empty_large.png">
-                                        </div>
-                                        <button class="btn btn-sm btn-secondary interactive-act-button" disabled>
-                                            <i class="bi bi-archive"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div id="interactive-acts-container">
-                                    <div class="interactive-act">
-                                        <div class="interactive-queue-image-container">
-                                            <img class="queue-actor-img"
-                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                            <img class="queue-act-img"
-                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
-                                            <img class="queue-support-indicator"
-                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                            <span class="queue-act-cost queue-act-cost-down">1</span>
-                                        </div>
-                                        <button class="btn btn-sm btn-primary interactive-act-button">
-                                            <i class="bi bi-arrow-bar-up"></i>
-                                        </button>
-                                    </div>
-                                    <div class="interactive-act">
-                                        <div class="interactive-queue-image-container">
-                                            <img class="queue-actor-img"
-                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                            <img class="queue-act-img"
-                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
-                                            <img class="queue-support-indicator"
-                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                            <span class="queue-act-cost queue-act-cost-up">3</span>
-                                        </div>
-                                        <button class="btn btn-sm btn-warning interactive-act-button">
-                                            <i class="bi bi-arrow-bar-down"></i>
-                                        </button>
-                                    </div>
-                                    <div class="interactive-act interactive-act-queued">
-                                        <div class="interactive-queue-image-container">
-                                            <img class="queue-actor-img"
-                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                            <img class="queue-act-img"
-                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
-                                            <img class="queue-support-indicator"
-                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                            <span class="queue-act-cost">2</span>
-                                            <i class="bi bi-check queue-act-queued-icon"></i>
-                                        </div>
-                                        <button class="btn btn-sm btn-primary interactive-act-button interactive-act-button-climax"
-                                                disabled>
-                                            <i class="bi bi-stars"></i>
-                                        </button>
-                                    </div>
-                                    <div class="interactive-act">
-                                        <div class="interactive-queue-image-container">
-                                            <img class="queue-actor-img"
-                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                            <img class="queue-act-img"
-                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
-                                            <img class="queue-support-indicator"
-                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                            <span class="queue-act-cost">2</span>
-                                        </div>
-                                        <button class="btn btn-sm btn-primary interactive-act-button interactive-act-button-climax"
-                                                disabled>
-                                            <i class="bi bi-stars"></i>
-                                        </button>
-                                    </div>
-                                    <div class="interactive-act interactive-act-too-expensive">
-                                        <div class="interactive-queue-image-container">
-                                            <img class="queue-actor-img"
-                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                            <img class="queue-act-img"
-                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
-                                            <img class="queue-support-indicator"
-                                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                            <span class="queue-act-cost">6</span>
-                                            <span class="queue-act-too-expensive-text">C</span>
-                                        </div>
-                                        <button class="btn btn-sm btn-primary interactive-act-button interactive-act-button-climax"
-                                                disabled>
-                                            <i class="bi bi-stars"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                        <div class="interactive-stage-effect interactive-stage-effect-lv-3">
+                            <div class="interactive-stage-effect-text">
+                                2
                             </div>
-                        </div>
-                        <div id="interactive-memoirs-row">
-                            <div id="interactive-available-memoir-cost-text-container">
-                                <span id="interactive-available-memoir-cost-text">10</span>
-                            </div>
-                            <div id="interactive-memoirs-container">
-                                <div class="interactive-memoir">
-                                    <div class="interactive-memoir-image-container interactive-memoir-queued">
-                                        <img class="interactive-memoir-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
-                                        <img class="interactive-memoir-actor-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="interactive-memoir-support-indicator"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                        <span class="interactive-memoir-cost-text">2</span>
-                                        <span class="interactive-memoir-uses-text">2/2</span>
-                                        <i class="bi bi-check interactive-memoir-queued-icon"></i>
-                                    </div>
-                                </div>
-                                <div class="interactive-memoir">
-                                    <div class="interactive-memoir-image-container interactive-memoir-too-expensive">
-                                        <img class="interactive-memoir-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
-                                        <img class="interactive-memoir-actor-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="interactive-memoir-support-indicator"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                        <span class="interactive-memoir-cost-text">2</span>
-                                        <span class="interactive-memoir-uses-text">2/2</span>
-                                        <span class="interactive-memoir-too-expensive-text">C</span>
-                                    </div>
-                                </div>
-                                <div class="interactive-memoir">
-                                    <div class="interactive-memoir-image-container interactive-memoir-cooldown">
-                                        <img class="interactive-memoir-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
-                                        <img class="interactive-memoir-actor-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="interactive-memoir-support-indicator"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                        <span class="interactive-memoir-cost-text">2</span>
-                                        <span class="interactive-memoir-uses-text">2/2</span>
-                                        <span class="interactive-memoir-cooldown-text">2t</span>
-                                    </div>
-                                </div>
-                                <div class="interactive-memoir">
-                                    <div class="interactive-memoir-image-container interactive-memoir-no-more-uses">
-                                        <img class="interactive-memoir-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
-                                        <img class="interactive-memoir-actor-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="interactive-memoir-support-indicator"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                        <span class="interactive-memoir-cost-text">2</span>
-                                        <span class="interactive-memoir-uses-text">0/2</span>
-                                    </div>
-                                </div>
-                                <div class="interactive-memoir">
-                                    <div class="interactive-memoir-image-container">
-                                        <img class="interactive-memoir-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
-                                        <img class="interactive-memoir-actor-img"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
-                                        <img class="interactive-memoir-support-indicator"
-                                             src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
-                                        <span class="interactive-memoir-cost-text">2</span>
-                                        <span class="interactive-memoir-uses-text">2/2</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <button id="interactive-ui-go-button" class="btn btn-success">
-                                <i class="bi bi-send"></i>
-                            </button>
+                            <img class="interactive-stage-effect-img"
+                                 src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
                         </div>
                     </div>
+                </div>
+                <div id="interactive-timeline-container">
+                    <div class="interactive-timeline-connector-bg"></div>
+                    <div class="interactive-timeline-item interactive-timeline-normal">
+                        <div class="interactive-timeline-connector-start"></div>
+                        <div class="interactive-timeline-marker"></div>
+                    </div>
+                    <div class="interactive-timeline-item interactive-timeline-normal">
+                        <div class="interactive-timeline-connector-middle"></div>
+                        <div class="interactive-timeline-marker"></div>
+                    </div>
+                    <div class="interactive-timeline-item interactive-timeline-normal">
+                        <div class="interactive-timeline-connector-end"></div>
+                        <div class="interactive-timeline-marker"></div>
+                        <div class="interactive-timeline-image-container">
+                            <div class="interactive-queue-image-container">
+                                <img class="queue-actor-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                <img class="queue-act-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
+                                <img class="queue-support-indicator"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="interactive-timeline-item interactive-timeline-normal">
+                        <div class="interactive-timeline-connector-none"></div>
+                        <div class="interactive-timeline-marker"></div>
+                        <div class="interactive-timeline-image-container">
+                            <div class="interactive-queue-image-container">
+                                <img class="queue-actor-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                <img class="queue-act-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
+                                <img class="queue-support-indicator"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="interactive-timeline-item interactive-timeline-climax">
+                        <div class="interactive-timeline-connector-start"></div>
+                        <div class="interactive-timeline-marker"></div>
+                    </div>
+                    <div class="interactive-timeline-item interactive-timeline-climax">
+                        <div class="interactive-timeline-connector-end"></div>
+                        <div class="interactive-timeline-marker"></div>
+                        <div class="interactive-timeline-image-container">
+                            <div class="interactive-queue-image-container">
+                                <img class="queue-actor-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                <img class="queue-act-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
+                                <img class="queue-support-indicator"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="interactive-error-container">
+                    <div id="interactive-error-text" class="text-danger text-center"></div>
+                </div>
+                <div id="interactive-acts-row-container">
+                    <div id="interactive-acts-row">
+                        <button id="interactive-climax-button" role="button"
+                                class="btn btn-secondary interactive-climax-button-activated" disabled>
+                            <div class="interactive-climax-button-text-container">
+                                <div class="interactive-climax-button-text font-monospace">
+                                    2t
+                                </div>
+                            </div>
+                        </button>
+                        <div id="interactive-hold-container">
+                            <div class="interactive-act">
+                                <div class="interactive-queue-image-container">
+                                    <img class="queue-actor-img"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_empty_large.png">
+                                </div>
+                                <button class="btn btn-sm btn-secondary interactive-act-button" disabled>
+                                    <i class="bi bi-archive"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="interactive-acts-container">
+                            <div class="interactive-act">
+                                <div class="interactive-queue-image-container">
+                                    <img class="queue-actor-img"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                    <img class="queue-act-img"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
+                                    <img class="queue-support-indicator"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                    <span class="queue-act-cost queue-act-cost-down">1</span>
+                                </div>
+                                <button class="btn btn-sm btn-primary interactive-act-button">
+                                    <i class="bi bi-arrow-bar-up"></i>
+                                </button>
+                            </div>
+                            <div class="interactive-act">
+                                <div class="interactive-queue-image-container">
+                                    <img class="queue-actor-img"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                    <img class="queue-act-img"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
+                                    <img class="queue-support-indicator"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                    <span class="queue-act-cost queue-act-cost-up">3</span>
+                                </div>
+                                <button class="btn btn-sm btn-warning interactive-act-button">
+                                    <i class="bi bi-arrow-bar-down"></i>
+                                </button>
+                            </div>
+                            <div class="interactive-act interactive-act-queued">
+                                <div class="interactive-queue-image-container">
+                                    <img class="queue-actor-img"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                    <img class="queue-act-img"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
+                                    <img class="queue-support-indicator"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                    <span class="queue-act-cost">2</span>
+                                    <i class="bi bi-check queue-act-queued-icon"></i>
+                                </div>
+                                <button class="btn btn-sm btn-primary interactive-act-button interactive-act-button-climax"
+                                        disabled>
+                                    <i class="bi bi-stars"></i>
+                                </button>
+                            </div>
+                            <div class="interactive-act">
+                                <div class="interactive-queue-image-container">
+                                    <img class="queue-actor-img"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                    <img class="queue-act-img"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
+                                    <img class="queue-support-indicator"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                    <span class="queue-act-cost">2</span>
+                                </div>
+                                <button class="btn btn-sm btn-primary interactive-act-button interactive-act-button-climax"
+                                        disabled>
+                                    <i class="bi bi-stars"></i>
+                                </button>
+                            </div>
+                            <div class="interactive-act interactive-act-too-expensive">
+                                <div class="interactive-queue-image-container">
+                                    <img class="queue-actor-img"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                    <img class="queue-act-img"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/skill_icon/skill_icon_20.png">
+                                    <img class="queue-support-indicator"
+                                         src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                    <span class="queue-act-cost">6</span>
+                                    <span class="queue-act-too-expensive-text">C</span>
+                                </div>
+                                <button class="btn btn-sm btn-primary interactive-act-button interactive-act-button-climax"
+                                        disabled>
+                                    <i class="bi bi-stars"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="interactive-memoirs-row">
+                    <div id="interactive-available-memoir-cost-text-container">
+                        <span id="interactive-available-memoir-cost-text">10</span>
+                    </div>
+                    <div id="interactive-memoirs-container">
+                        <div class="interactive-memoir">
+                            <div class="interactive-memoir-image-container interactive-memoir-queued">
+                                <img class="interactive-memoir-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
+                                <img class="interactive-memoir-actor-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                <img class="interactive-memoir-support-indicator"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                <span class="interactive-memoir-cost-text">2</span>
+                                <span class="interactive-memoir-uses-text">2/2</span>
+                                <i class="bi bi-check interactive-memoir-queued-icon"></i>
+                            </div>
+                        </div>
+                        <div class="interactive-memoir">
+                            <div class="interactive-memoir-image-container interactive-memoir-too-expensive">
+                                <img class="interactive-memoir-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
+                                <img class="interactive-memoir-actor-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                <img class="interactive-memoir-support-indicator"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                <span class="interactive-memoir-cost-text">2</span>
+                                <span class="interactive-memoir-uses-text">2/2</span>
+                                <span class="interactive-memoir-too-expensive-text">C</span>
+                            </div>
+                        </div>
+                        <div class="interactive-memoir">
+                            <div class="interactive-memoir-image-container interactive-memoir-cooldown">
+                                <img class="interactive-memoir-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
+                                <img class="interactive-memoir-actor-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                <img class="interactive-memoir-support-indicator"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                <span class="interactive-memoir-cost-text">2</span>
+                                <span class="interactive-memoir-uses-text">2/2</span>
+                                <span class="interactive-memoir-cooldown-text">2t</span>
+                            </div>
+                        </div>
+                        <div class="interactive-memoir">
+                            <div class="interactive-memoir-image-container interactive-memoir-no-more-uses">
+                                <img class="interactive-memoir-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
+                                <img class="interactive-memoir-actor-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                <img class="interactive-memoir-support-indicator"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                <span class="interactive-memoir-cost-text">2</span>
+                                <span class="interactive-memoir-uses-text">0/2</span>
+                            </div>
+                        </div>
+                        <div class="interactive-memoir">
+                            <div class="interactive-memoir-image-container">
+                                <img class="interactive-memoir-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/2_4000163.png">
+                                <img class="interactive-memoir-actor-img"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
+                                <img class="interactive-memoir-support-indicator"
+                                     src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/common/icon_support_dress.png">
+                                <span class="interactive-memoir-cost-text">2</span>
+                                <span class="interactive-memoir-uses-text">2/2</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="interactive-ui-go-button" class="btn btn-success">
+                        <i class="bi bi-send"></i>
+                    </button>
                 </div>
             </div>
         </div>
