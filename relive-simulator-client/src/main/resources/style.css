@@ -815,6 +815,12 @@ pwa-update::part(offlineToast) {
     gap: calc(var(--buff-icon-size) / 4);
 }
 
+.interactive-status-buffs-container:empty::before {
+    content: "\200b";
+    font-size: calc(1.25 * var(--buff-icon-size));
+    line-height: calc(1.25 * var(--buff-icon-size));
+}
+
 .interactive-status-buff {
     display: flex;
     align-items: end;
