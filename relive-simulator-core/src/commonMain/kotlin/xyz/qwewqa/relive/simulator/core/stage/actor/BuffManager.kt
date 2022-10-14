@@ -195,7 +195,7 @@ class BuffManager(val actor: Actor) {
             add(effect to count)
         }
         negativeCountableBuffs.forEach { (effect, count) ->
-            add(effect to -count)
+            add(effect to count)
         }
     }.filter { (_, value) ->
         value > 0
