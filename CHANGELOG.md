@@ -129,7 +129,7 @@
 - Added invincibility by Pointy
 
 # v0.15.1
-- Added Officer Rui and Cerberus Ichie by Savivo
+- Added Officer RUI and Cerberus Ichie by Savivo
 
 # v0.16.0
 - Made Stage Girl Futaba selectable by Savivo
@@ -241,7 +241,7 @@
 
 # v0.22.1
 - Improved actor tab layout
-- Other ui improvements
+- Other UI improvements
 
 # v0.22.2
 - Remake and memoir unbind are now radio buttons
@@ -298,7 +298,7 @@
 - Fixed PWA support
 
 # v0.23.12
-- Improved ui performance in some browsers
+- Improved UI performance in some browsers
 
 # v0.23.13
 - Fixed issues with remake skill select
@@ -500,13 +500,13 @@
 # v0.32.1
 - Adjusted the appearance of queued interactive acts and memoirs
 - Other visual adjustments
-- Added an error message display to the interactive ui
+- Added an error message display to the interactive UI
 
 # v0.32.2
-- The current tile is now indicated in the interactive ui
+- The current tile is now indicated in the interactive UI
 
 # v0.32.3
-- Adjusted when the service worker is loaded\
+- Adjusted when the service worker is loaded
 
 # v0.32.4
 - Auto name now sets supports
@@ -524,5 +524,8 @@
 - Increased the maximum displayed buffs in interactive
 
 # v0.33.2
-- Reduced the maximum interactive ui size
+- Reduced the maximum interactive UI size
 - Added stage effect display to interactive
+
+# v0.33.3
+- Interactive UI sizing adjustments
