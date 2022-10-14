@@ -518,3 +518,7 @@
 - Added dress icons to interactive bars
 - Added buffs display to interactive
 - Simplified displayed version numbers
+
+# v0.33.1
+- Fixed negative countable buff display in interactive
+- Increased the maximum displayed buffs in interactive
