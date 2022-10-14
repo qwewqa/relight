@@ -385,8 +385,8 @@ pwa-update::part(offlineToast) {
     position: absolute;
     top: 0;
     right: 6%;
-    font-size: calc(var(--size-ref) / 16);
-    line-height: calc(var(--size-ref) / 16);
+    font-size: calc(var(--size-ref) / 18);
+    line-height: calc(var(--size-ref) / 18);
     font-weight: bold;
     color: #222;
     filter: drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 2px white) drop-shadow(0 0 2px white);
@@ -427,13 +427,12 @@ pwa-update::part(offlineToast) {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: calc(var(--size-ref) / 20);
-    transform: scale(88%);
+    gap: calc(var(--size-ref) / 24);
 }
 
 #interactive-climax-button {
-    height: calc(var(--size-ref) / 9);
-    width: calc(var(--size-ref) / 9);
+    height: calc(var(--size-ref) / 10);
+    width: calc(var(--size-ref) / 10);
     transform: rotate(45deg);
 }
 
@@ -460,7 +459,7 @@ pwa-update::part(offlineToast) {
 
 .interactive-climax-button-text {
     font-weight: bold;
-    font-size: calc(var(--size-ref) / 15);
+    font-size: calc(var(--size-ref) / 17);
     line-height: 0;
 }
 
@@ -472,7 +471,7 @@ pwa-update::part(offlineToast) {
 .interactive-act {
     display: flex;
     flex-direction: column;
-    width: calc(var(--size-ref) / 7.2);
+    width: calc(var(--size-ref) / 8);
 }
 
 .interactive-act-button {
@@ -509,7 +508,7 @@ pwa-update::part(offlineToast) {
     left: 50%;
     transform: translate(-50%, -50%);
     color: green;
-    font-size: calc(var(--size-ref) / 8);
+    font-size: calc(var(--size-ref) / 9);
     line-height: 0;
     filter: drop-shadow(0 0 3px white) drop-shadow(0 0 3px white) drop-shadow(0 0 2px white) drop-shadow(0 0 2px white);
 }
@@ -797,7 +796,7 @@ pwa-update::part(offlineToast) {
 }
 
 #interactive-container {
-    --size-ref: min(800px, calc(0.9 * var(--container-max-width)));
+    --size-ref: min(800px, calc(0.88 * var(--container-max-width)));
 }
 
 #interactive-console-container {
