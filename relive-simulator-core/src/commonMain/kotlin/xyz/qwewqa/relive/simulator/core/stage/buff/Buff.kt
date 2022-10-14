@@ -4,9 +4,6 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 
 
 interface BuffEffect {
-    /**
-     * The name of this effect. Must be unique unless the buffs are interchangeable.
-     */
     val name: String
     val iconId: Int
     val category: BuffCategory

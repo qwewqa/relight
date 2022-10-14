@@ -3,42 +3,8 @@ package xyz.qwewqa.relive.simulator.core.stage.actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.TimedBuffEffect
 
 actual fun activeBuffSet(): MutableSet<ActiveBuff> = JsSet()
-actual fun <V> buffEffectMap(): MutableMap<TimedBuffEffect, V> = BuffEffectMap()
+actual fun <V> buffEffectMap(): MutableMap<TimedBuffEffect, V> = JsMap()
 actual fun countableBuffMap(): MutableMap<CountableBuff, Int> = JsMap()
-
-class BuffEffectMap<V> : MutableMap<TimedBuffEffect, V> {
-    private val map = JsMap<String, V>()
-
-    override val entries: MutableSet<MutableMap.MutableEntry<TimedBuffEffect, V>>
-        get() {
-            throw UnsupportedOperationException()
-        }
-
-    override val keys: MutableSet<TimedBuffEffect>
-        get() {
-            throw UnsupportedOperationException()
-        }
-
-    override val size: Int get() = map.size
-
-    override val values: MutableCollection<V> get() = map.values
-
-    override fun clear() = map.clear()
-
-    override fun isEmpty(): Boolean = map.isEmpty()
-
-    override fun remove(key: TimedBuffEffect): V? = map.remove(key.name)
-
-    override fun putAll(from: Map<out TimedBuffEffect, V>) = map.putAll(from.mapKeys { it.key.name })
-
-    override fun put(key: TimedBuffEffect, value: V): V? = map.put(key.name, value)
-
-    override fun get(key: TimedBuffEffect): V? = map[key.name]
-
-    override fun containsValue(value: V): Boolean = map.containsValue(value)
-
-    override fun containsKey(key: TimedBuffEffect): Boolean = map.containsKey(key.name)
-}
 
 @JsName("Map")
 external class RawJsMap {
