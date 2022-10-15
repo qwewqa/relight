@@ -201,7 +201,7 @@ object EffectiveDamageDealtUpBuff : TimedBuffEffect {
 object DamageDealtUpBuff : TimedBuffEffect {
     override val name = "Damage Dealt Up"
     override val category = BuffCategory.Positive
-    override val iconId: Int = 85
+    override val iconId: Int = 95
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.valueDamageDealtUpBuff += value
