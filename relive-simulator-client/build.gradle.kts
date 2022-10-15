@@ -22,7 +22,7 @@ dependencies {
     implementation("io.ktor:ktor-client-js:$ktor_version")
     implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
-    implementation(npm("codemirror", "5.63.1"))
+    implementation(npm("codemirror", "6.0.1"))
     implementation(npm("js-yaml", "4.1.0"))
     implementation(npm("sortablejs", "1.14.0"))
     implementation(npm("lz-string", "1.4.4"))

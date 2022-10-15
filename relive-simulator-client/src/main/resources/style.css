@@ -1,11 +1,17 @@
-.CodeMirror {
-    border: 1px solid #eee;
-    height: auto;
+.cm-editor {
+    height: 100%
 }
 
-.CodeMirror-scroll {
-    height: auto;
-    max-height: 500px;
+.cm-scroller {
+    overflow: auto
+}
+
+#strategy-container {
+    height: 500px;
+}
+
+#boss-strategy-container {
+    height: 500px;
 }
 
 .log-entry {

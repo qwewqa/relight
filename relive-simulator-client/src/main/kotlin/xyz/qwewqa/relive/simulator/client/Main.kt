@@ -23,8 +23,11 @@ import org.w3c.dom.events.Event
 import org.w3c.dom.events.KeyboardEvent
 import org.w3c.dom.url.URL
 import xyz.qwewqa.relive.simulator.client.ActorOptions.Companion.rankPanelIds
+import xyz.qwewqa.relive.simulator.client.codemirror.EditorView
 import xyz.qwewqa.relive.simulator.client.Plotly.addTraces
 import xyz.qwewqa.relive.simulator.client.Plotly.react
+import xyz.qwewqa.relive.simulator.client.codemirror.codeMirrorConfig
+import xyz.qwewqa.relive.simulator.client.codemirror.value
 import xyz.qwewqa.relive.simulator.common.*
 import kotlin.js.Promise
 import kotlin.random.Random
@@ -44,24 +47,6 @@ class SimulatorClient(val simulator: Simulator) {
     var interactiveSimulation: InteractiveSimulation? = null
 
     init {
-        foldcodeDummy
-        foldgutterDummy
-        commentDummy
-        registerMovesetMode()
-    }
-
-    fun codeMirrorConfig() = jsObject {
-        mode = "moveset"
-        lineNumbers = true
-        extraKeys = jsObject {
-            this["Ctrl-Q"] = { cm: dynamic -> cm.foldCode(cm.getCursor()) }
-            this["Ctrl-/"] = { cm: dynamic -> cm.toggleComment() }
-        }
-        foldGutter = true
-        foldOptions = jsObject {
-            scanUp = true
-        }
-        gutters = arrayOf("CodeMirror-linenumbers", "CodeMirror-foldgutter")
     }
 
     val versionLink = document.getElementById("version-link") as HTMLAnchorElement
@@ -99,7 +84,7 @@ class SimulatorClient(val simulator: Simulator) {
     val bossHpInput = document.getElementById("boss-hp-input").integerInput(-1)
     val turnsInput = document.getElementById("turns-input").integerInput(3)
     val iterationsInput = document.getElementById("iterations-input").integerInput(100000)
-    val strategyEditor = CodeMirror(strategyContainer, codeMirrorConfig())
+    val strategyEditor = EditorView(codeMirrorConfig(strategyContainer))
     val bossStrategyTypeSelect = document.getElementById("boss-strategy-type-select").singleSelect(true)
     val bossStrategyCollapse = document.getElementById("boss-strategy-collapse").collapse()
     val toastsCheckbox = document.getElementById("toasts-checkbox") as HTMLInputElement
@@ -107,7 +92,7 @@ class SimulatorClient(val simulator: Simulator) {
     val bossStrategyEditor = run {
         // Will not display properly otherwise
         bossStrategyCollapse.show = true
-        val value = CodeMirror(bossStrategyContainer, codeMirrorConfig())
+        val value = EditorView(codeMirrorConfig(bossStrategyContainer))
         bossStrategyCollapse.show = false
         value
     }
@@ -1569,11 +1554,11 @@ class SimulatorClient(val simulator: Simulator) {
             ),
             strategy = StrategyParameter(
                 strategyTypeSelect.value,
-                strategyEditor.getValue() as String,
+                strategyEditor.value as String,
             ),
             bossStrategy = StrategyParameter(
                 bossStrategyTypeSelect.value,
-                bossStrategyEditor.getValue() as String,
+                bossStrategyEditor.value as String,
             ).takeIf { bossStrategyCollapse.show },
             boss = bossSelect.value,
             bossHp = if (bossHpInput.value > 0) bossHpInput.value else null,
@@ -1627,11 +1612,11 @@ class SimulatorClient(val simulator: Simulator) {
                 SongEffect(options).parameters = parameters
             }
         strategyTypeSelect.value = strategy.type
-        strategyEditor.setValue(strategy.value)
+        strategyEditor.value = strategy.value
         if (bossStrategy != null) {
             bossStrategyCollapse.show = true
             bossStrategyTypeSelect.value = bossStrategy!!.type
-            bossStrategyEditor.setValue(bossStrategy!!.value)
+            bossStrategyEditor.value = bossStrategy!!.value
         } else {
             bossStrategyCollapse.show = false
         }
@@ -2694,11 +2679,11 @@ class SimulatorClient(val simulator: Simulator) {
                 interactiveSimulation?.sendCommand("export strict")
                 val export = interactiveSimulation?.getLog()?.data?.queueStatus?.lastExport
                 if (export != null && export.isNotBlank()) {
-                    val currentStrategy = (strategyEditor.getValue() as String).trim()
+                    val currentStrategy = (strategyEditor.value as String).trim()
                     if (currentStrategy.isBlank()) {
-                        strategyEditor.setValue("Moveset:\n$export")
+                        strategyEditor.value = "Moveset:\n$export"
                     } else {
-                        strategyEditor.setValue("$currentStrategy\n\nMoveset:\n$export")
+                        strategyEditor.value = "$currentStrategy\n\nMoveset:\n$export"
                     }
                     toast("Export", "Exported moveset to strategy.", "green")
                 }
