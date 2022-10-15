@@ -106,7 +106,7 @@
 }
 
 #results-container {
-    min-height: 840px;
+    min-height: 800px;
 }
 
 @media (min-width: 576px) {
@@ -230,26 +230,29 @@ pwa-update::part(offlineToast) {
 }
 
 #interactive-turn-text-container {
-    position: relative;
     width: var(--size-ref);
+    margin: calc(var(--size-ref) / 64) auto;
+}
+
+#interactive-turn-text-center-container {
+    display: flex;
+    justify-content: center;
+    font-size: max(28px, calc(var(--size-ref) / 16));
+    line-height: max(28px, calc(var(--size-ref) / 16));
+    gap: 4px;
+    align-items: center;
+    font-weight: bold;
     margin-left: auto;
     margin-right: auto;
 }
 
-#interactive-turn-text-container::before {
-    font-size: max(56px, calc(var(--size-ref) / 10));
-    line-height: max(56px, calc(var(--size-ref) / 10));
-    content: "\feff";
-}
-
-#interactive-turn-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -55%);
-    font-size: max(28px, calc(var(--size-ref) / 16));
-    line-height: max(28px, calc(var(--size-ref) / 16));
-    font-weight: bold;
+.btn-interactive-nav {
+    --button-size: max(32px, calc(var(--size-ref) / 18));
+    width: var(--button-size);
+    height: var(--button-size);
+    font-size: calc(0.8 * var(--button-size));
+    line-height: calc(0.8 * var(--button-size));
+    padding: 0;
 }
 
 #interactive-error-container {
@@ -918,12 +921,19 @@ pwa-update::part(offlineToast) {
     line-height: calc(1.2 * var(--buff-icon-size));
 }
 
+#interactive-stage-effect-container {
+    display: flex;
+    width: var(--size-ref);
+    margin: calc(var(--size-ref) / 64) auto;
+}
+
 .interactive-stage-effects-container {
     display: flex;
     --se-size: calc(0.5 * max(28px, calc(var(--size-ref) / 18)));
     gap: calc(var(--se-size) / 4);
     flex-wrap: wrap;
-    max-width: calc(var(--size-ref) / 2.5);
+    max-width: calc(var(--size-ref) / 2.1);
+    min-height: calc(4 / 3 * var(--se-size));
     align-content: center;
     align-items: center;
 }
