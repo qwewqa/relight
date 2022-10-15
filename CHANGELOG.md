@@ -540,3 +540,7 @@
 # v0.33.6
 - Fixed damage dealt up buff icon
 - Added spacing below the interactive ui for mobile devices
+
+# v0.33.7
+- Moved interactive navigation buttons in line with turns
+- Interactive ui size adjustments
