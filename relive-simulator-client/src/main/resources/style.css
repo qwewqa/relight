@@ -191,19 +191,15 @@ pwa-update::part(offlineToast) {
     :root {
         --container-max-width: 720px;
     }
+
+    .interactive-status-buffs-container {
+        min-height: 30px;
+    }
 }
 
 @media (min-width: 992px) {
     :root {
         --container-max-width: 960px;
-    }
-
-    @media (min-aspect-ratio: 4/3) and (max-height: 900px) {
-        #interactive-ui-container {
-            scale: 0.9;
-            margin-top: -1%;
-            margin-bottom: -2%;
-        }
     }
 }
 
@@ -231,7 +227,7 @@ pwa-update::part(offlineToast) {
 
 #interactive-turn-text-container {
     width: var(--size-ref);
-    margin: calc(var(--size-ref) / 64) auto;
+    margin: calc(var(--size-ref) / 96) auto;
 }
 
 #interactive-turn-text-center-container {
@@ -807,7 +803,7 @@ pwa-update::part(offlineToast) {
 }
 
 #interactive-container {
-    --size-ref: min(800px, calc(0.88 * var(--container-max-width)));
+    --size-ref: min(680px, calc(0.88 * var(--container-max-width)));
 }
 
 #interactive-console-container {
@@ -860,8 +856,8 @@ pwa-update::part(offlineToast) {
     overflow-x: clip;
     margin-left: 2px;
     margin-bottom: 2px;
-    --buff-icon-size: max(12px, calc(var(--size-ref) / 72));
-    column-gap: calc(var(--buff-icon-size) / 4);
+    --buff-icon-size: 12px;
+    column-gap: 3px;
     flex-wrap: wrap-reverse;
 }
 
@@ -919,12 +915,13 @@ pwa-update::part(offlineToast) {
 .interactive-status-more-buffs-icon {
     font-size: calc(1.2 * var(--buff-icon-size));
     line-height: calc(1.2 * var(--buff-icon-size));
+    height: calc(1.2 * var(--buff-icon-size));
 }
 
 #interactive-stage-effect-container {
     display: flex;
     width: var(--size-ref);
-    margin: calc(var(--size-ref) / 64) auto;
+    margin: calc(var(--size-ref) / 96) auto;
 }
 
 .interactive-stage-effects-container {

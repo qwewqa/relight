@@ -57,21 +57,22 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
 
     val bossWidth = when (data.enemyStatus?.size) {
         1 -> "col-12"
-        2 -> "col-12 col-lg-6"
-        3 -> "col-6 col-xl-4"
-        4 -> "col-12 col-lg-6"
-        5 -> "col-12 col-lg-6 col-xl-4"
-        else -> "col-12 col-lg-6 col-xl-4"
+        2 -> "col-12 col-md-6"
+        3 -> "col-12 col-md-4"
+        4 -> "col-12 col-md-6"
+        5 -> "col-12 col-md-4"
+        else -> "col-12 col-md-4"
     }
     val playerWidth = when (data.playerStatus?.size) {
         1 -> "col-12"
-        2 -> "col-12 col-lg-6"
-        3 -> "col-6 col-xl-4"
-        4 -> "col-12 col-lg-6"
-        5 -> "col-12 col-lg-6 col-xl-4"
-        else -> "col-12 col-lg-6 col-xl-4"
+        2 -> "col-12 col-md-6"
+        3 -> "col-12 col-md-4"
+        4 -> "col-12 col-md-6"
+        5 -> "col-12 col-md-4"
+        else -> "col-12 col-md-4"
     }
     if (
+        children.length == 2 &&
         children[0]?.children?.length == (data.enemyStatus?.size ?: 0) &&
         children[1]?.children?.length == (data.playerStatus?.size ?: 0)
     ) {
@@ -151,7 +152,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
             div(classes = "row justify-content-evenly g-1 g-md-2") {
                 // Reversed since frontmost is the first in the list
                 data.enemyStatus?.reversed()?.forEachIndexed { i, status ->
-                    div(classes = "$bossWidth col-xl") {
+                    div(classes = "$bossWidth") {
                         p(classes = "mt-1 mb-0") {
                             id = "boss-name-$i"
                             style = "font-size: 0.75rem;"
@@ -186,7 +187,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
             div(classes = "row justify-content-evenly g-1 g-md-2 mt-1") {
                 val totalDamage = data.playerStatus?.sumOf { it.damageContribution } ?: 0
                 data.playerStatus?.reversed()?.forEachIndexed { i, status ->
-                    div(classes = "$playerWidth col-xl interactive-status-container") {
+                    div(classes = "$playerWidth interactive-status-container") {
                         div(classes = "interactive-status-image-container") {
                             id = "player-status-image-container-$i"
                             img(classes = "interactive-status-actor-img") {

@@ -663,16 +663,20 @@
                                     <div id="interactive-log"></div>
                                     <div id="interactive-log-navigation-container">
                                         <div class="btn-group-vertical">
-                                            <button id="interactive-log-start-button" type="button" class="btn btn-sm btn-secondary">
+                                            <button id="interactive-log-start-button" type="button"
+                                                    class="btn btn-sm btn-secondary">
                                                 <i class="bi bi-chevron-bar-up"></i>
                                             </button>
-                                            <button id="interactive-log-up-button" type="button" class="btn btn-sm btn-secondary">
+                                            <button id="interactive-log-up-button" type="button"
+                                                    class="btn btn-sm btn-secondary">
                                                 <i class="bi bi-chevron-up"></i>
                                             </button>
-                                            <button id="interactive-log-down-button" type="button" class="btn btn-sm btn-secondary">
+                                            <button id="interactive-log-down-button" type="button"
+                                                    class="btn btn-sm btn-secondary">
                                                 <i class="bi bi-chevron-down"></i>
                                             </button>
-                                            <button id="interactive-log-end-button" type="button" class="btn btn-sm btn-secondary">
+                                            <button id="interactive-log-end-button" type="button"
+                                                    class="btn btn-sm btn-secondary">
                                                 <i class="bi bi-chevron-bar-down"></i>
                                             </button>
                                         </div>
@@ -688,7 +692,8 @@
                                            autocomplete="off"
                                            autocorrect="off" spellcheck="false" autocapitalize="off"
                                            name="interactive-input">
-                                    <button id="interactive-send-button" class="btn btn-outline-secondary" type="button"><i
+                                    <button id="interactive-send-button" class="btn btn-outline-secondary"
+                                            type="button"><i
                                             class="bi-send"></i></button>
                                 </div>
                             </div>
@@ -742,8 +747,56 @@
                         </button>
                     </div>
                     <div id="interactive-status-container">
+                        <div class="dummy d-none"></div>
                         <div class="row justify-content-evenly g-1 g-md-2">
-                            <div class="col-12 col-md-6 col-lg-4 interactive-status-container">
+                            <div class="col-12 col-xl"><p class="mt-1 mb-0" id="boss-name-0"
+                                                          style="font-size: 0.75rem;">TR22 Hellsing Michiru Difficulty
+                                4</p>
+                                <div class="interactive-status-buffs-container" id="boss-buffs-0">
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">7</div>
+                                        <div class="interactive-status-buff-image-container"><img
+                                                class="interactive-status-buff-img"
+                                                src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_74.png"><img
+                                                class="interactive-status-buff-lock"
+                                                src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_lock.png">
+                                        </div>
+                                    </div>
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">1</div>
+                                        <div class="interactive-status-buff-image-container"><img
+                                                class="interactive-status-buff-img"
+                                                src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_99.png">
+                                        </div>
+                                    </div>
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">2</div>
+                                        <div class="interactive-status-buff-image-container"><img
+                                                class="interactive-status-buff-img"
+                                                src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_4.png">
+                                        </div>
+                                    </div>
+                                    <div class="interactive-status-buff">
+                                        <div class="interactive-status-buff-value">2</div>
+                                        <div class="interactive-status-buff-image-container"><img
+                                                class="interactive-status-buff-img"
+                                                src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_4.png">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="progress" style="font-size: 0.7rem;height: 0.8rem;position: relative;">
+                                    <div class="progress-bar bg-danger" id="boss-hp-0"
+                                         style="width: 64.6187%; font-weight: bold; z-index: 2;">348941157/540000000
+                                    </div>
+                                    <div id="boss-hp-label-0"
+                                         style="font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;">
+                                        348941157/540000000
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-evenly g-1 g-md-2 mt-1">
+                            <div class="col-12 col-md-4 interactive-status-container">
                                 <div class="interactive-status-image-container">
                                     <img class="interactive-status-actor-img"
                                          src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
@@ -858,7 +911,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6 col-lg-4 interactive-status-container">
+                            <div class="col-12 col-md-4 interactive-status-container">
                                 <div class="interactive-status-image-container">
                                     <img class="interactive-status-actor-img"
                                          src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
@@ -923,7 +976,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6 col-lg-4 interactive-status-container">
+                            <div class="col-12 col-md-4 interactive-status-container">
                                 <div class="interactive-status-image-container">
                                     <img class="interactive-status-actor-img"
                                          src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
@@ -988,7 +1041,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6 col-lg-4 interactive-status-container">
+                            <div class="col-12 col-md-4 interactive-status-container">
                                 <div class="interactive-status-image-container">
                                     <img class="interactive-status-actor-img"
                                          src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
@@ -1053,7 +1106,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6 col-lg-4 interactive-status-container">
+                            <div class="col-12 col-md-4 interactive-status-container">
                                 <div class="interactive-status-image-container">
                                     <img class="interactive-status-actor-img"
                                          src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/large_icon/1_3020013.png">
@@ -1185,24 +1238,29 @@
                     </div>
                     <div id="interactive-turn-text-container">
                         <div id="interactive-turn-text-center-container">
-                            <button id="interactive-ui-rewind-button" role="button" class="btn btn-interactive-nav btn-link"
+                            <button id="interactive-ui-rewind-button" role="button"
+                                    class="btn btn-interactive-nav btn-link"
                                     type="button">
                                 <i class="bi bi-skip-backward-fill"></i>
                             </button>
-                            <button id="interactive-ui-seek-back-button" role="button" class="btn btn-interactive-nav btn-link"
+                            <button id="interactive-ui-seek-back-button" role="button"
+                                    class="btn btn-interactive-nav btn-link"
                                     type="button">
                                 <i class="bi bi-skip-start-fill"></i>
                             </button>
-                            <button id="interactive-ui-undo-button" role="button" class="btn btn-interactive-nav btn-link"
+                            <button id="interactive-ui-undo-button" role="button"
+                                    class="btn btn-interactive-nav btn-link"
                                     type="button">
                                 <i class="bi bi-caret-left-fill"></i>
                             </button>
                             <div id="interactive-turn-text" class="font-monospace">3/6</div>
-                            <button id="interactive-ui-redo-button" role="button" class="btn btn-interactive-nav btn-link"
+                            <button id="interactive-ui-redo-button" role="button"
+                                    class="btn btn-interactive-nav btn-link"
                                     type="button">
                                 <i class="bi bi-caret-right-fill"></i>
                             </button>
-                            <button id="interactive-ui-seek-forward-button" role="button" class="btn btn-interactive-nav btn-link"
+                            <button id="interactive-ui-seek-forward-button" role="button"
+                                    class="btn btn-interactive-nav btn-link"
                                     type="button">
                                 <i class="bi bi-skip-end-fill"></i>
                             </button>
