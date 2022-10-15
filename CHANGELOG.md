@@ -532,3 +532,7 @@
 
 # v0.33.4
 - Fix interactive UI empty climax button appearance on some display sizes
+
+# v0.33.5
+- Added indicators for actors in climax to interactive UI
+- Added navigation buttons to the interactive log
