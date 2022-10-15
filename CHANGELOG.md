@@ -545,6 +545,6 @@
 - Moved interactive navigation buttons in line with turns
 - Interactive ui size adjustments
 
-# v0.33.7
+# v0.33.8
 - Migrated strategy editors to CodeMirror 6
 - Fixed issues with mobile editing
