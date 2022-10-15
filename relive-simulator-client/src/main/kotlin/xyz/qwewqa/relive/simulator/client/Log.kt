@@ -282,6 +282,7 @@ fun HTMLElement.displayLog(log: List<LogEntry>, interactive: Boolean, prev: List
     fun TagConsumer<HTMLElement>.makeLogEntry(entry: LogEntry) = entry.run {
         div(classes = "log-entry") {
             style = "background-color: ${category.backgroundColor};"
+            attributes["data-turn"] = turn.toString()
             when {
                 summary != null -> {
                     val collapseId = "log-contents-${idCounter++}"

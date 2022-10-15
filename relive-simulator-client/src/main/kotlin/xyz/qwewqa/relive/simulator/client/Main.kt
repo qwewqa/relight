@@ -167,13 +167,20 @@ class SimulatorClient(val simulator: Simulator) {
     val syncButton = document.getElementById("sync-button") as HTMLButtonElement
     val profile = document.getElementById("profile") as HTMLDivElement
 
+    val interactiveLogStartButton = document.getElementById("interactive-log-start-button") as HTMLButtonElement
+    val interactiveLogUpButton = document.getElementById("interactive-log-up-button") as HTMLButtonElement
+    val interactiveLogDownButton = document.getElementById("interactive-log-down-button") as HTMLButtonElement
+    val interactiveLogEndButton = document.getElementById("interactive-log-end-button") as HTMLButtonElement
+
     val interactiveExportButton = document.getElementById("interactive-ui-export-button") as HTMLButtonElement
     val interactiveRewindButton = document.getElementById("interactive-ui-rewind-button") as HTMLButtonElement
     val interactiveSeekBackButton = document.getElementById("interactive-ui-seek-back-button") as HTMLButtonElement
     val interactiveUndoButton = document.getElementById("interactive-ui-undo-button") as HTMLButtonElement
     val interactiveRedoButton = document.getElementById("interactive-ui-redo-button") as HTMLButtonElement
-    val interactiveSeekForwardButton = document.getElementById("interactive-ui-seek-forward-button") as HTMLButtonElement
-    val interactiveFastForwardButton = document.getElementById("interactive-ui-fast-forward-button") as HTMLButtonElement
+    val interactiveSeekForwardButton =
+        document.getElementById("interactive-ui-seek-forward-button") as HTMLButtonElement
+    val interactiveFastForwardButton =
+        document.getElementById("interactive-ui-fast-forward-button") as HTMLButtonElement
     val interactiveGoButton = document.getElementById("interactive-ui-go-button") as HTMLButtonElement
 
     val resultsRow = document.getElementById("results-row") as HTMLDivElement
@@ -431,7 +438,7 @@ class SimulatorClient(val simulator: Simulator) {
                 append.div("d-flex p-1 setup-item") {
                     id = "setup-$index"
                     attributes["data-name"] = setup.name.lowercase()
-                    div(classes="d-flex me-2") {
+                    div(classes = "d-flex me-2") {
                         setup.parameters.team.reversed().forEachIndexed { i, loadout ->
                             img(classes = "setup-image my-auto") {
                                 id = "setup-image-$index-$i"
@@ -654,7 +661,7 @@ class SimulatorClient(val simulator: Simulator) {
                 append.div("d-flex p-1 setup-item") {
                     id = "setup-$index"
                     attributes["data-name"] = setup.name.lowercase()
-                    div(classes="d-flex me-2") {
+                    div(classes = "d-flex me-2") {
                         setup.parameters.team.reversed().forEachIndexed { i, loadout ->
                             img(classes = "setup-image my-auto") {
                                 id = "setup-image-$index-$i"
@@ -993,7 +1000,8 @@ class SimulatorClient(val simulator: Simulator) {
                                             val actorIds = actorTabsDiv.children.asList()
                                                 .map { it.attributes["data-actor-id"]!!.value.toInt() }
                                             val tab = document.getElementById("actor-tab-$actorId") as HTMLElement
-                                            val options = document.getElementById("actor-options-$actorId") as HTMLElement
+                                            val options =
+                                                document.getElementById("actor-options-$actorId") as HTMLElement
                                             tab.remove()
                                             options.remove()
                                             actorElementCache.add(
@@ -1073,7 +1081,8 @@ class SimulatorClient(val simulator: Simulator) {
                                                 value = it.id
                                                 +it[locale]
                                                 attributes["data-subtext"] = it.description?.get(locale) ?: ""
-                                                attributes["data-tokens"] = it.tags?.get(locale)?.joinToString(" ") ?: ""
+                                                attributes["data-tokens"] =
+                                                    it.tags?.get(locale)?.joinToString(" ") ?: ""
                                             }
                                         }
                                         onChangeFunction = {
@@ -1409,7 +1418,8 @@ class SimulatorClient(val simulator: Simulator) {
                                                 val description = it.description?.get(locale)
                                                 attributes["data-img"] = it.imagePath ?: ""
                                                 attributes["data-subtext"] = description ?: ""
-                                                attributes["data-hidden"] = if (it in activeAccessories) "false" else "true"
+                                                attributes["data-hidden"] =
+                                                    if (it in activeAccessories) "false" else "true"
                                                 value = it.id
                                                 +name
                                                 attributes["data-tokens"] =
@@ -1444,11 +1454,12 @@ class SimulatorClient(val simulator: Simulator) {
                                                     val prev = opt.accessoryUnbind.element.attributes["data-prev-value"]
                                                         ?.value?.toInt() ?: 0
                                                     val params = opt.parameters
-                                                    val newAccessoryLevel = (if (params.accessoryLevel == 50 + 5 * prev) {
-                                                        50 + 5 * params.accessoryLimitBreak
-                                                    } else {
-                                                        params.accessoryLevel
-                                                    }).coerceAtMost(50 + 5 * params.accessoryLimitBreak)
+                                                    val newAccessoryLevel =
+                                                        (if (params.accessoryLevel == 50 + 5 * prev) {
+                                                            50 + 5 * params.accessoryLimitBreak
+                                                        } else {
+                                                            params.accessoryLevel
+                                                        }).coerceAtMost(50 + 5 * params.accessoryLimitBreak)
                                                     opt.parameters = params.copy(
                                                         accessoryLevel = newAccessoryLevel
                                                     )
@@ -1581,6 +1592,7 @@ class SimulatorClient(val simulator: Simulator) {
                     addActor()
                 }
             }
+
             actorTabsDiv.children.length > team.size -> {
                 actorTabsDiv.children
                     .asList()
@@ -1652,7 +1664,8 @@ class SimulatorClient(val simulator: Simulator) {
             }
         } else if (urlOptions != null) {
             try {
-                val setup = json.decodeFromString<SimulationParameters>(compressor.decompressFromEncodedURIComponent(urlOptions))
+                val setup =
+                    json.decodeFromString<SimulationParameters>(compressor.decompressFromEncodedURIComponent(urlOptions))
                 setSetup(setup)
                 updateUrlForSetup(setup)
                 toast("Import", "Updated configuration from url.", "green")
@@ -1967,6 +1980,7 @@ class SimulatorClient(val simulator: Simulator) {
                         dressUseCount > 0 -> {
                             name = "s_$name"
                         }
+
                         params.level == 1 -> {
                             name = "f_$name"
                         }
@@ -2397,11 +2411,40 @@ class SimulatorClient(val simulator: Simulator) {
             val accessor: MarginResult.() -> Map<Double, Double>,
             val statisticsAccessor: MarginResult.() -> StatisticsSummary?,
         )
+
         val plotTypes = listOf(
-            PlotType("End Damage", endPlotDamage, endPlotDamageBox, SimulationMarginResultType.End, MarginResult::damage, MarginResult::damageSummary),
-            PlotType("End Margin", endPlotMargin, endPlotMarginBox, SimulationMarginResultType.End, MarginResult::margin, MarginResult::marginSummary),
-            PlotType("Wipe Damage", wipePlotDamage, wipePlotDamageBox, SimulationMarginResultType.Wipe, MarginResult::damage, MarginResult::damageSummary),
-            PlotType("Wipe Margin", wipePlotMargin, wipePlotMarginBox, SimulationMarginResultType.Wipe, MarginResult::margin, MarginResult::marginSummary),
+            PlotType(
+                "End Damage",
+                endPlotDamage,
+                endPlotDamageBox,
+                SimulationMarginResultType.End,
+                MarginResult::damage,
+                MarginResult::damageSummary
+            ),
+            PlotType(
+                "End Margin",
+                endPlotMargin,
+                endPlotMarginBox,
+                SimulationMarginResultType.End,
+                MarginResult::margin,
+                MarginResult::marginSummary
+            ),
+            PlotType(
+                "Wipe Damage",
+                wipePlotDamage,
+                wipePlotDamageBox,
+                SimulationMarginResultType.Wipe,
+                MarginResult::damage,
+                MarginResult::damageSummary
+            ),
+            PlotType(
+                "Wipe Margin",
+                wipePlotMargin,
+                wipePlotMarginBox,
+                SimulationMarginResultType.Wipe,
+                MarginResult::margin,
+                MarginResult::marginSummary
+            ),
         )
 
         fun addToGraph(resultName: String, result: SimulationResult) {
@@ -2515,17 +2558,22 @@ class SimulatorClient(val simulator: Simulator) {
                             placeholder = "Name"
                         }
                         div("mt-1 d-flex") {
-                            button(type = ButtonType.button, classes = "btn btn-success flex-grow-1 saved-results-add-button") {
+                            button(
+                                type = ButtonType.button,
+                                classes = "btn btn-success flex-grow-1 saved-results-add-button"
+                            ) {
                                 id = "saved-results-add-button-$resultId"
                                 i("bi bi-plus-lg") {}
                                 onClickFunction = onClick@{
-                                    val nameInput = document.getElementById("saved-results-name-$resultId") as HTMLInputElement
+                                    val nameInput =
+                                        document.getElementById("saved-results-name-$resultId") as HTMLInputElement
                                     val name = nameInput.value.takeIf { it.isNotBlank() } ?: "Result $resultId"
                                     if (!done) {
                                         return@onClick
                                     }
                                     addToGraph(name, result)
-                                    val btn = document.getElementById("saved-results-add-button-$resultId") as HTMLButtonElement
+                                    val btn =
+                                        document.getElementById("saved-results-add-button-$resultId") as HTMLButtonElement
                                     btn.disabled = true
                                 }
                             }
@@ -2552,6 +2600,63 @@ class SimulatorClient(val simulator: Simulator) {
         clearGraphsButton.addEventListener("click", {
             resetGraph()
             resetSavedResultButtons()
+        })
+
+        interactiveLogStartButton.addEventListener("click", {
+            interactiveLog.scrollTop = 0.0
+        })
+        interactiveLogUpButton.addEventListener("click", {
+            val logElements = interactiveLog.children.multiple<HTMLElement>()
+            if (logElements.isEmpty()) {
+                return@addEventListener
+            }
+
+            val indexOfFirstVisible = logElements
+                .indexOfFirst { it.offsetTop >= interactiveLog.scrollTop }
+                .takeIf { it >= 0 } ?: logElements.lastIndex
+            if (indexOfFirstVisible == 0) {
+                return@addEventListener
+            }
+
+            val turn = logElements[indexOfFirstVisible].attributes["data-turn"]?.value ?: return@addEventListener
+            val turnBefore = logElements[indexOfFirstVisible - 1].attributes["data-turn"]?.value ?: return@addEventListener
+            if (turn == turnBefore) {
+                // Scroll to the top of this section
+                val entry = logElements.first { it.attributes["data-turn"]?.value == turn }
+                interactiveLog.scrollTop = entry.offsetTop.toDouble()
+            } else {
+                // Scroll to the bottom of the previous section
+                val entry = logElements.last { it.attributes["data-turn"]?.value == turnBefore }
+                interactiveLog.scrollTop = (entry.offsetTop + entry.offsetHeight - interactiveLog.offsetHeight).toDouble()
+            }
+        })
+        interactiveLogDownButton.addEventListener("click", {
+            val logElements = interactiveLog.children.multiple<HTMLElement>()
+            if (logElements.isEmpty()) {
+                return@addEventListener
+            }
+
+            val indexOfLastVisible = logElements
+                .indexOfLast { it.offsetTop + it.offsetHeight <= interactiveLog.scrollTop + interactiveLog.offsetHeight }
+                .takeIf { it >= 0 } ?: 0
+            if (indexOfLastVisible == logElements.lastIndex) {
+                return@addEventListener
+            }
+
+            val turn = logElements[indexOfLastVisible].attributes["data-turn"]?.value ?: return@addEventListener
+            val turnAfter = logElements[indexOfLastVisible + 1].attributes["data-turn"]?.value ?: return@addEventListener
+            if (turn == turnAfter) {
+                // Scroll to the bottom of this section
+                val entry = logElements.last { it.attributes["data-turn"]?.value == turn }
+                interactiveLog.scrollTop = (entry.offsetTop + entry.offsetHeight - interactiveLog.offsetHeight).toDouble()
+            } else {
+                // Scroll to the top of the next section
+                val entry = logElements.first { it.attributes["data-turn"]?.value == turnAfter }
+                interactiveLog.scrollTop = entry.offsetTop.toDouble()
+            }
+        })
+        interactiveLogEndButton.addEventListener("click", {
+            interactiveLog.scrollTop = interactiveLog.scrollHeight.toDouble()
         })
 
         interactiveRewindButton.addEventListener("click", {
