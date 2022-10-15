@@ -227,8 +227,8 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                     command,
                     stage.logger.get(),
                     strategy.queueStatus,
-                    enemyStatus = stage.enemy.actors.values.map { it.status() },
-                    playerStatus = stage.player.actors.values.map { it.status() },
+                    enemyStatus = strategy.enemyStatus,
+                    playerStatus = strategy.teamStatus,
                 )
             }
             !status.initialized -> {
@@ -240,8 +240,8 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 status.init(
                     this,
                     stage.logger.get(),
-                    enemyStatus = stage.enemy.actors.values.map { it.status() },
-                    playerStatus = stage.player.actors.values.map { it.status() },
+                    enemyStatus = strategy.enemyStatus,
+                    playerStatus = strategy.teamStatus,
                 )
             }
             else -> {
@@ -254,10 +254,6 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         rev++
         resultLog = stage.logger.get()
     }
-
-    fun Actor.status() =
-        ActorStatus(name, dress.id, isSupport, hp, maxHp, brilliance, context.actionLog.damageDealtToEnemy, buffs.getDisplayBuffs())
-
 
     init {
         playStage(null)
@@ -530,6 +526,14 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 },
                 actor.isSupport,
             )
+
+        val teamStatus get() = team.actors.values.map { it.status() }
+        val enemyStatus get() = enemy.actors.values.map { it.status() }
+
+        fun Actor.status() =
+            ActorStatus(name, dress.id, isSupport, hp, maxHp, brilliance, cxActive, context.actionLog.damageDealtToEnemy, buffs.getDisplayBuffs())
+
+        private val Actor.cxActive get() = inCX || (hp > 0 && brilliance == 100 && this in team.active && climax)
 
         private inline fun log(value: () -> String) {
             stage.log("Command", category = LogCategory.COMMAND) {

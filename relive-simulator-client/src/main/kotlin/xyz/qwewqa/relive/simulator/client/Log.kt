@@ -117,6 +117,9 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                             src = "img/common/icon_support_dress.png"
                         }
                     }
+                    if (status.inClimax) {
+                        i("bi bi-stars interactive-status-climaxing-icon") {}
+                    }
                 }
             }
             hpElement.style.width = "${status.hp.toDouble() / status.maxHp * 100}%"
@@ -193,6 +196,9 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                                 img(classes = "interactive-status-support-indicator") {
                                     src = "img/common/icon_support_dress.png"
                                 }
+                            }
+                            if (status.inClimax) {
+                                i("bi bi-stars interactive-status-climaxing-icon") {}
                             }
                         }
                         div(classes = "interactive-status-bars-container") {

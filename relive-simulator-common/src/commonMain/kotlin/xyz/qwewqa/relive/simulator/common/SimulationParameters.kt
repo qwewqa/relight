@@ -56,6 +56,7 @@ data class ActorStatus(
     val hp: Int,
     val maxHp: Int,
     val brilliance: Int,
+    val inClimax: Boolean,
     val damageContribution: Int,
     val displayBuffs: List<DisplayBuffData>,
 )

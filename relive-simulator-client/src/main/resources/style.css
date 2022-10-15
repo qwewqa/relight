@@ -850,6 +850,16 @@ pwa-update::part(offlineToast) {
     line-height: calc(1.25 * var(--buff-icon-size));
 }
 
+.interactive-status-climaxing-icon {
+    position: absolute;
+    bottom: 10%;
+    right: 2%;
+    color: gold;
+    font-size: calc(0.4 * var(--status-image-size));
+    line-height: 0;
+    filter: drop-shadow(0 0 1px black) drop-shadow(0 0 1px black) drop-shadow(0 0 1px black);
+}
+
 .interactive-status-buff {
     display: flex;
     align-items: end;
