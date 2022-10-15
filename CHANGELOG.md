@@ -536,3 +536,7 @@
 # v0.33.5
 - Added indicators for actors in climax to interactive UI
 - Added navigation buttons to the interactive log
+
+# v0.33.6
+- Fixed damage dealt up buff icon
+- Added spacing below the interactive ui for mobile devices
