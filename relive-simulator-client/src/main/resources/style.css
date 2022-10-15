@@ -105,6 +105,10 @@
     font-size: 0.7em;
 }
 
+#results-container {
+    min-height: 840px;
+}
+
 @media (min-width: 576px) {
     #log-text {
         font-size: 0.875em;
@@ -114,6 +118,10 @@
         overflow-y: scroll;
         height: 500px;
         font-size: 0.875em;
+    }
+
+    #results-container {
+        min-height: 0;
     }
 
     .filter-option .select-option-subtext {
