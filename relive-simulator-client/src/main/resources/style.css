@@ -179,6 +179,10 @@ pwa-update::part(offlineToast) {
     overflow-x: scroll;
 }
 
+#plot-container-inner {
+    min-width: 720px;
+}
+
 #interactive-ui-container {
     margin-top: 0.6em;
 }

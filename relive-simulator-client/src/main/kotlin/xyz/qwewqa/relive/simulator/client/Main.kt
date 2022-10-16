@@ -2088,7 +2088,7 @@ class SimulatorClient(val simulator: Simulator) {
             GlobalScope.launch {
                 updateVersionString()
                 try {
-                    val setup = getSetup()
+                    val setup = getSetup().inferSupports()
                     interactiveSimulation = simulator.simulateInteractive(setup)
                     updateUrlForSetup(setup)
                 } catch (e: Throwable) {
