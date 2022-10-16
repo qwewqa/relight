@@ -551,3 +551,6 @@
 
 # v0.33.9
 - Supports are now inferred when none are set for interactive
+
+# v0.33.10
+- Team images are now uploaded upon share
