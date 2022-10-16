@@ -554,3 +554,6 @@
 
 # v0.33.10
 - Team images are now uploaded upon share
+
+# v0.34.0
+- Added the ability to filter for logs of different results
