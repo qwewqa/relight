@@ -22,15 +22,20 @@ class LogFilter(
         } else {
             entries
         }
-        if (request.type == SimulationResultType.End || request.type is SimulationResultType.Wipe || request.type == null) {
+        if (
+            (request.type == SimulationResultType.End || request.type is SimulationResultType.Wipe || request.type == null) &&
+            (request.minDamage != null || request.maxDamage != null)
+        ) {
             results = results.filter {
                 val damage = when (it.type) {
-                    is SimulationResultType.Wipe -> it.damage ?: 0
-                    is SimulationResultType.End -> it.damage ?: 0
+                    is SimulationResultType.Wipe -> it.damage
+                    is SimulationResultType.End -> it.damage
                     is SimulationResultType.Victory -> loadout.enemy.actors.first().dress.stats.hp
-                    else -> 0
+                    else -> null
                 }
-                (request.minDamage == null || damage >= request.minDamage!!) && (request.maxDamage == null || damage <= request.maxDamage!!)
+                damage != null &&
+                        (request.minDamage == null || damage >= request.minDamage!!) &&
+                        (request.maxDamage == null || damage <= request.maxDamage!!)
             }
         }
         return if (request.index in results.indices) {

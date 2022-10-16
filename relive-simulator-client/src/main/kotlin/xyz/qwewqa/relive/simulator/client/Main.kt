@@ -2968,9 +2968,9 @@ class SimulatorClient(val simulator: Simulator) {
                                                 onClickFunction = {
                                                     GlobalScope.launch {
                                                         val minDamageInput = document.getElementById("log-min-damage-input")
-                                                            .shorthandIntegerInput(0)
+                                                            .shorthandIntegerInput()
                                                         val maxDamageInput = document.getElementById("log-max-damage-input")
-                                                            .shorthandIntegerInput(Int.MAX_VALUE)
+                                                            .shorthandIntegerInput()
                                                         val resultTypeInput =
                                                             document.getElementById("log-result-type").singleSelect(false)
                                                         val indexInput =

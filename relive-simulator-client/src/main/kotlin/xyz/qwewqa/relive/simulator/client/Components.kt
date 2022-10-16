@@ -17,7 +17,7 @@ fun HTMLSelectElement.singleSelect(selectpicker: Boolean) = SingleSelect(this, s
 fun HTMLSelectElement.multipleSelect(selectpicker: Boolean) = MultipleSelect(this, selectpicker)
 fun HTMLDivElement.collapse() = Collapse(this)
 fun Element?.integerInput(default: Int) = IntegerInput(this as HTMLInputElement, default)
-fun Element?.shorthandIntegerInput(default: Int) = ShorthandIntegerInput(this as HTMLInputElement, default)
+fun Element?.shorthandIntegerInput() = ShorthandIntegerInput(this as HTMLInputElement)
 fun Element?.textInput() = TextInput(this as HTMLInputElement)
 fun Element?.singleSelect(selectpicker: Boolean) = SingleSelect(this as HTMLSelectElement, selectpicker)
 fun Element?.multipleSelect(selectpicker: Boolean) = MultipleSelect(this as HTMLSelectElement, selectpicker)
@@ -37,10 +37,11 @@ class IntegerInput(val element: HTMLInputElement, val default: Int) {
     }
 }
 
-class ShorthandIntegerInput(val element: HTMLInputElement, val default: Int) {
-    val value: Int
+class ShorthandIntegerInput(val element: HTMLInputElement) {
+    val value: Int?
         get() {
             var text = element.value.trim()
+            if (text.isEmpty()) return null
             var multiplier = 1
             when {
                 text.endsWith("k") || text.endsWith("K") -> {
@@ -56,7 +57,7 @@ class ShorthandIntegerInput(val element: HTMLInputElement, val default: Int) {
                     text = text.dropLast(1).trim()
                 }
             }
-            val textValue = text.toFloatOrNull() ?: return default
+            val textValue = text.toFloatOrNull() ?: return null
             return (textValue * multiplier).toInt()
         }
 
