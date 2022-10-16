@@ -82,6 +82,8 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
     var requestCount = 0
     val startTime = window.performance.now()
     var firstApplicableIteration: IterationResult? = null
+    val resultEntries = mutableListOf<ResultEntry>()
+    var logFilter: LogFilter? = null
 
     var marginSummary: Map<SimulationMarginResultType, Map<String?, MarginResult>> = emptyMap()
     var lastUpdatedMarginSummary = 0
@@ -121,7 +123,7 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
             worker.onmessage = { ev ->
                 val results = Json.decodeFromString<List<IterationResult>>(ev.data as String)
                 if (resultCount == parameters.maxIterations) {
-                    // This means that this is the final run, for use with logging.
+                    // This means that this is the final run, for use with logging as a rerun of a previous iteration.
                     // This block should only be run once per simulation.
                     val result = results.single()
                     overallResult = overallResult.copy(
@@ -154,6 +156,12 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
                         resultCount++
                         resultCounts[result.tags to result.result] =
                             (resultCounts[result.tags to result.result] ?: 0) + 1
+                        resultEntries += ResultEntry(
+                            index = result.request.index,
+                            seed = result.request.seed,
+                            type = result.result,
+                            damage = result.damage,
+                        )
                     }
                     updateResults()
                     val batchSize = (parameters.maxIterations - requestCount).coerceAtMost(BATCH_SIZE)
@@ -190,13 +198,24 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
     }
 
     override suspend fun pollResult() = overallResult
+
     override suspend fun cancel() {
         workers.forEach { it.terminate() }
         overallResult = overallResult.copy(cancelled = true)
     }
 
+    override suspend fun filterLog(request: FilterLogRequest): FilterLogResponse {
+        return logFilter?.get(request) ?: FilterLogResponse(null, null, 0)
+    }
+
     private fun finish() {
         workers.forEach { it.terminate() }
+        logFilter = LogFilter(
+            parameters.createStageLoadout(),
+            parameters.maxTurns,
+            parameters.maxIterations,
+            resultEntries,
+        )
     }
 }
 

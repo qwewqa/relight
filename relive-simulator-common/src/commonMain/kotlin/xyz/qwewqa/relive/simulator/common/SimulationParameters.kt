@@ -290,6 +290,21 @@ data class SimulationResult(
 }
 
 @Serializable
+data class FilterLogRequest(
+    val type: SimulationResultType?,
+    val minDamage: Int?,
+    val maxDamage: Int?,
+    val index: Int,
+)
+
+@Serializable
+data class FilterLogResponse(
+    val log: List<LogEntry>?,
+    val error: String?,
+    val resultCount: Int,
+)
+
+@Serializable
 data class MarginResult(
     val damage: Map<Double, Double>,
     val damageSummary: StatisticsSummary?,

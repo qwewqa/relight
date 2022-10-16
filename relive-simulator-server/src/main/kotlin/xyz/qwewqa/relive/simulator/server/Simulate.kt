@@ -15,6 +15,7 @@ import java.util.concurrent.Executors
 import kotlin.random.Random
 
 val simulationResults = ConcurrentHashMap<String, SimulationResult>()
+val logFilters = ConcurrentHashMap<String, LogFilter>()
 val simulationJobs = ConcurrentHashMap<String, Job>()
 val interactiveSimulations = ConcurrentHashMap<String, InteractiveSimulationController>()
 val interactiveSimulationErrors = ConcurrentHashMap<String, String>()
@@ -144,6 +145,7 @@ private fun simulateMany(
     var firstApplicableIteration: IterationResult? = null
     var updateInterval = BASE_SIMULATE_RESULT_UPDATE_INTERVAL
     var nextUpdateIndex = BASE_SIMULATE_RESULT_UPDATE_INTERVAL
+    val resultEntries = mutableListOf<ResultEntry>()
     while (resultCount < parameters.maxIterations) {
         val nextIteration = resultsChannel.receive()
         if (firstApplicableIteration == null ||
@@ -153,6 +155,12 @@ private fun simulateMany(
         ) {
             firstApplicableIteration = nextIteration
         }
+        resultEntries += ResultEntry(
+            nextIteration.index,
+            nextIteration.seed,
+            nextIteration.result.toSimulationResult(),
+            (nextIteration.result as? MarginStageResult)?.damage,
+        )
         val nextResult = nextIteration.result
         val resultKey = nextResult.metadata.tags to nextResult.toSimulationResult()
         if (nextResult is MarginStageResult) {
@@ -201,6 +209,12 @@ private fun simulateMany(
             }"
         )
     }
+    logFilters[token] = LogFilter(
+        loadout,
+        parameters.maxTurns,
+        parameters.maxIterations,
+        resultEntries,
+    )
 }
 
 private fun SimulationParameters.createStageLoadoutOrReportError(token: String) = try {

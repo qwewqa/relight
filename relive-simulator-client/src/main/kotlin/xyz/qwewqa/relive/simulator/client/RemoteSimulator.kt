@@ -76,6 +76,13 @@ class RemoteSimulator(val baseUrl: URL) : Simulator {
         override suspend fun cancel() {
             client.get(URL("/result/$token/cancel", baseUrl.href).href)
         }
+
+        override suspend fun filterLog(request: FilterLogRequest): FilterLogResponse {
+            return client.post(URL("/result/$token/log", baseUrl.href).href) {
+                contentType(ContentType.Application.Json)
+                setBody(request)
+            }.body()
+        }
     }
 
     inner class RemoteInteractiveSimulation(val simulator: RemoteSimulator, val token: String) : InteractiveSimulation {

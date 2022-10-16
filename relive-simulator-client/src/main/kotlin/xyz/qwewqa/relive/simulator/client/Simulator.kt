@@ -14,6 +14,7 @@ interface Simulator {
 interface Simulation {
     suspend fun pollResult(): SimulationResult
     suspend fun cancel()
+    suspend fun filterLog(request: FilterLogRequest): FilterLogResponse
 }
 
 interface InteractiveSimulation {

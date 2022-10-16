@@ -1539,6 +1539,36 @@
                         </div>
                     </div>
                 </div>
+                <div id="log-filter-container" class="row my-2 g-1 d-none">
+                    <div class="col-4 col-md-auto">
+                        <label for="log-min-damage-input" class="visually-hidden">Min Dmg</label>
+                        <input id="log-min-damage-input" class="form-control" size="9" placeholder="Min Dmg">
+                    </div>
+                    <div class="col-4 col-md-auto">
+                        <label for="log-max-damage-input" class="visually-hidden">Max Dmg</label>
+                        <input id="log-max-damage-input" class="form-control" size="9" placeholder="Max Dmg">
+                    </div>
+                    <div class="col-4 col-md-auto">
+                        <label for="log-result-type" class="visually-hidden">Type</label>
+                        <select id="log-result-type" class="form-select">
+                            <option value="Any" selected="selected">Any</option>
+                            <option value="Victory">Victory</option>
+                            <option value="End">End</option>
+                            <option value="Wipe">Wipe</option>
+                            <option value="Excluded">Excluded</option>
+                            <option value="Error">Error</option>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <label for="log-index-input" class="visually-hidden">Index</label>
+                        <input id="log-index-input" class="form-control" size="7" placeholder="Index" type="number">
+                    </div>
+                    <div class="col-auto">
+                        <button id="log-filter-button" class="btn btn-primary" type="button">
+                            Filter
+                        </button>
+                    </div>
+                </div>
                 <div class="row d-none" id="results-error-row">
                     <div class="col-12">
                         <label for="error-text" class="form-label text-error-info">Error</label>

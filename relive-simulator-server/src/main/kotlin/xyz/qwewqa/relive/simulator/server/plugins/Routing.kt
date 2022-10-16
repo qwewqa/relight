@@ -126,6 +126,16 @@ fun Application.configureRouting() {
                 call.respond(result)
             }
         }
+        post("/result/{token}/log") {
+            val token = call.parameters["token"]!!
+            val request = call.receive<FilterLogRequest>()
+            val logFilter = logFilters[token]
+            if (logFilter == null) {
+                call.respond(HttpStatusCode.NotFound)
+            } else {
+                call.respond(logFilter.get(request))
+            }
+        }
         delete("/result/{token}") {
             val token = call.parameters["token"]!!
             simulationResults.remove(token)

@@ -17,6 +17,7 @@ fun HTMLSelectElement.singleSelect(selectpicker: Boolean) = SingleSelect(this, s
 fun HTMLSelectElement.multipleSelect(selectpicker: Boolean) = MultipleSelect(this, selectpicker)
 fun HTMLDivElement.collapse() = Collapse(this)
 fun Element?.integerInput(default: Int) = IntegerInput(this as HTMLInputElement, default)
+fun Element?.shorthandIntegerInput(default: Int) = ShorthandIntegerInput(this as HTMLInputElement, default)
 fun Element?.textInput() = TextInput(this as HTMLInputElement)
 fun Element?.singleSelect(selectpicker: Boolean) = SingleSelect(this as HTMLSelectElement, selectpicker)
 fun Element?.multipleSelect(selectpicker: Boolean) = MultipleSelect(this as HTMLSelectElement, selectpicker)
@@ -29,6 +30,34 @@ class IntegerInput(val element: HTMLInputElement, val default: Int) {
         get() = element.valueOrPlaceholder.toIntOrNull() ?: default
         set(value) {
             element.value = value.toString()
+        }
+
+    fun clear() {
+        element.value = ""
+    }
+}
+
+class ShorthandIntegerInput(val element: HTMLInputElement, val default: Int) {
+    val value: Int
+        get() {
+            var text = element.value.trim()
+            var multiplier = 1
+            when {
+                text.endsWith("k") || text.endsWith("K") -> {
+                    multiplier = 1000
+                    text = text.dropLast(1).trim()
+                }
+                text.endsWith("m") || text.endsWith("M") -> {
+                    multiplier = 1000000
+                    text = text.dropLast(1).trim()
+                }
+                text.endsWith("b") || text.endsWith("B") -> {
+                    multiplier = 1000000000
+                    text = text.dropLast(1).trim()
+                }
+            }
+            val textValue = text.toFloatOrNull() ?: return default
+            return (textValue * multiplier).toInt()
         }
 
     fun clear() {
