@@ -23,7 +23,7 @@ val ApplauseSpace = applauseAttributeStageEffect(Attribute.Space)
 
 private fun weAreOnTheStageAttributeStageEffect(attribute: Attribute) = StageEffect(
     "We Are on the Stage (${attribute.name})",
-    0 + attribute.ordinal,
+    1 + attribute.ordinal,
     listOf(
         20,
         25,
