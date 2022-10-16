@@ -548,3 +548,6 @@
 # v0.33.8
 - Migrated strategy editors to CodeMirror 6
 - Fixed issues with mobile editing
+
+# v0.33.9
+- Supports are now inferred when none are set for interactive
