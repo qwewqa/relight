@@ -60,7 +60,19 @@ class LogFilter(
                 results.size,
             )
         } else {
-            FilterLogResponse(null, null, results.size)
+            if (results.isEmpty()) {
+                FilterLogResponse(
+                    null,
+                    "No results found.",
+                    0,
+                )
+            } else {
+                FilterLogResponse(
+                    null,
+                    "Invalid result index. ${results.size} results found.",
+                    results.size,
+                )
+            }
         }
     }
 }
