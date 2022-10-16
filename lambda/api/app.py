@@ -176,15 +176,22 @@ def create_setup():
     setup_id = generate_id()
     img_s3_key = f"preview/{setup_id}.png"
     img_bucket.Object(img_s3_key).put(Body=base64.b64decode(data.preview_image))
+    team_img_s3_key = None
+    if data.team_image is not None:
+        team_img_s3_key = f"preview/{setup_id}_team.png"
+        img_bucket.Object(team_img_s3_key).put(Body=base64.b64decode(data.team_image))
     ddb_key = f"setup#{setup_id}"
+    item = {
+        "id": ddb_key,
+        "parameters": data.parameters.dict(),
+        "img_s3_key": img_s3_key,
+        "img_width": data.preview_width,
+        "img_height": data.preview_height,
+    }
+    if team_img_s3_key is not None:
+        item["team_img_s3_key"] = team_img_s3_key
     table.put_item(
-        Item={
-            "id": ddb_key,
-            "parameters": data.parameters.dict(),
-            "img_s3_key": img_s3_key,
-            "img_width": data.preview_width,
-            "img_height": data.preview_height,
-        }
+        Item=item
     )
     return {"id": setup_id, "url": f"{SHARE_BASE_URL}/to/{setup_id}"}
 

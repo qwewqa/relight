@@ -383,3 +383,5 @@ private inline fun CanvasRenderingContext2D.withState(block: CanvasRenderingCont
     block()
     restore()
 }
+
+fun HTMLCanvasElement.base64() = toDataURL("image/png").split(",", limit = 2)[1]

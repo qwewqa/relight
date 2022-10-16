@@ -163,9 +163,10 @@ class RelightApi(val simulator: SimulatorClient) {
 
     suspend fun shareSetup(parameters: SimulationParameters, options: SimulationOptions): String {
         val image = TeamImage(parameters, options).drawOpenGraphImage()
+        val teamImage = TeamImage(parameters, options).drawTeamImage()
         return client.post("$BASE_API_URL/share/setup/create") {
             contentType(ContentType.Application.Json)
-            setBody(CreateSetupRequest(parameters, image.toDataURL().split(",", limit = 2)[1], image.width, image.height))
+            setBody(CreateSetupRequest(parameters, image.base64(), image.width, image.height, teamImage.base64()))
         }.body<CreateSetupResponse>().url
     }
 
@@ -225,6 +226,7 @@ data class CreateSetupRequest(
     val preview_image: String,
     val preview_width: Int,
     val preview_height: Int,
+    val team_image: String,
 )
 
 @Serializable
