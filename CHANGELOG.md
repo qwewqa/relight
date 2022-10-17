@@ -557,3 +557,7 @@
 
 # v0.34.0
 - Added the ability to filter for logs of different results
+
+# v0.34.1
+- Fixed icons for "we are on the stage" stage effects
+- Added a new interface for navigating between result logs
