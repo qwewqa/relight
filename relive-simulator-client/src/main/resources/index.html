@@ -1539,33 +1539,47 @@
                         </div>
                     </div>
                 </div>
-                <div id="log-filter-container" class="row my-2 g-1 d-none">
-                    <div class="col-4 col-md-auto">
-                        <label for="log-min-damage-input" class="visually-hidden">Min Dmg</label>
-                        <input id="log-min-damage-input" class="form-control" size="9" placeholder="Min Dmg">
+                <div id="log-filter-container" class="my-2 d-none">
+                    <div class="row g-1">
+                        <div class="col-4 col-md-auto">
+                            <label for="log-min-damage-input" class="visually-hidden">Min Dmg</label>
+                            <input id="log-min-damage-input" class="form-control" size="9" placeholder="Min Dmg">
+                        </div>
+                        <div class="col-4 col-md-auto">
+                            <label for="log-max-damage-input" class="visually-hidden">Max Dmg</label>
+                            <input id="log-max-damage-input" class="form-control" size="9" placeholder="Max Dmg">
+                        </div>
+                        <div class="col-4 col-md-auto">
+                            <label for="log-result-type" class="visually-hidden">Type</label>
+                            <select id="log-result-type" class="form-select">
+                                <option value="Any" selected="selected">Any</option>
+                                <option value="Victory">Victory</option>
+                                <option value="End">End</option>
+                                <option value="Wipe">Wipe</option>
+                                <option value="Excluded">Excluded</option>
+                                <option value="Error">Error</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button id="log-filter-button" class="btn btn-primary" type="button">
+                                Filter
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-4 col-md-auto">
-                        <label for="log-max-damage-input" class="visually-hidden">Max Dmg</label>
-                        <input id="log-max-damage-input" class="form-control" size="9" placeholder="Max Dmg">
-                    </div>
-                    <div class="col-4 col-md-auto">
-                        <label for="log-result-type" class="visually-hidden">Type</label>
-                        <select id="log-result-type" class="form-select">
-                            <option value="Any" selected="selected">Any</option>
-                            <option value="Victory">Victory</option>
-                            <option value="End">End</option>
-                            <option value="Wipe">Wipe</option>
-                            <option value="Excluded">Excluded</option>
-                            <option value="Error">Error</option>
-                        </select>
-                    </div>
-                    <div class="col-auto">
-                        <label for="log-index-input" class="visually-hidden">Index</label>
-                        <input id="log-index-input" class="form-control" size="7" placeholder="Index" type="number">
-                    </div>
-                    <div class="col-auto">
-                        <button id="log-filter-button" class="btn btn-primary" type="button">
-                            Filter
+                    <div class="d-flex mt-3 gap-1 justify-content-center justify-content-md-start">
+                        <button id="log-back-button" role="button"
+                                class="btn btn-secondary"
+                                type="button">
+                            <i class="bi bi-caret-left-fill"></i>
+                        </button>
+                        <div>
+                            <label for="log-index-input" class="visually-hidden">Index</label>
+                            <input id="log-index-input" class="form-control text-center" size="4" placeholder="Index" inputmode="numeric">
+                        </div>
+                        <button id="log-next-button" role="button"
+                                class="btn btn-secondary"
+                                type="button">
+                            <i class="bi bi-caret-right-fill"></i>
                         </button>
                     </div>
                 </div>

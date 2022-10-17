@@ -2902,102 +2902,14 @@ class SimulatorClient(val simulator: Simulator) {
                                 cancelButton.disabled = true
                                 resetSavedResultButtons()
                                 if (result.log != null) {
-                                    val resultTypes = result.results.map { it.result }.toSet().toList()
-                                    logFilterContainer.removeClass("d-none")
-                                    logFilterContainer.clear()
-                                    logFilterContainer.append {
-                                        div(classes = "col-4 col-md-auto") {
-                                            label(classes = "visually-hidden") {
-                                                htmlFor = "log-min-damage-input"
-                                                +"Min Dmg"
-                                            }
-                                            input(classes = "form-control") {
-                                                id = "log-min-damage-input"
-                                                size = "9"
-                                                placeholder = "Min Dmg"
-                                            }
-                                        }
-                                        div(classes = "col-4 col-md-auto") {
-                                            label(classes = "visually-hidden") {
-                                                htmlFor = "log-max-damage-input"
-                                                +"Max Dmg"
-                                            }
-                                            input(classes = "form-control") {
-                                                id = "log-max-damage-input"
-                                                size = "9"
-                                                placeholder = "Max Dmg"
-                                            }
-                                        }
-                                        div(classes = "col-4 col-md-auto") {
-                                            label(classes = "visually-hidden") {
-                                                htmlFor = "log-result-type"
-                                                +"Type"
-                                            }
-                                            select(classes = "form-select") {
-                                                id = "log-result-type"
-                                                option {
-                                                    selected = true
-                                                    value = ""
-                                                    +"Any"
-                                                }
-                                                resultTypes.forEachIndexed { i, resultType ->
-                                                    option {
-                                                        value = i.toString()
-                                                        +resultType.displayName
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        div(classes = "col-auto") {
-                                            label(classes = "visually-hidden") {
-                                                htmlFor = "log-index-input"
-                                                +"Index"
-                                            }
-                                            input(classes = "form-control") {
-                                                id = "log-index-input"
-                                                size = "7"
-                                                placeholder = "Index"
-                                                type = InputType.number
-                                            }
-                                        }
-                                        div(classes = "col-auto") {
-                                            button(classes = "btn btn-primary") {
-                                                id = "log-filter-button"
-                                                type = ButtonType.button
-                                                +"Filter"
-                                                onClickFunction = {
-                                                    GlobalScope.launch {
-                                                        val minDamageInput = document.getElementById("log-min-damage-input")
-                                                            .shorthandIntegerInput()
-                                                        val maxDamageInput = document.getElementById("log-max-damage-input")
-                                                            .shorthandIntegerInput()
-                                                        val resultTypeInput =
-                                                            document.getElementById("log-result-type").singleSelect(false)
-                                                        val indexInput =
-                                                            document.getElementById("log-index-input").integerInput(1)
-                                                        val minDamage = minDamageInput.value
-                                                        val maxDamage = maxDamageInput.value
-                                                        val resultType = resultTypeInput.value.toIntOrNull()
-                                                            ?.let { resultTypes.getOrNull(it) }
-                                                        val index = indexInput.value - 1
-                                                        val filterResult = simulation?.filterLog(
-                                                            FilterLogRequest(resultType, minDamage, maxDamage, index),
-                                                        )
-                                                        logText.displayLog(
-                                                            filterResult?.log ?: emptyList(),
-                                                            interactive = false
-                                                        )
-                                                        if (filterResult?.error != null) {
-                                                            errorText.textContent = filterResult.error
-                                                            errorRow.removeClass("d-none")
-                                                        } else {
-                                                            errorRow.addClass("d-none")
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
+                                    updateLogFilter(
+                                        logFilterContainer,
+                                        logText,
+                                        errorRow,
+                                        errorText,
+                                        simulation!!,
+                                        result,
+                                    )
                                 }
                                 if (result.error != null) {
                                     toast("Simulate", "Simulation completed with errors.", "orange")
