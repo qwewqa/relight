@@ -62,6 +62,32 @@ class TeamImage(
         return finalCanvas
     }
 
+    suspend fun drawTeamImageAlt(): HTMLCanvasElement {
+        canvas.width = ((team.size * (DRESS_WIDTH + PADDING_X) + PADDING_X) * SUPERSCALE).toInt()
+        canvas.height = ((DRESS_HEIGHT * 2 + 8 + 42) * SUPERSCALE).toInt()
+        ctx.scale(SUPERSCALE, SUPERSCALE)
+
+        ctx.withState {
+            ctx.fillStyle = "white"
+            ctx.fillRect(0.0, 0.0, canvas.width.toDouble(), canvas.height.toDouble())
+        }
+
+        team.reversed().forEachIndexed { i, loadout ->
+            ctx.withState {
+                ctx.translate((i * (DRESS_WIDTH + PADDING_X) + PADDING_X), MARGIN_TOP)
+                drawDressAlt(loadout)
+            }
+        }
+
+        val finalCanvas = document.createElement("canvas") as HTMLCanvasElement
+        finalCanvas.width = (canvas.width / SUPERSCALE).toInt()
+        finalCanvas.height = (canvas.height / SUPERSCALE).toInt()
+        val finalCtx = finalCanvas.getContext("2d") as CanvasRenderingContext2D
+        finalCtx.scale(1.0 / SUPERSCALE, 1.0 / SUPERSCALE)
+        finalCtx.drawImage(canvas, 0.0, 0.0)
+        return finalCanvas
+    }
+
     suspend fun drawOpenGraphImage(): HTMLCanvasElement {
         canvas.width = 1200
         canvas.height = 600
@@ -237,6 +263,108 @@ class TeamImage(
                             fillText(desc, 0.0, 0.0, DRESS_WIDTH - paddedWidth)
                         }
                     }
+                }
+            }
+        }
+    }
+
+    private suspend fun drawDressAlt(loadout: PlayerLoadoutParameters) {
+        withState {
+            translate(0.0, 2.0)
+            if (loadout.remake == 4 && loadout.remakeSkill != null && loadout.remakeSkill != "None") {
+                withState {
+                    font = "bold 20px $FONT"
+                    val remakeSkill = options.remakeSkillsById[loadout.remakeSkill]
+                    val desc = remakeSkill?.data?.run {
+                        listOfNotNull(time, value, targeting).joinToString(" ")
+                    } ?: ""
+                    val iconSize = 27.0
+                    val paddedWidth = iconSize + 3.0
+                    val totalWidth = (paddedWidth + measureText(desc).width).coerceAtMost(DRESS_WIDTH)
+                    rect(x = (DRESS_WIDTH - totalWidth) / 2, width = DRESS_WIDTH, height = iconSize).run {
+                        val iconPosition = RelativePosition.TopLeft.withHeight(100.percent)
+                        drawImage(remakeSkill?.imagePath, iconPosition)
+                        withState {
+                            translate(x + paddedWidth, y + 20.0)
+                            fillText(desc, 0.0, 0.0, DRESS_WIDTH - paddedWidth)
+                        }
+                    }
+                }
+            }
+            translate(0.0, 32.0)
+            rect(width = DRESS_WIDTH, height = DRESS_HEIGHT).run {
+                drawImage(options.dressesById[loadout.dress]?.imagePath)
+
+                if (loadout.hasAccessory) {
+                    val accessoryPosition = RelativePosition(right = 2.percent, top = 2.percent).withHeight(38.percent)
+                    drawImage(options.accessoriesById[loadout.accessory]?.imagePath, accessoryPosition)
+                    drawImage(getAccessoryUnbindImagePath(loadout.accessoryLimitBreak), accessoryPosition)
+                }
+
+                val remakePosition = RelativePosition(bottom = 26.percent, left = 5.percent).withWidth(21.percent)
+                withState {
+                    shadowColor = "darkred"
+                    shadowBlur = 8.0
+                    drawImage(getRemakeLevelVerticalImagePath(loadout.remake), remakePosition)
+                }
+
+                withState {
+                    val position = RelativePosition(left = 6.percent, top = 4.percent)
+                    textAlign = CanvasTextAlign.START
+                    textBaseline = CanvasTextBaseline.TOP
+                    font = "bold 30px $FONT"
+                    fillStyle = "indigo"
+                    val (x, y) = resolvePointPosition(position)
+                    fillGlowText(loadout.unitSkillLevel.toString(), x, y)
+                }
+
+                if (loadout.isSupport) {
+                    val supportPosition = RelativePosition(right = 4.percent, bottom = 4.percent).withWidth(30.percent)
+                    drawImage("img/common/icon_support_dress.png", supportPosition)
+                }
+
+                if (loadout.hasAccessory) {
+                    withState {
+                        val position = RelativePosition(right = 6.percent, top = 5.percent)
+                        textAlign = CanvasTextAlign.END
+                        textBaseline = CanvasTextBaseline.TOP
+                        font = "bold 26px $FONT"
+                        fillStyle = "darkgoldenrod"
+                        val (x, y) = resolvePointPosition(position)
+                        fillGlowText(loadout.accessoryLevel.toString(), x, y)
+                    }
+                }
+
+                withState {
+                    val position = RelativePosition(left = 5.percent, bottom = 2.percent)
+                    textAlign = CanvasTextAlign.START
+                    textBaseline = CanvasTextBaseline.BOTTOM
+                    font = "bold 36px $FONT"
+                    fillStyle = "darkred"
+                    val (x, y) = resolvePointPosition(position)
+                    fillGlowText(loadout.level.toString(), x, y)
+                }
+            }
+            translate(0.0, DRESS_HEIGHT + 5.0)
+            rect(width = DRESS_WIDTH, height = DRESS_HEIGHT).run {
+                drawImage(options.memoirsById[loadout.memoir]?.imagePath)
+                drawImage(getMemoirUnbindImagePath(loadout.memoirLimitBreak))
+
+                val unbindPosition = RelativePosition(top = 8.percent, right = 8.percent).withWidth(16.percent)
+                withState {
+                    shadowColor = "black"
+                    shadowBlur = 8.0
+                    drawImage(getMemoirUnbindLevelVerticalImagePath(loadout.memoirLimitBreak), unbindPosition)
+                }
+
+                withState {
+                    val position = RelativePosition(left = 8.percent, bottom = 4.percent)
+                    textAlign = CanvasTextAlign.START
+                    textBaseline = CanvasTextBaseline.BOTTOM
+                    font = "bold 36px $FONT"
+                    fillStyle = "darkblue"
+                    val (x, y) = resolvePointPosition(position)
+                    fillGlowText(loadout.memoirLevel.toString(), x, y)
                 }
             }
         }

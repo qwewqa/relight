@@ -83,4 +83,5 @@ class CreateSetupRequest(BaseModel):
     preview_image: constr(max_length=8_000_000)
     preview_width: conint(ge=16, le=5000)
     preview_height: conint(ge=16, le=5000)
-    team_image: constr(max_length=6_000_000) = None
+    team_image: constr(max_length=8_000_000) = None
+    team_image_alt: constr(max_length=8_000_000) = None

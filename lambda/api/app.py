@@ -180,6 +180,10 @@ def create_setup():
     if data.team_image is not None:
         team_img_s3_key = f"preview/{setup_id}_team.png"
         img_bucket.Object(team_img_s3_key).put(Body=base64.b64decode(data.team_image))
+    team_img_alt_s3_key = None
+    if data.team_image_alt is not None:
+        team_img_alt_s3_key = f"preview/{setup_id}_team_alt.png"
+        img_bucket.Object(team_img_alt_s3_key).put(Body=base64.b64decode(data.team_image_alt))
     ddb_key = f"setup#{setup_id}"
     item = {
         "id": ddb_key,
@@ -190,6 +194,8 @@ def create_setup():
     }
     if team_img_s3_key is not None:
         item["team_img_s3_key"] = team_img_s3_key
+    if team_img_alt_s3_key is not None:
+        item["team_img_alt_s3_key"] = team_img_alt_s3_key
     table.put_item(
         Item=item
     )

@@ -267,6 +267,7 @@ fun getEquipEvolutionImagePath(level: Int) = "img/common/icon_equip_evolution_$l
 fun getRemakeLevelVerticalImagePath(level: Int) = "img/custom/icon_remake_$level.png"
 fun getRemakeLevelHorizontalImagePath(level: Int) = "img/common/icon_remake_$level.png"
 fun getMemoirUnbindLevelHorizontalImagePath(level: Int) = "img/custom/icon_equip_evolution_$level.png"
+fun getMemoirUnbindLevelVerticalImagePath(level: Int) = "img/common/icon_equip_evolution_$level.png"
 
 class ActorOptions(private val options: SimulationOptions, val tabElement: Element, val optionsElement: Element) {
     constructor(options: SimulationOptions, actorId: Int) : this(

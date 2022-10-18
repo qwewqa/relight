@@ -1996,9 +1996,13 @@ class SimulatorClient(val simulator: Simulator) {
         teamImageButton.addEventListener("click", {
             GlobalScope.launch {
                 val imageData = TeamImage(getSetup(), options).drawTeamImage()
+                val altImageData = TeamImage(getSetup(), options).drawTeamImageAlt()
                 teamImageContainer.clear()
                 teamImageContainer.append {
                     img(src = imageData.toDataURL()) {
+                        style = "max-height: 250px; max-width: 100%;"
+                    }
+                    img(src = altImageData.toDataURL(), classes="mt-4") {
                         style = "max-height: 250px; max-width: 100%;"
                     }
                 }
