@@ -564,3 +564,6 @@
 
 # v0.34.2
 - Added an alternate team image format
+
+# v0.34.3
+- Updated support indicator in tabs and team images
