@@ -893,13 +893,9 @@ class SimulatorClient(val simulator: Simulator) {
                                     +"80"
                                 }
                             }
-                            div("d-flex flex-column") {
-                                style = "position: absolute; left: 6%; top: 16%;" +
-                                        "text-shadow: #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px;"
-                                div("actor-support-indicator") {
-                                    style = "color: green; font-size: 0.85em;"
-                                    +""
-                                }
+                            img(classes = "actor-support-indicator d-none") {
+                                style = "position: absolute; left: 5%; top: 21%; width: 18%;"
+                                src = actorSupportIconPath
                             }
                             div("d-flex flex-column") {
                                 style = "position: absolute; left: 6%; top: 0%;" +

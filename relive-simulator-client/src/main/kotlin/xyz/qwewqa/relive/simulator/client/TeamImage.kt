@@ -191,13 +191,8 @@ class TeamImage(
                     }
                     if (loadout.isSupport) {
                         withState {
-                            val position = RelativePosition(left = 6.percent, top = 20.percent)
-                            textAlign = CanvasTextAlign.START
-                            textBaseline = CanvasTextBaseline.TOP
-                            font = "bold 26px $FONT"
-                            fillStyle = "green"
-                            val (x, y) = resolvePointPosition(position)
-                            fillGlowText("S", x, y)
+                            val position = RelativePosition(left = 5.percent, top = 20.percent).withWidth(18.percent)
+                            drawImage(actorSupportIconPath, position)
                         }
                     }
                     if (loadout.hasAccessory) {
@@ -320,7 +315,7 @@ class TeamImage(
 
                 if (loadout.isSupport) {
                     val supportPosition = RelativePosition(right = 4.percent, bottom = 4.percent).withWidth(30.percent)
-                    drawImage("img/common/icon_support_dress.png", supportPosition)
+                    drawImage(actorSupportIconPath, supportPosition)
                 }
 
                 if (loadout.hasAccessory) {

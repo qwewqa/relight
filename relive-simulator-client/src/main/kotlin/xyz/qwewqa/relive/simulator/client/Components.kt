@@ -269,6 +269,8 @@ fun getRemakeLevelHorizontalImagePath(level: Int) = "img/common/icon_remake_$lev
 fun getMemoirUnbindLevelHorizontalImagePath(level: Int) = "img/custom/icon_equip_evolution_$level.png"
 fun getMemoirUnbindLevelVerticalImagePath(level: Int) = "img/common/icon_equip_evolution_$level.png"
 
+const val actorSupportIconPath = "img/common/icon_support_dress.png"
+
 class ActorOptions(private val options: SimulationOptions, val tabElement: Element, val optionsElement: Element) {
     constructor(options: SimulationOptions, actorId: Int) : this(
         options,
@@ -434,7 +436,6 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
             memoirUnbindIcon.src = getMemoirUnbindLevelHorizontalImagePath(param.memoirLimitBreak)
 
             tabName.textContent = param.name
-            tabSupportIndicator.textContent = if (param.isSupport) "S" else ""
             tabLevel.textContent = param.level.toString()
             tabUnitSkillLevel.textContent = param.unitSkillLevel.toString()
             tabRemakeLevelImage.src = getRemakeLevelVerticalImagePath(param.remake)
@@ -454,6 +455,12 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
                 tabAccessoryImage.addClass("d-none")
                 tabAccessoryLevel.parentElement?.addClass("d-none")
                 tabAccessoryUnbindImage.addClass("d-none")
+            }
+
+            if (param.isSupport) {
+                tabSupportIndicator.removeClass("d-none")
+            } else {
+                tabSupportIndicator.addClass("d-none")
             }
 
             // Check for disabled change
