@@ -561,3 +561,6 @@
 # v0.34.1
 - Fixed icons for "we are on the stage" stage effects
 - Added a new interface for navigating between result logs
+
+# v0.34.2
+- Added an alternate team image format
