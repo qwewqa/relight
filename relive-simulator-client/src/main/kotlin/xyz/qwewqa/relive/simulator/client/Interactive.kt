@@ -194,8 +194,10 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
 
 private fun updateActs(simulation: InteractiveSimulation, status: InteractiveQueueStatus?) {
     val interactiveActsRow = document.getElementById("interactive-acts-row") as HTMLElement
+    val interactiveShortcutsContainer = document.getElementById("interactive-shortcuts-container") as HTMLElement
 
     interactiveActsRow.clear()
+    interactiveShortcutsContainer.clear()
 
     if (status == null) {
         return
@@ -301,49 +303,77 @@ private fun updateActs(simulation: InteractiveSimulation, status: InteractiveQue
         }
     }
 
-    interactiveActsRow.append {
-        button(
-            classes = "btn btn-secondary ${
-                when {
-                    status.canClimax -> "interactive-climax-button-available"
-                    status.climaxTurns > 0 -> "interactive-climax-button-activated"
-                    else -> ""
-                }
-            }"
-        ) {
-            role = "button"
-            id = "interactive-climax-button"
-            when {
-                status.canClimax -> {
-                    div("interactive-climax-button-text-container") {
-                        div("interactive-climax-button-text font-monospace") {
-                            +"CA"
+    when {
+        status.runState == InteractiveRunState.QUEUE -> {
+            interactiveActsRow.removeClass("invisible")
+            interactiveShortcutsContainer.addClass("invisible")
+            interactiveActsRow.append {
+                button(
+                    classes = "btn btn-secondary ${
+                        when {
+                            status.canClimax -> "interactive-climax-button-available"
+                            status.climaxTurns > 0 -> "interactive-climax-button-activated"
+                            else -> ""
                         }
-                    }
-                }
+                    }"
+                ) {
+                    role = "button"
+                    id = "interactive-climax-button"
+                    when {
+                        status.canClimax -> {
+                            div("interactive-climax-button-text-container") {
+                                div("interactive-climax-button-text font-monospace") {
+                                    +"CA"
+                                }
+                            }
+                        }
 
-                status.climaxTurns > 0 -> {
-                    div("interactive-climax-button-text-container") {
-                        div("interactive-climax-button-text font-monospace") {
-                            +"${status.climaxTurns}"
+                        status.climaxTurns > 0 -> {
+                            div("interactive-climax-button-text-container") {
+                                div("interactive-climax-button-text font-monospace") {
+                                    +"${status.climaxTurns}"
+                                }
+                            }
+                        }
+                    }
+                    onClickFunction = {
+                        GlobalScope.launch {
+                            simulation.sendCommand("climax")
+                        }
+                    }
+                    disabled = !status.canClimax
+                }
+                div {
+                    id = "interactive-hold-container"
+                    act(status.hold)
+                }
+                div {
+                    id = "interactive-acts-container"
+                    status.hand.forEach { act(it) }
+                }
+            }
+        }
+        status.runState == InteractiveRunState.SETUP -> {
+            interactiveActsRow.addClass("invisible")
+            interactiveShortcutsContainer.removeClass("invisible")
+            interactiveActsRow.append {
+                // For sizing purposes
+                div {
+                    id = "interactive-hold-container"
+                    act(null)
+                }
+            }
+            interactiveShortcutsContainer.append {
+                button(classes = "btn btn-outline-secondary interactive-ui-shortcut-button") {
+                    role = "button"
+                    i("bi bi-shuffle")
+                    onClickFunction = {
+                        GlobalScope.launch {
+                            simulation.sendCommand("seed")
                         }
                     }
                 }
             }
-            onClickFunction = {
-                GlobalScope.launch {
-                    simulation.sendCommand("climax")
-                }
-            }
-            disabled = !status.canClimax
-        }
-        div {
-            id = "interactive-hold-container"
-            act(status.hold)
-        }
-        div {
-            id = "interactive-acts-container"
-            status.hand.forEach { act(it) }
         }
     }
 }
