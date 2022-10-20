@@ -23,7 +23,7 @@ img_bucket = s3.Bucket("relight-share-images")
 
 IMG_BASE_URL = "https://i.relight.qwewqa.xyz"
 SHARE_BASE_URL = "https://share.relight.qwewqa.xyz"
-SIM_BASE_URL = "https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/index.html"
+SIM_BASE_URL = "https://relight.qwewqa.xyz/"
 
 settings = Settings()
 app = APIGatewayHttpResolver()
