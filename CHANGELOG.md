@@ -567,3 +567,6 @@
 
 # v0.34.3
 - Updated support indicator in tabs and team images
+
+# v0.34.4
+- Add seed button to interactive UI
