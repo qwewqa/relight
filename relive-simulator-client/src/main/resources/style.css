@@ -1017,3 +1017,11 @@ pwa-update::part(offlineToast) {
     font-weight: bold;
     height: var(--se-size);
 }
+
+#server-link {
+}
+
+#server-link i {
+    font-size: 20px;
+    line-height: 20px;
+}
