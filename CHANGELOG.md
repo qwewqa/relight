@@ -570,3 +570,6 @@
 
 # v0.34.4
 - Add seed button to interactive UI
+
+# v0.34.5
+- Added Discord server link
