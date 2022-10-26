@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.BackOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.CloudOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1090024
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType.*
@@ -90,6 +91,6 @@ val GrudgeRevueKaoruko = dress1090024(
             TeamBrillianceGainUpBuffPassive.new(50, 3),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + CloudOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (CloudOnlyCondition or StarOnlyCondition),
     multipleCA = true,
 )

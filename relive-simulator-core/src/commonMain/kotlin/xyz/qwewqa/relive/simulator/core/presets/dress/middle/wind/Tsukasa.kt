@@ -1,8 +1,11 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.FrontierOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.WindOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3040017
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType.*
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
@@ -10,8 +13,6 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.HyakkaRyoran
-import xyz.qwewqa.relive.simulator.core.stage.Act
-import xyz.qwewqa.relive.simulator.core.stage.actor.ActType.*
 
 val StageGirlTsukasa = dress3040017(
     name = "Stage Girl Tsukasa",
@@ -119,6 +120,6 @@ val StageGirlTsukasa = dress3040017(
             EnemyBack3LockedAPUpBuffPassive.new(time = 3),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + WindOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (WindOnlyCondition or SunOnlyCondition),
     categories = setOf(DressCategory.StageGirl),
 )

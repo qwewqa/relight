@@ -3,6 +3,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.CloudOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.RinmeikanOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2030015
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType.*
@@ -10,7 +11,10 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyBack2SleepBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyBrillianceDrainPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamHpUpPassive
 
 val TemperanceFumi = dress2030015(
     name = "Temperance Fumi",
@@ -88,6 +92,6 @@ val TemperanceFumi = dress2030015(
             TeamHpUpPassive.new(30) + RinmeikanOnlyCondition,
         )
     ),
-    unitSkill = ActCritical50UnitSkill + CloudOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (CloudOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.Arcana),
 )

@@ -3,6 +3,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.back.space
 import xyz.qwewqa.relive.simulator.core.presets.condition.BackOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SiegfeldOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4050009
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4050014
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4050019
@@ -197,7 +198,7 @@ val CoyoteCainYachiyo = dress4050014(
             EnemyBrillianceDrainPassive.new(50),
         ),
     ),
-    unitSkill = ActCritical30UnitSkill + SpaceOnlyCondition,
+    unitSkill = ActCritical30UnitSkill + (SpaceOnlyCondition or StarOnlyCondition),
 )
 
 val CollectionYachiyo = dress4050019(
@@ -275,6 +276,6 @@ val CollectionYachiyo = dress4050019(
             TeamNegativeEffectResistanceBuffPassive.new(100, 1),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + SpaceOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (SpaceOnlyCondition or StarOnlyCondition),
     multipleCA = true,
 )

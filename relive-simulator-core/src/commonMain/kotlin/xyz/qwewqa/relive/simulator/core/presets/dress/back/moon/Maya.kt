@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.moon
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.MoonOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1050007
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -8,7 +9,10 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyBack3StopBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfReviveBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamHpUpPassive
 
 val WorldMaya = dress1050007(
     name = "World Maya",
@@ -100,6 +104,6 @@ val WorldMaya = dress1050007(
             EnemyBack3StopBuffPassive.new(time = 1),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + MoonOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (MoonOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.Arcana),
 )

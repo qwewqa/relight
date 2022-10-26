@@ -2,10 +2,12 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.BackOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.CloudOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1020023
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1020012
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1020023
 import xyz.qwewqa.relive.simulator.core.stage.Act
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
@@ -92,7 +94,7 @@ val HeroHikari = dress1020023(
             TeamCriticalUpBuffPassive.new(30,3),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + CloudOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (CloudOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.Birthday2022),
 )
 

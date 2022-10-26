@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.FlowerOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.FrontierOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3010017
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -115,6 +116,6 @@ val StageGirlAruru = dress3010017(
             TeamBrillianceRecoveryPassive.new(20),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + FlowerOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (FlowerOnlyCondition or SunOnlyCondition),
     categories = setOf(DressCategory.StageGirl),
 )

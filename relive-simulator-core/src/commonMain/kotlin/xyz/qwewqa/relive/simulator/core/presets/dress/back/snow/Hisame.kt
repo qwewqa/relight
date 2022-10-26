@@ -13,7 +13,10 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.log
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.DexterityPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyPoisonBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.HP50Def50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfFortitudeBuffPassive
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.ConcentrationSnow
 
 val StageGirlHisame = dress5030001(

@@ -1,15 +1,18 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.condition.SnowOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3030015
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.ApDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyBack2LockedAPUpBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfReviveBuffPassive
 
 val HopeLalafin = dress3030015(
     name = "Hope Lalafin",
@@ -82,6 +85,6 @@ val HopeLalafin = dress3030015(
             //TODO() locked CX seal front 3, 2t
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (SnowOnlyCondition or SunOnlyCondition),
     categories = setOf(DressCategory.Arcana),
 )

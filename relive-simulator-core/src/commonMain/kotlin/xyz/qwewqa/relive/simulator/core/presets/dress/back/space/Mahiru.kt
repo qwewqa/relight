@@ -4,15 +4,14 @@ import xyz.qwewqa.relive.simulator.core.presets.condition.BackOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SpecialDamageOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1030019
 import xyz.qwewqa.relive.simulator.core.stage.Act
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
-import xyz.qwewqa.relive.simulator.stage.character.Character
-import xyz.qwewqa.relive.simulator.stage.character.DamageType
-import xyz.qwewqa.relive.simulator.stage.character.Position
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical30UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.DamageDealtPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.DexterityPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.EffectiveDamageDealtPassive
 
 
 val SanadaMahiru = dress1030019(

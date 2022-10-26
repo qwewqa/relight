@@ -11,7 +11,10 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.log
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyNormalDefenseBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.EnemySpecialDefenseBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfFortitudeBuffPassive
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.ConcentrationSpace
 
 val StageGirlKoharu = dress5010001(

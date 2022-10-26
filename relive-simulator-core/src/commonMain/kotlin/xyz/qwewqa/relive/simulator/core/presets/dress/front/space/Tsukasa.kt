@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.front.space
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3040005
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -8,7 +9,10 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyAggroBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.HPDef75UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfReviveBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamHpUpPassive
 
 val CharityTsukasa = dress3040005(
     name = "Charity Tsukasa",
@@ -104,6 +108,6 @@ val CharityTsukasa = dress3040005(
             SelfReviveBuffPassive.new(50, time = 1),
         ),
     ),
-    unitSkill = HPDef75UnitSkill + SpaceOnlyCondition,
+    unitSkill = HPDef75UnitSkill + (SpaceOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.Arcana),
 )

@@ -3,15 +3,16 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon
 import xyz.qwewqa.relive.simulator.core.presets.condition.MayaOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.MiddleOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.MoonOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1050017
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1050023
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1050025
-import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.log
@@ -173,7 +174,7 @@ val SoulRevueMaya = dress1050025(
             TeamBrillianceGainUpBuffPassive.new(50, 3),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + MoonOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (MoonOnlyCondition or StarOnlyCondition),
     multipleCA = true,
 )
 
@@ -272,6 +273,6 @@ val WarriorMaya = dress1050023(
             TeamEvasionUpBuffScalingPassive60.new(15, time = 2) + MoonOnlyCondition
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + MoonOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (MoonOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.Birthday2022),
 )

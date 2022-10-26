@@ -1,14 +1,21 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.condition.JunnaOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.MoonOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.NanaOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1070019
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.LockedStunBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.NegativeEffectResistancePassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamAgilityUpBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamBrillianceRecoveryPassive
 
 val HelldiverNana = dress1070019(
     name = "Helldiver Nana",
@@ -84,5 +91,5 @@ val HelldiverNana = dress1070019(
             TeamBrillianceRecoveryPassive.new(20) + JunnaOnlyCondition,
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + MoonOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (MoonOnlyCondition or StarOnlyCondition),
 )

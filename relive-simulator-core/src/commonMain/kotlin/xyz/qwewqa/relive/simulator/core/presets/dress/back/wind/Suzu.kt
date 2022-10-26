@@ -1,7 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.wind
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.BurnOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.NormalDamageOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SeiranOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress5020001
 import xyz.qwewqa.relive.simulator.core.stage.Act
@@ -9,11 +8,16 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.AbsorbBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.ApUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.StopBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.log
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.DamageDealtPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyBurnBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfFortitudeBuffPassive
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.ConcentrationWind
 
 val StageGirlSuzu = dress5020001(

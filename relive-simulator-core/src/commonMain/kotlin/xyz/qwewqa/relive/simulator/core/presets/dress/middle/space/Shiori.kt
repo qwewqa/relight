@@ -1,14 +1,19 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.space
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.condition.LovesicknessOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4040010
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.InvincibilityBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.LockedLovesicknessBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyFront5LovesicknessBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfTurnBrillianceRecoveryPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamHpUpPassive
 
 val JulietShiori = dress4040010(
     name = "Juliet Shiori",
@@ -86,5 +91,5 @@ val JulietShiori = dress4040010(
             EnemyFront5LovesicknessBuffPassive.new(time = 2),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + SpaceOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (SpaceOnlyCondition or StarOnlyCondition),
 )

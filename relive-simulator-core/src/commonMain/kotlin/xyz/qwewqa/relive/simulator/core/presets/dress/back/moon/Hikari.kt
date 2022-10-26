@@ -1,15 +1,21 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.moon
 
-import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
-import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageMoon
 import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1020017
 import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.ActPowerDownBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.BlindnessBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.PerfectAimBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.BlindnessResistancePassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.DamageDealtPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamActPowerUpBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageMoon
 
 val StageGirlHikari = dress1020017(
     name = "Stage Girl Hikari",

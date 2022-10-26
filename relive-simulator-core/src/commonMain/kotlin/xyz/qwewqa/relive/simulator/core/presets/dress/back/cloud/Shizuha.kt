@@ -3,14 +3,21 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud
 import xyz.qwewqa.relive.simulator.core.presets.condition.CloudOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.FrontierOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3050008
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.ActPowerUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.EffectiveDamageDealtUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.MarkBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.SpecialDefenseDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyFront3NightmareBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfReviveBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamHpUpPassive
 
 val JudgementShizuha = dress3050008(
     name = "Judgement Shizuha",
@@ -103,6 +110,6 @@ val JudgementShizuha = dress3050008(
             EnemyFront3NightmareBuffPassive.new(6666, 1),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + CloudOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (CloudOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.Arcana),
 )

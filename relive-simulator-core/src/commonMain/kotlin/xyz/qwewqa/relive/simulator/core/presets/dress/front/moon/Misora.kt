@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.front.moon
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.MoonOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3020015
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -8,7 +9,10 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.HPDef75UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamConfusionResistanceBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamStopResistanceBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamStunResistanceBuffPassive
 
 val FaithMisora = dress3020015(
     name = "Faith Misora",
@@ -96,6 +100,6 @@ val FaithMisora = dress3020015(
             TeamStopResistanceBuffPassive.new(time = 6),
         ),
     ),
-    unitSkill = HPDef75UnitSkill + MoonOnlyCondition,
+    unitSkill = HPDef75UnitSkill + (MoonOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.Arcana, DressCategory.TroupeRevueShop),
 )

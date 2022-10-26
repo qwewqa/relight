@@ -1,12 +1,14 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.MoonOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4060002
-import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.ApDownBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
@@ -92,5 +94,5 @@ val FutureStageGirlStella = dress4060002(
             CutinInitialCooldownReductionPassive.new(1),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + MoonOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (MoonOnlyCondition or StarOnlyCondition),
 )

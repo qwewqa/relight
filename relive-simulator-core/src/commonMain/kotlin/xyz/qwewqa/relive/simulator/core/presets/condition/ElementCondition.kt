@@ -10,6 +10,8 @@ val MoonOnlyCondition = attributeCondition(Attribute.Moon)
 val SpaceOnlyCondition = attributeCondition(Attribute.Space)
 val CloudOnlyCondition = attributeCondition(Attribute.Cloud)
 val DreamOnlyCondition = attributeCondition(Attribute.Dream)
+val SunOnlyCondition = attributeCondition(Attribute.Sun)
+val StarOnlyCondition = attributeCondition(Attribute.Star)
 
 fun Attribute.condition() = when (this) {
     Attribute.Neutral -> error("Neutral element condition not supported.") // Not expecting for this to be needed
@@ -20,6 +22,8 @@ fun Attribute.condition() = when (this) {
     Attribute.Space -> SpaceOnlyCondition
     Attribute.Cloud -> CloudOnlyCondition
     Attribute.Dream -> DreamOnlyCondition
+    Attribute.Sun -> SunOnlyCondition
+    Attribute.Star -> StarOnlyCondition
 }
 
 private fun attributeCondition(attribute: Attribute) = NamedCondition(attribute.name) {

@@ -2,13 +2,13 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.back.dream
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.NormalDamageOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3010018
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
-import xyz.qwewqa.relive.simulator.core.stage.Act
-import xyz.qwewqa.relive.simulator.core.stage.actor.ActType.*
 
 val WhiteFrontierAruru = dress3010018(
     name = "White Frontier Aruru",

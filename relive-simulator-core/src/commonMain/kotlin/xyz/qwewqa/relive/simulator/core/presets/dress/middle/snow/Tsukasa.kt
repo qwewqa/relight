@@ -1,6 +1,8 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.condition.FrontierOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SnowOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3040018
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -8,7 +10,10 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfFortitudeBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamHpUpPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamPerfectAimBuffPassive
 
 val YellowTsukasa = dress3040018(
     name = "Yellow Frontier Tsukasa",
@@ -109,6 +114,6 @@ val YellowTsukasa = dress3040018(
             TeamPerfectAimBuffPassive.new(time = 3),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (SnowOnlyCondition or SunOnlyCondition),
     categories = setOf(DressCategory.Birthday2022),
 )

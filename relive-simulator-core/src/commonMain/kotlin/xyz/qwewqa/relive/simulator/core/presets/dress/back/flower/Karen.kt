@@ -1,13 +1,17 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.flower
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.FlowerOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1010019
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.NegativeEffectResistancePassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfReviveBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamHpUpPassive
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.DeathsKiss
 
 val RomeoKaren = dress1010019(
@@ -85,5 +89,5 @@ val RomeoKaren = dress1010019(
             NegativeEffectResistancePassive.new(50),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + FlowerOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (FlowerOnlyCondition or SunOnlyCondition),
 )

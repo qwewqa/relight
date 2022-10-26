@@ -1,14 +1,18 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.wind
 
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.WindOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1010021
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.NormalReflectBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.SpecialReflectBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfFortitudeBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfReviveBuffPassive
 
 val OfficerKaren = dress1010021(
     name = "Officer Karen",
@@ -87,5 +91,5 @@ val OfficerKaren = dress1010021(
             // TODO: Countable NER Self Passive
         )
     ),
-    unitSkill = ActCritical50UnitSkill + WindOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (WindOnlyCondition or SunOnlyCondition),
 )

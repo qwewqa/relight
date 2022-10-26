@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.wind
 
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.WindOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress9010001
 import xyz.qwewqa.relive.simulator.core.stage.Act
@@ -92,5 +93,5 @@ val ImperialCombatRevueFlowerDivisionSakura = dress9010001(
             NegativeEffectResistancePassive.new(50),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + WindOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (WindOnlyCondition or SunOnlyCondition),
 )

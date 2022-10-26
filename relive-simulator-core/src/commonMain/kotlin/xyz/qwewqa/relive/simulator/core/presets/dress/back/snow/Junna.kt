@@ -2,13 +2,17 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.back.snow
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.BackOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SnowOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1060017
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1060024
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.ActPowerUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.ClimaxDamageUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.DamageTakenDownBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.PerfectAimBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
@@ -171,6 +175,6 @@ val HuntingRevueJunna = dress1060024(
             EnemyAPUpBuffPassive.new(time = 3) + BackOnlyCondition,
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (SnowOnlyCondition or SunOnlyCondition),
     multipleCA = true,
 )

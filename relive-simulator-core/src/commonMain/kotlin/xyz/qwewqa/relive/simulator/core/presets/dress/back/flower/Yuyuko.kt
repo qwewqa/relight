@@ -2,12 +2,14 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.back.flower
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.FlowerOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.RinmeikanOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2050018
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.ApDownBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
@@ -88,6 +90,6 @@ val EurydiceYuyuko = dress2050018(
             TeamAPDownBuffPassive.new(time = 2) + RinmeikanOnlyCondition,
         )
     ),
-    unitSkill = ActCritical50UnitSkill + FlowerOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (FlowerOnlyCondition or SunOnlyCondition),
     categories = setOf(DressCategory.Birthday2022),
 )

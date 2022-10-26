@@ -1,14 +1,22 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.CloudOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3020017
 import xyz.qwewqa.relive.simulator.core.stage.Act
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.ApDownBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.DexterityUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.LockedPositiveEffectResistanceBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyBrillianceDrainPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.NegativeEffectResistancePassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfReviveBuffPassive
 
 val StageGirlMisora = dress3020017(
     name = "Stage Girl Misora",
@@ -83,6 +91,6 @@ val StageGirlMisora = dress3020017(
             NegativeEffectResistancePassive.new(50),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + CloudOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (CloudOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.StageGirl),
 )

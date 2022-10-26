@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.moon
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.MoonOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4050016
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -98,5 +99,5 @@ val CourtChampionYachiyo = dress4050016(
             DexterityPassive.new(30),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + MoonOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (MoonOnlyCondition or StarOnlyCondition),
 )

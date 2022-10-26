@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.front.wind
 
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.WindOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1080004
 import xyz.qwewqa.relive.simulator.core.stage.Act
@@ -8,7 +9,10 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.HPDef75UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamConfusionResistanceBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamFreezeResistanceBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamStunResistanceBuffPassive
 
 val StrengthFutaba = dress1080004(
     name = "Strength Futaba",
@@ -98,6 +102,6 @@ val StrengthFutaba = dress1080004(
             TeamStunResistanceBuffPassive.new(time = 6),
         ),
     ),
-    unitSkill = HPDef75UnitSkill + WindOnlyCondition,
+    unitSkill = HPDef75UnitSkill + (WindOnlyCondition or SunOnlyCondition),
     categories = setOf(DressCategory.Arcana),
 )

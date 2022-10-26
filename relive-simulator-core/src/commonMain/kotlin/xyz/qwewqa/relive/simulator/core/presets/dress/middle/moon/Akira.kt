@@ -1,6 +1,9 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.condition.MoonOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SiegfeldOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4010017
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
@@ -10,7 +13,6 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.HyakkaRyoran
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4010017
 
 val StageGirlAkira = dress4010017(
     name = "Stage Girl Akira",
@@ -118,6 +120,6 @@ val StageGirlAkira = dress4010017(
             EnemyBack3LockedAPUpBuffPassive.new(time = 3),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + MoonOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (MoonOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.StageGirl),
 )

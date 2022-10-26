@@ -1,16 +1,15 @@
 package xyz.qwewqa.relive.simulator.core.presets.memoir
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.KaorukoOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.characterCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.schoolCondition
 import xyz.qwewqa.relive.simulator.core.presets.memoir.generated.*
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.presets.condition.characterCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.schoolCondition
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow.HopeLalafin
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.EffectTag
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinTarget
 import xyz.qwewqa.relive.simulator.core.stage.memoir.MemoirBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint

@@ -3,9 +3,10 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.back.space
 import xyz.qwewqa.relive.simulator.core.presets.condition.NormalDamageOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1070024
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1070004
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1070015
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1070024
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
@@ -201,7 +202,7 @@ val JusticeNana = dress1070004(
             EnemyBrillianceDrainPassive.new(20),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + SpaceOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (SpaceOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.Arcana),
 )
 
@@ -282,5 +283,5 @@ val HuntingRevueNana = dress1070024(
             ConditionalDamageDealtPassive(SeishoOnlyCondition).new(20),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + SpaceOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (SpaceOnlyCondition or StarOnlyCondition),
 )

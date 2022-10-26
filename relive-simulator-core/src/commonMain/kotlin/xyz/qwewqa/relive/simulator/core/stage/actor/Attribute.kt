@@ -9,6 +9,8 @@ enum class Attribute {
     Space,
     Cloud,
     Dream,
+    Sun,
+    Star,
 }
 
 // Has a minor performance benefit
@@ -94,6 +96,7 @@ private fun effectiveCoef(attacker: Attribute, defender: Attribute) = when (defe
         Attribute.Snow -> 150
         Attribute.Wind -> 50
         Attribute.Dream -> 125
+        Attribute.Sun -> 200
         else -> 100
     }
 
@@ -101,6 +104,7 @@ private fun effectiveCoef(attacker: Attribute, defender: Attribute) = when (defe
         Attribute.Flower -> 150
         Attribute.Snow -> 50
         Attribute.Dream -> 125
+        Attribute.Sun -> 200
         else -> 100
     }
 
@@ -108,6 +112,7 @@ private fun effectiveCoef(attacker: Attribute, defender: Attribute) = when (defe
         Attribute.Wind -> 150
         Attribute.Flower -> 50
         Attribute.Dream -> 125
+        Attribute.Sun -> 200
         else -> 100
     }
 
@@ -115,6 +120,7 @@ private fun effectiveCoef(attacker: Attribute, defender: Attribute) = when (defe
         Attribute.Cloud -> 150
         Attribute.Space -> 50
         Attribute.Dream -> 125
+        Attribute.Star -> 200
         else -> 100
     }
 
@@ -122,6 +128,7 @@ private fun effectiveCoef(attacker: Attribute, defender: Attribute) = when (defe
         Attribute.Moon -> 150
         Attribute.Cloud -> 50
         Attribute.Dream -> 125
+        Attribute.Star -> 200
         else -> 100
     }
 
@@ -129,13 +136,35 @@ private fun effectiveCoef(attacker: Attribute, defender: Attribute) = when (defe
         Attribute.Space -> 150
         Attribute.Moon -> 50
         Attribute.Dream -> 125
+        Attribute.Star -> 200
         else -> 100
     }
 
     Attribute.Dream -> when (attacker) {
         Attribute.Dream -> 100
         Attribute.Neutral -> 100
+        Attribute.Sun -> 150
+        Attribute.Star -> 150
         else -> 150
     }
+
+    Attribute.Sun -> when (attacker) {
+        Attribute.Dream -> 125
+        Attribute.Neutral -> 100
+        Attribute.Flower -> 50
+        Attribute.Wind -> 50
+        Attribute.Snow -> 50
+        else -> 150
+    }
+
+    Attribute.Star -> when (attacker) {
+        Attribute.Dream -> 125
+        Attribute.Neutral -> 100
+        Attribute.Moon -> 50
+        Attribute.Space -> 50
+        Attribute.Cloud -> 50
+        else -> 150
+    }
+
     else -> 100
 }

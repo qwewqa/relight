@@ -7,7 +7,10 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical30UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyBrillianceDrainPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamAPDownBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamHpUpPassive
 
 val MitsuhideKaren = dress1010018(
     name = "Akechi Mitsuhide Karen",

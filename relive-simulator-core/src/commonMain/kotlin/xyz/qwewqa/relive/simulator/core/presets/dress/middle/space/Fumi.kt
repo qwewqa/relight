@@ -1,12 +1,16 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.space
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2030013
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.DexterityUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.EffectiveDamageDealtUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.PerfectAimBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
@@ -100,5 +104,5 @@ val DonJoseFumi = dress2030013(
             TeamDexterityUpPassive.new(30) + SpaceOnlyCondition,
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + SpaceOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (SpaceOnlyCondition or StarOnlyCondition),
 )

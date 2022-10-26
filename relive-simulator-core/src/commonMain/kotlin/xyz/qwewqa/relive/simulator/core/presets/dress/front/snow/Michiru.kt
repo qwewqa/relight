@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.front.snow
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.FreezeOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SnowOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4020004
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -9,7 +10,10 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.HPDef75UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamBlindnessResistanceBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamConfusionResistanceBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamSleepResistanceBuffPassive
 
 val HierophantMichiru = dress4020004(
     name = "Hierophant Michiru",
@@ -97,6 +101,6 @@ val HierophantMichiru = dress4020004(
             TeamSleepResistanceBuffPassive.new(time = 6),
         ),
     ),
-    unitSkill = HPDef75UnitSkill + SnowOnlyCondition,
+    unitSkill = HPDef75UnitSkill + (SnowOnlyCondition or SunOnlyCondition),
     categories = setOf(DressCategory.Arcana),
 )

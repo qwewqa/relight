@@ -2,13 +2,17 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.back.space
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.RinmeikanOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2020017
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2020018
-import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.ApDownBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.ApUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.FreezeBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
@@ -76,7 +80,7 @@ val StageGirlIchie = dress2020017(
             EnemyFront2FreezeBuffPassive.new(1),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + SpaceOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (SpaceOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.StageGirl),
 )
 
@@ -168,6 +172,6 @@ val CerberusIchie = dress2020018(
             TeamAPDownBuffPassive.new(time = 1) + RinmeikanOnlyCondition,
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + SpaceOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (SpaceOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.Birthday2022),
 )

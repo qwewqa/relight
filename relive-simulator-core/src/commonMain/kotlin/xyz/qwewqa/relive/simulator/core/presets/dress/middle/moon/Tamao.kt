@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.MoonOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2010014
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -82,5 +83,5 @@ val HijikataToshizoTamao = dress2010014(
             EnemyBrillianceDrainPassive.new(50),
         )
     ),
-    unitSkill = ActCritical30UnitSkill + MoonOnlyCondition,
+    unitSkill = ActCritical30UnitSkill + (MoonOnlyCondition or StarOnlyCondition),
 )

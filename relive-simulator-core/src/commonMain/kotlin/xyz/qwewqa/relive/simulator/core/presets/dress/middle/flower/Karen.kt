@@ -4,20 +4,22 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower
 import xyz.qwewqa.relive.simulator.core.presets.condition.BackOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.FlowerOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1010017
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1010024
+import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.buff.ApDownBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.BrillianceRegenBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.NormalDefenseUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.SpecialDefenseUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.GlitteringStage
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.RoaringFire
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageFlower
-import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageSpace
 
 val StageGirlKaren = dress1010017(
     name = "Stage Girl Karen",
@@ -173,6 +175,6 @@ val FinalLinesKaren = dress1010024(
             TeamHpUpPassive.new(50) + SeishoOnlyCondition,
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + FlowerOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (FlowerOnlyCondition or SunOnlyCondition),
     multipleCA = true,
 )

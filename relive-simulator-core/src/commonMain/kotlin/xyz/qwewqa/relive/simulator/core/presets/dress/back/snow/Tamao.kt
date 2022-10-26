@@ -1,14 +1,22 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.snow
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.SnowOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2010015
 import xyz.qwewqa.relive.simulator.core.stage.Act
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.DexterityUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.MarkBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.NegativeEffectResistanceBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.NormalDefenseDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyBack1ConfusionBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyBrillianceDrainPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfReviveBuffPassive
 
 val DeathTamao = dress2010015(
     name = "Death Tamao",
@@ -96,6 +104,6 @@ val DeathTamao = dress2010015(
             SelfReviveBuffPassive.new(50, time = 1),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (SnowOnlyCondition or SunOnlyCondition),
     categories = setOf(DressCategory.Arcana),
 )

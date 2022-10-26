@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.MoonOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress9020001
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -93,5 +94,5 @@ val ParisCombatRevueFlowerDivisionErika = dress9020001(
             SelfReviveBuffPassive.new(50, time = 1),
         )
     ),
-    unitSkill = ActCritical50UnitSkill + MoonOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (MoonOnlyCondition or StarOnlyCondition),
 )

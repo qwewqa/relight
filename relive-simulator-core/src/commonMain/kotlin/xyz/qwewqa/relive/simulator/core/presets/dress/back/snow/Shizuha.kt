@@ -1,15 +1,19 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.snow
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.condition.SnowOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3050018
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.AgonyBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.NegativeEffectResistancePassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamNegativeEffectResistanceBuffPassive
 
 val BlackShizuha = dress3050018(
     name = "Black Frontier Shizuha",
@@ -95,6 +99,6 @@ val BlackShizuha = dress3050018(
             TeamNegativeEffectResistanceBuffPassive.new(100, 1),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (SnowOnlyCondition or SunOnlyCondition),
     categories = setOf(DressCategory.Birthday2022),
 )

@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.CloudOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2050010
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType.*
@@ -8,7 +9,10 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.DamageDealtPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.DamageTakenDownPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamCriticalUpBuffPassive
 
 val MagicianYuyuko = dress2050010(
     name = "Magician Yuyuko",
@@ -106,6 +110,6 @@ val MagicianYuyuko = dress2050010(
             DamageTakenDownPassive.new(10),
         )
     ),
-    unitSkill = ActCritical50UnitSkill + CloudOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (CloudOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.Arcana),
 )

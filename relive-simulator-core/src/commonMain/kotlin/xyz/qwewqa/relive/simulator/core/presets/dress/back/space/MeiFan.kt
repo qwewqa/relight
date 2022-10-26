@@ -1,15 +1,17 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.space
 
+import xyz.qwewqa.relive.simulator.core.presets.condition.MeiFanOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4030018
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.ApDownBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
-import xyz.qwewqa.relive.simulator.core.presets.condition.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 
 val SakataNoKintokiMeiFan = dress4030018(
     name = "Sakata no Kintoki Mei Fan",
@@ -107,6 +109,6 @@ val SakataNoKintokiMeiFan = dress4030018(
             EnemyBrillianceDrainPassive.new(20),
         )
     ),
-    unitSkill = ActCritical50UnitSkill + SpaceOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (SpaceOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.Birthday2022),
 )

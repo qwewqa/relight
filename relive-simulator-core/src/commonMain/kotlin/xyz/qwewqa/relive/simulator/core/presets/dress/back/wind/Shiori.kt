@@ -1,15 +1,21 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.wind
 
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4040015
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.WindOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4040015
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.ActPowerDownBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.ClimaxDamageDownBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.DexterityDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyDexterityDownBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfFortitudeBuffPassive
 
 val ChariotShiori = dress4040015(
     name = "Chariot Shiori",
@@ -88,6 +94,6 @@ val ChariotShiori = dress4040015(
             SelfFortitudeBuffPassive.new(1),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + WindOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (WindOnlyCondition or SunOnlyCondition),
     categories = setOf(DressCategory.Arcana),
 )

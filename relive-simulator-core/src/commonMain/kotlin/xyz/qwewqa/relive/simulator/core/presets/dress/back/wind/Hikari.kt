@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.wind
 
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.WindOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1020019
 import xyz.qwewqa.relive.simulator.core.stage.Act
@@ -90,5 +91,5 @@ val SakuraShingujiHikari = dress1020019(
             TeamAgilityUpBuffPassive.new(10, time = 3),
         )
     ),
-    unitSkill = ActCritical50UnitSkill + WindOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (WindOnlyCondition or SunOnlyCondition),
 )

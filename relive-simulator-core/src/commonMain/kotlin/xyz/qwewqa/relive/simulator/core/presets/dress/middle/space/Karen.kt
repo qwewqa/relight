@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.space
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1010014
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1010020
 import xyz.qwewqa.relive.simulator.core.stage.Act
@@ -93,7 +94,7 @@ val WheelOfFortuneKaren = dress1010014(
             SelfClimaxDamageUpBuffPassive.new(10),
         )
     ),
-    unitSkill = ActCritical50UnitSkill + SpaceOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (SpaceOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.Arcana),
 )
 
@@ -164,5 +165,5 @@ val OkuninushiKaren = dress1010020(
             TeamNegativeEffectResistanceBuffPassive.new(100, 1),
         )
     ),
-    unitSkill = ActCritical50UnitSkill + SpaceOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (SpaceOnlyCondition or StarOnlyCondition),
 )

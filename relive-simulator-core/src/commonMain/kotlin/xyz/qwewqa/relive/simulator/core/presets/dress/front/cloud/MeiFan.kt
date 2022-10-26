@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.front.cloud
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.CloudOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4030003
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -8,7 +9,10 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyProvokeBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.HPDef75UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.NegativeEffectResistancePassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfFortitudeBuffPassive
 
 val EmpressMeiFan = dress4030003(
     name = "Empress Mei Fan",
@@ -92,6 +96,6 @@ val EmpressMeiFan = dress4030003(
             SelfFortitudeBuffPassive.new(time = 1),
         ),
     ),
-    unitSkill = HPDef75UnitSkill + CloudOnlyCondition,
+    unitSkill = HPDef75UnitSkill + (CloudOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.Arcana),
 )

@@ -2,13 +2,17 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.back.space
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1080017
+import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.buff.HPRecoveryDownBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.NormalDefenseDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical30UnitSkillStageGirl
+import xyz.qwewqa.relive.simulator.core.stage.passive.DexterityPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfEvasionBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.StunResistancePassive
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageSpace
 
 val StageGirlFutaba = dress1080017(

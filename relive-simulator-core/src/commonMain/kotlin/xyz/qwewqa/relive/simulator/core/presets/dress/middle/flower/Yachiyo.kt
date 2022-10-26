@@ -5,9 +5,13 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4050013
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.ApUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfReviveBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamBrillianceRecoveryPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamHpUpPassive
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.DeathsKiss
 
 val LokiYachiyo = dress4050013(

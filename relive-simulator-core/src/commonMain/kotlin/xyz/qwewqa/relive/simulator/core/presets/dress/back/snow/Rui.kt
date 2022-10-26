@@ -1,9 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.snow
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.FrontierOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.SnowOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.SpecialDamageOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.TamaoOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2040012
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2040017
 import xyz.qwewqa.relive.simulator.core.stage.Act
@@ -102,7 +99,7 @@ val StageGirlRui = dress2040017(
             TeamBrillianceRecoveryPassive.new(20) + TamaoOnlyCondition,
         )
     ),
-    unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (SnowOnlyCondition or SunOnlyCondition),
     categories = setOf(DressCategory.StageGirl),
 )
 
@@ -209,5 +206,5 @@ val OfficerRui = dress2040012(
             EnemyBack3LockedAPUpBuffPassive.new(time = 3),
         )
     ),
-    unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (SnowOnlyCondition or SunOnlyCondition),
 )

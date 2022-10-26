@@ -2,7 +2,6 @@ package xyz.qwewqa.relive.simulator.core.stage.stageeffect
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.*
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.condition.or
 
 val AngelicSmile = StageEffect(
     "Angelic Smile",

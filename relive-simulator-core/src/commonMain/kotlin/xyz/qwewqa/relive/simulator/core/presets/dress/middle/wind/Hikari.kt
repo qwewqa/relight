@@ -1,14 +1,22 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind
 
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.WindOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1020004
 import xyz.qwewqa.relive.simulator.core.stage.Act
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.DexterityUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.MarkBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.NormalBarrierBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.PerfectAimBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfFortitudeBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamCriticalUpBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamDexterityUpBuffPassive
 
 val TowerHikari = dress1020004(
     name = "Tower Hikari",
@@ -97,6 +105,6 @@ val TowerHikari = dress1020004(
             TeamDexterityUpBuffPassive.new(10, time = 3),
         )
     ),
-    unitSkill = ActCritical50UnitSkill + WindOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (WindOnlyCondition or SunOnlyCondition),
     categories = setOf(DressCategory.Arcana, DressCategory.TroupeRevueShop),
 )

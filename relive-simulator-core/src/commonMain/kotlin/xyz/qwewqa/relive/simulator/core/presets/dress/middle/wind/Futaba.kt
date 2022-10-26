@@ -4,15 +4,17 @@ import xyz.qwewqa.relive.simulator.core.presets.condition.MiddleOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.NormalDamageOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1080013
 import xyz.qwewqa.relive.simulator.core.stage.Act
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.buff.ActPowerUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.DexterityUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.EffectiveDamageDealtUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
-import xyz.qwewqa.relive.simulator.stage.character.Character
-import xyz.qwewqa.relive.simulator.stage.character.DamageType
-import xyz.qwewqa.relive.simulator.stage.character.Position
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical30UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.EffectiveDamageDealtPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamCriticalUpBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamDexterityUpBuffPassive
 
 val HondaFutaba = dress1080013(
     name = "Honda Tadakatsu Futaba",

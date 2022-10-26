@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.SnowOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SpecialDamageOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1030024
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType.*
@@ -90,6 +91,6 @@ val CompetitionRevueMahiru = dress1030024(
             TeamBrillianceGainUpBuffPassive.new(50, 3),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + SnowOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (SnowOnlyCondition or SunOnlyCondition),
     multipleCA = true,
 )

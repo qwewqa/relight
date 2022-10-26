@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.CloudOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.RinmeikanOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2010017
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType.*
@@ -111,6 +112,6 @@ val StageGirlTamao = dress2010017(
             EnemyBrillianceDrainPassive.new(50),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + CloudOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (CloudOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.StageGirl),
 )

@@ -22,11 +22,11 @@ data class NamedCondition(
     val condition: Condition,
 ) : Condition by condition {
     val displayName get() = "$name only"
-}
 
-infix fun NamedCondition.or(other: NamedCondition) = NamedCondition(
-    "$name or ${other.name}"
-) { condition.evaluate(it) || other.condition.evaluate(it) }
+    infix fun or(other: NamedCondition) = NamedCondition(
+        "$name or ${other.name}"
+    ) { condition.evaluate(it) || other.condition.evaluate(it) }
+}
 
 operator fun NamedCondition?.plus(other: NamedCondition?) = if (this != null) {
     if (other != null) {

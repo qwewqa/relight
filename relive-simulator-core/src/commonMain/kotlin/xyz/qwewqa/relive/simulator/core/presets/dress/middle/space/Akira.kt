@@ -1,12 +1,15 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.space
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.condition.MiddleOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4010019
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.ApDownBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.LockedResilienceBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.PoisonBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.SelfTrapping
@@ -92,5 +95,5 @@ val DelightAkira = dress4010019(
             TeamAPDownBuffPassive.new(time = 1),
         ),
     ),
-    unitSkill = (ActCritical50UnitSkill + SpaceOnlyCondition) + (ActCritical50UnitSkill + MiddleOnlyCondition),
+    unitSkill = (ActCritical50UnitSkill + (SpaceOnlyCondition or StarOnlyCondition)) + (ActCritical50UnitSkill + MiddleOnlyCondition),
 )

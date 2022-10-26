@@ -1,8 +1,9 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.front.snow
 
-import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.presets.condition.SnowOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4040011
+import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
@@ -105,5 +106,5 @@ val BloodyDevilShiori = dress4040011(
             EnemyLockedAggroBuffPassive.new(time = 2),
         ),
     ),
-    unitSkill = HPDef75UnitSkill + SnowOnlyCondition,
+    unitSkill = HPDef75UnitSkill + (SnowOnlyCondition or SunOnlyCondition),
 )

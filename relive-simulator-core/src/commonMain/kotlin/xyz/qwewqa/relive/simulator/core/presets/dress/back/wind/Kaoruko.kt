@@ -2,16 +2,19 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.back.wind
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.WindOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1090017
-import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.Act
-import xyz.qwewqa.relive.simulator.core.stage.HitMode
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.AgilityUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.ApDownBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.ApUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.log
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical30UnitSkillStageGirl
+import xyz.qwewqa.relive.simulator.core.stage.passive.DexterityPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.SelfEvasionBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.StunResistancePassive
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageWind
 
 val StageGirlKaoruko = dress1090017(

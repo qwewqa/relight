@@ -2,14 +2,21 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.ArcanaOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.MoonOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3010015
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.ApDownBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.ConfusionBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.LockedPositiveEffectResistanceBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyBrillianceDrainPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamEvasionBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamReviveBuffPassive
 
 val MoonAruru = dress3010015(
     name = "Moon Aruru",
@@ -80,6 +87,6 @@ val MoonAruru = dress3010015(
             TeamReviveBuffPassive.new(50, time = 2) + ArcanaOnlyCondition,
         )
     ),
-    unitSkill = ActCritical50UnitSkill + MoonOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (MoonOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.Arcana),
 )

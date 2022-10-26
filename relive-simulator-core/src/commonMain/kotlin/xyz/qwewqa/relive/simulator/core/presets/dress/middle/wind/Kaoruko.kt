@@ -1,13 +1,10 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.KaorukoOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.SpecialDamageOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.NormalDamageOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.WindOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1090022
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1090016
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1090022
 import xyz.qwewqa.relive.simulator.core.stage.Act
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
@@ -170,5 +167,5 @@ val MurasakiKaoruko = dress1090016(
             SelfNegativeEffectResistanceBuffPassive.new(100, 3),
         )
     ),
-    unitSkill = ActCritical50UnitSkill + WindOnlyCondition,
+    unitSkill = ActCritical50UnitSkill + (WindOnlyCondition or SunOnlyCondition),
 )
