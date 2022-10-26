@@ -573,3 +573,6 @@
 
 # v0.34.5
 - Added Discord server link
+
+# v0.34.6
+- New TR bosses added by Mikayla
