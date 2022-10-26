@@ -7,4 +7,4 @@ import java.util.*
 
 actual fun activeBuffSet(): MutableSet<ActiveBuff> = linkedSetOf()
 actual fun <V> buffEffectMap(): MutableMap<TimedBuffEffect, V> = linkedMapOf()
-actual fun countableBuffMap(): MutableMap<CountableBuff, Int> = EnumMap(CountableBuff::class.java)
+actual fun countableBuffMap(): MutableMap<CountableBuff, MutableList<CountableBuffStack>> = EnumMap(CountableBuff::class.java)

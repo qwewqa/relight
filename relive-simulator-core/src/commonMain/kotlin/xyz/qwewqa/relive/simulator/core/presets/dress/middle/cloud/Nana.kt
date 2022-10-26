@@ -114,7 +114,7 @@ val DemonKingNana = dress1070023(
                     )
                 }
                 targetAoe(SeishoOnlyCondition).act {
-                    reduceCountable(BuffCategory.Positive)
+                    dispelCountable(BuffCategory.Positive, 1)
                 }
             }
         },

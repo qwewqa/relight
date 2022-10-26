@@ -97,14 +97,14 @@ class ActionContext(
 
     fun Team.forEach(action: (Actor) -> Unit) = active.forEach(action)
 
-    fun applyAllyStageEffect(effect: StageEffect, turns: Int) {
-        log("Stage Effect", category = LogCategory.BUFF) { "Apply stage effect ${effect.name} (${turns}t) to ally stage." }
-        team.stageEffects.add(effect, turns)
+    fun applyAllyStageEffect(effect: StageEffect, turns: Int, level: Int = 1) {
+        log("Stage Effect", category = LogCategory.BUFF) { "Apply stage effect ${effect.name} lv$level (${turns}t) to ally stage." }
+        team.stageEffects.add(effect, turns, level)
     }
 
-    fun applyEnemyStageEffect(effect: StageEffect, turns: Int) {
-        log("Stage Effect", category = LogCategory.BUFF) { "Apply stage effect ${effect.name} (${turns}t) to enemy stage." }
-        enemy.stageEffects.add(effect, turns)
+    fun applyEnemyStageEffect(effect: StageEffect, turns: Int, level: Int = 1) {
+        log("Stage Effect", category = LogCategory.BUFF) { "Apply stage effect ${effect.name} lv$level (${turns}t) to enemy stage." }
+        enemy.stageEffects.add(effect, turns, level)
     }
 }
 
@@ -279,14 +279,26 @@ class TargetContext(
         }
     }
 
-    fun reduceCountable(category: BuffCategory) {
+    fun dispelCountable(category: BuffCategory, count: Int) {
         if (!self.isAlive) return
         for (originalTarget in targets) {
             val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
-                actionContext.log("Reduce", category = LogCategory.BUFF) {"Remove one of each ${category.name} countable effect from [$name]." }
-                buffs.reduceCountable(category)
+                actionContext.log("Dispel", category = LogCategory.BUFF) { "Dispel ${count}x countable ${category.name} effects from [$name]." }
+                buffs.dispelCountable(category, count)
+            }
+        }
+    }
+
+    fun dispelCountable(effect: CountableBuff, count: Int) {
+        if (!self.isAlive) return
+        for (originalTarget in targets) {
+            val target = aggroTarget ?: originalTarget
+            if (!target.isAlive) continue
+            target.apply {
+                actionContext.log("Dispel", category = LogCategory.BUFF) { "Dispel ${count}x countable effect ${effect.name} from [$name]." }
+                buffs.dispelCountable(effect, count)
             }
         }
     }

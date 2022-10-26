@@ -1426,14 +1426,14 @@ ${
                 "Countable" {
                     "Positive" {
                         buffs.countablePositive()
-                            .filter { (_, v) -> v > 0 }
+                            .filter { (_, v) -> v.isNotEmpty() }
                             .map { (k, v) -> "[$k] x$v" }
                             .sorted()
                             .forEach { +it }
                     }
                     "Negative" {
                         buffs.countableNegative()
-                            .filter { (_, v) -> v > 0 }
+                            .filter { (_, v) -> v.isNotEmpty() }
                             .map { (k, v) -> "[$k] x$v" }
                             .sorted()
                             .forEach { +it }

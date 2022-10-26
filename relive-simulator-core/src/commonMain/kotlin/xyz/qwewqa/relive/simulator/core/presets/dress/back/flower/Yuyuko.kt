@@ -40,7 +40,7 @@ val EurydiceYuyuko = dress2050018(
                 }
                 targetAllyAoe(RinmeikanOnlyCondition).act {
                     dispelTimed(BuffCategory.Negative)
-                    reduceCountable(BuffCategory.Negative)
+                    dispelCountable(BuffCategory.Negative, 1)
                 }
             }
         },

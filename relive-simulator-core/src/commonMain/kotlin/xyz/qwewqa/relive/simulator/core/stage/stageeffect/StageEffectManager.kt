@@ -15,17 +15,17 @@ class StageEffectManager(val team: Team) {
 
     fun values() = levels.mapNotNull { (k, v) -> (k to v).takeIf { v > 9 } }
 
-    fun add(effect: StageEffect, turns: Int) {
+    fun add(effect: StageEffect, turns: Int, level: Int = 1) {
         if (turns <= 0) return
-        activeStacks += ActiveStageEffect(effect, turns)
-        levels[effect] = (levels[effect] ?: 0) + 1
+        activeStacks += ActiveStageEffect(effect, turns, level)
+        levels[effect] = (levels[effect] ?: 0) + level
     }
 
     fun tick() {
         activeStacks.forEach { stack ->
             stack.turns--
             if (stack.turns == 0) {
-                levels[stack.effect] = levels[stack.effect]!! - 1
+                levels[stack.effect] = levels[stack.effect]!! - stack.level
                 statuses.remove(stack.effect)?.deactivate()
             }
         }
@@ -107,5 +107,5 @@ class StageEffectManager(val team: Team) {
     }.filter { effect.condition?.evaluate(it) ?: true }
 }
 
-data class ActiveStageEffect(val effect: StageEffect, var turns: Int)
+data class ActiveStageEffect(val effect: StageEffect, val level: Int, var turns: Int)
 data class StageEffectStatus(val effect: StageEffect, val effectBuffs: Map<Actor, List<ActiveBuff>>, val level: Int)

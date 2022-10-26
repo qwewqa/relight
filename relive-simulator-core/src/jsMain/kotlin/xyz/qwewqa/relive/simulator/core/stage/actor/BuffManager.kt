@@ -4,7 +4,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.TimedBuffEffect
 
 actual fun activeBuffSet(): MutableSet<ActiveBuff> = JsSet()
 actual fun <V> buffEffectMap(): MutableMap<TimedBuffEffect, V> = JsMap()
-actual fun countableBuffMap(): MutableMap<CountableBuff, Int> = JsMap()
+actual fun countableBuffMap(): MutableMap<CountableBuff, MutableList<CountableBuffStack>> = JsMap()
 
 @JsName("Map")
 external class RawJsMap {
