@@ -15,7 +15,7 @@ enum class Attribute {
 
 // Has a minor performance benefit
 class AttributeMap(val default: Int) : MutableMap<Attribute, Int> {
-    private val array = IntArray(8) { default }
+    private val array = IntArray(Attribute.values().size) { default }
 
     override val entries: MutableSet<MutableMap.MutableEntry<Attribute, Int>>
         get() {
