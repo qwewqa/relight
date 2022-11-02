@@ -107,5 +107,5 @@ class StageEffectManager(val team: Team) {
     }.filter { effect.condition?.evaluate(it) ?: true }
 }
 
-data class ActiveStageEffect(val effect: StageEffect, val level: Int, var turns: Int)
+class ActiveStageEffect(val effect: StageEffect, var turns: Int, val level: Int)
 data class StageEffectStatus(val effect: StageEffect, val effectBuffs: Map<Actor, List<ActiveBuff>>, val level: Int)
