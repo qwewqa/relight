@@ -361,7 +361,7 @@ class ActiveBuff(
             "${effect.formatName(value)} (${turns}/${originalTurns}t)"
         }
 
-    override fun toString() = "[${effect.name}](value = $value, turns = $turns)"
+    override fun toString() = "[${effect.name}](value = $value, turns = ${if (turns >= 0) turns else "!"})"
 }
 
 enum class CountableBuff(

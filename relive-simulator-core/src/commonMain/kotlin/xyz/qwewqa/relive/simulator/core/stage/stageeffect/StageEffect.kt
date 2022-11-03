@@ -8,8 +8,20 @@ import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 class StageEffect(
     val name: String,
     val iconId: Int,
-    val buffs: List<List<StageBuff>>,
+    val buffs: List<StageEffectBuffs>,
     val target: StageEffectTarget,
+) {
+    constructor(
+        name: String,
+        iconId: Int,
+        buffs: List<List<StageBuff>>,
+        target: StageEffectTarget,
+        condition: Condition? = null,
+    ) : this(name, iconId, listOf(StageEffectBuffs(buffs, condition)), target)
+}
+
+data class StageEffectBuffs(
+    val buffs: List<List<StageBuff>>,
     val condition: Condition? = null,
 ) {
     operator fun get(level: Int) = buffs[(level - 1).coerceAtMost(buffs.size - 1)]

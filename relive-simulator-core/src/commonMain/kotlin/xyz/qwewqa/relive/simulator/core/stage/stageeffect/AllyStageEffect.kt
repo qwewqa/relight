@@ -483,37 +483,61 @@ val ThisIsTheStage = StageEffect(
     "This is the Stage",
     48,
     listOf(
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(DexterityUpBuff, 30),
-            StageBuff(CriticalUpBuff, 30),
-            StageBuff(EffectiveDamageDealtUpBuff, 30),
+        StageEffectBuffs(
+            listOf(
+                listOf(
+                    StageBuff(ApDownBuff, 0),
+                    StageBuff(DexterityUpBuff, 30),
+                    StageBuff(CriticalUpBuff, 30),
+                    StageBuff(EffectiveDamageDealtUpBuff, 30),
+                ),
+                listOf(
+                    StageBuff(ApDownBuff, 0),
+                    StageBuff(DexterityUpBuff, 40),
+                    StageBuff(CriticalUpBuff, 40),
+                    StageBuff(EffectiveDamageDealtUpBuff, 40),
+                ),
+                listOf(
+                    StageBuff(ApDownBuff, 0),
+                    StageBuff(DexterityUpBuff, 50),
+                    StageBuff(CriticalUpBuff, 50),
+                    StageBuff(EffectiveDamageDealtUpBuff, 50),
+                ),
+                listOf(
+                    StageBuff(ApDownBuff, 0),
+                    StageBuff(DexterityUpBuff, 60),
+                    StageBuff(CriticalUpBuff, 60),
+                    StageBuff(EffectiveDamageDealtUpBuff, 60),
+                ),
+                listOf(
+                    StageBuff(ApDownBuff, 0),
+                    StageBuff(DexterityUpBuff, 70),
+                    StageBuff(CriticalUpBuff, 70),
+                    StageBuff(EffectiveDamageDealtUpBuff, 70),
+                ),
+            ),
+            SeishoOnlyCondition,
         ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(DexterityUpBuff, 40),
-            StageBuff(CriticalUpBuff, 40),
-            StageBuff(EffectiveDamageDealtUpBuff, 40),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(DexterityUpBuff, 50),
-            StageBuff(CriticalUpBuff, 50),
-            StageBuff(EffectiveDamageDealtUpBuff, 50),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(DexterityUpBuff, 60),
-            StageBuff(CriticalUpBuff, 60),
-            StageBuff(EffectiveDamageDealtUpBuff, 60),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(DexterityUpBuff, 70),
-            StageBuff(CriticalUpBuff, 70),
-            StageBuff(EffectiveDamageDealtUpBuff, 70),
+        StageEffectBuffs(
+            listOf(
+                listOf(
+                    StageBuff(DexterityUpBuff, 10),
+                ),
+                listOf(
+                    StageBuff(DexterityUpBuff, 15),
+                ),
+                listOf(
+                    StageBuff(DexterityUpBuff, 20),
+                ),
+                listOf(
+                    StageBuff(DexterityUpBuff, 25),
+                ),
+                listOf(
+                    StageBuff(DexterityUpBuff, 30),
+                ),
+            ),
+            KarenOnlyCondition or HikariOnlyCondition,
         ),
     ),
     StageEffectTarget.All,
-    SeishoOnlyCondition
 )

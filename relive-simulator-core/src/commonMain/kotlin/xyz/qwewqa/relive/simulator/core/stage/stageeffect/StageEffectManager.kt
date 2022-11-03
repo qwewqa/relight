@@ -55,8 +55,14 @@ class StageEffectManager(val team: Team) {
                         if (existingBuffs != null) {
                             effectBuffs[actor] = existingBuffs
                         } else {
-                            effectBuffs[actor] = effect[level].map { stageBuff ->
-                                stageBuff.activate(actor)
+                            effectBuffs[actor] = effect.buffs.flatMap { buffGroup ->
+                                if (buffGroup.condition?.evaluate(actor) != false) {
+                                    buffGroup[level].map { stageBuff ->
+                                        stageBuff.activate(actor)
+                                    }
+                                } else {
+                                    emptyList()
+                                }
                             }
                         }
                     }
@@ -84,8 +90,14 @@ class StageEffectManager(val team: Team) {
         target.context.log("Stage Effect", category = LogCategory.BUFF) {
             "Stage effect $name (lv. $level) activate."
         }
-        this[level].map { stageBuff ->
-            stageBuff.activate(target)
+        buffs.flatMap { buffGroup ->
+            if (buffGroup.condition?.evaluate(target) != false) {
+                buffGroup[level].map { stageBuff ->
+                    stageBuff.activate(target)
+                }
+            } else {
+                emptyList()
+            }
         }
     }
 
@@ -104,7 +116,7 @@ class StageEffectManager(val team: Team) {
         StageEffectTarget.All -> team.active
         is StageEffectTarget.Front -> team.active.take(effect.target.count)
         is StageEffectTarget.Back -> team.active.takeLast(effect.target.count)
-    }.filter { effect.condition?.evaluate(it) ?: true }
+    }
 }
 
 class ActiveStageEffect(val effect: StageEffect, var turns: Int, val level: Int)
