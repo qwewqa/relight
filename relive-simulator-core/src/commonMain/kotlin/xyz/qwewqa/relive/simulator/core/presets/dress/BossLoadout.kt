@@ -22,6 +22,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr21.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr22.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr23.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr24.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr25.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr9.tr9FaithMisora
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr9.tr9FaithMisoraStrategy
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
@@ -30,6 +31,14 @@ import xyz.qwewqa.relive.simulator.core.stage.strategy.Strategy
 data class BossLoadout(val loadout: ActorLoadout, val strategy: Strategy)
 
 val bossLoadouts = listOf(
+    BossLoadout(tr25SetsunaIchie, tr25SetsunaIchieStrategy),
+    BossLoadout(tr25SetsunaIchieDiff4, tr25SetsunaIchieDiff4Strategy),
+    BossLoadout(tr25SuirenYuyuko, tr25SuirenYuyukoStrategy),
+    BossLoadout(tr25SuirenYuyukoDiff4, tr25SuirenYuyukoDiff4Strategy),
+    BossLoadout(tr25KomachiTamao, tr25KomachiTamaoStrategy),
+    BossLoadout(tr25KomachiTamaoDiff4, tr25KomachiTamaoDiff4Strategy),
+    BossLoadout(tr25FaithMisora, tr25FaithMisoraStrategy),
+    BossLoadout(tr25FaithMisoraDiff4, tr25FaithMisoraDiff4Strategy),
     BossLoadout(tr24WhiteRabbitMisora, tr24WhiteRabbitMisoraStrategy),
     BossLoadout(tr24WhiteRabbitMisoraDiff4, tr24WhiteRabbitMisoraDiff4Strategy),
     BossLoadout(tr24AliceAruru, tr24AliceAruruStrategy),
