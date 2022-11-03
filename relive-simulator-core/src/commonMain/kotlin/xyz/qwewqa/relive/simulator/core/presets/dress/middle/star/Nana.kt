@@ -117,7 +117,7 @@ val SiegfriedNana = dress1070020(
         ),
         listOf(
             TeamActUpScalingPassive120.new(30) + (SpaceOnlyCondition or MoonOnlyCondition or CloudOnlyCondition),
-            //TODO: Self Scaling Act Up
+            SelfActUpScalingPassive120.new(30) + (SpaceOnlyCondition or MoonOnlyCondition or CloudOnlyCondition),
         ),
     ),
     unitSkill = (ActCritical25UnitSkill + (SpaceOnlyCondition or MoonOnlyCondition or CloudOnlyCondition)) + SelfActCritical25UnitSkill,

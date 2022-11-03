@@ -41,6 +41,14 @@ val TeamActUpScalingPassive120 = TeamScalingPassive(
     }
 }
 
+val SelfActUpScalingPassive120 = TeamScalingPassive(
+    "Self Act Up Scaling Passive (max 120%)",
+    120,
+    PassiveEffectCategory.Passive,
+) { value, _ ->
+    self.boostActPower += value
+}
+
 val TeamEvasionUpBuffScalingPassive60 = TeamScalingPassive(
     "Team Evasion Up Buff Scaling Passive (max 60%)",
     60,
