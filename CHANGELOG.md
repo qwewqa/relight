@@ -580,3 +580,6 @@
 # v0.34.7
 - New dresses added by Savivo
 - Stage Girl Collection accessory added
+
+# v0.34.8
+- New TR bosses added by Mikayla
