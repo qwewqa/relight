@@ -176,6 +176,7 @@ val SoulRevueMaya = dress1050025(
     ),
     unitSkill = ActCritical50UnitSkill + (MoonOnlyCondition or StarOnlyCondition),
     multipleCA = true,
+    categories = setOf(DressCategory.Movie),
 )
 
 val WarriorMaya = dress1050023(

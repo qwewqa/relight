@@ -141,7 +141,7 @@ private fun effectiveCoef(attacker: Attribute, defender: Attribute) = when (defe
     }
 
     Attribute.Dream -> when (attacker) {
-        Attribute.Dream -> 100
+        Attribute.Dream -> 125
         Attribute.Neutral -> 100
         Attribute.Sun -> 150
         Attribute.Star -> 150
@@ -154,7 +154,8 @@ private fun effectiveCoef(attacker: Attribute, defender: Attribute) = when (defe
         Attribute.Flower -> 50
         Attribute.Wind -> 50
         Attribute.Snow -> 50
-        else -> 150
+        Attribute.Star -> 200
+        else -> 100
     }
 
     Attribute.Star -> when (attacker) {
@@ -163,7 +164,8 @@ private fun effectiveCoef(attacker: Attribute, defender: Attribute) = when (defe
         Attribute.Moon -> 50
         Attribute.Space -> 50
         Attribute.Cloud -> 50
-        else -> 150
+        Attribute.Sun -> 200
+        else -> 100
     }
 
     else -> 100

@@ -380,6 +380,8 @@ enum class CountableBuff(
     BlessingCountableDebuffReduction(BuffCategory.Positive, 256),
     DisasterDaze(BuffCategory.Negative, 257),
     BlessingContinuousDebuffRemoval(BuffCategory.Positive, 258),
+    BlessingEffectiveDamage(BuffCategory.Positive, 286),
+    BlessingHope(BuffCategory.Positive, 260),
 }
 
 class CountableBuffStack(

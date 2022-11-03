@@ -284,4 +284,5 @@ val HuntingRevueNana = dress1070024(
         ),
     ),
     unitSkill = ActCritical50UnitSkill + (SpaceOnlyCondition or StarOnlyCondition),
+    categories = setOf(DressCategory.Movie),
 )

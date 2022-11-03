@@ -177,4 +177,5 @@ val HuntingRevueJunna = dress1060024(
     ),
     unitSkill = ActCritical50UnitSkill + (SnowOnlyCondition or SunOnlyCondition),
     multipleCA = true,
+    categories = setOf(DressCategory.Movie),
 )

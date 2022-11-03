@@ -245,6 +245,110 @@ val ActCritical30UnitSkillStageGirl = UnitSkill(
     listOf(TeamActUpPassive, TeamCriticalUpPassive)
 )
 
+val ActCritical25UnitSkill = UnitSkill(
+    listOf(
+        listOf(
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25
+        ),
+        listOf(
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25
+        ),
+    ),
+    listOf(TeamActUpPassive, TeamCriticalUpPassive)
+)
+
+val SelfActCritical25UnitSkill = UnitSkill(
+    listOf(
+        listOf(
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25
+        ),
+        listOf(
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25
+        ),
+    ),
+    listOf(ActUpPassive, CriticalUpPassive)
+)
+
 val HPDef75UnitSkill = UnitSkill(
     listOf(
         listOf(

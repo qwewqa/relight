@@ -444,3 +444,76 @@ val WeAreRivals = StageEffect(
     StageEffectTarget.All,
     SeishoOnlyCondition
 )
+
+val RoyalAuthority = StageEffect(
+    "Royal Authority",
+    44,
+    listOf(
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(ActPowerUpBuff, 30),
+            StageBuff(DamageTakenDownBuff, 30),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(ActPowerUpBuff, 40),
+            StageBuff(DamageTakenDownBuff, 40),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(ActPowerUpBuff, 50),
+            StageBuff(DamageTakenDownBuff, 50),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(ActPowerUpBuff, 60),
+            StageBuff(DamageTakenDownBuff, 60),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(ActPowerUpBuff, 70),
+            StageBuff(DamageTakenDownBuff, 70),
+        ),
+    ),
+    StageEffectTarget.All,
+    SiegfeldOnlyCondition
+)
+
+val ThisIsTheStage = StageEffect(
+    "This is the Stage",
+    48,
+    listOf(
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(DexterityUpBuff, 30),
+            StageBuff(CriticalUpBuff, 30),
+            StageBuff(EffectiveDamageDealtUpBuff, 30),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(DexterityUpBuff, 40),
+            StageBuff(CriticalUpBuff, 40),
+            StageBuff(EffectiveDamageDealtUpBuff, 40),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(DexterityUpBuff, 50),
+            StageBuff(CriticalUpBuff, 50),
+            StageBuff(EffectiveDamageDealtUpBuff, 50),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(DexterityUpBuff, 60),
+            StageBuff(CriticalUpBuff, 60),
+            StageBuff(EffectiveDamageDealtUpBuff, 60),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(DexterityUpBuff, 70),
+            StageBuff(CriticalUpBuff, 70),
+            StageBuff(EffectiveDamageDealtUpBuff, 70),
+        ),
+    ),
+    StageEffectTarget.All,
+    SeishoOnlyCondition
+)

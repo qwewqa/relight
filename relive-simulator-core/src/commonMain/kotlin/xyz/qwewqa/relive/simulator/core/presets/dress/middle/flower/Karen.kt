@@ -177,4 +177,5 @@ val FinalLinesKaren = dress1010024(
     ),
     unitSkill = ActCritical50UnitSkill + (FlowerOnlyCondition or SunOnlyCondition),
     multipleCA = true,
+    categories = setOf(DressCategory.Movie),
 )

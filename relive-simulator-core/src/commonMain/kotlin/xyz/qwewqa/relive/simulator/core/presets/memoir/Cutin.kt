@@ -362,7 +362,7 @@ val brilliantBirthdays = listOf(
     brilliantBirthday(Character.Karen, equip4000315),
     brilliantBirthday(Character.Junna, equip4000316),
     brilliantBirthday(Character.Misora, equip4000317),
-    brilliantBirthday(Character.Yachiyo, equip4000260), // TODO: use correct memoFun
+    brilliantBirthday(Character.Yachiyo, equip4000318),
     brilliantBirthday(Character.Rui, equip4000220), // TODO: use correct memoFun
 )
 

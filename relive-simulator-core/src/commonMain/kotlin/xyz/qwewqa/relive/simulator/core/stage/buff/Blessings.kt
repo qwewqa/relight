@@ -19,4 +19,10 @@ fun Actor.activateBlessings() = context.targetSelf().act {
     buffs.consumeAll(CountableBuff.BlessingContinuousDebuffRemoval) {
         dispelTimed(BuffCategory.Negative)
     }
+    buffs.consumeAll(CountableBuff.BlessingEffectiveDamage) { value ->
+        applyBuff(EffectiveDamageDealtUpBuff, value, 2) //TODO(): How long does this buff last? Current assumption is rHM activation
+    }
+    buffs.consumeAll(CountableBuff.BlessingHope) { value ->
+        applyCountableBuff(CountableBuff.Hope, count = value)
+    }
 }

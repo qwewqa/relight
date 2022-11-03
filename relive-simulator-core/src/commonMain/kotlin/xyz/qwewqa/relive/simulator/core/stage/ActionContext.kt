@@ -199,7 +199,7 @@ class TargetContext(
         }
     }
 
-    fun applyCountableBuff(effect: CountableBuff, count: Int = 1, chance: Int = 100) {
+    fun applyCountableBuff(effect: CountableBuff, count: Int = 1, value: Int = 0, chance: Int = 100) {
         if (!self.isAlive) return
         for (originalTarget in targets) {
             val target = aggroTarget ?: originalTarget
@@ -211,7 +211,7 @@ class TargetContext(
                                 chance / 100.0 * (100 - positiveEffectResist - (specificCountableBuffResist[effect]
                                         ?: 0)) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
-                            buffs.addCountable(effect, count)
+                            buffs.addCountable(effect, count, value)
                             actionContext.log("Buff", category = LogCategory.BUFF) { "Positive buff [${effect.name}] (${count}x) applied to [$name]." }
                         } else {
                             actionContext.log("Buff", category = LogCategory.BUFF) { "Positive buff [${effect.name}] (${count}x) missed to [$name]." }
@@ -220,7 +220,7 @@ class TargetContext(
                     BuffCategory.Negative -> {
                         val applyChance = chance / 100.0 * (100 - negativeCountableResist - (specificCountableBuffResist[effect] ?: 0)) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
-                            buffs.addCountable(effect, count)
+                            buffs.addCountable(effect, count, value)
                             actionContext.log("Buff", category = LogCategory.BUFF) { "Negative buff [${effect.name}] (${count}x) applied to [$name]." }
                         } else {
                             actionContext.log("Buff", category = LogCategory.BUFF) { "Negative buff [${effect.name}] (${count}x) missed to [$name]." }

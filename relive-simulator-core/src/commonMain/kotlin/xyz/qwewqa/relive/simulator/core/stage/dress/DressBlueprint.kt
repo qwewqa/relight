@@ -128,6 +128,7 @@ enum class DressCategory {
     StageGirl,
     Birthday2022,
     TroupeRevueShop,
+    Movie,
 }
 
 

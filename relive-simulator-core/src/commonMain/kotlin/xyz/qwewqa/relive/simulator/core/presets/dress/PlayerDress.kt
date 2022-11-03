@@ -18,6 +18,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.space.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.middle.star.SiegfriedNana
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.dream.WhiteFrontierAruru
 
 val playerDresses = listOf(
@@ -46,9 +47,11 @@ val playerDresses = listOf(
     EmpressMeiFan,
     EurydiceYuyuko,
     FaithMisora,
+    FinalLinesHikari,
     FinalLinesKaren,
     FoolYachiyo,
     FuMeiFan,
+    FutureStageGirlKuina,
     FutureStageGirlStella,
     GrudgeRevueFutaba,
     GrudgeRevueKaoruko,
@@ -77,6 +80,7 @@ val playerDresses = listOf(
     NagakuraShinpachiFumi,
     NewYorkCombatRevueGemie,
     OfficerKaren,
+    OfficerIchie,
     OfficerRui,
     OkuninushiKaren,
     OrpheusFumi,
@@ -90,6 +94,7 @@ val playerDresses = listOf(
     SanadaMahiru,
     SeimeiMichiru,
     ShutendojiShiori,
+    SiegfriedNana,
     SleepingBeautyHikari,
     SnowWhiteKoharu,
     SnowWhitePrinceSuzu,
@@ -134,4 +139,5 @@ val playerDresses = listOf(
     WorldMaya,
     WukongMaya,
     YellowTsukasa,
+    YorimitsuYachiyo,
 ).associateBy { it.name }

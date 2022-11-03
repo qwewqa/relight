@@ -12,3 +12,7 @@ val ArcanaOnlyCondition = NamedCondition("Arcana") {
 val StageGirlOnlyCondition = NamedCondition("Stage Girl") {
     DressCategory.StageGirl in it.dress.categories
 }
+
+val MovieOnlyCondition = NamedCondition("Movie") {
+    DressCategory.Movie in it.dress.categories
+}

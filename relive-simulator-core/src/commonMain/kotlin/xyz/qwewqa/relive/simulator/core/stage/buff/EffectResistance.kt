@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.buff
 
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 
 val ConfusionResistanceBuff: TimedBuffEffect = BuffResistanceBuff(ConfusionBuff, iconId = 80)
 val StopResistanceBuff: TimedBuffEffect = BuffResistanceBuff(StopBuff,  iconId = 81)
@@ -10,6 +11,9 @@ val FreezeResistanceBuff: TimedBuffEffect = BuffResistanceBuff(FreezeBuff, iconI
 val BlindnessResistanceBuff: TimedBuffEffect = BuffResistanceBuff(BlindnessBuff, iconId = 83)
 val SleepResistanceBuff: TimedBuffEffect = BuffResistanceBuff(SleepBuff, iconId = 79)
 val AggroResistanceBuff: TimedBuffEffect = BuffResistanceBuff(AggroBuff, iconId = 102)
+
+val DazeResistanceBuff: TimedBuffEffect = CountableBuffResistanceBuff(CountableBuff.Daze, iconId = 259)
+val PrideResistanceBuff: TimedBuffEffect = CountableBuffResistanceBuff(CountableBuff.Pride, iconId = 261)
 
 object NegativeEffectResistanceBuff : TimedBuffEffect {
     override val name = "Negative Effect Resistance"
@@ -113,6 +117,24 @@ private data class BuffResistanceBuff(var effects: List<TimedBuffEffect>, overri
     override fun onEnd(context: ActionContext, value: Int) = context.run {
         effects.forEach { effect ->
             self.specificBuffResist[effect] = (self.specificBuffResist[effect] ?: 0) - value
+        }
+    }
+}
+
+private data class CountableBuffResistanceBuff(var effects: List<CountableBuff>, override val iconId: Int) : TimedBuffEffect {
+    constructor(vararg effects: CountableBuff, iconId: Int) : this(effects.toList(), iconId)
+    override val name = "[${effects.joinToString(", ") {it.name}}] Resistance Buff"
+    override val category: BuffCategory = BuffCategory.Positive
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        effects.forEach { effect ->
+            self.specificCountableBuffResist[effect] = (self.specificCountableBuffResist[effect] ?: 0) + value
+        }
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        effects.forEach { effect ->
+            self.specificCountableBuffResist[effect] = (self.specificCountableBuffResist[effect] ?: 0) - value
         }
     }
 }

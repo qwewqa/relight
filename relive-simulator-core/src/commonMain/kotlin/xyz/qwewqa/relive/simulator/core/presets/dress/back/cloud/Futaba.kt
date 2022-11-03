@@ -11,6 +11,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.ApDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.BrillianceGainDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.LockedNegativeEffectResistanceBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.YoureAllHopeless
@@ -95,4 +96,5 @@ val GrudgeRevueFutaba = dress1080024(
         ),
     ),
     unitSkill = ActCritical50UnitSkill + (CloudOnlyCondition or StarOnlyCondition),
+    categories = setOf(DressCategory.Movie),
 )

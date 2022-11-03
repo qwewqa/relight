@@ -16,6 +16,11 @@ val TeamEvasionBuffPassive: PassiveEffect = GenericCountableBuffPassive(Countabl
 val TeamReviveBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Revive, EffectTag.Revive) { targetAllyAoe(it) }
 val TeamFortitudeBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Fortitude, EffectTag.Fortitude) { targetAllyAoe(it) }
 val SelfHopeBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Hope, EffectTag.Hope) { targetSelf() }
+val TeamBlessingHPRecoveryPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.BlessingHpRecovery, EffectTag.HpRecovery, "Team") { targetAllyAoe(it) }
+val TeamBlessingCountableDebuffReductionPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.BlessingCountableDebuffReduction, EffectTag.NegativeCountableReduction, "Team") { targetAllyAoe(it) }
+val TeamBlessingEffectiveDamagePassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.BlessingEffectiveDamage, EffectTag.EffectiveDamage, "Team") { targetAllyAoe(it) }
+val TeamHopeBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Hope, EffectTag.Hope, "Team") { targetAllyAoe(it) }
+val TeamBlessingHopePassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.BlessingHope, EffectTag.Hope, "Team") { targetAllyAoe(it) }
 
 val TeamActPowerUpBuffPassive: PassiveEffect = GenericBuffPassive(ActPowerUpBuff, EffectTag.Act,"Team") { targetAllyAoe(it) }
 val TeamDexterityUpBuffPassive: PassiveEffect = GenericBuffPassive(DexterityUpBuff, EffectTag.Dexterity, "Team") { targetAllyAoe(it) }
@@ -43,6 +48,7 @@ val SelfSpecialBarrierBuffPassive: PassiveEffect = GenericBuffPassive(SpecialBar
 val TeamHpRegenBuffPassive: PassiveEffect = GenericBuffPassive(HpRegenBuff, EffectTag.HpRegen, "Team") { targetAllyAoe(it) }
 val TeamNegativeEffectResistanceBuffPassive: PassiveEffect = GenericBuffPassive(NegativeEffectResistanceBuff, EffectTag.NegativeEffectResistance, "Team") { targetAllyAoe(it) }
 val SelfNegativeEffectResistanceBuffPassive: PassiveEffect = GenericBuffPassive(NegativeEffectResistanceBuff, EffectTag.NegativeEffectResistance) { targetSelf() }
+val SelfLockedNegativeEffectResistanceBuffPassive: PassiveEffect = GenericBuffPassive(LockedNegativeEffectResistanceBuff, EffectTag.NegativeEffectResistance) { targetSelf() }
 val TeamDamageDealtUpBuffPassive: PassiveEffect = GenericBuffPassive(DamageDealtUpBuff, EffectTag.Damage, "Team") { targetAllyAoe(it) }
 val TeamDamageTakenDownBuffPassive: PassiveEffect = GenericBuffPassive(DamageTakenDownBuff, EffectTag.Damage, "Team") { targetAllyAoe(it) }
 val TeamBrillianceGainUpBuffPassive: PassiveEffect = GenericBuffPassive(BrillianceGainUpBuff, EffectTag.BrillianceUp, "Team") { targetAllyAoe(it) }
@@ -115,7 +121,7 @@ private data class GenericCountableBuffPassive(
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
         target(context, condition).act {
-            applyCountableBuff(buff, time)
+            applyCountableBuff(buff, time, value)
         }
 }
 
