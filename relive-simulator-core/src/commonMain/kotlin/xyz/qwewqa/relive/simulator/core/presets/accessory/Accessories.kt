@@ -4,4 +4,5 @@ val accessories = listOf(
     emptyAccessory,
     beachVolleyball,
     goldBarsOfFrontier,
+    memorablePotpourri,
 ).sortedBy { it.id }.associateBy { it.name }
