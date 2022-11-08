@@ -583,3 +583,6 @@
 
 # v0.34.8
 - New TR bosses added by Mikayla
+
+# v0.34.9
+- Fixed effective damage up blessing turn count by Mikayla
