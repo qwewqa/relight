@@ -20,7 +20,7 @@ fun Actor.activateBlessings() = context.targetSelf().act {
         dispelTimed(BuffCategory.Negative)
     }
     buffs.consumeAll(CountableBuff.BlessingEffectiveDamage) { value ->
-        applyBuff(EffectiveDamageDealtUpBuff, value, 2) //TODO(): How long does this buff last? Current assumption is rHM activation
+        applyBuff(EffectiveDamageDealtUpBuff, value, 1)
     }
     buffs.consumeAll(CountableBuff.BlessingHope) { value ->
         applyCountableBuff(CountableBuff.Hope, count = value)
