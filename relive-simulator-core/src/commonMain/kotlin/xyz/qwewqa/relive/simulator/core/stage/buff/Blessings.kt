@@ -4,25 +4,25 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 
 fun Actor.activateBlessings() = context.targetSelf().act {
-    buffs.consumeAll(CountableBuff.DisasterBrillianceReduction) { value ->
+    buffs.consumeOnce(CountableBuff.DisasterBrillianceReduction) { value ->
         removeBrilliance(value)
     }
-    buffs.consumeAll(CountableBuff.DisasterDaze) { value ->
+    buffs.consumeOnce(CountableBuff.DisasterDaze) { value ->
         applyCountableBuff(CountableBuff.Daze, count = value)
     }
-    buffs.consumeAll(CountableBuff.BlessingHpRecovery) { value ->
+    buffs.consumeOnce(CountableBuff.BlessingHpRecovery) { value ->
         heal(percent = value)
     }
-    buffs.consumeAll(CountableBuff.BlessingCountableDebuffReduction) { value ->
+    buffs.consumeOnce(CountableBuff.BlessingCountableDebuffReduction) { value ->
         dispelCountable(BuffCategory.Negative, value)
     }
-    buffs.consumeAll(CountableBuff.BlessingContinuousDebuffRemoval) {
+    buffs.consumeOnce(CountableBuff.BlessingContinuousDebuffRemoval) {
         dispelTimed(BuffCategory.Negative)
     }
-    buffs.consumeAll(CountableBuff.BlessingEffectiveDamage) { value ->
+    buffs.consumeOnce(CountableBuff.BlessingEffectiveDamage) { value ->
         applyBuff(EffectiveDamageDealtUpBuff, value, 1)
     }
-    buffs.consumeAll(CountableBuff.BlessingHope) { value ->
+    buffs.consumeOnce(CountableBuff.BlessingHope) { value ->
         applyCountableBuff(CountableBuff.Hope, count = value)
     }
 }
