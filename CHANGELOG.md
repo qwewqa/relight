@@ -586,3 +586,6 @@
 
 # v0.34.9
 - Fixed effective damage up blessing turn count by Mikayla
+
+# v0.34.10
+- Made blessings only activate one at a time per type to align with game behavior
