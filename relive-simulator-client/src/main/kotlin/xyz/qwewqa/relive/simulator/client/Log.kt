@@ -84,8 +84,8 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
             nameElement.textContent = status.name
             hpElement.style.width = "${status.hp.toDouble() / status.maxHp * 100}%"
             if (status.hp > 0) {
-                hpElement.textContent = "${status.hp}/${status.maxHp}"
-                hpLabelElement.textContent = "${status.hp}/${status.maxHp}"
+                hpElement.textContent = "${status.hp}/${status.maxHp} (-${(status.maxHp - status.hp).formatShort()})"
+                hpLabelElement.textContent = "${status.hp}/${status.maxHp} (-${(status.maxHp - status.hp).formatShort()})"
             } else {
                 hpElement.textContent = ""
                 hpLabelElement.textContent = ""
@@ -172,7 +172,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                                 style =
                                     "width: ${status.hp.toDouble() / status.maxHp * 100}%;font-weight: bold;z-index: 2;"
                                 if (status.hp > 0) {
-                                    +"${status.hp}/${status.maxHp}"
+                                    +"${status.hp}/${status.maxHp} (-${(status.maxHp - status.hp).formatShort()})"
                                 }
                             }
                             div {
@@ -180,7 +180,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                                 style =
                                     "font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;"
                                 if (status.hp > 0) {
-                                    +"${status.hp}/${status.maxHp}"
+                                    +"${status.hp}/${status.maxHp} (-${(status.maxHp - status.hp).formatShort()})"
                                 }
                             }
                         }
@@ -195,6 +195,9 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                             id = "player-status-image-container-$i"
                             img(classes = "interactive-status-actor-img") {
                                 src = "img/large_icon/1_${status.dressId}.png"
+                            }
+                            div(classes = "interactive-status-dex-counter") {
+                                +"${status.dexterity}"
                             }
                             if (status.isSupport) {
                                 img(classes = "interactive-status-support-indicator") {
