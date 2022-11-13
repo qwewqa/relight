@@ -589,3 +589,7 @@
 
 # v0.34.10
 - Made blessings only activate one at a time per type to align with game behavior
+
+# v0.35.0
+- Added dexterity counters to interactive
+- Added damage dealt to the interactive boss hp bar
