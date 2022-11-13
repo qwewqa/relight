@@ -901,13 +901,24 @@ pwa-update::part(offlineToast) {
 
 .interactive-status-climaxing-icon {
     position: absolute;
-    bottom: 10%;
+    top: 8%;
     right: 2%;
     color: gold;
-    font-size: calc(0.4 * var(--status-image-size));
+    font-size: calc(0.3 * var(--status-image-size));
     line-height: 0;
     filter: drop-shadow(0 0 1px black) drop-shadow(0 0 1px black) drop-shadow(0 0 1px black);
 }
+
+.interactive-status-dex-counter {
+     position: absolute;
+     bottom: 4%;
+     right: 6%;
+     color: gold;
+     font-size: calc(0.4 * var(--status-image-size));
+     line-height: calc(0.4 * var(--status-image-size));
+    font-weight: bold;
+     filter: drop-shadow(0 0 1px black) drop-shadow(0 0 1px black) drop-shadow(0 0 1px black);
+ }
 
 .interactive-status-buff {
     display: flex;

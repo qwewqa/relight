@@ -113,6 +113,9 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                     img(classes = "interactive-status-actor-img") {
                         src = "img/large_icon/1_${status.dressId}.png"
                     }
+                    div(classes = "interactive-status-dex-counter") {
+                        +"${status.dexterity}"
+                    }
                     if (status.isSupport) {
                         img(classes = "interactive-status-support-indicator") {
                             src = "img/common/icon_support_dress.png"

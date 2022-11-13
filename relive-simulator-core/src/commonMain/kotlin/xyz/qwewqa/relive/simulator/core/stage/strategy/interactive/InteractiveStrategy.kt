@@ -531,7 +531,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         val enemyStatus get() = enemy.actors.values.map { it.status() }
 
         fun Actor.status() =
-            ActorStatus(name, dress.id, isSupport, hp, maxHp, brilliance, cxActive, context.actionLog.damageDealtToEnemy, buffs.getDisplayBuffs())
+            ActorStatus(name, dress.id, isSupport, hp, maxHp, dexterity, brilliance, cxActive, context.actionLog.damageDealtToEnemy, buffs.getDisplayBuffs())
 
         private val Actor.cxActive get() = inCX || (hp > 0 && brilliance == 100 && this in team.active && climax)
 

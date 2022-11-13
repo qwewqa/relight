@@ -55,6 +55,7 @@ data class ActorStatus(
     val isSupport: Boolean,
     val hp: Int,
     val maxHp: Int,
+    val dexterity: Int,
     val brilliance: Int,
     val inClimax: Boolean,
     val damageContribution: Int,
