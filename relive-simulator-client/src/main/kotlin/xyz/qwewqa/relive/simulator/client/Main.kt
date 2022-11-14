@@ -1636,7 +1636,7 @@ class SimulatorClient(val simulator: Simulator) {
 
     fun updateSetupFromUrl(url: String = window.location.href) {
         val urlOptions = getUrlParameter(url, "options")
-        val urlSetup = getUrlParameter(url, "load-setup")
+        val urlSetup = getUrlParameter(url, "load-setup") ?: getSetupIdFromShareLink(url)
         if (urlSetup != null) {
             toast("Setup", "Loading setup.", "yellow")
             GlobalScope.launch {
@@ -1655,6 +1655,11 @@ class SimulatorClient(val simulator: Simulator) {
                 toast("Error", "Failed to update configuration from url.", "red")
             }
         }
+    }
+
+    fun getSetupIdFromShareLink(url: String): String? {
+        val regex = Regex(".*/to/([a-zA-Z0-9]{32})")
+        return regex.find(url)?.groupValues?.get(1)
     }
 
     fun importPresetsFromUrl(url: String = window.location.href): Boolean {
