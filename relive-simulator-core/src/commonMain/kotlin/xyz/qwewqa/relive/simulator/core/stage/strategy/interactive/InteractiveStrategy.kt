@@ -263,17 +263,14 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
             damageCalculator = SwitchableDamageCalculator()
         ).create(
             random = managedRandom,
-            configuration = StageConfiguration(
-                logging = false,
-            ),
+            configuration = StageConfiguration(),
         )
         try {
             stage.play(PlayInfo(maxTurns = maxTurns, null, null))
         } catch (_: UserInput) {
 
         }
-        // Return total damage dealt during the run
-        return stage.enemy.actors.values.sumOf { it.maxHp - it.hp }
+        return stage.enemy.actors.values.sumOf { it.hp }
     }
 
     init {
@@ -314,6 +311,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                         candidates = (player.strategy as InteractiveStrategy).queueCandidates
                     }
                     status.undo() // Remove the auto_queue command from the history
+
                     candidates
                 }
                 if (candidates.isNullOrEmpty()) {
@@ -324,7 +322,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                     }
                     return@withLock
                 }
-                val bestQueue = candidates.maxBy { playStageTest(it) }
+                val bestQueue = candidates.minBy { playStageTest(it) }
                 if (bestQueue.isEmpty()) {
                     playStage(null) {
                         log("Command", category = LogCategory.COMMAND) {
@@ -339,7 +337,11 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                     data = commandData,
                     raw = "queue $commandData",
                 )
-                playStage(generatedCommand)
+                playStage(generatedCommand) {
+                    log("Command", category = LogCategory.COMMAND) {
+                        "Auto-queued successfully."
+                    }
+                }
             }
             InteractiveCommandType.SAVE -> {
                 saves[command.data] = status.copy()
@@ -769,6 +771,12 @@ ${formattedHand()}
                     queue += testActs.map { hand[it] }
                     (stage.damageCalculator as SwitchableDamageCalculator).isRandom = false
                     ranTestQueue = true
+                    stage.enemy.active.forEach {
+                        // Reset hp to a high value to prevent early kills
+                        it.valueMaxHp = 1_000_000_000
+                        it.boostMaxHp = 0
+                        it.adjustHp(it.maxHp)
+                    }
                     break
                 }
                 val command = nextCommand()
