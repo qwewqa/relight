@@ -193,7 +193,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
         private fun truncate() {
             playHistory.truncate(index)
-            stageLog.truncate(lengths[index])
+            stageLog.truncate(lengths[index] - 1)
             lengths.truncate(index)
             queueStatusHistory.truncate(index)
             enemyStatuses.truncate(index)
