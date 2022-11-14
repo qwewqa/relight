@@ -910,15 +910,15 @@ pwa-update::part(offlineToast) {
 }
 
 .interactive-status-dex-counter {
-     position: absolute;
-     bottom: 4%;
-     right: 6%;
-     color: gold;
-     font-size: calc(0.4 * var(--status-image-size));
-     line-height: calc(0.4 * var(--status-image-size));
+    position: absolute;
+    bottom: 4%;
+    right: 6%;
+    color: gold;
+    font-size: calc(0.4 * var(--status-image-size));
+    line-height: calc(0.4 * var(--status-image-size));
     font-weight: bold;
-     filter: drop-shadow(0 0 1px black) drop-shadow(0 0 1px black) drop-shadow(0 0 1px black);
- }
+    filter: drop-shadow(0 0 1px black) drop-shadow(0 0 1px black) drop-shadow(0 0 1px black);
+}
 
 .interactive-status-buff {
     display: flex;

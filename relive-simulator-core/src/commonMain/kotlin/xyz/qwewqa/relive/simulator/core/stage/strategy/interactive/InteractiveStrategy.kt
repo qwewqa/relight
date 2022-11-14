@@ -255,6 +255,27 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         resultLog = stage.logger.get()
     }
 
+    private fun playStageTest(testActs: List<Int>): Int {
+        val managedRandom = ManagedRandom(Random(Random(seed).nextInt()))
+        val strategy = InteractiveStrategy(managedRandom, status.history, testActs = testActs)
+        val stage = loadout.copy(
+            player = loadout.player.copy(strategy = { strategy }),
+            damageCalculator = SwitchableDamageCalculator()
+        ).create(
+            random = managedRandom,
+            configuration = StageConfiguration(
+                logging = false,
+            ),
+        )
+        try {
+            stage.play(PlayInfo(maxTurns = maxTurns, null, null))
+        } catch (_: UserInput) {
+
+        }
+        // Return total damage dealt during the run
+        return stage.enemy.actors.values.sumOf { it.maxHp - it.hp }
+    }
+
     init {
         playStage(null)
     }
@@ -278,6 +299,47 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         }
         fullHistory += command.raw
         when (command.type) {
+            InteractiveCommandType.AUTO_QUEUE -> {
+                if (status.queueStatus?.runState != InteractiveRunState.QUEUE) {
+                    playStage(null) {
+                        log("Command", category = LogCategory.COMMAND) {
+                            "Error: Cannot auto-queue when not in queue."
+                        }
+                    }
+                    return@withLock
+                }
+                val candidates = run {
+                    var candidates: Set<List<Int>>? = null
+                    playStage(command) {
+                        candidates = (player.strategy as InteractiveStrategy).queueCandidates
+                    }
+                    candidates
+                }
+                if (candidates.isNullOrEmpty()) {
+                    playStage(null) {
+                        log("Command", category = LogCategory.COMMAND) {
+                            "Error: Cannot auto-queue."
+                        }
+                    }
+                    return@withLock
+                }
+                val bestQueue = candidates.maxBy { playStageTest(it) }
+                if (bestQueue.isEmpty()) {
+                    playStage(null) {
+                        log("Command", category = LogCategory.COMMAND) {
+                            "Error: Cannot auto-queue."
+                        }
+                    }
+                    return@withLock
+                }
+                val commandData = bestQueue.joinToString(" ") { "${it + 1}" }
+                val generatedCommand = ParsedCommand(
+                    type = InteractiveCommandType.QUEUE,
+                    data = commandData,
+                    raw = "queue $commandData",
+                )
+                playStage(generatedCommand)
+            }
             InteractiveCommandType.SAVE -> {
                 saves[command.data] = status.copy()
                 playStage(null) {
@@ -420,12 +482,18 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
     private inner class InteractiveStrategy(
         val managedRandom: ManagedRandom,
         val history: List<ParsedCommand>,
+        val testActs: List<Int>? = null, // Used to test queues for auto queue; list of hand indices to queue at the end
     ) : Strategy {
         val commands = ArrayDeque(history)
 
         private fun nextCommand() = commands.removeFirstOrNull() ?: throw UserInput()
 
         private var queuing = false  // true in nextQueue, false otherwise
+
+        var queueCandidates: Set<List<Int>>? = null
+            private set
+
+        private var ranTestQueue = false
 
         lateinit var stage: Stage
         lateinit var team: Team
@@ -590,7 +658,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
         override fun afterAct(stage: Stage, team: Team, enemy: Team) {
             queuing = false
-            if (!incremental) return
+            if (!incremental || testActs != null) return
             while (true) {
                 val command = nextCommand()
                 processCommand(command)
@@ -655,6 +723,9 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
             }
 
         override fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {
+            if (ranTestQueue) {
+                throw UserInput()
+            }
             queuing = true
             if (team.cxTurns == 0) {
                 usedClimaxActs.clear()
@@ -693,6 +764,12 @@ ${formattedHand()}
                 """.trimIndent()
             }
             while (true) {
+                if (testActs != null && commands.isEmpty()) {
+                    queue += testActs.map { hand[it] }
+                    (stage.damageCalculator as SwitchableDamageCalculator).isRandom = false
+                    ranTestQueue = true
+                    break
+                }
                 val command = nextCommand()
                 processCommand(command)
                 if (command.type == InteractiveCommandType.GO) break
@@ -1365,7 +1442,28 @@ ${
                 InteractiveCommandType.FAST_FORWARD -> {}
                 InteractiveCommandType.RESTART -> {}
                 InteractiveCommandType.EIGHT_BALL -> {}
+                InteractiveCommandType.AUTO_QUEUE -> {
+                    // This is used by the controller to get candidates.
+                    // The auto_queue command never ends up in final history.
+                    queueCandidates = findQueueCandidates()
+                }
             }
+        }
+
+        // Returns a set of all possible full queues as lists of indexes into the hand.
+        private fun findQueueCandidates(): Set<List<Int>> {
+            return hand.flatMapIndexed { i, act ->
+                if (act.canQueue()) {
+                    queue += act
+                    findQueueCandidates().map {
+                        listOf(i) + it
+                    }.also {
+                        queue.removeLast()
+                    }
+                } else {
+                    emptyList()
+                }
+            }.toSet().takeIf { it.isNotEmpty() } ?: setOf(emptyList())
         }
 
         private fun List<BoundAct>.sortByActor() =
@@ -1629,6 +1727,20 @@ enum class InteractiveCommandType(
                 queue 2
             Queues the 1st, 5th, and 3rd cards in hand, in that order:
                 queue 1 5 3
+        """.trimIndent(),
+    ),
+    AUTO_QUEUE(
+        title = "auto_queue",
+        aliases = listOf("autoqueue", "aq"),
+        synopsis = """
+            auto_queue
+        """.trimIndent(),
+        description = """
+            Automatically queue act(s) for the current turn.
+        """.trimIndent(),
+        examples = """
+            Automatically queues act(s) for the current turn:
+                auto_queue
         """.trimIndent(),
     ),
     HOLD(

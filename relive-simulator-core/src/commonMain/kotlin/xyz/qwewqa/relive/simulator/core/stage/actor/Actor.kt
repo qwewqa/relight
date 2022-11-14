@@ -446,15 +446,25 @@ class Actor(
     }
 
     fun addBrilliance(base: Int) = context.run {
-        if (isStopped) {
-            context.log("Abnormal") { "Brilliance gain prevented by stop." }
+        if (base > 0) {
+            if (isStopped) {
+                context.log("Abnormal") { "Brilliance gain prevented by stop." }
+                return
+            }
+            if (isAgonized) {
+                context.log("Abnormal") { "Brilliance gain prevented by agony." }
+                return
+            }
+        }
+        if (inCX) {
+            context.log("Brilliance", category = LogCategory.BRILLIANCE) { "Brilliance change ignored due to CX." }
             return
         }
-        if (isAgonized) {
-            context.log("Abnormal") { "Brilliance gain prevented by agony." }
-            return
+        val amount = if (base > 0) {
+            base * (100 + brillianceGainUp) / 100
+        } else {
+            base
         }
-        val amount = base * (100 + brillianceGainUp) / 100
         adjustBrilliance(self.brilliance + amount)
     }
 
