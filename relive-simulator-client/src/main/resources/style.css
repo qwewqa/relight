@@ -526,6 +526,11 @@ pwa-update::part(offlineToast) {
     background: indigo;
 }
 
+#interactive-auto-queue-button {
+    position: relative;
+    top: calc(var(--size-ref) / 48);
+}
+
 .interactive-act-queued .queue-actor-img {
     filter: brightness(100%) drop-shadow(0 0 4px forestgreen) drop-shadow(0 0 2px forestgreen);
 }

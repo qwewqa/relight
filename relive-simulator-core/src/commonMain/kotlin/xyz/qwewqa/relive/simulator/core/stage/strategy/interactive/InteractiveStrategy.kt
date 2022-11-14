@@ -313,6 +313,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                     playStage(command) {
                         candidates = (player.strategy as InteractiveStrategy).queueCandidates
                     }
+                    status.undo() // Remove the auto_queue command from the history
                     candidates
                 }
                 if (candidates.isNullOrEmpty()) {

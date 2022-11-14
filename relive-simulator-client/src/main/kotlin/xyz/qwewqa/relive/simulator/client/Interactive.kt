@@ -308,40 +308,54 @@ private fun updateActs(simulation: InteractiveSimulation, status: InteractiveQue
             interactiveActsRow.removeClass("invisible")
             interactiveShortcutsContainer.addClass("invisible")
             interactiveActsRow.append {
-                button(
-                    classes = "btn btn-secondary ${
+                div("d-flex flex-column") {
+                    button(
+                        classes = "btn btn-secondary ${
+                            when {
+                                status.canClimax -> "interactive-climax-button-available"
+                                status.climaxTurns > 0 -> "interactive-climax-button-activated"
+                                else -> ""
+                            }
+                        }"
+                    ) {
+                        role = "button"
+                        id = "interactive-climax-button"
                         when {
-                            status.canClimax -> "interactive-climax-button-available"
-                            status.climaxTurns > 0 -> "interactive-climax-button-activated"
-                            else -> ""
-                        }
-                    }"
-                ) {
-                    role = "button"
-                    id = "interactive-climax-button"
-                    when {
-                        status.canClimax -> {
-                            div("interactive-climax-button-text-container") {
-                                div("interactive-climax-button-text font-monospace") {
-                                    +"CA"
+                            status.canClimax -> {
+                                div("interactive-climax-button-text-container") {
+                                    div("interactive-climax-button-text font-monospace") {
+                                        +"CA"
+                                    }
                                 }
                             }
-                        }
 
-                        status.climaxTurns > 0 -> {
-                            div("interactive-climax-button-text-container") {
-                                div("interactive-climax-button-text font-monospace") {
-                                    +"${status.climaxTurns}"
+                            status.climaxTurns > 0 -> {
+                                div("interactive-climax-button-text-container") {
+                                    div("interactive-climax-button-text font-monospace") {
+                                        +"${status.climaxTurns}"
+                                    }
+                                }
+                            }
+                        }
+                        onClickFunction = {
+                            GlobalScope.launch {
+                                simulation.sendCommand("climax")
+                            }
+                        }
+                        disabled = !status.canClimax
+                    }
+                    button(classes = "btn btn-sm btn-dark interactive-act-button") {
+                        id = "interactive-auto-queue-button"
+                        i("bi bi-magic")
+                        disabled = status.runState != InteractiveRunState.QUEUE
+                        onClickFunction = {
+                            if (status.runState == InteractiveRunState.QUEUE) {
+                                GlobalScope.launch {
+                                    simulation.sendCommand("auto_queue")
                                 }
                             }
                         }
                     }
-                    onClickFunction = {
-                        GlobalScope.launch {
-                            simulation.sendCommand("climax")
-                        }
-                    }
-                    disabled = !status.canClimax
                 }
                 div {
                     id = "interactive-hold-container"
