@@ -593,3 +593,9 @@
 # v0.35.0
 - Added dexterity counters to interactive
 - Added damage dealt to the interactive boss hp bar
+
+# v0.35.1
+- Added an auto queue button and command to interactive
+- Fix an occasional issue with interactive logs
+- Add support for importing share urls
+- Fixed TR25 Komachi HP by Mikayla
