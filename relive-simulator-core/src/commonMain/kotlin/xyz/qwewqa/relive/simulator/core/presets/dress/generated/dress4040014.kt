@@ -12,6 +12,116 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4040014
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress4040014(
+    name = "雷光のホリィ",
+    acts = listOf(
+        ActType.Act1.blueprint("激化の斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から3体の敵役
+                  hit_rate1: 100
+                  values1: [91, 95, 99, 104, 109]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("迅雷の刃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [84, 88, 92, 97, 101]
+                  times1: 2
+                スタン
+                  target: 敵役全体
+                  hit_rate2: 75
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                */
+            }
+        },
+        ActType.Act3.blueprint("雷雲の呼声") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [54, 56, 59, 62, 64]
+                  times1: 2
+                継続マイナス効果耐性アップ(%value%) (解除不可)
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [100, 100, 100, 100, 100]
+                  times2: [1, 1, 1, 1, 1]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("正義の雷光") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から3体の敵役
+                  hit_rate1: 100
+                  values1: [186, 200, 214, 228, 243]
+                  times1: 5
+
+                field_effects:
+                  雷鳴 (value: 1, time: 2, target: enemies)
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          ACTパワーアップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 20
+            time: 3
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          通常バリア(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 10000
+            time: 3
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          最大HPアップ(%value%)
+            target: 味方全体
+            values: [20, 20, 20, 20, 20]
+        */
+        ),
+    ),
+    unitSkill = null /* 立ち位置中の舞台少女のACTパワーアップ %opt1_value%%(MAX30%) クリティカル威力アップ %opt2_value%%(MAX30%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress4040014 = PartialDressBlueprint(
   id = 4040014,
   name = "雷光のホリィ",

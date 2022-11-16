@@ -12,6 +12,111 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2010012
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress2010012(
+    name = "闇断ちの小町",
+    acts = listOf(
+        ActType.Act1.blueprint("強斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [147, 154, 161, 168, 176]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("加療の斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [165, 173, 181, 189, 198]
+                  times1: 1
+                カウンターヒール(%value%) (回復量は対象の最大HPに依存する)
+                  target: 前から2体の味方
+                  hit_rate2: 100
+                  values2: [5, 6, 7, 8, 10]
+                  times2: [1, 1, 1, 1, 1]
+                */
+            }
+        },
+        ActType.Act3.blueprint("キラめきの風") {
+            Act {
+                /*
+                キラめき回復(%value%)
+                  target: 味方全体
+                  hit_rate1: 100
+                  values1: [15, 16, 17, 18, 20]
+                  times1: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("桜花抜刀術　壱式") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [117, 123, 128, 134, 140]
+                  times1: 2
+                凍結
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [1, 1, 1, 1, 1]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          不屈
+            target: 自身
+            hit_rate: 100
+            value: 0
+            time: 1
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          与ダメージアップ(%value%)
+            target: 自身
+            values: [7, 7, 7, 7, 7]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          クリティカル率アップ(%value%)
+            target: 自身
+            values: [10, 10, 10, 10, 10]
+        */
+        ),
+    ),
+    unitSkill = null /* 立ち位置中の舞台少女のACTパワーアップ %opt1_value%%(MAX30%) クリティカル威力アップ %opt2_value%%(MAX30%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress2010012 = PartialDressBlueprint(
   id = 2010012,
   name = "闇断ちの小町",

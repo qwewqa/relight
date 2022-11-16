@@ -12,6 +12,115 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1090004
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1090004(
+    name = "ドン・サルヴァトーリ",
+    acts = listOf(
+        ActType.Act1.blueprint("斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [88, 92, 96, 101, 105]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("渾身の斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [129, 136, 142, 149, 155]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act3.blueprint("奮起の合奏") {
+            Act {
+                /*
+                ACTパワーアップ(%value%)
+                  target: 自身
+                  hit_rate1: 100
+                  values1: [13, 14, 16, 17, 19]
+                  times1: [3, 3, 3, 3, 3]
+                %attr%属性攻撃(威力%value%)
+                  target: 前グループの敵役
+                  hit_rate2: 100
+                  values2: [102, 108, 113, 118, 123]
+                  times2: 1
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("Fuoco!") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [286, 300, 314, 328, 343]
+                  times1: 5
+                回避
+                  target: 自身
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          キラめき回復(%value%)
+            target: 自身
+            hit_rate: 100
+            value: 10
+            time: 0
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          不屈
+            target: 自身
+            hit_rate: 100
+            value: 0
+            time: 1
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          回避
+            target: 自身
+            hit_rate: 100
+            value: 0
+            time: 1
+        */
+        ),
+    ),
+    unitSkill = null /* 立ち位置前の舞台少女が2人以上編成されているとき自身のACTパワーアップ %opt1_value%%(MAX30%) クリティカル威力アップ %opt2_value%%(MAX30%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1090004 = PartialDressBlueprint(
   id = 1090004,
   name = "ドン・サルヴァトーリ",

@@ -12,6 +12,131 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1030017
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1030017(
+    name = "舞台少女",
+    acts = listOf(
+        ActType.Act1.blueprint("強打撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から3体の敵役
+                  hit_rate1: 100
+                  values1: [91, 95, 99, 104, 109]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("鈍重の打撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [165, 173, 181, 189, 198]
+                  times1: 1
+                すばやさダウン(%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [20, 22, 24, 27, 30]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.Act3.blueprint("致命の打撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から3体の敵役
+                  hit_rate1: 100
+                  values1: [97, 102, 106, 111, 116]
+                  times1: 1
+                クリティカル率アップ(%value%)
+                  target: ACTパワーが高い2体の味方
+                  hit_rate2: 100
+                  values2: [20, 22, 24, 27, 30]
+                  times2: [3, 3, 3, 3, 3]
+                クリティカル威力アップ(%value%)
+                  target: ACTパワーが高い2体の味方
+                  hit_rate3: 100
+                  values3: [20, 22, 24, 27, 30]
+                  times3: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("ずっとそばに居たのは……わたしなんだよ？") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [164, 172, 181, 189, 197]
+                  times1: 1
+                命中率ダウン(%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [30, 32, 34, 37, 40]
+                  times2: [2, 2, 2, 2, 2]
+                不屈
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [0, 0, 0, 0, 0]
+                  times3: [1, 1, 1, 1, 1]
+
+                field_effects:
+                  私たちはもう舞台の上（花） (value: 1, time: 6, target: allies)
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          混乱耐性アップ(%value%)
+            target: 自身
+            values: [100, 100, 100, 100, 200]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          回避
+            target: 自身
+            hit_rate: 100
+            value: 0
+            time: 1
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          すばやさアップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 10
+            time: 3
+        */
+        ),
+    ),
+    unitSkill = null /* 花・陽属性の舞台少女のACTパワーアップ %opt1_value%%(MAX30%) クリティカル威力アップ %opt2_value%%(MAX30%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1030017 = PartialDressBlueprint(
   id = 1030017,
   name = "舞台少女",

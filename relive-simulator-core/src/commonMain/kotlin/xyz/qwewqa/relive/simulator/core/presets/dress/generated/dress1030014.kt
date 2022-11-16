@@ -12,6 +12,116 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1030014
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1030014(
+    name = "みらい",
+    acts = listOf(
+        ActType.Act1.blueprint("バラード") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から3体の敵役
+                  hit_rate1: 100
+                  values1: [84, 88, 92, 97, 101]
+                  times1: 1
+                睡眠
+                  target: 前から3体の敵役
+                  hit_rate2: 33
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                */
+            }
+        },
+        ActType.Act2.blueprint("ロックンロール") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から3体の敵役
+                  hit_rate1: 100
+                  values1: [84, 88, 92, 97, 101]
+                  times1: 1
+                スタン
+                  target: 前から3体の敵役
+                  hit_rate2: 33
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                */
+            }
+        },
+        ActType.Act3.blueprint("キラめきの歌") {
+            Act {
+                /*
+                キラめき回復(%value%)
+                  target: 味方全体
+                  hit_rate1: 100
+                  values1: [10, 11, 12, 13, 15]
+                  times1: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("夢のステージをみんなに！") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [117, 123, 128, 134, 140]
+                  times1: 4
+                ストップ
+                  target: 敵役全体
+                  hit_rate2: 75
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [1, 1, 1, 1, 1]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          クリティカル率アップ(%value%)
+            target: 自身
+            values: [15, 15, 15, 15, 15]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          被ダメージダウン(%value%)
+            target: 自身
+            values: [15, 15, 15, 15, 15]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          退場回避 (発動時に効果解除)
+            target: 自身
+            hit_rate: 100
+            value: 0
+            time: 4
+        */
+        ),
+    ),
+    unitSkill = null /* 立ち位置後の舞台少女が2人以上編成されているとき自身のACTパワーアップ %opt1_value%%(MAX30%) クリティカル威力アップ %opt2_value%%(MAX30%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1030014 = PartialDressBlueprint(
   id = 1030014,
   name = "みらい",

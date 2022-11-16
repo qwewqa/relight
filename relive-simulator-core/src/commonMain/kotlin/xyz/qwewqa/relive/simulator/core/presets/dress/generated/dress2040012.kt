@@ -12,6 +12,153 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2040012
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress2040012(
+    name = "秋風巡査",
+    acts = listOf(
+        ActType.Act1.blueprint("職務質問") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 後ろから1番目の敵役
+                  hit_rate1: 100
+                  values1: [129, 136, 141, 148, 155]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("緊急配備") {
+            Act {
+                /*
+                継続マイナス効果解除
+                  target: 味方全体
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                継続マイナス効果耐性アップ(%value%)
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [100, 100, 100, 100, 100]
+                  times2: [3, 3, 3, 3, 3]
+                %attr%属性攻撃(威力%value%)
+                  target: 後ろから1番目の敵役
+                  hit_rate3: 100
+                  values3: [165, 173, 181, 189, 198]
+                  times3: 1
+                */
+            }
+        },
+        ActType.Act3.blueprint("現場急行") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 後ろから1番目の敵役
+                  hit_rate1: 100
+                  values1: [165, 173, 181, 189, 198]
+                  times1: 1
+                AP減少
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                クリティカル威力アップ(%value%)
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [20, 22, 24, 27, 30]
+                  times3: [3, 3, 3, 3, 3]
+                有利属性ダメージアップ(%value%)
+                  target: 味方全体
+                  hit_rate4: 100
+                  values4: [20, 22, 24, 27, 30]
+                  times4: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("秋風巡査の緊急逮捕劇") {
+            Act {
+                /*
+                起死回生(%value%) (回復量は対象の最大HPに依存する)
+                  target: 自身
+                  hit_rate1: 100
+                  values1: [50, 50, 50, 50, 50]
+                  times1: [1, 1, 1, 1, 1]
+                クリティカル率アップ(%value%)
+                  target: 自身
+                  hit_rate2: 100
+                  values2: [20, 22, 24, 27, 30]
+                  times2: [3, 3, 3, 3, 3]
+                クリティカル威力アップ(%value%)
+                  target: 自身
+                  hit_rate3: 100
+                  values3: [20, 22, 24, 27, 30]
+                  times3: [3, 3, 3, 3, 3]
+                継続プラス効果解除
+                  target: 敵役全体
+                  hit_rate4: 100
+                  values4: [0, 0, 0, 0, 0]
+                  times4: [0, 0, 0, 0, 0]
+                %attr%属性攻撃(威力%value%) (1HITごとに33%の確率で錯乱を1回付与)
+                  target: 敵役全体から1HITごとにランダムに1体
+                  hit_rate5: 100
+                  values5: [350, 370, 390, 420, 450]
+                  times5: [10, 10, 10, 10, 10]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          クリティカル率アップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 20
+            time: 3
+          クリティカル威力アップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 20
+            time: 3
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          与ダメージアップ(%value%) (フロンティア芸術学校に対してのみ有効)
+            target: 自身
+            values: [20, 20, 20, 20, 20]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          AP増加 (解除不可)
+            target: 後ろから3体の敵役
+            hit_rate: 100
+            value: 0
+            time: 3
+        */
+        ),
+    ),
+    unitSkill = null /* 雪・陽属性の舞台少女のACTパワーアップ %opt1_value%%(MAX50%) クリティカル威力アップ %opt2_value%%(MAX50%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress2040012 = PartialDressBlueprint(
   id = 2040012,
   name = "秋風巡査",

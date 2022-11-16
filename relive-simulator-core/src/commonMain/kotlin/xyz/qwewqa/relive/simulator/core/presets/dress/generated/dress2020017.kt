@@ -12,6 +12,128 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2020017
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress2020017(
+    name = "舞台少女",
+    acts = listOf(
+        ActType.Act1.blueprint("キラめきの風") {
+            Act {
+                /*
+                キラめき回復(%value%)
+                  target: 味方全体
+                  hit_rate1: 100
+                  values1: [15, 16, 17, 18, 20]
+                  times1: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.Act2.blueprint("浄化の歌") {
+            Act {
+                /*
+                継続マイナス効果解除
+                  target: 味方全体
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                継続プラス効果解除
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [0, 0, 0, 0, 0]
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate3: 100
+                  values3: [84, 88, 92, 97, 101]
+                  times3: 2
+                */
+            }
+        },
+        ActType.Act3.blueprint("浄化の声") {
+            Act {
+                /*
+                回数プラス効果解除
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [54, 56, 59, 62, 64]
+                  times2: 2
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("聞かせて魅せます命の響！") {
+            Act {
+                /*
+                継続プラス効果解除
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [164, 172, 181, 189, 197]
+                  times2: 3
+                凍結
+                  target: 敵役全体
+                  hit_rate3: 100
+                  values3: [0, 0, 0, 0, 0]
+                  times3: [1, 1, 1, 1, 1]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          キラめき減少(%value%)
+            target: 敵役全体
+            hit_rate: 100
+            value: 30
+            time: 0
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          最大HPアップ(%value%)
+            target: 味方全体
+            values: [50, 50, 50, 50, 50]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          凍結
+            target: 前から2体の敵役
+            hit_rate: 100
+            value: 0
+            time: 1
+        */
+        ),
+    ),
+    unitSkill = null /* 宙・星属性の舞台少女のACTパワーアップ %opt1_value%%(MAX50%) クリティカル威力アップ %opt2_value%%(MAX50%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress2020017 = PartialDressBlueprint(
   id = 2020017,
   name = "舞台少女",

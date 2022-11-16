@@ -12,6 +12,118 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3030011
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress3030011(
+    name = "サンタセイバー",
+    acts = listOf(
+        ActType.Act1.blueprint("強打撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [147, 154, 161, 168, 176]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("浄化の打撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: ACTパワーが1番高い敵役
+                  hit_rate1: 100
+                  values1: [165, 173, 181, 189, 198]
+                  times1: 1
+                継続マイナス効果解除
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.Act3.blueprint("断切の打撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: ACTパワーが1番高い敵役
+                  hit_rate1: 100
+                  values1: [165, 173, 181, 189, 198]
+                  times1: 1
+                継続プラス効果解除
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("クリスマス・クロス") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%) (必中、無敵・反射・バリアを無視)
+                  target: 挑発・ターゲット固定を無視し、ACTパワーが1番高い敵役
+                  hit_rate1: 100
+                  values1: [350, 370, 390, 420, 450]
+                  times1: [2, 2, 2, 2, 2]
+                ACTパワーダウン(%value%)
+                  target: 挑発・ターゲット固定を無視し、ACTパワーが1番高い敵役
+                  hit_rate2: 100
+                  values2: [40, 42, 44, 47, 50]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          暗闇耐性アップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 100
+            time: 3
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          混乱耐性アップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 100
+            time: 3
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          毎ターンキラめき回復(%value%)
+            target: 自身
+            values: [20, 20, 20, 20, 20]
+        */
+        ),
+    ),
+    unitSkill = null /* 宙・星属性の舞台少女のACTパワーアップ %opt1_value%%(MAX15%) クリティカル威力アップ %opt2_value%%(MAX15%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress3030011 = PartialDressBlueprint(
   id = 3030011,
   name = "サンタセイバー",

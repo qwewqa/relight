@@ -12,6 +12,136 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1090012
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1090012(
+    name = "イザナミ",
+    acts = listOf(
+        ActType.Act1.blueprint("強斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [147, 154, 161, 168, 176]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("天命の抑圧") {
+            Act {
+                /*
+                スタン
+                  target: 敵役全体
+                  hit_rate1: 75
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [2, 2, 2, 2, 2]
+                */
+            }
+        },
+        ActType.Act3.blueprint("凍てつく叢雲") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: ACTパワーが1番高い敵役
+                  hit_rate1: 100
+                  values1: [165, 173, 181, 189, 198]
+                  times1: 1
+                凍結
+                  target: 敵役全体
+                  hit_rate2: 50
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [1, 1, 1, 1, 1]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("イザナミの天地創造") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [164, 172, 181, 189, 197]
+                  times1: 4
+                クリティカル率ダウン(%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [40, 42, 44, 47, 50]
+                  times2: [3, 3, 3, 3, 3]
+                クリティカル威力ダウン(%value%)
+                  target: 敵役全体
+                  hit_rate3: 100
+                  values3: [40, 42, 44, 47, 50]
+                  times3: [3, 3, 3, 3, 3]
+                ACTパワーダウン(%value%)
+                  target: 敵役全体
+                  hit_rate4: 100
+                  values4: [20, 22, 24, 27, 30]
+                  times4: [3, 3, 3, 3, 3]
+                刻印
+                  target: 敵役全体
+                  hit_rate5: 100
+                  values5: [0, 0, 0, 0, 0]
+                  times5: [2, 2, 2, 2, 2]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          不屈
+            target: 自身
+            hit_rate: 100
+            value: 0
+            time: 1
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          クライマックスACT威力アップ(%value%)
+            target: 自身
+            values: [10, 11, 12, 13, 15]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          毎ターンキラめき回復(%value%)
+            target: 自身
+            values: [20, 20, 20, 20, 20]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 4:
+          AP増加
+            target: 敵役全体
+            hit_rate: 100
+            value: 0
+            time: 1
+        */
+        ),
+    ),
+    unitSkill = null /* ACTタイプ[特殊]の舞台少女のACTパワーアップ %opt1_value%%(MAX30%) クリティカル威力アップ %opt2_value%%(MAX30%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1090012 = PartialDressBlueprint(
   id = 1090012,
   name = "イザナミ",

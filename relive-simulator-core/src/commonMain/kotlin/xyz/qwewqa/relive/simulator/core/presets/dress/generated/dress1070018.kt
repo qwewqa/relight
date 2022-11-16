@@ -12,6 +12,145 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1070018
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1070018(
+    name = "マッドサイエンティスト",
+    acts = listOf(
+        ActType.Act1.blueprint("創壁の斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [88, 92, 96, 101, 105]
+                  times1: 1
+                通常バリア(%value%)
+                  target: 自身
+                  hit_rate2: 100
+                  values2: [3000, 3500, 4000, 4500, 5000]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.Act2.blueprint("逆転の可能性") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から3体の敵役
+                  hit_rate1: 100
+                  values1: [97, 102, 106, 111, 116]
+                  times1: 2
+                プラス効果反転(%value%)
+                  target: 前から3体の敵役
+                  hit_rate2: 100
+                  values2: [2, 2, 2, 2, 2]
+                  times2: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.Act3.blueprint("能力の解放") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [84, 88, 92, 97, 101]
+                  times1: 2
+                ACTパワーアップ(%value%)
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [20, 22, 24, 27, 30]
+                  times2: [3, 3, 3, 3, 3]
+                AP減少
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [0, 0, 0, 0, 0]
+                  times3: [2, 2, 2, 2, 2]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("モアッド・スネェェイク！！") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [200, 210, 220, 230, 240]
+                  times1: 5
+                継続マイナス効果耐性アップ(%value%)
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [100, 100, 100, 100, 100]
+                  times2: [3, 3, 3, 3, 3]
+                HP回復(%value%) (回復量は対象の最大HPに依存する)
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [25, 26, 27, 28, 33]
+                  times3: [0, 0, 0, 0, 0]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          花属性被ダメージダウン(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 80
+            time: 2
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          ACTパワーアップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 10
+            time: 3
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          回避率アップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 52
+            time: 2
+        */
+        ),
+        listOf(
+        /*
+        auto skill 4:
+          クリティカル率アップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 10
+            time: 3
+        */
+        ),
+    ),
+    unitSkill = null /* ACTタイプ[通常]の舞台少女の最大HPアップ %opt1_value%%(MAX50%) 通常防御力アップ %opt2_value%%(MAX30%) 特殊防御力アップ %opt3_value%%(MAX30%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1070018 = PartialDressBlueprint(
   id = 1070018,
   name = "マッドサイエンティスト",

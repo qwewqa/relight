@@ -12,6 +12,111 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3050002
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress3050002(
+    name = "海賊女王",
+    acts = listOf(
+        ActType.Act1.blueprint("斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [88, 92, 96, 101, 105]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("渾身の斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [129, 136, 142, 149, 155]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act3.blueprint("ラインステップ") {
+            Act {
+                /*
+                回避
+                  target: HP割合が低い2体の味方
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [1, 1, 1, 1, 1]
+                通常防御力アップ(%value%)
+                  target: HP割合が低い2体の味方
+                  hit_rate2: 100
+                  values2: [8, 9, 10, 11, 12]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("クロスボーンスラッシュ") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [117, 123, 128, 134, 140]
+                  times1: 1
+                通常防御力ダウン(%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [16, 18, 20, 22, 23]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          被ダメージダウン(%value%)
+            target: 自身
+            values: [2, 3, 3, 3, 4]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          不屈
+            target: 自身
+            hit_rate: 100
+            value: 0
+            time: 1
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          風属性被ダメージダウン(%value%)
+            target: 自身
+            values: [10, 10, 10, 10, 15]
+        */
+        ),
+    ),
+    unitSkill = null /* 花・陽属性の舞台少女のACTパワーアップ %opt1_value%%(MAX15%) クリティカル威力アップ %opt2_value%%(MAX15%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress3050002 = PartialDressBlueprint(
   id = 3050002,
   name = "海賊女王",

@@ -12,6 +12,136 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2030012
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress2030012(
+    name = "PONZU DEVIL",
+    acts = listOf(
+        ActType.Act1.blueprint("キラめきの斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 後ろから1番目の敵役
+                  hit_rate1: 100
+                  values1: [93, 98, 102, 107, 112]
+                  times1: 1
+                キラめき回復(%value%)
+                  target: 自身
+                  hit_rate2: 100
+                  values2: [20, 20, 20, 20, 20]
+                  times2: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.Act2.blueprint("マッドネスアタック") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 後ろから1番目の敵役
+                  hit_rate1: 100
+                  values1: [170, 180, 190, 200, 210]
+                  times1: 1
+                混乱 (解除不可)
+                  target: 後ろから1番目の敵役
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                */
+            }
+        },
+        ActType.Act3.blueprint("ピンポイントクラッチ") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 後ろから1番目の敵役
+                  hit_rate1: 100
+                  values1: [170, 180, 190, 200, 210]
+                  times1: 1
+                急所
+                  target: 後ろから1番目の敵役
+                  hit_rate2: 100
+                  values2: [60, 60, 60, 60, 60]
+                  times2: [1, 1, 1, 1, 1]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("PONZU毒霧") {
+            Act {
+                /*
+                継続プラス効果解除
+                  target: 前から2体の敵役
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                急所
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [60, 60, 60, 60, 60]
+                  times2: [2, 2, 2, 2, 2]
+                毒(%value%)
+                  target: 敵役全体
+                  hit_rate3: 100
+                  values3: [55555, 66666, 77777, 88888, 99999]
+                  times3: [1, 1, 1, 1, 1]
+                %attr%属性攻撃(威力%value%) (必中、無敵・反射・バリアを無視)
+                  target: 敵役全体
+                  hit_rate4: 100
+                  values4: [200, 210, 220, 230, 240]
+                  times4: [1, 1, 1, 1, 1]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          継続マイナス効果耐性アップ(%value%)
+            target: 自身
+            values: [50, 50, 50, 50, 50]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          最大HPアップ(%value%)
+            target: 味方全体
+            values: [50, 50, 50, 50, 50]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          キラめき回復(%value%)
+            target: 味方の夢大路文
+            hit_rate: 100
+            value: 20
+            time: 0
+          キラめき回復(%value%)
+            target: 味方の秋風塁
+            hit_rate: 100
+            value: 20
+            time: 0
+        */
+        ),
+    ),
+    unitSkill = null /* 雪・陽属性の舞台少女のACTパワーアップ %opt1_value%%(MAX50%) クリティカル威力アップ %opt2_value%%(MAX50%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress2030012 = PartialDressBlueprint(
   id = 2030012,
   name = "PONZU DEVIL",

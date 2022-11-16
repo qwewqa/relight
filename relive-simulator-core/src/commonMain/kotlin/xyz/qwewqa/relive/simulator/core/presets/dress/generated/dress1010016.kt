@@ -12,6 +12,126 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1010016
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1010016(
+    name = "シェヘラザード",
+    acts = listOf(
+        ActType.Act1.blueprint("キラめきの風") {
+            Act {
+                /*
+                キラめき回復(%value%)
+                  target: 味方全体
+                  hit_rate1: 100
+                  values1: [15, 16, 17, 18, 20]
+                  times1: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.Act2.blueprint("夜明けの奏") {
+            Act {
+                /*
+                継続プラス効果解除
+                  target: 前から3体の敵役
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                AP増加
+                  target: 前から3体の敵役
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                %attr%属性攻撃(威力%value%)
+                  target: 前から3体の敵役
+                  hit_rate3: 100
+                  values3: [84, 88, 92, 97, 101]
+                  times3: 2
+                */
+            }
+        },
+        ActType.Act3.blueprint("はじまりの物語") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [84, 88, 92, 97, 101]
+                  times1: 2
+                AP減少
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("千夜一夜の幻想") {
+            Act {
+                /*
+                継続プラス効果解除
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [164, 172, 181, 189, 197]
+                  times2: 4
+                悪夢(%value%)
+                  target: 敵役全体
+                  hit_rate3: 100
+                  values3: [2222, 3333, 4444, 5555, 6666]
+                  times3: [2, 2, 2, 2, 2]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          継続マイナス効果耐性アップ(%value%)
+            target: 自身
+            values: [50, 50, 50, 50, 50]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          最大HPアップ(%value%)
+            target: 味方全体
+            values: [50, 50, 50, 50, 50]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          睡眠
+            target: 前から2体の敵役
+            hit_rate: 100
+            value: 0
+            time: 1
+        */
+        ),
+    ),
+    unitSkill = null /* ACTタイプ[通常]の舞台少女のACTパワーアップ %opt1_value%%(MAX30%) クリティカル威力アップ %opt2_value%%(MAX30%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1010016 = PartialDressBlueprint(
   id = 1010016,
   name = "シェヘラザード",

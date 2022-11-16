@@ -12,6 +12,118 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1040016
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1040016(
+    name = "上杉謙信",
+    acts = listOf(
+        ActType.Act1.blueprint("激化の斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から3体の敵役
+                  hit_rate1: 100
+                  values1: [91, 95, 99, 104, 109]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("宵闇の舞") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から3体の敵役
+                  hit_rate1: 100
+                  values1: [97, 102, 106, 111, 116]
+                  times1: 2
+                暗闇 (解除不可)
+                  target: 前から3体の敵役
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                */
+            }
+        },
+        ActType.Act3.blueprint("龍の雷") {
+            Act {
+                /*
+                回数プラス効果解除
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [54, 56, 59, 62, 64]
+                  times2: 2
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("軍神の一閃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [200, 210, 220, 230, 240]
+                  times1: 5
+
+                field_effects:
+                  戦神の護り (value: 1, time: 3, target: allies)
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          キラめき減少(%value%)
+            target: 敵役全体
+            hit_rate: 100
+            value: 10
+            time: 0
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          キラめき獲得ダウン(%value%)
+            target: 敵役全体
+            hit_rate: 100
+            value: 80
+            time: 2
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          キラめき回復(%value%)
+            target: 味方の天堂真矢
+            hit_rate: 100
+            value: 20
+            time: 0
+        */
+        ),
+    ),
+    unitSkill = null /* 立ち位置後の舞台少女のACTパワーアップ %opt1_value%%(MAX30%) クリティカル威力アップ %opt2_value%%(MAX30%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1040016 = PartialDressBlueprint(
   id = 1040016,
   name = "上杉謙信",

@@ -12,6 +12,169 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress5020005
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress5020005(
+    name = "白雪姫の王子",
+    acts = listOf(
+        ActType.Act1.blueprint("世界中のなによりも") {
+            Act {
+                /*
+                継続プラス効果解除
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate2: 100
+                  values2: [170, 180, 190, 200, 210]
+                  times2: 1
+                希望
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [0, 0, 0, 0, 0]
+                  times3: [1, 1, 1, 1, 1]
+                */
+            }
+        },
+        ActType.Act2.blueprint("彼女のために") {
+            Act {
+                /*
+                継続プラス効果解除
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate2: 100
+                  values2: [170, 180, 190, 200, 210]
+                  times2: 1
+
+                field_effects:
+                  拍手喝采（雲） (value: 1, time: 6, target: allies)
+                */
+            }
+        },
+        ActType.Act3.blueprint("永遠に私のそばに") {
+            Act {
+                /*
+                継続プラス効果解除
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate2: 100
+                  values2: [170, 180, 190, 200, 210]
+                  times2: 1
+
+                field_effects:
+                  自縄自縛 (value: 1, time: 2, target: enemies)
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("解毒の接吻") {
+            Act {
+                /*
+                回数マイナス効果耐性アップ(%value%) (解除不可)
+                  target: 味方全体
+                  hit_rate1: 100
+                  values1: [100, 100, 100, 100, 100]
+                  times1: [2, 2, 2, 2, 2]
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate2: 100
+                  values2: [450, 460, 470, 480, 500]
+                  times2: 3
+                幕引き (解除不可)
+                  target: 前から1番目の敵役
+                  hit_rate3: 100
+                  values3: [0, 0, 0, 0, 0]
+                  times3: [1, 1, 1, 1, 1]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          起死回生(%value%) (回復量は対象の最大HPに依存する)
+            target: 自身
+            hit_rate: 100
+            value: 50
+            time: 1
+          不屈
+            target: 自身
+            hit_rate: 100
+            value: 0
+            time: 4
+          起死回生(%value%) (回復量は対象の最大HPに依存する)
+            target: 味方の雲属性
+            hit_rate: 100
+            value: 50
+            time: 1
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          クリティカル率アップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 20
+            time: 3
+          クリティカル威力アップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 20
+            time: 3
+          有利属性ダメージアップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 20
+            time: 3
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          AP減少
+            target: 味方の雲属性
+            hit_rate: 100
+            value: 0
+            time: 2
+        */
+        ),
+        listOf(
+        /*
+        auto skill 4:
+          誓いのレヴュー特攻(%value%)
+            target: 自身
+            values: [50, 50, 50, 50, 50]
+        */
+        ),
+    ),
+    unitSkill = null /* 雲・星属性の舞台少女のACTパワーアップ %opt1_value%%(MAX50%) クリティカル威力アップ %opt2_value%%(MAX50%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress5020005 = PartialDressBlueprint(
   id = 5020005,
   name = "白雪姫の王子",

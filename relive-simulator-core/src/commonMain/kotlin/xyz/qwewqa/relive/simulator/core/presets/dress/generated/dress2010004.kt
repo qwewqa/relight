@@ -12,6 +12,109 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2010004
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress2010004(
+    name = "羽根つきで勝負！？",
+    acts = listOf(
+        ActType.Act1.blueprint("斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [88, 92, 96, 101, 105]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("渾身の斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [116, 122, 128, 134, 139]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act3.blueprint("勝利の喝采") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [125, 131, 137, 144, 150]
+                  times1: 1
+                クリティカル率アップ(%value%)
+                  target: 自身
+                  hit_rate2: 100
+                  values2: [13, 14, 16, 17, 19]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("羽根突き墨汁打") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [117, 123, 128, 134, 140]
+                  times1: 1
+                暗闇
+                  target: 敵役全体
+                  hit_rate2: 25
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          与ダメージアップ(%value%)
+            target: 自身
+            values: [2, 3, 3, 3, 4]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          有利属性ダメージアップ(%value%)
+            target: 自身
+            values: [4, 4, 5, 5, 6]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          被ダメージダウン(%value%)
+            target: 自身
+            values: [7, 7, 8, 9, 10]
+        */
+        ),
+    ),
+    unitSkill = null /* 立ち位置中の舞台少女が2人以上編成されているとき自身のACTパワーアップ %opt1_value%%(MAX10%) クリティカル威力アップ %opt2_value%%(MAX10%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress2010004 = PartialDressBlueprint(
   id = 2010004,
   name = "羽根つきで勝負！？",

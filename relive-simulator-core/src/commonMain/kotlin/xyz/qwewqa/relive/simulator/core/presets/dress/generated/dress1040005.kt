@@ -12,6 +12,124 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1040005
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1040005(
+    name = "恋人",
+    acts = listOf(
+        ActType.Act1.blueprint("キラめきの斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [93, 98, 102, 107, 112]
+                  times1: 1
+                キラめき回復(%value%)
+                  target: 自身
+                  hit_rate2: 100
+                  values2: [20, 20, 20, 20, 20]
+                  times2: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.Act2.blueprint("一途な思い") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [54, 56, 59, 62, 64]
+                  times1: 2
+                必中
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [3, 3, 3, 3, 3]
+                被ダメージダウン(%value%)
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [20, 22, 24, 27, 30]
+                  times3: [2, 2, 2, 2, 2]
+                */
+            }
+        },
+        ActType.Act3.blueprint("淡い恋心") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [54, 56, 59, 62, 64]
+                  times1: 2
+                継続マイナス効果耐性アップ(%value%) (解除不可)
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [100, 100, 100, 100, 100]
+                  times2: [1, 1, 1, 1, 1]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("恋は迷宮") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [117, 123, 128, 134, 140]
+                  times1: 2
+                恋わずらい
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          被ダメージダウン(%value%)
+            target: 自身
+            values: [20, 20, 20, 20, 20]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          ターゲット固定耐性アップ(%value%)
+            target: 自身
+            values: [100, 100, 100, 100, 100]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          継続マイナス効果耐性アップ(%value%)
+            target: 自身
+            values: [50, 50, 50, 50, 50]
+        */
+        ),
+    ),
+    unitSkill = null /* 夢属性の舞台少女のACTパワーアップ %opt1_value%%(MAX50%) クリティカル威力アップ %opt2_value%%(MAX50%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1040005 = PartialDressBlueprint(
   id = 1040005,
   name = "恋人",

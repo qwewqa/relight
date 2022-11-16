@@ -170,6 +170,17 @@ class BuffManager(val actor: Actor) {
         return true
     }
 
+    inline fun consumeUpTo(buff: CountableBuff, max: Int, action: (Int) -> Unit = {}): Boolean {
+        val count = count(buff)
+        if (count == 0) {
+            return false
+        }
+        repeat(count.coerceAtMost(max)) {
+            action(remove(buff))
+        }
+        return true
+    }
+
     fun tryRemove(buff: CountableBuff) = if (count(buff) > 0) {
         remove(buff)
         true

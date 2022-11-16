@@ -12,6 +12,111 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3050006
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress3050006(
+    name = "モンテ・クリスト伯",
+    acts = listOf(
+        ActType.Act1.blueprint("斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [88, 92, 96, 101, 105]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("逆襲の独奏") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%) (自身のHPが低いほど威力が増加)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [105, 110, 116, 121, 126]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act3.blueprint("あなたへの手紙") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [132, 138, 145, 151, 158]
+                  times1: 1
+                刻印
+                  target: 前から1番目の敵役
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("復讐の黒羽") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%) (自身のHPが低いほど威力が増加)
+                  target: 前から3体の敵役
+                  hit_rate1: 100
+                  values1: [143, 150, 157, 164, 171]
+                  times1: 3
+                混乱
+                  target: 前から3体の敵役
+                  hit_rate2: 66
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          挑発
+            target: 敵役全体
+            hit_rate: 100
+            value: 0
+            time: 2
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          有利属性ダメージアップ(%value%)
+            target: 自身
+            values: [6, 6, 7, 8, 9]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          与ダメージアップ(%value%)
+            target: 自身
+            values: [7, 7, 8, 9, 10]
+        */
+        ),
+    ),
+    unitSkill = null /* 花・陽属性の舞台少女のACTパワーアップ %opt1_value%%(MAX15%) クリティカル威力アップ %opt2_value%%(MAX15%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress3050006 = PartialDressBlueprint(
   id = 3050006,
   name = "モンテ・クリスト伯",

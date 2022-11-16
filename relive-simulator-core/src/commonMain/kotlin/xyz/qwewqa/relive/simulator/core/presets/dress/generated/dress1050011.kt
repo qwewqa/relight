@@ -12,6 +12,126 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1050011
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1050011(
+    name = "上杉桔梗",
+    acts = listOf(
+        ActType.Act1.blueprint("キラめきの斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [93, 98, 102, 107, 112]
+                  times1: 1
+                キラめき回復(%value%)
+                  target: 自身
+                  hit_rate2: 100
+                  values2: [20, 20, 20, 20, 20]
+                  times2: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.Act2.blueprint("祝福の輪舞曲") {
+            Act {
+                /*
+                HP回復(%value%) (回復量は対象の最大HPに依存する)
+                  target: 前から3体の味方
+                  hit_rate1: 100
+                  values1: [5, 6, 7, 8, 10]
+                  times1: [0, 0, 0, 0, 0]
+                キラめき回復(%value%)
+                  target: 前から3体の味方
+                  hit_rate2: 100
+                  values2: [20, 20, 20, 20, 20]
+                  times2: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.Act3.blueprint("敏速の協奏曲") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [54, 56, 59, 62, 64]
+                  times1: 1
+                すばやさアップ(%value%)
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [10, 12, 14, 17, 20]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("チーリングソング！") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [117, 123, 128, 134, 140]
+                  times1: 3
+                不倒
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [1, 1, 1, 1, 1]
+                カウンターヒール(%value%) (回復量は対象の最大HPに依存する)
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [2, 3, 4, 5, 6]
+                  times3: [1, 1, 1, 1, 1]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          不屈
+            target: 自身
+            hit_rate: 100
+            value: 0
+            time: 1
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          混乱耐性アップ(%value%)
+            target: 自身
+            values: [100, 100, 100, 100, 200]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          スタン耐性アップ(%value%)
+            target: 自身
+            values: [100, 100, 100, 100, 200]
+        */
+        ),
+    ),
+    unitSkill = null /* 月・星属性の舞台少女の最大HPアップ %opt1_value%%(MAX30%) 通常防御力アップ %opt2_value%%(MAX15%) 特殊防御力アップ %opt3_value%%(MAX15%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1050011 = PartialDressBlueprint(
   id = 1050011,
   name = "上杉桔梗",

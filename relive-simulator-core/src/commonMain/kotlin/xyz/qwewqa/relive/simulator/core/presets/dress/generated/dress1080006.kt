@@ -12,6 +12,106 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1080006
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1080006(
+    name = "花嫁 結乃",
+    acts = listOf(
+        ActType.Act1.blueprint("斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [88, 92, 96, 101, 105]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("渾身の斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [129, 136, 142, 149, 155]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act3.blueprint("双撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から2体の敵役
+                  hit_rate1: 100
+                  values1: [121, 127, 133, 139, 145]
+                  times1: 1
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("扇の花結び") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から3体の敵役
+                  hit_rate1: 100
+                  values1: [164, 172, 181, 189, 197]
+                  times1: 1
+                睡眠
+                  target: 前から3体の敵役
+                  hit_rate2: 50
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          被ダメージダウン(%value%)
+            target: 自身
+            values: [4, 4, 5, 5, 6]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          奇術師特攻(%value%)
+            target: 自身
+            values: [50, 75, 75, 75, 100]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          回避
+            target: 自身
+            hit_rate: 100
+            value: 0
+            time: 1
+        */
+        ),
+    ),
+    unitSkill = null /* 立ち位置後の舞台少女が2人以上編成されているとき自身のACTパワーアップ %opt1_value%%(MAX10%) クリティカル威力アップ %opt2_value%%(MAX10%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1080006 = PartialDressBlueprint(
   id = 1080006,
   name = "花嫁 結乃",

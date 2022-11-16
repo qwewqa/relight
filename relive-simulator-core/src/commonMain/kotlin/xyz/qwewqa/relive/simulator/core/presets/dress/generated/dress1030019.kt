@@ -12,6 +12,129 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1030019
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1030019(
+    name = "真田幸村",
+    acts = listOf(
+        ActType.Act1.blueprint("強斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [147, 154, 161, 168, 176]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("先陣を切る刃") {
+            Act {
+                /*
+                ACTパワーアップ(%value%)
+                  target: 自身
+                  hit_rate1: 100
+                  values1: [10, 12, 14, 17, 20]
+                  times1: [3, 3, 3, 3, 3]
+                クリティカル威力アップ(%value%)
+                  target: 自身
+                  hit_rate2: 100
+                  values2: [10, 12, 14, 17, 20]
+                  times2: [3, 3, 3, 3, 3]
+                %attr%属性攻撃(威力%value%)
+                  target: ACTパワーが1番高い敵役
+                  hit_rate3: 100
+                  values3: [129, 136, 141, 148, 155]
+                  times3: 2
+                */
+            }
+        },
+        ActType.Act3.blueprint("颯爽たる刃") {
+            Act {
+                /*
+                クリティカル率アップ(%value%)
+                  target: 自身
+                  hit_rate1: 100
+                  values1: [10, 12, 14, 17, 20]
+                  times1: [3, 3, 3, 3, 3]
+                有利属性ダメージアップ(%value%)
+                  target: 自身
+                  hit_rate2: 100
+                  values2: [20, 22, 24, 27, 30]
+                  times2: [3, 3, 3, 3, 3]
+                %attr%属性攻撃(威力%value%)
+                  target: ACTパワーが1番高い敵役
+                  hit_rate3: 100
+                  values3: [165, 173, 181, 189, 198]
+                  times3: 2
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("日ノ本一の槍") {
+            Act {
+                /*
+                刻印
+                  target: ACTパワーが1番高い敵役
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [2, 2, 2, 2, 2]
+                通常防御力ダウン(%value%)
+                  target: ACTパワーが1番高い敵役
+                  hit_rate2: 100
+                  values2: [20, 22, 24, 27, 30]
+                  times2: [3, 3, 3, 3, 3]
+                %attr%属性攻撃(威力%value%) (ACTタイプ[特殊]の敵役に特攻)
+                  target: ACTパワーが1番高い敵役
+                  hit_rate3: 100
+                  values3: [307, 323, 338, 353, 369]
+                  times3: [3, 3, 3, 3, 3]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          与ダメージアップ(%value%)
+            target: 自身
+            values: [10, 10, 10, 10, 10]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          クリティカル率アップ(%value%)
+            target: 自身
+            values: [10, 10, 10, 10, 10]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          有利属性ダメージアップ(%value%)
+            target: 自身
+            values: [20, 20, 20, 20, 20]
+        */
+        ),
+    ),
+    unitSkill = null /* 立ち位置後の舞台少女のACTパワーアップ %opt1_value%%(MAX30%) クリティカル威力アップ %opt2_value%%(MAX30%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1030019 = PartialDressBlueprint(
   id = 1030019,
   name = "真田幸村",

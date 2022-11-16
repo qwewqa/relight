@@ -12,6 +12,146 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2050010
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress2050010(
+    name = "魔術師",
+    acts = listOf(
+        ActType.Act1.blueprint("鈍足の斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [93, 98, 102, 107, 112]
+                  times1: 2
+                すばやさダウン(%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [20, 22, 24, 27, 30]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.Act2.blueprint("脱力の魔術") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [54, 56, 59, 62, 64]
+                  times1: 2
+                ACTパワーダウン(%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [20, 22, 24, 27, 30]
+                  times2: [3, 3, 3, 3, 3]
+                通常防御力ダウン(%value%)
+                  target: 敵役全体
+                  hit_rate3: 100
+                  values3: [20, 22, 24, 27, 30]
+                  times3: [3, 3, 3, 3, 3]
+                特殊防御力ダウン(%value%)
+                  target: 敵役全体
+                  hit_rate4: 100
+                  values4: [20, 22, 24, 27, 30]
+                  times4: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.Act3.blueprint("キラめきの加護") {
+            Act {
+                /*
+                キラめき回復(%value%)
+                  target: 味方全体
+                  hit_rate1: 100
+                  values1: [10, 11, 12, 13, 15]
+                  times1: [0, 0, 0, 0, 0]
+                特殊バリア(%value%)
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [3000, 3500, 4000, 4500, 5000]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("アルカナム・マジーケ") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [117, 123, 128, 134, 140]
+                  times1: 5
+                混乱
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                暗闇
+                  target: 敵役全体
+                  hit_rate3: 100
+                  values3: [0, 0, 0, 0, 0]
+                  times3: [2, 2, 2, 2, 2]
+                大火傷(%value%) (ダメージ量は対象の最大HPに依存する)
+                  target: 敵役全体
+                  hit_rate4: 100
+                  values4: [5, 6, 7, 8, 10]
+                  times4: [3, 3, 3, 3, 3]
+                刻印
+                  target: 敵役全体
+                  hit_rate5: 100
+                  values5: [0, 0, 0, 0, 0]
+                  times5: [2, 2, 2, 2, 2]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          与ダメージアップ(%value%)
+            target: 自身
+            values: [7, 7, 7, 7, 7]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          クリティカル威力アップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 20
+            time: 3
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          被ダメージダウン(%value%)
+            target: 自身
+            values: [10, 10, 10, 10, 10]
+        */
+        ),
+    ),
+    unitSkill = null /* 雲・星属性の舞台少女のACTパワーアップ %opt1_value%%(MAX50%) クリティカル威力アップ %opt2_value%%(MAX50%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress2050010 = PartialDressBlueprint(
   id = 2050010,
   name = "魔術師",

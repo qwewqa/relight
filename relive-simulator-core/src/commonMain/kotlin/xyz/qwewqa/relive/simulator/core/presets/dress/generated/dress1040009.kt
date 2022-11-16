@@ -12,6 +12,116 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1040009
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1040009(
+    name = "ツクヨミ",
+    acts = listOf(
+        ActType.Act1.blueprint("斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [88, 92, 96, 101, 105]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("月影") {
+            Act {
+                /*
+                吸収(%value%) (吸収量は与ダメージに依存する)
+                  target: 味方全体
+                  hit_rate1: 100
+                  values1: [20, 23, 26, 29, 33]
+                  times1: [2, 2, 2, 2, 2]
+                */
+            }
+        },
+        ActType.Act3.blueprint("闇ヲ呑ム月") {
+            Act {
+                /*
+                吸収(%value%) (吸収量は与ダメージに依存する)
+                  target: 自身
+                  hit_rate1: 100
+                  values1: [20, 23, 26, 29, 33]
+                  times1: [1, 1, 1, 1, 1]
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate2: 100
+                  values2: [165, 173, 181, 189, 198]
+                  times2: 1
+                キラめき回復(%value%)
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [15, 16, 17, 18, 20]
+                  times3: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("夜之食国") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [117, 123, 128, 134, 140]
+                  times1: 4
+                猛毒(%value%) (ダメージ量は対象の最大HPに依存する)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [6, 8, 10, 12, 15]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          被ダメージダウン(%value%)
+            target: 自身
+            values: [4, 4, 5, 5, 6]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          回避
+            target: 自身
+            hit_rate: 100
+            value: 0
+            time: 1
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          有利属性ダメージアップ(%value%)
+            target: 自身
+            values: [10, 11, 12, 13, 15]
+        */
+        ),
+    ),
+    unitSkill = null /* 月・星属性の舞台少女のACTパワーアップ %opt1_value%%(MAX15%) クリティカル威力アップ %opt2_value%%(MAX15%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1040009 = PartialDressBlueprint(
   id = 1040009,
   name = "ツクヨミ",

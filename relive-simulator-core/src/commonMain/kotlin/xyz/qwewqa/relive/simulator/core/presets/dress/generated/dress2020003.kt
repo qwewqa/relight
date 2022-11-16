@@ -12,6 +12,133 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2020003
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress2020003(
+    name = "太陽",
+    acts = listOf(
+        ActType.Act1.blueprint("キラめきの斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [93, 98, 102, 107, 112]
+                  times1: 1
+                キラめき回復(%value%)
+                  target: 自身
+                  hit_rate2: 100
+                  values2: [20, 20, 20, 20, 20]
+                  times2: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.Act2.blueprint("陽の幻惑") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [54, 56, 59, 62, 64]
+                  times1: 2
+                ACTパワーダウン(%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [20, 22, 24, 27, 30]
+                  times2: [3, 3, 3, 3, 3]
+                命中率ダウン(%value%)
+                  target: 敵役全体
+                  hit_rate3: 100
+                  values3: [30, 32, 34, 37, 40]
+                  times3: [2, 2, 2, 2, 2]
+                */
+            }
+        },
+        ActType.Act3.blueprint("猛炎の太陽") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [54, 56, 59, 62, 64]
+                  times1: 2
+                火傷(%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [1000, 1500, 2000, 2500, 3000]
+                  times2: [2, 2, 2, 2, 2]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("燦々☆サンシャイン！") {
+            Act {
+                /*
+                大火傷(%value%) (解除不可、ダメージ量は対象の最大HPに依存する)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [5, 6, 7, 8, 10]
+                  times1: [3, 3, 3, 3, 3]
+                特殊防御力ダウン(%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [20, 22, 24, 27, 30]
+                  times2: [3, 3, 3, 3, 3]
+                %attr%属性攻撃(威力%value%) (火傷状態の敵役に特攻)
+                  target: 敵役全体
+                  hit_rate3: 100
+                  values3: [125, 135, 145, 155, 170]
+                  times3: [4, 4, 4, 4, 4]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          最大HPアップ(%value%)
+            target: 味方全体
+            values: [50, 50, 50, 50, 50]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          ACTパワーダウン(%value%)
+            target: 敵役全体
+            hit_rate: 100
+            value: 20
+            time: 3
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          クリティカル率ダウン(%value%)
+            target: 敵役全体
+            hit_rate: 100
+            value: 10
+            time: 3
+        */
+        ),
+    ),
+    unitSkill = null /* 花・陽属性の舞台少女のACTパワーアップ %opt1_value%%(MAX50%) クリティカル威力アップ %opt2_value%%(MAX50%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress2020003 = PartialDressBlueprint(
   id = 2020003,
   name = "太陽",

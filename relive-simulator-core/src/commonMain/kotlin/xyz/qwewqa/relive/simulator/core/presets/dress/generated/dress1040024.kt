@@ -12,6 +12,148 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1040024
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1040024(
+    name = "魂のレヴュー",
+    acts = listOf(
+        ActType.Act1.blueprint("キラめきの斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: ACTパワーが1番高い敵役
+                  hit_rate1: 100
+                  values1: [93, 98, 102, 107, 112]
+                  times1: 1
+                キラめき回復(%value%)
+                  target: 自身
+                  hit_rate2: 100
+                  values2: [20, 20, 20, 20, 20]
+                  times2: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.Act2.blueprint("魂の欠落") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: ACTパワーが1番高い敵役
+                  hit_rate1: 100
+                  values1: [165, 173, 181, 189, 198]
+                  times1: 1
+                回数プラス効果減少(%value%)
+                  target: 後ろから3体の敵役
+                  hit_rate2: 100
+                  values2: [1, 1, 1, 1, 1]
+                  times2: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.Act3.blueprint("輝く才能") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: ACTパワーが1番高い敵役
+                  hit_rate1: 100
+                  values1: [165, 173, 181, 189, 198]
+                  times1: 1
+                キラめき回復(%value%)
+                  target: 後ろから2体の味方
+                  hit_rate2: 100
+                  values2: [60, 65, 70, 75, 80]
+                  times2: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("今宵 キラめきで あんたを") {
+            Act {
+                /*
+                必中
+                  target: 自身
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [3, 3, 3, 3, 3]
+                不屈
+                  target: 自身
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                回数プラス効果減少(%value%)
+                  target: 敵役全体
+                  hit_rate3: 100
+                  values3: [2, 2, 2, 2, 2]
+                  times3: [0, 0, 0, 0, 0]
+                %attr%属性攻撃(威力%value%) (必中、無敵・反射・バリアを無視)
+                  target: 挑発・ターゲット固定を無視し、敵役全体
+                  hit_rate4: 100
+                  values4: [200, 210, 220, 230, 240]
+                  times4: [3, 3, 3, 3, 3]
+
+                field_effects:
+                  共に堕ちていく焔 (value: 1, time: 3, target: allies)
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          起死回生(%value%) (回復量は対象の最大HPに依存する)
+            target: 自身
+            hit_rate: 100
+            value: 50
+            time: 2
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          慢心(%value%)
+            target: 敵役のACTタイプ[通常]
+            hit_rate: 100
+            value: 3000
+            time: 2
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          キラめき減少(%value%)
+            target: 敵役のACTタイプ[通常]
+            hit_rate: 100
+            value: 50
+            time: 0
+        */
+        ),
+        listOf(
+        /*
+        auto skill 4:
+          AP増加
+            target: 敵役のACTタイプ[通常]
+            hit_rate: 100
+            value: 0
+            time: 3
+        */
+        ),
+    ),
+    unitSkill = null /* 風・陽属性の舞台少女のACTパワーアップ %opt1_value%%(MAX50%) クリティカル威力アップ %opt2_value%%(MAX50%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1040024 = PartialDressBlueprint(
   id = 1040024,
   name = "魂のレヴュー",

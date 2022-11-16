@@ -12,6 +12,109 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3050003
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress3050003(
+    name = "ジャック・オ・ランタン",
+    acts = listOf(
+        ActType.Act1.blueprint("斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [88, 92, 96, 101, 105]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("渾身の斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [123, 129, 135, 141, 147]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act3.blueprint("パワードレイン") {
+            Act {
+                /*
+                ACTパワーダウン(%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [12, 13, 14, 15, 17]
+                  times1: [3, 3, 3, 3, 3]
+                ACTパワーアップ(%value%)
+                  target: 自身
+                  hit_rate2: 100
+                  values2: [12, 13, 14, 15, 17]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("ジャックオランタン・リッパー") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前グループの敵役
+                  hit_rate1: 100
+                  values1: [211, 222, 233, 243, 254]
+                  times1: 1
+                通常防御力ダウン(%value%)
+                  target: 前グループの敵役
+                  hit_rate2: 100
+                  values2: [28, 31, 34, 37, 40]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          与ダメージアップ(%value%)
+            target: 自身
+            values: [2, 3, 3, 3, 4]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          すばやさアップ(%value%)
+            target: 自身
+            values: [3, 3, 4, 4, 5]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          被ダメージダウン(%value%)
+            target: 自身
+            values: [7, 7, 8, 9, 10]
+        */
+        ),
+    ),
+    unitSkill = null /* 立ち位置中の舞台少女が2人以上編成されているとき自身のACTパワーアップ %opt1_value%%(MAX10%) クリティカル威力アップ %opt2_value%%(MAX10%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress3050003 = PartialDressBlueprint(
   id = 3050003,
   name = "ジャック・オ・ランタン",

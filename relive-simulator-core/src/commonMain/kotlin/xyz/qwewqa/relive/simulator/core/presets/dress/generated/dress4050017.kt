@@ -12,6 +12,136 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4050017
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress4050017(
+    name = "舞台少女",
+    acts = listOf(
+        ActType.Act1.blueprint("祈りの歌") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から3体の敵役
+                  hit_rate1: 100
+                  values1: [84, 88, 92, 97, 101]
+                  times1: 2
+                AP減少
+                  target: 前から3体の味方
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                */
+            }
+        },
+        ActType.Act2.blueprint("女神の微笑み") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [84, 88, 92, 97, 101]
+                  times1: 2
+                ACTパワーアップ(%value%)
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [20, 22, 24, 27, 30]
+                  times2: [3, 3, 3, 3, 3]
+                クリティカル率アップ(%value%)
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [20, 22, 24, 27, 30]
+                  times3: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.Act3.blueprint("貫きの矢") {
+            Act {
+                /*
+                継続プラス効果解除
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                AP増加
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate3: 100
+                  values3: [54, 56, 59, 62, 64]
+                  times3: 2
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("この世は舞台 王すらも役者――ですよ？") {
+            Act {
+                /*
+                継続プラス効果解除
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [164, 172, 181, 189, 197]
+                  times2: 3
+                凍結
+                  target: 敵役全体
+                  hit_rate3: 100
+                  values3: [0, 0, 0, 0, 0]
+                  times3: [1, 1, 1, 1, 1]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          キラめき減少(%value%)
+            target: 敵役全体
+            hit_rate: 100
+            value: 10
+            time: 0
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          最大HPアップ(%value%)
+            target: 味方全体
+            values: [50, 50, 50, 50, 50]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          継続マイナス効果耐性アップ(%value%)
+            target: 自身
+            values: [50, 50, 50, 50, 50]
+        */
+        ),
+    ),
+    unitSkill = null /* シークフェルト音楽学院のACTパワーアップ %opt1_value%%(MAX50%) クリティカル威力アップ %opt2_value%%(MAX50%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress4050017 = PartialDressBlueprint(
   id = 4050017,
   name = "舞台少女",

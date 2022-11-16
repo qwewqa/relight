@@ -12,6 +12,104 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2040002
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress2040002(
+    name = "あやかし見廻り隊 隊士",
+    acts = listOf(
+        ActType.Act1.blueprint("斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [88, 92, 96, 101, 105]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("渾身の斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [129, 136, 142, 149, 155]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act3.blueprint("斬り上げ") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前グループの敵役
+                  hit_rate1: 100
+                  values1: [102, 108, 113, 118, 123]
+                  times1: 1
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("紅蓮斬　一ノ太刀") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [117, 123, 128, 134, 140]
+                  times1: 1
+                通常防御力ダウン(%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [15, 16, 18, 19, 21]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          与ダメージアップ(%value%)
+            target: 自身
+            values: [2, 3, 3, 3, 4]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          被ダメージダウン(%value%)
+            target: 自身
+            values: [2, 3, 3, 3, 4]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          有利属性ダメージアップ(%value%)
+            target: 自身
+            values: [10, 11, 12, 13, 15]
+        */
+        ),
+    ),
+    unitSkill = null /* 宙属性の舞台少女のACTパワーアップ %opt1_value%%(MAX5%) クリティカル威力アップ %opt2_value%%(MAX5%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress2040002 = PartialDressBlueprint(
   id = 2040002,
   name = "あやかし見廻り隊 隊士",

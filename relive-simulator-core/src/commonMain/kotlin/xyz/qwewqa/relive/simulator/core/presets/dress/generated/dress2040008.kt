@@ -12,6 +12,128 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2040008
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress2040008(
+    name = "ナイチンゲール",
+    acts = listOf(
+        ActType.Act1.blueprint("キラめきの斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [93, 98, 102, 107, 112]
+                  times1: 1
+                キラめき回復(%value%)
+                  target: 自身
+                  hit_rate2: 100
+                  values2: [20, 20, 20, 20, 20]
+                  times2: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.Act2.blueprint("減光の独奏") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [93, 98, 102, 107, 112]
+                  times1: 1
+                キラめき獲得ダウン(%value%)
+                  target: 前から1番目の敵役
+                  hit_rate2: 100
+                  values2: [60, 65, 70, 75, 80]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.Act3.blueprint("加療の独奏") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [93, 98, 102, 107, 112]
+                  times1: 1
+                カウンターヒール(%value%) (回復量は対象の最大HPに依存する)
+                  target: 前から1番目の味方
+                  hit_rate2: 100
+                  values2: [5, 6, 7, 8, 10]
+                  times2: [1, 1, 1, 1, 1]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("天使の奉仕") {
+            Act {
+                /*
+                退場解除(%value%) (回復量は対象の最大HPに依存する)
+                  target: 退場した中で、前から1番目の味方
+                  hit_rate1: 100
+                  values1: [40, 42, 44, 47, 50]
+                  times1: [0, 0, 0, 0, 0]
+                HP回復(%value%) (回復量は対象の最大HPに依存する)
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [5, 6, 7, 8, 10]
+                  times2: [0, 0, 0, 0, 0]
+                ACTパワーアップ(%value%)
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [20, 22, 24, 27, 30]
+                  times3: [3, 3, 3, 3, 3]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          回避
+            target: 自身
+            hit_rate: 100
+            value: 0
+            time: 1
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          キラめき回復(%value%)
+            target: 自身
+            hit_rate: 100
+            value: 10
+            time: 0
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          混乱耐性アップ(%value%)
+            target: 自身
+            values: [100, 100, 100, 100, 200]
+        */
+        ),
+    ),
+    unitSkill = null /* 花・陽属性の舞台少女の最大HPアップ %opt1_value%%(MAX30%) 通常防御力アップ %opt2_value%%(MAX15%) 特殊防御力アップ %opt3_value%%(MAX15%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress2040008 = PartialDressBlueprint(
   id = 2040008,
   name = "ナイチンゲール",

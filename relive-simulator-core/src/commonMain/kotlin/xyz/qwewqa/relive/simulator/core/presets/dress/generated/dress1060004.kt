@@ -12,6 +12,109 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1060004
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1060004(
+    name = "クリスティーヌ",
+    acts = listOf(
+        ActType.Act1.blueprint("狙撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [88, 92, 96, 101, 105]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("渾身の狙撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [116, 122, 128, 134, 139]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act3.blueprint("弛緩の合奏") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前グループの敵役
+                  hit_rate1: 100
+                  values1: [92, 97, 101, 106, 111]
+                  times1: 1
+                通常防御力ダウン(%value%)
+                  target: 前グループの敵役
+                  hit_rate2: 100
+                  values2: [9, 10, 11, 12, 13]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("クリスティーヌの歌声") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前グループの敵役
+                  hit_rate1: 100
+                  values1: [200, 210, 220, 230, 240]
+                  times1: 1
+                通常防御力ダウン(%value%)
+                  target: 前グループの敵役
+                  hit_rate2: 100
+                  values2: [20, 22, 24, 27, 29]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          与ダメージアップ(%value%)
+            target: 自身
+            values: [2, 3, 3, 3, 4]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          被ダメージダウン(%value%)
+            target: 自身
+            values: [2, 3, 3, 3, 4]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          有利属性ダメージアップ(%value%)
+            target: 自身
+            values: [10, 11, 12, 13, 15]
+        */
+        ),
+    ),
+    unitSkill = null /* 立ち位置後の舞台少女が2人以上編成されているとき自身のACTパワーアップ %opt1_value%%(MAX10%) クリティカル威力アップ %opt2_value%%(MAX10%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1060004 = PartialDressBlueprint(
   id = 1060004,
   name = "クリスティーヌ",

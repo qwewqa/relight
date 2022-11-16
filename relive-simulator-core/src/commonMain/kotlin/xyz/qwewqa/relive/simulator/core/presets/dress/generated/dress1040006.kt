@@ -12,6 +12,114 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1040006
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1040006(
+    name = "ワトソン",
+    acts = listOf(
+        ActType.Act1.blueprint("斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [88, 92, 96, 101, 105]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("キラめきの大盾") {
+            Act {
+                /*
+                キラめき回復(%value%)
+                  target: 自身
+                  hit_rate1: 100
+                  values1: [20, 20, 20, 20, 20]
+                  times1: [0, 0, 0, 0, 0]
+                特殊バリア(%value%)
+                  target: 後ろから2体の味方
+                  hit_rate2: 100
+                  values2: [200, 390, 720, 1180, 1800]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.Act3.blueprint("堅守の舞") {
+            Act {
+                /*
+                特殊バリア(%value%)
+                  target: 前グループの味方
+                  hit_rate1: 100
+                  values1: [240, 460, 840, 1380, 2110]
+                  times1: [3, 3, 3, 3, 3]
+                ACTパワーアップ(%value%)
+                  target: 前グループの味方
+                  hit_rate2: 100
+                  values2: [7, 8, 8, 9, 10]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("ペンは剣よりも強し") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前グループの敵役
+                  hit_rate1: 100
+                  values1: [223, 234, 245, 256, 267]
+                  times1: 1
+                ACTパワーダウン(%value%)
+                  target: 前グループの敵役
+                  hit_rate2: 100
+                  values2: [15, 17, 19, 20, 22]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          与ダメージアップ(%value%)
+            target: 自身
+            values: [5, 6, 6, 7, 8]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          すばやさアップ(%value%)
+            target: 自身
+            values: [3, 3, 4, 4, 5]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          有利属性ダメージアップ(%value%)
+            target: 自身
+            values: [10, 11, 12, 13, 15]
+        */
+        ),
+    ),
+    unitSkill = null /* 立ち位置後の舞台少女が2人以上編成されているとき自身のACTパワーアップ %opt1_value%%(MAX10%) クリティカル威力アップ %opt2_value%%(MAX10%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1040006 = PartialDressBlueprint(
   id = 1040006,
   name = "ワトソン",

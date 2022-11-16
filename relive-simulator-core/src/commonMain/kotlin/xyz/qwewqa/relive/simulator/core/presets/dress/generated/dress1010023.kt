@@ -12,6 +12,180 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1010023
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1010023(
+    name = "カレン姫",
+    acts = listOf(
+        ActType.Act1.blueprint("希望の光") {
+            Act {
+                /*
+                継続プラス効果解除
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate2: 100
+                  values2: [170, 180, 190, 200, 210]
+                  times2: 1
+                災難[キラめき減少](%value%)
+                  target: 前から1番目の敵役
+                  hit_rate3: 100
+                  values3: [100, 100, 100, 100, 100]
+                  times3: [1, 1, 1, 1, 1]
+                */
+            }
+        },
+        ActType.Act2.blueprint("共に戦う力") {
+            Act {
+                /*
+                継続プラス効果解除
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate2: 100
+                  values2: [170, 180, 190, 200, 210]
+                  times2: 1
+
+                field_effects:
+                  拍手喝采（宙） (value: 1, time: 6, target: allies)
+                */
+            }
+        },
+        ActType.Act3.blueprint("魔を怯ませる力") {
+            Act {
+                /*
+                継続プラス効果解除
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate2: 100
+                  values2: [170, 180, 190, 200, 210]
+                  times2: 1
+
+                field_effects:
+                  自縄自縛 (value: 1, time: 2, target: enemies)
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("救いの光") {
+            Act {
+                /*
+                起死回生(%value%) (回復量は対象の最大HPに依存する)
+                  target: 味方全体
+                  hit_rate1: 100
+                  values1: [50, 50, 50, 50, 50]
+                  times1: [1, 1, 1, 1, 1]
+                回数マイナス効果減少(%value%)
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [3, 3, 3, 3, 3]
+                  times2: [0, 0, 0, 0, 0]
+                継続マイナス効果耐性アップ(%value%)
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [100, 100, 100, 100, 100]
+                  times3: [2, 2, 2, 2, 2]
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate4: 100
+                  values4: [450, 460, 470, 480, 500]
+                  times4: 3
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          起死回生(%value%) (回復量は対象の最大HPに依存する)
+            target: 自身
+            hit_rate: 100
+            value: 50
+            time: 1
+          不屈
+            target: 自身
+            hit_rate: 100
+            value: 0
+            time: 4
+          起死回生(%value%) (回復量は対象の最大HPに依存する)
+            target: 味方の宙属性
+            hit_rate: 100
+            value: 50
+            time: 1
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          クリティカル率アップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 20
+            time: 3
+          クリティカル威力アップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 20
+            time: 3
+          有利属性ダメージアップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 20
+            time: 3
+          キラめき回復(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 20
+            time: 0
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          継続マイナス効果耐性アップ(%value%)
+            target: 自身
+            values: [100, 100, 100, 100, 100]
+          回数マイナス効果耐性アップ(%value%)
+            target: 自身
+            values: [100, 100, 100, 100, 100]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 4:
+          誓いのレヴュー特攻(%value%)
+            target: 自身
+            values: [50, 50, 50, 50, 50]
+        */
+        ),
+    ),
+    unitSkill = null /* 宙・星属性の舞台少女のACTパワーアップ %opt1_value%%(MAX50%) クリティカル威力アップ %opt2_value%%(MAX50%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1010023 = PartialDressBlueprint(
   id = 1010023,
   name = "カレン姫",

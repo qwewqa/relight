@@ -12,6 +12,144 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4030012
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress4030012(
+    name = "ブラックサンタ",
+    acts = listOf(
+        ActType.Act1.blueprint("勝利の贈り物") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [84, 88, 92, 97, 101]
+                  times1: 2
+                ACTパワーアップ(%value%)
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [20, 22, 24, 27, 30]
+                  times2: [3, 3, 3, 3, 3]
+                有利属性ダメージアップ(%value%)
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [20, 22, 24, 27, 30]
+                  times3: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.Act2.blueprint("自由な贈り物") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [84, 88, 92, 97, 101]
+                  times1: 2
+                AP減少
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                継続マイナス効果耐性アップ(%value%)
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [100, 100, 100, 100, 100]
+                  times3: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.Act3.blueprint("反撃の贈り物") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [84, 88, 92, 97, 101]
+                  times1: 2
+                通常ダメージ反射(%value%)
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [20, 22, 24, 27, 30]
+                  times2: [2, 2, 2, 2, 2]
+                特殊ダメージ反射(%value%)
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [20, 22, 24, 27, 30]
+                  times3: [2, 2, 2, 2, 2]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("ブラックサンタのプレゼント") {
+            Act {
+                /*
+                HP回復(%value%) (回復量は対象の最大HPに依存する)
+                  target: 味方全体
+                  hit_rate1: 100
+                  values1: [20, 22, 24, 26, 30]
+                  times1: [0, 0, 0, 0, 0]
+                無敵
+                  target: 前から5体の味方
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [1, 1, 1, 1, 1]
+                %attr%属性攻撃(威力%value%) (必中、無敵・反射・バリアを無視)
+                  target: 挑発・ターゲット固定を無視し、敵役全体
+                  hit_rate3: 100
+                  values3: [240, 250, 260, 270, 280]
+                  times3: [3, 3, 3, 3, 3]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          ACT1封印
+            target: 前から5体の敵役
+            hit_rate: 100
+            value: 0
+            time: 1
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          継続マイナス効果耐性アップ(%value%)
+            target: 自身
+            values: [50, 50, 50, 50, 50]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          最大HPアップ(%value%)
+            target: 味方全体
+            values: [50, 50, 50, 50, 50]
+          最大HPアップ(%value%)
+            target: 味方のシークフェルト音楽学院
+            values: [30, 30, 30, 30, 30]
+        */
+        ),
+    ),
+    unitSkill = null /* ACTタイプ[通常]の舞台少女のACTパワーアップ %opt1_value%%(MAX30%) クリティカル威力アップ %opt2_value%%(MAX30%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress4030012 = PartialDressBlueprint(
   id = 4030012,
   name = "ブラックサンタ",

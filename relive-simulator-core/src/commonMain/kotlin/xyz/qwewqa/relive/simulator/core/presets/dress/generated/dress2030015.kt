@@ -12,6 +12,136 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2030015
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress2030015(
+    name = "節制",
+    acts = listOf(
+        ActType.Act1.blueprint("調整") {
+            Act {
+                /*
+                AP減少
+                  target: 後ろから3体の味方
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [2, 2, 2, 2, 2]
+                */
+            }
+        },
+        ActType.Act2.blueprint("稚拙な運用") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [84, 88, 92, 97, 101]
+                  times1: 3
+                刻印
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                通常防御力ダウン(%value%)
+                  target: 敵役全体
+                  hit_rate3: 100
+                  values3: [20, 22, 24, 27, 30]
+                  times3: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.Act3.blueprint("巧みな管理") {
+            Act {
+                /*
+                継続プラス効果解除
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                AP増加
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate3: 100
+                  values3: [54, 56, 59, 62, 64]
+                  times3: 2
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("幸福都市検察法第14条『強攻排除』") {
+            Act {
+                /*
+                継続プラス効果解除
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [197, 205, 210, 215, 230]
+                  times2: 4
+                悪夢(%value%)
+                  target: 敵役全体
+                  hit_rate3: 100
+                  values3: [2222, 3333, 4444, 5555, 6666]
+                  times3: [2, 2, 2, 2, 2]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          キラめき減少(%value%)
+            target: 敵役全体
+            hit_rate: 100
+            value: 20
+            time: 0
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          睡眠
+            target: 後ろから2体の敵役
+            hit_rate: 100
+            value: 0
+            time: 1
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          最大HPアップ(%value%)
+            target: 味方全体
+            values: [50, 50, 50, 50, 50]
+          最大HPアップ(%value%)
+            target: 味方の凛明館女学校
+            values: [30, 30, 30, 30, 30]
+        */
+        ),
+    ),
+    unitSkill = null /* 雲・星属性の舞台少女のACTパワーアップ %opt1_value%%(MAX50%) クリティカル威力アップ %opt2_value%%(MAX50%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress2030015 = PartialDressBlueprint(
   id = 2030015,
   name = "節制",

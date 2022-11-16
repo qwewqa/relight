@@ -12,6 +12,114 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2030017
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress2030017(
+    name = "舞台少女",
+    acts = listOf(
+        ActType.Act1.blueprint("激化の斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から3体の敵役
+                  hit_rate1: 100
+                  values1: [91, 95, 99, 104, 109]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("眠りの歌") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [54, 56, 59, 62, 64]
+                  times1: 2
+                睡眠
+                  target: 敵役全体
+                  hit_rate2: 50
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                */
+            }
+        },
+        ActType.Act3.blueprint("狂惑の舞") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [84, 88, 92, 97, 101]
+                  times1: 2
+                混乱 (解除不可)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("謳いあげます命の夢を！！") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%) (シークフェルト音楽学院の敵役に特攻)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [125, 135, 145, 155, 170]
+                  times1: [4, 4, 4, 4, 4]
+
+                field_effects:
+                  勇気の灯 (value: 1, time: 6, target: allies)
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          最大HPアップ(%value%)
+            target: 味方全体
+            values: [30, 30, 30, 30, 30]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          毎ターンキラめき回復(%value%)
+            target: 自身
+            values: [20, 20, 20, 20, 20]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          AP減少
+            target: 味方の凛明館女学校
+            hit_rate: 100
+            value: 0
+            time: 1
+        */
+        ),
+    ),
+    unitSkill = null /* 凛明館女学校のACTパワーアップ %opt1_value%%(MAX50%) クリティカル威力アップ %opt2_value%%(MAX50%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress2030017 = PartialDressBlueprint(
   id = 2030017,
   name = "舞台少女",

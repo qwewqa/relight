@@ -12,6 +12,104 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress9030001
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress9030001(
+    name = "紐育華撃団・星組",
+    acts = listOf(
+        ActType.Act1.blueprint("強斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [147, 154, 161, 168, 176]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("創造の斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%) (ACTタイプ[通常]の敵役に特攻)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [156, 163, 171, 178, 187]
+                  times1: [1, 1, 1, 1, 1]
+                */
+            }
+        },
+        ActType.Act3.blueprint("勝利の誓い") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [165, 173, 181, 189, 198]
+                  times1: 1
+                有利属性ダメージアップ(%value%)
+                  target: 後ろから3体の味方
+                  hit_rate2: 100
+                  values2: [20, 22, 24, 27, 30]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("ランブリング・ホイール") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%) (1HITごとに33%の確率で暗闇を2ターン付与)
+                  target: 敵役全体から1HITごとにランダムに1体
+                  hit_rate1: 100
+                  values1: [350, 370, 390, 420, 450]
+                  times1: [10, 10, 10, 10, 10]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          与ダメージアップ(%value%)
+            target: 自身
+            values: [10, 10, 10, 10, 10]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          有利属性ダメージアップ(%value%)
+            target: 自身
+            values: [10, 10, 10, 10, 10]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          クリティカル率アップ(%value%)
+            target: 自身
+            values: [10, 10, 10, 10, 10]
+        */
+        ),
+    ),
+    unitSkill = null /* 自身のACTパワーアップ %opt1_value%%(MAX50%) クリティカル威力アップ %opt2_value%%(MAX50%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress9030001 = PartialDressBlueprint(
   id = 9030001,
   name = "紐育華撃団・星組",

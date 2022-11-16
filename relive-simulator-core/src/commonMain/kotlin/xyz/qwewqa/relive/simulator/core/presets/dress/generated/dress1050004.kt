@@ -12,6 +12,116 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1050004
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1050004(
+    name = "メイド メリッサ",
+    acts = listOf(
+        ActType.Act1.blueprint("斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [88, 92, 96, 101, 105]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("キラめきの斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [93, 98, 102, 107, 112]
+                  times1: 1
+                キラめき回復(%value%)
+                  target: 自身
+                  hit_rate2: 100
+                  values2: [20, 20, 20, 20, 20]
+                  times2: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.Act3.blueprint("暗闇の斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [132, 138, 145, 151, 158]
+                  times1: 2
+                暗闇
+                  target: 前から1番目の敵役
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("メイドのたしなみ") {
+            Act {
+                /*
+                吸収(%value%) (吸収量は与ダメージに依存する)
+                  target: 自身
+                  hit_rate1: 100
+                  values1: [18, 20, 22, 24, 26]
+                  times1: [1, 1, 1, 1, 1]
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [117, 123, 128, 134, 140]
+                  times2: 2
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          被ダメージダウン(%value%)
+            target: 自身
+            values: [4, 4, 5, 5, 6]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          特殊バリア(%value%)
+            target: 自身
+            hit_rate: 100
+            value: 2270
+            time: 3
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          与ダメージアップ(%value%)
+            target: 自身
+            values: [7, 7, 8, 9, 10]
+        */
+        ),
+    ),
+    unitSkill = null /* 立ち位置後の舞台少女が2人以上編成されているとき自身のACTパワーアップ %opt1_value%%(MAX30%) クリティカル威力アップ %opt2_value%%(MAX30%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1050004 = PartialDressBlueprint(
   id = 1050004,
   name = "メイド メリッサ",

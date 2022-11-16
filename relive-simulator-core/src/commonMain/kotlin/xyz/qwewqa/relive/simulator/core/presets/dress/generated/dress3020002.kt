@@ -12,6 +12,114 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3020002
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress3020002(
+    name = "駆け出し操舵士",
+    acts = listOf(
+        ActType.Act1.blueprint("刺突") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [88, 92, 96, 101, 105]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("渾身の刺突") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [129, 136, 142, 149, 155]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act3.blueprint("快気の風") {
+            Act {
+                /*
+                スタン解除
+                  target: 味方全体
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                スタン耐性アップ(%value%)
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [100, 100, 100, 100, 100]
+                  times2: [2, 2, 2, 2, 2]
+                HP回復(%value%)
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [100, 200, 370, 610, 940]
+                  times3: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("メイルシュトローム") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [117, 123, 128, 134, 140]
+                  times1: 1
+                通常防御力ダウン(%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [15, 16, 18, 19, 21]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          スタン耐性アップ(%value%)
+            target: 自身
+            values: [100, 100, 100, 100, 200]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          被ダメージダウン(%value%)
+            target: 自身
+            values: [2, 3, 3, 3, 4]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          毎ターンキラめき回復(%value%)
+            target: 自身
+            values: [4, 4, 4, 5, 5]
+        */
+        ),
+    ),
+    unitSkill = null /* 雲属性の舞台少女のACTパワーアップ %opt1_value%%(MAX5%) クリティカル威力アップ %opt2_value%%(MAX5%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress3020002 = PartialDressBlueprint(
   id = 3020002,
   name = "駆け出し操舵士",

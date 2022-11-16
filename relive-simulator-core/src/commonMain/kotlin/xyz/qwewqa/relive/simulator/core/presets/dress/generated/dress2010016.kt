@@ -12,6 +12,118 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2010016
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress2010016(
+    name = "パジャマパーティー",
+    acts = listOf(
+        ActType.Act1.blueprint("激化の斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から3体の敵役
+                  hit_rate1: 100
+                  values1: [91, 95, 99, 104, 109]
+                  times1: 1
+                */
+            }
+        },
+        ActType.Act2.blueprint("夢と現実") {
+            Act {
+                /*
+                継続プラス効果解除
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [0, 0, 0, 0, 0]
+                継続マイナス効果解除
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.Act3.blueprint("安らかな眠り") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [97, 101, 106, 112, 116]
+                  times1: 2
+                睡眠
+                  target: 敵役全体
+                  hit_rate2: 50
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("パーフェクトドリーム") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [164, 172, 181, 189, 197]
+                  times1: 4
+
+                field_effects:
+                  勇気の灯 (value: 1, time: 6, target: allies)
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          通常バリア(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 10000
+            time: 3
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          すばやさアップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 10
+            time: 3
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          キラめき回復(%value%)
+            target: 自身
+            hit_rate: 100
+            value: 10
+            time: 0
+        */
+        ),
+    ),
+    unitSkill = null /* ACTタイプ[通常]の舞台少女のACTパワーアップ %opt1_value%%(MAX30%) クリティカル威力アップ %opt2_value%%(MAX30%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress2010016 = PartialDressBlueprint(
   id = 2010016,
   name = "パジャマパーティー",

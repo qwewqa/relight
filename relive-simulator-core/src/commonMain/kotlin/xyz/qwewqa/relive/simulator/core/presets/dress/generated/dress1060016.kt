@@ -12,6 +12,146 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1060016
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1060016(
+    name = "ヴィヴィアン",
+    acts = listOf(
+        ActType.Act1.blueprint("キラめきの一撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [93, 98, 102, 107, 112]
+                  times1: 1
+                キラめき回復(%value%)
+                  target: 自身
+                  hit_rate2: 100
+                  values2: [20, 20, 20, 20, 20]
+                  times2: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.Act2.blueprint("湖の不穏") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から3体の敵役
+                  hit_rate1: 100
+                  values1: [97, 102, 106, 111, 116]
+                  times1: 1
+                キラめき獲得ダウン(%value%)
+                  target: 前から3体の敵役
+                  hit_rate2: 100
+                  values2: [40, 45, 50, 55, 60]
+                  times2: [2, 2, 2, 2, 2]
+                HP回復量ダウン(%value%)
+                  target: 前から3体の敵役
+                  hit_rate3: 100
+                  values3: [60, 65, 70, 75, 80]
+                  times3: [2, 2, 2, 2, 2]
+                */
+            }
+        },
+        ActType.Act3.blueprint("湖の平穏") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [93, 98, 102, 107, 112]
+                  times1: 1
+                カウンターヒール(%value%) (回復量は対象の最大HPに依存する)
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [10, 11, 12, 13, 15]
+                  times2: [1, 1, 1, 1, 1]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("アヴァロンへの誘い") {
+            Act {
+                /*
+                プラス効果反転(%value%)
+                  target: 前から3体の敵役
+                  hit_rate1: 100
+                  values1: [3, 3, 3, 3, 3]
+                  times1: [0, 0, 0, 0, 0]
+                %attr%属性攻撃(威力%value%)
+                  target: 前から3体の敵役
+                  hit_rate2: 100
+                  values2: [186, 200, 214, 228, 243]
+                  times2: 6
+                被ダメージダウン(%value%)
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [20, 22, 24, 27, 30]
+                  times3: [3, 3, 3, 3, 3]
+                回避
+                  target: 味方全体
+                  hit_rate4: 100
+                  values4: [0, 0, 0, 0, 0]
+                  times4: [1, 1, 1, 1, 1]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          風属性被ダメージダウン(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 80
+            time: 2
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          与ダメージアップ(%value%)
+            target: 自身
+            values: [10, 10, 10, 10, 10]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          有利属性ダメージアップ(%value%)
+            target: 自身
+            values: [20, 20, 20, 20, 20]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 4:
+          HP回復量ダウン(%value%)
+            target: 敵役全体
+            hit_rate: 100
+            value: 80
+            time: 2
+        */
+        ),
+    ),
+    unitSkill = null /* 花・陽属性の舞台少女のACTパワーアップ %opt1_value%%(MAX15%) クリティカル威力アップ %opt2_value%%(MAX15%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1060016 = PartialDressBlueprint(
   id = 1060016,
   name = "ヴィヴィアン",

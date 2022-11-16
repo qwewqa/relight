@@ -12,6 +12,135 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1020004
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1020004(
+    name = "塔",
+    acts = listOf(
+        ActType.Act1.blueprint("創壁の斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [88, 92, 96, 101, 105]
+                  times1: 2
+                通常バリア(%value%)
+                  target: 自身
+                  hit_rate2: 100
+                  values2: [3000, 3500, 4000, 4500, 5000]
+                  times2: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.Act2.blueprint("破壊の始まり") {
+            Act {
+                /*
+                必中
+                  target: 味方全体
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [3, 3, 3, 3, 3]
+                クリティカル率アップ(%value%)
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [20, 22, 24, 27, 30]
+                  times2: [3, 3, 3, 3, 3]
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate3: 100
+                  values3: [165, 173, 181, 189, 198]
+                  times3: 2
+                */
+            }
+        },
+        ActType.Act3.blueprint("迫る災害") {
+            Act {
+                /*
+                刻印
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [0, 0, 0, 0, 0]
+                  times1: [2, 2, 2, 2, 2]
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [54, 56, 59, 62, 64]
+                  times2: 2
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("塔の断罪") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [164, 172, 181, 189, 197]
+                  times1: 5
+                回避
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                不屈
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [0, 0, 0, 0, 0]
+                  times3: [1, 1, 1, 1, 1]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          不屈
+            target: 自身
+            hit_rate: 100
+            value: 0
+            time: 1
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          クリティカル威力アップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 20
+            time: 3
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          クリティカル率アップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 10
+            time: 3
+        */
+        ),
+    ),
+    unitSkill = null /* 風・陽属性の舞台少女のACTパワーアップ %opt1_value%%(MAX50%) クリティカル威力アップ %opt2_value%%(MAX50%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1020004 = PartialDressBlueprint(
   id = 1020004,
   name = "塔",

@@ -12,6 +12,124 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1070014
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1070014(
+    name = "スクールアイドル",
+    acts = listOf(
+        ActType.Act1.blueprint("キラめきの斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [93, 98, 102, 107, 112]
+                  times1: 1
+                キラめき回復(%value%)
+                  target: 自身
+                  hit_rate2: 100
+                  values2: [20, 20, 20, 20, 20]
+                  times2: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.Act2.blueprint("聖域の舞") {
+            Act {
+                /*
+                継続マイナス効果耐性アップ(%value%)
+                  target: 後ろから3体の味方
+                  hit_rate1: 100
+                  values1: [100, 100, 100, 100, 100]
+                  times1: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.Act3.blueprint("真理の領域") {
+            Act {
+                /*
+                月属性被ダメージダウン(%value%)
+                  target: 味方全体
+                  hit_rate1: 100
+                  values1: [30, 35, 40, 45, 50]
+                  times1: [3, 3, 3, 3, 3]
+                宙属性被ダメージダウン(%value%)
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [30, 35, 40, 45, 50]
+                  times2: [3, 3, 3, 3, 3]
+                雲属性被ダメージダウン(%value%)
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [30, 35, 40, 45, 50]
+                  times3: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("キラキラのスマイル") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 後ろから3体の敵役
+                  hit_rate1: 100
+                  values1: [186, 200, 214, 228, 243]
+                  times1: 3
+                継続マイナス効果解除
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [0, 0, 0, 0, 0]
+                継続マイナス効果耐性アップ(%value%)
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [100, 100, 100, 100, 100]
+                  times3: [3, 3, 3, 3, 3]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          混乱耐性アップ(%value%)
+            target: 自身
+            values: [100, 100, 100, 100, 200]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          スタン耐性アップ(%value%)
+            target: 自身
+            values: [100, 100, 100, 100, 200]
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          毎ターンHP回復(%value%)
+            target: 自身
+            values: [1000, 1000, 1000, 1000, 1000]
+        */
+        ),
+    ),
+    unitSkill = null /* 立ち位置後の舞台少女の最大HPアップ %opt1_value%%(MAX50%) 通常防御力アップ %opt2_value%%(MAX30%) 特殊防御力アップ %opt3_value%%(MAX30%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1070014 = PartialDressBlueprint(
   id = 1070014,
   name = "スクールアイドル",

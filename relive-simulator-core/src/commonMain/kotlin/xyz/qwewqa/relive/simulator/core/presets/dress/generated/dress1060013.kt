@@ -12,6 +12,130 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1060013
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1060013(
+    name = "ジョー",
+    acts = listOf(
+        ActType.Act1.blueprint("強撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [147, 154, 161, 168, 176]
+                  times1: 2
+                */
+            }
+        },
+        ActType.Act2.blueprint("誠実な努力") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [165, 173, 181, 189, 198]
+                  times1: 2
+                クリティカル率アップ(%value%)
+                  target: ACTパワーが高い2体の味方
+                  hit_rate2: 100
+                  values2: [10, 12, 14, 17, 20]
+                  times2: [3, 3, 3, 3, 3]
+                被ダメージダウン(%value%)
+                  target: ACTパワーが高い2体の味方
+                  hit_rate3: 100
+                  values3: [10, 12, 14, 17, 20]
+                  times3: [3, 3, 3, 3, 3]
+                */
+            }
+        },
+        ActType.Act3.blueprint("若草の息吹") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 前から1番目の敵役
+                  hit_rate1: 100
+                  values1: [165, 173, 181, 189, 198]
+                  times1: 2
+                キラめき回復(%value%)
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [10, 11, 12, 13, 15]
+                  times2: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("読書中はお静かに！") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [117, 123, 128, 134, 140]
+                  times1: 3
+                通常ダメージ反射(%value%)
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [10, 12, 14, 17, 20]
+                  times2: [2, 2, 2, 2, 2]
+                特殊ダメージ反射(%value%)
+                  target: 味方全体
+                  hit_rate3: 100
+                  values3: [10, 12, 14, 17, 20]
+                  times3: [2, 2, 2, 2, 2]
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          通常防御力アップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 10
+            time: 3
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          ACTパワーアップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 10
+            time: 3
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          クリティカル率アップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 10
+            time: 3
+        */
+        ),
+    ),
+    unitSkill = null /* 風・陽属性の舞台少女のACTパワーアップ %opt1_value%%(MAX15%) クリティカル威力アップ %opt2_value%%(MAX15%) */,
+    multipleCA = false,
+    categories = setOf(),
+)
+*/
+
 val dress1060013 = PartialDressBlueprint(
   id = 1060013,
   name = "ジョー",

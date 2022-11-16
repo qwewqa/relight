@@ -12,6 +12,139 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
+/*
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1010024
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
+
+val dress = dress1010024(
+    name = "最後のセリフ",
+    acts = listOf(
+        ActType.Act1.blueprint("キラめきの斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: ACTパワーが1番高い敵役
+                  hit_rate1: 100
+                  values1: [93, 98, 102, 107, 112]
+                  times1: 1
+                キラめき回復(%value%)
+                  target: 自身
+                  hit_rate2: 100
+                  values2: [20, 20, 20, 20, 20]
+                  times2: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.Act2.blueprint("熱情の斬撃") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: ACTパワーが1番高い敵役
+                  hit_rate1: 100
+                  values1: [165, 173, 181, 189, 198]
+                  times1: 1
+                AP減少
+                  target: 味方の聖翔音楽学園
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                キラめき回復(%value%)
+                  target: 味方の聖翔音楽学園
+                  hit_rate3: 100
+                  values3: [40, 40, 40, 40, 40]
+                  times3: [0, 0, 0, 0, 0]
+                */
+            }
+        },
+        ActType.Act3.blueprint("まだ見ぬ戯曲") {
+            Act {
+                /*
+                %attr%属性攻撃(威力%value%)
+                  target: ACTパワーが1番高い敵役
+                  hit_rate1: 100
+                  values1: [165, 173, 181, 189, 198]
+                  times1: 1
+
+                field_effects:
+                  火煙轟々 (value: 1, time: 2, target: enemies)
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("愛城華恋は次の舞台へ") {
+            Act {
+                /*
+                起死回生減少(%value%)
+                  target: 敵役全体
+                  hit_rate1: 100
+                  values1: [1, 1, 1, 1, 1]
+                  times1: [0, 0, 0, 0, 0]
+                %attr%属性攻撃(威力%value%)
+                  target: 敵役全体
+                  hit_rate2: 100
+                  values2: [200, 210, 220, 230, 240]
+                  times2: 3
+
+                field_effects:
+                  キラめく舞台 (value: 1, time: 3, target: allies)
+                */
+            }
+        }
+    ),
+    autoSkills = listOf(
+        listOf(
+        /*
+        auto skill 1:
+          起死回生(%value%) (回復量は対象の最大HPに依存する)
+            target: 自身
+            hit_rate: 100
+            value: 50
+            time: 2
+        */
+        ),
+        listOf(
+        /*
+        auto skill 2:
+          起死回生減少(%value%)
+            target: 立ち位置後の敵役
+            hit_rate: 100
+            value: 1
+            time: 0
+        */
+        ),
+        listOf(
+        /*
+        auto skill 3:
+          キラめき減少(%value%)
+            target: 立ち位置後の敵役
+            hit_rate: 100
+            value: 50
+            time: 0
+        */
+        ),
+        listOf(
+        /*
+        auto skill 4:
+          最大HPアップ(%value%)
+            target: 味方の聖翔音楽学園
+            values: [50, 50, 50, 50, 50]
+        */
+        ),
+    ),
+    unitSkill = null /* 花・陽属性の舞台少女のACTパワーアップ %opt1_value%%(MAX50%) クリティカル威力アップ %opt2_value%%(MAX50%) */,
+    multipleCA = true,
+    categories = setOf(),
+)
+*/
+
 val dress1010024 = PartialDressBlueprint(
   id = 1010024,
   name = "最後のセリフ",
