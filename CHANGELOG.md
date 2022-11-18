@@ -599,3 +599,6 @@
 - Fix an occasional issue with interactive logs
 - Add support for importing share urls
 - Fixed TR25 Komachi HP by Mikayla
+
+# v0.35.2
+- Added copy, paste, and duplicate buttons for actors
