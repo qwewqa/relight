@@ -20,7 +20,7 @@
 }
 
 #actor-tabs {
-    --actor-tab-width: max(60px, 17vw);
+    --actor-tab-width: max(60px, 16vw);
     overflow-x: scroll;
 }
 
@@ -1040,4 +1040,9 @@ pwa-update::part(offlineToast) {
 #server-link i {
     font-size: 20px;
     line-height: 20px;
+}
+
+.btn-actor-setup-action {
+    --bs-btn-padding-y: 0.1rem;
+    --bs-btn-padding-x: 0.3rem;
 }

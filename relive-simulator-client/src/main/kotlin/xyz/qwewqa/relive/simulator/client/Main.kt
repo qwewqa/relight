@@ -23,11 +23,9 @@ import org.w3c.dom.events.Event
 import org.w3c.dom.events.KeyboardEvent
 import org.w3c.dom.url.URL
 import xyz.qwewqa.relive.simulator.client.ActorOptions.Companion.rankPanelIds
-import xyz.qwewqa.relive.simulator.client.codemirror.EditorView
 import xyz.qwewqa.relive.simulator.client.Plotly.addTraces
 import xyz.qwewqa.relive.simulator.client.Plotly.react
-import xyz.qwewqa.relive.simulator.client.codemirror.codeMirrorConfig
-import xyz.qwewqa.relive.simulator.client.codemirror.value
+import xyz.qwewqa.relive.simulator.client.codemirror.*
 import xyz.qwewqa.relive.simulator.common.*
 import kotlin.js.Promise
 import kotlin.random.Random
@@ -102,6 +100,10 @@ class SimulatorClient(val simulator: Simulator) {
     val interactiveInput = document.getElementById("interactive-input").textInput()
     val interactiveSendButton = document.getElementById("interactive-send-button") as HTMLButtonElement
     val songSettings = document.getElementById("song-settings") as HTMLDivElement
+
+    val copyActorButton = document.getElementById("copy-actor-button") as HTMLButtonElement
+    val pasteActorButton = document.getElementById("paste-actor-button") as HTMLButtonElement
+    val duplicateActorButton = document.getElementById("duplicate-actor-button") as HTMLButtonElement
 
     val shareSetupModal = document.getElementById("share-setup-modal") as HTMLDivElement
     val shareSetupModalBs = Bootstrap.Modal(shareSetupModal)
@@ -199,6 +201,10 @@ class SimulatorClient(val simulator: Simulator) {
     val baseHref = "${window.location.protocol}//${window.location.host}${window.location.pathname}"
 
     private val maxCost = 400
+
+    private fun selectedActor(): ActorOptions? = actorTabsDiv.querySelector(".active-actor-tab")?.let {
+        ActorOptions(options, (it as HTMLElement).attributes["data-actor-id"]!!.value.toInt())
+    }
 
     private fun ActorOptions.update() {
         parameters = parameters
@@ -1931,6 +1937,35 @@ class SimulatorClient(val simulator: Simulator) {
         addActorFromPresetButton.addEventListener("click", {
             activeActorOptions = null
             openPresetsModal(load = true, delete = true)
+        })
+
+        copyActorButton.addEventListener("click", {
+            val parameters = selectedActor()?.parameters ?: return@addEventListener
+            saveActorToClipboard(parameters)
+        })
+
+        pasteActorButton.addEventListener("click", {
+            val parameters = loadActorFromClipboard() ?: return@addEventListener
+            val selectedOptions = selectedActor()
+            val addedActorId = addActor()
+            val addedOptions = ActorOptions(options, addedActorId)
+            addedOptions.parameters = parameters
+            addedOptions.tabElement.parentElement?.insertBefore(
+                addedOptions.tabElement,
+                selectedOptions?.tabElement?.nextSibling,
+            )
+        })
+
+        duplicateActorButton.addEventListener("click", {
+            val selectedOptions = selectedActor() ?: return@addEventListener
+            val parameters = selectedOptions.parameters
+            val addedActorId = addActor()
+            val addedOptions = ActorOptions(options, addedActorId)
+            addedOptions.parameters = parameters
+            addedOptions.tabElement.parentElement?.insertBefore(
+                addedOptions.tabElement,
+                selectedOptions.tabElement.nextSibling,
+            )
         })
 
         sortByPositionButton.addEventListener("click", {
