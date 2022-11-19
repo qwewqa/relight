@@ -363,7 +363,7 @@ val brilliantBirthdays = listOf(
     brilliantBirthday(Character.Junna, equip4000316),
     brilliantBirthday(Character.Misora, equip4000317),
     brilliantBirthday(Character.Yachiyo, equip4000318),
-    brilliantBirthday(Character.Rui, equip4000220), // TODO: use correct memoFun
+    brilliantBirthday(Character.Rui, equip4000319),
 )
 
 private fun slapMemo(
@@ -897,6 +897,37 @@ val SingDanceandBattle = equip4000299(
                 applyCountableBuff(
                     effect = CountableBuff.Hope,
                     count = times1,
+                )
+            }
+        }
+    },
+)
+
+val The101stSeishoFestivalRally = equip4000326(
+    name = "The 101st Seisho Festival Rally",
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(22),
+        SelfDexterityUpBuffPassive.new(11, 6),
+        SelfEffectiveDamageDealtUpBuffPassive.new(8, 6),
+    ),
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(32),
+        SelfDexterityUpBuffPassive.new(16, 6),
+        SelfEffectiveDamageDealtUpBuffPassive.new(12, 6),
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyBack(5).act {
+                applyBuff(
+                    effect = ActPowerUpBuff,
+                    value = values1,
+                    turns = times1,
+                )
+                applyBuff(
+                    effect = DexterityUpBuff,
+                    value = values2,
+                    turns = times2,
                 )
             }
         }

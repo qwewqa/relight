@@ -48,11 +48,20 @@ object ApUpBuff : TimedBuffEffect {
     }
 }
 
-/*object Ap2UpBuff : BuffEffect {
+object Ap2UpBuff : TimedBuffEffect {
     override val name = "AP 2 Up"
     override val category = BuffCategory.Negative
-    override val flipped get() = Ap2DownBuff
-}*/
+//    override val flipped get() = Ap2DownBuff
+    override val iconId: Int = 106
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.ap2Up += 1
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.ap2Up -= 1
+    }
+}
 
 // TODO: Test if locked buffs are flippable
 

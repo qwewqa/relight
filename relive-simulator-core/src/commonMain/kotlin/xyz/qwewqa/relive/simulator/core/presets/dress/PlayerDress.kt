@@ -55,6 +55,7 @@ val playerDresses = listOf(
     FutureStageGirlStella,
     GrudgeRevueFutaba,
     GrudgeRevueKaoruko,
+    HadesRui,
     HelldiverNana,
     HeroHikari,
     HierophantMichiru,
