@@ -14,6 +14,7 @@ import kotlinx.html.dom.create
 import kotlinx.html.js.div
 import kotlinx.html.js.onChangeFunction
 import kotlinx.html.js.onClickFunction
+import kotlinx.html.js.onContextMenuFunction
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -853,9 +854,6 @@ class SimulatorClient(val simulator: Simulator) {
                     id = "actor-tab-$actorId"
                     attributes["data-actor-id"] = actorId.toString()
                     div("d-flex flex-column") {
-                        onClickFunction = {
-                            setActiveActor(actorId.takeIf { it != activeActorId })
-                        }
                         div {
                             style = "position: relative;"
                             img(classes = "actor-dress-image") {
@@ -923,6 +921,63 @@ class SimulatorClient(val simulator: Simulator) {
                         div("pt-0 p-1 actor-name actor-tab-name") {
                             style =
                                 "font-weight: bold; font-size: 0.75em; min-height: 1.2em; text-align: center; word-wrap: anywhere;"
+                        }
+                    }
+                    onClickFunction = onClickFunction@{ ev ->
+                        val actor = ActorOptions(options, actorId)
+                        for (slot in (0..9)) {
+                            if (isKeyDown("$slot")) {
+                                saveActorToClipboard(actor.parameters, slot)
+                                ev.preventDefault()
+                                return@onClickFunction
+                            }
+                        }
+                        when {
+                            isKeyDown("c") -> {
+                                saveActorToClipboard(actor.parameters)
+                                ev.preventDefault()
+                            }
+                            isKeyDown("v") -> {
+                                val parameters = loadActorFromClipboard() ?: return@onClickFunction
+                                val addedActorId = addActor()
+                                val addedOptions = ActorOptions(options, addedActorId)
+                                addedOptions.parameters = parameters
+                                addedOptions.tabElement.parentElement?.insertBefore(
+                                    addedOptions.tabElement,
+                                    actor.tabElement.nextSibling,
+                                )
+                                ev.preventDefault()
+                            }
+                            isKeyDown("d") -> {
+                                val addedActorId = addActor()
+                                val addedOptions = ActorOptions(options, addedActorId)
+                                addedOptions.parameters = actor.parameters
+                                addedOptions.tabElement.parentElement?.insertBefore(
+                                    addedOptions.tabElement,
+                                    actor.tabElement.nextSibling,
+                                )
+                                ev.preventDefault()
+                            }
+                            else -> {
+                                setActiveActor(actorId.takeIf { it != activeActorId })
+                            }
+                        }
+                    }
+                    onContextMenuFunction = onContextMenuFunction@{ ev ->
+                        val actor = ActorOptions(options, actorId)
+                        for (slot in (0..9)) {
+                            if (isKeyDown("$slot")) {
+                                val parameters = loadActorFromClipboard(slot) ?: return@onContextMenuFunction
+                                val addedActorId = addActor()
+                                val addedOptions = ActorOptions(options, addedActorId)
+                                addedOptions.parameters = parameters
+                                addedOptions.tabElement.parentElement?.insertBefore(
+                                    addedOptions.tabElement,
+                                    actor.tabElement.nextSibling,
+                                )
+                                ev.preventDefault()
+                                return@onContextMenuFunction
+                            }
                         }
                     }
                 }
@@ -1836,6 +1891,8 @@ class SimulatorClient(val simulator: Simulator) {
         val memoirs = options.memoirs.associateBy { it.id }
 
         locale = options.locales.keys.first()
+
+        registerKeyEventListeners()
 
         if (features.shutdown) {
             shutdownContainer.removeClass("d-none")
