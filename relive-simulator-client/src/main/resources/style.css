@@ -21,7 +21,7 @@
 
 #actor-tabs {
     --actor-tab-width: max(60px, 16vw);
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 .actor-tab-container {
