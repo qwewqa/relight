@@ -602,3 +602,6 @@
 
 # v0.35.2
 - Added copy, paste, and duplicate buttons for actors
+
+# v0.35.3
+- Added keyboard+mouse shortcuts for actor setup
