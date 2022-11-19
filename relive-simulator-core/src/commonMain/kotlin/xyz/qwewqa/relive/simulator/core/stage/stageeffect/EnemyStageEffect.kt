@@ -1,5 +1,8 @@
 package xyz.qwewqa.relive.simulator.core.stage.stageeffect
 
+import xyz.qwewqa.relive.simulator.core.presets.condition.HikariOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.KarenOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 
 val SelfTrapping = StageEffect(
@@ -181,6 +184,63 @@ val SunsetTune = StageEffect(
             StageBuff(ActPowerDownBuff, 70),
             StageBuff(NormalDefenseDownBuff, 50),
             StageBuff(SpecialDefenseDownBuff, 50),
+        ),
+    ),
+    StageEffectTarget.All,
+)
+
+val Hesitation = StageEffect(
+    "Hesitation",
+    54,
+    listOf(
+        StageEffectBuffs(
+            listOf(
+                listOf(
+                    StageBuff(ApUpBuff, 0),
+                    StageBuff(NormalDefenseDownBuff, 20),
+                    StageBuff(SpecialDefenseDownBuff, 20),
+                ),
+                listOf(
+                    StageBuff(ApUpBuff, 0),
+                    StageBuff(NormalDefenseDownBuff, 25),
+                    StageBuff(SpecialDefenseDownBuff, 25),
+                ),
+                listOf(
+                    StageBuff(ApUpBuff, 0),
+                    StageBuff(NormalDefenseDownBuff, 30),
+                    StageBuff(SpecialDefenseDownBuff, 30),
+                ),
+                listOf(
+                    StageBuff(ApUpBuff, 0),
+                    StageBuff(NormalDefenseDownBuff, 40),
+                    StageBuff(SpecialDefenseDownBuff, 40),
+                ),
+                listOf(
+                    StageBuff(ApUpBuff, 0),
+                    StageBuff(NormalDefenseDownBuff, 50),
+                    StageBuff(SpecialDefenseDownBuff, 50),
+                ),
+            ),
+        ),
+        StageEffectBuffs(
+            listOf(
+                listOf(
+                    StageBuff(Ap2UpBuff, 0),
+                ),
+                listOf(
+                    StageBuff(Ap2UpBuff, 0),
+                ),
+                listOf(
+                    StageBuff(Ap2UpBuff, 0),
+                ),
+                listOf(
+                    StageBuff(Ap2UpBuff, 0),
+                ),
+                listOf(
+                    StageBuff(Ap2UpBuff, 0),
+                ),
+            ),
+            SeishoOnlyCondition,
         ),
     ),
     StageEffectTarget.All,

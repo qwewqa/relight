@@ -8,6 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.EffectTag
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.StageEffect
 
 val SelfFortitudeBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Fortitude, EffectTag.Fortitude) { targetSelf() }
 val SelfEvasionBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Evasion, EffectTag.Evasion) { targetSelf() }
@@ -172,4 +173,26 @@ private data class CountableDebuffPassive(
         target(context, condition).act {
             applyCountableBuff(buff, value)
         }
+}
+
+data class AllyStageEffectPassive(
+    val effect: StageEffect
+) : PassiveEffect {
+    override val name = "Auto Ally Stage Effect [${effect.name}]"
+    override val category = PassiveEffectCategory.TurnStartPositiveA //Unconfirmed category
+
+    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+        applyAllyStageEffect(effect, time, value)
+    }
+}
+
+data class EnemyStageEffectPassive(
+    val effect: StageEffect
+) : PassiveEffect {
+    override val name = "Auto Enemy Stage Effect [${effect.name}]"
+    override val category = PassiveEffectCategory.TurnStartNegative //Unconfirmed category
+
+    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+        applyEnemyStageEffect(effect, time, value)
+    }
 }
