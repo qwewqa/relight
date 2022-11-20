@@ -605,3 +605,6 @@
 
 # v0.35.3
 - Added keyboard+mouse shortcuts for actor setup
+
+# v0.35.4
+- Hades Rui and new memoirs added by Savivo
