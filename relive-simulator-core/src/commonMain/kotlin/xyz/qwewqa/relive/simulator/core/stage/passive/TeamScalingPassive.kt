@@ -60,3 +60,13 @@ val TeamEvasionUpBuffScalingPassive60 = TeamScalingPassive(
         time,
     )
 }
+
+val TeamHpUpScalingPassive150 = TeamScalingPassive(
+    "Team Hp Up Scaling Passive (max 150%)",
+    150,
+    PassiveEffectCategory.Passive,
+) { value, _ ->
+    targets.forEach {
+        it.boostMaxHp += value
+    }
+}
