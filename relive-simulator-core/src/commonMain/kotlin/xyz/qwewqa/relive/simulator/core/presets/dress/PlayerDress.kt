@@ -52,6 +52,7 @@ val playerDresses = listOf(
     FoolYachiyo,
     FuMeiFan,
     FutureStageGirlKuina,
+    FutureStageGirlShiro,
     FutureStageGirlStella,
     GrudgeRevueFutaba,
     GrudgeRevueKaoruko,
