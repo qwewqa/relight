@@ -608,3 +608,6 @@
 
 # v0.35.4
 - Hades Rui and new memoirs added by Savivo
+
+# v0.35.5
+- Future Stage Girl Shiro added by Ini
