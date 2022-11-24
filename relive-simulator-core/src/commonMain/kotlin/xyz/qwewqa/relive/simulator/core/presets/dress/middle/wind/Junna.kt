@@ -75,8 +75,8 @@ val SageJunna = dress1060023(
                     // TODO(): Fortitude Reduction
 
                     attack(
-                        modifier = values4,
-                        hitCount = times4,
+                        modifier = values5,
+                        hitCount = times5,
                     )
                 }
             }
@@ -99,5 +99,6 @@ val SageJunna = dress1060023(
         )
     ),
     unitSkill = ActCritical50UnitSkill + (WindOnlyCondition or SunOnlyCondition),
+    multipleCA = true,
     categories = setOf(DressCategory.Birthday2022),
 )
