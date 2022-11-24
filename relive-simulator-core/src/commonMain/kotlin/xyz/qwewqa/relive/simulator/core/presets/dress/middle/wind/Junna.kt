@@ -64,20 +64,22 @@ val SageJunna = dress1060023(
                         count = times1,
                     )
                 }
-                targetAoe().act {
-                    applyCountableBuff(
-                        effect = CountableBuff.Daze,
-                        count = times2,
-                    )
+                focus {
+                    targetAoe().act {
+                        applyCountableBuff(
+                            effect = CountableBuff.Daze,
+                            count = times2,
+                        )
 
-                    // TODO(): Revive Reduction
+                        // TODO(): Revive Reduction
 
-                    // TODO(): Fortitude Reduction
+                        // TODO(): Fortitude Reduction
 
-                    attack(
-                        modifier = values5,
-                        hitCount = times5,
-                    )
+                        attack(
+                            modifier = values5,
+                            hitCount = times5,
+                        )
+                    }
                 }
             }
         }
