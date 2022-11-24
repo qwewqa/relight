@@ -90,6 +90,7 @@ val playerDresses = listOf(
     PrincessKaren,
     RedFrontierLalafin,
     RomeoKaren,
+    SageJunna,
     SakataNoKintokiMeiFan,
     SakuraShingujiHikari,
     SakuyahimeMahiru,
