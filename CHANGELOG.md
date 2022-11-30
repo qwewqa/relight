@@ -611,3 +611,7 @@
 
 # v0.35.5
 - Future Stage Girl Shiro added by Ini
+
+# v0.35.6
+- Sage Junna added by Ini
+- Updated stats for 2022 Birthday Cards
