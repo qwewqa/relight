@@ -13,3 +13,7 @@ external val foldKeymap: Array<dynamic>
 external val foldService: dynamic
 
 external val StreamLanguage: dynamic
+
+external val foldAll: dynamic
+external val unfoldAll: dynamic
+

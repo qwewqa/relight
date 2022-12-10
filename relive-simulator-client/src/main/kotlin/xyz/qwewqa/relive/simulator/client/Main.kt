@@ -84,6 +84,8 @@ class SimulatorClient(val simulator: Simulator) {
     val turnsInput = document.getElementById("turns-input").integerInput(3)
     val iterationsInput = document.getElementById("iterations-input").integerInput(100000)
     val strategyEditor = EditorView(codeMirrorConfig(strategyContainer))
+    val strategyCollapseAllButton = document.getElementById("strategy-collapse-all-button") as HTMLButtonElement
+    val strategyExpandAllButton = document.getElementById("strategy-expand-all-button") as HTMLButtonElement
     val bossStrategyTypeSelect = document.getElementById("boss-strategy-type-select").singleSelect(true)
     val bossStrategyCollapse = document.getElementById("boss-strategy-collapse").collapse()
     val toastsCheckbox = document.getElementById("toasts-checkbox") as HTMLInputElement
@@ -1894,6 +1896,13 @@ class SimulatorClient(val simulator: Simulator) {
 
         registerKeyEventListeners()
 
+        strategyCollapseAllButton.addEventListener("click", {
+            foldAll(strategyEditor)
+        })
+        strategyExpandAllButton.addEventListener("click", {
+            unfoldAll(strategyEditor)
+        })
+
         if (features.shutdown) {
             shutdownContainer.removeClass("d-none")
         }
@@ -2783,6 +2792,7 @@ class SimulatorClient(val simulator: Simulator) {
                     } else {
                         strategyEditor.value = "$currentStrategy\n\nMoveset:\n$export"
                     }
+                    foldAll(strategyEditor)
                     toast("Export", "Exported moveset to strategy.", "green")
                 }
             }
