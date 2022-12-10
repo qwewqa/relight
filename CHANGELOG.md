@@ -617,4 +617,8 @@
 - Updated stats for 2022 Birthday Cards
 
 # v0.35.7
-- Fix Sage Junna not being available
+- Fixed Sage Junna not being available
+
+# v0.35.8
+- Added new memoirs
+- Added collapse/expand all buttons to the strategy editor
