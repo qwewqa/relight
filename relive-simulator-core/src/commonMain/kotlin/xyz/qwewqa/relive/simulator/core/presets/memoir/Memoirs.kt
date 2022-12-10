@@ -31,6 +31,7 @@ val memoirs = mapOf("None" to EmptyMemoir) + (
             VILoversReverse,
             XVITowerUpright,
             XVITowerReverse,
+            PrideOfARoseRespectVer,
             TheGreatYearEndCleanup,
             ConfidantsOnADate,
             SparklingStageChika,
@@ -72,6 +73,7 @@ val memoirs = mapOf("None" to EmptyMemoir) + (
             JesterontheStageoftheGods,
             SingDanceandBattle,
             The101stSeishoFestivalRally,
+            ToStandOnAnyStage,
         ).sortedBy { it.name }.sortedBy { it.cutinData == null }
                 + brilliantBirthdays
                 + slapMemos

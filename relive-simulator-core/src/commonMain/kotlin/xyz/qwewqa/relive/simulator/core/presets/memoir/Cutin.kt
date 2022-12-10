@@ -164,6 +164,28 @@ val XVITowerReverse = equip4000174(
     },
 )
 
+val PrideOfARoseRespectVer = equip4000328(
+    name = "Pride of a Rose Respect Ver.",
+    baseAutoskills = listOf(
+        DamageDealtPassive.new(7)
+    ),
+    maxAutoskills = listOf(
+        DamageDealtPassive.new(10)
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyFront(5).act {
+                applyBuff(
+                    effect = DamageDealtUpBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
 val CleaningTogether = equip4000182(
     name = "Cleaning Together",
     baseAutoskills = listOf(
@@ -926,6 +948,37 @@ val The101stSeishoFestivalRally = equip4000326(
                 )
                 applyBuff(
                     effect = DexterityUpBuff,
+                    value = values2,
+                    turns = times2,
+                )
+            }
+        }
+    },
+)
+
+val ToStandOnAnyStage = equip4000332(
+    name = "To Stand on Any Stage",
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(22),
+        SelfDexterityUpBuffPassive.new(11, 6),
+        SelfEffectiveDamageDealtUpBuffPassive.new(8, 6),
+    ),
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(32),
+        SelfDexterityUpBuffPassive.new(16, 6),
+        SelfEffectiveDamageDealtUpBuffPassive.new(12, 6),
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyBack(5).act {
+                applyBuff(
+                    effect = ActPowerUpBuff,
+                    value = values1,
+                    turns = times1,
+                )
+                applyBuff(
+                    effect = CriticalUpBuff,
                     value = values2,
                     turns = times2,
                 )
