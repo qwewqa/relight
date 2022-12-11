@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val equip2000035 = PartialMemoirBlueprint(
+internal val _equip2000035 = PartialMemoirBlueprint(
   id = 2000035,
   name = "天堂真矢は負けてない",
   rarity = 2,

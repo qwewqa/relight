@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val equip3000085 = PartialMemoirBlueprint(
+internal val _equip3000085 = PartialMemoirBlueprint(
   id = 3000085,
   name = "トランプの塔",
   rarity = 3,

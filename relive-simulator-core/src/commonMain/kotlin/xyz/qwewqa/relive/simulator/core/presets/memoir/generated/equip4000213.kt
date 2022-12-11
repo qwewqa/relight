@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val equip4000213 = PartialMemoirBlueprint(
+internal val _equip4000213 = PartialMemoirBlueprint(
   id = 4000213,
   name = "【Star of the day】クロディーヌ＆真矢",
   rarity = 4,

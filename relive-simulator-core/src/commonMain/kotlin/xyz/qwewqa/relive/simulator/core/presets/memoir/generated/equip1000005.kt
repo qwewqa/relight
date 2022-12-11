@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val equip1000005 = PartialMemoirBlueprint(
+internal val _equip1000005 = PartialMemoirBlueprint(
   id = 1000005,
   name = "完全無敵のやきそば＆コッペパン",
   rarity = 1,

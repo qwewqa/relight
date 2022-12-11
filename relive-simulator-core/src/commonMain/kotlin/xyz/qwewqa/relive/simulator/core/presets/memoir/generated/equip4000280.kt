@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val equip4000280 = PartialMemoirBlueprint(
+internal val _equip4000280 = PartialMemoirBlueprint(
   id = 4000280,
   name = "キラめきBirthday 夢大路栞",
   rarity = 4,

@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val equip3000077 = PartialMemoirBlueprint(
+internal val _equip3000077 = PartialMemoirBlueprint(
   id = 3000077,
   name = "イタズラ忍者絶賛逃走中！",
   rarity = 3,

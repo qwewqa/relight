@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val equip3000093 = PartialMemoirBlueprint(
+internal val _equip3000093 = PartialMemoirBlueprint(
   id = 3000093,
   name = "秘密の水泳特訓",
   rarity = 3,

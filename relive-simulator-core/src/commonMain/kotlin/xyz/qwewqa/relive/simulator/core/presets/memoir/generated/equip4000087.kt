@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val equip4000087 = PartialMemoirBlueprint(
+internal val _equip4000087 = PartialMemoirBlueprint(
   id = 4000087,
   name = "[１周年] シークフェルト音楽学院",
   rarity = 4,

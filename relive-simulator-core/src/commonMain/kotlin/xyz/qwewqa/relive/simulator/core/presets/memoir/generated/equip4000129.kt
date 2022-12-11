@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val equip4000129 = PartialMemoirBlueprint(
+internal val _equip4000129 = PartialMemoirBlueprint(
   id = 4000129,
   name = "追憶のメロディ",
   rarity = 4,

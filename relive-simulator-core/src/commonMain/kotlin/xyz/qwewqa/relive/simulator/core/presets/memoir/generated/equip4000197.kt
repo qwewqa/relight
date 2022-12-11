@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val equip4000197 = PartialMemoirBlueprint(
+internal val _equip4000197 = PartialMemoirBlueprint(
   id = 4000197,
   name = "『黄金の決斗』",
   rarity = 4,
