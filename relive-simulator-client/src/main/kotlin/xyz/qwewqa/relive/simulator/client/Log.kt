@@ -333,10 +333,12 @@ fun HTMLElement.displayLog(log: List<LogEntry>, interactive: Boolean, prev: List
                 }
                 else -> {
                     span {
-                        b {
-                            +"$turn.$tile.$move [${tags.joinToString(" / ")}]"
+                        if ("@noturn" !in tags) {
+                            b {
+                                +"$turn.$tile.$move [${tags.joinToString(" / ")}]"
+                            }
+                            +" "
                         }
-                        +" "
                         processLogContent(content)
                     }
                 }
@@ -372,43 +374,75 @@ fun HTMLElement.displayLog(log: List<LogEntry>, interactive: Boolean, prev: List
 }
 
 @Suppress("RegExpRedundantEscape") // JS doesn't like the unescaped ]
-private val replacementRegex = """@(\[(.*?)\])?\((.*?):(.*?)\)""".toRegex()
+private val replacementRegex = """@(\[(.*?)\])?\((.*?)(?::(.*?))?\)""".toRegex()
 
-private fun FlowOrInteractiveOrPhrasingContent.processLogContent(content: String) {
+private fun FlowContent.processLogContent(content: String) {
     val split = content.split(replacementRegex)
 
-    replacementRegex.findAll(content).forEachIndexed { index, match ->
-        +split[index] // Add the previous split
+    val tags = mutableListOf<FlowContent>()
 
-        val disp = match.groups[2]?.value ?: ""
-        val name = match.groups[3]!!.value.trim()
-        val data = match.groups[4]!!.value.trim()
+    var receiver = this
 
-        fun imageReplacement(url: (Int) -> String) {
-            val id = data.toIntOrNull()
-            if (id != null && id != -1) {
-                img {
-                    style = "height: 1.4em;margin: -0.25em 0.05em;"
-                    src = url(id)
-                }
-            }
+    inline fun beginSpan(block: SPAN.() -> Unit) = receiver.run {
+        val tag = SPAN(attributesMapOf("class", ""), consumer)
+        tags += tag
+        receiver = tag
+        tag.consumer.onTagStart(tag)
+        tag.block()
+    }
+
+    fun endSpan() = receiver.run {
+        val tag = tags.removeLastOrNull()
+        if (tag != null) {
+            tag.consumer.onTagEnd(tag)
+            receiver = tag
         }
+    }
 
-        when (name) {
-            "dress" -> imageReplacement { "img/large_icon/1_$it.png" }
-            "memoir" -> imageReplacement { "img/large_icon/2_$it.png" }
-            "act" -> imageReplacement { "img/skill_icon/skill_icon_$it.png" }
-            "command" -> a(href = "#") {
-                title = data
-                onClickFunction = { e ->
-                    document.dispatchEvent(CustomEvent("sendInteractiveCommand", jsObject { detail = data }))
-                    e.preventDefault()
+    replacementRegex.findAll(content).forEachIndexed { index, match ->
+        receiver.run {
+            +split[index] // Add the previous split
+
+            val disp = match.groups[2]?.value ?: ""
+            val name = match.groups[3]!!.value.trim()
+            val data = match.groups[4]?.value?.trim() ?: ""
+
+            fun imageReplacement(url: (Int) -> String) {
+                val id = data.toIntOrNull()
+                if (id != null && id != -1) {
+                    img {
+                        style = "height: 1.4em;margin: -0.25em 0.05em;"
+                        src = url(id)
+                    }
                 }
-                +disp
             }
-            else -> {}
+
+            when (name) {
+                "bg" -> beginSpan { style = "background-color: $data;" }
+                "fg" -> beginSpan { style = "color: $data;" }
+                "b" -> beginSpan { style = "font-weight: bold;" }
+                "i" -> beginSpan { style = "font-style: italic;" }
+                "u" -> beginSpan { style = "text-decoration: underline;" }
+                "s" -> beginSpan { style = "text-decoration: line-through;" }
+                "/" -> endSpan()
+                "dress" -> imageReplacement { "img/large_icon/1_$it.png" }
+                "memoir" -> imageReplacement { "img/large_icon/2_$it.png" }
+                "act" -> imageReplacement { "img/skill_icon/skill_icon_$it.png" }
+                "command" -> a(href = "#") {
+                    title = data
+                    onClickFunction = { e ->
+                        document.dispatchEvent(CustomEvent("sendInteractiveCommand", jsObject { detail = data }))
+                        e.preventDefault()
+                    }
+                    +disp
+                }
+
+                else -> {}
+            }
         }
     }
 
     +split.last()
+
+    tags.reversed().forEach { consumer.onTagEnd(it) }
 }
