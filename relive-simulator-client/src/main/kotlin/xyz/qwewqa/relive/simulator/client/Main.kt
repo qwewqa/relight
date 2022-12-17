@@ -71,6 +71,10 @@ class SimulatorClient(val simulator: Simulator) {
     val teamImageModal = document.getElementById("team-image-modal") as HTMLDivElement
     val teamImageModalBs = Bootstrap.Modal(teamImageModal)
     val teamImageContainer = document.getElementById("team-image-container") as HTMLDivElement
+    val actIconsButton = document.getElementById("act-icons-button") as HTMLButtonElement
+    val actIconsModal = document.getElementById("act-icons-modal") as HTMLDivElement
+    val actIconsModalBs = Bootstrap.Modal(actIconsModal)
+    val actIconsContainer = document.getElementById("act-icons-container") as HTMLDivElement
     val bossSelect = document.getElementById("boss-select").singleSelect(true)
     val strategyTypeSelect = document.getElementById("strategy-type-select").singleSelect(true)
     val strategyContainer = document.getElementById("strategy-container") as HTMLDivElement
@@ -1614,11 +1618,11 @@ class SimulatorClient(val simulator: Simulator) {
             ),
             strategy = StrategyParameter(
                 strategyTypeSelect.value,
-                strategyEditor.value as String,
+                strategyEditor.value,
             ),
             bossStrategy = StrategyParameter(
                 bossStrategyTypeSelect.value,
-                bossStrategyEditor.value as String,
+                bossStrategyEditor.value,
             ).takeIf { bossStrategyCollapse.show },
             boss = bossSelect.value,
             bossHp = if (bossHpInput.value > 0) bossHpInput.value else null,
@@ -2110,6 +2114,27 @@ class SimulatorClient(val simulator: Simulator) {
                 }
                 teamImageModalBs.show()
             }
+        })
+
+        actIconsButton.addEventListener("click", {
+            val teamDresses = getSetup().team.mapNotNull {
+                it.isSupport to options.dressesById[it.dress]?.data?.id
+            }
+            actIconsContainer.clear()
+            actIconsContainer.append {
+                div("mx-auto") {
+                    listOf("A1", "A2", "A3").forEach { actName ->
+                        div {
+                            teamDresses.map { (isSupport, dressId) ->
+                                img(src = "img/acts/${dressId}_${actName}${if (isSupport) "_support" else ""}.png") {
+                                    style = "max-height: 50px; max-width: 50px;"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            actIconsModalBs.show()
         })
 
         var isSharing = false
@@ -2786,7 +2811,7 @@ class SimulatorClient(val simulator: Simulator) {
                 interactiveSimulation?.sendCommand("export strict")
                 val export = interactiveSimulation?.getLog()?.data?.queueStatus?.lastExport
                 if (export != null && export.isNotBlank()) {
-                    val currentStrategy = (strategyEditor.value as String).trim()
+                    val currentStrategy = strategyEditor.value.trim()
                     if (currentStrategy.isBlank()) {
                         strategyEditor.value = "Moveset:\n$export"
                     } else {
