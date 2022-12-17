@@ -622,3 +622,6 @@
 # v0.35.8
 - Added new memoirs
 - Added collapse/expand all buttons to the strategy editor
+
+# v0.35.9
+- Added act images button
