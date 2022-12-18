@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip1000003 = PartialMemoirBlueprint(
+val _equip1000003 = PartialMemoirBlueprint(
   id = 1000003,
   name = "ネコ型鉢植えのサボテン",
   rarity = 1,

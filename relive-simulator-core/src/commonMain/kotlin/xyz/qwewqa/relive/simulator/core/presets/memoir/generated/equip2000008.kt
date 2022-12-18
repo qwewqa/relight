@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip2000008 = PartialMemoirBlueprint(
+val _equip2000008 = PartialMemoirBlueprint(
   id = 2000008,
   name = "地下劇場",
   rarity = 2,

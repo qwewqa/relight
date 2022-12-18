@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip3000067 = PartialMemoirBlueprint(
+val _equip3000067 = PartialMemoirBlueprint(
   id = 3000067,
   name = "選手兼監督 露崎 まひる",
   rarity = 3,

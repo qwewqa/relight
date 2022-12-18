@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip2000016 = PartialMemoirBlueprint(
+val _equip2000016 = PartialMemoirBlueprint(
   id = 2000016,
   name = "タクシー代５０円！",
   rarity = 2,

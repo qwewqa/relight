@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip4000064 = PartialMemoirBlueprint(
+val _equip4000064 = PartialMemoirBlueprint(
   id = 4000064,
   name = "ガルパ×スタリラ コラボ開催記念",
   rarity = 4,

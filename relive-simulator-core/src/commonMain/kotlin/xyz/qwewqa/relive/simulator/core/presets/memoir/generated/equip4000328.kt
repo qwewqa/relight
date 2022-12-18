@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip4000328 = PartialMemoirBlueprint(
+val _equip4000328 = PartialMemoirBlueprint(
   id = 4000328,
   name = "ばらの誇りを胸に Respect Ver.",
   rarity = 4,

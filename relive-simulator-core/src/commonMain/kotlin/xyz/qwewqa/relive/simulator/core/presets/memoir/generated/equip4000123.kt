@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip4000123 = PartialMemoirBlueprint(
+val _equip4000123 = PartialMemoirBlueprint(
   id = 4000123,
   name = "狂気のマッドサイエンティスト",
   rarity = 4,

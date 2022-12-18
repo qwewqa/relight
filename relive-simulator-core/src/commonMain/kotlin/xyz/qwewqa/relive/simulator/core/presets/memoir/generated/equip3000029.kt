@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip3000029 = PartialMemoirBlueprint(
+val _equip3000029 = PartialMemoirBlueprint(
   id = 3000029,
   name = "深夜に響き渡る悲鳴",
   rarity = 3,

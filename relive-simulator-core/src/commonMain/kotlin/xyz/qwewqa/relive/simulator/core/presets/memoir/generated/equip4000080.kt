@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip4000080 = PartialMemoirBlueprint(
+val _equip4000080 = PartialMemoirBlueprint(
   id = 4000080,
   name = "『遥かなるルネサンス・２０１９』",
   rarity = 4,

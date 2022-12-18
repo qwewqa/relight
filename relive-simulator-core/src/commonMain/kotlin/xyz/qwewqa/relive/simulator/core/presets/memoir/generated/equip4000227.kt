@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip4000227 = PartialMemoirBlueprint(
+val _equip4000227 = PartialMemoirBlueprint(
   id = 4000227,
   name = "隠者と正義のレヴュー",
   rarity = 4,

@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip4000012 = PartialMemoirBlueprint(
+val _equip4000012 = PartialMemoirBlueprint(
   id = 4000012,
   name = "接客業も演劇の糧",
   rarity = 4,

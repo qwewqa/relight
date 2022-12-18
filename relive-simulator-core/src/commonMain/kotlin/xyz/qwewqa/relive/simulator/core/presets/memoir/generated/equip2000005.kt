@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip2000005 = PartialMemoirBlueprint(
+val _equip2000005 = PartialMemoirBlueprint(
   id = 2000005,
   name = "「別れの戦記」の王国旗",
   rarity = 2,

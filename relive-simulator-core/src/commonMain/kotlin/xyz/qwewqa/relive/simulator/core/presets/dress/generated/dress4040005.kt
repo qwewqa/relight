@@ -127,7 +127,7 @@ val dress = dress4040005(
 )
 */
 
-internal val _dress4040005 = PartialDressBlueprint(
+val _dress4040005 = PartialDressBlueprint(
   id = 4040005,
   name = "ポルックス",
   baseRarity = 4,

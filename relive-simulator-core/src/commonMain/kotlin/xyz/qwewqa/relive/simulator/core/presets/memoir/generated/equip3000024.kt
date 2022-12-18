@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip3000024 = PartialMemoirBlueprint(
+val _equip3000024 = PartialMemoirBlueprint(
   id = 3000024,
   name = "練習で疲れたらやっぱコレだね！",
   rarity = 3,

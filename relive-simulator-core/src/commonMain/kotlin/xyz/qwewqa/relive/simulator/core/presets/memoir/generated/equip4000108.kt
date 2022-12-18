@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip4000108 = PartialMemoirBlueprint(
+val _equip4000108 = PartialMemoirBlueprint(
   id = 4000108,
   name = "キラキラのステージ 華恋",
   rarity = 4,

@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip4000255 = PartialMemoirBlueprint(
+val _equip4000255 = PartialMemoirBlueprint(
   id = 4000255,
   name = "月と審判、信仰、希望、慈善のレヴュー",
   rarity = 4,

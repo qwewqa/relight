@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip4000119 = PartialMemoirBlueprint(
+val _equip4000119 = PartialMemoirBlueprint(
   id = 4000119,
   name = "舞台に輝く歌声 マリア＆クロディーヌ",
   rarity = 4,

@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip3000051 = PartialMemoirBlueprint(
+val _equip3000051 = PartialMemoirBlueprint(
   id = 3000051,
   name = "ガラスの靴に選ばれざる者？",
   rarity = 3,

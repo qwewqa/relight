@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip4000200 = PartialMemoirBlueprint(
+val _equip4000200 = PartialMemoirBlueprint(
   id = 4000200,
   name = "IV 皇帝【正位置】",
   rarity = 4,

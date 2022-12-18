@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip3000059 = PartialMemoirBlueprint(
+val _equip3000059 = PartialMemoirBlueprint(
   id = 3000059,
   name = "摩訶不思議なリサイクルショップ",
   rarity = 3,

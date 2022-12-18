@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip2000025 = PartialMemoirBlueprint(
+val _equip2000025 = PartialMemoirBlueprint(
   id = 2000025,
   name = "The Star Knows",
   rarity = 2,

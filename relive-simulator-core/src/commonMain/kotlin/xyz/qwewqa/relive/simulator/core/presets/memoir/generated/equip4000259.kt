@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip4000259 = PartialMemoirBlueprint(
+val _equip4000259 = PartialMemoirBlueprint(
   id = 4000259,
   name = "XXI 世界【逆位置】",
   rarity = 4,

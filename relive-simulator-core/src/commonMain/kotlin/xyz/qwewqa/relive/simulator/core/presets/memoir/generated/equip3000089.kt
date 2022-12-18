@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-internal val _equip3000089 = PartialMemoirBlueprint(
+val _equip3000089 = PartialMemoirBlueprint(
   id = 3000089,
   name = "伝説のシゴキ～スズダルキャット",
   rarity = 3,
