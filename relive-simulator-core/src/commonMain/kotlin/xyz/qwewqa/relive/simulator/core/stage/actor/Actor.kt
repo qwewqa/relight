@@ -216,6 +216,9 @@ class Actor(
     var aggroTarget: Actor? = null
     var provokeTarget: Actor? = null
 
+    var constrain = 0
+    val isConstrained get() = constrain > 0
+
     var inCX = false
         private set
     var inCXAct: Boolean = false

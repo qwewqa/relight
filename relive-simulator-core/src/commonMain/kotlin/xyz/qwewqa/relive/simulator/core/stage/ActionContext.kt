@@ -42,17 +42,19 @@ class ActionContext(
             autoRepeatHits: Boolean = true
     ): TargetContext {
         return TargetContext(
-                this@ActionContext,
-                this,
-                self.aggroTarget.takeIf { affectedByAggro },
-                autoRepeatHits,
+            this@ActionContext,
+            this,
+            enemy.active.first().takeIf { self.isConstrained } ?: self.aggroTarget.takeIf { affectedByAggro },
+            autoRepeatHits,
         )
     }
 
     inline fun Actor.act(action: TargetContext.() -> Unit) =
             TargetContext(this@ActionContext, listOf(this)).act(action)
 
-    private fun provokable(selector: () -> List<Actor>) = self.provokeTarget?.let { listOf(it) } ?: selector()
+    private fun provokable(selector: () -> List<Actor>) = self.provokeTarget?.let { listOf(it) }
+        ?: listOf(enemy.active.first()).takeIf { self.isConstrained }
+        ?: selector()
 
     fun targetSelf() = listOf(self).targetContext()
 

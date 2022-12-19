@@ -24,7 +24,7 @@ object AggroBuff : TimedBuffEffect {
     override val exclusive: Boolean = true
     override val iconId: Int = 101
 
-        override fun onApply(source: Actor?, target: Actor) {
+    override fun onApply(source: Actor?, target: Actor) {
         requireNotNull(source)
         target.aggroTarget = source
     }
@@ -41,7 +41,7 @@ object LockedAggroBuff : TimedBuffEffect {
     override val isLocked = true
     override val iconId: Int = 101
 
-        override fun onApply(source: Actor?, target: Actor) {
+    override fun onApply(source: Actor?, target: Actor) {
         requireNotNull(source)
         target.aggroTarget = source
     }
@@ -57,13 +57,28 @@ object ProvokeBuff : TimedBuffEffect {
     override val exclusive: Boolean = true
     override val iconId: Int = 49
 
-        override fun onApply(source: Actor?, target: Actor) {
+    override fun onApply(source: Actor?, target: Actor) {
         requireNotNull(source)
         target.provokeTarget = source
     }
 
     override fun onEnd(context: ActionContext, value: Int) = context.run {
         self.provokeTarget = null
+    }
+}
+
+object ConstrainBuff : TimedBuffEffect {
+    override val name = "Constrain"
+    override val category = BuffCategory.Negative
+    override val exclusive: Boolean = true
+    override val iconId: Int = 269
+
+    override fun onStart(context: ActionContext, value: Int)  = context.run {
+        self.constrain += 1
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.constrain -= 1
     }
 }
 
