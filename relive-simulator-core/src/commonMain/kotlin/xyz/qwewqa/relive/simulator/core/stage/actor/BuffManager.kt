@@ -382,6 +382,7 @@ enum class CountableBuff(
     Evasion(BuffCategory.Positive, 27),
     Fortitude(BuffCategory.Positive, 29),
     Revive(BuffCategory.Positive, 164),
+    InvincibleRebirth(BuffCategory.Positive, 265),
     Daze(BuffCategory.Negative, 167),
     Pride(BuffCategory.Negative, 168),
     Hope(BuffCategory.Positive, 169),

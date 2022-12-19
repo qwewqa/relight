@@ -368,6 +368,11 @@ class Actor(
                 context.log("Damage", category = LogCategory.DAMAGE) { "Fortitude activate (newHp: 1)." }
                 return@run
             }
+            if (self.buffs.tryRemove(CountableBuff.InvincibleRebirth)) {
+                self.hp = self.maxHp
+                context.log("Damage", category = LogCategory.DAMAGE) { "Invincible Rebirth activate (newHp: ${self.maxHp})." }
+                return@run
+            }
             if (self.buffs.tryRemove(CountableBuff.Revive)) {
                 self.hp = self.maxHp / 2
                 context.log("Damage", category = LogCategory.DAMAGE) { "Revive activate (newHp: ${self.maxHp / 2})." }
