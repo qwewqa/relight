@@ -18,6 +18,17 @@ object ActUpPassive : PassiveEffect {
     }
 }
 
+object StaminaActUpPassive : PassiveEffect {
+    override val category = PassiveEffectCategory.Passive
+    override val tags = listOf(EffectTag.Act)
+
+    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+        condition.applyIfTrue(self) {
+            staminaActPower += value
+        }
+    }
+}
+
 object TeamActUpPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
     override val tags = listOf(EffectTag.Act)

@@ -56,11 +56,13 @@ class Actor(
 
     val hopeFactor get() = if (buffs.any(CountableBuff.Hope)) 20 else 0
 
-    val actPower get() = valueActPower * (100 + boostActPower + actBurnFactor + hopeFactor) / 100 + songActPower
+    val actPower get() = valueActPower * (100 + boostActPower + actBurnFactor + hopeFactor +
+            (if (hp == maxHp) staminaActPower else 0)) / 100 + songActPower
     val actBurnFactor get() = if (isBurned) -10 else 0
     var valueActPower = 0
     var boostActPower = 0
     var songActPower = 0
+    var staminaActPower = 0
 
     val normalDefense get() = valueNormalDefense * (100 + boostNormalDefense) / 100
     var valueNormalDefense = 0
