@@ -38,6 +38,8 @@ val bossLoadouts = listOf(
     BossLoadout(tr26MusketeerHikariDiff4, tr26MusketeerHikariDiff4Strategy),
     BossLoadout(tr26MusketeerMahiru, tr26MusketeerMahiruStrategy),
     BossLoadout(tr26MusketeerMahiruDiff4, tr26MusketeerMahiruDiff4Strategy),
+    BossLoadout(tr26HangedManRui, tr26HangedManRuiStrategy),
+    BossLoadout(tr26HangedManRuiDiff4, tr26HangedManRuiDiff4Strategy),
     BossLoadout(tr25SetsunaIchie, tr25SetsunaIchieStrategy),
     BossLoadout(tr25SetsunaIchieDiff4, tr25SetsunaIchieDiff4Strategy),
     BossLoadout(tr25SuirenYuyuko, tr25SuirenYuyukoStrategy),

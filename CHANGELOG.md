@@ -629,3 +629,6 @@
 # v0.35.10
 - Added new dresses and memoirs
 - Added TR26 bosses
+
+# v0.35.11
+- Fixed missing TR26 Hanged Man boss
