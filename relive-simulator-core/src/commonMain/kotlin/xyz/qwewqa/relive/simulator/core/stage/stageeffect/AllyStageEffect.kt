@@ -580,3 +580,36 @@ val ThisIsTheStage = StageEffect(
     ),
     StageEffectTarget.All,
 )
+
+val GoldenVitality = StageEffect(
+    "Golden Vitality",
+    58,
+    listOf(
+        listOf(
+            StageBuff(NegativeEffectResistanceBuff, 50),
+            StageBuff(NegativeCountableResistanceBuff, 50),
+            StageBuff(DamageTakenDownBuff, 30),
+        ),
+        listOf(
+            StageBuff(NegativeEffectResistanceBuff, 60),
+            StageBuff(NegativeCountableResistanceBuff, 60),
+            StageBuff(DamageTakenDownBuff, 40),
+        ),
+        listOf(
+            StageBuff(NegativeEffectResistanceBuff, 70),
+            StageBuff(NegativeCountableResistanceBuff, 70),
+            StageBuff(DamageTakenDownBuff, 50),
+        ),
+        listOf(
+            StageBuff(NegativeEffectResistanceBuff, 80),
+            StageBuff(NegativeCountableResistanceBuff, 80),
+            StageBuff(DamageTakenDownBuff, 60),
+        ),
+        listOf(
+            StageBuff(NegativeEffectResistanceBuff, 90),
+            StageBuff(NegativeCountableResistanceBuff, 90),
+            StageBuff(DamageTakenDownBuff, 70),
+        ),
+    ),
+    StageEffectTarget.All,
+)

@@ -87,6 +87,7 @@ val playerDresses = listOf(
     OkuninushiKaren,
     OrpheusFumi,
     ParisCombatRevueFlowerDivisionErika,
+    PersephoneTamao,
     PrincessKaren,
     RedFrontierLalafin,
     RomeoKaren,

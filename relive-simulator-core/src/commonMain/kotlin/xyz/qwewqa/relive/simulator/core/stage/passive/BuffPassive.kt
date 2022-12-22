@@ -22,6 +22,7 @@ val TeamBlessingCountableDebuffReductionPassive: PassiveEffect = GenericCountabl
 val TeamBlessingEffectiveDamagePassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.BlessingEffectiveDamage, EffectTag.EffectiveDamage, "Team") { targetAllyAoe(it) }
 val TeamHopeBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Hope, EffectTag.Hope, "Team") { targetAllyAoe(it) }
 val TeamBlessingHopePassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.BlessingHope, EffectTag.Hope, "Team") { targetAllyAoe(it) }
+val TeamBlessingAp2DownPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.BlessingAp2Down, EffectTag.AP2Down, "Team") { targetAllyAoe(it) }
 
 val TeamActPowerUpBuffPassive: PassiveEffect = GenericBuffPassive(ActPowerUpBuff, EffectTag.Act,"Team") { targetAllyAoe(it) }
 val TeamDexterityUpBuffPassive: PassiveEffect = GenericBuffPassive(DexterityUpBuff, EffectTag.Dexterity, "Team") { targetAllyAoe(it) }
@@ -196,5 +197,18 @@ data class EnemyStageEffectPassive(
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         applyEnemyStageEffect(effect, time, value)
+    }
+}
+
+data class DispelTimedBuffPassive(
+    val buff: TimedBuffEffect,
+) : PassiveEffect {
+    override val name = "Auto Dispel Timed Buff [${buff.name}]"
+    override val category = PassiveEffectCategory.TurnStartNegative //Unconfirmed category
+
+    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+        targetAoe(condition).act {
+            dispelTimed(buff)
+        }
     }
 }
