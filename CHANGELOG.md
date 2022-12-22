@@ -636,3 +636,7 @@
 # v0.35.12
 - Fixed wrong TR26 boss
 - Fixed Persephone's pride autoskill
+
+# v0.35.13
+- Fixed Sagittarius Junna's climax act
+

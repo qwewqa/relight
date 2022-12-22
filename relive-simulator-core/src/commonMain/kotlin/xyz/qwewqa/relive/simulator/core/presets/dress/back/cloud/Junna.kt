@@ -170,14 +170,14 @@ val SagittariusJunna = dress1060025(
                 targetAllyAoe().act {
                     applyCountableBuff(
                         effect = CountableBuff.Revive,
-                        count = values1,
+                        count = times1,
                     )
                     dispelCountable(BuffCategory.Negative, values2)
                 }
                 targetAoe().act {
                     applyCountableBuff(
                         effect = CountableBuff.Pride,
-                        count = values3,
+                        count = times3,
                     )
                     dispelCountable(CountableBuff.Revive, values4)
                     attack(
