@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.memoir
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.KaorukoOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.MoonOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.characterCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.schoolCondition
 import xyz.qwewqa.relive.simulator.core.presets.memoir.generated.*
@@ -999,6 +1000,28 @@ val MeiFansFortuneTelling = equip4000334(
     cutinAct = {
         Act {
             targetAllyBack(5).act {
+                applyBuff(
+                    effect = EffectiveDamageDealtUpBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val DevilsBargain = equip4000335(
+    name = "Devil's Bargain",
+    baseAutoskills = listOf(
+        EffectiveDamageDealtPassive.new(20)
+    ),
+    maxAutoskills = listOf(
+        EffectiveDamageDealtPassive.new(30)
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyAoe(MoonOnlyCondition).act {
                 applyBuff(
                     effect = EffectiveDamageDealtUpBuff,
                     value = values1,

@@ -75,6 +75,7 @@ val memoirs = mapOf("None" to EmptyMemoir) + (
             The101stSeishoFestivalRally,
             ToStandOnAnyStage,
             MeiFansFortuneTelling,
+            DevilsBargain,
         ).sortedBy { it.name }.sortedBy { it.cutinData == null }
                 + brilliantBirthdays
                 + slapMemos
