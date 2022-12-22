@@ -165,7 +165,7 @@ val SoulRevueMaya = dress1050025(
             SelfReviveBuffPassive.new(50, time = 2),
         ),
         listOf(
-            EnemyDazeBuffPassive.new(2) + MiddleOnlyCondition,
+            EnemyDazeBuffPassive.new(time = 2) + MiddleOnlyCondition,
         ),
         listOf(
             EnemyBrillianceDrainPassive.new(50) + MiddleOnlyCondition,

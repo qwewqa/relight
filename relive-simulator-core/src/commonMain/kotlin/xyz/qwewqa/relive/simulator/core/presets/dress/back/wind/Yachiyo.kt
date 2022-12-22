@@ -93,7 +93,7 @@ val FoolYachiyo = dress4050015(
             SelfReviveBuffPassive.new(50, time = 1),
         ),
         listOf(
-            EnemyBack1DazeBuffPassive.new(1),
+            EnemyBack1DazeBuffPassive.new(time = 1),
         )
     ),
     unitSkill = ActCritical50UnitSkill + (WindOnlyCondition or SunOnlyCondition),

@@ -83,7 +83,7 @@ val CompetitionRevueMahiru = dress1030024(
             SelfReviveBuffPassive.new(50, time = 2),
         ),
         listOf(
-            EnemyDazeBuffPassive.new(2) + SpecialDamageOnlyCondition,
+            EnemyDazeBuffPassive.new(time = 2) + SpecialDamageOnlyCondition,
         ),
         listOf(
             EnemyBrillianceDrainPassive.new(50) + SpecialDamageOnlyCondition,

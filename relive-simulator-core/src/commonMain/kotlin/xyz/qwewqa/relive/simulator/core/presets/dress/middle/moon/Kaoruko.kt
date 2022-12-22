@@ -84,7 +84,7 @@ val CollectionKaoruko = dress1090020(
             SelfReviveBuffPassive.new(50, time = 2),
         ),
         listOf(
-            EnemyDazeBuffPassive.new(1),
+            EnemyDazeBuffPassive.new(time = 1),
         ),
         listOf(
             EnemyBrillianceDrainPassive.new(30),

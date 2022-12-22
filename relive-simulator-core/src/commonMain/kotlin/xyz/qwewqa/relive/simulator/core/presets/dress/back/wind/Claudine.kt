@@ -87,7 +87,7 @@ val SoulRevueClaudine = dress1040024(
             SelfReviveBuffPassive.new(50, time = 2),
         ),
         listOf(
-            EnemyPrideBuffPassive.new(2) + NormalDamageOnlyCondition,
+            EnemyPrideBuffPassive.new(value = 3000, time = 2) + NormalDamageOnlyCondition,
         ),
         listOf(
             EnemyBrillianceDrainPassive.new(50) + NormalDamageOnlyCondition,

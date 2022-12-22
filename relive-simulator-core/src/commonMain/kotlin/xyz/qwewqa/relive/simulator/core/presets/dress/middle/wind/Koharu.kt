@@ -96,7 +96,7 @@ val SnowWhiteKoharu = dress5010005(
             TeamReviveBuffPassive.new(50, time = 1) + SeiranOnlyCondition,
         ),
         listOf(
-            EnemyDazeBuffPassive.new(2) + SeishoOnlyCondition,
+            EnemyDazeBuffPassive.new(time = 2) + SeishoOnlyCondition,
         ),
         listOf(
             EnemyBrillianceDrainPassive.new(25),

@@ -177,9 +177,9 @@ val FinalLinesHikari = dress1020024(
             //TODO: Revive reduction
         ),
         listOf(
-            EnemyDazeBuffPassive.new(1),
+            EnemyDazeBuffPassive.new(time = 1),
             EnemyBrillianceDrainPassive.new(30),
-            EnemyDazeBuffPassive.new(1) + MovieOnlyCondition,
+            EnemyDazeBuffPassive.new(time = 1) + MovieOnlyCondition,
         ),
         listOf(
             TeamBrillianceGainUpBuffPassive.new(50, 3),

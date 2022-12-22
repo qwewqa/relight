@@ -166,7 +166,7 @@ val HuntingRevueJunna = dress1060024(
             SelfReviveBuffPassive.new(50, time = 2),
         ),
         listOf(
-            EnemyDazeBuffPassive.new(2) + BackOnlyCondition,
+            EnemyDazeBuffPassive.new(time = 2) + BackOnlyCondition,
         ),
         listOf(
             EnemyBrillianceDrainPassive.new(50) + BackOnlyCondition,

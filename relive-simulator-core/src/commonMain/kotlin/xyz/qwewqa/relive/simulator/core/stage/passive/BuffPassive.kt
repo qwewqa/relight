@@ -176,7 +176,7 @@ private data class CountableDebuffPassive(
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
         target(context, condition).act {
-            applyCountableBuff(buff, value)
+            applyCountableBuff(buff, time, value)
         }
 }
 
