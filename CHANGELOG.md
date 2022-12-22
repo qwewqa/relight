@@ -625,3 +625,7 @@
 
 # v0.35.9
 - Added act images button
+
+# v0.35.10
+- Added new dresses and memoirs
+- Added TR26 bosses
