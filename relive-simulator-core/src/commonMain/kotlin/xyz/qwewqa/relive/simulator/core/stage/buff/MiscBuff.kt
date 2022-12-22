@@ -18,6 +18,21 @@ object PerfectAimBuff : TimedBuffEffect {
     }
 }
 
+object LockedPerfectAimBuff : TimedBuffEffect {
+    override val name = "Locked Perfect Aim"
+    override val category = BuffCategory.Positive
+    override val exclusive: Boolean = true
+    override val iconId: Int = 28
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.perfectAimCounter += 1
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.perfectAimCounter -= 1
+    }
+}
+
 object AggroBuff : TimedBuffEffect {
     override val name = "Aggro"
     override val category = BuffCategory.Negative

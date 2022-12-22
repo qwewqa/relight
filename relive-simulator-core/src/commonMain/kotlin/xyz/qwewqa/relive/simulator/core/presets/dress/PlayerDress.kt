@@ -39,6 +39,7 @@ val playerDresses = listOf(
     DancerClaudine,
     DeathTamao,
     DelightAkira,
+    DelightKoharu,
     DelightMichiru,
     DemonKingNana,
     DevilKaoruko,

@@ -273,3 +273,36 @@ val CelestialHighlights = StageEffect(
     ),
     StageEffectTarget.All,
 )
+
+val ShadowStupor = StageEffect(
+    "Shadow Stupor",
+    9,
+    listOf(
+        listOf(
+            StageBuff(AgilityDownBuff, 20),
+            StageBuff(ActPowerDownBuff, 20),
+            StageBuff(DexterityDownBuff, 20),
+        ),
+        listOf(
+            StageBuff(AgilityDownBuff, 25),
+            StageBuff(ActPowerDownBuff, 30),
+            StageBuff(DexterityDownBuff, 25),
+        ),
+        listOf(
+            StageBuff(AgilityDownBuff, 30),
+            StageBuff(ActPowerDownBuff, 40),
+            StageBuff(DexterityDownBuff, 30),
+        ),
+        listOf(
+            StageBuff(AgilityDownBuff, 35),
+            StageBuff(ActPowerDownBuff, 50),
+            StageBuff(DexterityDownBuff, 35),
+        ),
+        listOf(
+            StageBuff(AgilityDownBuff, 40),
+            StageBuff(ActPowerDownBuff, 60),
+            StageBuff(DexterityDownBuff, 40),
+        ),
+    ),
+    StageEffectTarget.All,
+)

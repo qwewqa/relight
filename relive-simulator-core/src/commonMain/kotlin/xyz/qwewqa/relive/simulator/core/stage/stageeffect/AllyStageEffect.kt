@@ -681,3 +681,43 @@ val SagesCovenant = StageEffect(
     ),
     StageEffectTarget.All,
 )
+
+//美しく、気高く、楽しく
+//味方の青嵐総合芸術院にAP減少2、継続マイナス効果耐性アップ[100, 100, 100, 100, 100]、ACTパワーアップ[20, 25, 30, 35, 40]%
+val BeautifulNobleAndFun = StageEffect(
+    "Beautiful, Noble, and Fun",
+    61,
+    listOf(
+        StageEffectBuffs(
+            listOf(
+                listOf(
+                    StageBuff(Ap2DownBuff, 0),
+                    StageBuff(NegativeEffectResistanceBuff, 100),
+                    StageBuff(ActPowerUpBuff, 20),
+                ),
+                listOf(
+                    StageBuff(Ap2DownBuff, 0),
+                    StageBuff(NegativeEffectResistanceBuff, 100),
+                    StageBuff(ActPowerUpBuff, 25),
+                ),
+                listOf(
+                    StageBuff(Ap2DownBuff, 0),
+                    StageBuff(NegativeEffectResistanceBuff, 100),
+                    StageBuff(ActPowerUpBuff, 30),
+                ),
+                listOf(
+                    StageBuff(Ap2DownBuff, 0),
+                    StageBuff(NegativeEffectResistanceBuff, 100),
+                    StageBuff(ActPowerUpBuff, 35),
+                ),
+                listOf(
+                    StageBuff(Ap2DownBuff, 0),
+                    StageBuff(NegativeEffectResistanceBuff, 100),
+                    StageBuff(ActPowerUpBuff, 40),
+                ),
+            ),
+            SeiranOnlyCondition,
+        ),
+    ),
+    StageEffectTarget.All,
+)
