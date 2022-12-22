@@ -986,3 +986,25 @@ val ToStandOnAnyStage = equip4000332(
         }
     },
 )
+
+val MeiFansFortuneTelling = equip4000334(
+    name = "Mei Fan's Fortune-Telling",
+    baseAutoskills = listOf(
+        EffectiveDamageDealtPassive.new(25)
+    ),
+    maxAutoskills = listOf(
+        EffectiveDamageDealtPassive.new(40)
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyBack(5).act {
+                applyBuff(
+                    effect = EffectiveDamageDealtUpBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
