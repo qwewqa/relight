@@ -150,3 +150,14 @@ object CutinInitialCooldownReductionPassive : PassiveEffect {
         }
     }
 }
+
+object TurnHPRecoveryPassive : PassiveEffect {
+    override val category = PassiveEffectCategory.Passive
+    override val tags = listOf(EffectTag.Regeneration)
+
+    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+        condition.applyIfTrue(self) {
+            hpRegen += value
+        }
+    }
+}

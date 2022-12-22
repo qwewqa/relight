@@ -103,7 +103,7 @@ val StageGirlHisame = dress5030001(
             DexterityPassive.new(10),
         ),
         listOf(
-            SelfFortitudeBuffPassive.new(1),
+            SelfFortitudeBuffPassive.new(time = 1),
         ),
     ),
     unitSkill = HP50Def50UnitSkill + SeiranOnlyCondition,

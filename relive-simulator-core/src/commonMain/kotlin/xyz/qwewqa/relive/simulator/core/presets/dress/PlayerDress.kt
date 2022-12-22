@@ -47,6 +47,7 @@ val playerDresses = listOf(
     EmperorAkira,
     EmpressMeiFan,
     EurydiceYuyuko,
+    EvilQueenHisame,
     FaithMisora,
     FinalLinesHikari,
     FinalLinesKaren,
