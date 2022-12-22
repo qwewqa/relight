@@ -73,7 +73,7 @@ object LockedPositiveEffectResistanceBuff : TimedBuffEffect {
     }
 }
 
-object NegativeCountableResistanceBuff : TimedBuffEffect {
+object NegativeCountableEffectResistanceBuff : TimedBuffEffect {
     override val name = "Negative Countable Resistance"
     override val category = BuffCategory.Positive
     override val iconId: Int = 173

@@ -518,6 +518,9 @@ val RoyalAuthority = StageEffect(
     SiegfeldOnlyCondition
 )
 
+//ここが舞台だ
+//味方の聖翔音楽学園にAP減少、クリティカル率アップ[30, 40, 50, 60, 70]%、クリティカル威力アップ[30, 40, 50, 60, 70]%、属性有利ダメージUP[30, 40, 50, 60, 70]%、味方の愛城華恋と神楽ひかりにクリティカル率アップ[10, 15, 20, 25, 30]%
+//🞖 味方側の舞台
 val ThisIsTheStage = StageEffect(
     "This is the Stage",
     48,
@@ -587,28 +590,93 @@ val GoldenVitality = StageEffect(
     listOf(
         listOf(
             StageBuff(NegativeEffectResistanceBuff, 50),
-            StageBuff(NegativeCountableResistanceBuff, 50),
+            StageBuff(NegativeCountableEffectResistanceBuff, 50),
             StageBuff(DamageTakenDownBuff, 30),
         ),
         listOf(
             StageBuff(NegativeEffectResistanceBuff, 60),
-            StageBuff(NegativeCountableResistanceBuff, 60),
+            StageBuff(NegativeCountableEffectResistanceBuff, 60),
             StageBuff(DamageTakenDownBuff, 40),
         ),
         listOf(
             StageBuff(NegativeEffectResistanceBuff, 70),
-            StageBuff(NegativeCountableResistanceBuff, 70),
+            StageBuff(NegativeCountableEffectResistanceBuff, 70),
             StageBuff(DamageTakenDownBuff, 50),
         ),
         listOf(
             StageBuff(NegativeEffectResistanceBuff, 80),
-            StageBuff(NegativeCountableResistanceBuff, 80),
+            StageBuff(NegativeCountableEffectResistanceBuff, 80),
             StageBuff(DamageTakenDownBuff, 60),
         ),
         listOf(
             StageBuff(NegativeEffectResistanceBuff, 90),
-            StageBuff(NegativeCountableResistanceBuff, 90),
+            StageBuff(NegativeCountableEffectResistanceBuff, 90),
             StageBuff(DamageTakenDownBuff, 70),
+        ),
+    ),
+    StageEffectTarget.All,
+)
+
+//賢者の契り
+//味方全体にAP減少、必中、クリティカル率アップ[50, 55, 60, 65, 70]%、クリティカル威力アップ[50, 55, 60, 65, 70]%、味方の純那とななにHP回復[100, 100, 100, 100, 100]%
+//🞖 味方側の舞台
+val SagesCovenant = StageEffect(
+    "Sage's Covenant",
+    59,
+    listOf(
+        StageEffectBuffs(
+            listOf(
+                listOf(
+                    StageBuff(ApDownBuff, 0),
+                    StageBuff(PerfectAimBuff, 0),
+                    StageBuff(DexterityUpBuff, 50),
+                    StageBuff(CriticalUpBuff, 50),
+                ),
+                listOf(
+                    StageBuff(ApDownBuff, 0),
+                    StageBuff(PerfectAimBuff, 0),
+                    StageBuff(DexterityUpBuff, 55),
+                    StageBuff(CriticalUpBuff, 55),
+                ),
+                listOf(
+                    StageBuff(ApDownBuff, 0),
+                    StageBuff(PerfectAimBuff, 0),
+                    StageBuff(DexterityUpBuff, 60),
+                    StageBuff(CriticalUpBuff, 60),
+                ),
+                listOf(
+                    StageBuff(ApDownBuff, 0),
+                    StageBuff(PerfectAimBuff, 0),
+                    StageBuff(DexterityUpBuff, 65),
+                    StageBuff(CriticalUpBuff, 65),
+                ),
+                listOf(
+                    StageBuff(ApDownBuff, 0),
+                    StageBuff(PerfectAimBuff, 0),
+                    StageBuff(DexterityUpBuff, 70),
+                    StageBuff(CriticalUpBuff, 70),
+                ),
+            ),
+        ),
+        StageEffectBuffs(
+            listOf(
+                listOf(
+                    StageBuff(HpRegenBuff, 100),
+                ),
+                listOf(
+                    StageBuff(HpRegenBuff, 100),
+                ),
+                listOf(
+                    StageBuff(HpRegenBuff, 100),
+                ),
+                listOf(
+                    StageBuff(HpRegenBuff, 100),
+                ),
+                listOf(
+                    StageBuff(HpRegenBuff, 100),
+                ),
+            ),
+            JunnaOnlyCondition or NanaOnlyCondition,
         ),
     ),
     StageEffectTarget.All,

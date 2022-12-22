@@ -92,7 +92,7 @@ val GrudgeRevueFutaba = dress1080024(
             TeamAPDownBuffPassive.new(time = 1),
         ),
         listOf(
-            TeamNegativeCountableResistanceBuffPassive.new(100, 1),
+            TeamNegativeCountableEffectResistanceBuffPassive.new(100, 1),
         ),
     ),
     unitSkill = ActCritical50UnitSkill + (CloudOnlyCondition or StarOnlyCondition),

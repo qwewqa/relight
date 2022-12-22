@@ -92,6 +92,7 @@ val playerDresses = listOf(
     RedFrontierLalafin,
     RomeoKaren,
     SageJunna,
+    SagittariusJunna,
     SakataNoKintokiMeiFan,
     SakuraShingujiHikari,
     SakuyahimeMahiru,

@@ -1,7 +1,5 @@
 package xyz.qwewqa.relive.simulator.core.stage.stageeffect
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.HikariOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.KarenOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 
@@ -241,6 +239,36 @@ val Hesitation = StageEffect(
                 ),
             ),
             SeishoOnlyCondition,
+        ),
+    ),
+    StageEffectTarget.All,
+)
+
+//天体ハイライト
+//敵役全体に狭窄、ACTパワーダウン[20, 25, 30, 35, 40]%
+val CelestialHighlights = StageEffect(
+    "Celestial Highlights",
+    55,
+    listOf(
+        listOf(
+            StageBuff(ConstrainBuff, 0),
+            StageBuff(ActPowerDownBuff, 20),
+        ),
+        listOf(
+            StageBuff(ConstrainBuff, 0),
+            StageBuff(ActPowerDownBuff, 25),
+        ),
+        listOf(
+            StageBuff(ConstrainBuff, 0),
+            StageBuff(ActPowerDownBuff, 30),
+        ),
+        listOf(
+            StageBuff(ConstrainBuff, 0),
+            StageBuff(ActPowerDownBuff, 35),
+        ),
+        listOf(
+            StageBuff(ConstrainBuff, 0),
+            StageBuff(ActPowerDownBuff, 40),
         ),
     ),
     StageEffectTarget.All,
