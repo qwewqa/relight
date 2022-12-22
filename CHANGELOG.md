@@ -632,3 +632,7 @@
 
 # v0.35.11
 - Fixed missing TR26 Hanged Man boss
+
+# v0.35.12
+- Fixed wrong TR26 boss
+- Fixed Persephone's pride autoskill
