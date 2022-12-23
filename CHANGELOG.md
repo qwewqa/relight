@@ -640,3 +640,5 @@
 # v0.35.13
 - Fixed Sagittarius Junna's climax act
 
+# v0.35.14
+- Fixed Sagittarius Junna's boost in TR26 Emperor

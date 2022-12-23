@@ -1,6 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr26
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow.CompetitionRevueMahiru
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.SagittariusJunna
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.stage.character.Character
@@ -141,7 +141,7 @@ val tr26EmperorAkira = ActorLoadout(
             },
         ),
         autoSkills = listOf(
-            trEventBonusPassive(CompetitionRevueMahiru),
+            trEventBonusPassive(SagittariusJunna),
             AbnormalResistPassiveA.new(100),
             BossElementResistPassive.new(50),
         ),
@@ -300,7 +300,7 @@ val tr26EmperorAkiraDiff4 = ActorLoadout(
             },
         ),
         autoSkills = listOf(
-            trEventBonusPassive(CompetitionRevueMahiru),
+            trEventBonusPassive(SagittariusJunna),
             AbnormalResistPassiveA.new(100),
             BossElementResistPassive.new(50),
         ),
