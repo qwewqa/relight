@@ -14,7 +14,7 @@ import xyz.qwewqa.relive.simulator.stage.character.Position
 
 /*
 import xyz.qwewqa.relive.simulator.core.presets.condition.*
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress4060002
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1090021
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
@@ -25,85 +25,124 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
 
-val dress = dress4060002(
-    name = "未来の舞台少女",
+val dress = dress1090021(
+    name = "十二支 卯",
     acts = listOf(
-        ActType.Act1.blueprint("キラめきの斬撃") {
+        ActType.Act1.blueprint("煌めく一閃") {
             Act {
                 /*
-                %attr%属性攻撃(威力%value%)
-                  target: 後ろから1番目の敵役
-                  hit_rate1: 100
-                  values1: [93, 98, 102, 107, 112]
-                  times1: 1
                 キラめき回復(%value%)
                   target: 自身
+                  hit_rate1: 100
+                  values1: [20, 20, 20, 20, 20]
+                  times1: [0, 0, 0, 0, 0]
+                継続マイナス効果耐性解除
+                  target: 敵役全体
                   hit_rate2: 100
-                  values2: [20, 20, 20, 20, 20]
+                  values2: [0, 0, 0, 0, 0]
                   times2: [0, 0, 0, 0, 0]
+                舞台効果付与封印 (解除不可)
+                  target: 敵役全体
+                  hit_rate3: 100
+                  values3: [0, 0, 0, 0, 0]
+                  times3: [2, 2, 2, 2, 2]
+                %attr%属性攻撃(威力%value%)
+                  target: 後ろから1番目の敵役
+                  hit_rate4: 100
+                  values4: [165, 173, 181, 189, 198]
+                  times4: 1
+
+                field_effects:
+                  マイナス舞台効果Lvダウン(%value%) (直近付与された舞台効果2) (value: 1, time: 1, target: allies)
                 */
             }
         },
-        ActType.Act2.blueprint("鼓舞の斬撃") {
+        ActType.Act2.blueprint("吸収の一閃") {
+            Act {
+                /*
+                回数マイナス効果減少(%value%)
+                  target: 味方全体
+                  hit_rate1: 100
+                  values1: [2, 2, 2, 2, 2]
+                  times1: [0, 0, 0, 0, 0]
+                回数マイナス効果耐性アップ(%value%)
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [100, 100, 100, 100, 100]
+                  times2: [3, 3, 3, 3, 3]
+                %attr%属性攻撃(威力%value%)
+                  target: 後ろから2体の敵役
+                  hit_rate3: 100
+                  values3: [165, 173, 181, 189, 198]
+                  times3: 1
+                キラめき吸収(%value%)
+                  target: 後ろから2体の敵役
+                  hit_rate4: 100
+                  values4: [100, 100, 100, 100, 100]
+                  times4: [0, 0, 0, 0, 0]
+
+                field_effects:
+                  マイナス舞台効果Lvダウン(%value%) (直近付与された舞台効果2) (value: 1, time: 1, target: allies)
+                */
+            }
+        },
+        ActType.Act3.blueprint("圧倒の一閃") {
             Act {
                 /*
                 %attr%属性攻撃(威力%value%)
-                  target: 後ろから1番目の敵役
+                  target: 敵役全体
                   hit_rate1: 100
-                  values1: [165, 173, 181, 189, 198]
+                  values1: [131, 137, 143, 150, 157]
                   times1: 1
-                AP減少
-                  target: 味方の月属性
+                AP増加
+                  target: 敵役全体
                   hit_rate2: 100
                   values2: [0, 0, 0, 0, 0]
                   times2: [2, 2, 2, 2, 2]
-                キラめき回復(%value%)
-                  target: 味方の月属性
-                  hit_rate3: 100
-                  values3: [40, 40, 40, 40, 40]
-                  times3: [0, 0, 0, 0, 0]
-                */
-            }
-        },
-        ActType.Act3.blueprint("膠着の斬撃") {
-            Act {
-                /*
-                %attr%属性攻撃(威力%value%)
-                  target: 後ろから1番目の敵役
-                  hit_rate1: 100
-                  values1: [165, 173, 181, 189, 198]
-                  times1: 1
-                継続プラス効果解除
-                  target: 敵役全体
-                  hit_rate2: 100
-                  values2: [0, 0, 0, 0, 0]
-                  times2: [0, 0, 0, 0, 0]
-                */
-            }
-        },
-        ActType.ClimaxAct.blueprint("Anastrophe") {
-            Act {
-                /*
-                継続マイナス効果解除
-                  target: 味方全体
-                  hit_rate1: 100
-                  values1: [0, 0, 0, 0, 0]
-                  times1: [0, 0, 0, 0, 0]
-                回数マイナス効果減少(%value%)
-                  target: 味方全体
-                  hit_rate2: 100
-                  values2: [1, 1, 1, 1, 1]
-                  times2: [0, 0, 0, 0, 0]
-                希望
-                  target: 自身
+                圧倒
+                  target: 敵役の次のACT実行者
                   hit_rate3: 100
                   values3: [0, 0, 0, 0, 0]
                   times3: [1, 1, 1, 1, 1]
+
+                field_effects:
+                  魅惑の瞳 (value: 1, time: 2, target: enemies)
+                  マイナス舞台効果Lvダウン(%value%) (直近付与された舞台効果2) (value: 1, time: 1, target: allies)
+                */
+            }
+        },
+        ActType.ClimaxAct.blueprint("始まりのジャンプ！") {
+            Act {
+                /*
+                起死回生(%value%) (回復量は対象の最大HPに依存する)
+                  target: 味方全体
+                  hit_rate1: 100
+                  values1: [50, 50, 50, 50, 50]
+                  times1: [2, 2, 2, 2, 2]
+                連続クライマックスACT化
+                  target: 味方全体
+                  hit_rate2: 100
+                  values2: [0, 0, 0, 0, 0]
+                  times2: [2, 2, 2, 2, 2]
+                起死回生減少(%value%)
+                  target: 敵役全体
+                  hit_rate3: 100
+                  values3: [2, 2, 2, 2, 2]
+                  times3: [0, 0, 0, 0, 0]
                 %attr%属性攻撃(威力%value%)
                   target: 敵役全体
                   hit_rate4: 100
-                  values4: [200, 210, 220, 230, 240]
+                  values4: [225, 236, 247, 258, 270]
                   times4: 3
+                慢心(%value%)
+                  target: 敵役全体
+                  hit_rate5: 100
+                  values5: [3000, 3500, 4000, 4500, 5000]
+                  times5: [1, 1, 1, 1, 1]
+
+                field_effects:
+                  飛躍の誓い (value: 1, time: 2, target: allies)
+                  マイナス舞台効果Lvダウン(%value%) (直近付与された舞台効果2) (value: 1, time: 1, target: allies)
                 */
             }
         }
@@ -112,16 +151,31 @@ val dress = dress4060002(
         listOf(
         /*
         auto skill 1:
-          起死回生(%value%) (回復量は対象の最大HPに依存する)
+          無敵の再生者(%value%) (回復量は対象の最大HPに依存する)
             target: 自身
             hit_rate: 100
-            value: 50
+            value: 100
             time: 1
           不屈
             target: 自身
             hit_rate: 100
             value: 0
-            time: 4
+            time: 2
+          起死回生(%value%) (回復量は対象の最大HPに依存する)
+            target: 味方全体
+            hit_rate: 100
+            value: 50
+            time: 1
+          祝福[継続マイナス効果解除]
+            target: 味方全体
+            hit_rate: 100
+            value: 0
+            time: 1
+          祝福[HP回復](%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 20
+            time: 1
         */
         ),
         listOf(
@@ -132,71 +186,89 @@ val dress = dress4060002(
             hit_rate: 100
             value: 30
             time: 0
+          継続マイナス効果耐性解除
+            target: 敵役全体
+            hit_rate: 100
+            value: 0
+            time: 0
+          舞台効果付与封印
+            target: 敵役全体
+            hit_rate: 100
+            value: 0
+            time: 2
         */
         ),
         listOf(
         /*
         auto skill 3:
-          ACTパワーアップ(開幕時味方の舞台上にいる月属性舞台少女1体につき%value%) (最大100％)
-            target: 味方の月属性
-            values: [30, 30, 30, 30, 30]
+          回数マイナス効果耐性アップ(%value%)
+            target: 自身
+            hit_rate: 100
+            value: 100
+            time: 2
+          回数マイナス効果耐性アップ(%value%)
+            target: 味方全体
+            hit_rate: 100
+            value: 100
+            time: 1
         */
         ),
         listOf(
         /*
         auto skill 4:
+          ACTパワーアップ(開幕時味方の舞台上にいる花・風・雪属性舞台少女1体につき%value%) (最大120％)
+            target: 自身
+            values: [30, 30, 30, 30, 30]
+          ACTパワーアップ(開幕時味方の舞台上にいる花・風・雪属性舞台少女1体につき%value%) (最大120％)
+            target: 味方の花・風・雪属性
+            values: [30, 30, 30, 30, 30]
           カットインスキル発動準備ターン短縮(%value%)
             target: 自身
             values: [1, 1, 1, 1, 1]
         */
         ),
     ),
-    unitSkill = null /* 月・星属性の舞台少女のACTパワーアップ %opt1_value%%(MAX50%) クリティカル威力アップ %opt2_value%%(MAX50%) */,
+    unitSkill = null /* 花・風・雪の舞台少女のACTパワーアップ %opt1_value%%(MAX25%) クリティカル威力アップ %opt2_value%%(MAX25%)\n自身のACTパワーアップ %opt3_value%%(MAX25%) クリティカル威力アップ %opt4_value%%(MAX25%) */,
     multipleCA = false,
     categories = setOf(),
 )
 */
 
-val _dress4060002 = PartialDressBlueprint(
-  id = 4060002,
-  name = "未来の舞台少女",
+val _dress1090021 = PartialDressBlueprint(
+  id = 1090021,
+  name = "十二支 卯",
   baseRarity = 4,
-  cost = 20,
-  character = Character.Stella,
-  attribute = Attribute.Moon,
+  cost = 23,
+  character = Character.Kaoruko,
+  attribute = Attribute.Sun,
   damageType = DamageType.Normal,
   position = Position.Middle,
   positionValue = 24050,
   stats = StatData(
-    hp = 11700,
-    actPower = 660,
-    normalDefense = 950,
-    specialDefense = 340,
-    agility = 425,
+    hp = 14400,
+    actPower = 870,
+    normalDefense = 1150,
+    specialDefense = 540,
+    agility = 500,
     dexterity = 5,
     critical = 50,
     accuracy = 0,
     evasion = 0,
   ),
   growthStats = StatData(
-    hp = 72600,
-    actPower = 4550,
-    normalDefense = 3150,
-    specialDefense = 1790,
-    agility = 4050,
+    hp = 86800,
+    actPower = 5950,
+    normalDefense = 3800,
+    specialDefense = 2900,
+    agility = 4600,
   ),
   actParameters = mapOf(
     ActType.Act1 to ActBlueprint(
-      name = "キラめきの斬撃",
+      name = "煌めく一閃",
       type = ActType.Act1,
-      apCost = 1,
-      icon = 89,
+      apCost = 2,
+      icon = 271,
       parameters = listOf(
-        ActParameters(
-          values = listOf(93, 98, 102, 107, 112),
-          times = listOf(1, 1, 1, 1, 1),
-          hitRate = 100,
-        ),
         ActParameters(
           values = listOf(20, 20, 20, 20, 20),
           times = listOf(0, 0, 0, 0, 0),
@@ -205,12 +277,17 @@ val _dress4060002 = PartialDressBlueprint(
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
           times = listOf(0, 0, 0, 0, 0),
-          hitRate = 0,
+          hitRate = 100,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
-          times = listOf(0, 0, 0, 0, 0),
-          hitRate = 0,
+          times = listOf(2, 2, 2, 2, 2),
+          hitRate = 100,
+        ),
+        ActParameters(
+          values = listOf(165, 173, 181, 189, 198),
+          times = listOf(1, 1, 1, 1, 1),
+          hitRate = 100,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
@@ -220,30 +297,30 @@ val _dress4060002 = PartialDressBlueprint(
       ),
     ),
     ActType.Act2 to ActBlueprint(
-      name = "鼓舞の斬撃",
+      name = "吸収の一閃",
       type = ActType.Act2,
       apCost = 2,
-      icon = 157,
+      icon = 274,
       parameters = listOf(
+        ActParameters(
+          values = listOf(2, 2, 2, 2, 2),
+          times = listOf(0, 0, 0, 0, 0),
+          hitRate = 100,
+        ),
+        ActParameters(
+          values = listOf(100, 100, 100, 100, 100),
+          times = listOf(3, 3, 3, 3, 3),
+          hitRate = 100,
+        ),
         ActParameters(
           values = listOf(165, 173, 181, 189, 198),
           times = listOf(1, 1, 1, 1, 1),
           hitRate = 100,
         ),
         ActParameters(
-          values = listOf(0, 0, 0, 0, 0),
-          times = listOf(2, 2, 2, 2, 2),
-          hitRate = 100,
-        ),
-        ActParameters(
-          values = listOf(40, 40, 40, 40, 40),
+          values = listOf(100, 100, 100, 100, 100),
           times = listOf(0, 0, 0, 0, 0),
           hitRate = 100,
-        ),
-        ActParameters(
-          values = listOf(0, 0, 0, 0, 0),
-          times = listOf(0, 0, 0, 0, 0),
-          hitRate = 0,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
@@ -253,25 +330,25 @@ val _dress4060002 = PartialDressBlueprint(
       ),
     ),
     ActType.Act3 to ActBlueprint(
-      name = "膠着の斬撃",
+      name = "圧倒の一閃",
       type = ActType.Act3,
-      apCost = 3,
-      icon = 10006,
+      apCost = 2,
+      icon = 297,
       parameters = listOf(
         ActParameters(
-          values = listOf(165, 173, 181, 189, 198),
+          values = listOf(131, 137, 143, 150, 157),
           times = listOf(1, 1, 1, 1, 1),
           hitRate = 100,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
-          times = listOf(0, 0, 0, 0, 0),
+          times = listOf(2, 2, 2, 2, 2),
           hitRate = 100,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
-          times = listOf(0, 0, 0, 0, 0),
-          hitRate = 0,
+          times = listOf(1, 1, 1, 1, 1),
+          hitRate = 100,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
@@ -286,35 +363,35 @@ val _dress4060002 = PartialDressBlueprint(
       ),
     ),
     ActType.ClimaxAct to ActBlueprint(
-      name = "Anastrophe",
+      name = "始まりのジャンプ！",
       type = ActType.ClimaxAct,
       apCost = 2,
-      icon = 238,
+      icon = 298,
       parameters = listOf(
         ActParameters(
-          values = listOf(0, 0, 0, 0, 0),
-          times = listOf(0, 0, 0, 0, 0),
-          hitRate = 100,
-        ),
-        ActParameters(
-          values = listOf(1, 1, 1, 1, 1),
-          times = listOf(0, 0, 0, 0, 0),
+          values = listOf(50, 50, 50, 50, 50),
+          times = listOf(2, 2, 2, 2, 2),
           hitRate = 100,
         ),
         ActParameters(
           values = listOf(0, 0, 0, 0, 0),
-          times = listOf(1, 1, 1, 1, 1),
+          times = listOf(2, 2, 2, 2, 2),
           hitRate = 100,
         ),
         ActParameters(
-          values = listOf(200, 210, 220, 230, 240),
+          values = listOf(2, 2, 2, 2, 2),
+          times = listOf(0, 0, 0, 0, 0),
+          hitRate = 100,
+        ),
+        ActParameters(
+          values = listOf(225, 236, 247, 258, 270),
           times = listOf(3, 3, 3, 3, 3),
           hitRate = 100,
         ),
         ActParameters(
-          values = listOf(0, 0, 0, 0, 0),
-          times = listOf(0, 0, 0, 0, 0),
-          hitRate = 0,
+          values = listOf(3000, 3500, 4000, 4500, 5000),
+          times = listOf(1, 1, 1, 1, 1),
+          hitRate = 100,
         ),
       ),
     ),
@@ -346,9 +423,9 @@ val _dress4060002 = PartialDressBlueprint(
       StatBoost(StatBoostType.ActPower, 3),
       StatBoost(StatBoostType.SpecialDefense, 2),
       StatBoost(StatBoostType.Act2Level, 0),
-      StatBoost(StatBoostType.SpecialDefense, 5),
       StatBoost(StatBoostType.Hp, 3),
       StatBoost(StatBoostType.ActPower, 3),
+      StatBoost(StatBoostType.SpecialDefense, 5),
       StatBoost(StatBoostType.Act3Level, 0),
       StatBoost(StatBoostType.Hp, 4),
     ),
@@ -404,13 +481,13 @@ val _dress4060002 = PartialDressBlueprint(
     ),
     listOf(
       StatBoost(StatBoostType.ActPower, 6),
-      StatBoost(StatBoostType.SpecialDefense, 6),
-      StatBoost(StatBoostType.Hp, 6),
       StatBoost(StatBoostType.NormalDefense, 6),
-      StatBoost(StatBoostType.None, 0),
-      StatBoost(StatBoostType.SpecialDefense, 6),
       StatBoost(StatBoostType.ActPower, 6),
+      StatBoost(StatBoostType.SpecialDefense, 6),
+      StatBoost(StatBoostType.None, 0),
       StatBoost(StatBoostType.NormalDefense, 6),
+      StatBoost(StatBoostType.Hp, 6),
+      StatBoost(StatBoostType.SpecialDefense, 6),
     ),
   ),
   friendshipPanels = listOf(
@@ -467,31 +544,31 @@ val _dress4060002 = PartialDressBlueprint(
   ),
   remakeParameters = listOf(
     StatData(
-      hp = 7500,
-      actPower = 330,
-      normalDefense = 450,
-      specialDefense = 450,
+      hp = 9900,
+      actPower = 510,
+      normalDefense = 600,
+      specialDefense = 540,
       agility = 60,
     ),
     StatData(
-      hp = 12500,
-      actPower = 550,
-      normalDefense = 750,
-      specialDefense = 750,
+      hp = 16500,
+      actPower = 850,
+      normalDefense = 1000,
+      specialDefense = 900,
       agility = 100,
     ),
     StatData(
-      hp = 20000,
-      actPower = 880,
-      normalDefense = 1200,
-      specialDefense = 1200,
+      hp = 26400,
+      actPower = 1360,
+      normalDefense = 1600,
+      specialDefense = 1440,
       agility = 160,
     ),
     StatData(
-      hp = 25000,
-      actPower = 1100,
-      normalDefense = 1500,
-      specialDefense = 1500,
+      hp = 33000,
+      actPower = 1700,
+      normalDefense = 2000,
+      specialDefense = 1800,
       agility = 200,
     ),
   ),

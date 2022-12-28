@@ -138,7 +138,7 @@ val dress = dress1050023(
         listOf(
         /*
         auto skill 3:
-          回避率アップ(開幕時味方の舞台上にいる%attr%属性舞台少女1体につき%value%) (最大60％)
+          回避率アップ(開幕時味方の舞台上にいる月属性舞台少女1体につき%value%) (最大60％)
             target: 味方の月属性
             hit_rate: 100
             value: 15

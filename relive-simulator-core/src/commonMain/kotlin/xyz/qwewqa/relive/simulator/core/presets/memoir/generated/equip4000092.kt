@@ -23,5 +23,5 @@ val _equip4000092 = PartialMemoirBlueprint(
     normalDefense = 0,
     specialDefense = 0,
   ),
-  additionalTags = listOf(EffectTag.Karen, EffectTag.Hikari, EffectTag.Mahiru, EffectTag.Claudine, EffectTag.Maya, EffectTag.Junna, EffectTag.Nana, EffectTag.Futaba, EffectTag.Kaoruko, EffectTag.Tamao, EffectTag.Ichie, EffectTag.Fumi, EffectTag.Rui, EffectTag.Yuyuko, EffectTag.Aruru, EffectTag.Misora, EffectTag.Lalafin, EffectTag.Tsukasa, EffectTag.Shizuha, EffectTag.Akira, EffectTag.Michiru, EffectTag.MeiFan, EffectTag.Shiori, EffectTag.Yachiyo)
+  additionalTags = listOf(EffectTag.Karen, EffectTag.Tamao, EffectTag.Ichie, EffectTag.Fumi, EffectTag.Rui, EffectTag.Yuyuko, EffectTag.Aruru, EffectTag.Misora, EffectTag.Lalafin, EffectTag.Tsukasa, EffectTag.Shizuha, EffectTag.Hikari, EffectTag.Akira, EffectTag.Michiru, EffectTag.MeiFan, EffectTag.Shiori, EffectTag.Yachiyo, EffectTag.Mahiru, EffectTag.Claudine, EffectTag.Maya, EffectTag.Junna, EffectTag.Nana, EffectTag.Futaba, EffectTag.Kaoruko)
 )
