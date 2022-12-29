@@ -1,11 +1,11 @@
 package xyz.qwewqa.relive.simulator.core.stage.accessory
 
 import xyz.qwewqa.relive.simulator.core.stage.Act
-import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.dress.ActBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.dress.ActBlueprintContext
-import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
+import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
 
 val ACCESSORY_SKILL_LEVELS = mapOf(
     0 to 1,
@@ -26,6 +26,7 @@ data class AccessoryBlueprint(
     val iconId: Int,
     val name: String,
     val act: (ActBlueprintContext.() -> Act)?,
+    val autoskills: List<Pair<Int, List<PassiveData>>>,
     val baseHp: Int,
     val baseActPower: Int,
     val baseNormalDefense: Int,
@@ -42,6 +43,7 @@ data class AccessoryBlueprint(
     val maxAgility: Int,
     val growValues: List<Int>,
     val dressIds: Set<Int>,
+    val attribute: Attribute? = null,
     val actData: ActBlueprint? = null,
 ) {
     fun create(level: Int, limitBreak: Int): Accessory {
@@ -61,6 +63,7 @@ data class AccessoryBlueprint(
                 critical = scaleStat(baseCritical, maxCritical, factor),
                 agility = scaleStat(baseAgility, maxAgility, factor),
             ),
+            autoskills.filter { it.first <= limitBreak }.flatMap { it.second },
             actData?.create(actLevel),
         )
     }
@@ -89,16 +92,19 @@ data class PartialAccessoryBlueprint(
     val maxAgility: Int,
     val growValues: List<Int>,
     val dressIds: Set<Int>,
+    val attribute: Attribute? = null,
     val actData: ActBlueprint? = null,
 ) {
     operator fun invoke(
         name: String,
+        autoskills: List<Pair<Int, List<PassiveData>>> = emptyList(),
         act: (ActBlueprintContext.() -> Act)? = null,
     ) = AccessoryBlueprint(
         id,
         iconId,
         name,
         act,
+        autoskills,
         baseHp,
         baseActPower,
         baseNormalDefense,
@@ -115,6 +121,7 @@ data class PartialAccessoryBlueprint(
         maxAgility,
         growValues,
         dressIds,
+        attribute,
         actData,
     )
 }

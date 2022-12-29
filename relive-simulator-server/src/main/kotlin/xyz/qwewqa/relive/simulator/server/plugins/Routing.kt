@@ -256,6 +256,8 @@ fun Application.configureRouting() {
                         data = AccessoryData(
                             id = accessory.id,
                             dressIds = accessory.dressIds,
+                            attributeId = accessory.attribute?.ordinal,
+                            autoSkillLimitBreak = accessory.autoskills.map { it.first }.sorted()
                         ),
                     )
                 },

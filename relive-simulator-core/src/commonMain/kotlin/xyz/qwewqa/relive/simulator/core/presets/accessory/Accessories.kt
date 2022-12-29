@@ -5,4 +5,10 @@ val accessories = listOf(
     beachVolleyball,
     goldBarsOfFrontier,
     memorablePotpourri,
+    moonRing,
+    moonPendant,
+    moonBrooch,
+    spaceRing,
+    spacePendant,
+    spaceBrooch,
 ).sortedBy { it.id }.associateBy { it.name }

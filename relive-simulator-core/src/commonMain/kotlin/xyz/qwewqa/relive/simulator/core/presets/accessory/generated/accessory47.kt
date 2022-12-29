@@ -6,29 +6,45 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.dress.ActBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 
-val accessory33 = PartialAccessoryBlueprint(
-  id = 33,
-  iconId = 900000301,
-  name = "誓いの盃",
-  baseHp = 19000,
-  baseActPower = 400,
-  baseNormalDefense = 700,
-  baseSpecialDefense = 700,
-  baseDexterity = 10,
-  baseCritical = 10,
-  baseAgility = 200,
-  maxHp = 42657,
-  maxActPower = 4963,
-  maxNormalDefense = 3404,
-  maxSpecialDefense = 3404,
-  maxDexterity = 45,
-  maxCritical = 45,
-  maxAgility = 876,
+val accessory47 = PartialAccessoryBlueprint(
+  id = 47,
+  iconId = 800000401,
+  name = "月の指輪",
+  baseHp = 10000,
+  baseActPower = 500,
+  baseNormalDefense = 500,
+  baseSpecialDefense = 500,
+  baseDexterity = 0,
+  baseCritical = 0,
+  baseAgility = 0,
+  maxHp = 40000,
+  maxActPower = 2000,
+  maxNormalDefense = 2000,
+  maxSpecialDefense = 2000,
+  maxDexterity = 0,
+  maxCritical = 0,
+  maxAgility = 0,
   growValues = listOf(0, 4, 9, 15, 21, 28, 35, 42, 50, 57, 65, 73, 81, 89, 97, 106, 114, 123, 132, 141, 150, 159, 168, 177, 186, 196, 205, 215, 224, 234, 244, 254, 264, 274, 283, 294, 304, 314, 324, 334, 345, 355, 365, 376, 386, 397, 408, 418, 429, 440, 451, 461, 472, 483, 494, 505, 516, 527, 539, 550, 561, 572, 583, 595, 606, 618, 629, 640, 652, 663, 675, 687, 698, 710, 722, 733, 745, 757, 769, 781, 792, 804, 816, 828, 840, 852, 864, 876, 889, 901, 913, 925, 937, 949, 962, 974, 986, 999, 1011, 1024),
-  dressIds = setOf(5010002, 5020002, 5030002),
-  attribute = null,
+  dressIds = setOf(),
+  attribute = Attribute.Moon,
 )
 
 /*
-
+auto_skill_1 (lb4):
+  [start] 起死回生(%value%) (回復量は対象の最大HPに依存する)
+    target: 自身
+    hit_rate: 100
+    value: 50
+    time: 1
+auto_skill_2 (lb7):
+  [start] 不屈
+    target: 自身
+    hit_rate: 100
+    value: 0
+    time: 4
+  [start] 祝福[有利属性ダメージアップ](%value%)
+    target: 自身
+    hit_rate: 100
+    value: 30
+    time: 1
 */

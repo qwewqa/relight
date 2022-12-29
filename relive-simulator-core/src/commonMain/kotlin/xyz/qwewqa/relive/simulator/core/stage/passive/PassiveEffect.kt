@@ -87,6 +87,7 @@ enum class EffectTag {
     NegativeEffectResistance,
     NegativeCountableResistance,
     NegativeCountableReduction,
+    NegativeEffectCleanse,
     PerfectAim,
     ApDown,
     ApUp,

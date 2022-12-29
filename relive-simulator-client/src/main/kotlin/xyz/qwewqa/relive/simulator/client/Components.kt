@@ -5,7 +5,6 @@ import kotlinx.dom.addClass
 import kotlinx.dom.clear
 import kotlinx.dom.hasClass
 import kotlinx.dom.removeClass
-import kotlinx.html.dom.append
 import kotlinx.html.dom.create
 import kotlinx.html.option
 import org.w3c.dom.*
@@ -286,7 +285,7 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
     val memoirUnbind = ButtonGroup(optionsElement.getElementsByClassName("actor-memoir-unbind").single())
     val accessory = SingleSelect(optionsElement.getElementsByClassName("actor-accessory").single(), true)
     val accessoryLevel = IntegerInput(optionsElement.getElementsByClassName("actor-accessory-level").single(), 1)
-    val accessoryUnbind = ButtonGroup(optionsElement.getElementsByClassName("actor-accessory-unbind").single())
+    val accessoryUnbind = SingleSelect(optionsElement.getElementsByClassName("actor-accessory-unbind").single(), false)
     val unitSkillLevel = IntegerInput(optionsElement.getElementsByClassName("actor-unit-skill").single(), 21)
     val level = IntegerInput(optionsElement.getElementsByClassName("actor-level").single(), 80)
     val rarity = SingleSelect(optionsElement.getElementsByClassName("actor-rarity").single(), false)
@@ -365,7 +364,7 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
 
     var parameters: PlayerLoadoutParameters
         get() {
-            val validAccessory = options.dressesById[dress.value]!!.data.id in options.accessoriesById[accessory.value]!!.data.dressIds
+            val validAccessory = options.accessoriesById[accessory.value]!!.data.compatibleWith(options.dressesById[dress.value]!!.data)
             return PlayerLoadoutParameters(
                 name.value,
                 dress.value,
@@ -390,7 +389,8 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
             val dressData = options.dressesById[param.dress]
             val validAccessories = options.accessories
                 .filter {
-                    (dressData?.data?.id ?: 0) in it.data.dressIds || it.data.dressIds.isEmpty()
+                    val data = dressData?.data
+                    (data != null) && it.data.compatibleWith(data)
                 }
                 .map { it.id }
                 .toSet()
@@ -408,6 +408,15 @@ class ActorOptions(private val options: SimulationOptions, val tabElement: Eleme
                 accessory.element.parentElement?.parentElement?.addClass("d-none")
                 accessoryLevel.element.parentElement?.addClass("d-none")
                 accessoryUnbind.element.parentElement?.addClass("d-none")
+            }
+
+            val accessoryData = options.accessoriesById[param.accessory]?.data
+            accessoryUnbind.element.children.multiple<HTMLOptionElement>().forEachIndexed { i, element ->
+                if (accessoryData?.autoSkillLimitBreak?.contains(i) == true) {
+                    element.addClass("fw-bold")
+                } else {
+                    element.removeClass("fw-bold")
+                }
             }
 
             name.value = param.name

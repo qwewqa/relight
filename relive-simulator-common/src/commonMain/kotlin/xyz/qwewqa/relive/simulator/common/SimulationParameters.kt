@@ -221,7 +221,13 @@ data class MemoirData(
 data class AccessoryData(
     val id: Int,
     val dressIds: Set<Int>,
-)
+    val attributeId: Int?,
+    val autoSkillLimitBreak: List<Int>,
+) {
+    fun compatibleWith(dress: DressData): Boolean {
+        return (dressIds.isEmpty() || dressIds.contains(dress.id)) && (attributeId == null || attributeId == dress.attribute)
+    }
+}
 
 @Serializable
 data class RemakeSkillData(

@@ -1450,7 +1450,7 @@ class SimulatorClient(val simulator: Simulator) {
                                     }
                                 }
                                 val activeAccessories = options.accessories.filter {
-                                    it.id == "None" || options.dresses.first().data.id in it.data.dressIds
+                                    it.id == "None" || it.data.compatibleWith(options.dresses.first().data)
                                 }.toSet()
                                 div("col-12 col-md-6 my-1${if (activeAccessories.size <= 1) " d-none" else ""}") {
                                     val selectId = "actor-accessory-$actorId"
@@ -1486,38 +1486,30 @@ class SimulatorClient(val simulator: Simulator) {
                                         htmlFor = selectId
                                         +localized(".text-accessory-unbind", "Unbind")
                                     }
-                                    div("btn-group w-100 actor-accessory-unbind") {
-                                        role = "group"
+                                    select("actor-accessory-unbind form-select") {
+                                        id = "actor-accessory-unbind-$actorId-select"
                                         attributes["data-prev-value"] = "10"
-                                        listOf(0, 1, 3, 6, 9, 10).forEach { level ->
-                                            input(InputType.radio, classes = "btn-check") {
-                                                id = "actor-accessory-unbind-$actorId-radio-$level"
-                                                name = "actor-accessory-unbind-$actorId-radio"
-                                                autoComplete = false
-                                                value = level.toString()
-                                                if (level == 10) {
-                                                    attributes["checked"] = "checked"
-                                                }
-                                                onChangeFunction = {
-                                                    val opt = ActorOptions(options, actorId)
-                                                    val prev = opt.accessoryUnbind.element.attributes["data-prev-value"]
-                                                        ?.value?.toInt() ?: 0
-                                                    val params = opt.parameters
-                                                    val newAccessoryLevel =
-                                                        (if (params.accessoryLevel == 50 + 5 * prev) {
-                                                            50 + 5 * params.accessoryLimitBreak
-                                                        } else {
-                                                            params.accessoryLevel
-                                                        }).coerceAtMost(50 + 5 * params.accessoryLimitBreak)
-                                                    opt.parameters = params.copy(
-                                                        accessoryLevel = newAccessoryLevel
-                                                    )
-                                                }
+                                        (0..10).forEach {
+                                            option {
+                                                value = it.toString()
+                                                +it.toString()
+                                                selected = it == 10
                                             }
-                                            label(classes = "btn btn-outline-secondary") {
-                                                htmlFor = "actor-accessory-unbind-$actorId-radio-$level"
-                                                +"$level"
-                                            }
+                                        }
+                                        onChangeFunction = {
+                                            val opt = ActorOptions(options, actorId)
+                                            val prev = opt.accessoryUnbind.element.attributes["data-prev-value"]
+                                                ?.value?.toInt() ?: 0
+                                            val params = opt.parameters
+                                            val newAccessoryLevel =
+                                                (if (params.accessoryLevel == 50 + 5 * prev) {
+                                                    50 + 5 * params.accessoryLimitBreak
+                                                } else {
+                                                    params.accessoryLevel
+                                                }).coerceAtMost(50 + 5 * params.accessoryLimitBreak)
+                                            opt.parameters = params.copy(
+                                                accessoryLevel = newAccessoryLevel
+                                            )
                                         }
                                     }
                                 }

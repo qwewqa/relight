@@ -10,6 +10,7 @@ val emptyAccessory = AccessoryBlueprint(
     0,
     "None",
     null,
+    emptyList(),
     0,
     0,
     0,

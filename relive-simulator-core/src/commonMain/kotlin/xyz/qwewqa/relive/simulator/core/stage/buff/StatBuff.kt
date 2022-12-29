@@ -198,6 +198,21 @@ object EffectiveDamageDealtUpBuff : TimedBuffEffect {
     }
 }
 
+object LockedEffectiveDamageDealtUpBuff : TimedBuffEffect {
+    override val name = "Effective Damage Dealt Up"
+    override val category = BuffCategory.Positive
+    override val isLocked = true
+    override val iconId: Int = 32
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueEffectiveDamageUp += value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueEffectiveDamageUp -= value
+    }
+}
+
 object DamageDealtUpBuff : TimedBuffEffect {
     override val name = "Damage Dealt Up"
     override val category = BuffCategory.Positive

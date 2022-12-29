@@ -19,9 +19,7 @@ class Actor(
     val accessory: Accessory?,
     val isSupport: Boolean = false,
 ) {
-    val passives = if (memoir != null) {
-        dress.autoSkills + memoir.autoskills
-    } else dress.autoSkills
+    val passives = dress.autoSkills + (memoir?.autoskills ?: emptyList()) + (accessory?.autoskills ?: emptyList())
     val acts = dress.acts.toMutableMap()
 
     var hp = 1
@@ -365,14 +363,14 @@ class Actor(
                 context.log("Damage", category = LogCategory.DAMAGE) { "Resilience activate (newHp: 1)." }
                 return@run
             }
-            if (self.buffs.tryRemove(CountableBuff.Fortitude)) {
-                self.hp = 1
-                context.log("Damage", category = LogCategory.DAMAGE) { "Fortitude activate (newHp: 1)." }
-                return@run
-            }
             if (self.buffs.tryRemove(CountableBuff.InvincibleRebirth)) {
                 self.hp = self.maxHp
                 context.log("Damage", category = LogCategory.DAMAGE) { "Invincible Rebirth activate (newHp: ${self.maxHp})." }
+                return@run
+            }
+            if (self.buffs.tryRemove(CountableBuff.Fortitude)) {
+                self.hp = 1
+                context.log("Damage", category = LogCategory.DAMAGE) { "Fortitude activate (newHp: 1)." }
                 return@run
             }
             if (self.buffs.tryRemove(CountableBuff.Revive)) {
