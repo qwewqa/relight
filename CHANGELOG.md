@@ -642,3 +642,6 @@
 
 # v0.35.14
 - Fixed Sagittarius Junna's boost in TR26 Emperor
+
+# v0.35.15
+- Tentatively added elemental accessories
