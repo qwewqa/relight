@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr26
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.SagittariusJunna
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -133,6 +134,16 @@ val tr26MusketeerMahiru = ActorLoadout(
         ),
         autoSkills = listOf(
             trEventBonusPassive(SagittariusJunna),
+            AbnormalGuardPassive.new(),
+        ),
+    ),
+)
+
+val tr26MusketeerMahiruVer2023 = tr26MusketeerMahiru.copy(
+    name = "TR26 Musketeer Mahiru 2023",
+    dress = tr26MusketeerMahiru.dress.copy(
+        autoSkills = listOf(
+            trEventBonusPassive2023(SagittariusJunna),
             AbnormalGuardPassive.new(),
         ),
     ),
@@ -296,6 +307,16 @@ val tr26MusketeerMahiruDiff4 = ActorLoadout(
         ),
         autoSkills = listOf(
             trEventBonusPassive(SagittariusJunna),
+            AbnormalGuardPassive.new(),
+        ),
+    ),
+)
+
+val tr26MusketeerMahiruDiff4Ver2023 = tr26MusketeerMahiruDiff4.copy(
+    name = "TR26 Musketeer Mahiru Difficulty 4 2023",
+    dress = tr26MusketeerMahiruDiff4.dress.copy(
+        autoSkills = listOf(
+            trEventBonusPassive2023(SagittariusJunna),
             AbnormalGuardPassive.new(),
         ),
     ),

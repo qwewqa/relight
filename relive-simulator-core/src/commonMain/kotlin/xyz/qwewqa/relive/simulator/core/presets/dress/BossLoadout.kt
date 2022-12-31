@@ -32,6 +32,14 @@ import xyz.qwewqa.relive.simulator.core.stage.strategy.Strategy
 data class BossLoadout(val loadout: ActorLoadout, val strategy: Strategy)
 
 val bossLoadouts = listOf(
+    BossLoadout(tr26MusketeerKarenVer2023, tr26MusketeerKarenStrategy),
+    BossLoadout(tr26MusketeerKarenDiff4Ver2023, tr26MusketeerKarenDiff4Strategy),
+    BossLoadout(tr26MusketeerHikariVer2023, tr26MusketeerHikariStrategy),
+    BossLoadout(tr26MusketeerHikariDiff4Ver2023, tr26MusketeerHikariDiff4Strategy),
+    BossLoadout(tr26MusketeerMahiruVer2023, tr26MusketeerMahiruStrategy),
+    BossLoadout(tr26MusketeerMahiruDiff4Ver2023, tr26MusketeerMahiruDiff4Strategy),
+    BossLoadout(tr26EmperorAkiraVer2023, tr26EmperorAkiraStrategy),
+    BossLoadout(tr26EmperorAkiraDiff4Ver2023, tr26EmperorAkiraDiff4Strategy),
     BossLoadout(tr26MusketeerKaren, tr26MusketeerKarenStrategy),
     BossLoadout(tr26MusketeerKarenDiff4, tr26MusketeerKarenDiff4Strategy),
     BossLoadout(tr26MusketeerHikari, tr26MusketeerHikariStrategy),

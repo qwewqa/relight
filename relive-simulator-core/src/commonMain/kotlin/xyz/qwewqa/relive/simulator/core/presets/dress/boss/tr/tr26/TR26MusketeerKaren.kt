@@ -2,17 +2,22 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr26
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.SagittariusJunna
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
+import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.ActPowerDownBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.PerfectAimBuff
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
+import xyz.qwewqa.relive.simulator.core.stage.passive.AbnormalGuardPassive
+import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
-import xyz.qwewqa.relive.simulator.core.stage.passive.AbnormalGuardPassive
-import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 
 val tr26MusketeerKaren = ActorLoadout(
     "TR26 Musketeer Karen",
@@ -126,6 +131,16 @@ val tr26MusketeerKaren = ActorLoadout(
         ),
         autoSkills = listOf(
             trEventBonusPassive(SagittariusJunna),
+            AbnormalGuardPassive.new(),
+        ),
+    ),
+)
+
+val tr26MusketeerKarenVer2023 = tr26MusketeerKaren.copy(
+    name = "TR26 Musketeer Karen 2023",
+    dress = tr26MusketeerKaren.dress.copy(
+        autoSkills = listOf(
+            trEventBonusPassive2023(SagittariusJunna),
             AbnormalGuardPassive.new(),
         ),
     ),
@@ -279,6 +294,16 @@ val tr26MusketeerKarenDiff4 = ActorLoadout(
         ),
         autoSkills = listOf(
             trEventBonusPassive(SagittariusJunna),
+            AbnormalGuardPassive.new(),
+        ),
+    ),
+)
+
+val tr26MusketeerKarenDiff4Ver2023 = tr26MusketeerKarenDiff4.copy(
+    name = "TR26 Musketeer Karen Difficulty 4 2023",
+    dress = tr26MusketeerKarenDiff4.dress.copy(
+        autoSkills = listOf(
+            trEventBonusPassive2023(SagittariusJunna),
             AbnormalGuardPassive.new(),
         ),
     ),

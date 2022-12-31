@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr26
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.SagittariusJunna
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -142,6 +143,17 @@ val tr26EmperorAkira = ActorLoadout(
         ),
         autoSkills = listOf(
             trEventBonusPassive(SagittariusJunna),
+            AbnormalResistPassiveA.new(100),
+            BossElementResistPassive.new(50),
+        ),
+    ),
+)
+
+val tr26EmperorAkiraVer2023 = tr26EmperorAkira.copy(
+    name = "TR26 Emperor Akira 2023",
+    dress = tr26EmperorAkira.dress.copy(
+        autoSkills = listOf(
+            trEventBonusPassive2023(SagittariusJunna),
             AbnormalResistPassiveA.new(100),
             BossElementResistPassive.new(50),
         ),
@@ -301,6 +313,17 @@ val tr26EmperorAkiraDiff4 = ActorLoadout(
         ),
         autoSkills = listOf(
             trEventBonusPassive(SagittariusJunna),
+            AbnormalResistPassiveA.new(100),
+            BossElementResistPassive.new(50),
+        ),
+    ),
+)
+
+val tr26EmperorAkiraDiff4Ver2023 = tr26EmperorAkiraDiff4.copy(
+    name = "TR26 Emperor Akira Difficulty 4 2023",
+    dress = tr26EmperorAkiraDiff4.dress.copy(
+        autoSkills = listOf(
+            trEventBonusPassive2023(SagittariusJunna),
             AbnormalResistPassiveA.new(100),
             BossElementResistPassive.new(50),
         ),

@@ -14,3 +14,10 @@ fun trEventBonusPassive(dress: DressBlueprint) = EventBonusPassive(
         DressCategory.Birthday2022 to 40
     )
 ).new()
+
+fun trEventBonusPassive2023(dress: DressBlueprint) = EventBonusPassive(
+    dresses = mapOf(dress.id to 100),
+    categories = mapOf(
+        DressCategory.Birthday2023 to 40
+    )
+).new()

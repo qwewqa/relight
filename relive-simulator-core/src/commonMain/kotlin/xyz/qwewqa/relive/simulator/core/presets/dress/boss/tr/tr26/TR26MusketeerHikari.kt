@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr26
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.SagittariusJunna
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -161,6 +162,17 @@ val tr26MusketeerHikari = ActorLoadout(
         ),
         autoSkills = listOf(
             trEventBonusPassive(SagittariusJunna),
+            AbnormalResistPassiveA.new(100),
+            BossElementResistPassive.new(50),
+        ),
+    ),
+)
+
+val tr26MusketeerHikariVer2023 = tr26MusketeerHikari.copy(
+    name = "TR26 Musketeer Hikari 2023",
+    dress = tr26MusketeerHikari.dress.copy(
+        autoSkills = listOf(
+            trEventBonusPassive2023(SagittariusJunna),
             AbnormalResistPassiveA.new(100),
             BossElementResistPassive.new(50),
         ),
@@ -354,6 +366,17 @@ val tr26MusketeerHikariDiff4 = ActorLoadout(
         ),
         autoSkills = listOf(
             trEventBonusPassive(SagittariusJunna),
+            AbnormalResistPassiveA.new(100),
+            BossElementResistPassive.new(50),
+        ),
+    ),
+)
+
+val tr26MusketeerHikariDiff4Ver2023 = tr26MusketeerHikariDiff4.copy(
+    name = "TR26 Musketeer Hikari Difficulty 4 2023",
+    dress = tr26MusketeerHikariDiff4.dress.copy(
+        autoSkills = listOf(
+            trEventBonusPassive2023(SagittariusJunna),
             AbnormalResistPassiveA.new(100),
             BossElementResistPassive.new(50),
         ),

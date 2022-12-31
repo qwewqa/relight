@@ -127,6 +127,7 @@ enum class DressCategory {
     Arcana,
     StageGirl,
     Birthday2022,
+    Birthday2023,
     TroupeRevueShop,
     Movie,
 }
