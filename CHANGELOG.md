@@ -645,3 +645,6 @@
 
 # v0.35.15
 - Tentatively added elemental accessories
+
+# v0.35.16
+- Added 2023 TR26 bosses
