@@ -121,4 +121,5 @@ val SiegfriedNana = dress1070020(
         ),
     ),
     unitSkill = (ActCritical25UnitSkill + (SpaceOnlyCondition or MoonOnlyCondition or CloudOnlyCondition)) + SelfActCritical25UnitSkill,
+    multipleCA = true,
 )
