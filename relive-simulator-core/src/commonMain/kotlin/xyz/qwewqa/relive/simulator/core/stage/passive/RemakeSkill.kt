@@ -29,11 +29,19 @@ data class Effect(
 val targetings = buildMap {
     this[1001] = Targeting("Self") { targetSelf() }
     this[1002] = Targeting("All Allies", "All") { targetAllyAoe() }
-    Character.values().drop(2).forEachIndexed { index, character ->
+    Character.values().drop(2).take(24).forEachIndexed { index, character ->
         this[index + 2501] = Targeting("Allied ${character.displayName}", character.displayName) {
             targetAllyAoe { it.dress.character == character }
         }
         this[index + 2601] = Targeting("Enemy ${character.displayName}", character.displayName) {
+            targetAoe { it.dress.character == character }
+        }
+    }
+    listOf(Character.Koharu, Character.Suzu, Character.Hisame).forEachIndexed { index, character ->
+        this[index + 2525] = Targeting("Allied ${character.displayName}", character.displayName) {
+            targetAllyAoe { it.dress.character == character }
+        }
+        this[index + 2625] = Targeting("Enemy ${character.displayName}", character.displayName) {
             targetAoe { it.dress.character == character }
         }
     }
