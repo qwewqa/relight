@@ -654,3 +654,7 @@
 
 # v0.35.18
 - Fixed outdated image urls
+
+# v0.35.19
+- Fixed Seiran character targeting RB skills
+- Fixed Seigfried CA not being continuous
