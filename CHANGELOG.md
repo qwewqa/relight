@@ -648,3 +648,6 @@
 
 # v0.35.16
 - Added 2023 TR26 bosses
+
+# v0.35.17
+- Reduced image file sizes

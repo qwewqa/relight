@@ -90,7 +90,7 @@ tasks.register<Copy>("copyServiceWorker") {
     }
     val imageData = fileTree(imageDir).filter { it.isFile }.files.map { file ->
         file.relativeTo(resourcesDir).path.replace("\\", "/") to hash(file.readBytes())
-    }
+    }.filter { !it.first.startsWith("img/acts") }
     val timestamp = System.currentTimeMillis()
     filter { line ->
         line
