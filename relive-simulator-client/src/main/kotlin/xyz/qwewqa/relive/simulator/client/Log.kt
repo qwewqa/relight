@@ -40,11 +40,11 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                 }
                 div("interactive-status-buff-image-container") {
                     img(classes = "interactive-status-buff-img") {
-                        src = "https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_${buffData.iconId}.png"
+                        src = "https://relight.qwewqa.xyz/img/buff_icon/buff_icon_${buffData.iconId}.png"
                     }
                     if (buffData.isLocked) {
                         img(classes = "interactive-status-buff-lock") {
-                            src = "https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/buff_icon/buff_icon_lock.png"
+                            src = "https://relight.qwewqa.xyz/img/buff_icon/buff_icon_lock.png"
                         }
                     }
                 }

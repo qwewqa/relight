@@ -651,3 +651,6 @@
 
 # v0.35.17
 - Reduced image file sizes
+
+# v0.35.18
+- Fixed outdated image urls
