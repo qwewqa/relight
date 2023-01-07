@@ -479,6 +479,7 @@ inline val equip4000332: PartialMemoirBlueprint get() = _equip4000332
 inline val equip4000333: PartialMemoirBlueprint get() = _equip4000333
 inline val equip4000334: PartialMemoirBlueprint get() = _equip4000334
 inline val equip4000335: PartialMemoirBlueprint get() = _equip4000335
+inline val equip4000336: PartialMemoirBlueprint get() = _equip4000336
 inline val equip4000337: PartialMemoirBlueprint get() = _equip4000337
 inline val equip4000338: PartialMemoirBlueprint get() = _equip4000338
 inline val equip4000339: PartialMemoirBlueprint get() = _equip4000339
