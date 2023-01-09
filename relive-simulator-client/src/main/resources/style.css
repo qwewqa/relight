@@ -149,6 +149,10 @@
     max-width: 100vw;
 }
 
+.bootstrap-select > select {
+    font-size: 0;
+}
+
 #options-list {
     max-height: max(85px, calc(100vh - 280px));
     overflow-y: scroll;
