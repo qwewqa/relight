@@ -979,7 +979,7 @@
         selectOnTab: false,
         dropdownAlignRight: false,
         windowPadding: 0,
-        virtualScroll: 600,
+        virtualScroll: false,
         display: false,
         sanitize: true,
         sanitizeFn: null,
