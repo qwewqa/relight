@@ -248,7 +248,7 @@ val Hesitation = StageEffect(
 //敵役全体に狭窄、ACTパワーダウン[20, 25, 30, 35, 40]%
 val CelestialHighlights = StageEffect(
     "Celestial Highlights",
-    55,
+    60,
     listOf(
         listOf(
             StageBuff(ConstrainBuff, 0),
