@@ -658,3 +658,7 @@
 # v0.35.19
 - Fixed Seiran character targeting RB skills
 - Fixed Seigfried CA not being continuous
+
+# v0.35.20
+- Fixed Celestial Highlights SE icon
+- Attempted to address iOS sizing issues
