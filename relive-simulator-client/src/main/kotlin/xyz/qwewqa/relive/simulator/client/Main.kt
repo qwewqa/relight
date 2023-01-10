@@ -1121,21 +1121,32 @@ class SimulatorClient(val simulator: Simulator) {
                                         htmlFor = selectId
                                         +localized(".text-dress", "Dress")
                                     }
-                                    select("selectpicker actor-selectpicker-$actorId form-control actor-dress") {
-                                        id = selectId
-                                        attributes["data-live-search"] = "true"
-                                        options.dresses.forEach {
-                                            option {
-                                                attributes["data-img"] = it.imagePath ?: ""
-                                                value = it.id
-                                                +it[locale]
-                                                attributes["data-subtext"] = it.description?.get(locale) ?: ""
-                                                attributes["data-tokens"] =
-                                                    it.tags?.get(locale)?.joinToString(" ") ?: ""
+                                    div("input-group") {
+                                        select("selectpicker actor-selectpicker-$actorId form-control actor-dress") {
+                                            id = selectId
+                                            attributes["data-live-search"] = "true"
+                                            options.dresses.forEach {
+                                                option {
+                                                    attributes["data-img"] = it.imagePath ?: ""
+                                                    value = it.id
+                                                    +it[locale]
+                                                    attributes["data-subtext"] = it.description?.get(locale) ?: ""
+                                                    attributes["data-tokens"] =
+                                                        it.tags?.get(locale)?.joinToString(" ") ?: ""
+                                                }
+                                            }
+                                            onChangeFunction = {
+                                                ActorOptions(options, actorId).update()
                                             }
                                         }
-                                        onChangeFunction = {
-                                            ActorOptions(options, actorId).update()
+                                        button(type = ButtonType.button, classes = "btn btn-outline-secondary") {
+                                            i("bi bi-info-circle")
+                                            onClickFunction = ocf@{
+                                                val opt = ActorOptions(options, actorId)
+                                                val id = options.dressesById[opt.parameters.dress]?.data?.id ?: return@ocf
+                                                if (id <= 0) return@ocf
+                                                window.open("https://karth.top/dress/$id?global=1", "_blank")
+                                            }
                                         }
                                     }
                                 }
@@ -1368,23 +1379,34 @@ class SimulatorClient(val simulator: Simulator) {
                                         htmlFor = selectId
                                         +localized(".text-memoir", "Memoir")
                                     }
-                                    select("selectpicker actor-selectpicker-$actorId form-control actor-memoir") {
-                                        id = selectId
-                                        attributes["data-live-search"] = "true"
-                                        options.memoirs.forEach {
-                                            option {
-                                                val name = it[locale]
-                                                val description = it.description?.get(locale)
-                                                attributes["data-img"] = it.imagePath ?: ""
-                                                attributes["data-subtext"] = description ?: ""
-                                                value = it.id
-                                                +name
-                                                attributes["data-tokens"] =
-                                                    it.tags?.get(locale)?.joinToString(" ") ?: ""
+                                    div("input-group") {
+                                        select("selectpicker actor-selectpicker-$actorId form-control actor-memoir") {
+                                            id = selectId
+                                            attributes["data-live-search"] = "true"
+                                            options.memoirs.forEach {
+                                                option {
+                                                    val name = it[locale]
+                                                    val description = it.description?.get(locale)
+                                                    attributes["data-img"] = it.imagePath ?: ""
+                                                    attributes["data-subtext"] = description ?: ""
+                                                    value = it.id
+                                                    +name
+                                                    attributes["data-tokens"] =
+                                                        it.tags?.get(locale)?.joinToString(" ") ?: ""
+                                                }
+                                            }
+                                            onChangeFunction = {
+                                                ActorOptions(options, actorId).update()
                                             }
                                         }
-                                        onChangeFunction = {
-                                            ActorOptions(options, actorId).update()
+                                        button(type = ButtonType.button, classes = "btn btn-outline-secondary") {
+                                            i("bi bi-info-circle")
+                                            onClickFunction = ocf@{
+                                                val opt = ActorOptions(options, actorId)
+                                                val id = options.memoirsById[opt.parameters.memoir]?.data?.id ?: return@ocf
+                                                if (id <= 0) return@ocf
+                                                window.open("https://karth.top/equip/$id?global=1", "_blank")
+                                            }
                                         }
                                     }
                                 }
@@ -1458,25 +1480,36 @@ class SimulatorClient(val simulator: Simulator) {
                                         htmlFor = selectId
                                         +localized(".text-accessory", "Accessory")
                                     }
-                                    select("selectpicker actor-selectpicker-$actorId form-control actor-accessory") {
-                                        id = selectId
-                                        attributes["data-live-search"] = "true"
-                                        options.accessories.forEach {
-                                            option {
-                                                val name = it[locale]
-                                                val description = it.description?.get(locale)
-                                                attributes["data-img"] = it.imagePath ?: ""
-                                                attributes["data-subtext"] = description ?: ""
-                                                attributes["data-hidden"] =
-                                                    if (it in activeAccessories) "false" else "true"
-                                                value = it.id
-                                                +name
-                                                attributes["data-tokens"] =
-                                                    it.tags?.get(locale)?.joinToString(" ") ?: ""
+                                    div("input-group") {
+                                        select("selectpicker actor-selectpicker-$actorId form-control actor-accessory") {
+                                            id = selectId
+                                            attributes["data-live-search"] = "true"
+                                            options.accessories.forEach {
+                                                option {
+                                                    val name = it[locale]
+                                                    val description = it.description?.get(locale)
+                                                    attributes["data-img"] = it.imagePath ?: ""
+                                                    attributes["data-subtext"] = description ?: ""
+                                                    attributes["data-hidden"] =
+                                                        if (it in activeAccessories) "false" else "true"
+                                                    value = it.id
+                                                    +name
+                                                    attributes["data-tokens"] =
+                                                        it.tags?.get(locale)?.joinToString(" ") ?: ""
+                                                }
+                                            }
+                                            onChangeFunction = {
+                                                ActorOptions(options, actorId).update()
                                             }
                                         }
-                                        onChangeFunction = {
-                                            ActorOptions(options, actorId).update()
+                                        button(type = ButtonType.button, classes = "btn btn-outline-secondary") {
+                                            i("bi bi-info-circle")
+                                            onClickFunction = ocf@{
+                                                val opt = ActorOptions(options, actorId)
+                                                val id = options.accessoriesById[opt.parameters.accessory]?.data?.id ?: return@ocf
+                                                if (id <= 0) return@ocf
+                                                window.open("https://karth.top/accessory/$id?global=1", "_blank")
+                                            }
                                         }
                                     }
                                 }
