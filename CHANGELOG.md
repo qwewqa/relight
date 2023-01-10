@@ -662,3 +662,7 @@
 # v0.35.20
 - Fixed Celestial Highlights SE icon
 - Attempted to address iOS sizing issues
+
+# v0.35.21
+- New dresses and memoirs added by Mikayla
+- Added karth links to actor options
