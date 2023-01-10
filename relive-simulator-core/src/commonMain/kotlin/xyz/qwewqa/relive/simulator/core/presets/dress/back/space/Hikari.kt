@@ -1,23 +1,21 @@
-package xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow
+package xyz.qwewqa.relive.simulator.core.presets.dress.back.space
 
-
-import xyz.qwewqa.relive.simulator.core.presets.condition.SnowOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2040018
+import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1020025
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
 
-val HadesRui = dress2040018(
-    name = "Hades Rui",
+val HeartfeltCookingEncoreHikari = dress1020025(
+    name = "Heartfelt Cooking Encore Hikari",
     acts = listOf(
-        ActType.Act1.blueprint("Cold-Blooded King") {
+        ActType.Act1.blueprint("Happy Slash") {
             Act {
                 targetAllyAoe().act {
                     applyBuff(
@@ -27,23 +25,18 @@ val HadesRui = dress2040018(
                 }
                 targetBack().act {
                     dispelTimed(BuffCategory.Positive)
-                    removeBrilliance(values3)
                     attack(
-                        modifier = values4,
-                        hitCount = times4,
+                        modifier = values3,
+                        hitCount = times3,
                     )
                 }
                 applyEnemyStageEffect(AlluringEyes, 2)
             }
         },
-        ActType.Act2.blueprint("Merciless King") {
+        ActType.Act2.blueprint("Sweet Slash") {
             Act {
                 targetAllyAoe().act {
-                    applyBuff(
-                        effect = NegativeEffectResistanceBuff,
-                        value = values1,
-                        turns = times1,
-                    )
+                    dispelTimed(BuffCategory.Negative)
                 }
                 targetBack().act {
                     attack(
@@ -51,10 +44,10 @@ val HadesRui = dress2040018(
                         hitCount = times2,
                     )
                 }
-                applyAllyStageEffect(Majestic, 2)
+                applyAllyStageEffect(SweetMoment, 2)
             }
         },
-        ActType.Act3.blueprint("Stern King") {
+        ActType.Act3.blueprint("Fatal Slash") {
             Act {
                 targetAllyAoe().act {
                     applyBuff(
@@ -69,61 +62,58 @@ val HadesRui = dress2040018(
                     )
                 }
                 targetBack().act {
-                    dispelTimed(BuffCategory.Positive)
                     attack(
-                        modifier = values4,
-                        hitCount = times4,
+                        modifier = values3,
+                        hitCount = times3,
                     )
                 }
-                applyAllyStageEffect(ApplauseSnow, 6)
+                applyAllyStageEffect(StandingOvationSpace, 6)
             }
         },
-        ActType.ClimaxAct.blueprint("Hades's Conviction") {
+        ActType.ClimaxAct.blueprint("Macaron Dream Encore") {
             Act {
                 targetAllyAoe().act {
                     applyCountableBuff(
                         effect = CountableBuff.Revive,
                         count = times1,
                     )
+                    applyCountableBuff(
+                        effect = CountableBuff.Hope,
+                        count = times2,
+                    )
                 }
                 targetAoe().act {
                     dispelTimed(BuffCategory.Positive)
-                    // Change (2) Revive -> Weak Spot
                 }
-                targetAnyRandom(times4).act {
+                targetBack().act {
                     attack(
                         modifier = values4,
                         hitCount = times4,
                     )
-                    applyCountableBuff(
-                        CountableBuff.Daze,
-                        chance = 33,
-                    )
                 }
-                // Curtains Closed to Back 1
+                applyAllyStageEffect(StandingOvationSpace, turns = 6)
+                applyAllyStageEffect(HyakkaRyoran, turns = 2)
             }
         }
     ),
     autoSkills = listOf(
         listOf(
-            TeamDexterityUpBuffPassive.new(20, 3),
-            TeamCriticalUpBuffPassive.new(20, 3),
-            TeamNegativeEffectResistanceBuffPassive.new(100, 3) + SnowOnlyCondition,
+            TeamDexterityUpBuffPassive.new(10, 3),
+            TeamCriticalUpBuffPassive.new(10, 3),
+            TeamNegativeEffectResistanceBuffPassive.new(100, 3) + SpaceOnlyCondition,
         ),
         listOf(
-            TeamBrillianceRecoveryPassive.new(30),
-            EnemyBrillianceDrainPassive.new(30),
-            EnemyStageEffectPassive(Hesitation).new(1, 2),
+            BrillianceRecoveryPassive.new(20),
+            EnemyStageEffectPassive(SunsetTune).new(value = 1, time = 2)
         ),
         listOf(
             TeamAPDownBuffPassive.new(time = 1),
-            TeamAP2DownBuffPassive.new(time = 1) + SnowOnlyCondition,
+            TeamAP2DownBuffPassive.new(time = 1) + SpaceOnlyCondition,
         ),
         listOf(
-            // Oath Revue +50% Dmg to Self
             NegativeEffectResistancePassive.new(100),
         ),
     ),
-    unitSkill = ActCritical50UnitSkill + (SnowOnlyCondition or SunOnlyCondition),
-    categories = setOf(DressCategory.Birthday2022),
+    unitSkill = ActCritical100UnitSkill + (SpaceOnlyCondition or StarOnlyCondition),
+    categories = setOf(),
 )

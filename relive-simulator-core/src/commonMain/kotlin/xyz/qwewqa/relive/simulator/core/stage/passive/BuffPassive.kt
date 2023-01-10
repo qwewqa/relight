@@ -49,6 +49,7 @@ val SelfCriticalUpBuffPassive: PassiveEffect = GenericBuffPassive(CriticalUpBuff
 val TeamAgilityUpBuffPassive: PassiveEffect = GenericBuffPassive(AgilityUpBuff, EffectTag.Agility,"Team") { targetAllyAoe(it) }
 val TeamAPDownBuffPassive: PassiveEffect = GenericBuffPassive(ApDownBuff, EffectTag.ApDown, "Team") { targetAllyAoe(it) }
 val TeamAP2DownBuffPassive: PassiveEffect = GenericBuffPassive(Ap2DownBuff, EffectTag.AP2Down, "Team") { targetAllyAoe(it) }
+val SelfAP2DownBuffPassive: PassiveEffect = GenericBuffPassive(Ap2DownBuff, EffectTag.AP2Down, "Self") { targetSelf() }
 val SelfClimaxDamageUpBuffPassive: PassiveEffect = GenericBuffPassive(ClimaxDamageUpBuff, EffectTag.ClimaxDamage) { targetSelf() }
 val SelfAbsorbBuffPassive: PassiveEffect = GenericBuffPassive(AbsorbBuff, EffectTag.Absorb) { targetSelf() }
 val TeamInvincibilityBuffPassive: PassiveEffect = GenericBuffPassive(InvincibilityBuff, EffectTag.Invincibility) { targetAllyAoe(it) }
@@ -56,6 +57,7 @@ val SelfNormalBarrierBuffPassive: PassiveEffect = GenericBuffPassive(NormalBarri
 val SelfSpecialBarrierBuffPassive: PassiveEffect = GenericBuffPassive(SpecialBarrierBuff, EffectTag.SpecialBarrier) { targetSelf() }
 val TeamHpRegenBuffPassive: PassiveEffect = GenericBuffPassive(HpRegenBuff, EffectTag.HpRegen, "Team") { targetAllyAoe(it) }
 val TeamNegativeEffectResistanceBuffPassive: PassiveEffect = GenericBuffPassive(NegativeEffectResistanceBuff, EffectTag.NegativeEffectResistance, "Team") { targetAllyAoe(it) }
+val TeamLockedNegativeEffectResistanceBuffPassive: PassiveEffect = GenericBuffPassive(LockedNegativeEffectResistanceBuff, EffectTag.NegativeEffectResistance, "Team") { targetAllyAoe(it) }
 val SelfNegativeEffectResistanceBuffPassive: PassiveEffect = GenericBuffPassive(NegativeEffectResistanceBuff, EffectTag.NegativeEffectResistance) { targetSelf() }
 val SelfLockedNegativeEffectResistanceBuffPassive: PassiveEffect = GenericBuffPassive(LockedNegativeEffectResistanceBuff, EffectTag.NegativeEffectResistance) { targetSelf() }
 val SelfNegativeCountableEffectResistanceBuffPassive: PassiveEffect = GenericBuffPassive(NegativeCountableEffectResistanceBuff, EffectTag.NegativeCountableResistance) { targetSelf() }
@@ -65,7 +67,7 @@ val TeamDamageTakenDownBuffPassive: PassiveEffect = GenericBuffPassive(DamageTak
 val TeamBrillianceGainUpBuffPassive: PassiveEffect = GenericBuffPassive(BrillianceGainUpBuff, EffectTag.BrillianceUp, "Team") { targetAllyAoe(it) }
 val TeamBrillianceRegenBuffPassive: PassiveEffect = GenericBuffPassive(BrillianceRegenBuff, EffectTag.BrillianceRegeneration, "Team") { targetAllyAoe(it) }
 val TeamNegativeCountableEffectResistanceBuffPassive: PassiveEffect = GenericBuffPassive(NegativeCountableEffectResistanceBuff, EffectTag.NegativeCountableResistance, "Team") { targetAllyAoe(it) }
-
+val TeamLockedNegativeCountableEffectResistanceBuffPassive: PassiveEffect = GenericBuffPassive(LockedNegativeCountableResistanceBuff, EffectTag.NegativeCountableResistance, "Team") { targetAllyAoe(it) }
 val TeamConfusionResistanceBuffPassive: PassiveEffect =
     ResistanceBuffPassive(ConfusionResistanceBuff, EffectTag.ConfusionResistance, "Team") { targetAllyAoe(it) }
 val TeamStopResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(StopResistanceBuff, EffectTag.StopResistance, "Team") { targetAllyAoe(it) }

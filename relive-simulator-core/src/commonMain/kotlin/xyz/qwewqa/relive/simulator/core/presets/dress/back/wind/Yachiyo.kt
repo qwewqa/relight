@@ -150,7 +150,7 @@ val YorimitsuYachiyo = dress4050018(
                 applyAllyStageEffect(ApplauseWind, 6)
             }
         },
-        ActType.Act3.blueprint("Victoruous Strike") {
+        ActType.Act3.blueprint("Victorious Strike") {
             Act {
                 targetBack().act {
                     attack(

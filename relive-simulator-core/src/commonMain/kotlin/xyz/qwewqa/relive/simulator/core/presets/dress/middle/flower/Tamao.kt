@@ -78,7 +78,7 @@ val PersephoneTamao = dress2010018(
             TeamAP2DownBuffPassive.new(time = 1),
         ),
         listOf(
-            DispelTimedBuffPassive(NegativeEffectResistanceBuff).new(),
+            DispelTimedBuffPassive(NegativeCountableEffectResistanceBuff).new(),
             EnemyPrideBuffPassive.new(value = 3000, time = 1),
             EnemyBrillianceDrainPassive.new(value = 50),
         ),

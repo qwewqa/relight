@@ -1,9 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.memoir
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.KaorukoOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.MoonOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.characterCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.schoolCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.*
 import xyz.qwewqa.relive.simulator.core.presets.memoir.generated.*
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
@@ -1030,4 +1027,129 @@ val DevilsBargain = equip4000335(
             }
         }
     },
+)
+
+val RoommatesHelp = equip4000324(
+    name = "Roommate's Help",
+    baseAutoskills = listOf(
+        SelfTurnBrillianceRecoveryPassive.new(10)
+    ),
+    maxAutoskills = listOf(
+        SelfTurnBrillianceRecoveryPassive.new(20)
+    ),
+    cutinTarget = CutinTarget.BeforeAllyAct(2),
+    cutinAct = {
+        Act {
+            targetAllyAoe().act {
+                applyBuff(
+                    effect = BrillianceRegenBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val BrillianceEveryDayClaudineMaya = equip4000338(
+    name = "Brilliance Every Day Claudine & Maya",
+    baseAutoskills = listOf(
+        SelfTurnBrillianceRecoveryPassive.new(10)
+    ),
+    maxAutoskills = listOf(
+        SelfTurnBrillianceRecoveryPassive.new(20)
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyAoe().act {
+                applyBuff(
+                    effect = BrillianceRegenBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val BrillianceEveryDayJunnaNana  = equip4000339(
+    name = "Brilliance Every Day Junna & Nana",
+    baseAutoskills = listOf(
+        SelfTurnBrillianceRecoveryPassive.new(10)
+    ),
+    maxAutoskills = listOf(
+        SelfTurnBrillianceRecoveryPassive.new(20)
+    ),
+    cutinTarget = CutinTarget.BeforeAllyAct(2),
+    cutinAct = {
+        Act {
+            targetAllyAoe().act {
+                applyBuff(
+                    effect = BrillianceRegenBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val BrillianceEveryDayFutabaKaoruko = equip4000340(
+    name = "Brilliance Every Day Futaba & Kaoruko",
+    baseAutoskills = listOf(
+        SelfTurnBrillianceRecoveryPassive.new(10)
+    ),
+    maxAutoskills = listOf(
+        SelfTurnBrillianceRecoveryPassive.new(20)
+    ),
+    cutinTarget = CutinTarget.TurnEnd,
+    cutinAct = {
+        Act {
+            targetAllyAoe().act {
+                applyBuff(
+                    effect = BrillianceRegenBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+private fun oneSpecialDay(character: Character, attribute: Attribute, memoFun: PartialMemoirBlueprint): MemoirBlueprint {
+    val condition = attributeCondition(attribute)
+    return memoFun(
+        name = "One Special Day " + character.displayName + " [$attribute]",
+        baseAutoskills = listOf(
+            SelfTurnBrillianceRecoveryPassive.new(10),
+            DexterityPassive.new(10),
+        ),
+        maxAutoskills  = listOf(
+            SelfTurnBrillianceRecoveryPassive.new(20),
+            DexterityPassive.new(15),
+        ),
+        cutinTarget = CutinTarget.TurnStart,
+        cutinAct = {
+            Act {
+                targetAllyAoe().act {
+                    applyBuff(DamageDealtUpBuff, values1, times1)
+                    applyBuff(CriticalUpBuff, values2, times2)
+                }
+                targetAllyAoe(condition).act {
+                    applyBuff(DamageDealtUpBuff, values3, times3)
+                    applyBuff(CriticalUpBuff, values4, times4)
+                }
+            }
+        }
+    )
+}
+
+val oneSpecialDays = listOf(
+    oneSpecialDay(Character.Hikari, Attribute.Snow, equip4000336),
+    oneSpecialDay(Character.Hikari, Attribute.Flower, equip4000336),
+    oneSpecialDay(Character.Hikari, Attribute.Wind, equip4000336),
+    oneSpecialDay(Character.Hikari, Attribute.Moon, equip4000336),
+    oneSpecialDay(Character.Hikari, Attribute.Space, equip4000336),
+    oneSpecialDay(Character.Hikari, Attribute.Cloud, equip4000336),
 )

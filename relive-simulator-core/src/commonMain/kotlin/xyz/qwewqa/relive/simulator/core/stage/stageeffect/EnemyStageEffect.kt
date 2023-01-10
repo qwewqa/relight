@@ -306,3 +306,52 @@ val ShadowStupor = StageEffect(
     ),
     StageEffectTarget.All,
 )
+
+val Catastrophe = StageEffect(
+    "Catastrophe",
+    64,
+    listOf(
+        20,
+        25,
+        30,
+        40,
+        50,
+    ).map { value ->
+        listOf(
+            StageBuff(ElectricShockBuff, 0),
+            StageBuff(NormalDefenseDownBuff, value),
+            StageBuff(SpecialDefenseDownBuff, value),
+            )
+    },
+    StageEffectTarget.All,
+
+    // TODO: evil spirit and brilliance down per turn
+)
+
+val SugaryCorruption = StageEffect(
+    "Sugary Corruption",
+    56,
+    listOf(
+        listOf(
+            StageBuff(BrillianceGainDownBuff, 50),
+            StageBuff(AgilityDownBuff, 5),
+        ),
+        listOf(
+            StageBuff(BrillianceGainDownBuff, 50),
+            StageBuff(AgilityDownBuff, 10),
+        ),
+        listOf(
+            StageBuff(BrillianceGainDownBuff, 50),
+            StageBuff(AgilityDownBuff, 15),
+        ),
+        listOf(
+            StageBuff(BrillianceGainDownBuff, 50),
+            StageBuff(AgilityDownBuff, 20),
+        ),
+        listOf(
+            StageBuff(BrillianceGainDownBuff, 50),
+            StageBuff(AgilityDownBuff, 25),
+        ),
+    ),
+    StageEffectTarget.All,
+)

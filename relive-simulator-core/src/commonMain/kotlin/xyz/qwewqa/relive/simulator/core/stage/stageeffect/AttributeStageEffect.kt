@@ -20,6 +20,12 @@ val ApplauseSnow = applauseAttributeStageEffect(Attribute.Snow)
 val ApplauseCloud = applauseAttributeStageEffect(Attribute.Cloud)
 val ApplauseMoon = applauseAttributeStageEffect(Attribute.Moon)
 val ApplauseSpace = applauseAttributeStageEffect(Attribute.Space)
+val StandingOvationFlower = standingOvationAttributeStageEffect(Attribute.Flower)
+val StandingOvationWind = standingOvationAttributeStageEffect(Attribute.Wind)
+val StandingOvationSnow = standingOvationAttributeStageEffect(Attribute.Snow)
+val StandingOvationCloud = standingOvationAttributeStageEffect(Attribute.Cloud)
+val StandingOvationMoon = standingOvationAttributeStageEffect(Attribute.Moon)
+val StandingOvationSpace = standingOvationAttributeStageEffect(Attribute.Space)
 
 private fun weAreOnTheStageAttributeStageEffect(attribute: Attribute) = StageEffect(
     "We Are on the Stage (${attribute.name})",
@@ -89,6 +95,40 @@ private fun applauseAttributeStageEffect(attribute: Attribute) = StageEffect(
         ),
         listOf(
             StageBuff(DamageDealtUpBuff, 40),
+            StageBuff(NormalDefenseUpBuff, 50),
+            StageBuff(SpecialDefenseUpBuff, 50),
+        ),
+    ),
+    StageEffectTarget.All,
+    attribute.condition(),
+)
+
+private fun standingOvationAttributeStageEffect(attribute: Attribute) = StageEffect(
+    "Standing Ovation (${attribute.name})",
+    64 + attribute.ordinal,
+    listOf(
+        listOf(
+            StageBuff(DamageDealtUpBuff, 40),
+            StageBuff(NormalDefenseUpBuff, 20),
+            StageBuff(SpecialDefenseUpBuff, 20),
+        ),
+        listOf(
+            StageBuff(DamageDealtUpBuff, 45),
+            StageBuff(NormalDefenseUpBuff, 25),
+            StageBuff(SpecialDefenseUpBuff, 25),
+        ),
+        listOf(
+            StageBuff(DamageDealtUpBuff, 50),
+            StageBuff(NormalDefenseUpBuff, 30),
+            StageBuff(SpecialDefenseUpBuff, 30),
+        ),
+        listOf(
+            StageBuff(DamageDealtUpBuff, 55),
+            StageBuff(NormalDefenseUpBuff, 40),
+            StageBuff(SpecialDefenseUpBuff, 40),
+        ),
+        listOf(
+            StageBuff(DamageDealtUpBuff, 60),
             StageBuff(NormalDefenseUpBuff, 50),
             StageBuff(SpecialDefenseUpBuff, 50),
         ),
