@@ -407,6 +407,72 @@ object LockedSpecialReflectBuff : TimedBuffEffect {
     }
 }
 
+object NormalSuperReflectBuff : TimedBuffEffect {
+    override val name = "Normal Super Reflect"
+    override val category = BuffCategory.Positive
+    override val iconId: Int = 262
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueNormalReflect += 100
+        self.normalSuperReflectCounter += 1
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueSpecialReflect -= 100
+        self.normalSuperReflectCounter -= 1
+    }
+}
+
+object SpecialSuperReflectBuff : TimedBuffEffect {
+    override val name = "Special Super Reflect"
+    override val category = BuffCategory.Positive
+    override val iconId: Int = 263
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueSpecialReflect += 100
+        self.specialSuperReflectCounter += 1
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueSpecialReflect -= 100
+        self.specialSuperReflectCounter -= 1
+    }
+}
+
+object LockedNormalSuperReflectBuff : TimedBuffEffect {
+    override val name = "Locked Normal Super Reflect"
+    override val category = BuffCategory.Positive
+    override val isLocked = true
+    override val iconId: Int = 262
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueNormalReflect += 100
+        self.normalSuperReflectCounter += 1
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueSpecialReflect -= 100
+        self.normalSuperReflectCounter -= 1
+    }
+}
+
+object LockedSpecialSuperReflectBuff : TimedBuffEffect {
+    override val name = "Locked Special Super Reflect"
+    override val category = BuffCategory.Positive
+    override val isLocked = true
+    override val iconId: Int = 263
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueSpecialReflect += 100
+        self.specialSuperReflectCounter += 1
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueSpecialReflect -= 100
+        self.specialSuperReflectCounter -= 1
+    }
+}
+
 data class againstAttributeDamageDealtUpBuff(val attribute: Attribute) : TimedBuffEffect {
     override val name = "Against ${attribute.name} Damage Dealt Up"
     override val category = BuffCategory.Positive

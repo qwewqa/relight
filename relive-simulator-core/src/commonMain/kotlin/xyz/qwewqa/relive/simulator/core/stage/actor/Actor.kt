@@ -101,6 +101,9 @@ class Actor(
     val specialReflect get() = valueSpecialReflect
     var valueSpecialReflect = 0
 
+    var normalSuperReflectCounter = 0
+    var specialSuperReflectCounter = 0
+
     val brillianceGainUp get() = valueBrillianceGainUp
     var valueBrillianceGainUp = 0
 

@@ -198,22 +198,20 @@ val CarmenHikari = dress1020026(
                   遅疑逡巡 (value: 1, time: 2, target: enemies)
                 */
                 targetAllyAoe().act {
-                    /* applyBuff(
-                        effect = LockedNormalReflectBuff,
-                        value = 200,
+                    applyBuff(
+                        effect = LockedNormalSuperReflectBuff,
                         turns = times1,
                     )
                     applyBuff(
-                        effect = SpecialReflectBuff,
-                        value = 200,
+                        effect = SpecialSuperReflectBuff,
                         turns = times2,
-                    ) */
+                    )
                     applyBuff(
                         effect = LockedNegativeCountableResistanceBuff,
                         value = values3,
                         turns = times3,
                     )
-                    // TODO: seal instant skill, fix super reflect
+                    // TODO: seal instant skill
                 }
                 targetAoe().act {
                     attack(

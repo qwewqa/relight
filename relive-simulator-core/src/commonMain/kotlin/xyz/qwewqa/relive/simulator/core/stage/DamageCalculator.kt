@@ -56,17 +56,27 @@ open class RandomDamageCalculator : DamageCalculator {
                 DamageType.Normal -> target.normalReflect
                 DamageType.Special -> target.specialReflect
                 DamageType.Neutral -> 0
+            }.coerceIn(0..100)
+            val superReflect = when (hitAttribute.damageType) {
+                DamageType.Normal -> target.normalSuperReflectCounter > 0
+                DamageType.Special -> target.specialSuperReflectCounter > 0
+                DamageType.Neutral -> false
             }
+            val superReflectModifier = if (superReflect) 2 else 1
             attacker.context.log("Hit", category = LogCategory.DAMAGE) {
                 "Landed hit against [${target.name}]."
             }
             attacker.context.log("Hit", category = LogCategory.DAMAGE) {
                 "Damage roll: $damage (critical: $isCritical, varianceRoll: $n)."
             }
-            val reflected = if (hitAttribute.focus || hitAttribute.noReflect) 0 else damage * reflect / 100
-            val unreflected = damage - reflected
+            val reflected = if (hitAttribute.focus || hitAttribute.noReflect) {
+                0
+            } else {
+                damage * reflect * superReflectModifier / 100
+            }
+            val unreflected = (damage - reflected).coerceAtLeast(0)
             if (reflected > 0) attacker.context.log("Hit", category = LogCategory.DAMAGE) {
-                "Unreflected: $unreflected, Reflected: $reflected."
+                "Unreflected: $unreflected, Reflected: $reflected, Super Reflect: ${superReflect}."
             }
             var afterBarrier = unreflected
             if (!hitAttribute.focus) {
