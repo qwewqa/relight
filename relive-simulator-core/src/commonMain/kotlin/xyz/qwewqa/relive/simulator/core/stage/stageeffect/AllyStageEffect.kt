@@ -721,3 +721,36 @@ val BeautifulNobleAndFun = StageEffect(
     ),
     StageEffectTarget.All,
 )
+
+val LightningShade = StageEffect(
+    "Lightning Shade",
+    10,
+    listOf(
+        listOf(
+            StageBuff(AgilityUpBuff,20),
+            StageBuff(ActPowerUpBuff, 20),
+            StageBuff(DexterityUpBuff, 20),
+        ),
+        listOf(
+            StageBuff(AgilityUpBuff,25),
+            StageBuff(ActPowerUpBuff, 30),
+            StageBuff(DexterityUpBuff, 25),
+        ),
+        listOf(
+            StageBuff(AgilityUpBuff,30),
+            StageBuff(ActPowerUpBuff, 40),
+            StageBuff(DexterityUpBuff, 30),
+        ),
+        listOf(
+            StageBuff(AgilityUpBuff,35),
+            StageBuff(ActPowerUpBuff, 50),
+            StageBuff(DexterityUpBuff, 35),
+        ),
+        listOf(
+            StageBuff(AgilityUpBuff,40),
+            StageBuff(ActPowerUpBuff, 60),
+            StageBuff(DexterityUpBuff, 40),
+        ),
+    ),
+    StageEffectTarget.All,
+)

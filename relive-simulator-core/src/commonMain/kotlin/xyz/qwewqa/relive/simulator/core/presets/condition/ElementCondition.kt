@@ -26,6 +26,6 @@ fun Attribute.condition() = when (this) {
     Attribute.Star -> StarOnlyCondition
 }
 
-private fun attributeCondition(attribute: Attribute) = NamedCondition(attribute.name) {
+fun attributeCondition(attribute: Attribute) = NamedCondition(attribute.name) {
     it.dress.attribute == attribute
 }

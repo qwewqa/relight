@@ -363,9 +363,39 @@ object NormalReflectBuff : TimedBuffEffect {
     }
 }
 
+object LockedNormalReflectBuff : TimedBuffEffect {
+    override val name = "Locked Normal Reflect"
+    override val category = BuffCategory.Positive
+    override val isLocked = true
+    override val iconId: Int = 25
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueNormalReflect += value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueNormalReflect -= value
+    }
+}
+
 object SpecialReflectBuff : TimedBuffEffect {
     override val name = "Special Reflect"
     override val category = BuffCategory.Positive
+    override val iconId: Int = 26
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.valueSpecialReflect += value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.valueSpecialReflect -= value
+    }
+}
+
+object LockedSpecialReflectBuff : TimedBuffEffect {
+    override val name = "Locked Special Reflect"
+    override val category = BuffCategory.Positive
+    override val isLocked = true
     override val iconId: Int = 26
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
