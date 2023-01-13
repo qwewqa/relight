@@ -666,3 +666,6 @@
 # v0.35.21
 - New dresses and memoirs added by Mikayla
 - Added karth links to actor options
+
+# v0.35.22
+- New dresses and memoirs added by Mikayla
