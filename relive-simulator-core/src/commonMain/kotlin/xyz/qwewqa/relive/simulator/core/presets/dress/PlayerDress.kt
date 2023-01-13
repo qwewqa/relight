@@ -24,6 +24,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.back.dream.WhiteFrontierAr
 val playerDresses = listOf(
     AceMisora,
     AnastasiaJunna,
+    BenzaitenTsukasa,
     BlackShizuha,
     BloodyDevilShiori,
     BlueFrontierMisora,
@@ -147,6 +148,7 @@ val playerDresses = listOf(
     WarriorMaya,
     WheelOfFortuneKaren,
     WhiteFrontierAruru,
+    WildSpiderWitchEncoreTsukasa,
     WorldMaya,
     WukongMaya,
     YellowTsukasa,

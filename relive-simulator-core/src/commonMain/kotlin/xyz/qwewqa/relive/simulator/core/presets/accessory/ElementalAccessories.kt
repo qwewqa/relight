@@ -46,7 +46,42 @@ val broochAutoskills = listOf(
         SelfInvincibleRebirthBuffPassive.new(value = 100, time = 1),
     )
 )
-
+val flowerRing = accessory38(
+    "Flower Ring",
+    autoskills = ringAutoskills,
+)
+val flowerPendant = accessory39(
+    "Flower Pendant",
+    autoskills = pendantAutoskills,
+)
+val flowerBrooch = accessory40(
+    "Flower Brooch",
+    autoskills = broochAutoskills,
+)
+val windRing = accessory41(
+    "Wind Ring",
+    autoskills = ringAutoskills,
+)
+val windPendant = accessory42(
+    "Wind Pendant",
+    autoskills = pendantAutoskills,
+)
+val windBrooch = accessory43(
+    "Wind Brooch",
+    autoskills = broochAutoskills,
+)
+val snowRing = accessory44(
+    "Snow Ring",
+    autoskills = ringAutoskills,
+)
+val snowPendant = accessory45(
+    "Snow Pendant",
+    autoskills = pendantAutoskills,
+)
+val snowBrooch = accessory46(
+    "Snow Brooch",
+    autoskills = broochAutoskills,
+)
 val moonRing = accessory47(
     "Moon Ring",
     autoskills = ringAutoskills,
