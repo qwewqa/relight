@@ -77,7 +77,6 @@ val TeamBurnResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(BurnRes
 val TeamFreezeResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(FreezeResistanceBuff, EffectTag.FreezeResistance, "Team") { targetAllyAoe(it) }
 val TeamBlindnessResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(BlindnessResistanceBuff, EffectTag.BlindnessResistance, "Team") { targetAllyAoe(it) }
 val TeamSleepResistanceBuffPassive: PassiveEffect = ResistanceBuffPassive(SleepResistanceBuff, EffectTag.SleepResistance, "Team") { targetAllyAoe(it) }
-
 val EnemyBack1ConfusionBuffPassive: PassiveEffect = DebuffPassive(ConfusionBuff, EffectTag.Confusion, "Enemy Back 1") { targetBack(1) }
 val EnemyBack1DazeBuffPassive: PassiveEffect = CountableDebuffPassive(CountableBuff.Daze, EffectTag.Daze, "Enemy Back 1") { targetBack(1) }
 val EnemyFront3NightmareBuffPassive: PassiveEffect = DebuffPassive(NightmareBuff, EffectTag.Nightmare, "Enemy Front 3", 80) { targetFront(3) }

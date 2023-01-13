@@ -985,8 +985,8 @@ val ToStandOnAnyStage = equip4000332(
     },
 )
 
-val MeiFansFortuneTelling = equip4000334(
-    name = "Mei Fan's Fortune-Telling",
+val MeiFansDivination = equip4000334(
+    name = "Mei Fan's Divination",
     baseAutoskills = listOf(
         EffectiveDamageDealtPassive.new(25)
     ),
@@ -1019,6 +1019,28 @@ val DevilsBargain = equip4000335(
     cutinAct = {
         Act {
             targetAllyAoe(MoonOnlyCondition).act {
+                applyBuff(
+                    effect = EffectiveDamageDealtUpBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val DevilInMe = equip4000346(
+    name = "Devil in Me",
+    baseAutoskills = listOf(
+        EffectiveDamageDealtPassive.new(20)
+    ),
+    maxAutoskills = listOf(
+        EffectiveDamageDealtPassive.new(30)
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyAoe(WindOnlyCondition).act {
                 applyBuff(
                     effect = EffectiveDamageDealtUpBuff,
                     value = values1,
@@ -1147,9 +1169,9 @@ private fun oneSpecialDay(character: Character, attribute: Attribute, memoFun: P
 
 val oneSpecialDays = listOf(
     oneSpecialDay(Character.Hikari, Attribute.Snow, equip4000336),
+    oneSpecialDay(Character.Tsukasa, Attribute.Moon, equip4000345),
     oneSpecialDay(Character.Hikari, Attribute.Flower, equip4000336),
     oneSpecialDay(Character.Hikari, Attribute.Wind, equip4000336),
-    oneSpecialDay(Character.Hikari, Attribute.Moon, equip4000336),
     oneSpecialDay(Character.Hikari, Attribute.Space, equip4000336),
     oneSpecialDay(Character.Hikari, Attribute.Cloud, equip4000336),
 )
