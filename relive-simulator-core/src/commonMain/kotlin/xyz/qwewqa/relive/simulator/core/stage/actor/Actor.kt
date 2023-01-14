@@ -247,7 +247,6 @@ class Actor(
      */
     fun execute(act: Act, apCost: Int) {
         val startLog = context.actionLog.copy()
-        val startHope = buffs.count(CountableBuff.Hope)
         try {
             if (!isAlive) {
                 context.log("Act", category = LogCategory.EMPHASIS) { "Actor has already exited." }
@@ -334,7 +333,7 @@ class Actor(
             if (context.actionLog.successfulHits > startLog.successfulHits) {
                 buffs.tryRemove(CountableBuff.Daze)
             }
-            if (startHope > 0 && context.actionLog.attemptedHit) {
+            if (context.actionLog.consumesHope) {
                 buffs.tryRemove(CountableBuff.Hope)
             }
         }

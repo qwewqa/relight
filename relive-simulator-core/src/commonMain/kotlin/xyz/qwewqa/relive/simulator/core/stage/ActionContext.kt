@@ -17,6 +17,7 @@ import kotlin.contracts.contract
 data class ActionLog(
         var successfulHits: Int = 0,
         var attemptedHit: Boolean = false,
+        var consumesHope: Boolean = false,
         var damageDealtToEnemy: Int = 0,
 )
 

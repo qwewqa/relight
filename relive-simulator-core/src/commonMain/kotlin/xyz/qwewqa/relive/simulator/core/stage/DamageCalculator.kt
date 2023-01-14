@@ -24,6 +24,9 @@ open class RandomDamageCalculator : DamageCalculator {
             category = LogCategory.DAMAGE,
             debug = true
         ) { "[${attacker.name}] attempts to hit [${target.name}]." }
+        if (attacker.hopeFactor > 0) {
+            actionLog.consumesHope = true
+        }
         actionLog.attemptedHit = true
 
         val result = calculateDamage(attacker, target, hitAttribute)
@@ -260,6 +263,9 @@ class MeanDamageCalculator : RandomDamageCalculator() {
             category = LogCategory.DAMAGE,
             debug = true
         ) { "[${attacker.name}] attempts to hit [${target.name}]." }
+        if (attacker.hopeFactor > 0) {
+            actionLog.consumesHope = true
+        }
         actionLog.attemptedHit = true
 
         val result = calculateDamage(attacker, target, hitAttribute)
