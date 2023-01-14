@@ -669,3 +669,6 @@
 
 # v0.35.22
 - New dresses and memoirs added by Mikayla
+
+# v0.35.23
+- Fixed hope applied before hit not being consumed when there is no initial hope
