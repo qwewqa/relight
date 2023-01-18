@@ -132,6 +132,7 @@ enum class EffectTag {
     Ryoko,
     Minku,
     Kuina,
+    ExitEvasion,
 }
 
 /**
