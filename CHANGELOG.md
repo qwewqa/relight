@@ -672,3 +672,6 @@
 
 # v0.35.23
 - Fixed hope applied before hit not being consumed when there is no initial hope
+
+# v0.35.24
+- New dresses added by Chihiro
