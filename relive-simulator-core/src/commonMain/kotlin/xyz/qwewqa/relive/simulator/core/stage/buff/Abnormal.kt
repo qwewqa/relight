@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.core.stage.buff
 
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.abnormalCountableBuffs
+import xyz.qwewqa.relive.simulator.core.stage.platformSetOf
 
 object StopBuff : TimedBuffEffect {
     override val name = "Stop"
@@ -274,7 +275,7 @@ object AgonyBuff : TimedBuffEffect {
     }
 }
 
-val abnormalBuffs = setOf(
+val abnormalBuffs = platformSetOf(
     StopBuff,
     SleepBuff,
     NightmareBuff,
@@ -287,4 +288,8 @@ val abnormalBuffs = setOf(
     PoisonBuff,
     LockedPoisonBuff,
     AgonyBuff,
-) //TODO() Electric Shock and Locked Electric Shock in here or just normal? Lovesickness & its locked version too
+    LovesicknessBuff,
+    LockedLovesicknessBuff,
+    ElectricShockBuff,
+    LockedElectricShockBuff,
+)

@@ -3,23 +3,23 @@ package xyz.qwewqa.relive.simulator.core.stage.actor
 import xyz.qwewqa.relive.simulator.common.DisplayBuffData
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.log
+import xyz.qwewqa.relive.simulator.core.stage.platformMapOf
+import xyz.qwewqa.relive.simulator.core.stage.platformSetOf
+import xyz.qwewqa.relive.simulator.core.stage.toPlatformMap
 import xyz.qwewqa.relive.simulator.stage.character.Position
 import kotlin.math.min
 
-expect fun activeBuffSet(): MutableSet<ActiveBuff>
-expect fun <V> buffEffectMap(): MutableMap<TimedBuffEffect, V>
-expect fun countableBuffMap(): MutableMap<CountableBuff, MutableList<CountableBuffStack>>
 
 class BuffManager(val actor: Actor) {
-    private val positiveBuffs = activeBuffSet()
-    private val negativeBuffs = activeBuffSet()
-    private val buffsByEffect = buffEffectMap<MutableSet<ActiveBuff>>()
+    private val positiveBuffs = platformSetOf<ActiveBuff>()
+    private val negativeBuffs = platformSetOf<ActiveBuff>()
+    private val buffsByEffect = platformMapOf<TimedBuffEffect, MutableSet<ActiveBuff>>()
 
-    private val _effectNameMapping = mutableMapOf<String, TimedBuffEffect>()
+    private val _effectNameMapping = platformMapOf<String, TimedBuffEffect>()
     val effectNameMapping: Map<String, TimedBuffEffect> get() = _effectNameMapping
 
-    private val positiveCountableBuffs = countableBuffMap()
-    private val negativeCountableBuffs = countableBuffMap()
+    private val positiveCountableBuffs = platformMapOf<CountableBuff, MutableList<CountableBuffStack>>()
+    private val negativeCountableBuffs = platformMapOf<CountableBuff, MutableList<CountableBuffStack>>()
     private val positiveCountableBuffStacks = mutableListOf<CountableBuffStack>()
     private val negativeCountableBuffStacks = mutableListOf<CountableBuffStack>()
 
@@ -60,7 +60,7 @@ class BuffManager(val actor: Actor) {
             }.add(activeBuff)
             buffsByEffect.getOrPut(this) {
                 _effectNameMapping[name] = this
-                activeBuffSet()
+                platformSetOf()
             }.add(activeBuff)
             actor.context.log("Buff", debug = true) { "Buff ${activeBuff.name} added." }
         }
@@ -403,13 +403,13 @@ class CountableBuffStack(
     val value: Int,
 )
 
-val countableBuffsByName = CountableBuff.values().associateBy { it.name.lowercase() } + mapOf(
+val countableBuffsByName = (CountableBuff.values().associateBy { it.name.lowercase() } + mapOf(
     "impudence" to CountableBuff.Pride,
     "evade" to CountableBuff.Evasion,
     "fort" to CountableBuff.Fortitude,
-)
+)).toPlatformMap()
 
-val abnormalCountableBuffs = setOf(
+val abnormalCountableBuffs = platformSetOf(
     CountableBuff.Daze,
     CountableBuff.Pride,
 )

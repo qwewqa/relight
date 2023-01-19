@@ -12,8 +12,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
 import xyz.qwewqa.relive.simulator.core.stage.log
-import xyz.qwewqa.relive.simulator.core.stage.strategy.SimpleStrategyGrammar.getValue
-import xyz.qwewqa.relive.simulator.core.stage.strategy.SimpleStrategyGrammar.provideDelegate
+import xyz.qwewqa.relive.simulator.core.stage.platformMapOf
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
 sealed class SimpleStrategyLine
@@ -46,7 +45,7 @@ data class ActorProperty(
 )
 
 
-val actorProperties = mapOf(
+val actorProperties = platformMapOf(
     "alive" to ActorProperty(
         acceptedOperators = setOf(null),
         check = { _, _ -> hp > 0 },

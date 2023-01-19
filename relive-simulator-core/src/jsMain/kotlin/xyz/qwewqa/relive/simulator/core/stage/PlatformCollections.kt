@@ -1,10 +1,9 @@
-package xyz.qwewqa.relive.simulator.core.stage.actor
+@file:Suppress("NOTHING_TO_INLINE")
 
-import xyz.qwewqa.relive.simulator.core.stage.buff.TimedBuffEffect
+package xyz.qwewqa.relive.simulator.core.stage
 
-actual fun activeBuffSet(): MutableSet<ActiveBuff> = JsSet()
-actual fun <V> buffEffectMap(): MutableMap<TimedBuffEffect, V> = JsMap()
-actual fun countableBuffMap(): MutableMap<CountableBuff, MutableList<CountableBuffStack>> = JsMap()
+actual inline fun <K, V> emptyPlatformMap(): MutableMap<K, V> = PlatformMap()
+actual inline fun <E> emptyPlatformSet(): MutableSet<E> = PlatformSet()
 
 @JsName("Map")
 external class RawJsMap {
@@ -40,20 +39,20 @@ external class RawJsIterator {
     fun next(): Result
 }
 
-val RawJsMap.iterator: () -> RawJsIterator
+inline val RawJsMap.iterator: () -> RawJsIterator
     get() {
         @Suppress("UNUSED_VARIABLE")
         val value = this
         return js("value[Symbol.iterator]")
     }
-val RawJsSet.iterator: () -> RawJsIterator
+inline val RawJsSet.iterator: () -> RawJsIterator
     get() {
         @Suppress("UNUSED_VARIABLE")
         val value = this
         return js("value[Symbol.iterator]")
     }
 
-fun RawJsIterator.forEach(action: (Any?) -> Unit) {
+inline fun RawJsIterator.forEach(action: (Any?) -> Unit) {
     while (true) {
         val result = next()
         if (result.done) break
@@ -61,14 +60,12 @@ fun RawJsIterator.forEach(action: (Any?) -> Unit) {
     }
 }
 
-class JsMap<K, V> : MutableMap<K, V> {
+ value class PlatformMap<K, V>(val map: RawJsMap = RawJsMap()) : MutableMap<K, V> {
     private class Entry<K, V>(override val key: K, override val value: V) : MutableMap.MutableEntry<K, V> {
         override fun setValue(newValue: V): V {
             throw UnsupportedOperationException()
         }
     }
-
-    private val map = RawJsMap()
 
     override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
         get() {
@@ -154,9 +151,7 @@ class JsMap<K, V> : MutableMap<K, V> {
     }
 }
 
-class JsSet<E> : MutableSet<E> {
-    private val set = RawJsSet()
-
+value class PlatformSet<E>(val set: RawJsSet = RawJsSet()) : MutableSet<E> {
     override fun add(element: E): Boolean {
         return if (set.has(element)) {
             false
