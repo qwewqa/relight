@@ -45,7 +45,7 @@ class ActionContext(
         return TargetContext(
             this@ActionContext,
             this,
-            enemy.active.first().takeIf { self.isConstrained } ?: self.aggroTarget.takeIf { affectedByAggro },
+            enemy.active.firstOrNull()?.takeIf { self.isConstrained } ?: self.aggroTarget.takeIf { affectedByAggro },
             autoRepeatHits,
         )
     }
@@ -54,7 +54,7 @@ class ActionContext(
             TargetContext(this@ActionContext, listOf(this)).act(action)
 
     private fun provokable(selector: () -> List<Actor>) = self.provokeTarget?.let { listOf(it) }
-        ?: listOf(enemy.active.first()).takeIf { self.isConstrained }
+        ?: enemy.active.firstOrNull()?.takeIf { self.isConstrained }?.let { listOf(it) }
         ?: selector()
 
     fun targetSelf() = listOf(self).targetContext()
