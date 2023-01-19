@@ -675,3 +675,7 @@
 
 # v0.35.24
 - New dresses added by Chihiro
+
+# v0.35.25
+- Fixed error in some circumstances when bosses die
+- Performance adjustments
