@@ -5,13 +5,14 @@ import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActiveBuff
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.log
+import xyz.qwewqa.relive.simulator.core.stage.platformMapOf
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
 class StageEffectManager(val team: Team) {
-    private val levels = mutableMapOf<StageEffect, Int>()
+    private val levels = platformMapOf<StageEffect, Int>()
     private var activeStacks = mutableListOf<ActiveStageEffect>()
 
-    private val statuses = mutableMapOf<StageEffect, StageEffectStatus>()
+    private val statuses = platformMapOf<StageEffect, StageEffectStatus>()
 
     fun values() = levels.mapNotNull { (k, v) -> (k to v).takeIf { v > 9 } }
 
@@ -49,7 +50,7 @@ class StageEffectManager(val team: Team) {
                         }
                     }
 
-                    val effectBuffs = mutableMapOf<Actor, List<ActiveBuff>>()
+                    val effectBuffs = platformMapOf<Actor, List<ActiveBuff>>()
                     targets.forEach { actor ->
                         val existingBuffs = previousStatus.effectBuffs[actor]
                         if (existingBuffs != null) {
@@ -73,7 +74,7 @@ class StageEffectManager(val team: Team) {
     }
 
     fun getDisplayData(): List<DisplayStageEffectData> {
-        val maxTurns = mutableMapOf<StageEffect, Int>()
+        val maxTurns = platformMapOf<StageEffect, Int>()
         activeStacks.forEach { stack ->
             maxTurns[stack.effect] = maxOf(maxTurns[stack.effect] ?: 0, stack.turns)
         }

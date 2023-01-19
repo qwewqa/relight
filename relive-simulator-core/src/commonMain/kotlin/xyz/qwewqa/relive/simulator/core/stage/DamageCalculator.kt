@@ -16,6 +16,9 @@ interface DamageCalculator {
     fun damage(attacker: Actor, target: Actor, hitAttribute: HitAttribute)
 }
 
+@Suppress("NOTHING_TO_INLINE")
+private inline infix fun Double.pfmul(other: Int) = floor(this * other / 100.0)
+
 open class RandomDamageCalculator : DamageCalculator {
     override fun damage(attacker: Actor, target: Actor, hitAttribute: HitAttribute): Unit = attacker.context.run {
         if (!attacker.isAlive) return@run
@@ -209,8 +212,6 @@ open class RandomDamageCalculator : DamageCalculator {
 
         val eventBonusCoef = 100 + attacker.eventBonus
         val eventMultiplier = attacker.eventMultiplier
-
-        infix fun Double.pfmul(other: Int) = floor(this * other / 100.0)
 
         var dmg = base.toDouble()
         dmg = dmg pfmul eleCoef

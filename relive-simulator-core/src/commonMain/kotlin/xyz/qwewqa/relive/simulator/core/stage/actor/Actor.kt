@@ -1,14 +1,11 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
 import xyz.qwewqa.relive.simulator.common.LogCategory
-import xyz.qwewqa.relive.simulator.core.stage.Act
-import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.*
 import xyz.qwewqa.relive.simulator.core.stage.accessory.Accessory
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
-import xyz.qwewqa.relive.simulator.core.stage.execute
-import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoir
 import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
 
@@ -122,8 +119,8 @@ class Actor(
     val positiveEffectResist get() = valuePositiveEffectResist
     var valuePositiveEffectResist = 0
 
-    val specificBuffResist = mutableMapOf<TimedBuffEffect, Int>()
-    val specificCountableBuffResist = mutableMapOf<CountableBuff, Int>()
+    val specificBuffResist = platformMapOf<TimedBuffEffect, Int>()
+    val specificCountableBuffResist = platformMapOf<CountableBuff, Int>()
 
     val climaxDamageUp get() = valueClimaxDamageUp
     var valueClimaxDamageUp = 0
