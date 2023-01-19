@@ -6,6 +6,8 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.back.moon.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.snow.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.space.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.wind.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.sun.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.back.star.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.front.cloud.EmpressMeiFan
 import xyz.qwewqa.relive.simulator.core.presets.dress.front.flower.EmperorAkira
 import xyz.qwewqa.relive.simulator.core.presets.dress.front.moon.FaithMisora
@@ -82,6 +84,7 @@ val playerDresses = listOf(
     LittlePrinceMisora,
     LokiYachiyo,
     MagicianYuyuko,
+    MarieAntoinetteKoharu,
     MerchantKaoruko,
     MitsuhideKaren,
     MoonAruru,
@@ -141,6 +144,7 @@ val playerDresses = listOf(
     StageGirlTsukasa,
     StageGirlYachiyo,
     StageGirlYuyuko,
+    StNicholasRyoko,
     StrengthFutaba,
     SunIchie,
     TemperanceFumi,

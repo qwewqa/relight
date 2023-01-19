@@ -130,6 +130,7 @@ enum class DressCategory {
     Birthday2023,
     TroupeRevueShop,
     Movie,
+    RoV,
 }
 
 

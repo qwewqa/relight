@@ -754,3 +754,98 @@ val LightningShade = StageEffect(
     ),
     StageEffectTarget.All,
 )
+
+val DivinePower = StageEffect(
+    "Divine Power",
+    52,
+    listOf(
+        StageEffectBuffs(
+            listOf(
+                listOf(
+                    StageBuff(Ap2DownBuff, 0),
+                    StageBuff(NegativeCountableEffectResistanceBuff, 100),
+                    StageBuff(ActPowerUpBuff, 20),
+                ),
+                listOf(
+                    StageBuff(Ap2DownBuff, 0),
+                    StageBuff(NegativeCountableEffectResistanceBuff, 100),
+                    StageBuff(ActPowerUpBuff, 30),
+                ),
+                listOf(
+                    StageBuff(Ap2DownBuff, 0),
+                    StageBuff(NegativeCountableEffectResistanceBuff, 100),
+                    StageBuff(ActPowerUpBuff, 40),
+                ),
+                listOf(
+                    StageBuff(Ap2DownBuff, 0),
+                    StageBuff(NegativeCountableEffectResistanceBuff, 100),
+                    StageBuff(ActPowerUpBuff, 50),
+                ),
+                listOf(
+                    StageBuff(Ap2DownBuff, 0),
+                    StageBuff(NegativeCountableEffectResistanceBuff, 100),
+                    StageBuff(ActPowerUpBuff, 60),
+                ),
+            ),
+        ),
+        StageEffectBuffs(
+            listOf(
+                listOf(
+                    StageBuff(NegativeEffectResistanceBuff, 100),
+                ),
+                listOf(
+                    StageBuff(NegativeEffectResistanceBuff, 100),
+                ),
+                listOf(
+                    StageBuff(NegativeEffectResistanceBuff, 100),
+                ),
+                listOf(
+                    StageBuff(NegativeEffectResistanceBuff, 100),
+                ),
+                listOf(
+                    StageBuff(NegativeEffectResistanceBuff, 100),
+                ),
+            ),
+            RoVOnlyCondition,
+        ),
+    ),
+    StageEffectTarget.All,
+)
+
+val HappyFootsteps = StageEffect(
+    "Happy Footsteps",
+    62,
+    listOf(
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(NegativeEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 20),
+            StageBuff(BrillianceRegenBuff, 50),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(NegativeEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 30),
+            StageBuff(BrillianceRegenBuff, 50),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(NegativeEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 40),
+            StageBuff(BrillianceRegenBuff, 50),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(NegativeEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 50),
+            StageBuff(BrillianceRegenBuff, 50),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(NegativeEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 60),
+            StageBuff(BrillianceRegenBuff, 50),
+        ),
+    ),
+    StageEffectTarget.All,
+)
