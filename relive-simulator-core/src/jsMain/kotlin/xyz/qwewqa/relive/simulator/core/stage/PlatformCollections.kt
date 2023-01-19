@@ -1,9 +1,9 @@
-@file:Suppress("NOTHING_TO_INLINE")
+@file:Suppress("NOTHING_TO_INLINE", "OVERRIDE_BY_INLINE")
 
 package xyz.qwewqa.relive.simulator.core.stage
 
-actual inline fun <K, V> emptyPlatformMap(): MutableMap<K, V> = PlatformMap()
-actual inline fun <E> emptyPlatformSet(): MutableSet<E> = PlatformSet()
+actual inline fun <K, V> emptyPlatformMap(): PlatformMap<K, V> = PlatformMap()
+actual inline fun <E> emptyPlatformSet(): PlatformSet<E> = PlatformSet()
 
 @JsName("Map")
 external class RawJsMap {
@@ -39,20 +39,20 @@ external class RawJsIterator {
     fun next(): Result
 }
 
-inline val RawJsMap.iterator: () -> RawJsIterator
+val RawJsMap.iterator: () -> RawJsIterator
     get() {
         @Suppress("UNUSED_VARIABLE")
         val value = this
         return js("value[Symbol.iterator]")
     }
-inline val RawJsSet.iterator: () -> RawJsIterator
+val RawJsSet.iterator: () -> RawJsIterator
     get() {
         @Suppress("UNUSED_VARIABLE")
         val value = this
         return js("value[Symbol.iterator]")
     }
 
-inline fun RawJsIterator.forEach(action: (Any?) -> Unit) {
+fun RawJsIterator.forEach(action: (Any?) -> Unit) {
     while (true) {
         val result = next()
         if (result.done) break
@@ -60,8 +60,10 @@ inline fun RawJsIterator.forEach(action: (Any?) -> Unit) {
     }
 }
 
- value class PlatformMap<K, V>(val map: RawJsMap = RawJsMap()) : MutableMap<K, V> {
-    private class Entry<K, V>(override val key: K, override val value: V) : MutableMap.MutableEntry<K, V> {
+actual class PlatformMap<K, V> : MutableMap<K, V> {
+    val map = RawJsMap()
+
+    class Entry<K, V>(override val key: K, override val value: V) : MutableMap.MutableEntry<K, V> {
         override fun setValue(newValue: V): V {
             throw UnsupportedOperationException()
         }
@@ -151,7 +153,9 @@ inline fun RawJsIterator.forEach(action: (Any?) -> Unit) {
     }
 }
 
-value class PlatformSet<E>(val set: RawJsSet = RawJsSet()) : MutableSet<E> {
+actual class PlatformSet<E> : MutableSet<E> {
+    val set = RawJsSet()
+
     override fun add(element: E): Boolean {
         return if (set.has(element)) {
             false

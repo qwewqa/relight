@@ -3,5 +3,8 @@
 
 package xyz.qwewqa.relive.simulator.core.stage
 
-actual inline fun <K, V> emptyPlatformMap(): MutableMap<K, V> = mutableMapOf()
-actual inline fun <E> emptyPlatformSet(): MutableSet<E> = mutableSetOf()
+actual class PlatformMap<K, V>: MutableMap<K, V> by mutableMapOf()
+actual class PlatformSet<E>: MutableSet<E> by mutableSetOf()
+
+actual inline fun <K, V> emptyPlatformMap(): PlatformMap<K, V> = PlatformMap()
+actual inline fun <E> emptyPlatformSet(): PlatformSet<E> = PlatformSet()
