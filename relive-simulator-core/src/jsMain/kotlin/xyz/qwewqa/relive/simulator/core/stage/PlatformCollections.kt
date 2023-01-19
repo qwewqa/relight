@@ -61,7 +61,7 @@ fun RawJsIterator.forEach(action: (Any?) -> Unit) {
 }
 
 actual class PlatformMap<K, V> : MutableMap<K, V> {
-    val map = RawJsMap()
+    private val map = RawJsMap()
 
     class Entry<K, V>(override val key: K, override val value: V) : MutableMap.MutableEntry<K, V> {
         override fun setValue(newValue: V): V {
@@ -69,37 +69,78 @@ actual class PlatformMap<K, V> : MutableMap<K, V> {
         }
     }
 
-    override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
-        get() {
-            val result = mutableSetOf<MutableMap.MutableEntry<K, V>>()
-            map.entries().forEach { entry ->
-                val key = entry.unsafeCast<Array<K>>()[0]
-                val value = entry.unsafeCast<Array<V>>()[1]
-                result.add(Entry(key, value))
-            }
-            return result
-        }
+    override val entries = object: MutableSet<MutableMap.MutableEntry<K, V>> {
+        override fun add(element: MutableMap.MutableEntry<K, V>) = throw UnsupportedOperationException()
+        override fun addAll(elements: Collection<MutableMap.MutableEntry<K, V>>) = throw UnsupportedOperationException()
+        override val size get() = this@PlatformMap.size
+        override fun clear() = this@PlatformMap.clear()
+        override fun isEmpty(): Boolean = this@PlatformMap.isEmpty()
+        override fun containsAll(elements: Collection<MutableMap.MutableEntry<K, V>>) = throw UnsupportedOperationException()
+        override fun contains(element: MutableMap.MutableEntry<K, V>)= throw UnsupportedOperationException()
+        override fun iterator() = object : MutableIterator<MutableMap.MutableEntry<K, V>> {
+            private val entries = map.entries()
+            private var next = entries.next()
 
-    override val keys: MutableSet<K>
-        get() {
-            val result = mutableSetOf<K>()
-            map.keys().forEach { key ->
-                result.add(key.unsafeCast<K>())
+            override fun hasNext() = !next.done
+
+            override fun next(): MutableMap.MutableEntry<K, V> {
+                val key = next.value.unsafeCast<Array<K>>()[0]
+                val value = next.value.unsafeCast<Array<V>>()[1]
+                next = entries.next()
+                return Entry(key, value)
             }
-            return result
+
+            override fun remove() = throw UnsupportedOperationException()
         }
+        override fun retainAll(elements: Collection<MutableMap.MutableEntry<K, V>>) = throw UnsupportedOperationException()
+        override fun removeAll(elements: Collection<MutableMap.MutableEntry<K, V>>) = throw UnsupportedOperationException()
+        override fun remove(element: MutableMap.MutableEntry<K, V>) = throw UnsupportedOperationException()
+    }
+
+    override val keys = object : MutableSet<K> {
+        override fun add(element: K) = throw UnsupportedOperationException()
+        override fun addAll(elements: Collection<K>) = throw UnsupportedOperationException()
+        override val size get() = this@PlatformMap.size
+        override fun clear() = this@PlatformMap.clear()
+        override fun isEmpty(): Boolean = this@PlatformMap.isEmpty()
+        override fun containsAll(elements: Collection<K>) = throw UnsupportedOperationException()
+        override fun contains(element: K) = this@PlatformMap.contains(element)
+        override fun iterator() = object : MutableIterator<K> {
+            private val entries = map.keys()
+            private var next = entries.next()
+
+            override fun hasNext() = !next.done
+            override fun next(): K = next.value.unsafeCast<K>().also { next = entries.next() }
+            override fun remove() = throw UnsupportedOperationException()
+        }
+        override fun retainAll(elements: Collection<K>) = throw UnsupportedOperationException()
+        override fun removeAll(elements: Collection<K>) = throw UnsupportedOperationException()
+        override fun remove(element: K) = throw UnsupportedOperationException()
+    }
+    
+    override val values = object : MutableCollection<V> {
+        override fun add(element: V) = throw UnsupportedOperationException()
+        override fun addAll(elements: Collection<V>) = throw UnsupportedOperationException()
+        override val size get() = this@PlatformMap.size
+        override fun clear() = this@PlatformMap.clear()
+        override fun isEmpty(): Boolean = this@PlatformMap.isEmpty()
+        override fun containsAll(elements: Collection<V>) = throw UnsupportedOperationException()
+        override fun contains(element: V) = throw UnsupportedOperationException()
+        override fun iterator() = object : MutableIterator<V> {
+            private val entries = map.values()
+            private var next = entries.next()
+
+            override fun hasNext() = !next.done
+            override fun next(): V = next.value.unsafeCast<V>().also { next = entries.next() }
+            override fun remove() = throw UnsupportedOperationException()
+        }
+        override fun retainAll(elements: Collection<V>) = throw UnsupportedOperationException()
+        override fun removeAll(elements: Collection<V>) = throw UnsupportedOperationException()
+        override fun remove(element: V) = throw UnsupportedOperationException()
+    }
 
     override val size: Int
         get() = map.size
-
-    override val values: MutableCollection<V>
-        get() {
-            val result = mutableSetOf<V>()
-            map.values().forEach { value ->
-                result.add(value.unsafeCast<V>())
-            }
-            return result
-        }
 
     override fun clear() {
         map.clear()
@@ -154,7 +195,7 @@ actual class PlatformMap<K, V> : MutableMap<K, V> {
 }
 
 actual class PlatformSet<E> : MutableSet<E> {
-    val set = RawJsSet()
+    private val set = RawJsSet()
 
     override fun add(element: E): Boolean {
         return if (set.has(element)) {
