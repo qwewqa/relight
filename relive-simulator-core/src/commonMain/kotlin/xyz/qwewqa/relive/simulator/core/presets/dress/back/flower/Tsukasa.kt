@@ -116,7 +116,7 @@ val BenzaitenTsukasa = dress3040014(
         listOf(
             SelfFortitudeBuffPassive.new(time = 4),
             TeamReviveBuffPassive.new(value = 50, time = 1),
-            TeamBlessingEffectiveDamagePassive.new(value = 50, time = 1),
+            TeamBlessingEffectiveDamagePassive.new(value = 50, time = 2),
         ),
         listOf(
             TeamDexterityUpBuffPassive.new(value = 20, time = 3),
