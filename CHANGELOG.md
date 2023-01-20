@@ -679,3 +679,6 @@
 # v0.35.25
 - Fixed error in some circumstances when bosses die
 - Performance adjustments
+
+# v0.35.26
+- Fixed Benzaiten not applying two blessings by Mikayla
