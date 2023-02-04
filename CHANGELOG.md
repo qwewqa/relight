@@ -682,3 +682,6 @@
 
 # v0.35.26
 - Fixed Benzaiten not applying two blessings by Mikayla
+
+# v0.35.27
+- New bosses added by Mikayla
