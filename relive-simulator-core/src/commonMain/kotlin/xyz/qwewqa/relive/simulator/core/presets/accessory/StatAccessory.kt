@@ -3,6 +3,7 @@ package xyz.qwewqa.relive.simulator.core.presets.accessory
 import xyz.qwewqa.relive.simulator.core.presets.accessory.generated.accessory32
 import xyz.qwewqa.relive.simulator.core.presets.accessory.generated.accessory34
 import xyz.qwewqa.relive.simulator.core.presets.accessory.generated.accessory35
+import xyz.qwewqa.relive.simulator.core.presets.accessory.generated.accessory65
 import xyz.qwewqa.relive.simulator.core.stage.accessory.AccessoryBlueprint
 
 val emptyAccessory = AccessoryBlueprint(
@@ -32,3 +33,4 @@ val emptyAccessory = AccessoryBlueprint(
 val beachVolleyball = accessory32("Beach Volleyball")
 val goldBarsOfFrontier = accessory34("Gold Bars of Frontier")
 val memorablePotpourri = accessory35("Memorable Potpourri")
+val seishoBdayAcc = accessory65("Seisho Bday Acc") //TODO(): rename once localized

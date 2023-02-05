@@ -3,6 +3,7 @@ package xyz.qwewqa.relive.simulator.core.stage.strategy.complete
 import xyz.qwewqa.relive.simulator.core.stage.Stage
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
+import xyz.qwewqa.relive.simulator.core.stage.buff.MultipleCAficationBuff
 import xyz.qwewqa.relive.simulator.core.stage.ignoreRun
 import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.strategy.*
@@ -332,7 +333,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
         script.body.execute(context)
         discardHand()
         queued.forEach {
-            if (it.act.type == ActType.ClimaxAct && !it.actor.dress.multipleCA) {
+            if (it.act.type == ActType.ClimaxAct) {
                 usedClimaxActs += it
             }
         }
@@ -369,7 +370,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
             hand += team.active
                 .filter { it.brilliance >= 100 }
                 .map { it.acts[ActType.ClimaxAct]!!.asCsAct(it) }
-                .filter { it !in usedClimaxActs }
+                .filter { it !in usedClimaxActs || it.actor.buffs.any(MultipleCAficationBuff) || it.actor.dress.multipleCA}
         }
         if (hand.size < 5) hand += drawCard(5 - hand.size)
         internalHand += hand

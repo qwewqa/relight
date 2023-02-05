@@ -12,6 +12,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.front.cloud.EmpressMeiFan
 import xyz.qwewqa.relive.simulator.core.presets.dress.front.flower.EmperorAkira
 import xyz.qwewqa.relive.simulator.core.presets.dress.front.moon.FaithMisora
 import xyz.qwewqa.relive.simulator.core.presets.dress.front.snow.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.front.star.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.front.space.CharityTsukasa
 import xyz.qwewqa.relive.simulator.core.presets.dress.front.wind.StrengthFutaba
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.cloud.*
@@ -20,12 +21,15 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.space.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.*
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.star.SiegfriedNana
+import xyz.qwewqa.relive.simulator.core.presets.dress.middle.star.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.middle.sun.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.dream.WhiteFrontierAruru
 
 val playerDresses = listOf(
     AceMisora,
     AnastasiaJunna,
+    AquariusMahiru,
+    BenikageEncoreFumi,
     BenzaitenTsukasa,
     BlackShizuha,
     BloodyDevilShiori,
@@ -57,6 +61,7 @@ val playerDresses = listOf(
     FinalLinesHikari,
     FinalLinesKaren,
     FoolYachiyo,
+    FourthZodiacRabbitKaoruko,
     FruitTartNana,
     FuMeiFan,
     FutureStageGirlKuina,
@@ -99,6 +104,7 @@ val playerDresses = listOf(
     ParisCombatRevueFlowerDivisionErika,
     PersephoneTamao,
     PrincessKaren,
+    RedDukeRichelieuFumi,
     RedFrontierLalafin,
     RomeoKaren,
     SageJunna,
@@ -148,6 +154,7 @@ val playerDresses = listOf(
     StrengthFutaba,
     SunIchie,
     TemperanceFumi,
+    TitaniaShiro,
     TowerHikari,
     WarriorMaya,
     WheelOfFortuneKaren,

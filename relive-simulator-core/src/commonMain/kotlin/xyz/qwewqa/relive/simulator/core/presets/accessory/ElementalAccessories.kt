@@ -106,3 +106,51 @@ val spaceBrooch = accessory52(
     "Space Brooch",
     autoskills = broochAutoskills,
 )
+val cloudRing = accessory53(
+    "Cloud Ring",
+    autoskills = ringAutoskills,
+)
+val cloudPendant = accessory54(
+    "Cloud Pendant",
+    autoskills = pendantAutoskills,
+)
+val cloudBrooch = accessory55(
+    "Cloud Brooch",
+    autoskills = broochAutoskills,
+)
+val dreamRing = accessory56(
+    "Dream Ring",
+    autoskills = ringAutoskills,
+)
+val dreamPendant = accessory57(
+    "Dream Pendant",
+    autoskills = pendantAutoskills,
+)
+val dreamBrooch = accessory58(
+    "Dream Brooch",
+    autoskills = broochAutoskills,
+)
+val sunRing = accessory59(
+    "Sun Ring",
+    autoskills = ringAutoskills,
+)
+val sunPendant = accessory60(
+    "Sun Pendant",
+    autoskills = pendantAutoskills,
+)
+val sunBrooch = accessory61(
+    "Sun Brooch",
+    autoskills = broochAutoskills,
+)
+val starRing = accessory62(
+    "Star Ring",
+    autoskills = ringAutoskills,
+)
+val starPendant = accessory63(
+    "Star Pendant",
+    autoskills = pendantAutoskills,
+)
+val starBrooch = accessory64(
+    "Star Brooch",
+    autoskills = broochAutoskills,
+)

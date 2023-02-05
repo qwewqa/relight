@@ -355,3 +355,54 @@ val SugaryCorruption = StageEffect(
     ),
     StageEffectTarget.All,
 )
+
+val PlanOfTheAbyss = StageEffect(
+    "Plan of the Abyss",
+    57,
+    listOf( //TODO(): SE Seal
+        listOf(
+            StageBuff(ActPowerDownBuff, 20),
+        ),
+        listOf(
+            StageBuff(ActPowerDownBuff, 25),
+        ),
+        listOf(
+            StageBuff(ActPowerDownBuff, 30),
+        ),
+        listOf(
+            StageBuff(ActPowerDownBuff, 35),
+        ),
+        listOf(
+            StageBuff(ActPowerDownBuff, 40),
+        ),
+    ),
+    StageEffectTarget.All,
+)
+
+val BattleStrategy = StageEffect(
+    "Battle Strategy",
+    74,
+    listOf(
+        listOf(
+            StageBuff(ConstrainBuff, 0),
+            StageBuff(AgilityDownBuff, 5),
+        ),
+        listOf(
+            StageBuff(ConstrainBuff, 0),
+            StageBuff(AgilityDownBuff, 10),
+        ),
+        listOf(
+            StageBuff(ConstrainBuff, 0),
+            StageBuff(AgilityDownBuff, 15),
+        ),
+        listOf(
+            StageBuff(ConstrainBuff, 0),
+            StageBuff(AgilityDownBuff, 20),
+        ),
+        listOf(
+            StageBuff(ConstrainBuff, 0),
+            StageBuff(AgilityDownBuff, 25),
+        ),
+    ),
+    StageEffectTarget.All,
+)

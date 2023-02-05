@@ -849,3 +849,193 @@ val HappyFootsteps = StageEffect(
     ),
     StageEffectTarget.All,
 )
+
+val LeapOath = StageEffect(
+    "Leap Oath",
+    63,
+    listOf(
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(NegativeCountableEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 20),
+            StageBuff(BrillianceRegenBuff, 50),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(NegativeCountableEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 30),
+            StageBuff(BrillianceRegenBuff, 50),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(NegativeCountableEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 40),
+            StageBuff(BrillianceRegenBuff, 50),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(NegativeCountableEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 50),
+            StageBuff(BrillianceRegenBuff, 50),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(NegativeCountableEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 60),
+            StageBuff(BrillianceRegenBuff, 50),
+        ),
+    ),
+    StageEffectTarget.All,
+)
+
+val ElegantInvitation = StageEffect(
+    "ElegantInvitation",
+    71,
+    listOf(
+        listOf(
+            StageBuff(NegativeCountableEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 20),
+            StageBuff(NormalDefenseUpBuff, 30),
+            StageBuff(SpecialDefenseUpBuff, 30),
+            StageBuff(CriticalUpBuff, 50),
+        ),
+        listOf(
+            StageBuff(NegativeCountableEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 30),
+            StageBuff(NormalDefenseUpBuff, 35),
+            StageBuff(SpecialDefenseUpBuff, 35),
+            StageBuff(CriticalUpBuff, 55),
+        ),
+        listOf(
+            StageBuff(NegativeCountableEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 40),
+            StageBuff(NormalDefenseUpBuff, 40),
+            StageBuff(SpecialDefenseUpBuff, 40),
+            StageBuff(CriticalUpBuff, 60),
+        ),
+        listOf(
+            StageBuff(NegativeCountableEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 50),
+            StageBuff(NormalDefenseUpBuff, 45),
+            StageBuff(SpecialDefenseUpBuff, 45),
+            StageBuff(CriticalUpBuff, 65),
+        ),
+        listOf(
+            StageBuff(NegativeCountableEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 60),
+            StageBuff(NormalDefenseUpBuff, 50),
+            StageBuff(SpecialDefenseUpBuff, 50),
+            StageBuff(CriticalUpBuff, 70),
+        ),
+    ),
+    StageEffectTarget.All,
+)
+
+val FloatingWithTheTide = StageEffect(
+    "Floating with the Tide",
+    72,
+    listOf(
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(NegativeEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 20),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(NegativeEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 25),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(NegativeEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 30),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(NegativeEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 35),
+        ),
+        listOf(
+            StageBuff(ApDownBuff, 0),
+            StageBuff(NegativeEffectResistanceBuff, 100),
+            StageBuff(ActPowerUpBuff, 40),
+        ),
+    ),
+    StageEffectTarget.All,
+)
+
+val SparklingTide = StageEffect(
+    "Sparkling Tide",
+    73,
+    listOf(
+        listOf(
+            StageBuff(EvasionRateUpBuff, 70),
+            StageBuff(DexterityUpBuff, 30),
+            StageBuff(CriticalUpBuff, 30),
+            StageBuff(BrillianceRegenBuff, 50),
+        ),
+        listOf(
+            StageBuff(EvasionRateUpBuff, 75),
+            StageBuff(DexterityUpBuff, 35),
+            StageBuff(CriticalUpBuff, 35),
+            StageBuff(BrillianceRegenBuff, 60),
+        ),
+        listOf(
+            StageBuff(EvasionRateUpBuff, 80),
+            StageBuff(DexterityUpBuff, 40),
+            StageBuff(CriticalUpBuff, 40),
+            StageBuff(BrillianceRegenBuff, 70),
+        ),
+        listOf(
+            StageBuff(EvasionRateUpBuff, 85),
+            StageBuff(DexterityUpBuff, 45),
+            StageBuff(CriticalUpBuff, 45),
+            StageBuff(BrillianceRegenBuff, 80),
+        ),
+        listOf(
+            StageBuff(EvasionRateUpBuff, 90),
+            StageBuff(DexterityUpBuff, 50),
+            StageBuff(CriticalUpBuff, 50),
+            StageBuff(BrillianceRegenBuff, 90),
+        ),
+    ),
+    StageEffectTarget.All,
+)
+
+val MellowFlavor = StageEffect(
+    "Mellow Flavor",
+    55,
+    listOf(
+        listOf(
+            StageBuff(DexterityUpBuff, 100),
+            StageBuff(CriticalUpBuff, 20),
+            StageBuff(AgilityUpBuff, 20),
+            StageBuff(CounterHealBuff, 20),
+        ),
+        listOf(
+            StageBuff(DexterityUpBuff, 100),
+            StageBuff(CriticalUpBuff, 25),
+            StageBuff(AgilityUpBuff, 25),
+            StageBuff(CounterHealBuff, 20),
+        ),
+        listOf(
+            StageBuff(DexterityUpBuff, 100),
+            StageBuff(CriticalUpBuff, 30),
+            StageBuff(AgilityUpBuff, 30),
+            StageBuff(CounterHealBuff, 20),
+        ),
+        listOf(
+            StageBuff(DexterityUpBuff, 100),
+            StageBuff(CriticalUpBuff, 40),
+            StageBuff(AgilityUpBuff, 35),
+            StageBuff(CounterHealBuff, 20),
+        ),
+        listOf(
+            StageBuff(DexterityUpBuff, 100),
+            StageBuff(CriticalUpBuff, 50),
+            StageBuff(AgilityUpBuff, 40),
+            StageBuff(CounterHealBuff, 20),
+        ),
+    ),
+    StageEffectTarget.All,
+)

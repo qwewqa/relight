@@ -81,6 +81,10 @@ val memoirs = mapOf("None" to EmptyMemoir) + (
             BrillianceEveryDayClaudineMaya,
             BrillianceEveryDayJunnaNana,
             BrillianceEveryDayFutabaKaoruko,
+            XVIIStarUpright,
+            XVIIStarReverse,
+            SmileSayCheese,
+            MilkyHolmesSherlockHikari,
         ).sortedBy { it.name }.sortedBy { it.cutinData == null }
                 + oneSpecialDays
                 + brilliantBirthdays

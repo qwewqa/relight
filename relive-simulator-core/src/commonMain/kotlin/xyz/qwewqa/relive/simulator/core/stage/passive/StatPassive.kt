@@ -64,6 +64,17 @@ object CriticalUpPassive : PassiveEffect {
     }
 }
 
+object HpUpPassive : PassiveEffect {
+    override val category = PassiveEffectCategory.Passive
+    override val tags = listOf(EffectTag.HP)
+
+    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+        condition.applyIfTrue(self) {
+            boostMaxHp += value
+        }
+    }
+}
+
 object DamageDealtPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
     override val tags = listOf(EffectTag.Damage)
