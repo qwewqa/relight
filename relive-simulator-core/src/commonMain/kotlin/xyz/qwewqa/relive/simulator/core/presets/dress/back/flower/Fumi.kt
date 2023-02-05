@@ -1,8 +1,8 @@
-package xyz.qwewqa.relive.simulator.core.presets.dress.back.space
+package xyz.qwewqa.relive.simulator.core.presets.dress.back.flower
 
-import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1020025
+import xyz.qwewqa.relive.simulator.core.presets.condition.FlowerOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress2030014
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
@@ -12,10 +12,10 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
 
-val HeartfeltCookingEncoreHikari = dress1020025(
-    name = "Heartfelt Cooking Encore Hikari",
+val BenikageEncoreFumi = dress2030014(
+    name = "Benikage Encore Fumi",
     acts = listOf(
-        ActType.Act1.blueprint("Happy Slash") {
+        ActType.Act1.blueprint("Charming Slash") {
             Act {
                 targetAllyAoe().act {
                     applyBuff(
@@ -47,7 +47,7 @@ val HeartfeltCookingEncoreHikari = dress1020025(
                 applyAllyStageEffect(SweetMoment, 2)
             }
         },
-        ActType.Act3.blueprint("Fatal Slash") {
+        ActType.Act3.blueprint("Slash of Ovation") {
             Act {
                 targetAllyAoe().act {
                     applyBuff(
@@ -67,10 +67,10 @@ val HeartfeltCookingEncoreHikari = dress1020025(
                         hitCount = times3,
                     )
                 }
-                applyAllyStageEffect(StandingOvationSpace, 6)
+                applyAllyStageEffect(StandingOvationFlower, 6)
             }
         },
-        ActType.ClimaxAct.blueprint("Macaron Dream Encore") {
+        ActType.ClimaxAct.blueprint("Inferno Shadow Art Encore") {
             Act {
                 targetAllyAoe().act {
                     applyCountableBuff(
@@ -91,7 +91,7 @@ val HeartfeltCookingEncoreHikari = dress1020025(
                         hitCount = times4,
                     )
                 }
-                applyAllyStageEffect(StandingOvationSpace, turns = 6)
+                applyAllyStageEffect(StandingOvationFlower, turns = 6)
                 applyAllyStageEffect(HyakkaRyoran, turns = 2)
             }
         }
@@ -100,7 +100,7 @@ val HeartfeltCookingEncoreHikari = dress1020025(
         listOf(
             TeamDexterityUpBuffPassive.new(10, 3),
             TeamCriticalUpBuffPassive.new(10, 3),
-            TeamNegativeEffectResistanceBuffPassive.new(100, 3) + SpaceOnlyCondition,
+            TeamNegativeEffectResistanceBuffPassive.new(100, 3) + FlowerOnlyCondition,
         ),
         listOf(
             BrillianceRecoveryPassive.new(20),
@@ -108,12 +108,12 @@ val HeartfeltCookingEncoreHikari = dress1020025(
         ),
         listOf(
             TeamAPDownBuffPassive.new(time = 1),
-            TeamAP2DownBuffPassive.new(time = 1) + SpaceOnlyCondition,
+            TeamAP2DownBuffPassive.new(time = 1) + FlowerOnlyCondition,
         ),
         listOf(
             NegativeEffectResistancePassive.new(100),
         ),
     ),
-    unitSkill = ActCritical100UnitSkill + (SpaceOnlyCondition or StarOnlyCondition),
+    unitSkill = ActCritical100UnitSkill + (FlowerOnlyCondition or SunOnlyCondition),
     categories = setOf(),
 )

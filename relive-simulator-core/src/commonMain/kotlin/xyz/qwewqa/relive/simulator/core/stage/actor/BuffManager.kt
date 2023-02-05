@@ -301,6 +301,12 @@ class BuffManager(val actor: Actor) {
             addBrilliance(brillianceRegen)
         }
 
+        val reviveRegen = get(ReviveRegenBuff).sumOf { it.value } + reviveRegen
+        if (reviveRegen > 0) {
+            context.log("Revive Regen") { "Revive Regen tick." }
+            addCountable(CountableBuff.Revive)
+        }
+
         positiveBuffs.tick()
 
         val burn = hpSlipTotal(BurnBuff)

@@ -189,7 +189,7 @@ object ElectricShockBuff : TimedBuffEffect {
     override val name = "Electric Shock"
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
-    override val iconId: Int = 50
+    override val iconId: Int = 163
 
     override fun onStart(context: ActionContext, value: Int) = context.run {
         self.shock += 1
@@ -205,7 +205,7 @@ object LockedElectricShockBuff : TimedBuffEffect {
     override val category = BuffCategory.Negative
     override val exclusive: Boolean = true
     override val isLocked: Boolean = true
-    override val iconId: Int = 50
+    override val iconId: Int = 163
     override val related = ElectricShockBuff
 }
 

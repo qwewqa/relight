@@ -7,6 +7,7 @@ import xyz.qwewqa.relive.simulator.core.stage.*
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.countableBuffsByName
+import xyz.qwewqa.relive.simulator.core.stage.buff.MultipleCAficationBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.*
@@ -693,7 +694,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 hand += team.active
                     .filter { it.brilliance >= 100 }
                     .map { BoundAct(it, ActType.ClimaxAct) }
-                    .filter { it !in usedClimaxActs }
+                    .filter { it !in usedClimaxActs || it.actor.buffs.any(MultipleCAficationBuff) || it.actor.dress.multipleCA}
             }
             if (hand.size < 5) hand += drawCard(5 - hand.size)
             if (climax || team.cxTurns > 0) {
@@ -789,7 +790,7 @@ ${formattedHand()}
                 cutinUseCounts[cutin] = cutinUseCounts.getValue(cutin) + 1
             }
             queue.forEach {
-                if (it.act.type == ActType.ClimaxAct && !it.actor.dress.multipleCA) {
+                if (it.act.type == ActType.ClimaxAct) {
                     usedClimaxActs += it
                     if (it.actor == team.guest) {
                         hasUsedGuestClimaxAct = true
@@ -1340,7 +1341,7 @@ ${
                                 team.active
                                     .filter { it.brilliance >= 100 }
                                     .map { BoundAct(it, ActType.ClimaxAct) }
-                                    .filter { it !in usedClimaxActs }
+                                    .filter { it !in usedClimaxActs || it.actor.buffs.any(MultipleCAficationBuff) || it.actor.dress.multipleCA}
                             } else {
                                 emptyList()
                             }

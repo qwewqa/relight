@@ -139,6 +139,22 @@ object InvincibilityBuff : TimedBuffEffect {
     }
 }
 
+object LockedInvincibilityBuff : TimedBuffEffect {
+    override val name = "Invincibility"
+    override val category = BuffCategory.Positive
+    override val isLocked = true
+    override val related = InvincibilityBuff
+    override val iconId: Int = 104
+
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.invincible += 1
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.invincible -= 1
+    }
+}
+
 object ExitEvasionBuff : TimedBuffEffect {
     override val name = "Exit Evasion"
     override val category = BuffCategory.Positive
@@ -157,4 +173,10 @@ object LockedResilienceBuff : TimedBuffEffect {
     override val isLocked = true
     override val related = ResilienceBuff
     override val iconId: Int = 128
+}
+
+object MultipleCAficationBuff : TimedBuffEffect {
+    override val name = "Multiple CA-fication"
+    override val category = BuffCategory.Positive
+    override val iconId: Int = 273
 }

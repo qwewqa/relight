@@ -1172,6 +1172,94 @@ val oneSpecialDays = listOf(
     oneSpecialDay(Character.Tsukasa, Attribute.Moon, equip4000345),
     oneSpecialDay(Character.Hikari, Attribute.Flower, equip4000336),
     oneSpecialDay(Character.Hikari, Attribute.Wind, equip4000336),
-    oneSpecialDay(Character.Hikari, Attribute.Space, equip4000336),
+    oneSpecialDay(Character.Fumi, Attribute.Space, equip4000350),
     oneSpecialDay(Character.Hikari, Attribute.Cloud, equip4000336),
+)
+
+val XVIIStarUpright = equip4000347(
+    name = "XVII Star [Upright]",
+    baseAutoskills = listOf(
+        EffectiveDamageDealtPassive.new(25)
+    ),
+    maxAutoskills = listOf(
+        EffectiveDamageDealtPassive.new(40)
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyFront(5).act {
+                applyBuff(
+                    effect = EffectiveDamageDealtUpBuff,
+                    value = values1,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val XVIIStarReverse = equip4000348(
+    name = "XVII Star [Reverse]",
+    baseAutoskills = listOf(
+        SelfLockedBrillianceRegenBuffPassive.new(28, 1),
+        BrillianceRecoveryPassive.new(28),
+    ),
+    maxAutoskills = listOf(
+        SelfLockedBrillianceRegenBuffPassive.new(40, 1),
+        BrillianceRecoveryPassive.new(40),
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyBack(5).act {
+                dispelCountable(BuffCategory.Negative, count = values1)
+                applyBuff(
+                    effect = NegativeCountableEffectResistanceBuff,
+                    value = values2,
+                    turns = times2,
+                )
+            }
+        }
+    },
+)
+
+val SmileSayCheese = equip4000349(
+    name = "Smile and Say Cheese☆",
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(28)
+    ),
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(40)
+    ),
+    cutinTarget = CutinTarget.TurnEnd,
+    cutinAct = {
+        Act {
+            targetAllyAoe().act {
+                applyBuff(
+                    effect = ApDownBuff,
+                    turns = times1,
+                )
+            }
+        }
+    },
+)
+
+val MilkyHolmesSherlockHikari = equip4000355(
+    name = "Milky Holmes Sherlock & Hikari",
+    baseAutoskills = listOf(
+        BrillianceRecoveryPassive.new(22),
+        SelfBrillianceRegenBuffPassive.new(10, 1),
+    ),
+    maxAutoskills = listOf(
+        BrillianceRecoveryPassive.new(32),
+        SelfBrillianceRegenBuffPassive.new(20, 1),
+    ),
+    cutinTarget = CutinTarget.TurnStart,
+    cutinAct = {
+        Act {
+            targetAllyFront(5).act {
+                //TODO(): convert neg counts to revives
+            }
+        }
+    },
 )

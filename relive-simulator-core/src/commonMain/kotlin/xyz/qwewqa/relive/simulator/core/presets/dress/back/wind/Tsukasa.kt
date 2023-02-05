@@ -104,7 +104,7 @@ val WildSpiderWitchEncoreTsukasa = dress3040020(
         ),
         listOf(
             BrillianceRecoveryPassive.new(20),
-            EnemyStageEffectPassive(SunsetTune).new(value = 1, time = 2)
+            EnemyStageEffectPassive(SunsetTune).new(value = 1, time = 6)
         ),
         listOf(
             TeamAPDownBuffPassive.new(time = 1),
