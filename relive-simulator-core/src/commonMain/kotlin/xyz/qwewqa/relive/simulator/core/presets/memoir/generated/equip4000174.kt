@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip4000174 = PartialMemoirBlueprint(
+val equip4000174 = PartialMemoirBlueprint(
   id = 4000174,
   name = "XVI 塔【逆位置】",
   rarity = 4,

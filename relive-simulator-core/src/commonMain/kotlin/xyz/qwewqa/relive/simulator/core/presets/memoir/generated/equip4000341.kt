@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip4000341 = PartialMemoirBlueprint(
+val equip4000341 = PartialMemoirBlueprint(
   id = 4000341,
   name = "キラめき Every day 凛明館女学校",
   rarity = 4,

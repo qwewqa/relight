@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip1000010 = PartialMemoirBlueprint(
+val equip1000010 = PartialMemoirBlueprint(
   id = 1000010,
   name = "黄金のオペラグラス",
   rarity = 1,

@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip3000042 = PartialMemoirBlueprint(
+val equip3000042 = PartialMemoirBlueprint(
   id = 3000042,
   name = "月刊ブシロード12月号連動記念",
   rarity = 3,

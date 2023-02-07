@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip4000251 = PartialMemoirBlueprint(
+val equip4000251 = PartialMemoirBlueprint(
   id = 4000251,
   name = "VIII 正義【逆位置】",
   rarity = 4,

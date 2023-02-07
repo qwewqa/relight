@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip4000127 = PartialMemoirBlueprint(
+val equip4000127 = PartialMemoirBlueprint(
   id = 4000127,
   name = "未来のヒーロー育成中？",
   rarity = 4,

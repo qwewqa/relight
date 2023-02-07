@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip2000031 = PartialMemoirBlueprint(
+val equip2000031 = PartialMemoirBlueprint(
   id = 2000031,
   name = "ふたりの花道",
   rarity = 2,

@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip4000054 = PartialMemoirBlueprint(
+val equip4000054 = PartialMemoirBlueprint(
   id = 4000054,
   name = "シークフェルト総合病院",
   rarity = 4,

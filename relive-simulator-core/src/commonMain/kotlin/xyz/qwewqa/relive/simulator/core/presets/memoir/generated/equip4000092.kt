@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip4000092 = PartialMemoirBlueprint(
+val equip4000092 = PartialMemoirBlueprint(
   id = 4000092,
   name = "24のキラめき！",
   rarity = 4,
@@ -23,5 +23,5 @@ val _equip4000092 = PartialMemoirBlueprint(
     normalDefense = 0,
     specialDefense = 0,
   ),
-  additionalTags = listOf(EffectTag.Karen, EffectTag.Tamao, EffectTag.Ichie, EffectTag.Fumi, EffectTag.Rui, EffectTag.Yuyuko, EffectTag.Aruru, EffectTag.Misora, EffectTag.Lalafin, EffectTag.Tsukasa, EffectTag.Shizuha, EffectTag.Hikari, EffectTag.Akira, EffectTag.Michiru, EffectTag.MeiFan, EffectTag.Shiori, EffectTag.Yachiyo, EffectTag.Mahiru, EffectTag.Claudine, EffectTag.Maya, EffectTag.Junna, EffectTag.Nana, EffectTag.Futaba, EffectTag.Kaoruko)
+  additionalTags = listOf(EffectTag.Karen, EffectTag.Hikari, EffectTag.Mahiru, EffectTag.Claudine, EffectTag.Maya, EffectTag.Junna, EffectTag.Nana, EffectTag.Futaba, EffectTag.Kaoruko, EffectTag.Tamao, EffectTag.Ichie, EffectTag.Fumi, EffectTag.Rui, EffectTag.Yuyuko, EffectTag.Aruru, EffectTag.Misora, EffectTag.Lalafin, EffectTag.Tsukasa, EffectTag.Shizuha, EffectTag.Akira, EffectTag.Michiru, EffectTag.MeiFan, EffectTag.Shiori, EffectTag.Yachiyo)
 )

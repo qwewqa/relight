@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip4000347 = PartialMemoirBlueprint(
+val equip4000347 = PartialMemoirBlueprint(
   id = 4000347,
   name = "XVII 星【正位置】",
   rarity = 4,

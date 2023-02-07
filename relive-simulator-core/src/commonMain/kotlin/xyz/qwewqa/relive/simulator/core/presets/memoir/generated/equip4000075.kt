@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip4000075 = PartialMemoirBlueprint(
+val equip4000075 = PartialMemoirBlueprint(
   id = 4000075,
   name = "「浦島太郎」公演のお知らせ",
   rarity = 4,

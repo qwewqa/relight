@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip4000344 = PartialMemoirBlueprint(
+val equip4000344 = PartialMemoirBlueprint(
   id = 4000344,
   name = "キラめき Every day 青嵐総合芸術院",
   rarity = 4,

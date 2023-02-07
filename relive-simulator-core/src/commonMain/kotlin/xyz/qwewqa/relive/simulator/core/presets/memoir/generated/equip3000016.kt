@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip3000016 = PartialMemoirBlueprint(
+val equip3000016 = PartialMemoirBlueprint(
   id = 3000016,
   name = "電脳世界を牛耳る女帝",
   rarity = 3,

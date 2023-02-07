@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip2000027 = PartialMemoirBlueprint(
+val equip2000027 = PartialMemoirBlueprint(
   id = 2000027,
   name = "六人の罪深き女神たち",
   rarity = 2,

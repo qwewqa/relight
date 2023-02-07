@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip4000002 = PartialMemoirBlueprint(
+val equip4000002 = PartialMemoirBlueprint(
   id = 4000002,
   name = "夏の始まりとプール掃除",
   rarity = 4,

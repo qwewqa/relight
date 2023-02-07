@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip3000022 = PartialMemoirBlueprint(
+val equip3000022 = PartialMemoirBlueprint(
   id = 3000022,
   name = "女子更衣室への闖入者！？",
   rarity = 3,

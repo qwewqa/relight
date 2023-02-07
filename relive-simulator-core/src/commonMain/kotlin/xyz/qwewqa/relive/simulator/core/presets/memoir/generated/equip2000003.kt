@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip2000003 = PartialMemoirBlueprint(
+val equip2000003 = PartialMemoirBlueprint(
   id = 2000003,
   name = "船長の相棒オウム「マリリン」",
   rarity = 2,

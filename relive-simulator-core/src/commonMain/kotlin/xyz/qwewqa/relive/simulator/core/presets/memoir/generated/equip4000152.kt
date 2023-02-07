@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip4000152 = PartialMemoirBlueprint(
+val equip4000152 = PartialMemoirBlueprint(
   id = 4000152,
   name = "そびえ立つ塔",
   rarity = 4,

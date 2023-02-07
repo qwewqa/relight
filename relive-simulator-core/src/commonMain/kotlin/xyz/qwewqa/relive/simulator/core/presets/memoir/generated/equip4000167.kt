@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip4000167 = PartialMemoirBlueprint(
+val equip4000167 = PartialMemoirBlueprint(
   id = 4000167,
   name = "XXII 信仰【正位置】",
   rarity = 4,

@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip4000035 = PartialMemoirBlueprint(
+val equip4000035 = PartialMemoirBlueprint(
   id = 4000035,
   name = "新シンデレラは正義の味方！",
   rarity = 4,

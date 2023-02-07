@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.memoir.PartialMemoirBlueprint
 
-val _equip2000023 = PartialMemoirBlueprint(
+val equip2000023 = PartialMemoirBlueprint(
   id = 2000023,
   name = "世界を灰にするまで",
   rarity = 2,
