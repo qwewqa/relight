@@ -685,3 +685,6 @@
 
 # v0.35.27
 - New bosses added by Mikayla
+
+# v0.35.28
+- New dresses, memoirs, and accessories added by Savivo
