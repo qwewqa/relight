@@ -24,6 +24,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.middle.wind.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.star.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.sun.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.dream.WhiteFrontierAruru
+import xyz.qwewqa.relive.simulator.core.presets.dress.temp.*
 
 val playerDresses = listOf(
     AceMisora,
@@ -164,4 +165,7 @@ val playerDresses = listOf(
     WukongMaya,
     YellowTsukasa,
     YorimitsuYachiyo,
+    snowMichi,
+    cloudMichi,
+    moonMichi,
 ).associateBy { it.name }
