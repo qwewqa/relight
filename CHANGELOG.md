@@ -688,3 +688,6 @@
 
 # v0.35.28
 - New dresses, memoirs, and accessories added by Savivo
+
+# v0.35.29
+- Placeholder encore cards added by Savivo
