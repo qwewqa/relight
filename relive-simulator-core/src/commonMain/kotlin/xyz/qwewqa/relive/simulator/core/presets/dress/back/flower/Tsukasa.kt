@@ -82,7 +82,7 @@ val BenzaitenTsukasa = dress3040014(
                         hitCount = times5,
                     )
                 }
-                applyAllyStageEffect(HyakkaRyoran, 2)
+                applyAllyStageEffect(BloomingFlowers, 2)
             }
         },
         ActType.ClimaxAct.blueprint("Raise the Sails!") {

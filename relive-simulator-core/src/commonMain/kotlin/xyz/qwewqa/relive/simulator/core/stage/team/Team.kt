@@ -44,4 +44,14 @@ class Team(
         active.forEach { it.tick() }
         stageEffects.tick()
     }
+
+    fun onActorExit(actor: Actor) {
+        strategy.onExit(actor)
+        stageEffects.invalidateTargets()
+    }
+
+    fun onActorEnter(actor: Actor) {
+        strategy.onRevive(actor)
+        stageEffects.invalidateTargets()
+    }
 }

@@ -92,7 +92,7 @@ val WildSpiderWitchEncoreTsukasa = dress3040020(
                     )
                 }
                 applyAllyStageEffect(StandingOvationWind, turns = 6)
-                applyAllyStageEffect(HyakkaRyoran, turns = 2)
+                applyAllyStageEffect(BloomingFlowers, turns = 2)
             }
         }
     ),

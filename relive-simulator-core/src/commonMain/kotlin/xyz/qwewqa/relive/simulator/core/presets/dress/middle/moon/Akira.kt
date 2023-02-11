@@ -12,7 +12,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
-import xyz.qwewqa.relive.simulator.core.stage.stageeffect.HyakkaRyoran
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.BloomingFlowers
 
 val StageGirlAkira = dress4010017(
     name = "Stage Girl Akira",
@@ -103,7 +103,7 @@ val StageGirlAkira = dress4010017(
                         chance = 33,
                     )
                 }
-                applyAllyStageEffect(HyakkaRyoran, 2)
+                applyAllyStageEffect(BloomingFlowers, 2)
             }
         }
     ),

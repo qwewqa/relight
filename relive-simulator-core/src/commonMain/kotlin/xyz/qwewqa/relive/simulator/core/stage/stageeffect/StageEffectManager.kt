@@ -1,24 +1,22 @@
 package xyz.qwewqa.relive.simulator.core.stage.stageeffect
 
 import xyz.qwewqa.relive.simulator.common.DisplayStageEffectData
-import xyz.qwewqa.relive.simulator.common.LogCategory
-import xyz.qwewqa.relive.simulator.core.stage.actor.ActiveBuff
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
-import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.platformMapOf
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
 class StageEffectManager(val team: Team) {
     private val levels = platformMapOf<StageEffect, Int>()
-    private var activeStacks = mutableListOf<ActiveStageEffect>()
+    private var activeStacks = mutableListOf<StageEffectStack>()
+    private val activeEffects = platformMapOf<StageEffect, ActiveStageEffect>()
 
-    private val statuses = platformMapOf<StageEffect, StageEffectStatus>()
+    private var targetsValid = true
 
     fun values() = levels.mapNotNull { (k, v) -> (k to v).takeIf { v > 9 } }
 
     fun add(effect: StageEffect, turns: Int, level: Int = 1) {
         if (turns <= 0) return
-        activeStacks += ActiveStageEffect(effect, turns, level)
+        activeStacks += StageEffectStack(effect, turns, level)
         levels[effect] = (levels[effect] ?: 0) + level
     }
 
@@ -27,48 +25,33 @@ class StageEffectManager(val team: Team) {
             stack.turns--
             if (stack.turns == 0) {
                 levels[stack.effect] = levels[stack.effect]!! - stack.level
-                statuses.remove(stack.effect)?.deactivate()
             }
         }
         activeStacks.removeAll { it.turns <= 0 }
     }
 
+    fun invalidateTargets() {
+        targetsValid = false
+    }
+
     fun refresh() {
+        if (!targetsValid) {
+            activeEffects.forEach { (_, effect) ->
+                effect.deactivate()
+            }
+            activeEffects.clear()
+            targetsValid = true
+        }
         levels.forEach { (effect, level) ->
             if (level > 0) {
-                val targets = getTargets(effect)
-                val previousStatus = statuses[effect]
+                val previousStatus = activeEffects[effect]
                 if (previousStatus == null) {
-                    statuses[effect] = StageEffectStatus(effect, effect.activate(targets, level), level)
-                } else if (previousStatus.level != level) {
-                    previousStatus.deactivate()
-                    statuses[effect] = StageEffectStatus(effect, effect.activate(targets, level), level)
+                    activeEffects[effect] = ActiveStageEffect(effect, effect.activate(level), level)
                 } else {
-                    previousStatus.effectBuffs.filter { (actor, _)  -> actor !in targets }.forEach { (actor, buffs) ->
-                        buffs.forEach { buff ->
-                            actor.buffs.remove(buff)
-                        }
-                    }
-
-                    val effectBuffs = platformMapOf<Actor, List<ActiveBuff>>()
-                    targets.forEach { actor ->
-                        val existingBuffs = previousStatus.effectBuffs[actor]
-                        if (existingBuffs != null) {
-                            effectBuffs[actor] = existingBuffs
-                        } else {
-                            effectBuffs[actor] = effect.buffs.flatMap { buffGroup ->
-                                if (buffGroup.condition?.evaluate(actor) != false) {
-                                    buffGroup[level].map { stageBuff ->
-                                        stageBuff.activate(actor)
-                                    }
-                                } else {
-                                    emptyList()
-                                }
-                            }
-                        }
-                    }
-                    statuses[effect] = StageEffectStatus(effect, effectBuffs, level)
+                    activeEffects[effect] = previousStatus.update(level)
                 }
+            } else {
+                activeEffects.remove(effect)?.deactivate()
             }
         }
     }
@@ -87,38 +70,41 @@ class StageEffectManager(val team: Team) {
         }
     }
 
-    private fun StageEffect.activate(targets: List<Actor>, level: Int) = targets.associateWith { target ->
-        target.context.log("Stage Effect", category = LogCategory.BUFF) {
-            "Stage effect $name (lv. $level) activate."
-        }
-        buffs.flatMap { buffGroup ->
-            if (buffGroup.condition?.evaluate(target) != false) {
-                buffGroup[level].map { stageBuff ->
-                    stageBuff.activate(target)
-                }
-            } else {
-                emptyList()
-            }
+    private fun StageEffect.activate(level: Int): StageEffectActiveBuffValues = buffs.map { buff ->
+        val value = buff.values[level.coerceAtMost(buff.values.size) - 1]
+        val targets = buff.target.getTargets(team)
+        targets.map { actor ->
+            actor.buffs.activatePsuedoBuff(buff.effect, value)
+            actor to value
         }
     }
 
-    private fun StageEffectStatus.deactivate() {
-        effectBuffs.forEach { (actor, buffs) ->
-            actor.context.log("Stage Effect", category = LogCategory.BUFF) {
-                "Stage effect ${effect.name} (lv. $level) deactivate."
-            }
-            buffs.forEach { buff ->
-                actor.buffs.remove(buff)
+    private fun StageEffect.update(values: StageEffectActiveBuffValues, level: Int): StageEffectActiveBuffValues =
+        values.zip(buffs).map { (buffValues, buff) ->
+            val newValue = buff.values[level.coerceAtMost(buff.values.size) - 1]
+            buffValues.map { (actor, oldValue) ->
+                actor.buffs.updatePseudoBuff(buff.effect, oldValue, newValue)
+                actor to newValue
             }
         }
+
+    private fun StageEffect.deactivate(values: StageEffectActiveBuffValues) =
+        values.zip(buffs).forEach { (buffValues, buff) ->
+            buffValues.forEach { (actor, value) ->
+                actor.buffs.removePseudoBuff(buff.effect, value)
+            }
+        }
+
+    fun ActiveStageEffect.update(level: Int): ActiveStageEffect = if (level == this.level) {
+        this
+    } else {
+        ActiveStageEffect(effect, effect.update(values, level), level)
     }
 
-    private fun getTargets(effect: StageEffect) = when (effect.target) {
-        StageEffectTarget.All -> team.active
-        is StageEffectTarget.Front -> team.active.take(effect.target.count)
-        is StageEffectTarget.Back -> team.active.takeLast(effect.target.count)
-    }
+    fun ActiveStageEffect.deactivate() = effect.deactivate(values)
 }
 
-class ActiveStageEffect(val effect: StageEffect, var turns: Int, val level: Int)
-data class StageEffectStatus(val effect: StageEffect, val effectBuffs: Map<Actor, List<ActiveBuff>>, val level: Int)
+class StageEffectStack(val effect: StageEffect, var turns: Int, val level: Int)
+typealias StageEffectActiveBuffValues = List<List<Pair<Actor, Int>>>
+
+data class ActiveStageEffect(val effect: StageEffect, val values: StageEffectActiveBuffValues, val level: Int)

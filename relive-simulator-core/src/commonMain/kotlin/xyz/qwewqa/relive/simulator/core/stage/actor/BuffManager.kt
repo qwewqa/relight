@@ -15,6 +15,12 @@ class BuffManager(val actor: Actor) {
     private val negativeBuffs = platformSetOf<ActiveBuff>()
     private val buffsByEffect = platformMapOf<TimedBuffEffect, MutableSet<ActiveBuff>>()
 
+    /**
+     * We count these for checking whether a buff is active or not, but they are controlled by another source,
+     * such as another buff (used for implementing locked versions of buffs) or stage effects.
+     */
+    private val pseudoBuffs = platformMapOf<TimedBuffEffect, Int>()
+
     private val _effectNameMapping = platformMapOf<String, TimedBuffEffect>()
     val effectNameMapping: Map<String, TimedBuffEffect> get() = _effectNameMapping
 
@@ -38,7 +44,7 @@ class BuffManager(val actor: Actor) {
     fun any(vararg buffEffect: TimedBuffEffect) = buffEffect.any { any(it) }
     fun any(buffEffect: TimedBuffEffect) = count(buffEffect) > 0
     fun any(buff: CountableBuff) = count(buff) > 0
-    fun count(buffEffect: TimedBuffEffect) = buffsByEffect[buffEffect]?.size ?: 0
+    fun count(buffEffect: TimedBuffEffect) = (buffsByEffect[buffEffect]?.size ?: 0) + (pseudoBuffs[buffEffect] ?: 0)
     fun count(buff: CountableBuff) = when (buff.category) {
         BuffCategory.Positive -> positiveCountableBuffs[buff]
         BuffCategory.Negative -> negativeCountableBuffs[buff]
@@ -48,36 +54,50 @@ class BuffManager(val actor: Actor) {
         source: Actor?,
         value: Int,
         turns: Int,
-        ephemeral: Boolean = false,
-        relatedBuff: ActiveBuff? = null
-    ) =
-        ActiveBuff(this, value, turns, ephemeral, relatedBuff).also { activeBuff ->
-            onApply(source, actor)
-            activeBuff.start()
-            when (category) {
-                BuffCategory.Positive -> positiveBuffs
-                BuffCategory.Negative -> negativeBuffs
-            }.add(activeBuff)
-            buffsByEffect.getOrPut(this) {
-                _effectNameMapping[name] = this
-                platformSetOf()
-            }.add(activeBuff)
-            actor.context.log("Buff", debug = true) { "Buff ${activeBuff.name} added." }
+    ) = ActiveBuff(this, value, turns).also { activeBuff ->
+        onApply(source, actor)
+        activeBuff.start()
+        activeBuff.effect.related?.let { related ->
+            activatePsuedoBuff(related, value)
         }
+        when (category) {
+            BuffCategory.Positive -> positiveBuffs
+            BuffCategory.Negative -> negativeBuffs
+        }.add(activeBuff)
+        buffsByEffect.getOrPut(this) {
+            _effectNameMapping[name] = this
+            platformSetOf()
+        }.add(activeBuff)
+        actor.context.log("Buff", debug = true) { "Buff ${activeBuff.name} added." }
+    }
 
-    /**
-     * Adds a buff without normal exclusivity checks or turn expiry.
-     * Intended for stage effects and locked buffs.
-     * Removed like normal buffs using the [remove] method.
-     */
-    fun addEphemeral(source: Actor?, buffEffect: TimedBuffEffect, value: Int): ActiveBuff {
-        return buffEffect.activate(source, value, -1, true)
+    fun activatePsuedoBuff(buffEffect: TimedBuffEffect, value: Int) {
+        actor.context.log("Buff", debug = true) { "Pseudo buff ${buffEffect.name} ($value) added." }
+        pseudoBuffs[buffEffect] = (pseudoBuffs[buffEffect] ?: 0) + value
+        buffEffect.onApply(null, actor)
+        buffEffect.onStart(actor.context, value)
+    }
+
+    fun updatePseudoBuff(buffEffect: TimedBuffEffect, oldValue: Int, newValue: Int) {
+        if (oldValue == newValue) {
+            return
+        }
+        actor.context.log("Buff", debug = true) { "Pseudo buff ${buffEffect.name} ($oldValue -> $newValue) updated." }
+        buffEffect.onEnd(actor.context, oldValue)
+        buffEffect.onApply(null, actor)
+        buffEffect.onStart(actor.context, newValue)
+    }
+
+    fun removePseudoBuff(buffEffect: TimedBuffEffect, value: Int) {
+        actor.context.log("Buff", debug = true) { "Pseudo buff ${buffEffect.name} ($value) removed." }
+        pseudoBuffs[buffEffect] = (pseudoBuffs[buffEffect] ?: 0) - value
+        buffEffect.onEnd(actor.context, value)
     }
 
     fun add(source: Actor?, buffEffect: TimedBuffEffect, value: Int, turns: Int): ActiveBuff? {
         require(turns >= 0) { "Buff turns should not be negative." }
         if (buffEffect.exclusive) {
-            val existing = get(buffEffect).singleOrNull { !it.ephemeral }
+            val existing = get(buffEffect).singleOrNull()
             if (existing != null) {
                 if (turns > existing.turns) {
                     actor.context.log("Buff") { "Exclusive buff ${buffEffect.formatName(turns)} (${turns}t) overrides existing $existing." }
@@ -88,10 +108,7 @@ class BuffManager(val actor: Actor) {
                 }
             }
         }
-        val relatedBuff = buffEffect.related?.let { related ->
-            addEphemeral(source, related, value)
-        }
-        val buff = buffEffect.activate(source, value, turns, relatedBuff = relatedBuff)
+        val buff = buffEffect.activate(source, value, turns)
         if (guardOnAbnormal && buffEffect in abnormalBuffs) {
             actor.context.log("Buff") { "Abnormal Guard activated." }
             add(null, AbnormalGuardBuff, 100, 9)
@@ -127,8 +144,8 @@ class BuffManager(val actor: Actor) {
         require(removed) { "Buff is not active." }
         buffsByEffect[buff.effect]!!.remove(buff)
         buff.end()
-        if (buff.relatedBuff != null) {
-            remove(buff.relatedBuff)
+        buff.effect.related?.let { related ->
+            removePseudoBuff(related, buff.value)
         }
         actor.context.log("Buff", debug = true) { "Buff ${buff.name} removed." }
     }
@@ -192,8 +209,8 @@ class BuffManager(val actor: Actor) {
      * Remove all non-ephemeral buffs.
      */
     fun clear() {
-        positiveBuffs.filter { !it.ephemeral }.forEach { remove(it) }
-        negativeBuffs.filter { !it.ephemeral }.forEach { remove(it) }
+        positiveBuffs.toList().forEach { remove(it) }
+        negativeBuffs.toList().forEach { remove(it) }
         positiveCountableBuffs.clear()
         negativeCountableBuffs.clear()
     }
@@ -206,7 +223,7 @@ class BuffManager(val actor: Actor) {
         when (category) {
             BuffCategory.Positive -> positiveBuffs
             BuffCategory.Negative -> negativeBuffs
-        }.filter { !it.ephemeral && !it.effect.isLocked }.forEach { remove(it) }
+        }.filter { !it.effect.isLocked }.forEach { remove(it) }
     }
 
     fun dispelCountable(category: BuffCategory) {
@@ -255,7 +272,7 @@ class BuffManager(val actor: Actor) {
             BuffCategory.Positive -> positiveBuffs
             BuffCategory.Negative -> negativeBuffs
         }
-        val affected = targets.filter { it.effect.flipped != null && !it.ephemeral }.takeLast(count)
+        val affected = targets.filter { it.effect.flipped != null }.takeLast(count)
         affected.forEach {
             actor.context.log("Buff") { "Flipped buff ${it.name}." }
             remove(it)
@@ -265,7 +282,7 @@ class BuffManager(val actor: Actor) {
 
     fun getDisplayBuffs(): List<DisplayBuffData> = buildList {
         buffsByEffect.forEach { (effect, values) ->
-            add(effect to (values.filter { !it.ephemeral }.maxOfOrNull { it.turns } ?: 0))
+            add(effect to (values.maxOfOrNull { it.turns } ?: 0))
         }
         positiveCountableBuffs.forEach { (effect, buffs) ->
             add(effect to buffs.size)
@@ -338,10 +355,8 @@ class BuffManager(val actor: Actor) {
         if (isEmpty()) return
         val toRemove = mutableListOf<ActiveBuff>()
         for (buff in this) {
-            if (!buff.ephemeral) {
-                if (--buff.turns <= 0) {
-                    toRemove += buff
-                }
+            if (--buff.turns <= 0) {
+                toRemove += buff
             }
         }
         toRemove.forEach {
@@ -356,27 +371,17 @@ class BuffManager(val actor: Actor) {
     operator fun TimedBuffEffect.invoke(
         value: Int,
         turns: Int,
-        ephemeral: Boolean = false,
-        relatedBuff: ActiveBuff? = null
-    ) =
-        ActiveBuff(this, value, turns, ephemeral, relatedBuff)
-
+    ) = ActiveBuff(this, value, turns)
 }
 
 class ActiveBuff(
     val effect: TimedBuffEffect,
     var value: Int,
     var turns: Int,
-    val ephemeral: Boolean = false,
-    val relatedBuff: ActiveBuff? = null, // For buffs like locked buffs, which reference their original
 ) {
     val originalTurns = turns
     val name
-        get() = if (ephemeral) {
-            "${effect.formatName(value)} (ephemeral)"
-        } else {
-            "${effect.formatName(value)} (${turns}/${originalTurns}t)"
-        }
+        get() = "${effect.formatName(value)} (${turns}/${originalTurns}t)"
 
     override fun toString() = "[${effect.name}](value = $value, turns = ${if (turns >= 0) turns else "!"})"
 }

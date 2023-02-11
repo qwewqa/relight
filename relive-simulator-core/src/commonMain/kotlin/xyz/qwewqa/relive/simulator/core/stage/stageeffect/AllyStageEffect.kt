@@ -3,1039 +3,238 @@ package xyz.qwewqa.relive.simulator.core.stage.stageeffect
 import xyz.qwewqa.relive.simulator.core.presets.condition.*
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 
-val AngelicSmile = StageEffect(
-    "Angelic Smile",
-    22,
+val AngelicSmile = stageEffectData(22).makeStageEffect(
     listOf(
-        30,
-        35,
-        40,
-        45,
-        50,
-    ).map { value ->
-        listOf(
-            StageBuff(DamageTakenDownBuff, value),
-            StageBuff(NormalDefenseUpBuff, value),
-            StageBuff(SpecialDefenseUpBuff, value),
-        )
-    },
-    StageEffectTarget.All,
+        DamageTakenDownBuff,
+        NormalDefenseUpBuff,
+        SpecialDefenseUpBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-val HyakkaRyoran = StageEffect(
-    "Hyakka Ryoran",
-    27,
+val BloomingFlowers = stageEffectData(27).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(DexterityUpBuff, 100),
-            StageBuff(HpRegenBuff, 15000),
-        ),
-        listOf(
-            StageBuff(DexterityUpBuff, 100),
-            StageBuff(HpRegenBuff, 17000),
-        ),
-        listOf(
-            StageBuff(DexterityUpBuff, 100),
-            StageBuff(HpRegenBuff, 19000),
-        ),
-        listOf(
-            StageBuff(DexterityUpBuff, 100),
-            StageBuff(HpRegenBuff, 22000),
-        ),
-        listOf(
-            StageBuff(DexterityUpBuff, 100),
-            StageBuff(HpRegenBuff, 25000),
-        ),
-    ),
-    StageEffectTarget.All,
+        DexterityUpBuff,
+        HpRegenBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-val Bullseye = StageEffect(
-    "Bullseye",
-    36,
+val Bullseye = stageEffectData(36).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(DexterityUpBuff, 100),
-            StageBuff(CriticalUpBuff, 30),
-            StageBuff(PerfectAimBuff, 0),
-        ),
-        listOf(
-            StageBuff(DexterityUpBuff, 100),
-            StageBuff(CriticalUpBuff, 35),
-            StageBuff(PerfectAimBuff, 0),
-        ),
-        listOf(
-            StageBuff(DexterityUpBuff, 100),
-            StageBuff(CriticalUpBuff, 40),
-            StageBuff(PerfectAimBuff, 0),
-        ),
-        listOf(
-            StageBuff(DexterityUpBuff, 100),
-            StageBuff(CriticalUpBuff, 45),
-            StageBuff(PerfectAimBuff, 0),
-        ),
-        listOf(
-            StageBuff(DexterityUpBuff, 100),
-            StageBuff(CriticalUpBuff, 50),
-            StageBuff(PerfectAimBuff, 0),
-        ),
-    ),
-    StageEffectTarget.All,
+        DexterityUpBuff,
+        CriticalUpBuff,
+        PerfectAimBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-val TheStageWhereHoshimiJunnaPlaysTheLead = StageEffect(
-    "The Stage Where Hoshimi Junna Plays The Lead",
-    29,
+val JunnaHoshimisStage = stageEffectData(29).makeStageEffect(
     listOf(
-        25,
-        50,
-        55,
-        60,
-        65,
-    ).map { value ->
-        listOf(
-            StageBuff(DexterityUpBuff, value),
-            StageBuff(CriticalUpBuff, value),
-        )
-    },
-    StageEffectTarget.All,
+        DexterityUpBuff,
+        CriticalUpBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-val LightOfCourage = StageEffect(
-    "Light of Courage",
-    1,
+val LightOfCourage = stageEffectData(1).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(ActPowerUpBuff, 30),
-            StageBuff(DexterityUpBuff, 10),
-            StageBuff(CriticalUpBuff, 20),
-        ),
-        listOf(
-            StageBuff(ActPowerUpBuff, 40),
-            StageBuff(DexterityUpBuff, 15),
-            StageBuff(CriticalUpBuff, 25),
-        ),
-        listOf(
-            StageBuff(ActPowerUpBuff, 50),
-            StageBuff(DexterityUpBuff, 20),
-            StageBuff(CriticalUpBuff, 30),
-        ),
-        listOf(
-            StageBuff(ActPowerUpBuff, 60),
-            StageBuff(DexterityUpBuff, 25),
-            StageBuff(CriticalUpBuff, 40),
-        ),
-        listOf(
-            StageBuff(ActPowerUpBuff, 70),
-            StageBuff(DexterityUpBuff, 30),
-            StageBuff(CriticalUpBuff, 50),
-        ),
-    ),
-    StageEffectTarget.All,
+        ActPowerUpBuff,
+        DexterityUpBuff,
+        CriticalUpBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-val TrialsForHeroesTemptationsForSaints = StageEffect(
-    "Trials for Heroes, Temptations for Saints",
-    30,
+val TrialsForHeroesTemptationsForSaints = stageEffectData(30).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(ClimaxDamageUpBuff, 25),
-            StageBuff(DexterityUpBuff, 25),
-            StageBuff(CriticalUpBuff, 25),
-            StageBuff(AgilityUpBuff, 10),
-        ),
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(ClimaxDamageUpBuff, 50),
-            StageBuff(DexterityUpBuff, 50),
-            StageBuff(CriticalUpBuff, 50),
-            StageBuff(AgilityUpBuff, 20),
-        ),
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(ClimaxDamageUpBuff, 55),
-            StageBuff(DexterityUpBuff, 55),
-            StageBuff(CriticalUpBuff, 55),
-            StageBuff(AgilityUpBuff, 25),
-        ),
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(ClimaxDamageUpBuff, 60),
-            StageBuff(DexterityUpBuff, 60),
-            StageBuff(CriticalUpBuff, 60),
-            StageBuff(AgilityUpBuff, 30),
-        ),
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(ClimaxDamageUpBuff, 65),
-            StageBuff(DexterityUpBuff, 65),
-            StageBuff(CriticalUpBuff, 65),
-            StageBuff(AgilityUpBuff, 35),
-        ),
-    ),
-    StageEffectTarget.All,
-    MayaOnlyCondition.or(ClaudineOnlyCondition),
+        ClimaxDamageUpBuff,
+        DexterityUpBuff,
+        CriticalUpBuff,
+        AgilityUpBuff,
+    ).targeting(stageEffectTargetAoe(condition = MayaOnlyCondition or ClaudineOnlyCondition))
 )
 
-val FlamesFallingTogether = StageEffect(
-    "Flames Falling Together",
-    32,
+val FlamesFallingTogether = stageEffectData(32).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(DexterityUpBuff, 25),
-            StageBuff(CriticalUpBuff, 25),
-            StageBuff(BrillianceRegenBuff, 10),
-        ),
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(DexterityUpBuff, 50),
-            StageBuff(CriticalUpBuff, 50),
-            StageBuff(BrillianceRegenBuff, 15),
-        ),
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(DexterityUpBuff, 55),
-            StageBuff(CriticalUpBuff, 55),
-            StageBuff(BrillianceRegenBuff, 20),
-        ),
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(DexterityUpBuff, 60),
-            StageBuff(CriticalUpBuff, 60),
-            StageBuff(BrillianceRegenBuff, 25),
-        ),
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(DexterityUpBuff, 65),
-            StageBuff(CriticalUpBuff, 65),
-            StageBuff(BrillianceRegenBuff, 30),
-        ),
-    ),
-    StageEffectTarget.All,
-    MayaOnlyCondition.or(ClaudineOnlyCondition),
+        DexterityUpBuff,
+        CriticalUpBuff,
+        BrillianceRegenBuff,
+    ).targeting(stageEffectTargetAoe(condition = MayaOnlyCondition or ClaudineOnlyCondition))
 )
 
-val WildHope = StageEffect(
-    "Wild Hope",
-    20,
+val WildHope = stageEffectData(20).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(ActPowerUpBuff,20),
-            StageBuff(NormalDefenseUpBuff, 30),
-            StageBuff(SpecialDefenseUpBuff, 30),
-            StageBuff(CriticalUpBuff, 20),
-        ),
-        listOf(
-            StageBuff(ActPowerUpBuff,30),
-            StageBuff(NormalDefenseUpBuff, 35),
-            StageBuff(SpecialDefenseUpBuff, 35),
-            StageBuff(CriticalUpBuff, 25),
-        ),
-        listOf(
-            StageBuff(ActPowerUpBuff,40),
-            StageBuff(NormalDefenseUpBuff, 40),
-            StageBuff(SpecialDefenseUpBuff, 40),
-            StageBuff(CriticalUpBuff, 30),
-        ),
-        listOf(
-            StageBuff(ActPowerUpBuff,50),
-            StageBuff(NormalDefenseUpBuff, 45),
-            StageBuff(SpecialDefenseUpBuff, 45),
-            StageBuff(CriticalUpBuff, 35),
-        ),
-        listOf(
-            StageBuff(ActPowerUpBuff,60),
-            StageBuff(NormalDefenseUpBuff, 50),
-            StageBuff(SpecialDefenseUpBuff, 50),
-            StageBuff(CriticalUpBuff, 40),
-        ),
-    ),
-    StageEffectTarget.All,
-    FrontierOnlyCondition,
+        ActPowerUpBuff,
+        NormalDefenseUpBuff,
+        SpecialDefenseUpBuff,
+        CriticalUpBuff,
+    ).targeting(stageEffectTargetAoe(condition = FrontierOnlyCondition))
 )
 
-val Majestic = StageEffect(
-    "Majestic",
-    53,
+val Majestic = stageEffectData(53).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(ActPowerUpBuff,20),
-            StageBuff(NormalDefenseUpBuff, 30),
-            StageBuff(SpecialDefenseUpBuff, 30),
-            StageBuff(CriticalUpBuff, 20),
-        ),
-        listOf(
-            StageBuff(ActPowerUpBuff,30),
-            StageBuff(NormalDefenseUpBuff, 35),
-            StageBuff(SpecialDefenseUpBuff, 35),
-            StageBuff(CriticalUpBuff, 25),
-        ),
-        listOf(
-            StageBuff(ActPowerUpBuff,40),
-            StageBuff(NormalDefenseUpBuff, 40),
-            StageBuff(SpecialDefenseUpBuff, 40),
-            StageBuff(CriticalUpBuff, 30),
-        ),
-        listOf(
-            StageBuff(ActPowerUpBuff,50),
-            StageBuff(NormalDefenseUpBuff, 45),
-            StageBuff(SpecialDefenseUpBuff, 45),
-            StageBuff(CriticalUpBuff, 35),
-        ),
-        listOf(
-            StageBuff(ActPowerUpBuff,60),
-            StageBuff(NormalDefenseUpBuff, 50),
-            StageBuff(SpecialDefenseUpBuff, 50),
-            StageBuff(CriticalUpBuff, 40),
-        ),
-    ),
-    StageEffectTarget.All,
-    RinmeikanOnlyCondition,
+        ActPowerUpBuff,
+        NormalDefenseUpBuff,
+        SpecialDefenseUpBuff,
+        CriticalUpBuff,
+    ).targeting(stageEffectTargetAoe(condition = RinmeikanOnlyCondition))
 )
 
-val ThisIsSeparation = StageEffect(
-    "This is Separation",
-    33,
+val ThisIsSeparation = stageEffectData(33).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(DexterityUpBuff, 30),
-            StageBuff(CriticalUpBuff, 30),
-            StageBuff(NegativeEffectResistanceBuff, 100),
-        ),
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(DexterityUpBuff, 60),
-            StageBuff(CriticalUpBuff, 60),
-            StageBuff(NegativeEffectResistanceBuff, 100),
-        ),
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(DexterityUpBuff, 80),
-            StageBuff(CriticalUpBuff, 80),
-            StageBuff(NegativeEffectResistanceBuff, 100),
-        ),
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(DexterityUpBuff, 90),
-            StageBuff(CriticalUpBuff, 90),
-            StageBuff(NegativeEffectResistanceBuff, 100),
-        ),
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(DexterityUpBuff, 100),
-            StageBuff(CriticalUpBuff, 100),
-            StageBuff(NegativeEffectResistanceBuff, 100),
-        ),
-    ),
-    StageEffectTarget.All,
-    KaorukoOnlyCondition
+        ApDownBuff,
+        DexterityUpBuff,
+        CriticalUpBuff,
+        NegativeEffectResistanceBuff,
+    ).targeting(stageEffectTargetAoe(condition = KaorukoOnlyCondition))
 )
 
-val YoureAllHopeless = StageEffect(
-    "You're All Hopeless",
-    34,
+val YoureAllHopeless = stageEffectData(34).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(DexterityUpBuff, 30),
-            StageBuff(CriticalUpBuff, 30),
-            StageBuff(CounterHealBuff, 20),
-        ),
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(DexterityUpBuff, 60),
-            StageBuff(CriticalUpBuff, 60),
-            StageBuff(CounterHealBuff, 20),
-        ),
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(DexterityUpBuff, 80),
-            StageBuff(CriticalUpBuff, 80),
-            StageBuff(CounterHealBuff, 20),
-        ),
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(DexterityUpBuff, 90),
-            StageBuff(CriticalUpBuff, 90),
-            StageBuff(CounterHealBuff, 20),
-        ),
-        listOf(
-            StageBuff(ApDownBuff,0),
-            StageBuff(DexterityUpBuff, 100),
-            StageBuff(CriticalUpBuff, 100),
-            StageBuff(CounterHealBuff, 20),
-        ),
-    ),
-    StageEffectTarget.All,
-    KaorukoOnlyCondition.or(FutabaOnlyCondition)
+        ApDownBuff,
+        DexterityUpBuff,
+        CriticalUpBuff,
+        CounterHealBuff,
+    ).targeting(stageEffectTargetAoe(condition = KaorukoOnlyCondition.or(FutabaOnlyCondition)))
 )
 
-val GlitteringStage = StageEffect(
-    "Glittering Stage",
-    35,
+val GlitteringStage = stageEffectData(35).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(ActPowerUpBuff,30),
-            StageBuff(DexterityUpBuff, 30),
-            StageBuff(CriticalUpBuff, 30),
-            StageBuff(AgilityUpBuff, 30),
-            StageBuff(EffectiveDamageDealtUpBuff, 20),
-        ),
-        listOf(
-            StageBuff(ActPowerUpBuff,60),
-            StageBuff(DexterityUpBuff, 60),
-            StageBuff(CriticalUpBuff, 60),
-            StageBuff(AgilityUpBuff, 60),
-            StageBuff(EffectiveDamageDealtUpBuff, 25),
-        ),
-        listOf(
-            StageBuff(ActPowerUpBuff,80),
-            StageBuff(DexterityUpBuff, 80),
-            StageBuff(CriticalUpBuff, 80),
-            StageBuff(AgilityUpBuff, 80),
-            StageBuff(EffectiveDamageDealtUpBuff, 30),
-        ),
-        listOf(
-            StageBuff(ActPowerUpBuff,90),
-            StageBuff(DexterityUpBuff, 90),
-            StageBuff(CriticalUpBuff, 90),
-            StageBuff(AgilityUpBuff, 90),
-            StageBuff(EffectiveDamageDealtUpBuff, 35),
-        ),
-        listOf(
-            StageBuff(ActPowerUpBuff,100),
-            StageBuff(DexterityUpBuff, 100),
-            StageBuff(CriticalUpBuff, 100),
-            StageBuff(AgilityUpBuff, 100),
-            StageBuff(EffectiveDamageDealtUpBuff, 40),
-        ),
-    ),
-    StageEffectTarget.All,
-    SeishoOnlyCondition
+        ActPowerUpBuff,
+        DexterityUpBuff,
+        CriticalUpBuff,
+        AgilityUpBuff,
+        EffectiveDamageDealtUpBuff,
+    ).targeting(stageEffectTargetAoe(condition = SeishoOnlyCondition))
 )
 
-val SweetMoment = StageEffect(
-    "Sweet Moment",
-    31,
+val SweetMoment = stageEffectData(31).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(NegativeEffectResistanceBuff, 50),
-            StageBuff(EffectiveDamageDealtUpBuff, 20),
-        ),
-        listOf(
-            StageBuff(NegativeEffectResistanceBuff, 60),
-            StageBuff(EffectiveDamageDealtUpBuff, 25),
-        ),
-        listOf(
-            StageBuff(NegativeEffectResistanceBuff, 70),
-            StageBuff(EffectiveDamageDealtUpBuff, 30),
-        ),
-        listOf(
-            StageBuff(NegativeEffectResistanceBuff, 80),
-            StageBuff(EffectiveDamageDealtUpBuff, 35),
-        ),
-        listOf(
-            StageBuff(NegativeEffectResistanceBuff, 90),
-            StageBuff(EffectiveDamageDealtUpBuff, 40),
-        ),
-    ),
-    StageEffectTarget.All,
+        NegativeEffectResistanceBuff,
+        EffectiveDamageDealtUpBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-val WeAreRivals = StageEffect(
-    "We are rivals!",
-    43,
+
+val WeAreRivals = stageEffectData(43).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(DexterityUpBuff, 30),
-            StageBuff(CriticalUpBuff, 30),
-            StageBuff(DamageTakenDownBuff, 30),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(DexterityUpBuff, 40),
-            StageBuff(CriticalUpBuff, 40),
-            StageBuff(DamageTakenDownBuff, 40),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(DexterityUpBuff, 50),
-            StageBuff(CriticalUpBuff, 50),
-            StageBuff(DamageTakenDownBuff, 50),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(DexterityUpBuff, 60),
-            StageBuff(CriticalUpBuff, 60),
-            StageBuff(DamageTakenDownBuff, 60),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(DexterityUpBuff, 70),
-            StageBuff(CriticalUpBuff, 70),
-            StageBuff(DamageTakenDownBuff, 70),
-        ),
-    ),
-    StageEffectTarget.All,
-    SeishoOnlyCondition
+        ApDownBuff,
+        DexterityUpBuff,
+        CriticalUpBuff,
+        DamageTakenDownBuff,
+    ).targeting(stageEffectTargetAoe(condition = SeishoOnlyCondition))
 )
 
-val RoyalAuthority = StageEffect(
-    "Royal Authority",
-    44,
+val RoyalAuthority = stageEffectData(44).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(ActPowerUpBuff, 30),
-            StageBuff(DamageTakenDownBuff, 30),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(ActPowerUpBuff, 40),
-            StageBuff(DamageTakenDownBuff, 40),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(ActPowerUpBuff, 50),
-            StageBuff(DamageTakenDownBuff, 50),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(ActPowerUpBuff, 60),
-            StageBuff(DamageTakenDownBuff, 60),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(ActPowerUpBuff, 70),
-            StageBuff(DamageTakenDownBuff, 70),
-        ),
-    ),
-    StageEffectTarget.All,
-    SiegfeldOnlyCondition
+        ApDownBuff,
+        ActPowerUpBuff,
+        DamageTakenDownBuff,
+    ).targeting(stageEffectTargetAoe(condition = SiegfeldOnlyCondition))
 )
 
-//ここが舞台だ
-//味方の聖翔音楽学園にAP減少、クリティカル率アップ[30, 40, 50, 60, 70]%、クリティカル威力アップ[30, 40, 50, 60, 70]%、属性有利ダメージUP[30, 40, 50, 60, 70]%、味方の愛城華恋と神楽ひかりにクリティカル率アップ[10, 15, 20, 25, 30]%
-//🞖 味方側の舞台
-val ThisIsTheStage = StageEffect(
-    "This is the Stage",
-    48,
+val ThisIsTheStage = stageEffectData(48).makeStageEffect(
     listOf(
-        StageEffectBuffs(
-            listOf(
-                listOf(
-                    StageBuff(ApDownBuff, 0),
-                    StageBuff(DexterityUpBuff, 30),
-                    StageBuff(CriticalUpBuff, 30),
-                    StageBuff(EffectiveDamageDealtUpBuff, 30),
-                ),
-                listOf(
-                    StageBuff(ApDownBuff, 0),
-                    StageBuff(DexterityUpBuff, 40),
-                    StageBuff(CriticalUpBuff, 40),
-                    StageBuff(EffectiveDamageDealtUpBuff, 40),
-                ),
-                listOf(
-                    StageBuff(ApDownBuff, 0),
-                    StageBuff(DexterityUpBuff, 50),
-                    StageBuff(CriticalUpBuff, 50),
-                    StageBuff(EffectiveDamageDealtUpBuff, 50),
-                ),
-                listOf(
-                    StageBuff(ApDownBuff, 0),
-                    StageBuff(DexterityUpBuff, 60),
-                    StageBuff(CriticalUpBuff, 60),
-                    StageBuff(EffectiveDamageDealtUpBuff, 60),
-                ),
-                listOf(
-                    StageBuff(ApDownBuff, 0),
-                    StageBuff(DexterityUpBuff, 70),
-                    StageBuff(CriticalUpBuff, 70),
-                    StageBuff(EffectiveDamageDealtUpBuff, 70),
-                ),
-            ),
-            SeishoOnlyCondition,
-        ),
-        StageEffectBuffs(
-            listOf(
-                listOf(
-                    StageBuff(DexterityUpBuff, 10),
-                ),
-                listOf(
-                    StageBuff(DexterityUpBuff, 15),
-                ),
-                listOf(
-                    StageBuff(DexterityUpBuff, 20),
-                ),
-                listOf(
-                    StageBuff(DexterityUpBuff, 25),
-                ),
-                listOf(
-                    StageBuff(DexterityUpBuff, 30),
-                ),
-            ),
-            KarenOnlyCondition or HikariOnlyCondition,
-        ),
-    ),
-    StageEffectTarget.All,
+        ApDownBuff,
+        DexterityUpBuff,
+        CriticalUpBuff,
+        EffectiveDamageDealtUpBuff,
+    ).targeting(stageEffectTargetAoe(condition = SeishoOnlyCondition)) + listOf(
+        DexterityUpBuff,
+    ).targeting(stageEffectTargetAoe(condition = KarenOnlyCondition or HikariOnlyCondition)),
 )
 
-val GoldenVitality = StageEffect(
-    "Golden Vitality",
-    58,
+val GoldenVitality = stageEffectData(58).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(NegativeEffectResistanceBuff, 50),
-            StageBuff(NegativeCountableEffectResistanceBuff, 50),
-            StageBuff(DamageTakenDownBuff, 30),
-        ),
-        listOf(
-            StageBuff(NegativeEffectResistanceBuff, 60),
-            StageBuff(NegativeCountableEffectResistanceBuff, 60),
-            StageBuff(DamageTakenDownBuff, 40),
-        ),
-        listOf(
-            StageBuff(NegativeEffectResistanceBuff, 70),
-            StageBuff(NegativeCountableEffectResistanceBuff, 70),
-            StageBuff(DamageTakenDownBuff, 50),
-        ),
-        listOf(
-            StageBuff(NegativeEffectResistanceBuff, 80),
-            StageBuff(NegativeCountableEffectResistanceBuff, 80),
-            StageBuff(DamageTakenDownBuff, 60),
-        ),
-        listOf(
-            StageBuff(NegativeEffectResistanceBuff, 90),
-            StageBuff(NegativeCountableEffectResistanceBuff, 90),
-            StageBuff(DamageTakenDownBuff, 70),
-        ),
-    ),
-    StageEffectTarget.All,
+        NegativeEffectResistanceBuff,
+        NegativeCountableEffectResistanceBuff,
+        DamageTakenDownBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-//賢者の契り
-//味方全体にAP減少、必中、クリティカル率アップ[50, 55, 60, 65, 70]%、クリティカル威力アップ[50, 55, 60, 65, 70]%、味方の純那とななにHP回復[100, 100, 100, 100, 100]%
-//🞖 味方側の舞台
-val SagesCovenant = StageEffect(
-    "Sage's Covenant",
-    59,
+val SagesCovenant = stageEffectData(59).makeStageEffect(
     listOf(
-        StageEffectBuffs(
-            listOf(
-                listOf(
-                    StageBuff(ApDownBuff, 0),
-                    StageBuff(PerfectAimBuff, 0),
-                    StageBuff(DexterityUpBuff, 50),
-                    StageBuff(CriticalUpBuff, 50),
-                ),
-                listOf(
-                    StageBuff(ApDownBuff, 0),
-                    StageBuff(PerfectAimBuff, 0),
-                    StageBuff(DexterityUpBuff, 55),
-                    StageBuff(CriticalUpBuff, 55),
-                ),
-                listOf(
-                    StageBuff(ApDownBuff, 0),
-                    StageBuff(PerfectAimBuff, 0),
-                    StageBuff(DexterityUpBuff, 60),
-                    StageBuff(CriticalUpBuff, 60),
-                ),
-                listOf(
-                    StageBuff(ApDownBuff, 0),
-                    StageBuff(PerfectAimBuff, 0),
-                    StageBuff(DexterityUpBuff, 65),
-                    StageBuff(CriticalUpBuff, 65),
-                ),
-                listOf(
-                    StageBuff(ApDownBuff, 0),
-                    StageBuff(PerfectAimBuff, 0),
-                    StageBuff(DexterityUpBuff, 70),
-                    StageBuff(CriticalUpBuff, 70),
-                ),
-            ),
-        ),
-        StageEffectBuffs(
-            listOf(
-                listOf(
-                    StageBuff(HpRegenBuff, 100),
-                ),
-                listOf(
-                    StageBuff(HpRegenBuff, 100),
-                ),
-                listOf(
-                    StageBuff(HpRegenBuff, 100),
-                ),
-                listOf(
-                    StageBuff(HpRegenBuff, 100),
-                ),
-                listOf(
-                    StageBuff(HpRegenBuff, 100),
-                ),
-            ),
-            JunnaOnlyCondition or NanaOnlyCondition,
-        ),
-    ),
-    StageEffectTarget.All,
+        ApDownBuff,
+        PerfectAimBuff,
+        DexterityUpBuff,
+        CriticalUpBuff,
+    ).targeting(stageEffectTargetAoe()) + listOf(
+        HpRegenBuff,
+    ).targeting(stageEffectTargetAoe(condition = JunnaOnlyCondition or NanaOnlyCondition)),
 )
 
-//美しく、気高く、楽しく
-//味方の青嵐総合芸術院にAP減少2、継続マイナス効果耐性アップ[100, 100, 100, 100, 100]、ACTパワーアップ[20, 25, 30, 35, 40]%
-val BeautifulNobleAndFun = StageEffect(
-    "Beautiful, Noble, and Fun",
-    61,
+val BeautifulNobleAndFun = stageEffectData(61).makeStageEffect(
     listOf(
-        StageEffectBuffs(
-            listOf(
-                listOf(
-                    StageBuff(Ap2DownBuff, 0),
-                    StageBuff(NegativeEffectResistanceBuff, 100),
-                    StageBuff(ActPowerUpBuff, 20),
-                ),
-                listOf(
-                    StageBuff(Ap2DownBuff, 0),
-                    StageBuff(NegativeEffectResistanceBuff, 100),
-                    StageBuff(ActPowerUpBuff, 25),
-                ),
-                listOf(
-                    StageBuff(Ap2DownBuff, 0),
-                    StageBuff(NegativeEffectResistanceBuff, 100),
-                    StageBuff(ActPowerUpBuff, 30),
-                ),
-                listOf(
-                    StageBuff(Ap2DownBuff, 0),
-                    StageBuff(NegativeEffectResistanceBuff, 100),
-                    StageBuff(ActPowerUpBuff, 35),
-                ),
-                listOf(
-                    StageBuff(Ap2DownBuff, 0),
-                    StageBuff(NegativeEffectResistanceBuff, 100),
-                    StageBuff(ActPowerUpBuff, 40),
-                ),
-            ),
-            SeiranOnlyCondition,
-        ),
-    ),
-    StageEffectTarget.All,
+        Ap2DownBuff,
+        NegativeEffectResistanceBuff,
+        ActPowerUpBuff,
+    ).targeting(stageEffectTargetAoe(condition = SeiranOnlyCondition)),
 )
 
-val LightningShade = StageEffect(
-    "Lightning Shade",
-    10,
+val LightningShade = stageEffectData(10).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(AgilityUpBuff,20),
-            StageBuff(ActPowerUpBuff, 20),
-            StageBuff(DexterityUpBuff, 20),
-        ),
-        listOf(
-            StageBuff(AgilityUpBuff,25),
-            StageBuff(ActPowerUpBuff, 30),
-            StageBuff(DexterityUpBuff, 25),
-        ),
-        listOf(
-            StageBuff(AgilityUpBuff,30),
-            StageBuff(ActPowerUpBuff, 40),
-            StageBuff(DexterityUpBuff, 30),
-        ),
-        listOf(
-            StageBuff(AgilityUpBuff,35),
-            StageBuff(ActPowerUpBuff, 50),
-            StageBuff(DexterityUpBuff, 35),
-        ),
-        listOf(
-            StageBuff(AgilityUpBuff,40),
-            StageBuff(ActPowerUpBuff, 60),
-            StageBuff(DexterityUpBuff, 40),
-        ),
-    ),
-    StageEffectTarget.All,
+        AgilityUpBuff,
+        ActPowerUpBuff,
+        DexterityUpBuff,
+    ).targeting(stageEffectTargetAoe()),
 )
 
-val DivinePower = StageEffect(
-    "Divine Power",
-    52,
+val DivinePower = stageEffectData(52).makeStageEffect(
     listOf(
-        StageEffectBuffs(
-            listOf(
-                listOf(
-                    StageBuff(Ap2DownBuff, 0),
-                    StageBuff(NegativeCountableEffectResistanceBuff, 100),
-                    StageBuff(ActPowerUpBuff, 20),
-                ),
-                listOf(
-                    StageBuff(Ap2DownBuff, 0),
-                    StageBuff(NegativeCountableEffectResistanceBuff, 100),
-                    StageBuff(ActPowerUpBuff, 30),
-                ),
-                listOf(
-                    StageBuff(Ap2DownBuff, 0),
-                    StageBuff(NegativeCountableEffectResistanceBuff, 100),
-                    StageBuff(ActPowerUpBuff, 40),
-                ),
-                listOf(
-                    StageBuff(Ap2DownBuff, 0),
-                    StageBuff(NegativeCountableEffectResistanceBuff, 100),
-                    StageBuff(ActPowerUpBuff, 50),
-                ),
-                listOf(
-                    StageBuff(Ap2DownBuff, 0),
-                    StageBuff(NegativeCountableEffectResistanceBuff, 100),
-                    StageBuff(ActPowerUpBuff, 60),
-                ),
-            ),
-        ),
-        StageEffectBuffs(
-            listOf(
-                listOf(
-                    StageBuff(NegativeEffectResistanceBuff, 100),
-                ),
-                listOf(
-                    StageBuff(NegativeEffectResistanceBuff, 100),
-                ),
-                listOf(
-                    StageBuff(NegativeEffectResistanceBuff, 100),
-                ),
-                listOf(
-                    StageBuff(NegativeEffectResistanceBuff, 100),
-                ),
-                listOf(
-                    StageBuff(NegativeEffectResistanceBuff, 100),
-                ),
-            ),
-            RoVOnlyCondition,
-        ),
-    ),
-    StageEffectTarget.All,
+        Ap2DownBuff,
+        NegativeCountableEffectResistanceBuff,
+        ActPowerUpBuff,
+    ).targeting(stageEffectTargetAoe()) + listOf(
+        NegativeEffectResistanceBuff,
+    ).targeting(stageEffectTargetAoe(condition = RoVOnlyCondition)),
 )
 
-val HappyFootsteps = StageEffect(
-    "Happy Footsteps",
-    62,
+val HappyFootsteps = stageEffectData(62).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(NegativeEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 20),
-            StageBuff(BrillianceRegenBuff, 50),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(NegativeEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 30),
-            StageBuff(BrillianceRegenBuff, 50),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(NegativeEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 40),
-            StageBuff(BrillianceRegenBuff, 50),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(NegativeEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 50),
-            StageBuff(BrillianceRegenBuff, 50),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(NegativeEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 60),
-            StageBuff(BrillianceRegenBuff, 50),
-        ),
-    ),
-    StageEffectTarget.All,
+        ApDownBuff,
+        NegativeEffectResistanceBuff,
+        ActPowerUpBuff,
+        BrillianceRegenBuff,
+    ).targeting(stageEffectTargetAoe()),
 )
 
-val LeapOath = StageEffect(
-    "Leap Oath",
-    63,
+val LeapOath = stageEffectData(63).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(NegativeCountableEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 20),
-            StageBuff(BrillianceRegenBuff, 50),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(NegativeCountableEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 30),
-            StageBuff(BrillianceRegenBuff, 50),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(NegativeCountableEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 40),
-            StageBuff(BrillianceRegenBuff, 50),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(NegativeCountableEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 50),
-            StageBuff(BrillianceRegenBuff, 50),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(NegativeCountableEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 60),
-            StageBuff(BrillianceRegenBuff, 50),
-        ),
-    ),
-    StageEffectTarget.All,
+        ApDownBuff,
+        NegativeCountableEffectResistanceBuff,
+        ActPowerUpBuff,
+        BrillianceRegenBuff,
+    ).targeting(stageEffectTargetAoe()),
 )
 
-val ElegantInvitation = StageEffect(
-    "ElegantInvitation",
-    71,
+val ElegantInvitation = stageEffectData(71).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(NegativeCountableEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 20),
-            StageBuff(NormalDefenseUpBuff, 30),
-            StageBuff(SpecialDefenseUpBuff, 30),
-            StageBuff(CriticalUpBuff, 50),
-        ),
-        listOf(
-            StageBuff(NegativeCountableEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 30),
-            StageBuff(NormalDefenseUpBuff, 35),
-            StageBuff(SpecialDefenseUpBuff, 35),
-            StageBuff(CriticalUpBuff, 55),
-        ),
-        listOf(
-            StageBuff(NegativeCountableEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 40),
-            StageBuff(NormalDefenseUpBuff, 40),
-            StageBuff(SpecialDefenseUpBuff, 40),
-            StageBuff(CriticalUpBuff, 60),
-        ),
-        listOf(
-            StageBuff(NegativeCountableEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 50),
-            StageBuff(NormalDefenseUpBuff, 45),
-            StageBuff(SpecialDefenseUpBuff, 45),
-            StageBuff(CriticalUpBuff, 65),
-        ),
-        listOf(
-            StageBuff(NegativeCountableEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 60),
-            StageBuff(NormalDefenseUpBuff, 50),
-            StageBuff(SpecialDefenseUpBuff, 50),
-            StageBuff(CriticalUpBuff, 70),
-        ),
-    ),
-    StageEffectTarget.All,
+        NegativeCountableEffectResistanceBuff,
+        ActPowerUpBuff,
+        NormalDefenseUpBuff,
+        SpecialDefenseUpBuff,
+        CriticalUpBuff,
+    ).targeting(stageEffectTargetAoe()),
 )
 
-val FloatingWithTheTide = StageEffect(
-    "Floating with the Tide",
-    72,
+val FloatingWithTheTide = stageEffectData(72).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(NegativeEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 20),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(NegativeEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 25),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(NegativeEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 30),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(NegativeEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 35),
-        ),
-        listOf(
-            StageBuff(ApDownBuff, 0),
-            StageBuff(NegativeEffectResistanceBuff, 100),
-            StageBuff(ActPowerUpBuff, 40),
-        ),
-    ),
-    StageEffectTarget.All,
+        ApDownBuff,
+        NegativeEffectResistanceBuff,
+        ActPowerUpBuff,
+    ).targeting(stageEffectTargetAoe()),
 )
 
-val SparklingTide = StageEffect(
-    "Sparkling Tide",
-    73,
+val SparklingTide = stageEffectData(73).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(EvasionRateUpBuff, 70),
-            StageBuff(DexterityUpBuff, 30),
-            StageBuff(CriticalUpBuff, 30),
-            StageBuff(BrillianceRegenBuff, 50),
-        ),
-        listOf(
-            StageBuff(EvasionRateUpBuff, 75),
-            StageBuff(DexterityUpBuff, 35),
-            StageBuff(CriticalUpBuff, 35),
-            StageBuff(BrillianceRegenBuff, 60),
-        ),
-        listOf(
-            StageBuff(EvasionRateUpBuff, 80),
-            StageBuff(DexterityUpBuff, 40),
-            StageBuff(CriticalUpBuff, 40),
-            StageBuff(BrillianceRegenBuff, 70),
-        ),
-        listOf(
-            StageBuff(EvasionRateUpBuff, 85),
-            StageBuff(DexterityUpBuff, 45),
-            StageBuff(CriticalUpBuff, 45),
-            StageBuff(BrillianceRegenBuff, 80),
-        ),
-        listOf(
-            StageBuff(EvasionRateUpBuff, 90),
-            StageBuff(DexterityUpBuff, 50),
-            StageBuff(CriticalUpBuff, 50),
-            StageBuff(BrillianceRegenBuff, 90),
-        ),
-    ),
-    StageEffectTarget.All,
+        EvasionRateUpBuff,
+        DexterityUpBuff,
+        CriticalUpBuff,
+        BrillianceRegenBuff,
+    ).targeting(stageEffectTargetAoe()),
 )
 
-val MellowFlavor = StageEffect(
-    "Mellow Flavor",
-    55,
+val MellowFlavor = stageEffectData(55).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(DexterityUpBuff, 100),
-            StageBuff(CriticalUpBuff, 20),
-            StageBuff(AgilityUpBuff, 20),
-            StageBuff(CounterHealBuff, 20),
-        ),
-        listOf(
-            StageBuff(DexterityUpBuff, 100),
-            StageBuff(CriticalUpBuff, 25),
-            StageBuff(AgilityUpBuff, 25),
-            StageBuff(CounterHealBuff, 20),
-        ),
-        listOf(
-            StageBuff(DexterityUpBuff, 100),
-            StageBuff(CriticalUpBuff, 30),
-            StageBuff(AgilityUpBuff, 30),
-            StageBuff(CounterHealBuff, 20),
-        ),
-        listOf(
-            StageBuff(DexterityUpBuff, 100),
-            StageBuff(CriticalUpBuff, 40),
-            StageBuff(AgilityUpBuff, 35),
-            StageBuff(CounterHealBuff, 20),
-        ),
-        listOf(
-            StageBuff(DexterityUpBuff, 100),
-            StageBuff(CriticalUpBuff, 50),
-            StageBuff(AgilityUpBuff, 40),
-            StageBuff(CounterHealBuff, 20),
-        ),
-    ),
-    StageEffectTarget.All,
+        DexterityUpBuff,
+        CriticalUpBuff,
+        AgilityUpBuff,
+        CounterHealBuff,
+    ).targeting(stageEffectTargetAoe()),
 )

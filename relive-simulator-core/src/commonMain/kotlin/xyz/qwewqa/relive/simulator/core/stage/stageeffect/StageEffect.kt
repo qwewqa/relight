@@ -1,40 +1,64 @@
 package xyz.qwewqa.relive.simulator.core.stage.stageeffect
 
-import xyz.qwewqa.relive.simulator.core.stage.actor.ActiveBuff
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.TimedBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
+import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
-class StageEffect(
+enum class StageEffectTargetUpdateMode {
+    /**
+     * The target is only updated if the team changes, such as when a member exits or enters.
+     */
+    Static,
+
+    // Holding off on this, since it may never be needed.
+    // Comes at a performance cost as well.
+//    /**
+//     * The target may change at any time.
+//     */
+//    Dynamic,
+}
+
+data class StageEffectTarget(
+    val updateMode: StageEffectTargetUpdateMode,
+    val getTargets: (Team) -> List<Actor>,
+)
+
+fun stageEffectTargetAoe() = StageEffectTarget(
+    StageEffectTargetUpdateMode.Static,
+) { team -> team.actors.values.toList() }
+
+fun stageEffectTargetAoe(
+    updateMode: StageEffectTargetUpdateMode = StageEffectTargetUpdateMode.Static,
+    condition: Condition,
+) = StageEffectTarget(
+    updateMode,
+) { team -> team.actors.values.filter { condition.evaluate(it) } }
+
+fun stageEffectTargetFront(
+    count: Int,
+    updateMode: StageEffectTargetUpdateMode = StageEffectTargetUpdateMode.Static,
+    condition: Condition,
+) = StageEffectTarget(
+    updateMode,
+) { team -> team.actors.values.take(count).filter { condition.evaluate(it) } }
+
+fun stageEffectTargetBack(
+    count: Int,
+    updateMode: StageEffectTargetUpdateMode = StageEffectTargetUpdateMode.Static,
+    condition: Condition,
+) = StageEffectTarget(
+    updateMode,
+) { team -> team.actors.values.toList().takeLast(count).filter { condition.evaluate(it) } }
+
+data class StageEffectBuff(
+    val effect: TimedBuffEffect,
+    val values: List<Int>,
+    val target: StageEffectTarget,
+)
+
+data class StageEffect(
     val name: String,
     val iconId: Int,
-    val buffs: List<StageEffectBuffs>,
-    val target: StageEffectTarget,
-) {
-    constructor(
-        name: String,
-        iconId: Int,
-        buffs: List<List<StageBuff>>,
-        target: StageEffectTarget,
-        condition: Condition? = null,
-    ) : this(name, iconId, listOf(StageEffectBuffs(buffs, condition)), target)
-}
-
-data class StageEffectBuffs(
-    val buffs: List<List<StageBuff>>,
-    val condition: Condition? = null,
-) {
-    operator fun get(level: Int) = buffs[(level - 1).coerceAtMost(buffs.size - 1)]
-}
-
-sealed class StageEffectTarget {
-    object All : StageEffectTarget()
-    data class Front(val count: Int) : StageEffectTarget()
-    data class Back(val count: Int) : StageEffectTarget()
-}
-
-data class StageBuff(val effect: TimedBuffEffect, val value: Int) {
-    fun activate(actor: Actor): ActiveBuff {
-        return actor.buffs.addEphemeral(null, effect, value)
-    }
-}
+    val buffs: List<StageEffectBuff>,
+)

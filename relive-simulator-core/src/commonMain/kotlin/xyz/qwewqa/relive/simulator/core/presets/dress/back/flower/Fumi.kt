@@ -92,7 +92,7 @@ val BenikageEncoreFumi = dress2030014(
                     )
                 }
                 applyAllyStageEffect(StandingOvationFlower, turns = 6)
-                applyAllyStageEffect(HyakkaRyoran, turns = 2)
+                applyAllyStageEffect(BloomingFlowers, turns = 2)
             }
         }
     ),

@@ -35,7 +35,7 @@ val FruitTartNana = dress1070021(
                         turns = times4,
                     )
                 }
-                applyAllyStageEffect(HyakkaRyoran, 2)
+                applyAllyStageEffect(BloomingFlowers, 2)
             }
         },
         ActType.Act2.blueprint("希望の斬撃") {
@@ -125,7 +125,7 @@ val FruitTartNana = dress1070021(
                         chance = 33,
                     )
                 }
-                applyAllyStageEffect(HyakkaRyoran, 2)
+                applyAllyStageEffect(BloomingFlowers, 2)
                 applyAllyStageEffect(ApplauseSnow, 6)
             }
         }
@@ -143,7 +143,7 @@ val FruitTartNana = dress1070021(
             TeamCriticalUpBuffPassive.new(20, 3),
             TeamAPDownBuffPassive.new(time = 1),
             TeamAPDownBuffPassive.new(time = 2) + SeishoOnlyCondition,
-            AllyStageEffectPassive(HyakkaRyoran).new(1, time = 2)
+            AllyStageEffectPassive(BloomingFlowers).new(1, time = 2)
         ),
         listOf(
             TeamActUpScalingPassive100.new(30) + SnowOnlyCondition,

@@ -249,7 +249,6 @@ data class CsActiveBuff(val buff: ActiveBuff) : CsObject {
     override fun getAttribute(name: String): CsObject? = when (name) {
         "turns" -> buff.turns.asCsNumber()
         "value" -> buff.value.asCsNumber()
-        "ephemeral" -> buff.ephemeral.asCsBoolean()
         "name" -> buff.effect.name.asCsString()
         else -> null
     }

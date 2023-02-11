@@ -95,7 +95,7 @@ val snowMichi = fakeMichi(Attribute.Snow)(
                     )
                 }
                 applyAllyStageEffect(StandingOvationSnow, turns = 6)
-                applyAllyStageEffect(HyakkaRyoran, turns = 2)
+                applyAllyStageEffect(BloomingFlowers, turns = 2)
             }
         }
     ),
@@ -201,7 +201,7 @@ val cloudMichi = fakeMichi(Attribute.Cloud)(
                     )
                 }
                 applyAllyStageEffect(StandingOvationCloud, turns = 6)
-                applyAllyStageEffect(HyakkaRyoran, turns = 2)
+                applyAllyStageEffect(BloomingFlowers, turns = 2)
             }
         }
     ),
@@ -307,7 +307,7 @@ val moonMichi = fakeMichi(Attribute.Moon)(
                     )
                 }
                 applyAllyStageEffect(StandingOvationMoon, turns = 6)
-                applyAllyStageEffect(HyakkaRyoran, turns = 2)
+                applyAllyStageEffect(BloomingFlowers, turns = 2)
             }
         }
     ),

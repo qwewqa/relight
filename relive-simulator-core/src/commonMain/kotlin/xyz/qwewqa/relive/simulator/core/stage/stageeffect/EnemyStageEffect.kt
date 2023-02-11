@@ -3,406 +3,123 @@ package xyz.qwewqa.relive.simulator.core.stage.stageeffect
 import xyz.qwewqa.relive.simulator.core.presets.condition.SeishoOnlyCondition
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 
-val SelfTrapping = StageEffect(
-    "Self Trapping",
-    23,
+val SelfTrapping = stageEffectData(23).makeStageEffect(
     listOf(
-        20,
-        25,
-        30,
-        40,
-        50,
-    ).map { value ->
-        listOf(
-            StageBuff(StunBuff, 0),
-            StageBuff(NormalDefenseDownBuff, value),
-            StageBuff(SpecialDefenseDownBuff, value),
-        )
-    },
-    StageEffectTarget.All,
+        StunBuff,
+        NormalDefenseDownBuff,
+        SpecialDefenseDownBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-val AlluringEyes = StageEffect(
-    "Alluring Eyes",
-    45,
+
+val AlluringEyes = stageEffectData(45).makeStageEffect(
     listOf(
-        20,
-        25,
-        30,
-        40,
-        50,
-    ).map { value ->
-        listOf(
-            StageBuff(LovesicknessBuff, 0),
-            StageBuff(NormalDefenseDownBuff, value),
-            StageBuff(SpecialDefenseDownBuff, value),
-        )
-    },
-    StageEffectTarget.All,
+        LovesicknessBuff,
+        NormalDefenseDownBuff,
+        SpecialDefenseDownBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-// TODO: Find out how fumbling affects AI with set moves
-val DeathsKiss = StageEffect(
-    "Death's Kiss",
-    25,
+// TODO: Fumbling
+val DeathsKiss = stageEffectData(25).makeStageEffect(
     listOf(
-        5,
-        10,
-        15,
-        20,
-        25,
-    ).map { value ->
-        listOf(
-            StageBuff(NormalDefenseDownBuff, value),
-            StageBuff(SpecialDefenseDownBuff, value),
-        )
-    },
-    StageEffectTarget.All,
+        NormalDefenseDownBuff,
+        SpecialDefenseDownBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-// TODO: Find out how curse affects AI with set moves
-val AfterlifeTrials = StageEffect(
-    "Afterlife Trials",
-    28,
+// TODO: Curse
+val AfterlifeTrials = stageEffectData(28).makeStageEffect(
     listOf(
-        5,
-        10,
-        15,
-        20,
-        25,
-    ).map { value ->
-        listOf(
-            StageBuff(NormalDefenseDownBuff, value),
-            StageBuff(SpecialDefenseDownBuff, value),
-        )
-    },
-    StageEffectTarget.All,
+        NormalDefenseDownBuff,
+        SpecialDefenseDownBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-val DisasterHail = StageEffect(
-    "Disaster Hail",
-    24,
+val DisasterHail = stageEffectData(24).makeStageEffect(
     listOf(
-        3000,
-        3500,
-        4000,
-        4500,
-        5000,
-    ).map { value ->
-        listOf(
-            StageBuff(BurnBuff, value),
-            StageBuff(ConfusionBuff,0),
-            StageBuff(BlindnessBuff,0),
-        )
-    },
-    StageEffectTarget.All,
+        BurnBuff,
+        ConfusionBuff,
+        BlindnessBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-val RoaringFire = StageEffect(
-    "Roaring Fire",
-    21,
+val RoaringFire = stageEffectData(21).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(BurnBuff, 3000),
-            StageBuff(BlindnessBuff,0),
-            StageBuff(NormalDefenseDownBuff, 20),
-            StageBuff(SpecialDefenseDownBuff, 20),
-        ),
-        listOf(
-            StageBuff(BurnBuff, 3500),
-            StageBuff(BlindnessBuff,0),
-            StageBuff(NormalDefenseDownBuff, 25),
-            StageBuff(SpecialDefenseDownBuff, 25),
-        ),
-        listOf(
-            StageBuff(BurnBuff, 4000),
-            StageBuff(BlindnessBuff,0),
-            StageBuff(NormalDefenseDownBuff, 30),
-            StageBuff(SpecialDefenseDownBuff, 30),
-        ),
-        listOf(
-            StageBuff(BurnBuff, 4500),
-            StageBuff(BlindnessBuff,0),
-            StageBuff(NormalDefenseDownBuff, 40),
-            StageBuff(SpecialDefenseDownBuff, 40),
-        ),
-        listOf(
-            StageBuff(BurnBuff, 5000),
-            StageBuff(BlindnessBuff,0),
-            StageBuff(NormalDefenseDownBuff, 50),
-            StageBuff(SpecialDefenseDownBuff, 50),
-        ),
-    ),
-    StageEffectTarget.All,
+        BurnBuff,
+        BlindnessBuff,
+        NormalDefenseDownBuff,
+        SpecialDefenseDownBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-val Thunder = StageEffect(
-    "Thunder",
-    13,
+val Thunder = stageEffectData(13).makeStageEffect(
     listOf(
-        20,
-        30,
-        40,
-        50,
-        60,
-    ).map { value ->
-        listOf(
-            StageBuff(ElectricShockBuff, 0),
-            StageBuff(ActPowerDownBuff, value),
-        )
-    },
-    StageEffectTarget.All,
+        ElectricShockBuff,
+        ActPowerDownBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-val SunsetTune = StageEffect(
-    "Sunset Tune",
-    8,
+val SunsetTune = stageEffectData(8).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(ActPowerDownBuff, 30),
-            StageBuff(NormalDefenseDownBuff, 30),
-            StageBuff(SpecialDefenseDownBuff, 30),
-        ),
-        listOf(
-            StageBuff(ActPowerDownBuff, 40),
-            StageBuff(NormalDefenseDownBuff, 35),
-            StageBuff(SpecialDefenseDownBuff, 35),
-        ),
-        listOf(
-            StageBuff(ActPowerDownBuff, 50),
-            StageBuff(NormalDefenseDownBuff, 40),
-            StageBuff(SpecialDefenseDownBuff, 40),
-        ),
-        listOf(
-            StageBuff(ActPowerDownBuff, 60),
-            StageBuff(NormalDefenseDownBuff, 45),
-            StageBuff(SpecialDefenseDownBuff, 45),
-        ),
-        listOf(
-            StageBuff(ActPowerDownBuff, 70),
-            StageBuff(NormalDefenseDownBuff, 50),
-            StageBuff(SpecialDefenseDownBuff, 50),
-        ),
-    ),
-    StageEffectTarget.All,
+        ActPowerDownBuff,
+        NormalDefenseDownBuff,
+        SpecialDefenseDownBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-val Hesitation = StageEffect(
-    "Hesitation",
-    54,
+val Hesitation = stageEffectData(54).makeStageEffect(
     listOf(
-        StageEffectBuffs(
-            listOf(
-                listOf(
-                    StageBuff(ApUpBuff, 0),
-                    StageBuff(NormalDefenseDownBuff, 20),
-                    StageBuff(SpecialDefenseDownBuff, 20),
-                ),
-                listOf(
-                    StageBuff(ApUpBuff, 0),
-                    StageBuff(NormalDefenseDownBuff, 25),
-                    StageBuff(SpecialDefenseDownBuff, 25),
-                ),
-                listOf(
-                    StageBuff(ApUpBuff, 0),
-                    StageBuff(NormalDefenseDownBuff, 30),
-                    StageBuff(SpecialDefenseDownBuff, 30),
-                ),
-                listOf(
-                    StageBuff(ApUpBuff, 0),
-                    StageBuff(NormalDefenseDownBuff, 40),
-                    StageBuff(SpecialDefenseDownBuff, 40),
-                ),
-                listOf(
-                    StageBuff(ApUpBuff, 0),
-                    StageBuff(NormalDefenseDownBuff, 50),
-                    StageBuff(SpecialDefenseDownBuff, 50),
-                ),
-            ),
-        ),
-        StageEffectBuffs(
-            listOf(
-                listOf(
-                    StageBuff(Ap2UpBuff, 0),
-                ),
-                listOf(
-                    StageBuff(Ap2UpBuff, 0),
-                ),
-                listOf(
-                    StageBuff(Ap2UpBuff, 0),
-                ),
-                listOf(
-                    StageBuff(Ap2UpBuff, 0),
-                ),
-                listOf(
-                    StageBuff(Ap2UpBuff, 0),
-                ),
-            ),
-            SeishoOnlyCondition,
-        ),
-    ),
-    StageEffectTarget.All,
+        ApUpBuff,
+        NormalDefenseDownBuff,
+        SpecialDefenseDownBuff,
+    ).targeting(stageEffectTargetAoe()) + listOf(
+        Ap2UpBuff,
+    ).targeting(stageEffectTargetAoe(condition = SeishoOnlyCondition)),
 )
 
-//天体ハイライト
-//敵役全体に狭窄、ACTパワーダウン[20, 25, 30, 35, 40]%
-val CelestialHighlights = StageEffect(
-    "Celestial Highlights",
-    60,
+val CelestialHighlights = stageEffectData(60).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(ConstrainBuff, 0),
-            StageBuff(ActPowerDownBuff, 20),
-        ),
-        listOf(
-            StageBuff(ConstrainBuff, 0),
-            StageBuff(ActPowerDownBuff, 25),
-        ),
-        listOf(
-            StageBuff(ConstrainBuff, 0),
-            StageBuff(ActPowerDownBuff, 30),
-        ),
-        listOf(
-            StageBuff(ConstrainBuff, 0),
-            StageBuff(ActPowerDownBuff, 35),
-        ),
-        listOf(
-            StageBuff(ConstrainBuff, 0),
-            StageBuff(ActPowerDownBuff, 40),
-        ),
-    ),
-    StageEffectTarget.All,
+        ConstrainBuff,
+        ActPowerDownBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-val ShadowStupor = StageEffect(
-    "Shadow Stupor",
-    9,
+val ShadowStupor = stageEffectData(9).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(AgilityDownBuff, 20),
-            StageBuff(ActPowerDownBuff, 20),
-            StageBuff(DexterityDownBuff, 20),
-        ),
-        listOf(
-            StageBuff(AgilityDownBuff, 25),
-            StageBuff(ActPowerDownBuff, 30),
-            StageBuff(DexterityDownBuff, 25),
-        ),
-        listOf(
-            StageBuff(AgilityDownBuff, 30),
-            StageBuff(ActPowerDownBuff, 40),
-            StageBuff(DexterityDownBuff, 30),
-        ),
-        listOf(
-            StageBuff(AgilityDownBuff, 35),
-            StageBuff(ActPowerDownBuff, 50),
-            StageBuff(DexterityDownBuff, 35),
-        ),
-        listOf(
-            StageBuff(AgilityDownBuff, 40),
-            StageBuff(ActPowerDownBuff, 60),
-            StageBuff(DexterityDownBuff, 40),
-        ),
-    ),
-    StageEffectTarget.All,
+        AgilityDownBuff,
+        ActPowerDownBuff,
+        DexterityDownBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-val Catastrophe = StageEffect(
-    "Catastrophe",
-    64,
+// TODO: evil spirit and brilliance down per turn
+val Catastrophe = stageEffectData(64).makeStageEffect(
     listOf(
-        20,
-        25,
-        30,
-        40,
-        50,
-    ).map { value ->
-        listOf(
-            StageBuff(ElectricShockBuff, 0),
-            StageBuff(NormalDefenseDownBuff, value),
-            StageBuff(SpecialDefenseDownBuff, value),
-            )
-    },
-    StageEffectTarget.All,
-
-    // TODO: evil spirit and brilliance down per turn
+        ElectricShockBuff,
+        NormalDefenseDownBuff,
+        SpecialDefenseDownBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-val SugaryCorruption = StageEffect(
-    "Sugary Corruption",
-    56,
+val SugaryCorruption = stageEffectData(56).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(BrillianceGainDownBuff, 50),
-            StageBuff(AgilityDownBuff, 5),
-        ),
-        listOf(
-            StageBuff(BrillianceGainDownBuff, 50),
-            StageBuff(AgilityDownBuff, 10),
-        ),
-        listOf(
-            StageBuff(BrillianceGainDownBuff, 50),
-            StageBuff(AgilityDownBuff, 15),
-        ),
-        listOf(
-            StageBuff(BrillianceGainDownBuff, 50),
-            StageBuff(AgilityDownBuff, 20),
-        ),
-        listOf(
-            StageBuff(BrillianceGainDownBuff, 50),
-            StageBuff(AgilityDownBuff, 25),
-        ),
-    ),
-    StageEffectTarget.All,
+        BrillianceGainDownBuff,
+        AgilityDownBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-val PlanOfTheAbyss = StageEffect(
-    "Plan of the Abyss",
-    57,
-    listOf( //TODO(): SE Seal
-        listOf(
-            StageBuff(ActPowerDownBuff, 20),
-        ),
-        listOf(
-            StageBuff(ActPowerDownBuff, 25),
-        ),
-        listOf(
-            StageBuff(ActPowerDownBuff, 30),
-        ),
-        listOf(
-            StageBuff(ActPowerDownBuff, 35),
-        ),
-        listOf(
-            StageBuff(ActPowerDownBuff, 40),
-        ),
-    ),
-    StageEffectTarget.All,
+//TODO: SE Seal
+val PlanOfTheAbyss = stageEffectData(57).makeStageEffect(
+    listOf(
+        ActPowerDownBuff,
+    ).targeting(stageEffectTargetAoe())
 )
 
-val BattleStrategy = StageEffect(
-    "Battle Strategy",
-    74,
+
+val BattleStrategy = stageEffectData(74).makeStageEffect(
     listOf(
-        listOf(
-            StageBuff(ConstrainBuff, 0),
-            StageBuff(AgilityDownBuff, 5),
-        ),
-        listOf(
-            StageBuff(ConstrainBuff, 0),
-            StageBuff(AgilityDownBuff, 10),
-        ),
-        listOf(
-            StageBuff(ConstrainBuff, 0),
-            StageBuff(AgilityDownBuff, 15),
-        ),
-        listOf(
-            StageBuff(ConstrainBuff, 0),
-            StageBuff(AgilityDownBuff, 20),
-        ),
-        listOf(
-            StageBuff(ConstrainBuff, 0),
-            StageBuff(AgilityDownBuff, 25),
-        ),
-    ),
-    StageEffectTarget.All,
+        ConstrainBuff,
+        AgilityDownBuff,
+    ).targeting(stageEffectTargetAoe())
 )

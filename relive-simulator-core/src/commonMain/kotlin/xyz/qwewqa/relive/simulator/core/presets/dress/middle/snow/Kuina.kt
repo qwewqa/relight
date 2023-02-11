@@ -11,7 +11,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.BrillianceRegenBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.NegativeEffectResistanceBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
-import xyz.qwewqa.relive.simulator.core.stage.stageeffect.HyakkaRyoran
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.BloomingFlowers
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.RoyalAuthority
 
 val FutureStageGirlKuina = dress4100002(
@@ -53,7 +53,7 @@ val FutureStageGirlKuina = dress4100002(
                         hitCount = times1,
                     )
                 }
-                applyAllyStageEffect(HyakkaRyoran, 2)
+                applyAllyStageEffect(BloomingFlowers, 2)
                 applyAllyStageEffect(RoyalAuthority, 2)
             }
         },

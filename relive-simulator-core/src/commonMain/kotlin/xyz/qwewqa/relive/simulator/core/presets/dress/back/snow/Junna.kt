@@ -17,7 +17,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.SelfTrapping
-import xyz.qwewqa.relive.simulator.core.stage.stageeffect.TheStageWhereHoshimiJunnaPlaysTheLead
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.JunnaHoshimisStage
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageSnow
 
 val StageGirlJunna = dress1060017(
@@ -157,7 +157,7 @@ val HuntingRevueJunna = dress1060024(
                         hitCount = 3,
                     )
                 }
-                applyAllyStageEffect(TheStageWhereHoshimiJunnaPlaysTheLead, 3)
+                applyAllyStageEffect(JunnaHoshimisStage, 3)
             }
         }
     ),

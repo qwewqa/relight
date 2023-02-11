@@ -92,7 +92,7 @@ val HeartfeltCookingEncoreHikari = dress1020025(
                     )
                 }
                 applyAllyStageEffect(StandingOvationSpace, turns = 6)
-                applyAllyStageEffect(HyakkaRyoran, turns = 2)
+                applyAllyStageEffect(BloomingFlowers, turns = 2)
             }
         }
     ),

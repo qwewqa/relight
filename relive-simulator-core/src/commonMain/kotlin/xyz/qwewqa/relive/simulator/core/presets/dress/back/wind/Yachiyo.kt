@@ -170,7 +170,7 @@ val YorimitsuYachiyo = dress4050018(
                         turns = times3,
                     )
                 }
-                applyAllyStageEffect(HyakkaRyoran, 2)
+                applyAllyStageEffect(BloomingFlowers, 2)
             }
         },
         ActType.ClimaxAct.blueprint("Exorcism of the Moonlit Night") {
@@ -200,7 +200,7 @@ val YorimitsuYachiyo = dress4050018(
                         chance = 33,
                     )
                 }
-                applyAllyStageEffect(HyakkaRyoran, 2)
+                applyAllyStageEffect(BloomingFlowers, 2)
                 applyAllyStageEffect(ApplauseWind, 6)
             }
         }

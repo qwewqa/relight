@@ -162,7 +162,7 @@ val DelightKoharu = dress5010007(
                         hitCount = times4,
                     )
                 }
-                applyAllyStageEffect(HyakkaRyoran, 2)
+                applyAllyStageEffect(BloomingFlowers, 2)
             }
         },
         ActType.ClimaxAct.blueprint("Delight ～我が想い～") {
@@ -220,7 +220,7 @@ val DelightKoharu = dress5010007(
                         chance = 33,
                     )
                 }
-                applyAllyStageEffect(HyakkaRyoran, 2)
+                applyAllyStageEffect(BloomingFlowers, 2)
                 applyAllyStageEffect(ApplauseCloud, 6)
             }
         }

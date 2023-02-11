@@ -12,7 +12,7 @@ val WeAreOnTheStageFlower = weAreOnTheStageAttributeStageEffect(Attribute.Flower
 val WeAreOnTheStageWind = weAreOnTheStageAttributeStageEffect(Attribute.Wind)
 val WeAreOnTheStageSpace = weAreOnTheStageAttributeStageEffect(Attribute.Space)
 val ConcentrationSpace = concentrationAttributeStageEffect(Attribute.Space, 15)
-val ConcentrationWind = concentrationAttributeStageEffect(Attribute.Wind, 17)
+val ConcentrationWind = concentrationAttributeStageEffect(Attribute.Wind, 16)
 val ConcentrationSnow = concentrationAttributeStageEffect(Attribute.Snow, 17)
 val ApplauseFlower = applauseAttributeStageEffect(Attribute.Flower)
 val ApplauseWind = applauseAttributeStageEffect(Attribute.Wind)
@@ -27,112 +27,44 @@ val StandingOvationCloud = standingOvationAttributeStageEffect(Attribute.Cloud)
 val StandingOvationMoon = standingOvationAttributeStageEffect(Attribute.Moon)
 val StandingOvationSpace = standingOvationAttributeStageEffect(Attribute.Space)
 
-private fun weAreOnTheStageAttributeStageEffect(attribute: Attribute) = StageEffect(
-    "We Are on the Stage (${attribute.name})",
-    1 + attribute.ordinal,
-    listOf(
-        20,
-        25,
-        30,
-        40,
-        50,
-    ).map { value ->
+// Reminder: Attribute starts at Flower = 1 (0 is Neutral)
+
+private fun weAreOnTheStageAttributeStageEffect(attribute: Attribute) =
+    stageEffectData(1 + attribute.ordinal).makeStageEffect(
         listOf(
-            StageBuff(ActPowerUpBuff, value),
-            StageBuff(NormalDefenseUpBuff, value),
-            StageBuff(SpecialDefenseUpBuff, value),
-            StageBuff(againstAttributeDamageDealtUpBuff(attribute.advantagedAgainst ?: error("Invalid attribute.")), value),
-        )
-    },
-    StageEffectTarget.All,
-    attribute.condition(),
-)
+            ActPowerUpBuff,
+            NormalDefenseUpBuff,
+            SpecialDefenseUpBuff,
+            againstAttributeDamageDealtUpBuff(attribute.advantagedAgainst ?: error("Invalid attribute.")),
+        ).targeting(stageEffectTargetAoe(condition = attribute.condition())),
+    )
 
 //TODO: Check if this SE works correctly
-private fun concentrationAttributeStageEffect(attribute: Attribute, iconId: Int) = StageEffect(
-    "Concentration (${attribute.name})",
-    iconId,
+private fun concentrationAttributeStageEffect(attribute: Attribute, id: Int) = stageEffectData(id).makeStageEffect(
     listOf(
-        20,
-        25,
-        30,
-        40,
-        50,
-    ).map { value ->
-        listOf(
-            StageBuff(ActPowerDownBuff, value),
-            StageBuff(NormalDefenseDownBuff, value),
-            StageBuff(SpecialDefenseDownBuff, value),
-            StageBuff(AgainstAttributeDamageTakenUpBuff(attribute), value),
-        )
-    },
-    StageEffectTarget.All,
-    (attribute.advantagedAgainst  ?: error("Invalid attribute.")).condition(),
-)
-private fun applauseAttributeStageEffect(attribute: Attribute) = StageEffect(
-    "Applause (${attribute.name})",
-    36 + attribute.ordinal,
-    listOf(
-        listOf(
-            StageBuff(DamageDealtUpBuff, 20),
-            StageBuff(NormalDefenseUpBuff, 20),
-            StageBuff(SpecialDefenseUpBuff, 20),
-        ),
-        listOf(
-            StageBuff(DamageDealtUpBuff, 25),
-            StageBuff(NormalDefenseUpBuff, 25),
-            StageBuff(SpecialDefenseUpBuff, 25),
-        ),
-        listOf(
-            StageBuff(DamageDealtUpBuff, 30),
-            StageBuff(NormalDefenseUpBuff, 30),
-            StageBuff(SpecialDefenseUpBuff, 30),
-        ),
-        listOf(
-            StageBuff(DamageDealtUpBuff, 35),
-            StageBuff(NormalDefenseUpBuff, 40),
-            StageBuff(SpecialDefenseUpBuff, 40),
-        ),
-        listOf(
-            StageBuff(DamageDealtUpBuff, 40),
-            StageBuff(NormalDefenseUpBuff, 50),
-            StageBuff(SpecialDefenseUpBuff, 50),
-        ),
-    ),
-    StageEffectTarget.All,
-    attribute.condition(),
+        ActPowerDownBuff,
+        NormalDefenseDownBuff,
+        SpecialDefenseDownBuff,
+        AgainstAttributeDamageTakenUpBuff(attribute),
+    ).targeting(stageEffectTargetAoe(condition = attribute.condition())),
 )
 
-private fun standingOvationAttributeStageEffect(attribute: Attribute) = StageEffect(
-    "Standing Ovation (${attribute.name})",
-    64 + attribute.ordinal,
-    listOf(
+private fun applauseAttributeStageEffect(attribute: Attribute) =
+    stageEffectData(36 + attribute.ordinal).makeStageEffect(
         listOf(
-            StageBuff(DamageDealtUpBuff, 40),
-            StageBuff(NormalDefenseUpBuff, 20),
-            StageBuff(SpecialDefenseUpBuff, 20),
-        ),
-        listOf(
-            StageBuff(DamageDealtUpBuff, 45),
-            StageBuff(NormalDefenseUpBuff, 25),
-            StageBuff(SpecialDefenseUpBuff, 25),
-        ),
-        listOf(
-            StageBuff(DamageDealtUpBuff, 50),
-            StageBuff(NormalDefenseUpBuff, 30),
-            StageBuff(SpecialDefenseUpBuff, 30),
-        ),
-        listOf(
-            StageBuff(DamageDealtUpBuff, 55),
-            StageBuff(NormalDefenseUpBuff, 40),
-            StageBuff(SpecialDefenseUpBuff, 40),
-        ),
-        listOf(
-            StageBuff(DamageDealtUpBuff, 60),
-            StageBuff(NormalDefenseUpBuff, 50),
-            StageBuff(SpecialDefenseUpBuff, 50),
-        ),
-    ),
-    StageEffectTarget.All,
-    attribute.condition(),
-)
+            DamageDealtUpBuff,
+            NormalDefenseUpBuff,
+            SpecialDefenseUpBuff,
+        ).targeting(stageEffectTargetAoe(condition = attribute.condition())),
+    )
+
+private fun standingOvationAttributeStageEffect(attribute: Attribute) =
+    // Temporary measure, until all ovation SEs are in data
+    (stageEffectDataOrNull(64 + attribute.ordinal) ?: stageEffectData(65)).copy(iconId = 64 + attribute.ordinal)
+        .makeStageEffect(
+            listOf(
+                DamageDealtUpBuff,
+                NormalDefenseUpBuff,
+                SpecialDefenseUpBuff,
+            ).targeting(stageEffectTargetAoe(condition = attribute.condition())),
+        )

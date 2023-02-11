@@ -164,7 +164,7 @@ val AquariusMahiru = dress1030026(
                         hitCount = times4,
                     )
                 }
-                applyAllyStageEffect(HyakkaRyoran, 2)
+                applyAllyStageEffect(BloomingFlowers, 2)
             }
         },
         ActType.ClimaxAct.blueprint("Beautiful Torrent") {

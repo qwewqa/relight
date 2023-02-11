@@ -138,7 +138,7 @@ val EvilQueenHisame = dress5030005(
                         hitCount = times4,
                     )
                 }
-                applyAllyStageEffect(HyakkaRyoran, 2)
+                applyAllyStageEffect(BloomingFlowers, 2)
                 applyAllyStageEffect(BeautifulNobleAndFun, 2)
             }
         },
@@ -184,7 +184,7 @@ val EvilQueenHisame = dress5030005(
                         chance = 33,
                     )
                 }
-                applyAllyStageEffect(HyakkaRyoran, 2)
+                applyAllyStageEffect(BloomingFlowers, 2)
                 applyEnemyStageEffect(DisasterHail, 2)
             }
         }
