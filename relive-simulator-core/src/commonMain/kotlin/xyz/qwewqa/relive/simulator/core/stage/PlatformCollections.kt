@@ -2,8 +2,15 @@
 
 package xyz.qwewqa.relive.simulator.core.stage
 
-expect class PlatformMap<K, V> : MutableMap<K, V>
-expect class PlatformSet<E> : MutableSet<E>
+expect class PlatformMap<K, V> : MutableMap<K, V> {
+    fun putQuick(key: K, value: V)
+    operator fun set(key: K, value: V)
+}
+
+expect class PlatformSet<E> : MutableSet<E> {
+    fun addQuick(element: E)
+    operator fun plusAssign(element: E)
+}
 
 expect inline fun <K, V> emptyPlatformMap(): PlatformMap<K, V>
 expect inline fun <E> emptyPlatformSet(): PlatformSet<E>

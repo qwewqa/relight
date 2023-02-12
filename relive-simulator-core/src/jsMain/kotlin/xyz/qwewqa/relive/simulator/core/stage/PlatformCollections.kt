@@ -167,22 +167,21 @@ actual class PlatformMap<K, V> : MutableMap<K, V> {
     }
 
     override fun put(key: K, value: V): V? {
-        return if (map.has(key)) {
-            val oldValue = map.get(key)
-            map.set(key, value)
-            oldValue.unsafeCast<V>()
-        } else {
-            map.set(key, value)
-            null
-        }
+        val oldValue = map.get(key).unsafeCast<V?>()
+        map.set(key, value)
+        return oldValue
+    }
+
+    actual fun putQuick(key: K, value: V) {
+        map.set(key, value)
+    }
+
+    actual operator fun set(key: K, value: V) {
+        map.set(key, value)
     }
 
     override fun get(key: K): V? {
-        return if (map.has(key)) {
-            map.get(key).unsafeCast<V>()
-        } else {
-            null
-        }
+        return map.get(key).unsafeCast<V?>()
     }
 
     override fun containsValue(value: V): Boolean {
@@ -204,6 +203,14 @@ actual class PlatformSet<E> : MutableSet<E> {
             set.add(element)
             true
         }
+    }
+
+    actual fun addQuick(element: E) {
+        set.add(element)
+    }
+
+    actual operator fun plusAssign(element: E) {
+        set.add(element)
     }
 
     override fun addAll(elements: Collection<E>): Boolean {

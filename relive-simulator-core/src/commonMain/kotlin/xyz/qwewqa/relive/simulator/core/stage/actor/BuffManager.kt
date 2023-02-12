@@ -1,11 +1,8 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
 import xyz.qwewqa.relive.simulator.common.DisplayBuffData
+import xyz.qwewqa.relive.simulator.core.stage.*
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.log
-import xyz.qwewqa.relive.simulator.core.stage.platformMapOf
-import xyz.qwewqa.relive.simulator.core.stage.platformSetOf
-import xyz.qwewqa.relive.simulator.core.stage.toPlatformMap
 import xyz.qwewqa.relive.simulator.stage.character.Position
 import kotlin.math.min
 
@@ -13,7 +10,7 @@ import kotlin.math.min
 class BuffManager(val actor: Actor) {
     private val positiveBuffs = platformSetOf<ActiveBuff>()
     private val negativeBuffs = platformSetOf<ActiveBuff>()
-    private val buffsByEffect = platformMapOf<TimedBuffEffect, MutableSet<ActiveBuff>>()
+    private val buffsByEffect = platformMapOf<TimedBuffEffect, PlatformSet<ActiveBuff>>()
 
     /**
      * We count these for checking whether a buff is active or not, but they are controlled by another source,
@@ -63,11 +60,11 @@ class BuffManager(val actor: Actor) {
         when (category) {
             BuffCategory.Positive -> positiveBuffs
             BuffCategory.Negative -> negativeBuffs
-        }.add(activeBuff)
+        }.addQuick(activeBuff)
         buffsByEffect.getOrPut(this) {
             _effectNameMapping[name] = this
             platformSetOf()
-        }.add(activeBuff)
+        }.addQuick(activeBuff)
         actor.context.log("Buff", debug = true) { "Buff ${activeBuff.name} added." }
     }
 
