@@ -72,7 +72,15 @@ class JsSimulator : Simulator {
     }
 }
 
-const val BATCH_SIZE = 200
+const val TARGET_BATCH_SIZE = 1000
+const val MIN_BATCH_SIZE = 400
+
+fun calcBatchSize(iterations: Int, maxThreads: Int): Int {
+    if (iterations <= MIN_BATCH_SIZE * maxThreads) return MIN_BATCH_SIZE
+    val iterationsPerThread = (iterations + maxThreads - 1) / maxThreads
+    val batchesPerThread = (iterationsPerThread + TARGET_BATCH_SIZE - 1) / TARGET_BATCH_SIZE
+    return (iterationsPerThread + batchesPerThread - 1) / batchesPerThread
+}
 
 class JsSimulation(val parameters: SimulationParameters) : Simulation {
     var resultCount = 0
@@ -101,9 +109,12 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
     )
 
     fun updateResults() {
-        if (resultCount > lastUpdatedMarginSummary * 1.5 || resultCount == parameters.maxIterations) {
+        if (resultCount == parameters.maxIterations) {
             lastUpdatedMarginSummary = resultCount
             marginSummary = marginResults.summarize()
+        } else if (resultCount > lastUpdatedMarginSummary * 1.5) {
+            lastUpdatedMarginSummary = resultCount
+            marginSummary = marginResults.summarize(500)
         }
         overallResult = SimulationResult(
             maxIterations = parameters.maxIterations,
@@ -115,8 +126,10 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
         )
     }
 
+    val maxBatchSize = calcBatchSize(parameters.maxIterations, window.navigator.hardwareConcurrency.toInt())
+
     val workers = List(
-        window.navigator.hardwareConcurrency.toInt().coerceAtMost(parameters.maxIterations / BATCH_SIZE)
+        window.navigator.hardwareConcurrency.toInt().coerceAtMost(parameters.maxIterations / maxBatchSize)
             .coerceAtLeast(1)
     ) {
         Worker("relive-simulator-worker.js").also { worker ->
@@ -164,7 +177,7 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
                         )
                     }
                     updateResults()
-                    val batchSize = (parameters.maxIterations - requestCount).coerceAtMost(BATCH_SIZE)
+                    val batchSize = (parameters.maxIterations - requestCount).coerceAtMost(maxBatchSize)
                     if (batchSize > 0) {
                         worker.postMessage(json.encodeToString(List(batchSize) {
                             IterationRequest(
@@ -185,7 +198,7 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
                 }
             }
             worker.postMessage(json.encodeToString(parameters))
-            val batchSize = (parameters.maxIterations - requestCount).coerceAtMost(BATCH_SIZE)
+            val batchSize = (parameters.maxIterations - requestCount).coerceAtMost(maxBatchSize)
             if (batchSize > 0) {
                 worker.postMessage(json.encodeToString(List(batchSize) {
                     IterationRequest(

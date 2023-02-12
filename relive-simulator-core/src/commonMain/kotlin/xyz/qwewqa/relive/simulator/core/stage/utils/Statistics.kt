@@ -23,8 +23,8 @@ fun List<Int>.statistics() = if (isEmpty()) {
     StatisticsSummary(mean, standardDeviation, min, q1, median, q3, max)
 }
 
-fun resultMarginKernelDensityEstimate(data: List<Int>, h: Double): Map<Double, Double> {
-    return epanechnikovKernelDensityEstimate(data.map { it.toDouble() }, h, 2_000)
+fun resultMarginKernelDensityEstimate(data: List<Int>, h: Double, count: Int): Map<Double, Double> {
+    return epanechnikovKernelDensityEstimate(data.map { it.toDouble() }, h, count)
 }
 
 fun chooseBandwidth(data: List<Int>): Double = if (data.isEmpty()) {
@@ -41,7 +41,7 @@ fun epanechnikovKernelDensityEstimate(data: List<Double>, h: Double, count: Int)
     val min = data.min() - h
     val max = data.max() + h
     val step = (max - min) / (count - 1)
-    val results = MutableList(count) { 0.0 }
+    val results = Array(count) { 0.0 }
     for (x in data) {
         val lb = ceil((x - h - min) / step).toInt()
         val ub = floor((x + h - min) / step).toInt()
@@ -52,7 +52,7 @@ fun epanechnikovKernelDensityEstimate(data: List<Double>, h: Double, count: Int)
     return (0 until count).associate { min + it * step to results[it] }
 }
 
-fun Map<String, List<MarginStageResult>>.summarize(): Map<SimulationMarginResultType, Map<String?, MarginResult>> = SimulationMarginResultType.values().associateWith { type ->
+fun Map<String, List<MarginStageResult>>.summarize(count: Int = 2000): Map<SimulationMarginResultType, Map<String?, MarginResult>> = SimulationMarginResultType.values().associateWith { type ->
     val typeValues = values.flatten().filter { it.marginResultType() == type }
     val h: Double
     val typeResults = typeValues.run {
@@ -60,9 +60,9 @@ fun Map<String, List<MarginStageResult>>.summarize(): Map<SimulationMarginResult
         val margins = map { it.margin }
         h = chooseBandwidth(damage)
         MarginResult(
-            resultMarginKernelDensityEstimate(damage, h),
+            resultMarginKernelDensityEstimate(damage, h, count),
             damage.statistics(),
-            resultMarginKernelDensityEstimate(margins, h),
+            resultMarginKernelDensityEstimate(margins, h, count),
             margins.statistics(),
         )
     }
@@ -77,9 +77,9 @@ fun Map<String, List<MarginStageResult>>.summarize(): Map<SimulationMarginResult
                 val margins = map { it.margin }
                 val scale = size.toDouble() / typeValues.size
                 MarginResult(
-                    resultMarginKernelDensityEstimate(damage, h).mapValues { (_, v) -> v * scale },
+                    resultMarginKernelDensityEstimate(damage, h, count).mapValues { (_, v) -> v * scale },
                     damage.statistics(),
-                    resultMarginKernelDensityEstimate(margins, h).mapValues { (_, v) -> v * scale },
+                    resultMarginKernelDensityEstimate(margins, h, count).mapValues { (_, v) -> v * scale },
                     margins.statistics(),
                 )
             }
