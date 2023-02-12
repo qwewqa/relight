@@ -1,8 +1,5 @@
 package xyz.qwewqa.relive.simulator.worker
 
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.promise
 import org.w3c.dom.DedicatedWorkerGlobalScope
 import xyz.qwewqa.relive.simulator.common.*
 import xyz.qwewqa.relive.simulator.common.SimulationParameters
@@ -12,7 +9,6 @@ import kotlin.random.Random
 
 external val self: DedicatedWorkerGlobalScope
 
-@OptIn(DelicateCoroutinesApi::class)
 fun main() {
     var initialized = false
     var turns = 0
@@ -34,38 +30,36 @@ fun main() {
             val requests: Array<IterationRequest> = JSON.parse(ev.data as String)
             val ld = loadout
             if (ld != null) {
-                GlobalScope.promise {
-                    JSON.stringify(requests.amap { request ->
-                        if (request.log) {
-                            val stage = ld.create(
-                                random = Random(request.seed),
-                                configuration = StageConfiguration(logging = true)
-                            )
-                            val result = stage.play(PlayInfo(turns, request.index, parameters!!.maxIterations))
-                            iterationResult(
-                                request,
-                                result.toSimulationResult(),
-                                result.metadata.groupName,
-                                result.metadata.tags,
-                                (result as? MarginStageResult)?.margin,
-                                (result as? MarginStageResult)?.damage,
-                                error = (result as? PlayError)?.exception?.stackTraceToString(),
-                                log = stage.logger.get(),
-                            )
-                        } else {
-                            val result = ld.create(random = Random(request.seed))
-                                .play(PlayInfo(turns, request.index, parameters!!.maxIterations))
-                            iterationResult(
-                                request,
-                                result.toSimulationResult(),
-                                result.metadata.groupName,
-                                result.metadata.tags,
-                                (result as? MarginStageResult)?.margin,
-                                (result as? MarginStageResult)?.damage,
-                            )
-                        }
-                    })
-                }.then(self::postMessage)
+                self.postMessage(JSON.stringify(requests.amap { request ->
+                    if (request.log) {
+                        val stage = ld.create(
+                            random = Random(request.seed),
+                            configuration = StageConfiguration(logging = true)
+                        )
+                        val result = stage.play(PlayInfo(turns, request.index, parameters!!.maxIterations))
+                        iterationResult(
+                            request,
+                            result.toSimulationResult(),
+                            result.metadata.groupName,
+                            result.metadata.tags,
+                            (result as? MarginStageResult)?.margin,
+                            (result as? MarginStageResult)?.damage,
+                            error = (result as? PlayError)?.exception?.stackTraceToString(),
+                            log = stage.logger.get(),
+                        )
+                    } else {
+                        val result = ld.create(random = Random(request.seed))
+                            .play(PlayInfo(turns, request.index, parameters!!.maxIterations))
+                        iterationResult(
+                            request,
+                            result.toSimulationResult(),
+                            result.metadata.groupName,
+                            result.metadata.tags,
+                            (result as? MarginStageResult)?.margin,
+                            (result as? MarginStageResult)?.damage,
+                        )
+                    }
+                }))
             } else {
                 self.postMessage(JSON.stringify(requests.amap { request ->
                     if (request.log) {
@@ -98,6 +92,7 @@ inline fun <T, reified R : Any> Array<T>.amap(transform: (T) -> R): Array<R> {
     @Suppress("UNCHECKED_CAST")
     return result as Array<R>
 }
+
 inline fun <T, reified R : Any> Collection<T>.amap(transform: (T) -> R): Array<R> {
     val result = arrayOfNulls<R>(size)
     forEachIndexed { index, v ->
@@ -234,17 +229,21 @@ fun iterationResult(
             this.turn = result.turn
             this.tile = result.tile
         }
+
         is SimulationResultType.Victory -> jsObject {
             this.type = "victory"
             this.turn = result.turn
             this.tile = result.tile
         }
+
         SimulationResultType.End -> jsObject {
             this.type = "end"
         }
+
         SimulationResultType.Error -> jsObject {
             this.type = "error"
         }
+
         SimulationResultType.Excluded -> jsObject {
             this.type = "excluded"
         }
