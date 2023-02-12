@@ -12,6 +12,8 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.w3c.dom.Worker
 import org.w3c.dom.url.URL
+import org.w3c.files.Blob
+import org.w3c.files.BlobPropertyBag
 import xyz.qwewqa.relive.simulator.client.InteractiveSimulation
 import xyz.qwewqa.relive.simulator.client.Simulation
 import xyz.qwewqa.relive.simulator.client.Simulator
@@ -23,12 +25,28 @@ import xyz.qwewqa.relive.simulator.core.stage.utils.summarize
 import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.set
-import kotlin.collections.single
 import kotlin.random.Random
 
+const val WORKER_URL = "relive-simulator-worker.js"
+
 class JsSimulator : Simulator {
+
+    private var workerScriptBlob: Blob? = null
+
+    private suspend fun getWorkerScript(): Blob = workerScriptBlob ?: run {
+        val response: String = httpClient.get(
+            URL(
+                WORKER_URL,
+                "${window.location.protocol}//${window.location.host}${window.location.pathname}"
+            ).href
+        ).body()
+        val blob = Blob(arrayOf(response), BlobPropertyBag("text/javascript"))
+        workerScriptBlob = blob
+        blob
+    }
+
     override suspend fun simulate(parameters: SimulationParameters): Simulation {
-        return JsSimulation(parameters)
+        return JsSimulation(getWorkerScript(), parameters)
     }
 
     override suspend fun simulateInteractive(parameters: SimulationParameters): InteractiveSimulation {
@@ -72,8 +90,8 @@ class JsSimulator : Simulator {
     }
 }
 
-const val TARGET_BATCH_SIZE = 1000
-const val MIN_BATCH_SIZE = 400
+const val TARGET_BATCH_SIZE = 500
+const val MIN_BATCH_SIZE = 100
 
 fun calcBatchSize(iterations: Int, maxThreads: Int): Int {
     if (iterations <= MIN_BATCH_SIZE * maxThreads) return MIN_BATCH_SIZE
@@ -82,7 +100,7 @@ fun calcBatchSize(iterations: Int, maxThreads: Int): Int {
     return (iterationsPerThread + batchesPerThread - 1) / batchesPerThread
 }
 
-class JsSimulation(val parameters: SimulationParameters) : Simulation {
+class JsSimulation(val scriptBlob: Blob, val parameters: SimulationParameters) : Simulation {
     var resultCount = 0
     val resultCounts = mutableMapOf<Pair<List<String>, SimulationResultType>, Int>()
     val marginResults = mutableMapOf<String, MutableList<MarginStageResult>>()
@@ -132,7 +150,7 @@ class JsSimulation(val parameters: SimulationParameters) : Simulation {
         window.navigator.hardwareConcurrency.toInt().coerceAtMost(parameters.maxIterations / maxBatchSize)
             .coerceAtLeast(1)
     ) {
-        Worker("relive-simulator-worker.js").also { worker ->
+        Worker(URL.createObjectURL(scriptBlob)).also { worker ->
             worker.onmessage = { ev ->
                 val results = Json.decodeFromString<List<IterationResult>>(ev.data as String)
                 if (resultCount == parameters.maxIterations) {
@@ -280,21 +298,24 @@ data class IterationResult(
     val damage: Int? = 0,
     val log: List<LogEntry>? = null,
     val error: String? = null,
-)  {
+) {
     fun toStageResult() = when (result) {
         is SimulationResultType.Excluded -> ExcludedRun(
             StageResultMetadata(groupName, tags),
         )
+
         is SimulationResultType.Victory -> Victory(
             result.turn,
             result.tile,
             StageResultMetadata(groupName, tags),
         )
+
         is SimulationResultType.End -> OutOfTurns(
             damage ?: 0,
             margin ?: 0,
             StageResultMetadata(groupName, tags),
         )
+
         is SimulationResultType.Wipe -> TeamWipe(
             damage ?: 0,
             margin ?: 0,
@@ -302,6 +323,7 @@ data class IterationResult(
             result.tile,
             StageResultMetadata(groupName, tags),
         )
+
         is SimulationResultType.Error -> PlayError(
             Exception(error),
             StageResultMetadata(groupName, tags),
