@@ -152,7 +152,7 @@ val dress = dress2030020(
                   times5: [2, 2, 2, 2, 2]
 
                 field_effects:
-                  戦場掌握 (value: 3, time: 2, target: allies)
+                  戦場掌握 (value: 1, time: 2, target: enemies)
                   昏迷の影 (value: 1, time: 2, target: enemies)
                 */
             }
@@ -250,7 +250,8 @@ val dress = dress2030020(
         */
         ),
     ),
-    unitSkill = null /* 月・宙・雲の舞台少女のACTパワーアップ %opt1_value%%(MAX25%) クリティカル威力アップ %opt2_value%%(MAX25%)\n自身のACTパワーアップ %opt3_value%%(MAX25%) クリティカル威力アップ %opt4_value%%(MAX25%) */,
+    unitSkill = null /* 月・宙・雲の舞台少女のACTパワーアップ %opt1_value%%(MAX25%) クリティカル威力アップ %opt2_value%%(MAX25%)
+自身のACTパワーアップ %opt3_value%%(MAX25%) クリティカル威力アップ %opt4_value%%(MAX25%) */,
     multipleCA = false,
     categories = setOf(),
 )
@@ -291,7 +292,7 @@ val dress2030020 = PartialDressBlueprint(
       apCost = 2,
       icon = 271,
       parameters = listOf(
-        actParameters148,
+        actParameters149,
         actParameters30,
         actParameters14,
         actParameters14,
@@ -304,7 +305,7 @@ val dress2030020 = PartialDressBlueprint(
       apCost = 2,
       icon = 152,
       parameters = listOf(
-        actParameters148,
+        actParameters149,
         actParameters30,
         actParameters62,
         actParameters14,
@@ -317,7 +318,7 @@ val dress2030020 = PartialDressBlueprint(
       apCost = 2,
       icon = 1054,
       parameters = listOf(
-        actParameters148,
+        actParameters149,
         actParameters14,
         actParameters14,
         actParameters44,

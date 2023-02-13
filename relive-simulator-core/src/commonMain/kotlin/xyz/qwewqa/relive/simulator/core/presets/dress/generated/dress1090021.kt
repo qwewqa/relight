@@ -228,7 +228,8 @@ val dress = dress1090021(
         */
         ),
     ),
-    unitSkill = null /* 花・風・雪の舞台少女のACTパワーアップ %opt1_value%%(MAX25%) クリティカル威力アップ %opt2_value%%(MAX25%)\n自身のACTパワーアップ %opt3_value%%(MAX25%) クリティカル威力アップ %opt4_value%%(MAX25%) */,
+    unitSkill = null /* 花・風・雪の舞台少女のACTパワーアップ %opt1_value%%(MAX25%) クリティカル威力アップ %opt2_value%%(MAX25%)
+自身のACTパワーアップ %opt3_value%%(MAX25%) クリティカル威力アップ %opt4_value%%(MAX25%) */,
     multipleCA = false,
     categories = setOf(),
 )
@@ -282,10 +283,10 @@ val dress1090021 = PartialDressBlueprint(
       apCost = 2,
       icon = 274,
       parameters = listOf(
-        actParameters108,
+        actParameters72,
         actParameters53,
         actParameters44,
-        actParameters150,
+        actParameters151,
         actParameters1,
       ),
     ),
@@ -308,9 +309,9 @@ val dress1090021 = PartialDressBlueprint(
       apCost = 2,
       icon = 298,
       parameters = listOf(
-        actParameters148,
+        actParameters149,
         actParameters14,
-        actParameters108,
+        actParameters72,
         actParameters264,
         actParameters58,
       ),

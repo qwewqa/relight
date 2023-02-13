@@ -368,523 +368,523 @@ val actParameters70 = ActParameters(
   hitRate = 100,
 )
 val actParameters71 = ActParameters(
+  values = listOf(30, 30, 30, 30, 30),
+  times = listOf(0, 0, 0, 0, 0),
+  hitRate = 100,
+)
+val actParameters72 = ActParameters(
+  values = listOf(2, 2, 2, 2, 2),
+  times = listOf(0, 0, 0, 0, 0),
+  hitRate = 100,
+)
+val actParameters73 = ActParameters(
   values = listOf(132, 138, 145, 151, 158),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters72 = ActParameters(
+val actParameters74 = ActParameters(
   values = listOf(12, 13, 14, 16, 17),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters73 = ActParameters(
+val actParameters75 = ActParameters(
   values = listOf(286, 300, 314, 328, 343),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters74 = ActParameters(
+val actParameters76 = ActParameters(
   values = listOf(16, 18, 19, 21, 23),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters75 = ActParameters(
+val actParameters77 = ActParameters(
   values = listOf(102, 108, 113, 118, 123),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters76 = ActParameters(
+val actParameters78 = ActParameters(
   values = listOf(10, 11, 12, 13, 15),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters77 = ActParameters(
+val actParameters79 = ActParameters(
   values = listOf(223, 234, 245, 256, 267),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters78 = ActParameters(
+val actParameters80 = ActParameters(
   values = listOf(286, 300, 314, 328, 343),
   times = listOf(4, 4, 4, 4, 4),
   hitRate = 100,
 )
-val actParameters79 = ActParameters(
+val actParameters81 = ActParameters(
   values = listOf(88, 92, 96, 101, 105),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters80 = ActParameters(
+val actParameters82 = ActParameters(
   values = listOf(3000, 3500, 4000, 4500, 5000),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters81 = ActParameters(
+val actParameters83 = ActParameters(
   values = listOf(164, 172, 181, 189, 197),
   times = listOf(5, 5, 5, 5, 5),
   hitRate = 100,
 )
-val actParameters82 = ActParameters(
+val actParameters84 = ActParameters(
   values = listOf(7, 8, 9, 10, 11),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters83 = ActParameters(
+val actParameters85 = ActParameters(
   values = listOf(117, 123, 128, 134, 140),
   times = listOf(4, 4, 4, 4, 4),
   hitRate = 100,
 )
-val actParameters84 = ActParameters(
+val actParameters86 = ActParameters(
   values = listOf(260, 500, 920, 1520, 2320),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters85 = ActParameters(
+val actParameters87 = ActParameters(
   values = listOf(24, 26, 29, 31, 34),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters86 = ActParameters(
+val actParameters88 = ActParameters(
   values = listOf(102, 108, 113, 118, 123),
   times = listOf(1, 1, 1, 1, 1),
   hitRate = 100,
 )
-val actParameters87 = ActParameters(
+val actParameters89 = ActParameters(
   values = listOf(430, 730, 1210, 1990, 3030),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters88 = ActParameters(
+val actParameters90 = ActParameters(
   values = listOf(20, 22, 24, 27, 30),
   times = listOf(0, 0, 0, 0, 0),
   hitRate = 100,
 )
-val actParameters89 = ActParameters(
+val actParameters91 = ActParameters(
   values = listOf(17, 19, 20, 22, 24),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters90 = ActParameters(
+val actParameters92 = ActParameters(
   values = listOf(14, 16, 17, 19, 21),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters91 = ActParameters(
+val actParameters93 = ActParameters(
   values = listOf(5, 6, 7, 8, 10),
   times = listOf(3, 3, 3, 3, 3),
-  hitRate = 100,
-)
-val actParameters92 = ActParameters(
-  values = listOf(0, 0, 0, 0, 0),
-  times = listOf(4, 4, 4, 4, 4),
-  hitRate = 100,
-)
-val actParameters93 = ActParameters(
-  values = listOf(117, 123, 128, 134, 140),
-  times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
 val actParameters94 = ActParameters(
   values = listOf(0, 0, 0, 0, 0),
-  times = listOf(2, 2, 2, 2, 2),
-  hitRate = 33,
+  times = listOf(4, 4, 4, 4, 4),
+  hitRate = 100,
 )
 val actParameters95 = ActParameters(
-  values = listOf(186, 200, 214, 228, 243),
-  times = listOf(3, 3, 3, 3, 3),
+  values = listOf(117, 123, 128, 134, 140),
+  times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
 val actParameters96 = ActParameters(
-  values = listOf(147, 154, 161, 168, 176),
-  times = listOf(1, 1, 1, 1, 1),
-  hitRate = 100,
+  values = listOf(0, 0, 0, 0, 0),
+  times = listOf(2, 2, 2, 2, 2),
+  hitRate = 33,
 )
 val actParameters97 = ActParameters(
-  values = listOf(88, 92, 96, 101, 105),
+  values = listOf(186, 200, 214, 228, 243),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
 val actParameters98 = ActParameters(
-  values = listOf(106, 112, 116, 122, 128),
+  values = listOf(147, 154, 161, 168, 176),
   times = listOf(1, 1, 1, 1, 1),
   hitRate = 100,
 )
 val actParameters99 = ActParameters(
+  values = listOf(88, 92, 96, 101, 105),
+  times = listOf(3, 3, 3, 3, 3),
+  hitRate = 100,
+)
+val actParameters100 = ActParameters(
+  values = listOf(106, 112, 116, 122, 128),
+  times = listOf(1, 1, 1, 1, 1),
+  hitRate = 100,
+)
+val actParameters101 = ActParameters(
   values = listOf(0, 0, 0, 0, 0),
   times = listOf(1, 1, 1, 1, 1),
   hitRate = 25,
 )
-val actParameters100 = ActParameters(
+val actParameters102 = ActParameters(
   values = listOf(2000, 3000, 4000, 5000, 8000),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters101 = ActParameters(
+val actParameters103 = ActParameters(
   values = listOf(147, 154, 161, 168, 176),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters102 = ActParameters(
+val actParameters104 = ActParameters(
   values = listOf(0, 0, 0, 0, 0),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 40,
 )
-val actParameters103 = ActParameters(
+val actParameters105 = ActParameters(
   values = listOf(60, 65, 70, 75, 80),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters104 = ActParameters(
+val actParameters106 = ActParameters(
   values = listOf(20, 30, 40, 50, 60),
   times = listOf(0, 0, 0, 0, 0),
   hitRate = 100,
 )
-val actParameters105 = ActParameters(
+val actParameters107 = ActParameters(
   values = listOf(200, 210, 220, 230, 240),
   times = listOf(1, 1, 1, 1, 1),
   hitRate = 100,
 )
-val actParameters106 = ActParameters(
+val actParameters108 = ActParameters(
   values = listOf(74, 78, 82, 87, 91),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters107 = ActParameters(
+val actParameters109 = ActParameters(
   values = listOf(99999, 99999, 99999, 99999, 99999),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters108 = ActParameters(
-  values = listOf(2, 2, 2, 2, 2),
-  times = listOf(0, 0, 0, 0, 0),
-  hitRate = 100,
-)
-val actParameters109 = ActParameters(
+val actParameters110 = ActParameters(
   values = listOf(500000, 500000, 500000, 500000, 500000),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters110 = ActParameters(
+val actParameters111 = ActParameters(
   values = listOf(60, 60, 60, 60, 60),
   times = listOf(1, 1, 1, 1, 1),
   hitRate = 100,
 )
-val actParameters111 = ActParameters(
+val actParameters112 = ActParameters(
   values = listOf(40, 42, 44, 47, 50),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters112 = ActParameters(
+val actParameters113 = ActParameters(
   values = listOf(5, 6, 7, 8, 10),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters113 = ActParameters(
+val actParameters114 = ActParameters(
   values = listOf(2, 2, 2, 2, 2),
   times = listOf(1, 1, 1, 1, 1),
   hitRate = 100,
 )
-val actParameters114 = ActParameters(
+val actParameters115 = ActParameters(
   values = listOf(350, 370, 390, 420, 450),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters115 = ActParameters(
+val actParameters116 = ActParameters(
   values = listOf(270, 510, 940, 1550, 2370),
   times = listOf(0, 0, 0, 0, 0),
   hitRate = 100,
 )
-val actParameters116 = ActParameters(
+val actParameters117 = ActParameters(
   values = listOf(8, 9, 10, 11, 12),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters117 = ActParameters(
+val actParameters118 = ActParameters(
   values = listOf(510, 990, 1800, 2970, 4530),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters118 = ActParameters(
+val actParameters119 = ActParameters(
   values = listOf(20, 22, 24, 27, 29),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters119 = ActParameters(
+val actParameters120 = ActParameters(
   values = listOf(7, 7, 8, 9, 10),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters120 = ActParameters(
+val actParameters121 = ActParameters(
   values = listOf(31, 35, 38, 42, 45),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters121 = ActParameters(
-  values = listOf(20, 23, 26, 29, 33),
-  times = listOf(1, 1, 1, 1, 1),
-  hitRate = 100,
-)
 val actParameters122 = ActParameters(
-  values = listOf(164, 172, 181, 189, 197),
+  values = listOf(20, 23, 26, 29, 33),
   times = listOf(1, 1, 1, 1, 1),
   hitRate = 100,
 )
 val actParameters123 = ActParameters(
-  values = listOf(117, 123, 128, 134, 140),
+  values = listOf(164, 172, 181, 189, 197),
   times = listOf(1, 1, 1, 1, 1),
   hitRate = 100,
 )
 val actParameters124 = ActParameters(
+  values = listOf(117, 123, 128, 134, 140),
+  times = listOf(1, 1, 1, 1, 1),
+  hitRate = 100,
+)
+val actParameters125 = ActParameters(
   values = listOf(60, 100, 170, 300, 470),
   times = listOf(4, 4, 4, 4, 4),
   hitRate = 100,
 )
-val actParameters125 = ActParameters(
+val actParameters126 = ActParameters(
   values = listOf(93, 98, 102, 107, 112),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters126 = ActParameters(
+val actParameters127 = ActParameters(
   values = listOf(300, 510, 840, 1390, 2120),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters127 = ActParameters(
+val actParameters128 = ActParameters(
   values = listOf(42, 47, 51, 56, 60),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters128 = ActParameters(
+val actParameters129 = ActParameters(
   values = listOf(18, 20, 22, 24, 26),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters129 = ActParameters(
+val actParameters130 = ActParameters(
   values = listOf(146, 153, 161, 168, 175),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters130 = ActParameters(
+val actParameters131 = ActParameters(
   values = listOf(21, 23, 25, 27, 30),
   times = listOf(1, 1, 1, 1, 1),
   hitRate = 100,
 )
-val actParameters131 = ActParameters(
+val actParameters132 = ActParameters(
   values = listOf(14, 16, 17, 19, 20),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters132 = ActParameters(
+val actParameters133 = ActParameters(
   values = listOf(14, 15, 17, 18, 20),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters133 = ActParameters(
+val actParameters134 = ActParameters(
   values = listOf(0, 0, 0, 0, 0),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 20,
 )
-val actParameters134 = ActParameters(
+val actParameters135 = ActParameters(
   values = listOf(450, 770, 1280, 2100, 3210),
   times = listOf(0, 0, 0, 0, 0),
   hitRate = 100,
 )
-val actParameters135 = ActParameters(
+val actParameters136 = ActParameters(
   values = listOf(0, 0, 0, 0, 0),
   times = listOf(1, 1, 1, 1, 1),
   hitRate = 50,
 )
-val actParameters136 = ActParameters(
+val actParameters137 = ActParameters(
   values = listOf(84, 88, 92, 97, 101),
   times = listOf(1, 1, 1, 1, 1),
   hitRate = 100,
 )
-val actParameters137 = ActParameters(
+val actParameters138 = ActParameters(
   values = listOf(186, 200, 214, 228, 243),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters138 = ActParameters(
+val actParameters139 = ActParameters(
   values = listOf(10, 11, 12, 13, 15),
   times = listOf(0, 0, 0, 0, 0),
   hitRate = 100,
 )
-val actParameters139 = ActParameters(
+val actParameters140 = ActParameters(
   values = listOf(0, 0, 0, 0, 0),
   times = listOf(1, 1, 1, 1, 1),
   hitRate = 75,
 )
-val actParameters140 = ActParameters(
+val actParameters141 = ActParameters(
   values = listOf(10, 12, 14, 17, 20),
   times = listOf(0, 0, 0, 0, 0),
   hitRate = 100,
 )
-val actParameters141 = ActParameters(
+val actParameters142 = ActParameters(
   values = listOf(1500, 1800, 2100, 2500, 3000),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters142 = ActParameters(
+val actParameters143 = ActParameters(
   values = listOf(91, 95, 99, 104, 109),
   times = listOf(1, 1, 1, 1, 1),
   hitRate = 100,
 )
-val actParameters143 = ActParameters(
+val actParameters144 = ActParameters(
   values = listOf(91, 95, 99, 104, 109),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters144 = ActParameters(
+val actParameters145 = ActParameters(
   values = listOf(30, 32, 34, 37, 40),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters145 = ActParameters(
+val actParameters146 = ActParameters(
   values = listOf(350, 370, 390, 420, 450),
   times = listOf(10, 10, 10, 10, 10),
   hitRate = 100,
 )
-val actParameters146 = ActParameters(
+val actParameters147 = ActParameters(
   values = listOf(307, 323, 338, 353, 369),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters147 = ActParameters(
+val actParameters148 = ActParameters(
   values = listOf(60, 65, 70, 75, 80),
   times = listOf(0, 0, 0, 0, 0),
   hitRate = 100,
 )
-val actParameters148 = ActParameters(
+val actParameters149 = ActParameters(
   values = listOf(50, 50, 50, 50, 50),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters149 = ActParameters(
+val actParameters150 = ActParameters(
   values = listOf(300000, 350000, 400000, 450000, 500000),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters150 = ActParameters(
+val actParameters151 = ActParameters(
   values = listOf(100, 100, 100, 100, 100),
   times = listOf(0, 0, 0, 0, 0),
   hitRate = 100,
 )
-val actParameters151 = ActParameters(
+val actParameters152 = ActParameters(
   values = listOf(7, 8, 9, 9, 10),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters152 = ActParameters(
+val actParameters153 = ActParameters(
   values = listOf(27, 30, 33, 36, 39),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters153 = ActParameters(
+val actParameters154 = ActParameters(
   values = listOf(15, 16, 18, 19, 21),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters154 = ActParameters(
+val actParameters155 = ActParameters(
   values = listOf(286, 300, 314, 328, 343),
   times = listOf(5, 5, 5, 5, 5),
   hitRate = 100,
 )
-val actParameters155 = ActParameters(
+val actParameters156 = ActParameters(
   values = listOf(29, 32, 35, 38, 41),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters156 = ActParameters(
+val actParameters157 = ActParameters(
   values = listOf(15, 17, 19, 21, 22),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters157 = ActParameters(
+val actParameters158 = ActParameters(
   values = listOf(200, 390, 720, 1180, 1800),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters158 = ActParameters(
+val actParameters159 = ActParameters(
   values = listOf(240, 460, 840, 1380, 2110),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters159 = ActParameters(
+val actParameters160 = ActParameters(
   values = listOf(7, 8, 8, 9, 10),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters160 = ActParameters(
+val actParameters161 = ActParameters(
   values = listOf(15, 17, 19, 20, 22),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters161 = ActParameters(
+val actParameters162 = ActParameters(
   values = listOf(10, 11, 12, 13, 14),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters162 = ActParameters(
+val actParameters163 = ActParameters(
   values = listOf(20, 23, 26, 29, 33),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters163 = ActParameters(
+val actParameters164 = ActParameters(
   values = listOf(6, 8, 10, 12, 15),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters164 = ActParameters(
+val actParameters165 = ActParameters(
   values = listOf(328, 345, 361, 378, 394),
   times = listOf(5, 5, 5, 5, 5),
   hitRate = 100,
 )
-val actParameters165 = ActParameters(
+val actParameters166 = ActParameters(
   values = listOf(164, 172, 181, 189, 197),
   times = listOf(6, 6, 6, 6, 6),
   hitRate = 100,
 )
-val actParameters166 = ActParameters(
+val actParameters167 = ActParameters(
   values = listOf(97, 101, 106, 112, 116),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters167 = ActParameters(
+val actParameters168 = ActParameters(
   values = listOf(2000, 2500, 3000, 3500, 4000),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters168 = ActParameters(
+val actParameters169 = ActParameters(
   values = listOf(125, 135, 145, 155, 170),
   times = listOf(5, 5, 5, 5, 5),
   hitRate = 100,
 )
-val actParameters169 = ActParameters(
+val actParameters170 = ActParameters(
   values = listOf(97, 102, 106, 111, 116),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters170 = ActParameters(
+val actParameters171 = ActParameters(
   values = listOf(10, 12, 14, 17, 20),
   times = listOf(1, 1, 1, 1, 1),
   hitRate = 100,
 )
-val actParameters171 = ActParameters(
+val actParameters172 = ActParameters(
   values = listOf(200, 210, 220, 230, 240),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters172 = ActParameters(
+val actParameters173 = ActParameters(
   values = listOf(60, 60, 60, 60, 60),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
-val actParameters173 = ActParameters(
+val actParameters174 = ActParameters(
   values = listOf(1, 1, 1, 1, 1),
   times = listOf(1, 1, 1, 1, 1),
-  hitRate = 100,
-)
-val actParameters174 = ActParameters(
-  values = listOf(30, 30, 30, 30, 30),
-  times = listOf(0, 0, 0, 0, 0),
   hitRate = 100,
 )
 val actParameters175 = ActParameters(
@@ -1768,221 +1768,231 @@ val actParameters350 = ActParameters(
   hitRate = 100,
 )
 val actParameters351 = ActParameters(
-  values = listOf(6, 6, 7, 8, 8),
-  times = listOf(3, 3, 3, 3, 3),
+  values = listOf(30, 30, 30, 30, 30),
+  times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
 val actParameters352 = ActParameters(
-  values = listOf(28, 31, 34, 37, 40),
-  times = listOf(2, 2, 2, 2, 2),
-  hitRate = 100,
-)
-val actParameters353 = ActParameters(
-  values = listOf(18, 19, 21, 23, 25),
-  times = listOf(2, 2, 2, 2, 2),
-  hitRate = 100,
-)
-val actParameters354 = ActParameters(
-  values = listOf(140, 280, 520, 850, 1300),
-  times = listOf(3, 3, 3, 3, 3),
-  hitRate = 100,
-)
-val actParameters355 = ActParameters(
-  values = listOf(10, 11, 13, 14, 15),
-  times = listOf(3, 3, 3, 3, 3),
-  hitRate = 100,
-)
-val actParameters356 = ActParameters(
-  values = listOf(330, 560, 930, 1530, 2330),
-  times = listOf(3, 3, 3, 3, 3),
-  hitRate = 100,
-)
-val actParameters357 = ActParameters(
-  values = listOf(186, 200, 214, 228, 243),
-  times = listOf(5, 5, 5, 5, 5),
-  hitRate = 100,
-)
-val actParameters358 = ActParameters(
-  values = listOf(80, 160, 300, 510, 810),
-  times = listOf(4, 4, 4, 4, 4),
-  hitRate = 100,
-)
-val actParameters359 = ActParameters(
-  values = listOf(10, 11, 12, 14, 15),
-  times = listOf(3, 3, 3, 3, 3),
-  hitRate = 100,
-)
-val actParameters360 = ActParameters(
-  values = listOf(190, 380, 690, 1140, 1740),
-  times = listOf(3, 3, 3, 3, 3),
-  hitRate = 100,
-)
-val actParameters361 = ActParameters(
-  values = listOf(810, 1370, 2270, 3730, 5690),
-  times = listOf(3, 3, 3, 3, 3),
-  hitRate = 100,
-)
-val actParameters362 = ActParameters(
-  values = listOf(810, 1370, 2270, 3730, 5690),
-  times = listOf(4, 4, 4, 4, 4),
-  hitRate = 100,
-)
-val actParameters363 = ActParameters(
-  values = listOf(307, 323, 338, 353, 369),
-  times = listOf(4, 4, 4, 4, 4),
-  hitRate = 100,
-)
-val actParameters364 = ActParameters(
-  values = listOf(30, 32, 34, 37, 40),
-  times = listOf(0, 0, 0, 0, 0),
-  hitRate = 100,
-)
-val actParameters365 = ActParameters(
-  values = listOf(7500, 7500, 7500, 7500, 7500),
-  times = listOf(2, 2, 2, 2, 2),
-  hitRate = 75,
-)
-val actParameters366 = ActParameters(
-  values = listOf(10, 15, 20, 25, 30),
-  times = listOf(0, 0, 0, 0, 0),
-  hitRate = 100,
-)
-val actParameters367 = ActParameters(
-  values = listOf(43, 45, 47, 49, 51),
-  times = listOf(1, 1, 1, 1, 1),
-  hitRate = 100,
-)
-val actParameters368 = ActParameters(
-  values = listOf(20, 40, 80, 130, 210),
-  times = listOf(4, 4, 4, 4, 4),
-  hitRate = 100,
-)
-val actParameters369 = ActParameters(
-  values = listOf(130, 260, 490, 830, 1300),
-  times = listOf(4, 4, 4, 4, 4),
-  hitRate = 100,
-)
-val actParameters370 = ActParameters(
-  values = listOf(17, 19, 21, 23, 25),
-  times = listOf(3, 3, 3, 3, 3),
-  hitRate = 100,
-)
-val actParameters371 = ActParameters(
-  values = listOf(240, 250, 260, 270, 280),
-  times = listOf(3, 3, 3, 3, 3),
-  hitRate = 100,
-)
-val actParameters372 = ActParameters(
-  values = listOf(300, 580, 1070, 1770, 2700),
-  times = listOf(0, 0, 0, 0, 0),
-  hitRate = 100,
-)
-val actParameters373 = ActParameters(
-  values = listOf(32, 36, 39, 43, 46),
-  times = listOf(3, 3, 3, 3, 3),
-  hitRate = 100,
-)
-val actParameters374 = ActParameters(
-  values = listOf(440, 860, 1560, 2580, 3930),
-  times = listOf(0, 0, 0, 0, 0),
-  hitRate = 100,
-)
-val actParameters375 = ActParameters(
-  values = listOf(190, 320, 540, 890, 1350),
-  times = listOf(0, 0, 0, 0, 0),
-  hitRate = 100,
-)
-val actParameters376 = ActParameters(
-  values = listOf(0, 0, 0, 0, 0),
-  times = listOf(1, 2, 3, 4, 5),
-  hitRate = 100,
-)
-val actParameters377 = ActParameters(
-  values = listOf(3000, 4000, 5000, 6000, 8000),
-  times = listOf(2, 2, 2, 2, 2),
-  hitRate = 100,
-)
-val actParameters378 = ActParameters(
-  values = listOf(1000, 1200, 1400, 1600, 2000),
-  times = listOf(3, 3, 3, 3, 3),
-  hitRate = 100,
-)
-val actParameters379 = ActParameters(
-  values = listOf(5, 7, 9, 12, 15),
-  times = listOf(0, 0, 0, 0, 0),
-  hitRate = 100,
-)
-val actParameters380 = ActParameters(
-  values = listOf(132, 138, 145, 151, 152),
-  times = listOf(1, 1, 1, 1, 1),
-  hitRate = 100,
-)
-val actParameters381 = ActParameters(
-  values = listOf(70, 130, 230, 390, 510),
-  times = listOf(4, 4, 4, 4, 4),
-  hitRate = 100,
-)
-val actParameters382 = ActParameters(
-  values = listOf(117, 123, 128, 129, 130),
-  times = listOf(1, 1, 1, 1, 1),
-  hitRate = 100,
-)
-val actParameters383 = ActParameters(
-  values = listOf(70, 130, 230, 350, 480),
-  times = listOf(4, 4, 4, 4, 4),
-  hitRate = 100,
-)
-val actParameters384 = ActParameters(
-  values = listOf(30, 70, 140, 240, 380),
-  times = listOf(3, 3, 3, 3, 3),
-  hitRate = 100,
-)
-val actParameters385 = ActParameters(
-  values = listOf(70, 140, 260, 440, 700),
-  times = listOf(3, 3, 3, 3, 3),
-  hitRate = 100,
-)
-val actParameters386 = ActParameters(
-  values = listOf(1, 1, 1, 1, 1),
-  times = listOf(3, 3, 3, 3, 3),
-  hitRate = 100,
-)
-val actParameters387 = ActParameters(
-  values = listOf(3000, 3500, 4000, 4500, 5000),
-  times = listOf(1, 1, 1, 1, 1),
-  hitRate = 50,
-)
-val actParameters388 = ActParameters(
-  values = listOf(10, 10, 10, 10, 10),
-  times = listOf(2, 2, 2, 2, 2),
-  hitRate = 100,
-)
-val actParameters389 = ActParameters(
-  values = listOf(0, 0, 0, 0, 0),
-  times = listOf(2, 2, 2, 2, 2),
-  hitRate = 0,
-)
-val actParameters390 = ActParameters(
   values = listOf(20, 20, 20, 20, 20),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,
 )
+val actParameters353 = ActParameters(
+  values = listOf(260, 270, 280, 290, 300),
+  times = listOf(5, 5, 5, 5, 5),
+  hitRate = 100,
+)
+val actParameters354 = ActParameters(
+  values = listOf(6, 6, 7, 8, 8),
+  times = listOf(3, 3, 3, 3, 3),
+  hitRate = 100,
+)
+val actParameters355 = ActParameters(
+  values = listOf(28, 31, 34, 37, 40),
+  times = listOf(2, 2, 2, 2, 2),
+  hitRate = 100,
+)
+val actParameters356 = ActParameters(
+  values = listOf(18, 19, 21, 23, 25),
+  times = listOf(2, 2, 2, 2, 2),
+  hitRate = 100,
+)
+val actParameters357 = ActParameters(
+  values = listOf(140, 280, 520, 850, 1300),
+  times = listOf(3, 3, 3, 3, 3),
+  hitRate = 100,
+)
+val actParameters358 = ActParameters(
+  values = listOf(10, 11, 13, 14, 15),
+  times = listOf(3, 3, 3, 3, 3),
+  hitRate = 100,
+)
+val actParameters359 = ActParameters(
+  values = listOf(330, 560, 930, 1530, 2330),
+  times = listOf(3, 3, 3, 3, 3),
+  hitRate = 100,
+)
+val actParameters360 = ActParameters(
+  values = listOf(186, 200, 214, 228, 243),
+  times = listOf(5, 5, 5, 5, 5),
+  hitRate = 100,
+)
+val actParameters361 = ActParameters(
+  values = listOf(80, 160, 300, 510, 810),
+  times = listOf(4, 4, 4, 4, 4),
+  hitRate = 100,
+)
+val actParameters362 = ActParameters(
+  values = listOf(10, 11, 12, 14, 15),
+  times = listOf(3, 3, 3, 3, 3),
+  hitRate = 100,
+)
+val actParameters363 = ActParameters(
+  values = listOf(190, 380, 690, 1140, 1740),
+  times = listOf(3, 3, 3, 3, 3),
+  hitRate = 100,
+)
+val actParameters364 = ActParameters(
+  values = listOf(810, 1370, 2270, 3730, 5690),
+  times = listOf(3, 3, 3, 3, 3),
+  hitRate = 100,
+)
+val actParameters365 = ActParameters(
+  values = listOf(810, 1370, 2270, 3730, 5690),
+  times = listOf(4, 4, 4, 4, 4),
+  hitRate = 100,
+)
+val actParameters366 = ActParameters(
+  values = listOf(307, 323, 338, 353, 369),
+  times = listOf(4, 4, 4, 4, 4),
+  hitRate = 100,
+)
+val actParameters367 = ActParameters(
+  values = listOf(30, 32, 34, 37, 40),
+  times = listOf(0, 0, 0, 0, 0),
+  hitRate = 100,
+)
+val actParameters368 = ActParameters(
+  values = listOf(7500, 7500, 7500, 7500, 7500),
+  times = listOf(2, 2, 2, 2, 2),
+  hitRate = 75,
+)
+val actParameters369 = ActParameters(
+  values = listOf(10, 15, 20, 25, 30),
+  times = listOf(0, 0, 0, 0, 0),
+  hitRate = 100,
+)
+val actParameters370 = ActParameters(
+  values = listOf(43, 45, 47, 49, 51),
+  times = listOf(1, 1, 1, 1, 1),
+  hitRate = 100,
+)
+val actParameters371 = ActParameters(
+  values = listOf(20, 40, 80, 130, 210),
+  times = listOf(4, 4, 4, 4, 4),
+  hitRate = 100,
+)
+val actParameters372 = ActParameters(
+  values = listOf(130, 260, 490, 830, 1300),
+  times = listOf(4, 4, 4, 4, 4),
+  hitRate = 100,
+)
+val actParameters373 = ActParameters(
+  values = listOf(17, 19, 21, 23, 25),
+  times = listOf(3, 3, 3, 3, 3),
+  hitRate = 100,
+)
+val actParameters374 = ActParameters(
+  values = listOf(240, 250, 260, 270, 280),
+  times = listOf(3, 3, 3, 3, 3),
+  hitRate = 100,
+)
+val actParameters375 = ActParameters(
+  values = listOf(300, 580, 1070, 1770, 2700),
+  times = listOf(0, 0, 0, 0, 0),
+  hitRate = 100,
+)
+val actParameters376 = ActParameters(
+  values = listOf(32, 36, 39, 43, 46),
+  times = listOf(3, 3, 3, 3, 3),
+  hitRate = 100,
+)
+val actParameters377 = ActParameters(
+  values = listOf(440, 860, 1560, 2580, 3930),
+  times = listOf(0, 0, 0, 0, 0),
+  hitRate = 100,
+)
+val actParameters378 = ActParameters(
+  values = listOf(190, 320, 540, 890, 1350),
+  times = listOf(0, 0, 0, 0, 0),
+  hitRate = 100,
+)
+val actParameters379 = ActParameters(
+  values = listOf(0, 0, 0, 0, 0),
+  times = listOf(1, 2, 3, 4, 5),
+  hitRate = 100,
+)
+val actParameters380 = ActParameters(
+  values = listOf(3000, 4000, 5000, 6000, 8000),
+  times = listOf(2, 2, 2, 2, 2),
+  hitRate = 100,
+)
+val actParameters381 = ActParameters(
+  values = listOf(1000, 1200, 1400, 1600, 2000),
+  times = listOf(3, 3, 3, 3, 3),
+  hitRate = 100,
+)
+val actParameters382 = ActParameters(
+  values = listOf(5, 7, 9, 12, 15),
+  times = listOf(0, 0, 0, 0, 0),
+  hitRate = 100,
+)
+val actParameters383 = ActParameters(
+  values = listOf(132, 138, 145, 151, 152),
+  times = listOf(1, 1, 1, 1, 1),
+  hitRate = 100,
+)
+val actParameters384 = ActParameters(
+  values = listOf(70, 130, 230, 390, 510),
+  times = listOf(4, 4, 4, 4, 4),
+  hitRate = 100,
+)
+val actParameters385 = ActParameters(
+  values = listOf(117, 123, 128, 129, 130),
+  times = listOf(1, 1, 1, 1, 1),
+  hitRate = 100,
+)
+val actParameters386 = ActParameters(
+  values = listOf(70, 130, 230, 350, 480),
+  times = listOf(4, 4, 4, 4, 4),
+  hitRate = 100,
+)
+val actParameters387 = ActParameters(
+  values = listOf(30, 70, 140, 240, 380),
+  times = listOf(3, 3, 3, 3, 3),
+  hitRate = 100,
+)
+val actParameters388 = ActParameters(
+  values = listOf(70, 140, 260, 440, 700),
+  times = listOf(3, 3, 3, 3, 3),
+  hitRate = 100,
+)
+val actParameters389 = ActParameters(
+  values = listOf(1, 1, 1, 1, 1),
+  times = listOf(3, 3, 3, 3, 3),
+  hitRate = 100,
+)
+val actParameters390 = ActParameters(
+  values = listOf(3000, 3500, 4000, 4500, 5000),
+  times = listOf(1, 1, 1, 1, 1),
+  hitRate = 50,
+)
 val actParameters391 = ActParameters(
+  values = listOf(10, 10, 10, 10, 10),
+  times = listOf(2, 2, 2, 2, 2),
+  hitRate = 100,
+)
+val actParameters392 = ActParameters(
+  values = listOf(0, 0, 0, 0, 0),
+  times = listOf(2, 2, 2, 2, 2),
+  hitRate = 0,
+)
+val actParameters393 = ActParameters(
   values = listOf(125, 135, 145, 155, 170),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters392 = ActParameters(
+val actParameters394 = ActParameters(
   values = listOf(170, 175, 180, 185, 200),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters393 = ActParameters(
+val actParameters395 = ActParameters(
   values = listOf(40, 40, 40, 40, 40),
   times = listOf(3, 3, 3, 3, 3),
   hitRate = 100,
 )
-val actParameters394 = ActParameters(
+val actParameters396 = ActParameters(
   values = listOf(99999, 99999, 99999, 99999, 99999),
   times = listOf(2, 2, 2, 2, 2),
   hitRate = 100,

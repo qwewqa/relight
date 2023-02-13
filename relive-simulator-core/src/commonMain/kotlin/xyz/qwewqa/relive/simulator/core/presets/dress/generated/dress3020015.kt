@@ -171,7 +171,7 @@ val dress3020015 = PartialDressBlueprint(
       apCost = 2,
       icon = 1,
       parameters = listOf(
-        actParameters96,
+        actParameters98,
         actParameters1,
         actParameters1,
         actParameters1,
@@ -198,8 +198,8 @@ val dress3020015 = PartialDressBlueprint(
       icon = 152,
       parameters = listOf(
         actParameters14,
-        actParameters80,
-        actParameters80,
+        actParameters82,
+        actParameters82,
         actParameters1,
         actParameters1,
       ),
@@ -211,7 +211,7 @@ val dress3020015 = PartialDressBlueprint(
       icon = 44,
       parameters = listOf(
         actParameters230,
-        actParameters162,
+        actParameters163,
         actParameters60,
         actParameters1,
         actParameters1,

@@ -151,7 +151,8 @@ val dress = dress1060022(
         */
         ),
     ),
-    unitSkill = null /* 風・陽属性の舞台少女のACTパワーアップ %opt1_value%%(MAX50%) クリティカル威力アップ %opt2_value%%(MAX50%)\n立ち位置中の舞台少女のACTパワーアップ %opt3_value%%(MAX50%) クリティカル威力アップ %opt4_value%%(MAX50%) */,
+    unitSkill = null /* 風・陽属性の舞台少女のACTパワーアップ %opt1_value%%(MAX50%) クリティカル威力アップ %opt2_value%%(MAX50%)
+立ち位置中の舞台少女のACTパワーアップ %opt3_value%%(MAX50%) クリティカル威力アップ %opt4_value%%(MAX50%) */,
     multipleCA = false,
     categories = setOf(),
 )

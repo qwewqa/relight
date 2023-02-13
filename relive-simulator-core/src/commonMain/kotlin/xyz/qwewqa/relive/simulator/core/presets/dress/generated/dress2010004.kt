@@ -189,7 +189,7 @@ val dress2010004 = PartialDressBlueprint(
       apCost = 2,
       icon = 62,
       parameters = listOf(
-        actParameters123,
+        actParameters124,
         actParameters269,
         actParameters1,
         actParameters1,
