@@ -355,8 +355,9 @@ private fun brilliantBirthday(character: Character, memoFun: PartialMemoirBluepr
                     applyBuff(DexterityUpBuff, values4, times4)
                 }
             }
-        }
-    )
+        },
+        additionalTags = listOf(EffectTag.Birthday),
+        )
 }
 
 val brilliantBirthdays = listOf(
@@ -1007,50 +1008,6 @@ val MeiFansDivination = equip4000334(
     },
 )
 
-val DevilsBargain = equip4000335(
-    name = "Devil's Bargain",
-    baseAutoskills = listOf(
-        EffectiveDamageDealtPassive.new(20)
-    ),
-    maxAutoskills = listOf(
-        EffectiveDamageDealtPassive.new(30)
-    ),
-    cutinTarget = CutinTarget.TurnStart,
-    cutinAct = {
-        Act {
-            targetAllyAoe(MoonOnlyCondition).act {
-                applyBuff(
-                    effect = EffectiveDamageDealtUpBuff,
-                    value = values1,
-                    turns = times1,
-                )
-            }
-        }
-    },
-)
-
-val DevilInMe = equip4000346(
-    name = "Devil in Me",
-    baseAutoskills = listOf(
-        EffectiveDamageDealtPassive.new(20)
-    ),
-    maxAutoskills = listOf(
-        EffectiveDamageDealtPassive.new(30)
-    ),
-    cutinTarget = CutinTarget.TurnStart,
-    cutinAct = {
-        Act {
-            targetAllyAoe(WindOnlyCondition).act {
-                applyBuff(
-                    effect = EffectiveDamageDealtUpBuff,
-                    value = values1,
-                    turns = times1,
-                )
-            }
-        }
-    },
-)
-
 val RoommatesHelp = equip4000324(
     name = "Roommate's Help",
     baseAutoskills = listOf(
@@ -1163,16 +1120,17 @@ private fun oneSpecialDay(character: Character, attribute: Attribute, memoFun: P
                     applyBuff(CriticalUpBuff, values4, times4)
                 }
             }
-        }
-    )
+        },
+        additionalTags = listOf(EffectTag.Birthday),
+        )
 }
 
 val oneSpecialDays = listOf(
     oneSpecialDay(Character.Hikari, Attribute.Snow, equip4000336),
     oneSpecialDay(Character.Tsukasa, Attribute.Moon, equip4000345),
-    oneSpecialDay(Character.Hikari, Attribute.Flower, equip4000336),
-    oneSpecialDay(Character.Hikari, Attribute.Wind, equip4000336),
     oneSpecialDay(Character.Fumi, Attribute.Space, equip4000350),
+    oneSpecialDay(Character.Michiru, Attribute.Wind, equip4000351),
+    oneSpecialDay(Character.Hikari, Attribute.Flower, equip4000336),
     oneSpecialDay(Character.Hikari, Attribute.Cloud, equip4000336),
 )
 
@@ -1262,4 +1220,31 @@ val MilkyHolmesSherlockHikari = equip4000355(
             }
         }
     },
+)
+private fun oathMemo(name: String, attribute: Attribute, memoFun: PartialMemoirBlueprint): MemoirBlueprint {
+    val condition = attributeCondition(attribute)
+    return memoFun(
+        name = name,
+        baseAutoskills = listOf(
+            EffectiveDamageDealtPassive.new(20),
+        ),
+        maxAutoskills  = listOf(
+            EffectiveDamageDealtPassive.new(30),
+        ),
+        cutinTarget = CutinTarget.TurnStart,
+        cutinAct = {
+            Act {
+                targetAllyAoe(condition).act {
+                    applyBuff(EffectiveDamageDealtUpBuff, values1, times1)
+                }
+            }
+        },
+        additionalTags = listOf(EffectTag.Oath),
+        )
+}
+
+val oathMemos = listOf(
+    oathMemo("Devil's Bargain", Attribute.Moon, equip4000335),
+    oathMemo("Devil in Me", Attribute.Wind, equip4000346),
+    oathMemo("Dazzling Protagonist", Attribute.Cloud, equip4000359),
 )

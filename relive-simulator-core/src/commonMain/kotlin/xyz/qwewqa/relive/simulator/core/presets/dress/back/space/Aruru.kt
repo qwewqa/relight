@@ -1,22 +1,21 @@
-package xyz.qwewqa.relive.simulator.core.presets.dress.back.snow
+package xyz.qwewqa.relive.simulator.core.presets.dress.back.space
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.*
-import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1070021
+import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3010021
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
 
 
-val FruitTartNana = dress1070021(
-    name = "Fruit Tart Nana",
+val CordeliaAruru = dress3010021(
+    name = "Cordelia Aruru",
     acts = listOf(
-        ActType.Act1.blueprint("Happy Slash") {
+        ActType.Act1.blueprint("Deadly Sharpshooting") {
             Act {
                 targetBack().act {
                     attack(
@@ -36,10 +35,14 @@ val FruitTartNana = dress1070021(
                         turns = times4,
                     )
                 }
-                applyAllyStageEffect(BloomingFlowers, 2)
+                applyAllyStageEffect(
+                    effect = Bullseye,
+                    level = 2,
+                    turns = 2,
+                )
             }
         },
-        ActType.Act2.blueprint("Slash of Hope") {
+        ActType.Act2.blueprint("Sharpshooting of Hope") {
             Act {
                 targetBack().act {
                     attack(
@@ -61,13 +64,13 @@ val FruitTartNana = dress1070021(
                     )
                 }
                 applyEnemyStageEffect(
-                    effect = SelfTrapping,
+                    effect = AlluringEyes,
                     level = 2,
                     turns = 2
                 )
             }
         },
-        ActType.Act3.blueprint("Thunder Slash") {
+        ActType.Act3.blueprint("Thunder Sharpshooting") {
             Act {
                 targetBack().act {
                     attack(
@@ -93,13 +96,14 @@ val FruitTartNana = dress1070021(
                     turns = 2
                 )
                 applyAllyStageEffect(
-                    effect = ApplauseSnow,
+                    effect = ApplauseSpace,
+                    level = 2,
                     turns = 6,
                 )
 
             }
         },
-        ActType.ClimaxAct.blueprint("Fruits Co-Performance") {
+        ActType.ClimaxAct.blueprint("Toys~Hyper Sensitive~") {
             Act {
                 targetSelf().act {
                     applyCountableBuff(
@@ -113,6 +117,9 @@ val FruitTartNana = dress1070021(
                         turns = times2,
                     )
                 }
+                targetBack(1).act {
+                    dispelCountable(BuffCategory.Positive)
+                }
                 targetAoe().act {
                     dispelTimed(BuffCategory.Positive)
                 }
@@ -122,12 +129,12 @@ val FruitTartNana = dress1070021(
                         hitCount = times4,
                     )
                     applyCountableBuff(
-                        CountableBuff.Daze,
+                        CountableBuff.Pride,
                         chance = 33,
                     )
                 }
-                applyAllyStageEffect(BloomingFlowers, 2)
-                applyAllyStageEffect(ApplauseSnow, 6)
+                applyAllyStageEffect(Bullseye, 2)
+                applyAllyStageEffect(ApplauseSpace, 6)
             }
         }
     ),
@@ -137,24 +144,24 @@ val FruitTartNana = dress1070021(
             TeamReviveBuffPassive.new(50, 1),
             TeamBlessingEffectiveDamagePassive.new(50, 1),
             TeamBrillianceRecoveryPassive.new(10),
-            AllyStageEffectPassive(ApplauseSnow).new(value = 1, time = 2)
+            AllyStageEffectPassive(ApplauseSpace).new(value = 1, time = 2)
         ),
         listOf(
             TeamDexterityUpBuffPassive.new(20, 3),
             TeamCriticalUpBuffPassive.new(20, 3),
             TeamAPDownBuffPassive.new(time = 1),
-            TeamAPDownBuffPassive.new(time = 2) + SeishoOnlyCondition,
-            AllyStageEffectPassive(BloomingFlowers).new(1, time = 2)
+            TeamAPDownBuffPassive.new(time = 2) + SpaceOnlyCondition,
+            AllyStageEffectPassive(Bullseye).new(1, time = 2)
         ),
         listOf(
-            TeamActUpScalingPassive100.new(30) + SnowOnlyCondition,
+            TeamActUpScalingPassive100.new(30) + SpaceOnlyCondition,
         ),
         listOf(
             NegativeEffectResistancePassive.new(100),
             NegativeCountableResistancePassive.new(value = 100)
         ),
     ),
-    unitSkill = ActCritical75UnitSkill + (SnowOnlyCondition or SunOnlyCondition),
+    unitSkill = ActCritical75UnitSkill + (SpaceOnlyCondition or StarOnlyCondition),
     multipleCA = true,
-    categories = setOf(DressCategory.Sweets),
+    categories = setOf(),
 )

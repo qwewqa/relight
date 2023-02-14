@@ -1,8 +1,7 @@
-package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr26
+package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr28
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.SagittariusJunna
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassiveV2
+import xyz.qwewqa.relive.simulator.core.presets.dress.middle.space.AquariusMahiru
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -16,13 +15,13 @@ import xyz.qwewqa.relive.simulator.core.stage.passive.AbnormalResistPassiveA
 import xyz.qwewqa.relive.simulator.core.stage.passive.BossElementResistPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 
-val tr26EmperorAkira = ActorLoadout(
-    "TR26 Emperor Akira",
+val tr28HangedManRui = ActorLoadout(
+    "TR28 Hanged Man Rui",
     Dress(
-        name = "Emperor Akira",
-        character = Character.Akira,
-        attribute = Attribute.Moon,
-        damageType = DamageType.Normal,
+        name = "Hanged Man Rui",
+        character = Character.Rui,
+        attribute = Attribute.Cloud,
+        damageType = DamageType.Special,
         position = Position.None,
         stats = defaultDressStats.copy(
             hp = 12_500_000,
@@ -35,7 +34,7 @@ val tr26EmperorAkira = ActorLoadout(
             ActType.Act1("Violent Slash", 2) {
                 targetBack().act {
                     attack(
-                        modifier = 150,
+                        modifier = 100,
                         hitCount = 1,
                     )
                 }
@@ -64,35 +63,24 @@ val tr26EmperorAkira = ActorLoadout(
                     )
                 }
             },
-            ActType.Act5("Defense Concerto", 2) {
+            ActType.Act5("Pursuit Concerto", 2) {
                 targetAoe().act {
                     attack(
-                        modifier = 120,
+                        modifier = 150,
                         hitCount = 4,
-                    )
-                }
-                targetSelf().act {
-                    applyBuff(
-                        effect = DamageTakenDownBuff,
-                        value = 30,
-                        turns = 2,
                     )
                 }
             },
-            ActType.Act6("Confusing Fire Moon", 2) {
+            ActType.Act6("Dimming Concerto", 2) {
                 targetAoe().act {
                     attack(
                         modifier = 120,
-                        hitCount = 4,
+                        hitCount = 3,
                     )
                     applyBuff(
-                        effect = ConfusionBuff,
-                        turns = 3,
-                    )
-                    applyBuff(
-                        effect = BurnBuff,
-                        value = 5000,
-                        turns = 3,
+                        effect = BrillianceGainDownBuff,
+                        value = 80,
+                        turns = 2,
                     )
                 }
             },
@@ -100,35 +88,44 @@ val tr26EmperorAkira = ActorLoadout(
                 targetSelf().act {
                     applyBuff(
                         effect = ActPowerUpBuff,
-                        value = 30,
+                        value = 50,
                         turns = 3,
                     )
                     applyBuff(
                         effect = DexterityUpBuff,
-                        value = 20,
+                        value = 50,
                         turns = 3,
                     )
                     applyBuff(
                         effect = CriticalUpBuff,
-                        value = 20,
+                        value = 50,
                         turns = 3,
                     )
                 }
             },
-            ActType.ClimaxAct("Galactic Kaiser-Walzer NEO", 2) {
+            ActType.Act8("Sleeping Concerto", 2) {
                 targetAoe().act {
                     attack(
                         modifier = 150,
                         hitCount = 4,
                     )
                     applyBuff(
-                        effect = ConfusionBuff,
-                        turns = 3,
+                        effect = SleepBuff,
+                        chance = 75,
+                        turns = 2,
+                    )
+                }
+            },
+            ActType.ClimaxAct("Upside Down World NEO", 2) {
+                targetAoe().act {
+                    attack(
+                        modifier = 200,
+                        hitCount = 4,
                     )
                     applyBuff(
-                        effect = BurnBuff,
-                        value = 5000,
-                        turns = 3,
+                        effect = SleepBuff,
+                        chance = 75,
+                        turns = 2,
                     )
                 }
             },
@@ -142,42 +139,46 @@ val tr26EmperorAkira = ActorLoadout(
             },
         ),
         autoSkills = listOf(
-            trEventBonusPassive(SagittariusJunna),
+            trEventBonusPassive2023(AquariusMahiru),
             AbnormalResistPassiveA.new(100),
             BossElementResistPassive.new(50),
         ),
     ),
 )
 
-val tr26EmperorAkiraVer2023 = tr26EmperorAkira.copy(
-    name = "TR26 Emperor Akira 2023",
-    dress = tr26EmperorAkira.dress.copy(
-        autoSkills = listOf(
-            trEventBonusPassiveV2(SagittariusJunna),
-            AbnormalResistPassiveA.new(100),
-            BossElementResistPassive.new(50),
-        ),
-    ),
-)
-
-val tr26EmperorAkiraStrategy = FixedStrategy {
+val tr28HangedManRuiStrategy = FixedStrategy {
     val boss = this.team.actors.values.first()
 
     when (turn) {
         1 -> {
             +boss[ActType.Act1]
             +boss[ActType.Act2]
-            +boss[ActType.Act7]
+            +boss[ActType.Act6]
         }
         2 -> {
-            +boss[ActType.Act5]
-            +boss[ActType.Act2]
+            +boss[ActType.Act7]
             +boss[ActType.Act3]
+            +boss[ActType.Act5]
         }
         3 -> {
             +boss[ActType.ClimaxAct]
+            +boss[ActType.Act2]
             +boss[ActType.Act3]
+        }
+        4 -> {
+            +boss[ActType.Act6]
+            +boss[ActType.Act7]
+            +boss[ActType.Act5]
+        }
+        5 -> {
+            +boss[ActType.Act8]
+            +boss[ActType.Act7]
             +boss[ActType.Act4]
+        }
+        6 -> {
+            +boss[ActType.Act6]
+            +boss[ActType.Act3]
+            +boss[ActType.Act5]
         }
         else -> {
             error("Unsupported.")
@@ -185,13 +186,13 @@ val tr26EmperorAkiraStrategy = FixedStrategy {
     }
 }
 
-val tr26EmperorAkiraDiff4 = ActorLoadout(
-    "TR26 Emperor Akira Difficulty 4",
+val tr28HangedManRuiDiff4 = ActorLoadout(
+    "TR28 Hanged Man Rui Difficulty 4",
     Dress(
-        name = "Emperor Akira",
-        character = Character.Akira,
-        attribute = Attribute.Moon,
-        damageType = DamageType.Normal,
+        name = "Hanged Man Rui",
+        character = Character.Rui,
+        attribute = Attribute.Cloud,
+        damageType = DamageType.Special,
         position = Position.None,
         stats = defaultDressStats.copy(
             hp = 1_800_000_000,
@@ -204,7 +205,7 @@ val tr26EmperorAkiraDiff4 = ActorLoadout(
             ActType.Act1("Violent Slash", 2) {
                 targetBack().act {
                     attack(
-                        modifier = 150,
+                        modifier = 100,
                         hitCount = 1,
                     )
                 }
@@ -233,35 +234,24 @@ val tr26EmperorAkiraDiff4 = ActorLoadout(
                     )
                 }
             },
-            ActType.Act5("Defense Concerto", 2) {
+            ActType.Act5("Pursuit Concerto", 2) {
                 targetAoe().act {
                     attack(
-                        modifier = 120,
+                        modifier = 150,
                         hitCount = 4,
-                    )
-                }
-                targetSelf().act {
-                    applyBuff(
-                        effect = DamageTakenDownBuff,
-                        value = 30,
-                        turns = 2,
                     )
                 }
             },
-            ActType.Act6("Confusing Fire Moon", 2) {
+            ActType.Act6("Dimming Concerto", 2) {
                 targetAoe().act {
                     attack(
                         modifier = 120,
-                        hitCount = 4,
+                        hitCount = 3,
                     )
                     applyBuff(
-                        effect = ConfusionBuff,
-                        turns = 3,
-                    )
-                    applyBuff(
-                        effect = BurnBuff,
-                        value = 99999,
-                        turns = 3,
+                        effect = BrillianceGainDownBuff,
+                        value = 80,
+                        turns = 2,
                     )
                 }
             },
@@ -269,22 +259,35 @@ val tr26EmperorAkiraDiff4 = ActorLoadout(
                 targetSelf().act {
                     applyBuff(
                         effect = ActPowerUpBuff,
-                        value = 30,
+                        value = 50,
                         turns = 3,
                     )
                     applyBuff(
                         effect = DexterityUpBuff,
-                        value = 20,
+                        value = 50,
                         turns = 3,
                     )
                     applyBuff(
                         effect = CriticalUpBuff,
-                        value = 20,
+                        value = 50,
                         turns = 3,
                     )
                 }
             },
-            ActType.ClimaxAct("Galactic Kaiser-Walzer NEO", 2) {
+            ActType.Act8("Sleeping Concerto", 2) {
+                targetAoe().act {
+                    attack(
+                        modifier = 150,
+                        hitCount = 4,
+                    )
+                    applyBuff(
+                        effect = SleepBuff,
+                        chance = 75,
+                        turns = 2,
+                    )
+                }
+            },
+            ActType.ClimaxAct("Upside Down World NEO", 2) {
                 targetAoe().act {
                     attack(
                         modifier = 99999,
@@ -292,13 +295,9 @@ val tr26EmperorAkiraDiff4 = ActorLoadout(
                         mode = HitMode.FIXED,
                     )
                     applyBuff(
-                        effect = ConfusionBuff,
-                        turns = 3,
-                    )
-                    applyBuff(
-                        effect = BurnBuff,
-                        value = 99999,
-                        turns = 3,
+                        effect = SleepBuff,
+                        chance = 75,
+                        turns = 2,
                     )
                 }
             },
@@ -312,60 +311,55 @@ val tr26EmperorAkiraDiff4 = ActorLoadout(
             },
         ),
         autoSkills = listOf(
-            trEventBonusPassive(SagittariusJunna),
+            trEventBonusPassive2023(AquariusMahiru),
             AbnormalResistPassiveA.new(100),
             BossElementResistPassive.new(50),
         ),
     ),
 )
 
-val tr26EmperorAkiraDiff4Ver2023 = tr26EmperorAkiraDiff4.copy(
-    name = "TR26 Emperor Akira Difficulty 4 2023",
-    dress = tr26EmperorAkiraDiff4.dress.copy(
-        autoSkills = listOf(
-            trEventBonusPassiveV2(SagittariusJunna),
-            AbnormalResistPassiveA.new(100),
-            BossElementResistPassive.new(50),
-        ),
-    ),
-)
-
-val tr26EmperorAkiraDiff4Strategy = FixedStrategy {
+val tr28HangedManRuiDiff4Strategy = FixedStrategy {
     val boss = this.team.actors.values.first()
 
     when (turn) {
         1 -> {
             +boss[ActType.Act1]
             +boss[ActType.Act2]
-            +boss[ActType.Act7]
+            +boss[ActType.Act6]
         }
+
         2 -> {
-            +boss[ActType.Act5]
-            +boss[ActType.Act2]
+            +boss[ActType.Act7]
             +boss[ActType.Act3]
+            +boss[ActType.Act5]
         }
+
         3 -> {
             +boss[ActType.ClimaxAct]
-            +boss[ActType.Act3]
-            +boss[ActType.Act4]
-        }
-        4 -> {
-            +boss[ActType.Act7]
             +boss[ActType.Act2]
-            +boss[ActType.Act4]
-        }
-        5 -> {
-            +boss[ActType.Act6]
-            +boss[ActType.Act5]
-            +boss[ActType.Act4]
-        }
-        6 -> {
-            +boss[ActType.Act7]
             +boss[ActType.Act3]
+        }
+
+        4 -> {
+            +boss[ActType.Act6]
+            +boss[ActType.Act7]
+            +boss[ActType.Act5]
+        }
+
+        5 -> {
+            +boss[ActType.Act8]
+            +boss[ActType.Act7]
             +boss[ActType.Act4]
         }
+
+        6 -> {
+            +boss[ActType.Act6]
+            +boss[ActType.Act3]
+            +boss[ActType.Act5]
+        }
+
         else -> {
             error("Unsupported.")
         }
     }
-}
+}    

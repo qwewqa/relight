@@ -1,37 +1,40 @@
-package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr27
+package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr28
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassiveV2
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow.CapricornClaudine
+import xyz.qwewqa.relive.simulator.core.presets.dress.middle.space.AquariusMahiru
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
+import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
+import xyz.qwewqa.relive.simulator.core.stage.passive.AbnormalGuardPassive
+import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
-import xyz.qwewqa.relive.simulator.core.stage.passive.AbnormalGuardPassive
-import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 
-val tr27MafiaNana = ActorLoadout(
-    "TR27 Mafia Nana",
+val tr28HellsingMichiru = ActorLoadout(
+    "TR28 Hellsing Michiru",
     Dress(
-        name = "Mafia Nana",
-        character = Character.Nana,
+        name = "TR28 Hellsing Michiru",
+        character = Character.Michiru,
         attribute = Attribute.Dream,
         damageType = DamageType.Normal,
         position = Position.None,
         stats = defaultDressStats.copy(
-            hp = 7_500_000,
-            actPower = 2300,
+            hp = 11_250_000,
+            actPower = 2100,
             normalDefense = 650,
             specialDefense = 650,
             agility = 1,
         ),
         acts = actsOf(
-            ActType.Act1("Strike", 2) {
-                targetBack().act {
+            ActType.Act1("Slash", 2) {
+                targetFront().act {
                     attack(
                         modifier = 100,
                         hitCount = 1,
@@ -39,7 +42,7 @@ val tr27MafiaNana = ActorLoadout(
                 }
             },
             ActType.Act2("Strong Slash", 2) {
-                targetBack().act {
+                targetFront().act {
                     attack(
                         modifier = 150,
                         hitCount = 1,
@@ -47,7 +50,7 @@ val tr27MafiaNana = ActorLoadout(
                 }
             },
             ActType.Act3("Triple Slash", 2) {
-                targetBack(3).act {
+                targetFront(3).act {
                     attack(
                         modifier = 70,
                         hitCount = 3,
@@ -55,7 +58,7 @@ val tr27MafiaNana = ActorLoadout(
                 }
             },
             ActType.Act4("Strong Triple Slash", 2) {
-                targetBack(3).act {
+                targetFront(3).act {
                     attack(
                         modifier = 100,
                         hitCount = 3,
@@ -63,22 +66,45 @@ val tr27MafiaNana = ActorLoadout(
                 }
             },
             ActType.Act5("Counter Concerto", 2) {
-                targetAoe().act{
+                targetAoe().act {
                     attack(
                         modifier = 120,
-                        hitCount = 2,
+                        hitCount = 3,
                     )
                 }
             },
-            ActType.Act6("Pursuit Concerto", 2) {
-                targetAoe().act{
+            ActType.Act6("Flurry Dance", 2) {
+                targetAoe().act {
                     attack(
                         modifier = 150,
-                        hitCount = 4,
+                        hitCount = 5,
                     )
                 }
             },
-            ActType.Act7("Inspiring Gust", 2) {
+            ActType.Act7("Weakening Concerto", 2) {
+                targetAoe().act{
+                    applyBuff(
+                        effect = ActPowerDownBuff,
+                        value = 50,
+                        turns = 3,
+                    )
+                }
+            },
+            ActType.Act8("Helpless Concerto", 2) {
+                targetAoe().act {
+                    applyBuff(
+                        effect = DexterityDownBuff,
+                        value = 30,
+                        turns = 3,
+                    )
+                    applyBuff(
+                        effect = CriticalDownBuff,
+                        value = 30,
+                        turns = 3,
+                    )
+                }
+            },
+            ActType.Act9("Perfect Aim Flurry", 2) {
                 targetSelf().act {
                     applyBuff(
                         effect = ActPowerUpBuff,
@@ -86,46 +112,33 @@ val tr27MafiaNana = ActorLoadout(
                         turns = 3,
                     )
                     applyBuff(
-                        effect = NormalDefenseUpBuff,
-                        value = 50,
-                        turns = 3,
+                        PerfectAimBuff,
+                        turns = 1,
                     )
-                    applyBuff(
-                        effect = SpecialDefenseUpBuff,
-                        value = 50,
-                        turns = 3,
-                    )
-                }
-            },
-            ActType.Act8("Purifying Dance", 2) {
-                targetSelf().act {
-                    dispelTimed(BuffCategory.Negative)
                 }
                 targetAoe().act {
-                    dispelTimed(BuffCategory.Positive)
-                }
-            },
-            ActType.Act9("Constraint Concerto", 2) {
-                targetAoe().act{
                     attack(
                         modifier = 150,
-                        hitCount = 3,
-                    )
-                    applyBuff(
-                        effect = StunBuff,
-                        turns = 2,
+                        hitCount = 4,
                     )
                 }
             },
-            ActType.ClimaxAct("Stay Away! NEO", 2) {
-                targetAoe().act{
-                    attack(
-                        modifier = 200,
-                        hitCount = 3,
+            ActType.ClimaxAct("Cross of Retribution NEO", 2) {
+                targetSelf().act {
+                    applyBuff(
+                        effect = ActPowerUpBuff,
+                        value = 50,
+                        turns = 3,
                     )
                     applyBuff(
-                        effect = StunBuff,
-                        turns = 2,
+                        PerfectAimBuff,
+                        turns = 1,
+                    )
+                }
+                targetAoe().act {
+                    attack(
+                        modifier = 200,
+                        hitCount = 4,
                     )
                 }
             },
@@ -139,68 +152,53 @@ val tr27MafiaNana = ActorLoadout(
             },
         ),
         autoSkills = listOf(
-            trEventBonusPassiveV2(CapricornClaudine),
+            trEventBonusPassive2023(AquariusMahiru),
             AbnormalGuardPassive.new(),
         ),
     ),
 )
 
-val tr27MafiaNanaStrategy = FixedStrategy {
+val tr28HellsingMichiruStrategy = FixedStrategy {
     val boss = this.team.actors.values.first()
 
     when (turn) {
         1 -> {
             +boss[ActType.Act1]
-            +boss[ActType.Act4]
+            +boss[ActType.Act3]
             +boss[ActType.Act7]
         }
         2 -> {
-            +boss[ActType.Act3]
-            +boss[ActType.Act3]
-            +boss[ActType.Act7]
-        }
-        3 -> {
-            +boss[ActType.ClimaxAct]
-            +boss[ActType.Act2]
-            +boss[ActType.Act6]
-        }
-        4 -> {
-            +boss[ActType.Act8]
             +boss[ActType.Act4]
             +boss[ActType.Act5]
+            +boss[ActType.Act8]
         }
-        5 -> {
-            +boss[ActType.Act9]
-            +boss[ActType.Act2]
-            +boss[ActType.Act6]
-        }
-        6 -> {
+        3 -> {
             +boss[ActType.Act7]
             +boss[ActType.Act5]
-            +boss[ActType.Act6]
+            +boss[ActType.ClimaxAct]
         }
         else -> error("Not supported.")
     }
 }
 
-val tr27MafiaNanaDiff4 = ActorLoadout(
-    "TR27 Mafia Nana Difficulty 4",
+val tr28HellsingMichiruDiff4 = ActorLoadout(
+    "TR28 Hellsing Michiru Difficulty 4",
     Dress(
-        name = "Mafia Nana",
-        character = Character.Nana,
+        name = "TR28 Hellsing Michiru",
+        character = Character.Michiru,
         attribute = Attribute.Dream,
         damageType = DamageType.Normal,
         position = Position.None,
         stats = defaultDressStats.copy(
-            hp = 1_080_000_000,
+            hp = 1_620_000_000,
             actPower = 10000,
             normalDefense = 650,
             specialDefense = 650,
             agility = 1,
         ),
         acts = actsOf(
-            ActType.Act1("Strike", 2) {
-                targetBack().act {
+            ActType.Act1("Slash", 2) {
+                targetFront().act {
                     attack(
                         modifier = 100,
                         hitCount = 1,
@@ -208,7 +206,7 @@ val tr27MafiaNanaDiff4 = ActorLoadout(
                 }
             },
             ActType.Act2("Strong Slash", 2) {
-                targetBack().act {
+                targetFront().act {
                     attack(
                         modifier = 150,
                         hitCount = 1,
@@ -216,7 +214,7 @@ val tr27MafiaNanaDiff4 = ActorLoadout(
                 }
             },
             ActType.Act3("Triple Slash", 2) {
-                targetBack(3).act {
+                targetFront(3).act {
                     attack(
                         modifier = 70,
                         hitCount = 3,
@@ -224,7 +222,7 @@ val tr27MafiaNanaDiff4 = ActorLoadout(
                 }
             },
             ActType.Act4("Strong Triple Slash", 2) {
-                targetBack(3).act {
+                targetFront(3).act {
                     attack(
                         modifier = 100,
                         hitCount = 3,
@@ -232,22 +230,45 @@ val tr27MafiaNanaDiff4 = ActorLoadout(
                 }
             },
             ActType.Act5("Counter Concerto", 2) {
-                targetAoe().act{
+                targetAoe().act {
                     attack(
                         modifier = 120,
-                        hitCount = 2,
+                        hitCount = 3,
                     )
                 }
             },
-            ActType.Act6("Pursuit Concerto", 2) {
-                targetAoe().act{
+            ActType.Act6("Flurry Dance", 2) {
+                targetAoe().act {
                     attack(
                         modifier = 150,
-                        hitCount = 4,
+                        hitCount = 5,
                     )
                 }
             },
-            ActType.Act7("Inspiring Gust", 2) {
+            ActType.Act7("Weakening Concerto", 2) {
+                targetAoe().act{
+                    applyBuff(
+                        effect = ActPowerDownBuff,
+                        value = 50,
+                        turns = 3,
+                    )
+                }
+            },
+            ActType.Act8("Helpless Concerto", 2) {
+                targetAoe().act {
+                    applyBuff(
+                        effect = DexterityDownBuff,
+                        value = 30,
+                        turns = 3,
+                    )
+                    applyBuff(
+                        effect = CriticalDownBuff,
+                        value = 30,
+                        turns = 3,
+                    )
+                }
+            },
+            ActType.Act9("Perfect Aim Flurry", 2) {
                 targetSelf().act {
                     applyBuff(
                         effect = ActPowerUpBuff,
@@ -255,48 +276,35 @@ val tr27MafiaNanaDiff4 = ActorLoadout(
                         turns = 3,
                     )
                     applyBuff(
-                        effect = NormalDefenseUpBuff,
-                        value = 50,
-                        turns = 3,
+                        PerfectAimBuff,
+                        turns = 1,
                     )
-                    applyBuff(
-                        effect = SpecialDefenseUpBuff,
-                        value = 50,
-                        turns = 3,
-                    )
-                }
-            },
-            ActType.Act8("Purifying Dance", 2) {
-                targetSelf().act {
-                    dispelTimed(BuffCategory.Negative)
                 }
                 targetAoe().act {
-                    dispelTimed(BuffCategory.Positive)
-                }
-            },
-            ActType.Act9("Constraint Concerto", 2) {
-                targetAoe().act{
                     attack(
                         modifier = 99999,
-                        hitCount = 3,
+                        hitCount = 4,
                         mode = HitMode.FIXED,
-                    )
-                    applyBuff(
-                        effect = StunBuff,
-                        turns = 2,
                     )
                 }
             },
-            ActType.ClimaxAct("Stay Away! NEO", 2) {
-                targetAoe().act{
-                    attack(
-                        modifier = 99999,
-                        hitCount = 3,
-                        mode = HitMode.FIXED,
+            ActType.ClimaxAct("Cross of Retribution NEO", 2) {
+                targetSelf().act {
+                    applyBuff(
+                        effect = ActPowerUpBuff,
+                        value = 50,
+                        turns = 3,
                     )
                     applyBuff(
-                        effect = StunBuff,
-                        turns = 2,
+                        PerfectAimBuff,
+                        turns = 1,
+                    )
+                }
+                targetAoe().act {
+                    attack(
+                        modifier = 99999,
+                        hitCount = 4,
+                        mode = HitMode.FIXED,
                     )
                 }
             },
@@ -310,48 +318,46 @@ val tr27MafiaNanaDiff4 = ActorLoadout(
             },
         ),
         autoSkills = listOf(
-            trEventBonusPassiveV2(CapricornClaudine),
+            trEventBonusPassive2023(AquariusMahiru),
             AbnormalGuardPassive.new(),
         ),
     ),
 )
 
-val tr27MafiaNanaDiff4Strategy = FixedStrategy {
+val tr28HellsingMichiruDiff4Strategy = FixedStrategy {
     val boss = this.team.actors.values.first()
 
     when (turn) {
         1 -> {
             +boss[ActType.Act1]
-            +boss[ActType.Act4]
+            +boss[ActType.Act3]
             +boss[ActType.Act7]
         }
         2 -> {
-            +boss[ActType.Act3]
-            +boss[ActType.Act3]
-            +boss[ActType.Act7]
+            +boss[ActType.Act4]
+            +boss[ActType.Act5]
+            +boss[ActType.Act8]
         }
         3 -> {
+            +boss[ActType.Act7]
+            +boss[ActType.Act5]
             +boss[ActType.ClimaxAct]
-            +boss[ActType.Act2]
-            +boss[ActType.Act6]
         }
         4 -> {
             +boss[ActType.Act8]
-            +boss[ActType.Act4]
+            +boss[ActType.Act2]
             +boss[ActType.Act5]
         }
         5 -> {
-            +boss[ActType.Act9]
-            +boss[ActType.Act2]
+            +boss[ActType.Act7]
+            +boss[ActType.Act4]
             +boss[ActType.Act6]
         }
         6 -> {
-            +boss[ActType.Act7]
-            +boss[ActType.Act5]
+            +boss[ActType.Act8]
+            +boss[ActType.Act9]
             +boss[ActType.Act6]
         }
-        else -> {
-            error("Unsupported.")
-        }
+        else -> error("Not supported.")
     }
 }

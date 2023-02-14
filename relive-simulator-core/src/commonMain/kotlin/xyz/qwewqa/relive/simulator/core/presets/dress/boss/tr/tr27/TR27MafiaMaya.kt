@@ -1,7 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr27
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow.CapricornClaudine
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassiveV2
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -141,7 +141,7 @@ val tr27MafiaMaya = ActorLoadout(
             },
         ),
         autoSkills = listOf(
-            trEventBonusPassive2023(CapricornClaudine),
+            trEventBonusPassiveV2(CapricornClaudine),
             AbnormalResistPassiveA.new(100),
             BossElementResistPassive.new(50),
         ),
@@ -333,7 +333,7 @@ val tr27MafiaMayaDiff4 = ActorLoadout(
             },
         ),
         autoSkills = listOf(
-            trEventBonusPassive2023(CapricornClaudine),
+            trEventBonusPassiveV2(CapricornClaudine),
             AbnormalResistPassiveA.new(100),
             BossElementResistPassive.new(50),
         ),

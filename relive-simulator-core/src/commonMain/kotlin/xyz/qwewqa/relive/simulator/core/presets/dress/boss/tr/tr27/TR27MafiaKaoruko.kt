@@ -1,6 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr27
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassiveV2
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow.CapricornClaudine
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.stage.character.Character
@@ -130,7 +130,7 @@ val tr27MafiaKaoruko = ActorLoadout(
             },
         ),
         autoSkills = listOf(
-            trEventBonusPassive2023(CapricornClaudine),
+            trEventBonusPassiveV2(CapricornClaudine),
             AbnormalGuardPassive.new(),
         ),
     ),
@@ -306,7 +306,7 @@ val tr27MafiaKaorukoDiff4 = ActorLoadout(
             },
         ),
         autoSkills = listOf(
-            trEventBonusPassive2023(CapricornClaudine),
+            trEventBonusPassiveV2(CapricornClaudine),
             AbnormalGuardPassive.new(),
         ),
     ),
