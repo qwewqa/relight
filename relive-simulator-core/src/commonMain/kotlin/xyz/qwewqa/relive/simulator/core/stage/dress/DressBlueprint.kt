@@ -131,6 +131,7 @@ enum class DressCategory {
     TroupeRevueShop,
     Movie,
     RoV,
+    Sweets,
 }
 
 

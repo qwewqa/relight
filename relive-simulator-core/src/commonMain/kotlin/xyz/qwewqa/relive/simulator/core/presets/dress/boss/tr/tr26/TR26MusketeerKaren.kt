@@ -2,7 +2,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr26
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.SagittariusJunna
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassiveV2
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
@@ -140,7 +140,7 @@ val tr26MusketeerKarenVer2023 = tr26MusketeerKaren.copy(
     name = "TR26 Musketeer Karen 2023",
     dress = tr26MusketeerKaren.dress.copy(
         autoSkills = listOf(
-            trEventBonusPassive2023(SagittariusJunna),
+            trEventBonusPassiveV2(SagittariusJunna),
             AbnormalGuardPassive.new(),
         ),
     ),
@@ -303,7 +303,7 @@ val tr26MusketeerKarenDiff4Ver2023 = tr26MusketeerKarenDiff4.copy(
     name = "TR26 Musketeer Karen Difficulty 4 2023",
     dress = tr26MusketeerKarenDiff4.dress.copy(
         autoSkills = listOf(
-            trEventBonusPassive2023(SagittariusJunna),
+            trEventBonusPassiveV2(SagittariusJunna),
             AbnormalGuardPassive.new(),
         ),
     ),

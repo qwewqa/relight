@@ -123,3 +123,12 @@ val BattleStrategy = stageEffectData(74).makeStageEffect(
         AgilityDownBuff,
     ).targeting(stageEffectTargetAoe())
 )
+
+val GrayWorld = stageEffectData(76).makeStageEffect(
+    listOf(
+        ConfusionBuff,
+        ElectricShockBuff,
+        NormalDefenseDownBuff,
+        SpecialDefenseDownBuff,
+    ).targeting(stageEffectTargetAoe())
+)
