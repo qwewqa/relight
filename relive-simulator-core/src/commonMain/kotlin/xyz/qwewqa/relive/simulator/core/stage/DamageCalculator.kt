@@ -27,10 +27,8 @@ open class RandomDamageCalculator : DamageCalculator {
             category = LogCategory.DAMAGE,
             debug = true
         ) { "[${attacker.name}] attempts to hit [${target.name}]." }
-        if (attacker.hopeFactor > 0) {
-            actionLog.consumesHope = true
-        }
         actionLog.attemptedHit = true
+        actionLog.markConsumeOnAttackCountableBuffs(self)
 
         val result = calculateDamage(attacker, target, hitAttribute)
         result.apply {
@@ -155,7 +153,8 @@ open class RandomDamageCalculator : DamageCalculator {
         } else {
             var atk = attacker.actPower
             if (attacker.inCX) atk = atk * 110 / 100
-            atk = atk * 2 * hitAttribute.modifier / 100
+            val modifier = hitAttribute.modifier + (attacker.buffs.getNext(CountableBuff.Cheer) ?: 0)
+            atk = atk * 2 * modifier / 100
 
             val def = when (attacker.dress.damageType) {
                 DamageType.Normal -> target.normalDefense
@@ -264,10 +263,8 @@ class MeanDamageCalculator : RandomDamageCalculator() {
             category = LogCategory.DAMAGE,
             debug = true
         ) { "[${attacker.name}] attempts to hit [${target.name}]." }
-        if (attacker.hopeFactor > 0) {
-            actionLog.consumesHope = true
-        }
         actionLog.attemptedHit = true
+        actionLog.markConsumeOnAttackCountableBuffs(self)
 
         val result = calculateDamage(attacker, target, hitAttribute)
         result.apply {

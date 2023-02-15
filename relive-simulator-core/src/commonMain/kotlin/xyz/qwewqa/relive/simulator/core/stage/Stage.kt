@@ -181,6 +181,10 @@ class Stage(
 
                     var playerActIndex = 0
                     var enemyActIndex = 0
+                    player.queue = playerTiles.filterIsInstance<ActionTile>()
+                    enemy.queue = enemyTiles.filterIsInstance<ActionTile>()
+                    player.queueIndex = 0
+                    enemy.queueIndex = 0
                     playerTiles.zip(enemyTiles).forEach { (playerTile, enemyTile) ->
                         tile++
                         move = 0
@@ -219,10 +223,12 @@ class Stage(
                         }
                         cutinTarget = null
                         if (first is ActionTile) executeAct {
+                            first.actor.context.team.queueIndex++
                             first.execute()
                         }
                         checkEnded()?.let { return it }
                         if (second is ActionTile) executeAct {
+                            second.actor.context.team.queueIndex++
                             second.execute()
                         }
                         checkEnded()?.let { return it }

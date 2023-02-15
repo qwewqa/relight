@@ -5,6 +5,7 @@ import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.actor.consumeOnAttackCountableBuffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.TimedBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
@@ -17,9 +18,17 @@ import kotlin.contracts.contract
 data class ActionLog(
         var successfulHits: Int = 0,
         var attemptedHit: Boolean = false,
-        var consumesHope: Boolean = false,
         var damageDealtToEnemy: Int = 0,
-)
+        val consumeCountableBuffs: MutableSet<CountableBuff> = mutableSetOf(),
+) {
+    fun markConsumeOnAttackCountableBuffs(actor: Actor) {
+        consumeOnAttackCountableBuffs.forEach { buff ->
+            if (actor.buffs.any(buff)) {
+                consumeCountableBuffs.add(buff)
+            }
+        }
+    }
+}
 
 class ActionContext(
         val self: Actor,
@@ -85,6 +94,9 @@ class ActionContext(
     fun targetAllyFront(count: Int = 1) = team.active.take(count).targetContext()
     fun targetAllyBack(count: Int = 1) = team.active.takeLast(count).targetContext()
     fun targetAllyRandom(count: Int = 1) = List(count) { team.active.random(stage.random) }.targetContext()
+
+    fun targetNextActingAlly() = (team.nextAct?.actor?.let { listOf(it) } ?: emptyList()).targetContext()
+    fun targetNextActingEnemy() = (enemy.nextAct?.actor?.let { listOf(it) } ?: emptyList()).targetContext(false)
 
     fun <T : Comparable<T>> targetByHighest(count: Int = 1, condition: (Actor) -> T) =
             provokable { enemy.active.sortedBy(condition).takeLast(count) }.targetContext(true)

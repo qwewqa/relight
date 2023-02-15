@@ -3,6 +3,8 @@ package xyz.qwewqa.relive.simulator.core.stage.team
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.song.Song
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.StageEffectManager
+import xyz.qwewqa.relive.simulator.core.stage.strategy.ActionTile
+import xyz.qwewqa.relive.simulator.core.stage.strategy.QueueTile
 import xyz.qwewqa.relive.simulator.core.stage.strategy.Strategy
 
 class Team(
@@ -19,6 +21,17 @@ class Team(
     val anyAlive get() = active.isNotEmpty()
 
     val stageEffects = StageEffectManager(this)
+
+    var queue: List<ActionTile> = emptyList()
+
+    /**
+     * If this is accessed in an act, it is the index of the next act that will be executed, excluding the current act.
+     * This may point past the end of the queue, which means that there is no next act.
+     */
+    var queueIndex: Int = 0
+
+    val nextAct: ActionTile?
+        get() = queue.getOrNull(queueIndex)
 
     fun finalizeTurnZero() {
         actors.values.forEach {

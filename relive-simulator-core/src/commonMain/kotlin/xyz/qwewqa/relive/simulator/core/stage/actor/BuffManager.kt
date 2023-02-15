@@ -165,6 +165,14 @@ class BuffManager(val actor: Actor) {
         return value
     }
 
+    fun getNext(buff: CountableBuff): Int? {
+        val stacks = when (buff.category) {
+            BuffCategory.Positive -> positiveCountableBuffs
+            BuffCategory.Negative -> negativeCountableBuffs
+        }[buff]
+        return stacks?.lastOrNull()?.value
+    }
+
     inline fun consumeOnce(buff: CountableBuff, action: (Int) -> Unit = {}): Boolean {
         if (count(buff) == 0) {
             return false
@@ -404,7 +412,13 @@ enum class CountableBuff(
     BlessingEffectiveDamage(BuffCategory.Positive, 264),
     DisasterApUp(BuffCategory.Negative, 267),
     BlessingAp2Down(BuffCategory.Positive, 268),
+    Cheer(BuffCategory.Positive, 282),
 }
+
+val consumeOnAttackCountableBuffs = listOf(
+    CountableBuff.Hope,
+    CountableBuff.Cheer,
+)
 
 class CountableBuffStack(
     val effect: CountableBuff,

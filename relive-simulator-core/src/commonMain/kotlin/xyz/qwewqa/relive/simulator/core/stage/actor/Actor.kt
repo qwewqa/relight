@@ -331,8 +331,8 @@ class Actor(
             if (context.actionLog.successfulHits > startLog.successfulHits) {
                 buffs.tryRemove(CountableBuff.Daze)
             }
-            if (context.actionLog.consumesHope) {
-                buffs.tryRemove(CountableBuff.Hope)
+            context.actionLog.consumeCountableBuffs.forEach {
+                buffs.tryRemove(it)
             }
         }
     }

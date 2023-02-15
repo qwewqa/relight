@@ -75,6 +75,13 @@ val DorothyMichiru = dress4020020(
                         hitCount = times3,
                     )
                 }
+                targetNextActingAlly().act {
+                    applyCountableBuff(
+                        effect = CountableBuff.Cheer,
+                        count = times4,
+                        value = values4,
+                    )
+                }
                 targetAllyAoe().act {
                     applyBuff(
                         NegativeEffectResistanceBuff,
