@@ -691,3 +691,7 @@
 
 # v0.35.29
 - Placeholder encore cards added by Savivo
+
+# v0.36.0
+- Performance improvements
+- New dresses, memoirs, and bosses added by Mikayla
