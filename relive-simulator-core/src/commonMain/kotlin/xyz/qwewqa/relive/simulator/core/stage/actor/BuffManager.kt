@@ -317,7 +317,7 @@ class BuffManager(val actor: Actor) {
             heal(hpRegen)
         }
 
-        val brillianceRegen = get(BrillianceRegenBuff).sumOf { it.value } + brillianceRegen
+        val brillianceRegen = brillianceRegen
         if (brillianceRegen > 0) {
             context.log("Brilliance Regen") { "Brilliance Regen tick." }
             addBrilliance(brillianceRegen)

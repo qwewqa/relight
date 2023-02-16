@@ -1,5 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.buff
 
+import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+
 
 object HpRegenBuff : TimedBuffEffect {
     override val name = "HP Regen"
@@ -11,6 +13,13 @@ object BrillianceRegenBuff : TimedBuffEffect {
     override val name = "Brilliance Regen"
     override val category = BuffCategory.Positive
     override val iconId: Int = 22
+    override fun onStart(context: ActionContext, value: Int) = context.run {
+        self.brillianceRegen += value
+    }
+
+    override fun onEnd(context: ActionContext, value: Int) = context.run {
+        self.brillianceRegen -= value
+    }
 }
 
 object LockedBrillianceRegenBuff : TimedBuffEffect {
