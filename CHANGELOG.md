@@ -695,3 +695,6 @@
 # v0.36.0
 - Performance improvements
 - New dresses, memoirs, and bosses added by Mikayla
+
+# v0.36.1
+- Fix to brilliance regen stage effects by Mikayla
