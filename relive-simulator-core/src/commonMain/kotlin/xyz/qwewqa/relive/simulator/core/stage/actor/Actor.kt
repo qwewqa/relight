@@ -7,6 +7,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoir
+import xyz.qwewqa.relive.simulator.core.stage.modifier.modifiers
 import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
 
 class Actor(
@@ -24,6 +25,7 @@ class Actor(
     var brilliance = 0
         private set
     val buffs = BuffManager(this)
+    val modifiers = modifiers(this)
 
     lateinit var context: ActionContext
 
@@ -119,8 +121,7 @@ class Actor(
     val positiveEffectResist get() = valuePositiveEffectResist
     var valuePositiveEffectResist = 0
 
-    val specificBuffResist = platformMapOf<TimedBuffEffect, Int>()
-    val specificCountableBuffResist = platformMapOf<CountableBuff, Int>()
+    val specificBuffResist = platformMapOf<BuffEffect, Int>()
 
     val climaxDamageUp get() = valueClimaxDamageUp
     var valueClimaxDamageUp = 0
