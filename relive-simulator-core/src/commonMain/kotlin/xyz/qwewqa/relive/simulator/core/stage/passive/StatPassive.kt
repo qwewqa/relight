@@ -182,7 +182,7 @@ object CutinInitialCooldownReductionPassive : PassiveEffect {
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
             mod {
-                cutinInitialCooldownReduction = cutinInitialCooldownReduction.coerceAtMost(value)
+                cutinInitialCooldownReduction = cutinInitialCooldownReduction.coerceAtLeast(value)
             }
         }
     }
