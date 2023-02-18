@@ -707,3 +707,6 @@
 
 # v0.36.3
 - Performance improvements
+
+# v0.36.4
+- Fixed cutin initial cooldown reduction
