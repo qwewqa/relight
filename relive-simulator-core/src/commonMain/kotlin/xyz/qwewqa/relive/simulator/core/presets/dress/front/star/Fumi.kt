@@ -8,6 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
@@ -162,4 +163,5 @@ val RedDukeRichelieuFumi = dress2030020(
         ),
     ),
     unitSkill = (ActCritical25UnitSkill + (SpaceOnlyCondition or MoonOnlyCondition or CloudOnlyCondition)) + SelfActCritical25UnitSkill,
+    categories = setOf(DressCategory.Birthday2023),
 )
