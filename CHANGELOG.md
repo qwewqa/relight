@@ -698,3 +698,9 @@
 
 # v0.36.1
 - Fix to brilliance regen stage effects by Mikayla
+
+# v0.36.2
+- Updates to buffs
+- Fixed normal super reflect persisting after it expires
+- Fixed Red Duke Richelieu's boost
+- Added missing act card images
