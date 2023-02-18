@@ -1,21 +1,34 @@
 package xyz.qwewqa.relive.simulator.core.stage.modifier
 
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
+import kotlin.jvm.JvmInline
 
 private var nextId = 0
 private val modifiers = mutableListOf<Modifier>()
+private val modifierData = mutableMapOf<Modifier, ModifierData>()
 
-class Modifier private constructor(val name: String, val id: Int, val default: Int) {
+private data class ModifierData(val name: String, val default: Int)
+
+const val MAX_MODIFIER_COUNT = 200
+
+@JvmInline
+value class Modifier private constructor(val id: Int) {
     companion object {
-        fun new(name: String, default: Int = 0) = Modifier(name, nextId++, default).also {
-            modifiers += it
+        fun new(name: String): Modifier {
+            require(nextId < MAX_MODIFIER_COUNT) { "Too many modifiers" }
+            return Modifier(nextId++).also {
+                modifiers += it
+                modifierData[it] = ModifierData(name, 0)
+            }
         }
     }
 
-    override fun toString() = "Modifier($name, $id, $default)"
+    val name get() = modifierData[this]!!.name
+
+    override fun toString() = "Modifier($name, $id)"
 }
 
-fun modifier(name: String, default: Int = 0) = Modifier.new(name, default)
+fun modifier(name: String) = Modifier.new(name)
 
 // actor is included so that it may be accessed from extension methods,
 // since context receivers are not stable yet.
