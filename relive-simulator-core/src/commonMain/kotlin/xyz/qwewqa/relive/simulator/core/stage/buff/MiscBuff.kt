@@ -12,16 +12,20 @@ val PerfectAimBuff = buffData(28).makeSimpleTimedBuffEffect(
 val LockedPerfectAimBuff = buffData(273).makeLockedVariantOf(PerfectAimBuff)
 
 
-val AggroBuff = buffData(29).makeSimpleTimedBuffEffect(
+val AggroBuff = buffData(29).makeTimedBuffEffect(
     category = BuffCategory.Negative,
     exclusive = true,
+    onStart = { _, source -> self.aggroTarget = source },
+    onEnd = { _, _, _ -> self.updateAggroTarget() },
 )
 
 val LockedAggroBuff = buffData(219).makeLockedVariantOf(AggroBuff)
 
-val ProvokeBuff = buffData(49).makeSimpleTimedBuffEffect(
+val ProvokeBuff = buffData(49).makeTimedBuffEffect(
     category = BuffCategory.Negative,
     exclusive = true,
+    onStart = { _, source -> self.provokeTarget = source },
+    onEnd = { _, _, _ -> self.updateProvokeTarget() },
 )
 
 val ContractionBuff = buffData(267).makeSimpleTimedBuffEffect(

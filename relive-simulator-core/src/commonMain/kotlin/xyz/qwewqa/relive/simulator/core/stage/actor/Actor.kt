@@ -34,13 +34,19 @@ class Actor(
     val specificBuffResist = platformMapOf<BuffEffect, Int>()
     var conditionalDamageDealtUp = mutableListOf<Pair<Condition, Int>>()
 
-    // Not sure if this logic is exactly right, but it's rare for this to be a problem.
-    val aggroTarget: Actor?
-        get() = buffs.get(AggroBuff).toList().lastOrNull()?.source
-            ?: buffs.get(LockedAggroBuff).toList().lastOrNull()?.source
+    var aggroTarget: Actor? = null
 
-    val provokeTarget: Actor?
-        get() = buffs.get(ProvokeBuff).toList().lastOrNull()?.source
+    // Not sure if this logic is exactly right, but it's rare for this to be a problem.
+    fun updateAggroTarget() {
+        aggroTarget = buffs.get(AggroBuff).toList().lastOrNull()?.source
+            ?: buffs.get(LockedAggroBuff).toList().lastOrNull()?.source
+    }
+
+    var provokeTarget: Actor? = null
+
+    fun updateProvokeTarget() {
+        provokeTarget = buffs.get(ProvokeBuff).toList().lastOrNull()?.source
+    }
 
     /**
      * If true, prevents taking damage via [damage].
