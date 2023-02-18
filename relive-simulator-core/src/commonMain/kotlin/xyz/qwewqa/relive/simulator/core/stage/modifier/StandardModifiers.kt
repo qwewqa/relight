@@ -59,7 +59,7 @@ val buffDexterity = modifier("buffDexterity")
 val debuffDexterity = modifier("debuffDexterity")
 inline val Modifiers.dexterity: Int
     get() {
-        return baseDexterity + (+buffDexterity).coerceAtMost(100) - debuffDexterity + hopeFactor
+        return (baseDexterity + (hopeFactor + buffDexterity).coerceAtMost(100) - debuffDexterity + hopeFactor).coerceAtMost(100)
     }
 
 val baseCritical = modifier("baseCritical")
