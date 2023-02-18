@@ -11,10 +11,11 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.ActPowerUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.ClimaxDamageUpBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.DamageTakenDownBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.DamageReceivedDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.PerfectAimBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.SelfTrapping
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.JunnaHoshimisStage
@@ -43,7 +44,7 @@ val StageGirlJunna = dress1060017(
                 }
                 targetAllyAoe().act {
                     applyBuff(
-                        DamageTakenDownBuff,
+                        DamageReceivedDownBuff,
                         value = values2,
                         turns = times2,
                     )
@@ -107,7 +108,7 @@ val HuntingRevueJunna = dress1060024(
     acts = listOf(
         ActType.Act1.blueprint("Strike of Brilliance") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -120,7 +121,7 @@ val HuntingRevueJunna = dress1060024(
         },
         ActType.Act2.blueprint("Pressure Blow") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -131,7 +132,7 @@ val HuntingRevueJunna = dress1060024(
         },
         ActType.Act3.blueprint("Arrow of Light") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,

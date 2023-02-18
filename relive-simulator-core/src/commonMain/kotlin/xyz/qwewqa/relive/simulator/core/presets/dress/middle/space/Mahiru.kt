@@ -69,7 +69,7 @@ val SorcererMahiru = dress1030023(
                         turns = times1,
                     )
                     applyBuff(
-                        effect = Ap2DownBuff,
+                        effect = ApDown2Buff,
                         turns = times2,
                     )
                 }
@@ -116,7 +116,7 @@ val AquariusMahiru = dress1030026(
                     )
                 }
                 targetAoe().act {
-                    dispelTimed(NegativeEffectResistanceBuff)
+                    dispelTimed(NegativeEffectResistanceUpBuff)
                     //TODO(): SE seal
                 }
             }
@@ -174,7 +174,7 @@ val AquariusMahiru = dress1030026(
                 }
                 targetAoe().act {
                     dispelCountable(BuffCategory.Positive, count = 3)
-                    dispelTimed(NegativeCountableEffectResistanceBuff)
+                    dispelTimed(NegativeCountableEffectResistanceUpBuff)
                     applyCountableBuff(
                         effect = CountableBuff.Pride,
                         count = times4,
@@ -210,7 +210,7 @@ val AquariusMahiru = dress1030026(
         ),
         listOf(
             EnemyBrillianceDrainPassive.new(50),
-            DispelTimedBuffPassive(NegativeEffectResistanceBuff).new(),
+            DispelTimedBuffPassive(NegativeEffectResistanceUpBuff).new(),
             EnemyStunBuffPassive.new(time = 2),
             EnemyStageEffectPassive(PlanOfTheAbyss).new(value = 1, time = 1),
             EnemyStageEffectPassive(Hesitation).new(value = 1, time = 2),

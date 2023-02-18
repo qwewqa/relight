@@ -1,182 +1,64 @@
 package xyz.qwewqa.relive.simulator.core.stage.buff
 
-import xyz.qwewqa.relive.simulator.core.stage.ActionContext
-import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
+import xyz.qwewqa.relive.simulator.core.stage.modifier.absorb
+import xyz.qwewqa.relive.simulator.core.stage.modifier.counterHeal
 
-object PerfectAimBuff : TimedBuffEffect {
-    override val name = "Perfect Aim"
-    override val category = BuffCategory.Positive
-    override val exclusive: Boolean = true
-    override val iconId: Int = 28
 
-    override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.perfectAimCounter += 1
-    }
+val PerfectAimBuff = buffData(28).makeSimpleTimedBuffEffect(
+    category = BuffCategory.Positive,
+    exclusive = true,
+)
 
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.perfectAimCounter -= 1
-    }
-}
+val LockedPerfectAimBuff = buffData(273).makeLockedVariantOf(PerfectAimBuff)
 
-object LockedPerfectAimBuff : TimedBuffEffect {
-    override val name = "Locked Perfect Aim"
-    override val category = BuffCategory.Positive
-    override val exclusive: Boolean = true
-    override val iconId: Int = 28
 
-    override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.perfectAimCounter += 1
-    }
+val AggroBuff = buffData(29).makeSimpleTimedBuffEffect(
+    category = BuffCategory.Negative,
+    exclusive = true,
+)
 
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.perfectAimCounter -= 1
-    }
-}
+val LockedAggroBuff = buffData(219).makeLockedVariantOf(AggroBuff)
 
-object AggroBuff : TimedBuffEffect {
-    override val name = "Aggro"
-    override val category = BuffCategory.Negative
-    override val exclusive: Boolean = true
-    override val iconId: Int = 101
+val ProvokeBuff = buffData(49).makeSimpleTimedBuffEffect(
+    category = BuffCategory.Negative,
+    exclusive = true,
+)
 
-    override fun onApply(source: Actor?, target: Actor) {
-        requireNotNull(source)
-        target.aggroTarget = source
-    }
+val ContractionBuff = buffData(267).makeSimpleTimedBuffEffect(
+    category = BuffCategory.Negative,
+    exclusive = true,
+)
 
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.aggroTarget = null
-    }
-}
+val AbsorbBuff = buffData(37).makeModifierTimedBuffEffect(
+    modifier = absorb,
+    category = BuffCategory.Positive,
+)
 
-object LockedAggroBuff : TimedBuffEffect {
-    override val name = "Locked Aggro"
-    override val category = BuffCategory.Negative
-    override val exclusive: Boolean = true
-    override val isLocked = true
-    override val iconId: Int = 101
+val CounterHealBuff = buffData(38).makeModifierTimedBuffEffect(
+    modifier = counterHeal,
+    category = BuffCategory.Positive,
+)
 
-    override fun onApply(source: Actor?, target: Actor) {
-        requireNotNull(source)
-        target.aggroTarget = source
-    }
+val InvincibilityBuff = buffData(104).makeSimpleTimedBuffEffect(
+    category = BuffCategory.Positive,
+    exclusive = true,
+)
 
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.aggroTarget = null
-    }
-}
+val LockedInvincibilityBuff = buffData(281).makeLockedVariantOf(InvincibilityBuff)
 
-object ProvokeBuff : TimedBuffEffect {
-    override val name = "Provoke"
-    override val category = BuffCategory.Negative
-    override val exclusive: Boolean = true
-    override val iconId: Int = 49
+val ExitEvasionBuff = buffData(103).makeSimpleTimedBuffEffect(
+    category = BuffCategory.Positive,
+    exclusive = true,
+)
 
-    override fun onApply(source: Actor?, target: Actor) {
-        requireNotNull(source)
-        target.provokeTarget = source
-    }
+val ResilienceBuff = buffData(139).makeSimpleTimedBuffEffect(
+    category = BuffCategory.Positive,
+    exclusive = true,
+)
 
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.provokeTarget = null
-    }
-}
+val LockedResilienceBuff = buffData(234).makeLockedVariantOf(ResilienceBuff)
 
-object ConstrainBuff : TimedBuffEffect {
-    override val name = "Constrain"
-    override val category = BuffCategory.Negative
-    override val exclusive: Boolean = true
-    override val iconId: Int = 269
-
-    override fun onStart(context: ActionContext, value: Int)  = context.run {
-        self.constrain += 1
-    }
-
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.constrain -= 1
-    }
-}
-
-object CounterHealBuff : TimedBuffEffect {
-    override val name = "Counter Heal"
-    override val category = BuffCategory.Positive
-    override val iconId: Int = 38
-
-    override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.counterHeal += value
-    }
-
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.counterHeal -= value
-    }
-}
-
-object AbsorbBuff : TimedBuffEffect {
-    override val name = "Absorb"
-    override val category = BuffCategory.Positive
-    override val iconId: Int = 37
-
-    override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.valueAbsorb += value
-    }
-
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.valueAbsorb -= value
-    }
-}
-
-object InvincibilityBuff : TimedBuffEffect {
-    override val name = "Invincibility"
-    override val category = BuffCategory.Positive
-    override val iconId: Int = 104
-
-    override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.invincible += 1
-    }
-
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.invincible -= 1
-    }
-}
-
-object LockedInvincibilityBuff : TimedBuffEffect {
-    override val name = "Invincibility"
-    override val category = BuffCategory.Positive
-    override val isLocked = true
-    override val related = InvincibilityBuff
-    override val iconId: Int = 104
-
-    override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.invincible += 1
-    }
-
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.invincible -= 1
-    }
-}
-
-object ExitEvasionBuff : TimedBuffEffect {
-    override val name = "Exit Evasion"
-    override val category = BuffCategory.Positive
-    override val iconId: Int = 103
-}
-
-object ResilienceBuff : TimedBuffEffect {
-    override val name = "Resilience"
-    override val category = BuffCategory.Positive
-    override val iconId: Int = 128
-}
-
-object LockedResilienceBuff : TimedBuffEffect {
-    override val name = "Locked Resilience"
-    override val category = BuffCategory.Positive
-    override val isLocked = true
-    override val related = ResilienceBuff
-    override val iconId: Int = 128
-}
-
-object MultipleCAficationBuff : TimedBuffEffect {
-    override val name = "Multiple CA-fication"
-    override val category = BuffCategory.Positive
-    override val iconId: Int = 273
-}
+val MultipleCAficationBuff = buffData(276).makeSimpleTimedBuffEffect(
+    category = BuffCategory.Positive,
+    exclusive = true,
+)

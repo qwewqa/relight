@@ -9,7 +9,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
-import xyz.qwewqa.relive.simulator.core.stage.passive.DamageTakenDownPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.DamageReceivedDownPassive
 import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyBrillianceDrainPassive
 import xyz.qwewqa.relive.simulator.core.stage.passive.TeamHpUpPassive
 
@@ -21,7 +21,7 @@ val StageGirlShizuha = dress3050017(
                 targetAllyFront(3).act {
                     dispelTimed(BuffCategory.Negative)
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = NegativeEffectResistanceUpBuff,
                         value = values2,
                         turns = times2,
                     )
@@ -93,7 +93,7 @@ val StageGirlShizuha = dress3050017(
             TeamHpUpPassive.new(20),
         ),
         listOf(
-            DamageTakenDownPassive.new(10),
+            DamageReceivedDownPassive.new(10),
         ),
     ),
     unitSkill = ActCritical50UnitSkill + FrontierOnlyCondition,

@@ -45,7 +45,7 @@ val WorldMaya = dress1050007(
                         turns = times2,
                     )
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = NegativeEffectResistanceUpBuff,
                         value = values3,
                         turns = times3,
                     )

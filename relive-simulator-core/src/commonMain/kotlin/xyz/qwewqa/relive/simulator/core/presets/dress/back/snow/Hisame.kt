@@ -28,7 +28,7 @@ val StageGirlHisame = dress5030001(
                 targetAllyAoe().act {
                     dispelTimed(AggroBuff)
                     applyBuff(
-                        effect = AggroResistanceBuff,
+                        effect = AggroResistanceUpBuff,
                         turns = times2,
                     )
                 }

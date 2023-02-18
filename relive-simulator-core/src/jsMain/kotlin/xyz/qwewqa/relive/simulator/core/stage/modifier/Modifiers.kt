@@ -9,7 +9,7 @@ actual class ModifiersImpl actual constructor(actor: Actor) : Modifiers(actor) {
         return values[modifier.id].unsafeCast<Int?>() ?: modifier.default
     }
 
-    actual override operator fun set(modifier: Modifier, value: Int) {
+    actual override fun set(modifier: Modifier, value: Int) {
         values[modifier.id] = value
     }
 }

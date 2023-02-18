@@ -90,7 +90,7 @@ val DelightKoharu = dress5010007(
                 */
                 targetAllyAoe().act {
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = NegativeEffectResistanceUpBuff,
                         value = values1,
                         turns = times1,
                     )
@@ -101,7 +101,7 @@ val DelightKoharu = dress5010007(
                     )
                 }
                 targetBack(2).act {
-                    dispelTimed(NegativeEffectResistanceBuff)
+                    dispelTimed(NegativeEffectResistanceUpBuff)
                 }
                 targetBack(1).act {
                     attack(

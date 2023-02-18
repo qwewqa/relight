@@ -8,7 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType.*
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.NegativeEffectResistanceBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.NegativeEffectResistanceUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
@@ -27,7 +27,7 @@ val CompetitionRevueMahiru = dress1030024(
                     )
                 }
                 targetAoe().act {
-                    dispelTimed(NegativeEffectResistanceBuff)
+                    dispelTimed(NegativeEffectResistanceUpBuff)
                     //TODO(): unremovable stage effect seal 2t
                 }
             }

@@ -1,140 +1,87 @@
 package xyz.qwewqa.relive.simulator.core.stage.buff
 
-import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
+import xyz.qwewqa.relive.simulator.core.stage.actor.abnormalCountableBuffs
+import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeCountableEffectResistance
+import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistance
+import xyz.qwewqa.relive.simulator.core.stage.modifier.positiveEffectResistance
 
-val ConfusionResistanceBuff: TimedBuffEffect = BuffResistanceBuff(ConfusionBuff, iconId = 80)
-val StopResistanceBuff: TimedBuffEffect = BuffResistanceBuff(StopBuff,  iconId = 81)
-val StunResistanceBuff: TimedBuffEffect = BuffResistanceBuff(listOf(StunBuff, LockedStunBuff), iconId = 78)
-val BurnResistanceBuff: TimedBuffEffect = BuffResistanceBuff(listOf(BurnBuff, LockedBurnBuff), iconId = 76)
-val FreezeResistanceBuff: TimedBuffEffect = BuffResistanceBuff(FreezeBuff, iconId = 82)
-val BlindnessResistanceBuff: TimedBuffEffect = BuffResistanceBuff(BlindnessBuff, iconId = 83)
-val SleepResistanceBuff: TimedBuffEffect = BuffResistanceBuff(SleepBuff, iconId = 79)
-val AggroResistanceBuff: TimedBuffEffect = BuffResistanceBuff(AggroBuff, iconId = 102)
+fun BuffData.makeSpecificResistanceUpBuff(
+    buff: BuffEffect,
+    locked: Boolean = false,
+) = makeSimpleTimedBuffEffect(
+    category = BuffCategory.Positive,
+    locked = locked,
+    onStart = { value ->
+        self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0) + value
+    },
+    onEnd = { value ->
+        self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0) - value
+    },
+)
 
-val DazeResistanceBuff: TimedBuffEffect = CountableBuffResistanceBuff(CountableBuff.Daze, iconId = 259)
-val PrideResistanceBuff: TimedBuffEffect = CountableBuffResistanceBuff(CountableBuff.Pride, iconId = 261)
+val NegativeEffectResistanceUpBuff = buffData(19).makeModifierTimedBuffEffect(
+    modifier = negativeEffectResistance,
+    category = BuffCategory.Positive,
+)
 
-object NegativeEffectResistanceBuff : TimedBuffEffect {
-    override val name = "Negative Effect Resistance"
-    override val category = BuffCategory.Positive
-    override val iconId: Int = 19
+val LockedNegativeEffectResistanceUpBuff = buffData(166).makeLockedVariantOf(NegativeEffectResistanceUpBuff)
 
-    override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.valueNegativeEffectResist += value
-    }
+val NegativeCountableEffectResistanceUpBuff = buffData(231).makeModifierTimedBuffEffect(
+    modifier = negativeCountableEffectResistance,
+    category = BuffCategory.Positive,
+)
 
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.valueNegativeEffectResist -= value
-    }
-}
+val LockedNegativeCountableEffectResistanceUpBuff = buffData(232).makeLockedVariantOf(NegativeCountableEffectResistanceUpBuff)
 
-object LockedNegativeEffectResistanceBuff : TimedBuffEffect {
-    override val name = "Locked Negative Effect Resistance"
-    override val category = BuffCategory.Positive
-    override val isLocked: Boolean = true
-    override val iconId: Int = 19
+val PositiveEffectResistanceUpBuff = buffData(271).makeModifierTimedBuffEffect(
+    modifier = positiveEffectResistance,
+    category = BuffCategory.Negative,
+)
 
-    override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.valueNegativeEffectResist += value
-    }
+val LockedPositiveEffectResistanceUpBuff = buffData(272).makeLockedVariantOf(PositiveEffectResistanceUpBuff)
 
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.valueNegativeEffectResist -= value
-    }
-}
-
-object PositiveEffectResistanceBuff : TimedBuffEffect {
-    override val name = "Positive Effect Resistance"
-    override val category = BuffCategory.Negative
-    override val iconId: Int = 166
-
-    override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.valuePositiveEffectResist += value
-    }
-
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.valuePositiveEffectResist -= value
-    }
-}
-
-object LockedPositiveEffectResistanceBuff : TimedBuffEffect {
-    override val name = "Locked Positive Effect Resistance"
-    override val category = BuffCategory.Negative
-    override val isLocked: Boolean = true
-    override val iconId: Int = 166
-
-    override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.valuePositiveEffectResist += value
-    }
-
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.valuePositiveEffectResist -= value
-    }
-}
-
-object NegativeCountableEffectResistanceBuff : TimedBuffEffect {
-    override val name = "Negative Countable Resistance"
-    override val category = BuffCategory.Positive
-    override val iconId: Int = 173
-
-    override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.valueNegativeCountableResist += value
-    }
-
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.valueNegativeCountableResist -= value
-    }
-}
-
-object LockedNegativeCountableResistanceBuff : TimedBuffEffect {
-    override val name = "Locked Negative Countable Resistance"
-    override val category = BuffCategory.Positive
-    override val isLocked: Boolean = true
-    override val iconId: Int = 173
-
-    override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.valueNegativeCountableResist += value
-    }
-
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.valueNegativeCountableResist -= value
-    }
-}
-
-
-private data class BuffResistanceBuff(var effects: List<TimedBuffEffect>, override val iconId: Int) : TimedBuffEffect {
-    constructor(vararg effects: TimedBuffEffect, iconId: Int) : this(effects.toList(), iconId)
-    override val name = "[${effects.joinToString(", ") {it.name}}] Resistance Buff"
-    override val category: BuffCategory = BuffCategory.Positive
-
-    override fun onStart(context: ActionContext, value: Int) = context.run {
-        effects.forEach { effect ->
-            self.specificBuffResist[effect] = (self.specificBuffResist[effect] ?: 0) + value
+val ActionRestrictionResistanceUpBuff = buffData(74).makeSimpleTimedBuffEffect(
+    category = BuffCategory.Positive,
+    locked = true,
+    onStart = {
+        abnormalBuffs.forEach { buff ->
+            self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0) + 100
         }
-    }
-
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        effects.forEach { effect ->
-            self.specificBuffResist[effect] = (self.specificBuffResist[effect] ?: 0) - value
+        abnormalCountableBuffs.forEach { buff ->
+            self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0) + 100
         }
-    }
-}
-
-private data class CountableBuffResistanceBuff(var effects: List<CountableBuff>, override val iconId: Int) : TimedBuffEffect {
-    constructor(vararg effects: CountableBuff, iconId: Int) : this(effects.toList(), iconId)
-    override val name = "[${effects.joinToString(", ") {it.name}}] Resistance Buff"
-    override val category: BuffCategory = BuffCategory.Positive
-
-    override fun onStart(context: ActionContext, value: Int) = context.run {
-        effects.forEach { effect ->
-            self.specificCountableBuffResist[effect] = (self.specificCountableBuffResist[effect] ?: 0) + value
+    },
+    onEnd = {
+        abnormalBuffs.forEach { buff ->
+            self.specificBuffResist[buff] = self.specificBuffResist[buff]!! - 100
         }
-    }
-
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        effects.forEach { effect ->
-            self.specificCountableBuffResist[effect] = (self.specificCountableBuffResist[effect] ?: 0) - value
+        abnormalCountableBuffs.forEach { buff ->
+            self.specificBuffResist[buff] = self.specificBuffResist[buff]!! - 100
         }
-    }
-}
+    },
+)
+
+val PoisonResistanceUpBuff = buffData(75).makeSpecificResistanceUpBuff(PoisonBuff)
+val BurnResistanceUpBuff = buffData(76).makeSpecificResistanceUpBuff(BurnBuff)
+val ProvokeResistanceUpBuff = buffData(77).makeSpecificResistanceUpBuff(ProvokeBuff)
+val StunResistanceUpBuff = buffData(78).makeSpecificResistanceUpBuff(StunBuff)
+val SleepResistanceUpBuff = buffData(79).makeSpecificResistanceUpBuff(SleepBuff)
+val ConfusionResistanceUpBuff = buffData(80).makeSpecificResistanceUpBuff(ConfusionBuff)
+val StopResistanceUpBuff = buffData(81).makeSpecificResistanceUpBuff(StopBuff)
+val FreezeResistanceUpBuff = buffData(82).makeSpecificResistanceUpBuff(FreezeBuff)
+val BlindResistanceUpBuff = buffData(83).makeSpecificResistanceUpBuff(BlindnessBuff)
+val AggroResistanceUpBuff = buffData(102).makeSpecificResistanceUpBuff(AggroBuff)
+val DazeResistanceUpBuff = buffData(253).makeSpecificResistanceUpBuff(CountableBuff.Daze)
+val PrideResistanceUpBuff = buffData(256).makeSpecificResistanceUpBuff(CountableBuff.Pride)
+
+val LockedPoisonResistanceUpBuff = buffData(128).makeSpecificResistanceUpBuff(PoisonBuff, true)
+val LockedBurnResistanceUpBuff = buffData(129).makeSpecificResistanceUpBuff(BurnBuff, true)
+val LockedStunResistanceUpBuff = buffData(130).makeSpecificResistanceUpBuff(StunBuff, true)
+val LockedSleepResistanceUpBuff = buffData(131).makeSpecificResistanceUpBuff(SleepBuff, true)
+val LockedConfusionResistanceUpBuff = buffData(132).makeSpecificResistanceUpBuff(ConfusionBuff, true)
+val LockedStopResistanceUpBuff = buffData(133).makeSpecificResistanceUpBuff(StopBuff, true)
+val LockedFreezeResistanceUpBuff = buffData(134).makeSpecificResistanceUpBuff(FreezeBuff, true)
+val LockedBlindResistanceUpBuff = buffData(135).makeSpecificResistanceUpBuff(BlindnessBuff, true)
+val LockedDazeResistanceUpBuff = buffData(254).makeSpecificResistanceUpBuff(CountableBuff.Daze, true)
+val LockedPrideResistanceUpBuff = buffData(257).makeSpecificResistanceUpBuff(CountableBuff.Pride, true)

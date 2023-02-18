@@ -95,7 +95,7 @@ val tr25KomachiTamao = ActorLoadout(
             ActType.Act8("Evasion Dance", 2) {
                 targetSelf().act {
                     applyBuff(
-                        effect = EvasionRateUpBuff,
+                        effect = EvasionUpBuff,
                         value = 50,
                         turns = 2,
                     )
@@ -261,7 +261,7 @@ val tr25KomachiTamaoDiff4 = ActorLoadout(
             ActType.Act8("Evasion Dance", 2){
                 targetSelf().act {
                     applyBuff(
-                        effect = EvasionRateUpBuff,
+                        effect = EvasionUpBuff,
                         value = 50,
                         turns = 2,
                     )

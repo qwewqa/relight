@@ -74,13 +74,13 @@ val Hesitation = stageEffectData(54).makeStageEffect(
         NormalDefenseDownBuff,
         SpecialDefenseDownBuff,
     ).targeting(stageEffectTargetAoe()) + listOf(
-        Ap2UpBuff,
+        ApUp2Buff,
     ).targeting(stageEffectTargetAoe(condition = SeishoOnlyCondition)),
 )
 
 val CelestialHighlights = stageEffectData(60).makeStageEffect(
     listOf(
-        ConstrainBuff,
+        ContractionBuff,
         ActPowerDownBuff,
     ).targeting(stageEffectTargetAoe())
 )
@@ -119,7 +119,7 @@ val PlanOfTheAbyss = stageEffectData(57).makeStageEffect(
 
 val BattleStrategy = stageEffectData(74).makeStageEffect(
     listOf(
-        ConstrainBuff,
+        ContractionBuff,
         AgilityDownBuff,
     ).targeting(stageEffectTargetAoe())
 )

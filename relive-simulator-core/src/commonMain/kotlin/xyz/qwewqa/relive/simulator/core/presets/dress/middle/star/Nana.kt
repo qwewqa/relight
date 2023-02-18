@@ -40,7 +40,7 @@ val SiegfriedNana = dress1070020(
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = NegativeEffectResistanceUpBuff,
                         value = values2,
                         turns = times2,
                     )
@@ -61,7 +61,7 @@ val SiegfriedNana = dress1070020(
                         modifier = values1,
                         hitCount = times1,
                     )
-                    dispelTimed(NegativeEffectResistanceBuff)
+                    dispelTimed(NegativeEffectResistanceUpBuff)
                     //TODO: Locked SE Seal
                     applyBuff(
                         effect = ApUpBuff,
@@ -79,11 +79,11 @@ val SiegfriedNana = dress1070020(
                         count = times1,
                     )
                     applyBuff(
-                        effect = PrideResistanceBuff,
+                        effect = PrideResistanceUpBuff,
                         turns = times2,
                     )
                     applyBuff(
-                        effect = DazeResistanceBuff,
+                        effect = DazeResistanceUpBuff,
                         turns = times3,
                     )
                 }
@@ -108,8 +108,8 @@ val SiegfriedNana = dress1070020(
             TeamReviveBuffPassive.new(50, 1),
         ),
         listOf(
-            TeamNegativeEffectResistanceBuffPassive.new(100, 2),
-            SelfLockedNegativeEffectResistanceBuffPassive.new(100, 2),
+            TeamNegativeEffectResistanceUpBuffPassive.new(100, 2),
+            SelfLockedNegativeEffectResistanceUpBuffPassive.new(100, 2),
         ),
         listOf(
             TeamBlessingCountableDebuffReductionPassive.new(2, 1),

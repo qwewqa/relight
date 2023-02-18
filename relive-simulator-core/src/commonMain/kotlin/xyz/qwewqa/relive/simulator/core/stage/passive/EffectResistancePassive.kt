@@ -7,6 +7,8 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.condition.applyIfTrue
+import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeCountableEffectResistance
+import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistance
 
 val StopResistancePassive: PassiveEffect = BuffResistancePassive(EffectTag.StopResistance, StopBuff)
 val BlindnessResistancePassive: PassiveEffect = BuffResistancePassive(EffectTag.BlindnessResistance, BlindnessBuff)
@@ -20,7 +22,9 @@ object NegativeEffectResistancePassive : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            valueNegativeEffectResist += value
+            mod {
+                negativeEffectResistance += value
+            }
         }
     }
 }
@@ -31,13 +35,15 @@ object NegativeCountableResistancePassive : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition)  = context.run {
         condition.applyIfTrue(self) {
-            valueNegativeCountableResist += value
+            mod {
+                negativeCountableEffectResistance += value
+            }
         }
     }
 }
 
-private data class BuffResistancePassive(val tag: EffectTag, var effects: List<TimedBuffEffect>) : PassiveEffect {
-    constructor(tag: EffectTag, vararg effects: TimedBuffEffect) : this(tag, effects.toList())
+private data class BuffResistancePassive(val tag: EffectTag, var effects: List<TimedBuffEffect<*>>) : PassiveEffect {
+    constructor(tag: EffectTag, vararg effects: TimedBuffEffect<*>) : this(tag, effects.toList())
 
     override val name = "[${effects.joinToString(", ") { it.name }}] Resistance Passive"
     override val category = PassiveEffectCategory.Passive

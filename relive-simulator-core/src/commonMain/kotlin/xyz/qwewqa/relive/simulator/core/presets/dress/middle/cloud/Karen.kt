@@ -7,6 +7,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical30UnitSkill
 import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyBrillianceDrainPassive
 import xyz.qwewqa.relive.simulator.core.stage.passive.TeamAPDownBuffPassive
@@ -39,7 +40,7 @@ val MitsuhideKaren = dress1010018(
         },
         ActType.Act2.blueprint("Cloud Piercing") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -58,7 +59,7 @@ val MitsuhideKaren = dress1010018(
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = NegativeEffectResistanceUpBuff,
                         value = values2,
                         turns = times2,
                     )

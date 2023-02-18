@@ -85,7 +85,7 @@ val sakuraTaisenStageGirlMahiruBoss = ActorLoadout(
                         hitCount = 3,
                     )
                     applyBuff(
-                        EvasionRateUpBuff,
+                        EvasionUpBuff,
                         value = 50,
                         turns = 2,
                     )

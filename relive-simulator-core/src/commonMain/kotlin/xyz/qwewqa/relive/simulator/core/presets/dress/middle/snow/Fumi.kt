@@ -54,7 +54,7 @@ val NagakuraShinpachiFumi = dress2030011(
                 }
                 targetAllyAoe().act {
                     applyBuff(
-                        NegativeEffectResistanceBuff,
+                        NegativeEffectResistanceUpBuff,
                         value = values2,
                         turns = times2,
                     )

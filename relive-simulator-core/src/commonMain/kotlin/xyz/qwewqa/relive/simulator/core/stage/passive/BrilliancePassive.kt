@@ -6,6 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.EffectTag
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.condition.applyIfTrue
+import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceRegen
 
 object SelfTurnBrillianceRecoveryPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
@@ -13,7 +14,7 @@ object SelfTurnBrillianceRecoveryPassive : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            brillianceRegen += value
+            mod { brillianceRegen += value }
         }
     }
 }

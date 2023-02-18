@@ -100,7 +100,7 @@ val WildSpiderWitchEncoreTsukasa = dress3040020(
         listOf(
             TeamDexterityUpBuffPassive.new(10, 3),
             TeamCriticalUpBuffPassive.new(10, 3),
-            TeamNegativeEffectResistanceBuffPassive.new(100, 3) + WindOnlyCondition,
+            TeamNegativeEffectResistanceUpBuffPassive.new(100, 3) + WindOnlyCondition,
         ),
         listOf(
             BrillianceRecoveryPassive.new(20),

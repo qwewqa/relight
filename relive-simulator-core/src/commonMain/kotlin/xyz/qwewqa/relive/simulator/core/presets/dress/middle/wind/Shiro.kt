@@ -67,11 +67,11 @@ val FutureStageGirlShiro = dress4070002(
                         count = times1,
                     )
                     applyBuff(
-                        effect = LockedNegativeEffectResistanceBuff,
+                        effect = LockedNegativeEffectResistanceUpBuff,
                         turns = times2,
                     )
                     applyBuff(
-                        effect = LockedNegativeCountableResistanceBuff,
+                        effect = LockedNegativeCountableEffectResistanceUpBuff,
                         turns = times3,
                     )
                 }
@@ -114,7 +114,7 @@ val TitaniaShiro = dress4070003(
                     )
                 }
                 targetAoe().act {
-                    dispelTimed(NegativeEffectResistanceBuff)
+                    dispelTimed(NegativeEffectResistanceUpBuff)
                     //TODO(): locked SE seal
                 }
                 applyEnemyStageEffect(AlluringEyes, 2)
@@ -130,7 +130,7 @@ val TitaniaShiro = dress4070003(
                     )
                 }
                 targetAoe().act {
-                    dispelTimed(NegativeEffectResistanceBuff)
+                    dispelTimed(NegativeEffectResistanceUpBuff)
                     //TODO(): locked SE seal
                     applyBuff(
                         effect = ApUpBuff,
@@ -153,7 +153,7 @@ val TitaniaShiro = dress4070003(
                     )
                 }
                 targetAoe().act {
-                    dispelTimed(NegativeEffectResistanceBuff)
+                    dispelTimed(NegativeEffectResistanceUpBuff)
                     //TODO(): locked SE seal
                 }
                 applyAllyStageEffect(GoldenVitality, 2)
@@ -171,7 +171,7 @@ val TitaniaShiro = dress4070003(
                     )
                 }
                 targetAoe().act {
-                    dispelTimed(NegativeEffectResistanceBuff)
+                    dispelTimed(NegativeEffectResistanceUpBuff)
                     //TODO(): locked SE seal
                     //TODO(): revive reduction
                     attack(
@@ -194,12 +194,12 @@ val TitaniaShiro = dress4070003(
             TeamAPDownBuffPassive.new(time = 1),
         ),
         listOf(
-            SelfLockedNegativeCountableEffectResistanceBuffPassive.new(value = 100, time = 3),
+            SelfLockedNegativeCountableEffectResistanceUpBuffPassive.new(value = 100, time = 3),
             AllyStageEffectPassive(ElegantInvitation).new(value = 1, time = 1),
         ),
         listOf(
             EnemyBrillianceDrainPassive.new(30),
-            DispelTimedBuffPassive(NegativeEffectResistanceBuff).new(),
+            DispelTimedBuffPassive(NegativeEffectResistanceUpBuff).new(),
             EnemyElectricShockBuffPassive.new(time = 1),
             EnemyAPUpBuffPassive.new(time = 2),
             //TODO(): neg ally se reduction

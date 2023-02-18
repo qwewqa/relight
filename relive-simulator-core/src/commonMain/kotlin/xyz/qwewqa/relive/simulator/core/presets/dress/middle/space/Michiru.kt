@@ -8,6 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val JoshuaMichiru = dress4020014(
@@ -35,7 +36,7 @@ val JoshuaMichiru = dress4020014(
         },
         ActType.Act3.blueprint("Blade of Justice") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 2,
@@ -51,7 +52,7 @@ val JoshuaMichiru = dress4020014(
         },
         ActType.ClimaxAct.blueprint("Purge Blade") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 3,
@@ -71,7 +72,7 @@ val JoshuaMichiru = dress4020014(
             EnemyActPowerDownBuffPassive.new(20,3),
         ),
         listOf(
-            TeamStopResistanceBuffPassive.new(100,3)
+            TeamStopResistanceUpBuffPassive.new(100,3)
         ),
         listOf(
             EffectiveDamageDealtPassive.new(20)

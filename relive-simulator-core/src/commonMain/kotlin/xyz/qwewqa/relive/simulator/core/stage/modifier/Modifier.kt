@@ -3,11 +3,16 @@ package xyz.qwewqa.relive.simulator.core.stage.modifier
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 
 private var nextId = 0
+private val modifiers = mutableListOf<Modifier>()
 
 class Modifier private constructor(val name: String, val id: Int, val default: Int) {
     companion object {
-        fun new(name: String, default: Int = 0) = Modifier(name, nextId++, default)
+        fun new(name: String, default: Int = 0) = Modifier(name, nextId++, default).also {
+            modifiers += it
+        }
     }
+
+    override fun toString() = "Modifier($name, $id, $default)"
 }
 
 fun modifier(name: String, default: Int = 0) = Modifier.new(name, default)
@@ -19,11 +24,15 @@ abstract class Modifiers(val actor: Actor) {
     abstract operator fun get(modifier: Modifier): Int
     abstract operator fun set(modifier: Modifier, value: Int)
 
+    inline operator fun Modifier.invoke() = get(this)
+    inline operator fun Modifier.invoke(value: Int) { set(this, value) }
+    inline operator fun Modifier.invoke(value: Modifier) { set(this, get(value)) }
+    inline operator fun Int.invoke() = this
     inline operator fun Modifier.unaryPlus() = get(this)
     inline operator fun Modifier.unaryMinus() = -get(this)
 
-    inline infix fun Modifier.set(value: Int) { set(this, value) }
-    inline infix fun Modifier.set(value: Modifier) { set(this, get(value)) }
+    inline infix fun Modifier.setTo(value: Int) { set(this, value) }
+    inline infix fun Modifier.setTo(value: Modifier) { set(this, get(value)) }
 
     inline operator fun Modifier.plus(other: Int) = get(this) + other
     inline operator fun Modifier.minus(other: Int) = get(this) - other
@@ -75,6 +84,8 @@ abstract class Modifiers(val actor: Actor) {
     inline infix fun Int.given(condition: () -> Boolean) = if (condition()) this else 0
     inline infix fun Modifier.given(condition: Boolean) = if (condition) get(this) else 0
     inline infix fun Int.given(condition: Boolean) = if (condition) this else 0
+
+    inline operator fun <T> invoke(block: Modifiers.() -> T) = block()
 }
 
 expect class ModifiersImpl(actor: Actor) : Modifiers {
@@ -82,4 +93,6 @@ expect class ModifiersImpl(actor: Actor) : Modifiers {
     override operator fun set(modifier: Modifier, value: Int)
 }
 
-fun modifiers(actor: Actor) = ModifiersImpl(actor)
+fun _Modifiers(actor: Actor) = ModifiersImpl(actor)
+
+fun Modifiers.getValues() = modifiers.map { it to get(it) }

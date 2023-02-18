@@ -1,5 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
+import xyz.qwewqa.relive.simulator.core.stage.modifier.*
+
 data class StatData(
     val hp: Int = 0,
     val actPower: Int = 0,
@@ -47,15 +49,17 @@ data class StatData(
         |}""".trimMargin()
 
     fun addToActor(actor: Actor) {
-        actor.valueMaxHp += hp
-        actor.valueActPower += actPower
-        actor.valueNormalDefense += normalDefense
-        actor.valueSpecialDefense += specialDefense
-        actor.valueAgility += agility
-        actor.valueDexterity += dexterity
-        actor.valueCritical += critical
-        actor.valueAccuracy += accuracy
-        actor.valueEvasion += evasion
+        actor.mod {
+            baseMaxHp += this@StatData.hp
+            baseActPower += this@StatData.actPower
+            baseNormalDefense += this@StatData.normalDefense
+            baseSpecialDefense += this@StatData.specialDefense
+            baseAgility += this@StatData.agility
+            baseDexterity += this@StatData.dexterity
+            baseCritical += this@StatData.critical
+            baseAccuracy += this@StatData.accuracy
+            baseEvasion += this@StatData.evasion
+        }
     }
 
     operator fun plus(other: StatData) = StatData(

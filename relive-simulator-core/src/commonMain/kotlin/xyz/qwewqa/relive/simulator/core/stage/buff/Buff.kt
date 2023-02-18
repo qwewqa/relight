@@ -2,12 +2,17 @@ package xyz.qwewqa.relive.simulator.core.stage.buff
 
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 
-
-interface BuffEffect {
+sealed interface BuffEffect {
     val name: String
     val iconId: Int
     val category: BuffCategory
     val isLocked: Boolean get() = false
+    val displayLockIcon: Boolean get() = isLocked
+}
+
+enum class BuffCategory {
+    Positive,
+    Negative,
 }
 
 // List of priorities for displaying buffs besides HP bars.
@@ -20,7 +25,7 @@ private val buffDisplayPriorityList: List<BuffEffect> = listOf(
     CountableBuff.InvincibleRebirth,
     CountableBuff.Fortitude,
     CountableBuff.Revive,
-    AbnormalGuardBuff,
+    ActionRestrictionResistanceUpBuff,
     StopBuff,
     SleepBuff,
     NightmareBuff,
@@ -39,10 +44,10 @@ private val buffDisplayPriorityList: List<BuffEffect> = listOf(
     LockedBurnBuff,
     PoisonBuff,
     LockedPoisonBuff,
-    NegativeEffectResistanceBuff,
-    LockedNegativeEffectResistanceBuff,
-    PositiveEffectResistanceBuff,
-    LockedNegativeCountableResistanceBuff,
+    NegativeEffectResistanceUpBuff,
+    LockedNegativeEffectResistanceUpBuff,
+    PositiveEffectResistanceUpBuff,
+    NegativeCountableEffectResistanceUpBuff,
     CountableBuff.Hope,
     CountableBuff.Cheer,
     ResilienceBuff,
@@ -53,22 +58,22 @@ private val buffDisplayPriorityList: List<BuffEffect> = listOf(
     LockedAggroBuff,
     ProvokeBuff,
     MarkBuff,
-    AntiMarkBuff,
+    FlippedMarkBuff,
     CountableBuff.WeakSpot,
     ApDownBuff,
     LockedApDownBuff,
-    Ap2DownBuff,
+    ApDown2Buff,
     ApUpBuff,
     LockedApUpBuff,
     ActPowerDownBuff,
     DexterityDownBuff,
     CriticalDownBuff,
-    EvasionRateDownBuff,
-    AccuracyRateDownBuff,
+    EvasionDownBuff,
+    AccuracyDownBuff,
     AgilityDownBuff,
     NormalDefenseDownBuff,
     SpecialDefenseDownBuff,
-    DamageTakenUpBuff,
+    DamageReceivedUpBuff,
     BrillianceGainDownBuff,
     ClimaxDamageDownBuff,
     ActPowerUpBuff,
@@ -76,14 +81,14 @@ private val buffDisplayPriorityList: List<BuffEffect> = listOf(
     CriticalUpBuff,
     EffectiveDamageDealtUpBuff,
     DamageDealtUpBuff,
-    EvasionRateUpBuff,
-    AccuracyRateUpBuff,
+    EvasionUpBuff,
+    ActPowerUpBuff,
     AgilityUpBuff,
     NormalDefenseUpBuff,
     SpecialDefenseUpBuff,
     BrillianceGainUpBuff,
     ClimaxDamageUpBuff,
-    DamageTakenDownBuff,
+    DamageReceivedDownBuff,
     PerfectAimBuff,
     NormalReflectBuff,
     SpecialReflectBuff,

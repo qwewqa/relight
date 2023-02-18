@@ -26,7 +26,7 @@ val CordeliaAruru = dress3010021(
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = NegativeEffectResistanceUpBuff,
                         value = values3,
                         turns = times3,
                     )

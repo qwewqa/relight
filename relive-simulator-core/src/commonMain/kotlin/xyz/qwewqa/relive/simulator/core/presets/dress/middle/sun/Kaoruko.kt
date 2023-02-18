@@ -20,7 +20,7 @@ val FourthZodiacRabbitKaoruko = dress1090021(
                     addBrilliance(values1)
                 }
                 targetAoe().act {
-                    dispelTimed(NegativeEffectResistanceBuff)
+                    dispelTimed(NegativeEffectResistanceUpBuff)
                     //TODO(): seal SE 2t
                 }
                 targetBack().act {
@@ -37,7 +37,7 @@ val FourthZodiacRabbitKaoruko = dress1090021(
                 targetAllyAoe().act {
                     dispelCountable(BuffCategory.Negative, values1)
                     applyBuff(
-                        effect = NegativeCountableEffectResistanceBuff,
+                        effect = NegativeCountableEffectResistanceUpBuff,
                         value = values2,
                         turns = times2,
                     )
@@ -107,12 +107,12 @@ val FourthZodiacRabbitKaoruko = dress1090021(
         ),
         listOf(
             EnemyBrillianceDrainPassive.new(30),
-            DispelTimedBuffPassive(NegativeEffectResistanceBuff).new(),
+            DispelTimedBuffPassive(NegativeEffectResistanceUpBuff).new(),
             //TODO(): AoE SE seal
         ),
         listOf(
-            SelfNegativeCountableEffectResistanceBuffPassive.new(value = 100, time = 2),
-            TeamNegativeCountableEffectResistanceBuffPassive.new(value = 100, time = 1),
+            SelfNegativeCountableEffectResistanceUpBuffPassive.new(value = 100, time = 2),
+            TeamNegativeCountableEffectResistanceUpBuffPassive.new(value = 100, time = 1),
         ),
         listOf(
             TeamActUpScalingPassive120.new(30) + (FlowerOnlyCondition or WindOnlyCondition or SnowOnlyCondition),

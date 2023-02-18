@@ -10,9 +10,10 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.ApDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.ConfusionBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.LockedPositiveEffectResistanceBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.LockedPositiveEffectResistanceUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
 import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyBrillianceDrainPassive
 import xyz.qwewqa.relive.simulator.core.stage.passive.TeamEvasionBuffPassive
@@ -23,7 +24,7 @@ val MoonAruru = dress3010015(
     acts = listOf(
         ActType.Act1.blueprint("Moonlight's Brilliance") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -36,7 +37,7 @@ val MoonAruru = dress3010015(
         },
         ActType.Act2.blueprint("Moonlight Madness") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -68,7 +69,7 @@ val MoonAruru = dress3010015(
                         hitCount = 3,
                     )
                     applyBuff(
-                        effect = LockedPositiveEffectResistanceBuff,
+                        effect = LockedPositiveEffectResistanceUpBuff,
                         value = values3,
                         turns = times3,
                     )

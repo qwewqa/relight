@@ -103,7 +103,7 @@ val tr16MafiaKaoruko = ActorLoadout(
             ActType.Act8("Dazzling Concerto", 2) {
                 targetAoe().act{
                     applyBuff(
-                        effect = AccuracyRateDownBuff,
+                        effect = AccuracyDownBuff,
                         value = 50,
                         turns = 2,
                     )
@@ -116,7 +116,7 @@ val tr16MafiaKaoruko = ActorLoadout(
                         hitCount = 5,
                     )
                     applyBuff(
-                        effect = AccuracyRateDownBuff,
+                        effect = AccuracyDownBuff,
                         value = 50,
                         turns = 2,
                     )
@@ -263,7 +263,7 @@ val tr16MafiaKaorukoDiff4 = ActorLoadout(
             ActType.Act8("Dazzling Concerto", 2) {
                 targetAoe().act{
                     applyBuff(
-                        effect = AccuracyRateDownBuff,
+                        effect = AccuracyDownBuff,
                         value = 50,
                         turns = 2,
                     )
@@ -292,7 +292,7 @@ val tr16MafiaKaorukoDiff4 = ActorLoadout(
                         mode = HitMode.FIXED,
                     )
                     applyBuff(
-                        effect = AccuracyRateDownBuff,
+                        effect = AccuracyDownBuff,
                         value = 50,
                         turns = 2,
                     )

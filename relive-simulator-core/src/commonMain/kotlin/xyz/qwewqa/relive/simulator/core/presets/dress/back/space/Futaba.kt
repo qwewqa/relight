@@ -5,7 +5,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1080017
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.HPRecoveryDownBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.HpRecoveryDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.NormalDefenseDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
@@ -36,7 +36,7 @@ val StageGirlFutaba = dress1080017(
                         hitCount = 2,
                     )
                     applyBuff(
-                        effect = HPRecoveryDownBuff,
+                        effect = HpRecoveryDownBuff,
                         value = values2,
                         turns = times2,
                     )
@@ -64,7 +64,7 @@ val StageGirlFutaba = dress1080017(
             Act {
                 targetAoe().act {
                     applyBuff(
-                        effect = HPRecoveryDownBuff,
+                        effect = HpRecoveryDownBuff,
                         value = values1,
                         turns = times1,
                     )

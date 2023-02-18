@@ -1,97 +1,48 @@
 package xyz.qwewqa.relive.simulator.core.stage.buff
 
-import xyz.qwewqa.relive.simulator.core.stage.ActionContext
-import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
+import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifiers
 
-object ApDownBuff : TimedBuffEffect {
-    override val name = "AP Down"
-    override val category = BuffCategory.Positive
-    override val iconId: Int = 105
-        override val flipped get() = ApUpBuff
-
-    override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.apDown += 1
-    }
-
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.apDown -= 1
-    }
+val ApDownBuff: TimedBuffEffect<Unit> by lazy {
+    buffData(105).makeSimpleTimedBuffEffect(
+        category = BuffCategory.Positive,
+        flipped = { ApUpBuff },
+    )
 }
 
-object Ap2DownBuff : TimedBuffEffect {
-    override val name = "AP 2 Down"
-    override val category = BuffCategory.Positive
-//    override val flipped get() = Ap2UpBuff TODO: Check if AP 2 Down flips
-    override val iconId: Int = 105
-
-    override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.ap2Down += 1
-    }
-
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.ap2Down -= 1
-    }
+val ApUpBuff: TimedBuffEffect<Unit> by lazy {
+    buffData(106).copy(name = "AP Up").makeSimpleTimedBuffEffect(
+        category = BuffCategory.Negative,
+        flipped = { ApDownBuff },
+    )
 }
 
-object ApUpBuff : TimedBuffEffect {
-    override val name = "AP Up"
-    override val category = BuffCategory.Negative
-    override val flipped get() = ApDownBuff
-    override val iconId: Int = 106
-
-    override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.apUp += 1
-    }
-
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.apUp -= 1
-    }
+val ApDown2Buff: TimedBuffEffect<Unit> by lazy {
+    buffData(237).makeSimpleTimedBuffEffect(
+        category = BuffCategory.Positive,
+    )
 }
 
-object Ap2UpBuff : TimedBuffEffect {
-    override val name = "AP 2 Up"
-    override val category = BuffCategory.Negative
-//    override val flipped get() = Ap2DownBuff
-    override val iconId: Int = 106
-
-    override fun onStart(context: ActionContext, value: Int) = context.run {
-        self.ap2Up += 1
-    }
-
-    override fun onEnd(context: ActionContext, value: Int) = context.run {
-        self.ap2Up -= 1
-    }
+val ApUp2Buff: TimedBuffEffect<Unit> by lazy {
+    buffData(236).makeSimpleTimedBuffEffect(
+        category = BuffCategory.Negative,
+    )
 }
 
-// TODO: Test if locked buffs are flippable
+val LockedApDownBuff = buffData(227).makeLockedVariantOf(ApDownBuff)
 
-object LockedApDownBuff : TimedBuffEffect {
-    override val name = "Locked AP Down"
-    override val category = BuffCategory.Positive
-    override val related = ApDownBuff
-    override val isLocked = true
-    override val iconId: Int = 105
-}
+val LockedApUpBuff = buffData(110).makeLockedVariantOf(ApUpBuff)
 
-object LockedApUpBuff : TimedBuffEffect {
-    override val name = "Locked AP Up"
-    override val category = BuffCategory.Negative
-    override val related = ApUpBuff
-    override val isLocked = true
-    override val iconId: Int = 106
-}
-
-val Actor.apChange: Int
-    get() {
-        val apDecrease = when {
-            isAp2Down -> 2
-            isApDown -> 1
+inline val Modifiers.apChange: Int
+    get() = actor.buffs.run {
+        val decrease = when {
+            ApDown2Buff in this -> 2
+            ApDownBuff in this -> 1
             else -> 0
         }
-        val apIncrease = when {
-            isAp2Up -> 2
-            isApUp -> 1
+        val increase = when {
+            ApUp2Buff in this -> 2
+            ApUpBuff in this -> 1
             else -> 0
         }
-        return apIncrease - apDecrease
+        increase - decrease
     }

@@ -9,6 +9,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
 
@@ -17,7 +18,7 @@ val PersephoneTamao = dress2010018(
     acts = listOf(
         ActType.Act1.blueprint("Laws of the Underworld") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = times1,
@@ -29,7 +30,7 @@ val PersephoneTamao = dress2010018(
         },
         ActType.Act2.blueprint("Peace of the Underworld") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     dispelTimed(BuffCategory.Positive)
                     applyCountableBuff(CountableBuff.Pride, count = times2, value = values2)
                     applyCountableBuff(CountableBuff.DisasterApUp, count = times3, value = values3)
@@ -45,7 +46,7 @@ val PersephoneTamao = dress2010018(
                 targetSelf().act {
                     applyBuff(LockedApDownBuff, turns = times1)
                 }
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values2,
                         hitCount = times2,
@@ -78,7 +79,7 @@ val PersephoneTamao = dress2010018(
             TeamAP2DownBuffPassive.new(time = 1),
         ),
         listOf(
-            DispelTimedBuffPassive(NegativeCountableEffectResistanceBuff).new(),
+            DispelTimedBuffPassive(NegativeCountableEffectResistanceUpBuff).new(),
             EnemyPrideBuffPassive.new(value = 3000, time = 1),
             EnemyBrillianceDrainPassive.new(value = 50),
         ),
@@ -88,8 +89,8 @@ val PersephoneTamao = dress2010018(
             AllyStageEffectPassive(Majestic).new(value = 1, time = 2),
         ),
         listOf(
-            SelfLockedNegativeEffectResistanceBuffPassive.new(value = 100, time = 2),
-            SelfLockedNegativeCountableEffectResistanceBuffPassive.new(value = 100, time = 2),
+            SelfLockedNegativeEffectResistanceUpBuffPassive.new(value = 100, time = 2),
+            SelfLockedNegativeCountableEffectResistanceUpBuffPassive.new(value = 100, time = 2),
         ),
     ),
     unitSkill = ActCritical75UnitSkill + (FlowerOnlyCondition or SunOnlyCondition),

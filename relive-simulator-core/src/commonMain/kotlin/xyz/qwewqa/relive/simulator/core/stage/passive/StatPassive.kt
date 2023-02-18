@@ -4,8 +4,10 @@ import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.EffectTag
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffect
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.PerfectAimBuff
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.condition.applyIfTrue
+import xyz.qwewqa.relive.simulator.core.stage.modifier.*
 
 object ActUpPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
@@ -13,7 +15,9 @@ object ActUpPassive : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            boostActPower += value
+            mod {
+                actPowerUp += value
+            }
         }
     }
 }
@@ -24,7 +28,9 @@ object StaminaActUpPassive : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            staminaActPower += value
+            mod {
+                staminaActPowerUp += value
+            }
         }
     }
 }
@@ -36,7 +42,9 @@ object TeamActUpPassive : PassiveEffect {
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
             condition.applyIfTrue(member) {
-                boostActPower += value
+                mod {
+                    actPowerUp += value
+                }
             }
         }
     }
@@ -48,7 +56,9 @@ object DexterityPassive : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            valueDexterity += value
+            mod {
+                buffDexterity += value
+            }
         }
     }
 }
@@ -59,7 +69,9 @@ object CriticalUpPassive : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            valueCritical += value
+            mod {
+                buffCritical += value
+            }
         }
     }
 }
@@ -70,7 +82,9 @@ object HpUpPassive : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            boostMaxHp += value
+            mod {
+                maxHpUp += value
+            }
         }
     }
 }
@@ -81,7 +95,9 @@ object DamageDealtPassive : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            valueDamageDealtUp += value
+            mod {
+                damageDealtUp += value
+            }
         }
     }
 }
@@ -103,7 +119,9 @@ object EffectiveDamageDealtPassive : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            valueEffectiveDamageUp += value
+            mod {
+                effectiveDamageUp += value
+            }
         }
     }
 }
@@ -114,7 +132,9 @@ object ClimaxActPowerPassive : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            valueClimaxDamageUp += value
+            mod {
+                climaxDamageUp += value
+            }
         }
     }
 }
@@ -125,18 +145,20 @@ object PerfectAimPassive : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            perfectAimCounter += 1
+            buffs.activatePsuedoBuff(PerfectAimBuff)
         }
     }
 }
 
-object DamageTakenDownPassive : PassiveEffect {
+object DamageReceivedDownPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
     override val tags = listOf(EffectTag.Dexterity)
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            valueDamageTakenDown += value
+            mod {
+                damageReceivedDown += value
+            }
         }
     }
 }
@@ -147,7 +169,9 @@ object AgilityPassive : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            valueAgility += value
+            mod {
+                agilityUp += value
+            }
         }
     }
 }
@@ -157,7 +181,9 @@ object CutinInitialCooldownReductionPassive : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            cutinInitialCooldownReduction += value
+            mod {
+                cutinInitialCooldownReduction = cutinInitialCooldownReduction.coerceAtMost(value)
+            }
         }
     }
 }
@@ -168,7 +194,9 @@ object TurnHPRecoveryPassive : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            hpRegen += value
+            mod {
+                hpFixedRegen += value
+            }
         }
     }
 }

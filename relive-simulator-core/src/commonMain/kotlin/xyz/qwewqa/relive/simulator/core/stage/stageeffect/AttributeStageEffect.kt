@@ -45,7 +45,7 @@ private fun concentrationAttributeStageEffect(attribute: Attribute, id: Int) = s
         ActPowerDownBuff,
         NormalDefenseDownBuff,
         SpecialDefenseDownBuff,
-        AgainstAttributeDamageTakenUpBuff(attribute),
+        againstAttributeDamageReceivedUpBuff(attribute),
     ).targeting(stageEffectTargetAoe(condition = attribute.condition())),
 )
 

@@ -40,7 +40,7 @@ val BenzaitenTsukasa = dress3040014(
             Act {
                 targetAllyAoe().act {
                     applyBuff(
-                        NegativeEffectResistanceBuff,
+                        NegativeEffectResistanceUpBuff,
                         value = values1,
                         turns = times1,
                     )
@@ -121,7 +121,7 @@ val BenzaitenTsukasa = dress3040014(
         listOf(
             TeamDexterityUpBuffPassive.new(value = 20, time = 3),
             TeamCriticalUpBuffPassive.new(value = 20, time = 3),
-            TeamNegativeEffectResistanceBuffPassive.new(value = 100, time = 3) + FlowerOnlyCondition,
+            TeamNegativeEffectResistanceUpBuffPassive.new(value = 100, time = 3) + FlowerOnlyCondition,
             TeamAP2DownBuffPassive.new(time = 1) + FlowerOnlyCondition,
             // TODO: locked daze immunity
             EnemyStageEffectPassive(Hesitation).new(value = 1, time = 2),

@@ -7,8 +7,12 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.actor.consumeOnAttackCountableBuffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.ContractionBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.TimedBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
+import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistance
+import xyz.qwewqa.relive.simulator.core.stage.modifier.positiveEffectResistance
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.StageEffect
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 import kotlin.contracts.ExperimentalContracts
@@ -23,7 +27,7 @@ data class ActionLog(
 ) {
     fun markConsumeOnAttackCountableBuffs(actor: Actor) {
         consumeOnAttackCountableBuffs.forEach { buff ->
-            if (actor.buffs.any(buff)) {
+            if (buff in actor.buffs) {
                 consumeCountableBuffs.add(buff)
             }
         }
@@ -54,7 +58,7 @@ class ActionContext(
         return TargetContext(
             this@ActionContext,
             this,
-            enemy.active.firstOrNull()?.takeIf { self.isConstrained } ?: self.aggroTarget.takeIf { affectedByAggro },
+            enemy.active.firstOrNull()?.takeIf { ContractionBuff in self.buffs } ?: self.aggroTarget.takeIf { affectedByAggro },
             autoRepeatHits,
         )
     }
@@ -63,7 +67,7 @@ class ActionContext(
             TargetContext(this@ActionContext, listOf(this)).act(action)
 
     private fun provokable(selector: () -> List<Actor>) = self.provokeTarget?.let { listOf(it) }
-        ?: enemy.active.firstOrNull()?.takeIf { self.isConstrained }?.let { listOf(it) }
+        ?: enemy.active.firstOrNull()?.takeIf { ContractionBuff in self.buffs }?.let { listOf(it) }
         ?: selector()
 
     fun targetSelf() = listOf(self).targetContext()
@@ -182,7 +186,7 @@ class TargetContext(
         }
     }
 
-    fun applyBuff(effect: TimedBuffEffect, value: Int = 0, turns: Int, chance: Int = 100) {
+    fun applyBuff(effect: TimedBuffEffect<*>, value: Int = 0, turns: Int, chance: Int = 100) {
         if (!self.isAlive) return
         for (originalTarget in targets) {
             val target = aggroTarget ?: originalTarget
@@ -190,8 +194,7 @@ class TargetContext(
             target.apply {
                 when (effect.category) {
                     BuffCategory.Positive -> {
-                        val applyChance = chance / 100.0 *
-                                (100 - positiveEffectResist - (specificBuffResist[effect] ?: 0)) / 100.0
+                        val applyChance = chance / 100.0 * (100 - mod { positiveEffectResistance(effect) }) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
                             buffs.add(self, effect, value, turns)
                             actionContext.log("Buff", category = LogCategory.BUFF) { "Positive buff ${effect.formatName(value)} (${turns}t) applied to [$name]." }
@@ -200,8 +203,7 @@ class TargetContext(
                         }
                     }
                     BuffCategory.Negative -> {
-                        val applyChance = chance / 100.0 *
-                                (100 - negativeEffectResist - (specificBuffResist[effect] ?: 0)) / 100.0
+                        val applyChance = chance / 100.0 * (100 - mod { negativeEffectResistance(effect) }) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
                             buffs.add(self, effect, value, turns)
                             actionContext.log("Buff", category = LogCategory.BUFF) { "Negative buff ${effect.formatName(value)} (${turns}t) applied to [$name]." }
@@ -222,9 +224,7 @@ class TargetContext(
             target.apply {
                 when (effect.category) {
                     BuffCategory.Positive -> {
-                        val applyChance =
-                                chance / 100.0 * (100 - positiveEffectResist - (specificCountableBuffResist[effect]
-                                        ?: 0)) / 100.0
+                        val applyChance = chance / 100.0 * (100 - mod { positiveEffectResistance(effect) }) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
                             buffs.addCountable(effect, count, value)
                             actionContext.log("Buff", category = LogCategory.BUFF) { "Positive buff [${effect.name}] (${count}x) applied to [$name]." }
@@ -233,7 +233,7 @@ class TargetContext(
                         }
                     }
                     BuffCategory.Negative -> {
-                        val applyChance = chance / 100.0 * (100 - negativeCountableResist - (specificCountableBuffResist[effect] ?: 0)) / 100.0
+                        val applyChance = chance / 100.0 * (100 - mod { negativeEffectResistance(effect) }) / 100.0
                         if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
                             buffs.addCountable(effect, count, value)
                             actionContext.log("Buff", category = LogCategory.BUFF) { "Negative buff [${effect.name}] (${count}x) applied to [$name]." }
@@ -258,7 +258,7 @@ class TargetContext(
         }
     }
 
-    fun dispelTimed(effect: TimedBuffEffect) {
+    fun dispelTimed(effect: TimedBuffEffect<*>) {
         if (!self.isAlive) return
         for (originalTarget in targets) {
             val target = aggroTarget ?: originalTarget
@@ -325,7 +325,7 @@ class TargetContext(
             if (!target.isAlive) continue
             target.apply {
                 actionContext.log("Heal", category = LogCategory.HEAL) { "Heal [$name] (percent: $percent, fixed: $fixed)." }
-                this.heal(fixed + (percent * maxHp / 100))
+                this.heal(fixed + (percent * mod { +maxHp } / 100))
             }
         }
     }

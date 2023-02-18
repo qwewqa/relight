@@ -68,7 +68,7 @@ val YellowTsukasa = dress3040018(
                 }
                 targetAllyAoe().act {
                     applyBuff(
-                        effect = EvasionRateUpBuff,
+                        effect = EvasionUpBuff,
                         value = values2,
                         turns = times2,
                     )

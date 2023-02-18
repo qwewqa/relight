@@ -8,6 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.SunsetTune
 
@@ -55,7 +56,7 @@ val CatalinaKaoruko = dress1090022(
         },
         ActType.ClimaxAct.blueprint("Black Lion's Scratch Encore") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 2,
@@ -164,7 +165,7 @@ val MurasakiKaoruko = dress1090016(
         ),
         listOf(
             // TODO: Locked NER
-            SelfNegativeEffectResistanceBuffPassive.new(100, 3),
+            SelfNegativeEffectResistanceUpBuffPassive.new(100, 3),
         )
     ),
     unitSkill = ActCritical50UnitSkill + (WindOnlyCondition or SunOnlyCondition),

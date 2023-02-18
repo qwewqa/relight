@@ -51,7 +51,7 @@ val SagittariusJunna = dress1060025(
                     )
                 }
                 targetAoe().act {
-                    dispelTimed(NegativeEffectResistanceBuff)
+                    dispelTimed(NegativeEffectResistanceUpBuff)
                     // TODO: Add stage effect seal
                 }
                 // TODO: Negative stage effect level down
@@ -278,8 +278,8 @@ val SagittariusJunna = dress1060025(
                 value: 50
                 time: 3
             */
-            SelfNegativeCountableEffectResistanceBuffPassive.new(value = 100, time = 2),
-            TeamNegativeCountableEffectResistanceBuffPassive.new(value = 100, time = 1),
+            SelfNegativeCountableEffectResistanceUpBuffPassive.new(value = 100, time = 2),
+            TeamNegativeCountableEffectResistanceUpBuffPassive.new(value = 100, time = 1),
             TeamAPDownBuffPassive.new(time = 1),
             TeamBrillianceGainUpBuffPassive.new(value = 50, time = 3),
         ),

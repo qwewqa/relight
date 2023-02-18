@@ -20,7 +20,7 @@ val StNicholasRyoko = dress4080003(
                     addBrilliance(20)
                 }
                 targetAoe().act {
-                    dispelTimed(NegativeEffectResistanceBuff)
+                    dispelTimed(NegativeEffectResistanceUpBuff)
                 }
                 // TODO: Unremovable SE Seal
                 targetBack().act{
@@ -229,9 +229,9 @@ val StNicholasRyoko = dress4080003(
             */
         ),
         listOf(
-            SelfLockedNegativeEffectResistanceBuffPassive.new(value = 100, time = 2),
-            TeamNegativeEffectResistanceBuffPassive.new(value = 100, time = 1),
-            TeamStunResistanceBuffPassive.new(value = 100, time = 2),
+            SelfLockedNegativeEffectResistanceUpBuffPassive.new(value = 100, time = 2),
+            TeamNegativeEffectResistanceUpBuffPassive.new(value = 100, time = 1),
+            TeamStunResistanceUpBuffPassive.new(value = 100, time = 2),
             TeamAPDownBuffPassive.new(time = 1),
             /*
             auto skill 2:
@@ -259,7 +259,7 @@ val StNicholasRyoko = dress4080003(
         ),
         listOf(
             EnemyBrillianceDrainPassive.new(30),
-            DispelTimedBuffPassive(NegativeEffectResistanceBuff).new(),
+            DispelTimedBuffPassive(NegativeEffectResistanceUpBuff).new(),
             EnemyLovesicknessBuffPassive.new(time = 1),
             /*
             auto skill 3:

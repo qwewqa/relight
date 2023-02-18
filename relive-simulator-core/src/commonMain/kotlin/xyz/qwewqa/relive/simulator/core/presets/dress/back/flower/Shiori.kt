@@ -33,7 +33,7 @@ val ShutendojiShiori = dress4040018(
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = NegativeEffectResistanceUpBuff,
                         value = values2,
                         turns = times2,
                     )
@@ -98,7 +98,7 @@ val ShutendojiShiori = dress4040018(
             TeamHpUpPassive.new(20) + SiegfeldOnlyCondition,
         ),
         listOf(
-            TeamNegativeEffectResistanceBuffPassive.new(100, 1),
+            TeamNegativeEffectResistanceUpBuffPassive.new(100, 1),
         ),
     ),
     unitSkill = ActCritical50UnitSkill + (FlowerOnlyCondition or SunOnlyCondition),

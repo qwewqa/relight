@@ -38,7 +38,7 @@ val FoolYachiyo = dress4050015(
                         turns = times2,
                     )
                     applyBuff(
-                        NegativeEffectResistanceBuff,
+                        NegativeEffectResistanceUpBuff,
                         value = values3,
                         turns = times3,
                     )
@@ -138,7 +138,7 @@ val YorimitsuYachiyo = dress4050018(
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = NegativeEffectResistanceUpBuff,
                         value = values3,
                         turns = times3,
                     )

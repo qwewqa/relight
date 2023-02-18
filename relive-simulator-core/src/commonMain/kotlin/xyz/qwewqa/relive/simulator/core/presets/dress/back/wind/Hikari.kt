@@ -111,7 +111,7 @@ val FinalLinesHikari = dress1020024(
                     )
                 }
                 targetAoe().act {
-                    dispelTimed(NegativeEffectResistanceBuff)
+                    dispelTimed(NegativeEffectResistanceUpBuff)
                     // Unremovable seal stage effect
                 }
                 //Reduce 2 most recent negative ally SE by 1 level
@@ -183,7 +183,7 @@ val FinalLinesHikari = dress1020024(
         ),
         listOf(
             TeamBrillianceGainUpBuffPassive.new(50, 3),
-            TeamNegativeEffectResistanceBuffPassive.new(100, 1),
+            TeamNegativeEffectResistanceUpBuffPassive.new(100, 1),
         ),
         listOf(
             CutinInitialCooldownReductionPassive.new(1),

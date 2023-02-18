@@ -14,6 +14,8 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
+import xyz.qwewqa.relive.simulator.core.stage.modifier.normalDefense
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val IzanagiNana = dress1070015(
@@ -39,7 +41,7 @@ val IzanagiNana = dress1070015(
                 }
                 targetAllyAoe().act {
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = NegativeEffectResistanceUpBuff,
                         value = values2,
                         turns = times2,
                     )
@@ -48,7 +50,7 @@ val IzanagiNana = dress1070015(
         },
         ActType.Act3.blueprint("Cloud Piercing") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -211,7 +213,7 @@ val HuntingRevueNana = dress1070024(
     acts = listOf(
         ActType.Act1.blueprint("Power Flash") {
             Act {
-                targetByLowest { it.normalDefense }.act {
+                targetByLowest { it.mod { +normalDefense } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -221,7 +223,7 @@ val HuntingRevueNana = dress1070024(
         },
         ActType.Act2.blueprint("Hopeful Flash") {
             Act {
-                targetByLowest { it.normalDefense }.act {
+                targetByLowest { it.mod { +normalDefense } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -237,7 +239,7 @@ val HuntingRevueNana = dress1070024(
         },
         ActType.Act3.blueprint("Brilliance Leap") {
             Act {
-                targetByLowest { it.normalDefense }.act {
+                targetByLowest { it.mod { +normalDefense } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,

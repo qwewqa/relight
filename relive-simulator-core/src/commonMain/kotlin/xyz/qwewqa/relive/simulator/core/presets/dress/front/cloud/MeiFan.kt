@@ -58,12 +58,12 @@ val EmpressMeiFan = dress4030003(
                 }
                 targetSelf().act {
                     applyBuff(
-                        effect = EvasionRateUpBuff,
+                        effect = EvasionUpBuff,
                         value = values2,
                         turns = times2,
                     )
                     applyBuff(
-                        effect = DamageTakenDownBuff,
+                        effect = DamageReceivedDownBuff,
                         value = values3,
                         turns = times3,
                     )

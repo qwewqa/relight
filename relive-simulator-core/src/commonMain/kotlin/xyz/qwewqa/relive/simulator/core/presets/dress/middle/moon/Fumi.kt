@@ -12,6 +12,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.LockedStunBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.StunBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.specialDefense
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val OrpheusFumi = dress2030018(
@@ -19,7 +20,7 @@ val OrpheusFumi = dress2030018(
     acts = listOf(
         ActType.Act1.blueprint("Slash of Brilliance") {
             Act {
-                targetByLowest { it.specialDefense }.act {
+                targetByLowest { it.mod { +specialDefense } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -32,7 +33,7 @@ val OrpheusFumi = dress2030018(
         },
         ActType.Act2.blueprint("Sorrowful Tone") {
             Act {
-                targetByLowest { it.specialDefense }.act {
+                targetByLowest { it.mod { +specialDefense } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -48,7 +49,7 @@ val OrpheusFumi = dress2030018(
         },
         ActType.Act3.blueprint("Encouraging Tone") {
             Act {
-                targetByLowest { it.specialDefense }.act {
+                targetByLowest { it.mod { +specialDefense } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,

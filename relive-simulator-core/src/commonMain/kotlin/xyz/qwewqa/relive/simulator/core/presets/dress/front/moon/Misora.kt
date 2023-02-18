@@ -9,10 +9,11 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.HPDef75UnitSkill
-import xyz.qwewqa.relive.simulator.core.stage.passive.TeamConfusionResistanceBuffPassive
-import xyz.qwewqa.relive.simulator.core.stage.passive.TeamStopResistanceBuffPassive
-import xyz.qwewqa.relive.simulator.core.stage.passive.TeamStunResistanceBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamConfusionResistanceUpBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamStopResistanceUpBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamStunResistanceUpBuffPassive
 
 val FaithMisora = dress3020015(
     name = "Faith Misora",
@@ -68,7 +69,7 @@ val FaithMisora = dress3020015(
         },
         ActType.ClimaxAct.blueprint("Moonlight Sacrament") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 4,
@@ -81,7 +82,7 @@ val FaithMisora = dress3020015(
                         turns = times2,
                     )
                     applyBuff(
-                        effect = DamageTakenDownBuff,
+                        effect = DamageReceivedDownBuff,
                         value = values3,
                         turns = times3,
                     )
@@ -91,13 +92,13 @@ val FaithMisora = dress3020015(
     ),
     autoSkills = listOf(
         listOf(
-            TeamConfusionResistanceBuffPassive.new(time = 6),
+            TeamConfusionResistanceUpBuffPassive.new(time = 6),
         ),
         listOf(
-            TeamStunResistanceBuffPassive.new(time = 6),
+            TeamStunResistanceUpBuffPassive.new(time = 6),
         ),
         listOf(
-            TeamStopResistanceBuffPassive.new(time = 6),
+            TeamStopResistanceUpBuffPassive.new(time = 6),
         ),
     ),
     unitSkill = HPDef75UnitSkill + (MoonOnlyCondition or StarOnlyCondition),

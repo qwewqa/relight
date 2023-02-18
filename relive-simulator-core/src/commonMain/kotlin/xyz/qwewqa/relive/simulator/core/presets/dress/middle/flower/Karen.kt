@@ -15,6 +15,7 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
 
@@ -64,7 +65,7 @@ val StageGirlKaren = dress1010017(
                         hitCount = 2,
                     )
                 }
-                targetAllyByHighest (count = 2) { it.actPower }.act {
+                targetAllyByHighest (count = 2) { it.mod { +actPower } }.act {
                     addBrilliance(values2)
                 }
             }
@@ -109,7 +110,7 @@ val FinalLinesKaren = dress1010024(
     acts = listOf(
         ActType.Act1.blueprint("Slash of Brilliance") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = times1,
@@ -122,7 +123,7 @@ val FinalLinesKaren = dress1010024(
         },
         ActType.Act2.blueprint("Passionate Slash") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = times1,
@@ -139,7 +140,7 @@ val FinalLinesKaren = dress1010024(
         },
         ActType.Act3.blueprint("A Play I haven't seen yet") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values3,
                         hitCount = times3,
@@ -199,7 +200,7 @@ val PuddingKaren = dress1010022(
             Act {
                 targetAllyAoe().act {
                     applyBuff(
-                        NegativeCountableEffectResistanceBuff,
+                        NegativeCountableEffectResistanceUpBuff,
                         value = values1,
                         turns = times1
                     )
@@ -269,8 +270,8 @@ val PuddingKaren = dress1010022(
                 TeamReviveBuffPassive.new(value = 50, time = 1),
             ),
             listOf(
-                SelfLockedNegativeEffectResistanceBuffPassive.new(value = 100, time = 2),
-                TeamNegativeEffectResistanceBuffPassive.new(value = 100, time = 1),
+                SelfLockedNegativeEffectResistanceUpBuffPassive.new(value = 100, time = 2),
+                TeamNegativeEffectResistanceUpBuffPassive.new(value = 100, time = 1),
             ),
             listOf(
                 TeamBlessingHPRecoveryPassive.new(value = 100, time = 1),

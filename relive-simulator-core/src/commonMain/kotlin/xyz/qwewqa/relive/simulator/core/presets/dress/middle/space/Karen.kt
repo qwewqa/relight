@@ -11,6 +11,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.log
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.AfterlifeTrials
 
@@ -85,7 +86,7 @@ val WheelOfFortuneKaren = dress1010014(
     ),
     autoSkills = listOf(
         listOf(
-            TeamStunResistanceBuffPassive.new(value = 100, time = 6),
+            TeamStunResistanceUpBuffPassive.new(value = 100, time = 6),
         ),
         listOf(
             TeamDexterityUpBuffPassive.new(10, 3),
@@ -103,7 +104,7 @@ val OkuninushiKaren = dress1010020(
     acts = listOf(
         ActType.Act1.blueprint("Life Sword") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -116,7 +117,7 @@ val OkuninushiKaren = dress1010020(
         },
         ActType.Act2.blueprint("Life Bow") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -130,7 +131,7 @@ val OkuninushiKaren = dress1010020(
         },
         ActType.Act3.blueprint("Life Koto") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -162,7 +163,7 @@ val OkuninushiKaren = dress1010020(
             SelfReviveBuffPassive.new(50, time = 1),
         ),
         listOf(
-            TeamNegativeEffectResistanceBuffPassive.new(100, 1),
+            TeamNegativeEffectResistanceUpBuffPassive.new(100, 1),
         )
     ),
     unitSkill = ActCritical50UnitSkill + (SpaceOnlyCondition or StarOnlyCondition),

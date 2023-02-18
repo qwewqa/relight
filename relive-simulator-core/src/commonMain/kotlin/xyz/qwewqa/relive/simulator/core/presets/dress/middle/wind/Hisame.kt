@@ -76,7 +76,7 @@ val EvilQueenHisame = dress5030005(
                 */
                 targetAllyAoe().act {
                     applyBuff(
-                        NegativeEffectResistanceBuff,
+                        NegativeEffectResistanceUpBuff,
                         value = values1,
                         turns = times1,
                     )
@@ -242,7 +242,7 @@ val EvilQueenHisame = dress5030005(
             */
             TeamDexterityUpBuffPassive.new(value = 20, time = 3),
             TeamCriticalUpBuffPassive.new(value = 20, time = 3),
-            TeamNegativeEffectResistanceBuffPassive.new(value = 100, time = 3) + WindOnlyCondition,
+            TeamNegativeEffectResistanceUpBuffPassive.new(value = 100, time = 3) + WindOnlyCondition,
             TeamAP2DownBuffPassive.new(time = 1) + WindOnlyCondition,
             EnemyStageEffectPassive(Hesitation).new(value = 1, time = 2),
         ),

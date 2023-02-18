@@ -71,7 +71,7 @@ val tr10FaithMisora = ActorLoadout(
                 }
                 targetSelf().act {
                     applyBuff(
-                        effect = EvasionRateUpBuff,
+                        effect = EvasionUpBuff,
                         value = 50,
                         turns = 2,
                     )

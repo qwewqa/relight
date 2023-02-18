@@ -75,7 +75,7 @@ val shinsengumiRinpudenNagakuraShinpachiFumiBoss = ActorLoadout(
                         hitCount = 3,
                     )
                     applyBuff(
-                        AccuracyRateDownBuff,
+                        AccuracyDownBuff,
                         value = 30,
                         turns = 3,
                     )

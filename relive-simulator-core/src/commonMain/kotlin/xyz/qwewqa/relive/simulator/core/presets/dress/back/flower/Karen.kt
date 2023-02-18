@@ -38,7 +38,7 @@ val RomeoKaren = dress1010019(
                         turns = times2
                     )
                     applyBuff(
-                        NegativeEffectResistanceBuff,
+                        NegativeEffectResistanceUpBuff,
                         value = values3,
                         turns = times3
                     )

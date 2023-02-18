@@ -1,28 +1,35 @@
 package xyz.qwewqa.relive.simulator.core.stage.buff
 
+import xyz.qwewqa.relive.simulator.core.stage.modifier.*
 
-object HpRegenBuff : TimedBuffEffect {
-    override val name = "HP Regen"
-    override val category = BuffCategory.Positive
-    override val iconId: Int = 21
-}
+val HpRegenBuff = buffData(268).makeSimpleTimedBuffEffect(
+    category = BuffCategory.Positive,
+    onStart = { value ->
+        if (value <= 100) {
+            self.mod { hpPercentRegen += value }
+        } else {
+            self.mod { hpFixedRegen += value }
+        }
+    },
+    onEnd = { value ->
+        if (value <= 100) {
+            self.mod { hpPercentRegen -= value }
+        } else {
+            self.mod { hpFixedRegen -= value }
+        }
+    },
+)
 
-object BrillianceRegenBuff : TimedBuffEffect {
-    override val name = "Brilliance Regen"
-    override val category = BuffCategory.Positive
-    override val iconId: Int = 22
-}
+val BrillianceRegenBuff = buffData(22).copy(name = "Brilliance Regen").makeModifierTimedBuffEffect(
+    modifier = brillianceRegen,
+    category = BuffCategory.Positive,
+)
 
-object LockedBrillianceRegenBuff : TimedBuffEffect {
-    override val name = "Locked Brilliance Regen"
-    override val category = BuffCategory.Positive
-    override val iconId: Int = 22
-    override val isLocked = true
-    override val related = BrillianceRegenBuff
-}
+val LockedBrillianceRegenBuff = buffData(279).copy(name = "Locked Brilliance Regen").makeLockedVariantOf(
+    BrillianceRegenBuff,
+)
 
-object ReviveRegenBuff : TimedBuffEffect {
-    override val name = "Revive Regen"
-    override val category = BuffCategory.Positive
-    override val iconId: Int = 275
-}
+val ReviveRegenBuff = buffData(280).makeModifierTimedBuffEffect(
+    modifier = reviveRegen,
+    category = BuffCategory.Positive,
+)

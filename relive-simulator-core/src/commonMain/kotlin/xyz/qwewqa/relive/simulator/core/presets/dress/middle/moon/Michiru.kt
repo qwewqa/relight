@@ -14,6 +14,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.LockedElectricShockBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.PerfectAimBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val SeimeiMichiru = dress4020018(
@@ -21,7 +22,7 @@ val SeimeiMichiru = dress4020018(
     acts = listOf(
         ActType.Act1.blueprint("Slash of Brilliance") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -34,7 +35,7 @@ val SeimeiMichiru = dress4020018(
         },
         ActType.Act2.blueprint("Incantation") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -56,7 +57,7 @@ val SeimeiMichiru = dress4020018(
         },
         ActType.Act3.blueprint("Divination") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,

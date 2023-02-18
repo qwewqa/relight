@@ -32,7 +32,7 @@ val MerchantKaoruko = dress1090023(
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = NegativeEffectResistanceUpBuff,
                         value = values2,
                         turns = times2,
                     )
@@ -97,7 +97,7 @@ val MerchantKaoruko = dress1090023(
             TeamHpUpPassive.new(30),
         ),
         listOf(
-            TeamNegativeEffectResistanceBuffPassive.new(100, 1),
+            TeamNegativeEffectResistanceUpBuffPassive.new(100, 1),
         ),
     ),
     unitSkill = ActCritical50UnitSkill + (SpaceOnlyCondition or StarOnlyCondition),

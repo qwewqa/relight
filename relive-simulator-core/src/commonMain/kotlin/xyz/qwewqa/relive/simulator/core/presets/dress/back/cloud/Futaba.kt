@@ -10,9 +10,10 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.ApDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.BrillianceGainDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
-import xyz.qwewqa.relive.simulator.core.stage.buff.LockedNegativeEffectResistanceBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.LockedNegativeEffectResistanceUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.normalDefense
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.YoureAllHopeless
 
@@ -21,7 +22,7 @@ val GrudgeRevueFutaba = dress1080024(
     acts = listOf(
         Act1.blueprint("Slash of Brilliance") {
             Act {
-                targetByLowest { it.normalDefense }.act {
+                targetByLowest { it.mod { +normalDefense } }.act {
                     attack(
                         modifier = values1,
                         hitCount = times1,
@@ -34,7 +35,7 @@ val GrudgeRevueFutaba = dress1080024(
         },
         Act2.blueprint("Dimming Slash") {
             Act {
-                targetByLowest { it.normalDefense }.act {
+                targetByLowest { it.mod { +normalDefense } }.act {
                     attack(
                         modifier = values1,
                         hitCount = times1,
@@ -66,7 +67,7 @@ val GrudgeRevueFutaba = dress1080024(
                 targetAllyAoe().act {
                     applyCountableBuff(CountableBuff.Revive, count = times1)
                     applyBuff(
-                        effect = LockedNegativeEffectResistanceBuff,
+                        effect = LockedNegativeEffectResistanceUpBuff,
                         value = values2,
                         turns = times2,
                     )
@@ -86,13 +87,13 @@ val GrudgeRevueFutaba = dress1080024(
             SelfReviveBuffPassive.new(50, time = 2),
         ),
         listOf(
-            SelfNegativeEffectResistanceBuffPassive.new(time = 3),
+            SelfNegativeEffectResistanceUpBuffPassive.new(time = 3),
         ),
         listOf(
             TeamAPDownBuffPassive.new(time = 1),
         ),
         listOf(
-            TeamNegativeCountableEffectResistanceBuffPassive.new(100, 1),
+            TeamNegativeCountableEffectResistanceUpBuffPassive.new(100, 1),
         ),
     ),
     unitSkill = ActCritical50UnitSkill + (CloudOnlyCondition or StarOnlyCondition),

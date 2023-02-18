@@ -24,7 +24,7 @@ val MarieAntoinetteKoharu = dress5010006(
                     )
                 }
                 targetAoe().act {
-                    dispelTimed(NegativeEffectResistanceBuff)
+                    dispelTimed(NegativeEffectResistanceUpBuff)
                 }
                 // TODO: Unremovable SE Seal
                 // TODO: Reduce negative ally SE level
@@ -90,7 +90,7 @@ val MarieAntoinetteKoharu = dress5010006(
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = NegativeEffectResistanceUpBuff,
                         value = values2,
                         turns = times2,
                     )
@@ -194,7 +194,7 @@ val MarieAntoinetteKoharu = dress5010006(
             SelfReviveBuffPassive.new(50, 1),
             SelfExitEvasionBuffPassive.new(time = 3),
             TeamReviveBuffPassive.new(50, 1),
-            TeamNegativeCountableEffectResistanceBuffPassive.new(time = 2, value = 100),
+            TeamNegativeCountableEffectResistanceUpBuffPassive.new(time = 2, value = 100),
             /*
             auto skill 1:
               不屈

@@ -14,6 +14,7 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.log
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.AngelicSmile
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.ApplauseSpace
@@ -38,7 +39,7 @@ val SonokoYachiyo = dress4050009(
             Act {
                 targetAllyFront(3).act {
                     applyBuff(
-                        effect = EvasionRateUpBuff,
+                        effect = EvasionUpBuff,
                         value = values1,
                         turns = times1,
                     )
@@ -87,7 +88,7 @@ val SonokoYachiyo = dress4050009(
                 }
                 targetAllyAoe().act {
                     applyBuff(
-                        effect = DamageTakenDownBuff,
+                        effect = DamageReceivedDownBuff,
                         value = values2,
                         turns = times2,
                     )
@@ -122,7 +123,7 @@ val CoyoteCainYachiyo = dress4050014(
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = NegativeEffectResistanceUpBuff,
                         value = values2,
                         turns = times2,
                     )
@@ -192,7 +193,7 @@ val CoyoteCainYachiyo = dress4050014(
         ),
         listOf(
             TeamDamageDealtUpBuffPassive.new(value = 30, time = 2) + SpaceOnlyCondition,
-            TeamDamageTakenDownBuffPassive.new(value = 30, time = 2) + SpaceOnlyCondition,
+            TeamDamageReceivedDownBuffPassive.new(value = 30, time = 2) + SpaceOnlyCondition,
         ),
         listOf(
             EnemyBrillianceDrainPassive.new(50),
@@ -206,7 +207,7 @@ val CollectionYachiyo = dress4050019(
     acts = listOf(
         ActType.Act1.blueprint("Alluring Pose") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = times1,
@@ -219,7 +220,7 @@ val CollectionYachiyo = dress4050019(
         },
         ActType.Act2.blueprint("Alluring Walking") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = times1,
@@ -273,7 +274,7 @@ val CollectionYachiyo = dress4050019(
             TeamBrillianceRecoveryPassive.new(20) + SiegfeldOnlyCondition,
         ),
         listOf(
-            TeamNegativeEffectResistanceBuffPassive.new(100, 1),
+            TeamNegativeEffectResistanceUpBuffPassive.new(100, 1),
         ),
     ),
     unitSkill = ActCritical50UnitSkill + (SpaceOnlyCondition or StarOnlyCondition),

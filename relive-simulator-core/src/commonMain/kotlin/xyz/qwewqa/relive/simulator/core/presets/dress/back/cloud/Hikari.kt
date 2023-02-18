@@ -139,7 +139,7 @@ val SleepingBeautyHikari = dress1020012(
                 }
                 targetAllyFront(3).act {
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = NegativeEffectResistanceUpBuff,
                         value = values2,
                         turns = times2,
                     )

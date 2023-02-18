@@ -100,7 +100,7 @@ val HeartfeltCookingEncoreHikari = dress1020025(
         listOf(
             TeamDexterityUpBuffPassive.new(10, 3),
             TeamCriticalUpBuffPassive.new(10, 3),
-            TeamNegativeEffectResistanceBuffPassive.new(100, 3) + SpaceOnlyCondition,
+            TeamNegativeEffectResistanceUpBuffPassive.new(100, 3) + SpaceOnlyCondition,
         ),
         listOf(
             BrillianceRecoveryPassive.new(20),

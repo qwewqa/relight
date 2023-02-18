@@ -20,7 +20,7 @@ fun Actor.activateBlessings() = context.targetSelf().act {
         applyCountableBuff(CountableBuff.Hope, count = value)
     }
     buffs.consumeOnce(CountableBuff.BlessingAp2Down) { _ ->
-        applyBuff(Ap2DownBuff, 0, 1)
+        applyBuff(ApDown2Buff, 0, 1)
     }
     buffs.consumeOnce(CountableBuff.DisasterBrillianceReduction) { value ->
         removeBrilliance(value)

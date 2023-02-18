@@ -9,6 +9,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
 
@@ -50,16 +51,16 @@ val CarmenHikari = dress1020026(
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = NegativeEffectResistanceUpBuff,
                         value = values2,
                         turns = 2,
                     )
                 }
                 targetAoe().act {
-                    dispelTimed(NegativeEffectResistanceBuff)
+                    dispelTimed(NegativeEffectResistanceUpBuff)
                     // TODO: seal SE
                 }
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values5,
                         hitCount = times5,
@@ -106,8 +107,8 @@ val CarmenHikari = dress1020026(
                         turns = 2,
                     )
                 }
-                targetByHighest { it.actPower }.act {
-                    dispelTimed(NegativeCountableEffectResistanceBuff)
+                targetByHighest { it.mod { +actPower } }.act {
+                    dispelTimed(NegativeCountableEffectResistanceUpBuff)
                     attack(
                         modifier = values4,
                         hitCount = times4,
@@ -150,9 +151,9 @@ val CarmenHikari = dress1020026(
                 */
                 // TODO: revive to weak spot, instant skill seal
                 targetAoe().act{
-                    dispelTimed(NegativeEffectResistanceBuff)
+                    dispelTimed(NegativeEffectResistanceUpBuff)
                 }
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values4,
                         hitCount = times4,
@@ -207,7 +208,7 @@ val CarmenHikari = dress1020026(
                         turns = times2,
                     )
                     applyBuff(
-                        effect = LockedNegativeCountableResistanceBuff,
+                        effect = LockedNegativeCountableEffectResistanceUpBuff,
                         value = values3,
                         turns = times3,
                     )
@@ -270,8 +271,8 @@ val CarmenHikari = dress1020026(
             value: 50
             time: 0
         */
-            TeamLockedNegativeCountableEffectResistanceBuffPassive.new(time = 2, value = 100),
-            TeamLockedNegativeEffectResistanceBuffPassive.new(time = 2, value = 100),
+            TeamLockedNegativeCountableEffectResistanceUpBuffPassive.new(time = 2, value = 100),
+            TeamLockedNegativeEffectResistanceUpBuffPassive.new(time = 2, value = 100),
             TeamBrillianceRecoveryPassive.new(value = 50),
         ),
         listOf(
@@ -304,7 +305,7 @@ val CarmenHikari = dress1020026(
         */
             EnemyBrillianceDrainPassive.new(value = 50),
             EnemyAPUpBuffPassive.new(time = 1),
-            DispelTimedBuffPassive(NegativeCountableEffectResistanceBuff).new(),
+            DispelTimedBuffPassive(NegativeCountableEffectResistanceUpBuff).new(),
             // TODO: Disaster (AP Up)
             EnemyStageEffectPassive(Hesitation).new(value = 1, time = 2),
             EnemyStageEffectPassive(RoaringFire).new(value = 1, time = 2),

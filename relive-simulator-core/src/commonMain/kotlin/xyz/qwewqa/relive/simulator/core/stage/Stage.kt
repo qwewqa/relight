@@ -5,6 +5,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinTarget
+import xyz.qwewqa.relive.simulator.core.stage.modifier.agility
 import xyz.qwewqa.relive.simulator.core.stage.strategy.ActionTile
 import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
 import xyz.qwewqa.relive.simulator.core.stage.strategy.IdleTile
@@ -98,7 +99,7 @@ class Stage(
 
                 val autoEffectPriority = (player.actors.values + enemy.actors.values)
                     .shuffled(random)
-                    .sortedByDescending { it.agility }
+                    .sortedByDescending { it.mod { +agility } }
 
                 PassiveEffectCategory
                     .values()

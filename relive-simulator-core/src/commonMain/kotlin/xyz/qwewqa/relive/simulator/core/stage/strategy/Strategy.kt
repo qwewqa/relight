@@ -8,6 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinData
+import xyz.qwewqa.relive.simulator.core.stage.modifier.agility
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
 /**
@@ -74,7 +75,7 @@ object IdleTile : QueueTile() {
 }
 
 class ActionTile(val actor: Actor, val apCost: Int, val actData: ActData) : QueueTile() {
-    override val agility get() = actor.agility
+    override val agility get() = actor.mod { +agility }
 
     fun execute() {
         actor.context.log("Act", category = LogCategory.EMPHASIS) { "Begin act [${actData.name}]." }
@@ -90,7 +91,7 @@ class ActionTile(val actor: Actor, val apCost: Int, val actData: ActData) : Queu
 }
 
 data class BoundCutin(val actor: Actor, val data: CutinData) {
-    val agility get() = actor.agility
+    val agility get() = actor.mod { +agility }
 
     fun execute() {
         actor.context.log("Act", category = LogCategory.EMPHASIS) { "Begin cutin act." }

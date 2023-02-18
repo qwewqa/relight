@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1040023
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.NegativeEffectResistanceBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.NegativeEffectResistanceUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
@@ -32,7 +32,7 @@ val DancerClaudine = dress1040023(
         ActType.Act2.blueprint("Utsusemi Dance") {
             Act {
                 targetAoe().act {
-                    dispelTimed(NegativeEffectResistanceBuff)
+                    dispelTimed(NegativeEffectResistanceUpBuff)
                 }
             }
         },
@@ -45,14 +45,14 @@ val DancerClaudine = dress1040023(
                     )
                 }
                 targetBack(3).act {
-                    dispelTimed(NegativeEffectResistanceBuff)
+                    dispelTimed(NegativeEffectResistanceUpBuff)
                 }
             }
         },
         ActType.ClimaxAct.blueprint("Regenerating Dance") {
             Act {
                 targetAoe().act {
-                    dispelTimed(NegativeEffectResistanceBuff)
+                    dispelTimed(NegativeEffectResistanceUpBuff)
                     attack(
                         modifier = values3,
                         hitCount = times3,

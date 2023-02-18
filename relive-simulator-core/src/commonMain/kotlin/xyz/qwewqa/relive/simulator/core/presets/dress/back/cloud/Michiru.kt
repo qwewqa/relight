@@ -100,7 +100,7 @@ val HellsingEncoreMichiru = dress4020013(
         listOf(
             TeamDexterityUpBuffPassive.new(10, 3),
             TeamCriticalUpBuffPassive.new(10, 3),
-            TeamNegativeEffectResistanceBuffPassive.new(100, 3) + CloudOnlyCondition,
+            TeamNegativeEffectResistanceUpBuffPassive.new(100, 3) + CloudOnlyCondition,
         ),
         listOf(
             BrillianceRecoveryPassive.new(20),

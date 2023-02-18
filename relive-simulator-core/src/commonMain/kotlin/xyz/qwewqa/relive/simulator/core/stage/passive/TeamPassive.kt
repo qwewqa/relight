@@ -6,6 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffect
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.condition.applyIfTrue
+import xyz.qwewqa.relive.simulator.core.stage.modifier.*
 
 object TeamActPowerUpPassive : PassiveEffect {
     override val category = PassiveEffectCategory.Passive
@@ -14,7 +15,9 @@ object TeamActPowerUpPassive : PassiveEffect {
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
             condition.applyIfTrue(member) {
-                boostActPower += value
+                mod {
+                    actPowerUp += value
+                }
             }
         }
     }
@@ -27,7 +30,9 @@ object TeamDexterityUpPassive : PassiveEffect {
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
             condition.applyIfTrue(member) {
-                valueDexterity += value
+                mod {
+                    buffDexterity += value
+                }
             }
         }
     }
@@ -40,7 +45,9 @@ object TeamCriticalUpPassive : PassiveEffect {
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
             condition.applyIfTrue(member) {
-                valueCritical += value
+                mod {
+                    buffCritical += value
+                }
             }
         }
     }
@@ -53,7 +60,9 @@ object TeamHpUpPassive : PassiveEffect {
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
             condition.applyIfTrue(member) {
-                boostMaxHp += value
+                mod {
+                    maxHpUp += value
+                }
             }
         }
     }
@@ -66,7 +75,9 @@ object TeamNormalDefenseUpPassive : PassiveEffect {
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
             condition.applyIfTrue(member) {
-                boostNormalDefense += value
+                mod {
+                    normalDefenseUp += value
+                }
             }
         }
     }
@@ -79,7 +90,9 @@ object TeamSpecialDefenseUpPassive : PassiveEffect {
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
             condition.applyIfTrue(member) {
-                boostSpecialDefense += value
+                mod {
+                    specialDefenseUp += value
+                }
             }
         }
     }
@@ -93,7 +106,9 @@ object TeamDamageUpPassive : PassiveEffect {
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         team.actors.values.forEach { member ->
             condition.applyIfTrue(member) {
-                valueDamageDealtUp += value
+                mod {
+                    damageDealtUp += value
+                }
             }
         }
     }

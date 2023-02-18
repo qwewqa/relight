@@ -12,6 +12,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.ApDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val EurydiceYuyuko = dress2050018(
@@ -19,7 +20,7 @@ val EurydiceYuyuko = dress2050018(
     acts = listOf(
         ActType.Act1.blueprint("Strike of Brilliance") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -32,7 +33,7 @@ val EurydiceYuyuko = dress2050018(
         },
         ActType.Act2.blueprint("Strength of Awaiting") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -46,7 +47,7 @@ val EurydiceYuyuko = dress2050018(
         },
         ActType.Act3.blueprint("Power to Believe") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,

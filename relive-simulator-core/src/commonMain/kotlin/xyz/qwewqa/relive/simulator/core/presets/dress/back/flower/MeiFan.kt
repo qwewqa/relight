@@ -10,10 +10,11 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
 import xyz.qwewqa.relive.simulator.core.stage.passive.TeamActPowerUpBuffPassive
-import xyz.qwewqa.relive.simulator.core.stage.passive.TeamConfusionResistanceBuffPassive
-import xyz.qwewqa.relive.simulator.core.stage.passive.TeamStopResistanceBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamConfusionResistanceUpBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamStopResistanceUpBuffPassive
 
 val StageGirlMeiFan = dress4030017(
     name = "Stage Girl Mei Fan",
@@ -42,7 +43,7 @@ val StageGirlMeiFan = dress4030017(
                         turns = times2,
                     )
                 }
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values3,
                         hitCount = 2,
@@ -52,7 +53,7 @@ val StageGirlMeiFan = dress4030017(
         },
         ActType.Act3.blueprint("Unwavering Passion") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 2,
@@ -99,10 +100,10 @@ val StageGirlMeiFan = dress4030017(
             TeamActPowerUpBuffPassive.new(20, time = 3),
         ),
         listOf(
-            TeamConfusionResistanceBuffPassive.new(100, time = 6),
+            TeamConfusionResistanceUpBuffPassive.new(100, time = 6),
         ),
         listOf(
-            TeamStopResistanceBuffPassive.new(100, time = 6),
+            TeamStopResistanceUpBuffPassive.new(100, time = 6),
         ),
     ),
     unitSkill = ActCritical50UnitSkill + (FlowerOnlyCondition or SunOnlyCondition),

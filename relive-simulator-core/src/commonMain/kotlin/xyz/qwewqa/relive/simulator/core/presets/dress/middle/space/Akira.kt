@@ -86,7 +86,7 @@ val DelightAkira = dress4010019(
             SelfFortitudeBuffPassive.new(time = 4),
         ),
         listOf(
-            TeamNegativeEffectResistanceBuffPassive.new(100, 1),
+            TeamNegativeEffectResistanceUpBuffPassive.new(100, 1),
         ),
         listOf(
             EnemyBrillianceDrainPassive.new(30),

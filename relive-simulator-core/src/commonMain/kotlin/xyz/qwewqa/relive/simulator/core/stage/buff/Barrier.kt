@@ -1,29 +1,13 @@
 package xyz.qwewqa.relive.simulator.core.stage.buff
 
-object NormalBarrierBuff : TimedBuffEffect {
-    override val name = "Normal Barrier"
-    override val category = BuffCategory.Positive
-    override val iconId: Int = 23
-}
+val NormalBarrierBuff = buffData(23).makeSimpleTimedBuffEffect(
+    category = BuffCategory.Positive,
+)
 
-object SpecialBarrierBuff : TimedBuffEffect {
-    override val name = "Special Barrier"
-    override val category = BuffCategory.Positive
-    override val iconId: Int = 24
-}
+val SpecialBarrierBuff = buffData(24).makeSimpleTimedBuffEffect(
+    category = BuffCategory.Positive,
+)
 
-object LockedNormalBarrierBuff : TimedBuffEffect {
-    override val name = "Locked Normal Barrier"
-    override val category = BuffCategory.Positive
-    override val related = NormalBarrierBuff
-    override val isLocked = true
-    override val iconId: Int = 23
-}
+val LockedNormalBarrierBuff = buffData(223).makeLockedVariantOf(NormalBarrierBuff)
 
-object LockedSpecialBarrierBuff : TimedBuffEffect {
-    override val name = "Locked Special Barrier"
-    override val category = BuffCategory.Positive
-    override val related = SpecialBarrierBuff
-    override val isLocked = true
-    override val iconId: Int = 24
-}
+val LockedSpecialBarrierBuff = buffData(224).makeLockedVariantOf(SpecialBarrierBuff)

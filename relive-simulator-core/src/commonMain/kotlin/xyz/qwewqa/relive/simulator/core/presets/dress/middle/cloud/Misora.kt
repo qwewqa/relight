@@ -10,9 +10,10 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.ApDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.DexterityUpBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.LockedPositiveEffectResistanceBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.LockedPositiveEffectResistanceUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.normalDefense
 import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
 import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyBrillianceDrainPassive
 import xyz.qwewqa.relive.simulator.core.stage.passive.NegativeEffectResistancePassive
@@ -23,7 +24,7 @@ val StageGirlMisora = dress3020017(
     acts = listOf(
         ActType.Act1.blueprint("Rear Flash") {
             Act {
-                targetByLowest { it.normalDefense }.act {
+                targetByLowest { it.mod { +normalDefense } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 2,
@@ -33,7 +34,7 @@ val StageGirlMisora = dress3020017(
         },
         ActType.Act2.blueprint("Lightning Speed") {
             Act {
-                targetByLowest { it.normalDefense }.act {
+                targetByLowest { it.mod { +normalDefense } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 2,
@@ -72,7 +73,7 @@ val StageGirlMisora = dress3020017(
                         hitCount = 5,
                     )
                     applyBuff(
-                        effect = LockedPositiveEffectResistanceBuff,
+                        effect = LockedPositiveEffectResistanceUpBuff,
                         value = values3,
                         turns = times3,
                     )

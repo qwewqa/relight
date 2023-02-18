@@ -8,6 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.*
 
@@ -43,12 +44,12 @@ val CapricornClaudine = dress1040022(
                         count = times1,
                     )
                     applyBuff(
-                        effect = LockedNegativeCountableResistanceBuff,
+                        effect = LockedNegativeCountableEffectResistanceUpBuff,
                         value = values2,
                         turns = times2,
                     )
                 }
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values3,
                         hitCount = times3,
@@ -83,7 +84,7 @@ val CapricornClaudine = dress1040022(
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
                 }
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values2,
                         hitCount = times2,
@@ -129,7 +130,7 @@ val CapricornClaudine = dress1040022(
                 */
                 targetAllyAoe().act {
                     applyBuff(
-                        effect = Ap2DownBuff,
+                        effect = ApDown2Buff,
                         turns = times1
                     )
                 }
@@ -138,7 +139,7 @@ val CapricornClaudine = dress1040022(
                 }
                 // TODO: remove 1 revive to all enemies
 
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values4,
                         hitCount = times4,
@@ -287,7 +288,7 @@ val CapricornClaudine = dress1040022(
         */
             BrillianceRecoveryPassive.new(value = 50),
             TeamActPowerUpBuffPassive.new(value = 20, time = 3),
-            DispelTimedBuffPassive(NegativeCountableEffectResistanceBuff).new(),
+            DispelTimedBuffPassive(NegativeCountableEffectResistanceUpBuff).new(),
             // TODO: kiradown disaster
             EnemyStageEffectPassive(SugaryCorruption).new(value = 1, time = 2),
         ),
@@ -313,7 +314,7 @@ val CapricornClaudine = dress1040022(
           field_effects:
             電光影裏 (value: 1, time: 6, target: allies)
         */
-            SelfLockedNegativeEffectResistanceBuffPassive.new(value = 100, time = 2),
+            SelfLockedNegativeEffectResistanceUpBuffPassive.new(value = 100, time = 2),
             SelfAP2DownBuffPassive.new(time = 1),
             TeamBrillianceGainUpBuffPassive.new(value = 50, time = 3),
             AllyStageEffectPassive(LightningShade).new(value = 1, time = 6),

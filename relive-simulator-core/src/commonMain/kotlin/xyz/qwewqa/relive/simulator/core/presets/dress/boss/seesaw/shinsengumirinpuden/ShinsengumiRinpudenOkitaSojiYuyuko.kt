@@ -73,7 +73,7 @@ val shinsengumiRinpudenOkitaSojiYuyukoBoss = ActorLoadout(
                 }
                 targetSelf().act {
                     applyBuff(
-                        DamageTakenDownBuff,
+                        DamageReceivedDownBuff,
                         turns = 2,
                     )
                 }
@@ -85,7 +85,7 @@ val shinsengumiRinpudenOkitaSojiYuyukoBoss = ActorLoadout(
                         hitCount = 3,
                     )
                     applyBuff(
-                        EvasionRateUpBuff,
+                        EvasionUpBuff,
                         value = 50,
                         turns = 2,
                     )

@@ -52,7 +52,7 @@ fun stageEffectTargetBack(
 ) { team -> team.actors.values.toList().takeLast(count).filter { condition.evaluate(it) } }
 
 data class StageEffectBuff(
-    val effect: TimedBuffEffect,
+    val effect: TimedBuffEffect<Unit>,
     val values: List<Int>,
     val target: StageEffectTarget,
 )

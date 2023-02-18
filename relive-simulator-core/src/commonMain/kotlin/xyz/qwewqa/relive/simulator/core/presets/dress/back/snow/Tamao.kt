@@ -9,7 +9,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.DexterityUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.MarkBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.NegativeEffectResistanceBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.NegativeEffectResistanceUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.NormalDefenseDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
@@ -46,7 +46,7 @@ val DeathTamao = dress2010015(
                         turns = times2,
                     )
                     applyBuff(
-                        NegativeEffectResistanceBuff,
+                        NegativeEffectResistanceUpBuff,
                         value = values3,
                         turns = times3,
                     )

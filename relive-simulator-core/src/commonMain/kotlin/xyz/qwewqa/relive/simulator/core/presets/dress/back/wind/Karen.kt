@@ -10,6 +10,7 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.NormalReflectBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.SpecialReflectBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
 import xyz.qwewqa.relive.simulator.core.stage.passive.SelfFortitudeBuffPassive
 import xyz.qwewqa.relive.simulator.core.stage.passive.SelfReviveBuffPassive
@@ -19,7 +20,7 @@ val OfficerKaren = dress1010021(
     acts = listOf(
         ActType.Act1.blueprint("Reaching Out") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -32,7 +33,7 @@ val OfficerKaren = dress1010021(
         },
         ActType.Act2.blueprint("Strong Sense of Justice") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -46,7 +47,7 @@ val OfficerKaren = dress1010021(
         },
         ActType.Act3.blueprint("Healthy Body") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,

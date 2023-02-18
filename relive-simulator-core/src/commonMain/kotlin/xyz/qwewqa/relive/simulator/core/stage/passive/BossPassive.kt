@@ -51,14 +51,14 @@ object BossElementResistPassive : PassiveEffect {
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         Attribute.values().forEach {
             self.againstAttributeDamageDealtUp[it] = value
-            self.againstAttributeDamageTakenDown[it] = value
+            self.againstAttributeDamageReceivedDown[it] = value
         }
         val disadvantagedAgainst = self.dress.attribute.disadvantagedAgainst
             ?: error("Expected a non-neutral or dream attribute.")
         self.againstAttributeDamageDealtUp[disadvantagedAgainst] = 0
-        self.againstAttributeDamageTakenDown[disadvantagedAgainst] = 0
+        self.againstAttributeDamageReceivedDown[disadvantagedAgainst] = 0
         self.againstAttributeDamageDealtUp[Attribute.Dream] = 0
-        self.againstAttributeDamageTakenDown[Attribute.Dream] = 0
+        self.againstAttributeDamageReceivedDown[Attribute.Dream] = 0
     }
 }
 
@@ -68,12 +68,12 @@ object BuggedHMRuiBossElementResistPassive : PassiveEffect {
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         Attribute.values().forEach {
             self.againstAttributeDamageDealtUp[it] = value
-            self.againstAttributeDamageTakenDown[it] = value
+            self.againstAttributeDamageReceivedDown[it] = value
         }
         self.againstAttributeDamageDealtUp[Attribute.Flower] = 0
-        self.againstAttributeDamageTakenDown[Attribute.Flower] = 0
+        self.againstAttributeDamageReceivedDown[Attribute.Flower] = 0
         self.againstAttributeDamageDealtUp[Attribute.Dream] = 0
-        self.againstAttributeDamageTakenDown[Attribute.Dream] = 0
+        self.againstAttributeDamageReceivedDown[Attribute.Dream] = 0
     }
 }
 

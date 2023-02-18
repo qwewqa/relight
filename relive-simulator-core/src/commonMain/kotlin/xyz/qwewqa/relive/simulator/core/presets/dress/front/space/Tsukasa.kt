@@ -9,6 +9,7 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyAggroBuffPassive
 import xyz.qwewqa.relive.simulator.core.stage.passive.HPDef75UnitSkill
 import xyz.qwewqa.relive.simulator.core.stage.passive.SelfReviveBuffPassive
@@ -63,7 +64,7 @@ val CharityTsukasa = dress3040005(
                         turns = times2,
                     )
                     applyBuff(
-                        effect = DamageTakenDownBuff,
+                        effect = DamageReceivedDownBuff,
                         value = values3,
                         turns = times3,
                     )
@@ -72,7 +73,7 @@ val CharityTsukasa = dress3040005(
         },
         ActType.ClimaxAct.blueprint("Show Me the Right Path, Mirror") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     applyBuff(
                         effect = MarkBuff,
                         turns = times1,

@@ -48,6 +48,6 @@ data class BoundAct(val actor: Actor, val actData: ActData) {
     val act = actData.act
     val apCost: Int
         get() {
-            return (actData.apCost + actor.apChange).coerceAtLeast(1)
+            return (actData.apCost + actor.mod { apChange }).coerceAtLeast(1)
         }
 }

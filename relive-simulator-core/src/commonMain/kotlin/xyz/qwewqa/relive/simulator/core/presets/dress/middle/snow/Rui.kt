@@ -41,7 +41,7 @@ val HadesRui = dress2040018(
             Act {
                 targetAllyAoe().act {
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = NegativeEffectResistanceUpBuff,
                         value = values1,
                         turns = times1,
                     )
@@ -111,7 +111,7 @@ val HadesRui = dress2040018(
         listOf(
             TeamDexterityUpBuffPassive.new(20, 3),
             TeamCriticalUpBuffPassive.new(20, 3),
-            TeamNegativeEffectResistanceBuffPassive.new(100, 3) + SnowOnlyCondition,
+            TeamNegativeEffectResistanceUpBuffPassive.new(100, 3) + SnowOnlyCondition,
         ),
         listOf(
             TeamBrillianceRecoveryPassive.new(30),

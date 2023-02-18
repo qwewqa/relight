@@ -8,6 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical30UnitSkill
 import xyz.qwewqa.relive.simulator.core.stage.passive.DamageDealtPassive
 import xyz.qwewqa.relive.simulator.core.stage.passive.DexterityPassive
@@ -41,7 +42,7 @@ val SanadaMahiru = dress1030019(
                         turns = times2,
                     )
                 }
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values3,
                         hitCount = 2,
@@ -63,7 +64,7 @@ val SanadaMahiru = dress1030019(
                         turns = times2,
                     )
                 }
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values3,
                         hitCount = 2,
@@ -73,7 +74,7 @@ val SanadaMahiru = dress1030019(
         },
         ActType.ClimaxAct.blueprint("Greatest Spear") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     applyBuff(
                         effect = MarkBuff,
                         turns = times1

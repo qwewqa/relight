@@ -84,7 +84,7 @@ val DorothyMichiru = dress4020020(
                 }
                 targetAllyAoe().act {
                     applyBuff(
-                        NegativeEffectResistanceBuff,
+                        NegativeEffectResistanceUpBuff,
                         value = values5,
                         turns = times5,
                     )
@@ -136,7 +136,7 @@ val DorothyMichiru = dress4020020(
         listOf(
             TeamDexterityUpBuffPassive.new(value = 20, time = 3),
             TeamCriticalUpBuffPassive.new(value = 20, time = 3),
-            TeamNegativeEffectResistanceBuffPassive.new(value = 100, time = 3) + MoonOnlyCondition,
+            TeamNegativeEffectResistanceUpBuffPassive.new(value = 100, time = 3) + MoonOnlyCondition,
             TeamAP2DownBuffPassive.new(time = 1) + MoonOnlyCondition,
             // TODO: locked daze immunity
             EnemyStageEffectPassive(Hesitation).new(value = 1, time = 2),

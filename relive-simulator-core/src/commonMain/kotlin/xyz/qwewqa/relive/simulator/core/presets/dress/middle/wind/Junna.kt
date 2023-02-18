@@ -96,8 +96,8 @@ val SageJunna = dress1060023(
             EnemyBrillianceDrainPassive.new(50),
         ),
         listOf(
-            SelfLockedNegativeEffectResistanceBuffPassive.new(100, 2),
-            SelfLockedNegativeCountableEffectResistanceBuffPassive.new(100, 2),
+            SelfLockedNegativeEffectResistanceUpBuffPassive.new(100, 2),
+            SelfLockedNegativeCountableEffectResistanceUpBuffPassive.new(100, 2),
         )
     ),
     unitSkill = ActCritical50UnitSkill + (WindOnlyCondition or SunOnlyCondition),

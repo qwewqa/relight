@@ -7,7 +7,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoir
-import xyz.qwewqa.relive.simulator.core.stage.modifier.modifiers
+import xyz.qwewqa.relive.simulator.core.stage.modifier.*
 import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
 
 class Actor(
@@ -25,9 +25,22 @@ class Actor(
     var brilliance = 0
         private set
     val buffs = BuffManager(this)
-    val modifiers = modifiers(this)
+    val mod = _Modifiers(this)
+
+    val maxHp get() = mod { maxHp }
 
     lateinit var context: ActionContext
+
+    val specificBuffResist = platformMapOf<BuffEffect, Int>()
+    var conditionalDamageDealtUp = mutableListOf<Pair<Condition, Int>>()
+
+    // Not sure if this logic is exactly right, but it's rare for this to be a problem.
+    val aggroTarget: Actor?
+        get() = buffs.get(AggroBuff).toList().lastOrNull()?.source
+            ?: buffs.get(LockedAggroBuff).toList().lastOrNull()?.source
+
+    val provokeTarget: Actor?
+        get() = buffs.get(ProvokeBuff).toList().lastOrNull()?.source
 
     /**
      * If true, prevents taking damage via [damage].
@@ -35,191 +48,14 @@ class Actor(
      */
     var forceInvulnerable = false
 
-    var maxHp = 0
-        private set
-    private fun updateMaxHp() {
-        maxHp = (valueMaxHp.toDouble() * (100 + boostMaxHp) / 100).toInt()
-    }
-    var valueMaxHp = 0
-        set(value) {
-            field = value
-            updateMaxHp()
-        }
-    var boostMaxHp = 0
-        set(value) {
-            field = value
-            updateMaxHp()
-        }
-
-    val hopeFactor get() = if (buffs.any(CountableBuff.Hope)) 20 else 0
-
-    val actPower get() = valueActPower * (100 + boostActPower + actBurnFactor + hopeFactor +
-            (if (hp == maxHp) staminaActPower else 0)) / 100 + songActPower
-    val actBurnFactor get() = if (isBurned) -10 else 0
-    var valueActPower = 0
-    var boostActPower = 0
-    var songActPower = 0
-    var staminaActPower = 0
-
-    val normalDefense get() = valueNormalDefense * (100 + boostNormalDefense) / 100
-    var valueNormalDefense = 0
-    var boostNormalDefense = 0
-
-    val specialDefense get() = valueSpecialDefense * (100 + boostSpecialDefense) / 100
-    var valueSpecialDefense = 0
-    var boostSpecialDefense = 0
-
-    val agility get() = valueAgility * (100 + boostAgility + hopeFactor) / 100
-    var valueAgility = 0
-    var boostAgility = 0
-
-    val dexterity
-        get() = (valueDexterity +
-                buffDexterity.coerceAtMost(100) -
-                debuffDexterity.coerceAtMost(100) +
-                hopeFactor).coerceIn(0, 100)
-    var valueDexterity = 0
-    var buffDexterity = 0
-    var debuffDexterity = 0
-
-    val critical get() = (valueCritical + hopeFactor).coerceAtLeast(0)
-    var valueCritical = 0
-
-    val accuracy get() = valueAccuracy
-    var valueAccuracy = 0
-
-    val evasion get() = valueEvasion
-    var valueEvasion = 0
-
-    val effectiveDamageUp get() = valueEffectiveDamageUp
-    var valueEffectiveDamageUp = 0
-
-    val normalReflect get() = valueNormalReflect
-    var valueNormalReflect = 0
-
-    val specialReflect get() = valueSpecialReflect
-    var valueSpecialReflect = 0
-
-    var normalSuperReflectCounter = 0
-    var specialSuperReflectCounter = 0
-
-    val brillianceGainUp get() = valueBrillianceGainUp
-    var valueBrillianceGainUp = 0
-
-    val hpRecoveryGainUp get() = valueHPRecoveryGainUp
-    var valueHPRecoveryGainUp = 0
-
-    val absorb get() = valueAbsorb
-    var valueAbsorb = 0
-
-    val negativeEffectResist get() = valueNegativeEffectResist
-    var valueNegativeEffectResist = 0
-
-    val negativeCountableResist get() = valueNegativeCountableResist
-    var valueNegativeCountableResist = 0
-
-    val positiveEffectResist get() = valuePositiveEffectResist
-    var valuePositiveEffectResist = 0
-
-    val specificBuffResist = platformMapOf<BuffEffect, Int>()
-
-    val climaxDamageUp get() = valueClimaxDamageUp
-    var valueClimaxDamageUp = 0
-
-    val damageDealtUp get() = valueDamageDealtUp
-    var valueDamageDealtUp = 0
-
-    var conditionalDamageDealtUp = mutableListOf<Pair<Condition, Int>>()
-
-    val damageTakenDown get() = valueDamageTakenDown
-    var valueDamageTakenDown = 0
-
-    val damageDealtUpBuff get() = valueDamageDealtUpBuff
-    var valueDamageDealtUpBuff = 0
-
-    val damageTakenDownBuff get() = valueDamageTakenDownBuff
-    var valueDamageTakenDownBuff = 0
-
-    val damageTakenDownDebuff get() = valueDamageTakenDownDebuff
-    var valueDamageTakenDownDebuff = 0
-
     val againstAttributeDamageDealtUp = AttributeMap(0)
-    val againstAttributeDamageTakenDown = AttributeMap(0)
+    val againstAttributeDamageReceivedDown = AttributeMap(0)
     val attributeDamageDealtUp = AttributeMap(0)
-
-    // For bosses
-    val innateAgainstAttributeDamageTakenDown = AttributeMap(0)
-
-    inline val isInvincible get() = invincible > 0
-    var invincible = 0
-
-    inline val isStopped get() = stop > 0
-    var stop = 0
-
-    inline val isSleeping get() = sleep > 0
-    var sleep = 0
-
-    inline val isNightmaring get() = nightmare > 0
-    var nightmare = 0
-
-    inline val isConfused get() = confusion > 0
-    var confusion = 0
-
-    inline val isFrozen get() = frozen > 0
-    var frozen = 0
-
-    inline val isStunned get() = stun > 0
-    var stun = 0
-
-    inline val isBurned get() = burn > 0
-    var burn = 0
-
-    inline val isPoisoned get() = poison > 0
-    var poison = 0
-
-    inline val isShocked get() = shock > 0
-    var shock = 0
-
-    inline val isLovesick get() = lovesickness > 0
-    var lovesickness = 0
-
-    inline val isAgonized get() = agony > 0
-    var agony = 0
-
-    inline val isBlinded get() = blindness > 0
-    var blindness = 0
-
-    inline val isApUp get() = apUp > 0
-    var apUp = 0
-
-    inline val isAp2Up get() = ap2Up > 0
-    var ap2Up = 0
-
-    inline val isApDown get() = apDown > 0
-    var apDown = 0
-
-    inline val isAp2Down get() = ap2Down > 0
-    var ap2Down = 0
-
-    var brillianceRegen = 0
-    var hpRegen = 0
-    var hpPercentRegen = 0
-    var reviveRegen = 0
-
-    var counterHeal = 0
-
-    var perfectAimCounter = 0
 
     var cutinInitialCooldownReduction = 0
 
     var eventBonus: Int = 0
     var eventMultiplier: Int = 100
-
-    var aggroTarget: Actor? = null
-    var provokeTarget: Actor? = null
-
-    var constrain = 0
-    val isConstrained get() = constrain > 0
 
     var inCX = false
         private set
@@ -230,7 +66,7 @@ class Actor(
     val cutin = memoir?.cutinData?.let { BoundCutin(this, it) }
 
     fun initializeTurnZero() {
-        hp = maxHp
+        hp = mod { maxHp }
         context.log("Init") { "Dress Stats: ${dress.stats.display()}." }
         context.log("Init") { "Memoir Stats: ${memoir?.stats?.display()}." }
         context.log("Init") { "Accessory Stats: ${accessory?.stats?.display()}." }
@@ -251,35 +87,35 @@ class Actor(
                 context.log("Act", category = LogCategory.EMPHASIS) { "Actor has already exited." }
                 return
             }
-            if (isStopped) {
+            if (StopBuff in buffs) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by stop." }
                 return
             }
-            if (isAgonized) {
+            if (AgonyBuff in buffs) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by agony." }
                 return
             }
-            if (isFrozen) {
+            if (FreezeBuff in buffs) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by freeze." }
                 return
             }
-            if (isSleeping) {
+            if (SleepBuff in buffs) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by sleep." }
                 return
             }
-            if (isNightmaring) {
+            if (NightmareBuff in buffs) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by nightmare." }
                 return
             }
-            if (isStunned && context.stage.random.nextDouble() < 0.5) {
+            if (StunBuff in buffs && context.stage.random.nextDouble() < 0.5) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by stun." }
                 return
             }
-            if (isLovesick && context.stage.random.nextDouble() < 0.5) {
+            if (LovesicknessBuff in buffs && context.stage.random.nextDouble() < 0.5) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by lovesickness." }
                 return
             }
-            if (buffs.any(CountableBuff.Daze)) {
+            if (CountableBuff.Daze in buffs) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by daze." }
                 Act {
                     targetAllyRandom().act {
@@ -291,7 +127,7 @@ class Actor(
                 }.execute(context)
                 return
             }
-            if (isConfused && context.stage.random.nextDouble() < 0.3) {
+            if (ConfusionBuff in buffs && context.stage.random.nextDouble() < 0.3) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by confuse." }
                 val confusionAct = acts[ActType.ConfusionAct]?.act ?: Act {
                     targetAllyRandom().act {
@@ -304,7 +140,7 @@ class Actor(
                 confusionAct.execute(context)
                 return
             }
-            if (isShocked && context.stage.random.nextDouble() < 0.3) {
+            if (ElectricShockBuff in buffs && context.stage.random.nextDouble() < 0.3) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by electric shock." }
                 Act {
                     damage(7500)
@@ -366,7 +202,10 @@ class Actor(
             }
             if (self.buffs.tryRemove(CountableBuff.InvincibleRebirth)) {
                 self.hp = self.maxHp
-                context.log("Damage", category = LogCategory.DAMAGE) { "Invincible Rebirth activate (newHp: ${self.maxHp})." }
+                context.log(
+                    "Damage",
+                    category = LogCategory.DAMAGE
+                ) { "Invincible Rebirth activate (newHp: ${self.maxHp})." }
                 return@run
             }
             if (self.buffs.tryRemove(CountableBuff.Fortitude)) {
@@ -383,7 +222,10 @@ class Actor(
                 self.buffs.removeAll(ExitEvasionBuff)
                 self.hp = self.maxHp / 2
                 self.buffs.add(null, BrillianceRegenBuff, 100, 2)
-                context.log("Damage", category = LogCategory.DAMAGE) { "Exit Evasion activate (newHp: ${self.maxHp / 2})." }
+                context.log(
+                    "Damage",
+                    category = LogCategory.DAMAGE
+                ) { "Exit Evasion activate (newHp: ${self.maxHp / 2})." }
                 return@run
             }
             exit()
@@ -393,14 +235,14 @@ class Actor(
             self.addBrilliance(amount * 70 / self.maxHp)
             self.buffs.removeAll(FreezeBuff)
             self.buffs.tryRemove(CountableBuff.WeakSpot)
-            if (self.isSleeping && stage.random.nextDouble() > 0.2) {
+            if (SleepBuff in self.buffs && stage.random.nextDouble() > 0.2) {
                 self.buffs.removeAll(SleepBuff)
             }
-            if (self.isNightmaring && stage.random.nextDouble() > 0.2) {
+            if (NightmareBuff in self.buffs && stage.random.nextDouble() > 0.2) {
                 self.buffs.removeAll(NightmareBuff)
             }
-            if (self.counterHeal > 0) {
-                self.heal(self.counterHeal * self.hp / 100)
+            if (self.mod { +counterHeal } > 0) {
+                self.heal(self.mod { +counterHeal } * self.hp / 100)
             }
         }
 
@@ -412,13 +254,9 @@ class Actor(
         team.strategy.onExit(self)
         buffs.clear()
         self.exitCX()
-        enemy.forEach {
-            if (it.aggroTarget == self) {
-                it.buffs.removeAll(AggroBuff)
-            }
-            if (it.provokeTarget == self) {
-                it.buffs.removeAll(ProvokeBuff)
-            }
+        enemy.forEach { enemy ->
+            enemy.buffs.get(AggroBuff).filter { it.source == self }.forEach { it.remove() }
+            enemy.buffs.get(ProvokeBuff).filter { it.source == self }.forEach { it.remove() }
         }
         log("Exit", category = LogCategory.EMPHASIS) { "Exited." }
     }
@@ -434,7 +272,7 @@ class Actor(
                 (self.hp + amount).coerceAtMost(self.maxHp)
             })"
         }
-        self.hp += amount * (100 + hpRecoveryGainUp) / 100
+        self.hp += amount * (100 + mod { hpRecoveryAdjustment }) / 100
         self.hp = self.hp.coerceAtMost(self.maxHp)
     }
 
@@ -456,11 +294,11 @@ class Actor(
 
     fun addBrilliance(base: Int) = context.run {
         if (base > 0) {
-            if (isStopped) {
+            if (StopBuff in buffs) {
                 context.log("Abnormal") { "Brilliance gain prevented by stop." }
                 return
             }
-            if (isAgonized) {
+            if (AgonyBuff in buffs) {
                 context.log("Abnormal") { "Brilliance gain prevented by agony." }
                 return
             }
@@ -470,7 +308,7 @@ class Actor(
             return
         }
         val amount = if (base > 0) {
-            base * (100 + brillianceGainUp) / 100
+            base * (100 + self.mod { brillianceGainAdjustment }) / 100
         } else {
             base
         }

@@ -10,10 +10,11 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.HPDef75UnitSkill
-import xyz.qwewqa.relive.simulator.core.stage.passive.TeamBlindnessResistanceBuffPassive
-import xyz.qwewqa.relive.simulator.core.stage.passive.TeamConfusionResistanceBuffPassive
-import xyz.qwewqa.relive.simulator.core.stage.passive.TeamSleepResistanceBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamBlindResistanceUpBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamConfusionResistanceUpBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamSleepResistanceUpBuffPassive
 
 val HierophantMichiru = dress4020004(
     name = "Hierophant Michiru",
@@ -64,12 +65,12 @@ val HierophantMichiru = dress4020004(
                 }
                 targetSelf().act {
                     applyBuff(
-                        effect = EvasionRateUpBuff,
+                        effect = EvasionUpBuff,
                         value = values2,
                         turns = times2,
                     )
                     applyBuff(
-                        effect = DamageTakenDownBuff,
+                        effect = DamageReceivedDownBuff,
                         value = values3,
                         turns = times3,
                     )
@@ -78,7 +79,7 @@ val HierophantMichiru = dress4020004(
         },
         ActType.ClimaxAct.blueprint("Shining Peace") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 4,
@@ -92,13 +93,13 @@ val HierophantMichiru = dress4020004(
     ),
     autoSkills = listOf(
         listOf(
-            TeamBlindnessResistanceBuffPassive.new(time = 6),
+            TeamBlindResistanceUpBuffPassive.new(time = 6),
         ),
         listOf(
-            TeamConfusionResistanceBuffPassive.new(time = 6),
+            TeamConfusionResistanceUpBuffPassive.new(time = 6),
         ),
         listOf(
-            TeamSleepResistanceBuffPassive.new(time = 6),
+            TeamSleepResistanceUpBuffPassive.new(time = 6),
         ),
     ),
     unitSkill = HPDef75UnitSkill + (SnowOnlyCondition or SunOnlyCondition),

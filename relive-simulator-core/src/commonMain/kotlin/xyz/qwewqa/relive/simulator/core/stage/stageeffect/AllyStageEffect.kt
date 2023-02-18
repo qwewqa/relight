@@ -5,7 +5,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.*
 
 val AngelicSmile = stageEffectData(22).makeStageEffect(
     listOf(
-        DamageTakenDownBuff,
+        DamageReceivedDownBuff,
         NormalDefenseUpBuff,
         SpecialDefenseUpBuff,
     ).targeting(stageEffectTargetAoe())
@@ -81,7 +81,7 @@ val ThisIsSeparation = stageEffectData(33).makeStageEffect(
         ApDownBuff,
         DexterityUpBuff,
         CriticalUpBuff,
-        NegativeEffectResistanceBuff,
+        NegativeEffectResistanceUpBuff,
     ).targeting(stageEffectTargetAoe(condition = KaorukoOnlyCondition))
 )
 
@@ -106,7 +106,7 @@ val GlitteringStage = stageEffectData(35).makeStageEffect(
 
 val SweetMoment = stageEffectData(31).makeStageEffect(
     listOf(
-        NegativeEffectResistanceBuff,
+        NegativeEffectResistanceUpBuff,
         EffectiveDamageDealtUpBuff,
     ).targeting(stageEffectTargetAoe())
 )
@@ -117,7 +117,7 @@ val WeAreRivals = stageEffectData(43).makeStageEffect(
         ApDownBuff,
         DexterityUpBuff,
         CriticalUpBuff,
-        DamageTakenDownBuff,
+        DamageReceivedDownBuff,
     ).targeting(stageEffectTargetAoe(condition = SeishoOnlyCondition))
 )
 
@@ -125,7 +125,7 @@ val RoyalAuthority = stageEffectData(44).makeStageEffect(
     listOf(
         ApDownBuff,
         ActPowerUpBuff,
-        DamageTakenDownBuff,
+        DamageReceivedDownBuff,
     ).targeting(stageEffectTargetAoe(condition = SiegfeldOnlyCondition))
 )
 
@@ -142,9 +142,9 @@ val ThisIsTheStage = stageEffectData(48).makeStageEffect(
 
 val GoldenVitality = stageEffectData(58).makeStageEffect(
     listOf(
-        NegativeEffectResistanceBuff,
-        NegativeCountableEffectResistanceBuff,
-        DamageTakenDownBuff,
+        NegativeEffectResistanceUpBuff,
+        NegativeCountableEffectResistanceUpBuff,
+        DamageReceivedDownBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
@@ -161,8 +161,8 @@ val SagesCovenant = stageEffectData(59).makeStageEffect(
 
 val BeautifulNobleAndFun = stageEffectData(61).makeStageEffect(
     listOf(
-        Ap2DownBuff,
-        NegativeEffectResistanceBuff,
+        ApDown2Buff,
+        NegativeEffectResistanceUpBuff,
         ActPowerUpBuff,
     ).targeting(stageEffectTargetAoe(condition = SeiranOnlyCondition)),
 )
@@ -177,18 +177,18 @@ val LightningShade = stageEffectData(10).makeStageEffect(
 
 val DivinePower = stageEffectData(52).makeStageEffect(
     listOf(
-        Ap2DownBuff,
-        NegativeCountableEffectResistanceBuff,
+        ApDown2Buff,
+        NegativeCountableEffectResistanceUpBuff,
         ActPowerUpBuff,
     ).targeting(stageEffectTargetAoe()) + listOf(
-        NegativeEffectResistanceBuff,
+        NegativeEffectResistanceUpBuff,
     ).targeting(stageEffectTargetAoe(condition = RoVOnlyCondition)),
 )
 
 val HappyFootsteps = stageEffectData(62).makeStageEffect(
     listOf(
         ApDownBuff,
-        NegativeEffectResistanceBuff,
+        NegativeEffectResistanceUpBuff,
         ActPowerUpBuff,
         BrillianceRegenBuff,
     ).targeting(stageEffectTargetAoe()),
@@ -197,7 +197,7 @@ val HappyFootsteps = stageEffectData(62).makeStageEffect(
 val LeapOath = stageEffectData(63).makeStageEffect(
     listOf(
         ApDownBuff,
-        NegativeCountableEffectResistanceBuff,
+        NegativeCountableEffectResistanceUpBuff,
         ActPowerUpBuff,
         BrillianceRegenBuff,
     ).targeting(stageEffectTargetAoe()),
@@ -205,7 +205,7 @@ val LeapOath = stageEffectData(63).makeStageEffect(
 
 val ElegantInvitation = stageEffectData(71).makeStageEffect(
     listOf(
-        NegativeCountableEffectResistanceBuff,
+        NegativeCountableEffectResistanceUpBuff,
         ActPowerUpBuff,
         NormalDefenseUpBuff,
         SpecialDefenseUpBuff,
@@ -216,14 +216,14 @@ val ElegantInvitation = stageEffectData(71).makeStageEffect(
 val FloatingWithTheTide = stageEffectData(72).makeStageEffect(
     listOf(
         ApDownBuff,
-        NegativeEffectResistanceBuff,
+        NegativeEffectResistanceUpBuff,
         ActPowerUpBuff,
     ).targeting(stageEffectTargetAoe()),
 )
 
 val SparklingTide = stageEffectData(73).makeStageEffect(
     listOf(
-        EvasionRateUpBuff,
+        EvasionUpBuff,
         DexterityUpBuff,
         CriticalUpBuff,
         BrillianceRegenBuff,

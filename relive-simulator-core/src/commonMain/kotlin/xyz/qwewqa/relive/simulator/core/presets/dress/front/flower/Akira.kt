@@ -9,6 +9,7 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyAggroBuffPassive
 import xyz.qwewqa.relive.simulator.core.stage.passive.HPDef75UnitSkill
 import xyz.qwewqa.relive.simulator.core.stage.passive.SelfReviveBuffPassive
@@ -59,12 +60,12 @@ val EmperorAkira = dress4010015(
                 }
                 targetSelf().act {
                     applyBuff(
-                        effect = EvasionRateUpBuff,
+                        effect = EvasionUpBuff,
                         value = values2,
                         turns = times2,
                     )
                     applyBuff(
-                        effect = DamageTakenDownBuff,
+                        effect = DamageReceivedDownBuff,
                         value = values3,
                         turns = times3,
                     )
@@ -73,7 +74,7 @@ val EmperorAkira = dress4010015(
         },
         ActType.ClimaxAct.blueprint("Galactic Kaiser-Walzer") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     applyBuff(
                         effect = MarkBuff,
                         turns = times1,

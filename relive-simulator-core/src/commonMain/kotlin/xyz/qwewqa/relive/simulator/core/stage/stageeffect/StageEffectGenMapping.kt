@@ -20,11 +20,11 @@ data class StageEffectData(
 }
 
 data class StageEffectBuffType(
-    val effect: TimedBuffEffect,
+    val effect: TimedBuffEffect<Unit>,
     val target: StageEffectTarget,
 )
 
-fun List<TimedBuffEffect>.targeting(target: StageEffectTarget) = map { StageEffectBuffType(it, target) }
+fun List<TimedBuffEffect<Unit>>.targeting(target: StageEffectTarget) = map { StageEffectBuffType(it, target) }
 
 private fun ensureBuffValues(values: List<Int>) = if (values.isEmpty()) listOf(0) else values
 

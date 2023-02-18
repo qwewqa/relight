@@ -11,7 +11,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
 import xyz.qwewqa.relive.simulator.core.stage.passive.DamageDealtPassive
-import xyz.qwewqa.relive.simulator.core.stage.passive.DamageTakenDownPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.DamageReceivedDownPassive
 import xyz.qwewqa.relive.simulator.core.stage.passive.TeamCriticalUpBuffPassive
 
 val MagicianYuyuko = dress2050010(
@@ -107,7 +107,7 @@ val MagicianYuyuko = dress2050010(
             TeamCriticalUpBuffPassive.new(20, 3),
         ),
         listOf(
-            DamageTakenDownPassive.new(10),
+            DamageReceivedDownPassive.new(10),
         )
     ),
     unitSkill = ActCritical50UnitSkill + (CloudOnlyCondition or StarOnlyCondition),

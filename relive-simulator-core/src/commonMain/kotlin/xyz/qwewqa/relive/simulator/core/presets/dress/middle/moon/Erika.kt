@@ -9,7 +9,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.ApDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
-import xyz.qwewqa.relive.simulator.core.stage.buff.NegativeEffectResistanceBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.NegativeEffectResistanceUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
 import xyz.qwewqa.relive.simulator.core.stage.passive.EnemyBrillianceDrainPassive
@@ -33,7 +33,7 @@ val ParisCombatRevueFlowerDivisionErika = dress9020001(
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
                     applyBuff(
-                        NegativeEffectResistanceBuff,
+                        NegativeEffectResistanceUpBuff,
                         value = values2,
                         turns = times2,
                     )

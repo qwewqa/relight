@@ -171,7 +171,7 @@ val DemonKingNana = dress1070023(
             EnemyBrillianceDrainPassive.new(50) + SeishoOnlyCondition,
         ),
         listOf(
-            TeamNegativeEffectResistanceBuffPassive.new(100, 1),
+            TeamNegativeEffectResistanceUpBuffPassive.new(100, 1),
         )
     ),
     unitSkill = ActCritical50UnitSkill + (CloudOnlyCondition or StarOnlyCondition),

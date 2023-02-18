@@ -52,7 +52,7 @@ val RedDukeRichelieuFumi = dress2030020(
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = NegativeEffectResistanceUpBuff,
                         value = values3,
                         turns = times3,
                     )
@@ -141,7 +141,7 @@ val RedDukeRichelieuFumi = dress2030020(
             TeamLockedInvincibilityBuffPassive.new(time = 1),
         ),
         listOf(
-            DispelTimedBuffPassive(NegativeEffectResistanceBuff).new(),
+            DispelTimedBuffPassive(NegativeEffectResistanceUpBuff).new(),
             EnemyLockedAggroBuffPassive.new(time = 2),
             EnemyAPUpBuffPassive.new(time = 2),
             EnemyStageEffectPassive(Thunder).new(value = 1, time = 2),

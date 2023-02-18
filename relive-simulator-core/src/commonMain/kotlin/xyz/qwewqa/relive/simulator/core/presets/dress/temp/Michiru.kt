@@ -103,7 +103,7 @@ val snowMichi = fakeMichi(Attribute.Snow)(
         listOf(
             TeamDexterityUpBuffPassive.new(10, 3),
             TeamCriticalUpBuffPassive.new(10, 3),
-            TeamNegativeEffectResistanceBuffPassive.new(100, 3) + SnowOnlyCondition,
+            TeamNegativeEffectResistanceUpBuffPassive.new(100, 3) + SnowOnlyCondition,
         ),
         listOf(
             BrillianceRecoveryPassive.new(20),
@@ -209,7 +209,7 @@ val cloudMichi = fakeMichi(Attribute.Cloud)(
         listOf(
             TeamDexterityUpBuffPassive.new(10, 3),
             TeamCriticalUpBuffPassive.new(10, 3),
-            TeamNegativeEffectResistanceBuffPassive.new(100, 3) + CloudOnlyCondition,
+            TeamNegativeEffectResistanceUpBuffPassive.new(100, 3) + CloudOnlyCondition,
         ),
         listOf(
             BrillianceRecoveryPassive.new(20),
@@ -315,7 +315,7 @@ val moonMichi = fakeMichi(Attribute.Moon)(
         listOf(
             TeamDexterityUpBuffPassive.new(10, 3),
             TeamCriticalUpBuffPassive.new(10, 3),
-            TeamNegativeEffectResistanceBuffPassive.new(100, 3) + MoonOnlyCondition,
+            TeamNegativeEffectResistanceUpBuffPassive.new(100, 3) + MoonOnlyCondition,
         ),
         listOf(
             BrillianceRecoveryPassive.new(20),

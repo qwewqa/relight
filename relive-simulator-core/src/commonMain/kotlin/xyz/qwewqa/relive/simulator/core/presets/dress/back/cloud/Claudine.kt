@@ -12,9 +12,9 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.SpecialReflectBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical30UnitSkillStageGirl
-import xyz.qwewqa.relive.simulator.core.stage.passive.TeamBurnResistanceBuffPassive
-import xyz.qwewqa.relive.simulator.core.stage.passive.TeamConfusionResistanceBuffPassive
-import xyz.qwewqa.relive.simulator.core.stage.passive.TeamStunResistanceBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamBurnResistanceUpBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamConfusionResistanceUpBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamStunResistanceUpBuffPassive
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageCloud
 
 val StageGirlClaudine = dress1040017(
@@ -87,13 +87,13 @@ val StageGirlClaudine = dress1040017(
     ),
     autoSkills = listOf(
         listOf(
-            TeamConfusionResistanceBuffPassive.new(100, 3),
+            TeamConfusionResistanceUpBuffPassive.new(100, 3),
         ),
         listOf(
-            TeamBurnResistanceBuffPassive.new(100, 3),
+            TeamBurnResistanceUpBuffPassive.new(100, 3),
         ),
         listOf(
-            TeamStunResistanceBuffPassive.new(100, 3),
+            TeamStunResistanceUpBuffPassive.new(100, 3),
         ),
     ),
     unitSkill = ActCritical30UnitSkillStageGirl + CloudOnlyCondition,

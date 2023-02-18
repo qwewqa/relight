@@ -4,8 +4,10 @@ import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.TargetContext
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffect
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
-import xyz.qwewqa.relive.simulator.core.stage.buff.EvasionRateUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.EvasionUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPowerUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHpUp
 
 data class TeamScalingPassive(
     override val name: String,
@@ -27,7 +29,9 @@ val TeamActUpScalingPassive100 = TeamScalingPassive(
     PassiveEffectCategory.Passive,
 ) { value, _ ->
     targets.forEach {
-        it.boostActPower += value
+        it.mod {
+            actPowerUp += value
+        }
     }
 }
 
@@ -37,7 +41,9 @@ val TeamActUpScalingPassive120 = TeamScalingPassive(
     PassiveEffectCategory.Passive,
 ) { value, _ ->
     targets.forEach {
-        it.boostActPower += value
+        it.mod {
+            actPowerUp += value
+        }
     }
 }
 
@@ -46,7 +52,9 @@ val SelfActUpScalingPassive120 = TeamScalingPassive(
     120,
     PassiveEffectCategory.Passive,
 ) { value, _ ->
-    self.boostActPower += value
+    self.mod {
+        actPowerUp += value
+    }
 }
 
 val TeamEvasionUpBuffScalingPassive60 = TeamScalingPassive(
@@ -55,7 +63,7 @@ val TeamEvasionUpBuffScalingPassive60 = TeamScalingPassive(
     PassiveEffectCategory.TurnStartPositiveB,
 ) { value, time ->
     applyBuff(
-        EvasionRateUpBuff,
+        EvasionUpBuff,
         value,
         time,
     )
@@ -67,6 +75,8 @@ val TeamHpUpScalingPassive150 = TeamScalingPassive(
     PassiveEffectCategory.Passive,
 ) { value, _ ->
     targets.forEach {
-        it.boostMaxHp += value
+        it.mod {
+            maxHpUp += value
+        }
     }
 }

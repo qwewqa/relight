@@ -10,6 +10,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.countableBuffsByName
 import xyz.qwewqa.relive.simulator.core.stage.buff.MultipleCAficationBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
+import xyz.qwewqa.relive.simulator.core.stage.modifier.*
 import xyz.qwewqa.relive.simulator.core.stage.strategy.*
 import xyz.qwewqa.relive.simulator.core.stage.strategy.complete.qsort
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
@@ -602,8 +603,20 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         val teamStatus get() = team.actors.values.map { it.status() }
         val enemyStatus get() = enemy.actors.values.map { it.status() }
 
-        fun Actor.status() =
-            ActorStatus(name, dress.id, isSupport, hp, maxHp, dexterity, brilliance, cxActive, context.actionLog.damageDealtToEnemy, buffs.getDisplayBuffs())
+        fun Actor.status() = mod {
+            ActorStatus(
+                name,
+                dress.id,
+                isSupport,
+                hp,
+                maxHp,
+                dexterity,
+                brilliance,
+                cxActive,
+                context.actionLog.damageDealtToEnemy,
+                buffs.getDisplayBuffs()
+            )
+        }
 
         private val Actor.cxActive get() = inCX || (hp > 0 && brilliance == 100 && this in team.active && climax)
 
@@ -694,7 +707,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 hand += team.active
                     .filter { it.brilliance >= 100 }
                     .map { BoundAct(it, ActType.ClimaxAct) }
-                    .filter { it !in usedClimaxActs || it.actor.buffs.any(MultipleCAficationBuff) || it.actor.dress.multipleCA}
+                    .filter { it !in usedClimaxActs || MultipleCAficationBuff in it.actor.buffs || it.actor.dress.multipleCA}
             }
             if (hand.size < 5) hand += drawCard(5 - hand.size)
             if (climax || team.cxTurns > 0) {
@@ -773,10 +786,12 @@ ${formattedHand()}
                     (stage.damageCalculator as SwitchableDamageCalculator).isRandom = false
                     ranTestQueue = true
                     stage.enemy.active.forEach {
-                        // Reset hp to a high value to prevent early kills
-                        it.valueMaxHp = 1_000_000_000
-                        it.boostMaxHp = 0
-                        it.adjustHp(it.maxHp)
+                        it.mod {
+                            // Reset hp to a high value to prevent early kills
+                            baseMaxHp setTo 1_000_000_000
+                            maxHpUp setTo 0
+                            it.adjustHp(it.maxHp)
+                        }
                     }
                     break
                 }
@@ -1341,7 +1356,7 @@ ${
                                 team.active
                                     .filter { it.brilliance >= 100 }
                                     .map { BoundAct(it, ActType.ClimaxAct) }
-                                    .filter { it !in usedClimaxActs || it.actor.buffs.any(MultipleCAficationBuff) || it.actor.dress.multipleCA}
+                                    .filter { it !in usedClimaxActs || MultipleCAficationBuff in it.actor.buffs || it.actor.dress.multipleCA}
                             } else {
                                 emptyList()
                             }
@@ -1507,14 +1522,16 @@ ${
                 +"Brilliance: $brilliance/100"
             }
             "Stats" {
-                +"Act Power: $actPower"
-                +"Normal Defense: $normalDefense"
-                +"Special Defense: $specialDefense"
-                +"Agility: $agility"
-                +"Dexterity: $dexterity"
-                +"Critical: $critical"
-                +"Accuracy: $accuracy"
-                +"Evasion: $evasion"
+                mod {
+                    +"Act Power: $actPower"
+                    +"Normal Defense: $normalDefense"
+                    +"Special Defense: $specialDefense"
+                    +"Agility: $agility"
+                    +"Dexterity: $dexterity"
+                    +"Critical: $critical"
+                    +"Accuracy: $accuracy"
+                    +"Evasion: $evasion"
+                }
             }
             "Buffs" {
                 "Timed" {
@@ -1642,7 +1659,7 @@ ${formattedHand()}
     private data class BoundAct(val actor: Actor, val type: ActType, val isGuest: Boolean = false) :
         Comparable<BoundAct> {
         val act = actor.acts[type] ?: error("Actor '${actor.name}' does not have an act with type '${type.name}'")
-        val apCost get() = (act.apCost + actor.apChange).coerceAtLeast(1)
+        val apCost get() = (act.apCost + actor.mod { apChange }).coerceAtLeast(1)
 
         val sortPriority
             get() = run {

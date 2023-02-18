@@ -8,6 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 
 val BloodyDevilShiori = dress4040011(
@@ -40,7 +41,7 @@ val BloodyDevilShiori = dress4040011(
                 }
                 targetSelf().act {
                     applyBuff(
-                        effect = EvasionRateUpBuff,
+                        effect = EvasionUpBuff,
                         value = values3,
                         turns = times3,
                     )
@@ -69,7 +70,7 @@ val BloodyDevilShiori = dress4040011(
         },
         ActType.ClimaxAct.blueprint("BLOODY TEA TIME") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     applyBuff(
                         effect = MarkBuff,
                         turns = times1,

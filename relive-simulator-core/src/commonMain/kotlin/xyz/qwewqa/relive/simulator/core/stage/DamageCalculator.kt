@@ -5,9 +5,9 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.actor.getEffectiveCoef
-import xyz.qwewqa.relive.simulator.core.stage.buff.NormalBarrierBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.SpecialBarrierBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
+import xyz.qwewqa.relive.simulator.core.stage.modifier.*
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import kotlin.math.floor
 import kotlin.math.roundToInt
@@ -43,12 +43,12 @@ open class RandomDamageCalculator : DamageCalculator {
             }
         }
         if (target.buffs.tryRemove(CountableBuff.Evasion)) {
-            if (self.perfectAimCounter <= 0 && !hitAttribute.focus) {
+            if (!(PerfectAimBuff in self.buffs) && !hitAttribute.focus) {
                 log("Hit", category = LogCategory.DAMAGE) { "Miss against [${target.name}] from Evade." }
                 return@run
             }
         }
-        if (self.perfectAimCounter > 0 || hitAttribute.focus || stage.random.nextDouble() < result.hitChance) {
+        if (PerfectAimBuff in self.buffs || hitAttribute.focus || stage.random.nextDouble() < result.hitChance) {
             val n = if (result.variance) stage.random.nextInt(-8, 9) else 0
             val isCritical = stage.random.nextDouble() < result.criticalChance
             val damage = if (isCritical) {
@@ -56,16 +56,16 @@ open class RandomDamageCalculator : DamageCalculator {
             } else {
                 result.base.toDouble() * (100 + n) / 100
             }.toInt()
-            val reflect = when (hitAttribute.damageType) {
-                DamageType.Normal -> target.normalReflect
-                DamageType.Special -> target.specialReflect
-                DamageType.Neutral -> 0
-            }.coerceIn(0..100)
             val superReflect = when (hitAttribute.damageType) {
-                DamageType.Normal -> target.normalSuperReflectCounter > 0
-                DamageType.Special -> target.specialSuperReflectCounter > 0
+                DamageType.Normal -> NormalSuperReflectBuff in target.buffs
+                DamageType.Special -> SpecialSuperReflectBuff in target.buffs
                 DamageType.Neutral -> false
             }
+            val reflect = if (superReflect) 100 else when (hitAttribute.damageType) {
+                DamageType.Normal -> target.mod { +normalReflect }
+                DamageType.Special -> target.mod { +specialReflect }
+                DamageType.Neutral -> 0
+            }.coerceIn(0..100)
             val superReflectModifier = if (superReflect) 2 else 1
             attacker.context.log("Hit", category = LogCategory.DAMAGE) {
                 "Landed hit against [${target.name}]."
@@ -91,12 +91,12 @@ open class RandomDamageCalculator : DamageCalculator {
                 }?.let { barrierEffectType ->
                     val barriers = target.buffs.get(barrierEffectType)
                     if (barriers.isNotEmpty()) {
-                        for (barrier in barriers) {
+                        for (barrier in barriers.toList()) {
                             if (barrier.value > afterBarrier) {
                                 attacker.context.log("Hit", category = LogCategory.DAMAGE) {
                                     "Blocked by barrier (damage: $afterBarrier barrierStart: ${barrier.value}, barrierAfter: ${barrier.value - afterBarrier})."
                                 }
-                                barrier.value -= afterBarrier
+                                barrier.updateValue(barrier.value - afterBarrier)
                                 afterBarrier = 0
                                 break
                             } else {
@@ -104,7 +104,7 @@ open class RandomDamageCalculator : DamageCalculator {
                                     "Destroys barrier (damage: $afterBarrier, after: ${afterBarrier - barrier.value}, barrier: ${barrier.value})."
                                 }
                                 afterBarrier -= barrier.value
-                                target.buffs.remove(barrier)
+                                barrier.remove()
                             }
                         }
                     }
@@ -117,8 +117,8 @@ open class RandomDamageCalculator : DamageCalculator {
             if (reflected > 0) {
                 self.damage(reflected, additionalEffects = false)
             }
-            if (self.absorb > 0) {
-                self.heal(afterBarrier * self.absorb / 100)
+            if (self.mod { +absorb } > 0) {
+                self.heal(afterBarrier * self.mod { +absorb } / 100)
             }
             actionLog.successfulHits++
         } else {
@@ -129,10 +129,10 @@ open class RandomDamageCalculator : DamageCalculator {
     }
 
     fun calculateDamage(attacker: Actor, target: Actor, hitAttribute: HitAttribute): DamageResult {
-        val acc = (100 + attacker.accuracy - target.evasion).coerceIn(0, 100) *
-                (if (attacker.isBlinded) 0.3 else 1.0)
+        val acc = (100 + attacker.mod { +accuracy } - target.mod { +evasion }).coerceIn(0, 100) *
+                (if (BlindnessBuff in attacker.buffs) 0.3 else 1.0)
 
-        if (target.isInvincible) {
+        if (InvincibilityBuff in target.buffs && !hitAttribute.focus) {
             // Critical chance isn't actually 0 against invincible targets, but
             // it doesn't matter, so we'll skip calculating it.
             return DamageResult(0, 0, 0.0, acc / 100.0, false)
@@ -151,14 +151,14 @@ open class RandomDamageCalculator : DamageCalculator {
         if (hitAttribute.mode == HitMode.ELEMENTAL_FIXED) {
             base = hitAttribute.modifier / hitAttribute.hitCount
         } else {
-            var atk = attacker.actPower
+            var atk = attacker.mod { actPower }
             if (attacker.inCX) atk = atk * 110 / 100
-            val modifier = hitAttribute.modifier + (attacker.buffs.getNext(CountableBuff.Cheer) ?: 0)
+            val modifier = hitAttribute.modifier
             atk = atk * 2 * modifier / 100
 
             val def = when (attacker.dress.damageType) {
-                DamageType.Normal -> target.normalDefense
-                DamageType.Special -> target.specialDefense
+                DamageType.Normal -> target.mod { +normalDefense }
+                DamageType.Special -> target.mod { +specialDefense }
                 else -> 0
             }.coerceAtLeast(0)
 
@@ -174,40 +174,40 @@ open class RandomDamageCalculator : DamageCalculator {
         val attribute = hitAttribute.attribute
         val eleCoef = getEffectiveCoef(attribute, target.dress.attribute)
         val effEleCoef = if (eleCoef > 100) {
-            100 + attacker.effectiveDamageUp
+            100 + attacker.mod { +effectiveDamageUp }
         } else {
             100
         }
 
-        val critCoef = 100 + attacker.critical
-        val dex = attacker.dexterity
+        val critCoef = 100 + attacker.mod { +critical }
+        val dex = attacker.mod { +dexterity }
 
-        val dmgDealtUp = (attacker.damageDealtUp +
-                attacker.conditionalDamageDealtUp.filter { (cond, _) -> cond.evaluate(target) }.sumOf { (_, v) -> v })
-            .coerceAtLeast(0)
-        val dmgDealtDownCoef = (100 - target.damageTakenDown).coerceAtLeast(0)
+        val dmgDealtUpCoef = 100 + attacker.mod { +damageDealtUpModifier(target) }
+        val dmgDealtDownCoef = 100 - attacker.mod { +damageDealtDown }
 
         // tentative
-        var buffDmgTakenDownCoef = (100 - (target.damageTakenDownBuff).coerceAtMost(50) - target.damageTakenDownDebuff)
-        if (target.buffs.any(CountableBuff.WeakSpot)) buffDmgTakenDownCoef += 60
-        val buffDmgDealtUpCoef = 100 + attacker.damageDealtUpBuff + dmgDealtUp
+        var dmgTakenCoef = 100 + target.mod { +damageReceivedModifier }
+        if (CountableBuff.WeakSpot in target.buffs) dmgTakenCoef += 60
 
         val attributeDamageDealtUpCoef = 100 + attacker.attributeDamageDealtUp[attribute]
         val againstAttributeDamageDealtUpCoef =
             100 + attacker.againstAttributeDamageDealtUp[target.dress.attribute]
-        val targetAgainstAttributeDamageTakenDownCoef =
-            (100 - target.againstAttributeDamageTakenDown[attribute]).coerceAtLeast(50)
-        val targetInnateAgainstAttributeDamageTakenDownCoef =
-            100 - target.innateAgainstAttributeDamageTakenDown[attribute]
+        val targetAgainstAttributeDamageReceivedDownCoef =
+            (100 - target.againstAttributeDamageReceivedDown[attribute]).coerceAtLeast(50)
 
-        val freezeCoef = if (target.isFrozen) 130 else 100
+        val freezeCoef = target.mod {
+            100 + (30 given { FreezeBuff in target.buffs }) + (30 given { FrostbiteBuff in target.buffs })
+        }
 
         // cx damage up
         val cxDmgCoef = if (attacker.inCXAct) {
-            100 + attacker.climaxDamageUp
+            100 + attacker.mod { climaxDamageAdjustment }
         } else {
             100
         }
+
+        // TODO: Figure out if this is in the right place in the formula order
+        val cheerCoef = 100 + (attacker.buffs.getNext(CountableBuff.Cheer) ?: 0)
 
         val eventBonusCoef = 100 + attacker.eventBonus
         val eventMultiplier = attacker.eventMultiplier
@@ -219,13 +219,13 @@ open class RandomDamageCalculator : DamageCalculator {
         dmg = dmg pfmul againstAttributeDamageDealtUpCoef
         dmg = dmg pfmul bonusCoef  // tentative
         dmg = dmg pfmul eventBonusCoef
-        dmg = dmg pfmul targetAgainstAttributeDamageTakenDownCoef // tentative
-        dmg = dmg pfmul targetInnateAgainstAttributeDamageTakenDownCoef
+        dmg = dmg pfmul targetAgainstAttributeDamageReceivedDownCoef // tentative
         dmg = dmg pfmul freezeCoef
         dmg = dmg pfmul cxDmgCoef
         dmg = dmg pfmul dmgDealtDownCoef
-        dmg = dmg pfmul buffDmgTakenDownCoef
-        dmg = dmg pfmul buffDmgDealtUpCoef
+        dmg = dmg pfmul dmgTakenCoef
+        dmg = dmg pfmul dmgDealtUpCoef
+        dmg = dmg pfmul cheerCoef
         dmg = dmg pfmul eventMultiplier // tentative
 
         var criticalDmg = base.toDouble()
@@ -236,13 +236,13 @@ open class RandomDamageCalculator : DamageCalculator {
         criticalDmg = criticalDmg pfmul againstAttributeDamageDealtUpCoef
         criticalDmg = criticalDmg pfmul bonusCoef  // tentative
         criticalDmg = criticalDmg pfmul eventBonusCoef
-        criticalDmg = criticalDmg pfmul targetAgainstAttributeDamageTakenDownCoef // tentative
-        criticalDmg = criticalDmg pfmul targetInnateAgainstAttributeDamageTakenDownCoef
+        criticalDmg = criticalDmg pfmul targetAgainstAttributeDamageReceivedDownCoef // tentative
         criticalDmg = criticalDmg pfmul freezeCoef
         criticalDmg = criticalDmg pfmul cxDmgCoef
         criticalDmg = criticalDmg pfmul dmgDealtDownCoef
-        criticalDmg = criticalDmg pfmul buffDmgTakenDownCoef
-        criticalDmg = criticalDmg pfmul buffDmgDealtUpCoef
+        criticalDmg = criticalDmg pfmul dmgTakenCoef
+        criticalDmg = criticalDmg pfmul dmgDealtUpCoef
+        criticalDmg = criticalDmg pfmul cheerCoef
         criticalDmg = criticalDmg pfmul eventMultiplier
 
         return DamageResult(
@@ -279,12 +279,12 @@ class MeanDamageCalculator : RandomDamageCalculator() {
             }
         }
         if (target.buffs.tryRemove(CountableBuff.Evasion)) {
-            if (self.perfectAimCounter <= 0 && !hitAttribute.focus) {
+            if (!(PerfectAimBuff in self.buffs) && !hitAttribute.focus) {
                 log("Hit", category = LogCategory.DAMAGE) { "Miss against [${target.name}] from Evade." }
                 return@run
             }
         }
-        val hitChance = if (self.perfectAimCounter > 0 || hitAttribute.focus) {
+        val hitChance = if (PerfectAimBuff in self.buffs || hitAttribute.focus) {
             1.0
         } else {
             stage.random.nextDouble()  // To keep rng consistent
@@ -297,8 +297,8 @@ class MeanDamageCalculator : RandomDamageCalculator() {
         val hitDamage = result.critical * result.criticalChance + result.base * (1 - result.criticalChance)
         val damage = (hitChance * hitDamage).roundToInt()
         val reflect = when (hitAttribute.damageType) {
-            DamageType.Normal -> target.normalReflect
-            DamageType.Special -> target.specialReflect
+            DamageType.Normal -> target.mod { +normalReflect }
+            DamageType.Special -> target.mod { +specialReflect }
             DamageType.Neutral -> 0
         }
         attacker.context.log("Hit", category = LogCategory.DAMAGE) {
@@ -321,12 +321,12 @@ class MeanDamageCalculator : RandomDamageCalculator() {
             }?.let { barrierEffectType ->
                 val barriers = target.buffs.get(barrierEffectType)
                 if (barriers.isNotEmpty()) {
-                    for (barrier in barriers) {
+                    for (barrier in barriers.toList()) {
                         if (barrier.value > afterBarrier) {
                             attacker.context.log("Hit", category = LogCategory.DAMAGE) {
                                 "Blocked by barrier (damage: $afterBarrier barrierStart: ${barrier.value}, barrierAfter: ${barrier.value - afterBarrier})."
                             }
-                            barrier.value -= afterBarrier
+                            barrier.updateValue(barrier.value - afterBarrier)
                             afterBarrier = 0
                             break
                         } else {
@@ -334,7 +334,7 @@ class MeanDamageCalculator : RandomDamageCalculator() {
                                 "Destroys barrier (damage: $afterBarrier, after: ${afterBarrier - barrier.value}, barrier: ${barrier.value})."
                             }
                             afterBarrier -= barrier.value
-                            target.buffs.remove(barrier)
+                            barrier.remove()
                         }
                     }
                 }
@@ -347,8 +347,8 @@ class MeanDamageCalculator : RandomDamageCalculator() {
         if (reflected > 0) {
             self.damage(reflected, additionalEffects = false)
         }
-        if (self.absorb > 0) {
-            self.heal(afterBarrier * self.absorb / 100)
+        if (self.mod { +absorb } > 0) {
+            self.heal(afterBarrier * self.mod { +absorb } / 100)
         }
         actionLog.successfulHits++
     }

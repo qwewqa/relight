@@ -11,6 +11,7 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.PerfectAimBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.ThisIsSeparation
 
@@ -19,7 +20,7 @@ val GrudgeRevueKaoruko = dress1090024(
     acts = listOf(
         Act1.blueprint("Slash of Brilliance") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = times1,
@@ -32,7 +33,7 @@ val GrudgeRevueKaoruko = dress1090024(
         },
         Act2.blueprint("Fortitude Slash") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = times1,
@@ -48,7 +49,7 @@ val GrudgeRevueKaoruko = dress1090024(
         },
         Act3.blueprint("Blooming Blood") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = times1,

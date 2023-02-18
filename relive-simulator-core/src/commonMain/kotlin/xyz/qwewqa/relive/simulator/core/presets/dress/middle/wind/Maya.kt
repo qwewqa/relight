@@ -12,6 +12,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.MarkBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.NormalReflectBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.SpecialReflectBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.normalDefense
 import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
 import xyz.qwewqa.relive.simulator.core.stage.passive.SelfFortitudeBuffPassive
 import xyz.qwewqa.relive.simulator.core.stage.passive.TeamDexterityUpBuffPassive
@@ -22,7 +23,7 @@ val WukongMaya = dress1050024(
     acts = listOf(
         ActType.Act1.blueprint("Slash of Brilliance") {
             Act {
-                targetByLowest { it.normalDefense }.act {
+                targetByLowest { it.mod { +normalDefense } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -35,7 +36,7 @@ val WukongMaya = dress1050024(
         },
         ActType.Act2.blueprint("Mei Houwang's Strike") {
             Act {
-                targetByLowest { it.normalDefense }.act {
+                targetByLowest { it.mod { +normalDefense } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -48,7 +49,7 @@ val WukongMaya = dress1050024(
         },
         ActType.Act3.blueprint("Qitian Dasheng's Strike") {
             Act {
-                targetByLowest { it.normalDefense }.act {
+                targetByLowest { it.mod { +normalDefense } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,

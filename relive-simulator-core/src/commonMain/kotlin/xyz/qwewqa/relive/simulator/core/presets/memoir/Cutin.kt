@@ -279,10 +279,10 @@ val AimToUnifyTheWorld = equip4000211(
 val ForTheShinsengumi = equip4000204(
     name = "For the Shinsengumi!",
     baseAutoskills = listOf(
-        DamageTakenDownPassive.new(10)
+        DamageReceivedDownPassive.new(10)
     ),
     maxAutoskills = listOf(
-        DamageTakenDownPassive.new(15)
+        DamageReceivedDownPassive.new(15)
     ),
     cutinTarget = CutinTarget.TurnStart,
     cutinAct = {
@@ -578,10 +578,10 @@ val XXIIIHopeUpright = equip4000224(
 val XXJudgementReverse = equip4000189(
     name = "XX Judgement [Reverse]",
     baseAutoskills = listOf(
-        DamageTakenDownPassive.new(10)
+        DamageReceivedDownPassive.new(10)
     ),
     maxAutoskills = listOf(
-        DamageTakenDownPassive.new(15)
+        DamageReceivedDownPassive.new(15)
     ),
     cutinTarget = CutinTarget.TurnStart,
     cutinAct = {
@@ -798,7 +798,7 @@ val MatchingCardigan = equip4000291(
         Act {
             targetCutinTarget().act {
                 applyBuff(
-                    effect = NegativeEffectResistanceBuff,
+                    effect = NegativeEffectResistanceUpBuff,
                     value = values1,
                     turns = times1,
                 )
@@ -1172,7 +1172,7 @@ val XVIIStarReverse = equip4000348(
             targetAllyBack(5).act {
                 dispelCountable(BuffCategory.Negative, count = values1)
                 applyBuff(
-                    effect = NegativeCountableEffectResistanceBuff,
+                    effect = NegativeCountableEffectResistanceUpBuff,
                     value = values2,
                     turns = times2,
                 )

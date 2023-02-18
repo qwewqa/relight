@@ -75,7 +75,7 @@ val tr18EmperorAkira = ActorLoadout(
                 }
                 targetSelf().act {
                     applyBuff(
-                        effect = DamageTakenDownBuff,
+                        effect = DamageReceivedDownBuff,
                         value = 30,
                         turns = 2,
                     )
@@ -233,7 +233,7 @@ val tr18EmperorAkiraDiff4 = ActorLoadout(
                 }
                 targetSelf().act {
                     applyBuff(
-                        effect = DamageTakenDownBuff,
+                        effect = DamageReceivedDownBuff,
                         value = 30,
                         turns = 2,
                     )

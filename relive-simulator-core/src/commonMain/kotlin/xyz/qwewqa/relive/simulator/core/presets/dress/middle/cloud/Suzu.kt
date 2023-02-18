@@ -8,7 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
-import xyz.qwewqa.relive.simulator.core.stage.buff.LockedNegativeCountableResistanceBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.LockedNegativeCountableEffectResistanceUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
@@ -63,7 +63,7 @@ val SnowWhitePrinceSuzu = dress5020005(
             Act {
                 targetAllyAoe().act {
                     applyBuff(
-                        effect = LockedNegativeCountableResistanceBuff,
+                        effect = LockedNegativeCountableEffectResistanceUpBuff,
                         value = values1,
                         turns = times1,
                     )

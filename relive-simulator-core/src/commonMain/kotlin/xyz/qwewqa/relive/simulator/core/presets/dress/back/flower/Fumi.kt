@@ -100,7 +100,7 @@ val BenikageEncoreFumi = dress2030014(
         listOf(
             TeamDexterityUpBuffPassive.new(10, 3),
             TeamCriticalUpBuffPassive.new(10, 3),
-            TeamNegativeEffectResistanceBuffPassive.new(100, 3) + FlowerOnlyCondition,
+            TeamNegativeEffectResistanceUpBuffPassive.new(100, 3) + FlowerOnlyCondition,
         ),
         listOf(
             BrillianceRecoveryPassive.new(20),

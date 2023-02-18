@@ -10,9 +10,9 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
 import xyz.qwewqa.relive.simulator.core.stage.passive.HPDef75UnitSkill
-import xyz.qwewqa.relive.simulator.core.stage.passive.TeamConfusionResistanceBuffPassive
-import xyz.qwewqa.relive.simulator.core.stage.passive.TeamFreezeResistanceBuffPassive
-import xyz.qwewqa.relive.simulator.core.stage.passive.TeamStunResistanceBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamConfusionResistanceUpBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamFreezeResistanceUpBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamStunResistanceUpBuffPassive
 
 val StrengthFutaba = dress1080004(
     name = "Strength Futaba",
@@ -38,7 +38,7 @@ val StrengthFutaba = dress1080004(
                 targetAllyAoe().act {
                     dispelTimed(BuffCategory.Negative)
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = NegativeEffectResistanceUpBuff,
                         value = values3,
                         turns = times3,
                     )
@@ -61,7 +61,7 @@ val StrengthFutaba = dress1080004(
                         turns = times2,
                     )
                     applyBuff(
-                        effect = DamageTakenDownBuff,
+                        effect = DamageReceivedDownBuff,
                         value = values3,
                         turns = times3,
                     )
@@ -83,7 +83,7 @@ val StrengthFutaba = dress1080004(
                         turns = times2,
                     )
                     applyBuff(
-                        effect = EvasionRateUpBuff,
+                        effect = EvasionUpBuff,
                         value = values3,
                         turns = times3,
                     )
@@ -93,13 +93,13 @@ val StrengthFutaba = dress1080004(
     ),
     autoSkills = listOf(
         listOf(
-            TeamConfusionResistanceBuffPassive.new(time = 6),
+            TeamConfusionResistanceUpBuffPassive.new(time = 6),
         ),
         listOf(
-            TeamFreezeResistanceBuffPassive.new(time = 6),
+            TeamFreezeResistanceUpBuffPassive.new(time = 6),
         ),
         listOf(
-            TeamStunResistanceBuffPassive.new(time = 6),
+            TeamStunResistanceUpBuffPassive.new(time = 6),
         ),
     ),
     unitSkill = HPDef75UnitSkill + (WindOnlyCondition or SunOnlyCondition),

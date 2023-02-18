@@ -2,10 +2,12 @@ package xyz.qwewqa.relive.simulator.core.stage.strategy.complete
 
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActData
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
-import xyz.qwewqa.relive.simulator.core.stage.actor.ActiveBuff
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
+import xyz.qwewqa.relive.simulator.core.stage.actor.BuffManager
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
 import xyz.qwewqa.relive.simulator.core.stage.buff.MarkBuff
+import xyz.qwewqa.relive.simulator.core.stage.modifier.dexterity
+import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistance
 import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
 
 
@@ -120,10 +122,10 @@ class CsActor(val actor: Actor) : CsObject {
             "maxHp" -> actor.maxHp
             "brilliance" -> actor.brilliance
             // Buff stats
-            "dex", "dexterity" -> actor.dexterity
-            "hasApDown" -> (actor.apChange < 0)
-            "hasNer" -> (actor.negativeEffectResist >= 100)
-            "marked" -> actor.buffs.any(MarkBuff)
+            "dex", "dexterity" -> actor.mod { +dexterity }
+            "hasApDown" -> (actor.mod { apChange } < 0)
+            "hasNer" -> (actor.mod { +negativeEffectResistance } >= 100)
+            "marked" -> MarkBuff in actor.buffs
             "buffs" -> CsFunction { args ->
                 if (args.isEmpty()) {
                     CsList(actor.buffs.effectNameMapping.keys.map { it.asCsString() })
@@ -138,6 +140,7 @@ class CsActor(val actor: Actor) : CsObject {
                     }
                 }
             }
+
             else -> null
         }
         return when (ktVal) {
@@ -169,7 +172,7 @@ data class CsAct(val actor: Actor, val act: ActData) : CsObject, Comparable<CsAc
         else -> null
     }
 
-    val apCost get() = (act.apCost + actor.apChange).coerceAtLeast(1)
+    val apCost get() = (act.apCost + actor.mod { apChange }).coerceAtLeast(1)
 
     val sortPriority get() = run {
         var v = apCost
@@ -245,7 +248,7 @@ open class CsList(val value: List<CsObject>) : CsObject {
     }
 }
 
-data class CsActiveBuff(val buff: ActiveBuff) : CsObject {
+data class CsActiveBuff(val buff: BuffManager.TimedBuff<*>) : CsObject {
     override fun getAttribute(name: String): CsObject? = when (name) {
         "turns" -> buff.turns.asCsNumber()
         "value" -> buff.value.asCsNumber()

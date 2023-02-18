@@ -11,6 +11,7 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.BloomingFlowers
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.WeAreOnTheStageFlower
@@ -20,7 +21,7 @@ val SakuyahimeMahiru = dress1030021(
     acts = listOf(
         ActType.Act1.blueprint("Brilliance Flower") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -33,7 +34,7 @@ val SakuyahimeMahiru = dress1030021(
         },
         ActType.Act2.blueprint("Scattered Flowers") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -47,7 +48,7 @@ val SakuyahimeMahiru = dress1030021(
         },
         ActType.Act3.blueprint("Budding Flower") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = 1,
@@ -122,7 +123,7 @@ val StageGirlMahiru = dress1030017(
                         hitCount = 1,
                     )
                 }
-                targetAllyByHighest(count = 2) { it.actPower }.act {
+                targetAllyByHighest(count = 2) { it.mod { +actPower } }.act {
                     applyBuff(
                         effect = DexterityUpBuff,
                         value = values2,
@@ -144,7 +145,7 @@ val StageGirlMahiru = dress1030017(
                         hitCount = 1,
                     )
                     applyBuff(
-                        effect = AccuracyRateDownBuff,
+                        effect = AccuracyDownBuff,
                         value = values2,
                         turns = times2,
                     )

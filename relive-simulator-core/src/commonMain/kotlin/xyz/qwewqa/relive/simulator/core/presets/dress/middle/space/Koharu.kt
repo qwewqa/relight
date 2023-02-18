@@ -41,7 +41,7 @@ val StageGirlKoharu = dress5010001(
             Act {
                 targetAllyFront(3).act {
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = NegativeEffectResistanceUpBuff,
                         value = values1,
                         turns = times1,
                     )

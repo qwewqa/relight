@@ -4,6 +4,10 @@ import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.condition.applyIfTrue
+import xyz.qwewqa.relive.simulator.core.stage.modifier.buffCritical
+import xyz.qwewqa.relive.simulator.core.stage.modifier.buffDexterity
+import xyz.qwewqa.relive.simulator.core.stage.modifier.damageDealtUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.fixedActPower
 import xyz.qwewqa.relive.simulator.core.stage.song.SongEffect
 
 object ActPowerUpSongEffect : SongEffect {
@@ -11,13 +15,17 @@ object ActPowerUpSongEffect : SongEffect {
 
     override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.songActPower += value
+            mod {
+                fixedActPower += value
+            }
         }
     }
 
     override fun end(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.songActPower -= value
+            mod {
+                fixedActPower -= value
+            }
         }
     }
 }
@@ -27,13 +35,17 @@ object DexterityUpSongEffect : SongEffect {
 
     override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.valueDexterity += value
+            mod {
+                buffDexterity += value
+            }
         }
     }
 
     override fun end(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.valueDexterity -= value
+            mod {
+                buffDexterity -= value
+            }
         }
     }
 }
@@ -43,13 +55,17 @@ object CriticalUpSongEffect : SongEffect {
 
     override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.valueCritical += value
+            mod {
+                buffCritical += value
+            }
         }
     }
 
     override fun end(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.valueCritical -= value
+            mod {
+                buffCritical -= value
+            }
         }
     }
 }
@@ -59,13 +75,17 @@ object DamageDealtUpSongEffect : SongEffect {
 
     override fun start(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.valueDamageDealtUp += value
+            mod {
+                damageDealtUp += value
+            }
         }
     }
 
     override fun end(context: ActionContext, value: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
-            self.valueDamageDealtUp -= value
+            mod {
+                damageDealtUp -= value
+            }
         }
     }
 }

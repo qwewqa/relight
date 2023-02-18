@@ -11,9 +11,10 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.AgonyBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.ActCritical50UnitSkill
 import xyz.qwewqa.relive.simulator.core.stage.passive.NegativeEffectResistancePassive
-import xyz.qwewqa.relive.simulator.core.stage.passive.TeamNegativeEffectResistanceBuffPassive
+import xyz.qwewqa.relive.simulator.core.stage.passive.TeamNegativeEffectResistanceUpBuffPassive
 
 val BlackShizuha = dress3050018(
     name = "Black Frontier Shizuha",
@@ -50,7 +51,7 @@ val BlackShizuha = dress3050018(
         },
         ActType.Act3.blueprint("Mortifying Slash") {
             Act {
-                targetByHighest { (it.actPower) }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     dispelTimed(BuffCategory.Positive)
                     attack(
                         modifier = values2,
@@ -96,7 +97,7 @@ val BlackShizuha = dress3050018(
             NegativeEffectResistancePassive.new(100),
         ),
         listOf(
-            TeamNegativeEffectResistanceBuffPassive.new(100, 1),
+            TeamNegativeEffectResistanceUpBuffPassive.new(100, 1),
         ),
     ),
     unitSkill = ActCritical50UnitSkill + (SnowOnlyCondition or SunOnlyCondition),

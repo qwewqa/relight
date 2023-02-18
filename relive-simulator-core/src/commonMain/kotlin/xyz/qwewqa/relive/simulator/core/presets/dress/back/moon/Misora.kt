@@ -41,7 +41,7 @@ val BlueFrontierMisora = dress3020018(
             Act {
                 targetAllyAoe().act {
                     applyBuff(
-                        effect = NegativeEffectResistanceBuff,
+                        effect = NegativeEffectResistanceUpBuff,
                         value = values1,
                         turns = times1,
                     )
@@ -113,7 +113,7 @@ val BlueFrontierMisora = dress3020018(
         listOf(
             TeamDexterityUpBuffPassive.new(20, 3),
             TeamCriticalUpBuffPassive.new(20, 3),
-            TeamNegativeEffectResistanceBuffPassive.new(100, 3) + MoonOnlyCondition,
+            TeamNegativeEffectResistanceUpBuffPassive.new(100, 3) + MoonOnlyCondition,
         ),
         listOf(
             EnemyBrillianceDrainPassive.new(50),

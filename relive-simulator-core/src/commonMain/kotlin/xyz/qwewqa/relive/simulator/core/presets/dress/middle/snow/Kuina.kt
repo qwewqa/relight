@@ -8,8 +8,9 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.BrillianceRegenBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.NegativeEffectResistanceBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.NegativeEffectResistanceUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.blueprint
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.passive.*
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.BloomingFlowers
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.RoyalAuthority
@@ -26,7 +27,7 @@ val FutureStageGirlKuina = dress4100002(
                     )
                 }
                 targetAoe().act {
-                    dispelTimed(NegativeEffectResistanceBuff)
+                    dispelTimed(NegativeEffectResistanceUpBuff)
                     // TODO(): Seal stage effect
                 }
             }
@@ -36,7 +37,7 @@ val FutureStageGirlKuina = dress4100002(
                 targetAllyAoe().act {
                     addBrilliance(values1)
                 }
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values2,
                         hitCount = times2,
@@ -47,7 +48,7 @@ val FutureStageGirlKuina = dress4100002(
         },
         ActType.Act3.blueprint("Elaborate Slash") {
             Act {
-                targetByHighest { it.actPower }.act {
+                targetByHighest { it.mod { +actPower } }.act {
                     attack(
                         modifier = values1,
                         hitCount = times1,

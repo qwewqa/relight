@@ -43,7 +43,7 @@ val SunIchie = dress2020003(
                         turns = times2,
                     )
                     applyBuff(
-                        AccuracyRateDownBuff,
+                        AccuracyDownBuff,
                         value = values3,
                         turns = times3,
                     )

@@ -209,7 +209,7 @@ class SimpleStrategy(val movesets: List<SimpleStrategyMoveset>) : Strategy {
                         error("Actor [${actor.name}] has already exited.")
                     }
                     val act = actor.acts[command.act] ?: error("Unknown act ${command.act} for actor ${command.actor}")
-                    val cost = (act.apCost + actor.apChange).coerceAtLeast(1)
+                    val cost = (act.apCost + actor.mod { apChange }).coerceAtLeast(1)
                     if (command.act == ActType.ClimaxAct) {
                         if (!(climax || team.cxTurns > 0)) {
                             error("Climax has not been activated and is not already active.")
@@ -264,7 +264,7 @@ class BossSimpleStrategy(val commands: Map<Int, List<SimpleStrategyCommand>>) : 
                     val actor = (if (command.actor == "Boss") boss else team.actors[command.actor])
                         ?: error("Unknown actor ${command.actor}")
                     val act = actor.acts[command.act] ?: error("Unknown act ${command.act} for actor ${command.actor}")
-                    val cost = (act.apCost + actor.apChange).coerceAtLeast(1)
+                    val cost = (act.apCost + actor.mod { apChange }).coerceAtLeast(1)
                     repeat(cost - 1) { queue += IdleTile }
                     queue += ActionTile(actor, cost, act)
                 }
