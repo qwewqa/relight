@@ -704,3 +704,6 @@
 - Fixed normal super reflect persisting after it expires
 - Fixed Red Duke Richelieu's boost
 - Added missing act card images
+
+# v0.36.3
+- Performance improvements
