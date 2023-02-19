@@ -27,7 +27,7 @@ inline val Modifiers.actPower: Int
     get() {
         val staminaModifier = staminaActPowerUp given { actor.hp == maxHp }
         val burnModifier = -10 given { BurnBuff in actor.buffs }
-        return baseActPower pfmod (actPowerUp - actPowerDown + staminaModifier + burnModifier + hopeFactor) + fixedActPower
+        return (baseActPower pfmod (actPowerUp - actPowerDown + staminaModifier + burnModifier + hopeFactor)) + fixedActPower
     }
 
 val baseNormalDefense = modifier("baseNormalDefense")
