@@ -185,6 +185,7 @@ val ClimaxDamageUpBuff: TimedBuffEffect<Unit> by lazy {
     buffData(33).makeModifierTimedBuffEffect(
         modifier = climaxDamageUp,
         category = BuffCategory.Positive,
+        exclusive = true,
         flipped = { ClimaxDamageDownBuff }
     )
 }

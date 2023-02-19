@@ -90,7 +90,7 @@ class BuffManager(val actor: Actor) {
         if (buffEffect.exclusive) {
             val existing = get(buffEffect).singleOrNull()
             if (existing != null) {
-                if (turns > existing.turns) {
+                if (value > existing.value || turns > existing.turns) {
                     actor.context.log("Buff") { "Exclusive buff ${buffEffect.formatName(turns)} (${turns}t) overrides existing $existing." }
                     existing.remove()
                 } else {
