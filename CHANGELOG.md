@@ -710,3 +710,10 @@
 
 # v0.36.4
 - Fixed cutin initial cooldown reduction
+
+# v0.36.5
+- Made climax act up not stack
+- Fixed some issues with dexterity display
+- Fixed some bosses taking reduced damage from sun or star
+- Buff display is now animated when a high number of buffs are present
+- Fixed song act power up
