@@ -75,12 +75,12 @@ val Attribute.advantagedAgainst
 
 val Attribute.disadvantagedAgainst
     get() = when (this) {
-        Attribute.Flower -> Attribute.Snow
-        Attribute.Wind -> Attribute.Flower
-        Attribute.Snow -> Attribute.Wind
-        Attribute.Moon -> Attribute.Cloud
-        Attribute.Space -> Attribute.Moon
-        Attribute.Cloud -> Attribute.Space
+        Attribute.Flower -> listOf(Attribute.Snow, Attribute.Sun)
+        Attribute.Wind -> listOf(Attribute.Flower, Attribute.Sun)
+        Attribute.Snow -> listOf(Attribute.Wind, Attribute.Sun)
+        Attribute.Moon -> listOf(Attribute.Cloud, Attribute.Star)
+        Attribute.Space -> listOf(Attribute.Moon, Attribute.Star)
+        Attribute.Cloud -> listOf(Attribute.Space, Attribute.Star)
         else -> null
     }
 

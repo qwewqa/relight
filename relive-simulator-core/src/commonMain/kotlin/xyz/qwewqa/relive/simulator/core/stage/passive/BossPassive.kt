@@ -53,10 +53,10 @@ object BossElementResistPassive : PassiveEffect {
             self.againstAttributeDamageDealtUp[it] = value
             self.againstAttributeDamageReceivedDown[it] = value
         }
-        val disadvantagedAgainst = self.dress.attribute.disadvantagedAgainst
-            ?: error("Expected a non-neutral or dream attribute.")
-        self.againstAttributeDamageDealtUp[disadvantagedAgainst] = 0
-        self.againstAttributeDamageReceivedDown[disadvantagedAgainst] = 0
+        (self.dress.attribute.disadvantagedAgainst ?: error("Expected a non-neutral or dream attribute.")).forEach {
+            self.againstAttributeDamageDealtUp[it] = 0
+            self.againstAttributeDamageReceivedDown[it] = 0
+        }
         self.againstAttributeDamageDealtUp[Attribute.Dream] = 0
         self.againstAttributeDamageReceivedDown[Attribute.Dream] = 0
     }
