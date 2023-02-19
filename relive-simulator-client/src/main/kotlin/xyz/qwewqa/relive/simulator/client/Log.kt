@@ -30,28 +30,79 @@ val LogCategory.backgroundColor
 
 private var idCounter = 0
 
+const val MAX_SIMULTANEOUS_BUFFS_DISPLAYED = 10
+const val BUFF_DISPLAY_PERIOD = 4000
 
 fun HTMLElement.displayStatus(data: InteractiveLogData) {
+    var buffGroupIdCounter = 0
+    data class AnimationData(val elementId: String, val keyframes: Array<dynamic>, val timing: dynamic)
+    val animations = mutableListOf<AnimationData>()
+
     fun TagConsumer<HTMLElement>.buffElements(status: ActorStatus) {
-        status.displayBuffs.take(10).forEach { buffData ->
-            div("interactive-status-buff") {
-                div("interactive-status-buff-value") {
-                    +buffData.value.toString()
-                }
-                div("interactive-status-buff-image-container") {
-                    img(classes = "interactive-status-buff-img") {
-                        src = "https://relight.qwewqa.xyz/img/buff_icon/buff_icon_${buffData.iconId}.png"
-                    }
-                    if (buffData.isLocked) {
-                        img(classes = "interactive-status-buff-lock") {
-                            src = "https://relight.qwewqa.xyz/img/buff_icon/buff_icon_lock.png"
+        val buffs = status.displayBuffs
+        val groups = buffs.chunked(MAX_SIMULTANEOUS_BUFFS_DISPLAYED)
+        div {
+            style = "position: relative;"
+            groups.forEachIndexed { i, group ->
+                div("interactive-status-buffs-container") {
+                    if (groups.size > 1) {
+                        val keyframes = arrayOf(
+                            jsObject {
+                                visibility = "hidden"
+                            },
+                            jsObject {
+                                visibility = "hidden"
+                                offset = i / groups.size.toDouble()
+                            },
+                            jsObject {
+                                visibility = "visible"
+                                offset = i / groups.size.toDouble()
+                            },
+                            jsObject {
+                                visibility = "visible"
+                                offset = (i + 1) / groups.size.toDouble()
+                            },
+                            jsObject {
+                                visibility = "hidden"
+                                offset = (i + 1) / groups.size.toDouble()
+                            },
+                            jsObject {
+                                visibility = "hidden"
+                            },
+                        )
+                        val timing = jsObject {
+                            duration = groups.size * BUFF_DISPLAY_PERIOD
+                            iterations = js("Infinity")
                         }
+                        val elementId = "interactive-status-buff-group-${buffGroupIdCounter++}"
+                        animations.add(AnimationData(elementId, keyframes, timing))
+                        id = elementId
+                        if (i > 0) {
+                            style = "position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;"
+                        }
+                    }
+                    group.forEach { buffData ->
+                        div("interactive-status-buff") {
+                            div("interactive-status-buff-value") {
+                                +buffData.value.toString()
+                            }
+                            div("interactive-status-buff-image-container") {
+                                img(classes = "interactive-status-buff-img") {
+                                    src = "https://relight.qwewqa.xyz/img/buff_icon/buff_icon_${buffData.iconId}.png"
+                                }
+                                if (buffData.isLocked) {
+                                    img(classes = "interactive-status-buff-lock") {
+                                        src = "https://relight.qwewqa.xyz/img/buff_icon/buff_icon_lock.png"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (buffs.size > MAX_SIMULTANEOUS_BUFFS_DISPLAYED) {
+                        i("bi bi-three-dots interactive-status-more-buffs-icon") {}
                     }
                 }
             }
-        }
-        if (status.displayBuffs.size > 10) {
-            i("bi bi-three-dots interactive-status-more-buffs-icon") {}
         }
     }
 
@@ -161,7 +212,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                             style = "font-size: 0.75rem;"
                             +status.name
                         }
-                        div(classes = "interactive-status-buffs-container") {
+                        div {
                             id = "boss-buffs-$i"
                             buffElements(status)
                         }
@@ -274,6 +325,10 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                 }
             }
         }
+    }
+
+    animations.forEach {
+        document.getElementById(it.elementId)?.asDynamic().animate(it.keyframes, it.timing)
     }
 }
 
