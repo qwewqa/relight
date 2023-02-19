@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.wind
 
+import xyz.qwewqa.relive.simulator.core.presets.condition.SunOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.condition.WindOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1090017
 import xyz.qwewqa.relive.simulator.core.stage.Act
@@ -96,6 +97,6 @@ val StageGirlKaoruko = dress1090017(
             DexterityPassive.new(15),
         ),
     ),
-    unitSkill = ActCritical30UnitSkillStageGirl + WindOnlyCondition,
+    unitSkill = ActCritical30UnitSkillStageGirl + (WindOnlyCondition or SunOnlyCondition),
     categories = setOf(DressCategory.StageGirl),
 )

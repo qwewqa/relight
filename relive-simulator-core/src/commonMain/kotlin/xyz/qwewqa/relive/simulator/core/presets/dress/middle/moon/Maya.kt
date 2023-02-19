@@ -95,7 +95,7 @@ val StageGirlMaya = dress1050017(
             TeamCriticalUpBuffPassive.new(10,3),
         ),
     ),
-    unitSkill = ActCritical30UnitSkillStageGirl + MoonOnlyCondition,
+    unitSkill = ActCritical30UnitSkillStageGirl + (MoonOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.StageGirl),
 )
 

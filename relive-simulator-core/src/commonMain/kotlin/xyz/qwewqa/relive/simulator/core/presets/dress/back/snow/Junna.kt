@@ -99,7 +99,7 @@ val StageGirlJunna = dress1060017(
             TeamDexterityUpBuffPassive.new(20, 3),
         )
     ),
-    unitSkill = ActCritical30UnitSkillStageGirl + SnowOnlyCondition,
+    unitSkill = ActCritical30UnitSkillStageGirl + (SnowOnlyCondition or SunOnlyCondition),
     categories = setOf(DressCategory.StageGirl),
 )
 

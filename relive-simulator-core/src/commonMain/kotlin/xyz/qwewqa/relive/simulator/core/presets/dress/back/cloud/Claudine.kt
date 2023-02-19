@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.CloudOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1040017
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -96,6 +97,6 @@ val StageGirlClaudine = dress1040017(
             TeamStunResistanceUpBuffPassive.new(100, 3),
         ),
     ),
-    unitSkill = ActCritical30UnitSkillStageGirl + CloudOnlyCondition,
+    unitSkill = ActCritical30UnitSkillStageGirl + (CloudOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.StageGirl),
 )

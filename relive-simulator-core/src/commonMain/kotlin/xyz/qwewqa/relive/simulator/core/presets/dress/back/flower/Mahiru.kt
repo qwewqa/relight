@@ -171,6 +171,6 @@ val StageGirlMahiru = dress1030017(
             TeamAgilityUpBuffPassive.new(10,3),
         ),
     ),
-    unitSkill = ActCritical30UnitSkillStageGirl + FlowerOnlyCondition,
+    unitSkill = ActCritical30UnitSkillStageGirl + (FlowerOnlyCondition or SunOnlyCondition),
     categories = setOf(DressCategory.StageGirl),
 )

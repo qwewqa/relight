@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.back.space
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.SpaceOnlyCondition
+import xyz.qwewqa.relive.simulator.core.presets.condition.StarOnlyCondition
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress1080017
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -88,6 +89,6 @@ val StageGirlFutaba = dress1080017(
             DexterityPassive.new(15),
         ),
     ),
-    unitSkill = ActCritical30UnitSkillStageGirl + SpaceOnlyCondition,
+    unitSkill = ActCritical30UnitSkillStageGirl + (SpaceOnlyCondition or StarOnlyCondition),
     categories = setOf(DressCategory.StageGirl),
 )
