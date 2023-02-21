@@ -717,3 +717,6 @@
 - Fixed some bosses taking reduced damage from sun or star
 - Buff display is now animated when a high number of buffs are present
 - Fixed song act power up
+
+# v0.36.6
+- Fixed Cordelia Aruru's climax act damage by Mikayla
