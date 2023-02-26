@@ -64,7 +64,7 @@ val tr14MusketeerMahiru = ActorLoadout(
             },
             ActType.Act5("Accuracy Smash", 2) {
                 targetSelf().act{
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -86,12 +86,12 @@ val tr14MusketeerMahiru = ActorLoadout(
             },
             ActType.Act7("Softening Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseDownBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseDownBuff,
                         value = 50,
                         turns = 3,
@@ -104,7 +104,7 @@ val tr14MusketeerMahiru = ActorLoadout(
                         modifier = 200,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ApUpBuff,
                         turns = 2,
                     )
@@ -116,7 +116,7 @@ val tr14MusketeerMahiru = ActorLoadout(
                         modifier = 250,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ApUpBuff,
                         turns = 2,
                     )
@@ -226,7 +226,7 @@ val tr14MusketeerMahiruDiff4 = ActorLoadout(
             },
             ActType.Act5("Accuracy Smash", 2) {
                 targetSelf().act{
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -248,12 +248,12 @@ val tr14MusketeerMahiruDiff4 = ActorLoadout(
             },
             ActType.Act7("Softening Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseDownBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseDownBuff,
                         value = 50,
                         turns = 3,
@@ -266,7 +266,7 @@ val tr14MusketeerMahiruDiff4 = ActorLoadout(
                         modifier = 200,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ApUpBuff,
                         turns = 2,
                     )
@@ -279,7 +279,7 @@ val tr14MusketeerMahiruDiff4 = ActorLoadout(
                         hitCount = 3,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ApUpBuff,
                         turns = 2,
                     )

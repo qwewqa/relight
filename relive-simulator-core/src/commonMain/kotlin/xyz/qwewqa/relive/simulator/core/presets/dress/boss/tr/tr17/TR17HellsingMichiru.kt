@@ -83,7 +83,7 @@ val tr17HellsingMichiru = ActorLoadout(
             },
             ActType.Act7("Weakening Concerto", 2) {
                 targetAoe().act{
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerDownBuff,
                         value = 50,
                         turns = 3,
@@ -92,12 +92,12 @@ val tr17HellsingMichiru = ActorLoadout(
             },
             ActType.Act8("Helpless Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = DexterityDownBuff,
                         value = 30,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = CriticalDownBuff,
                         value = 30,
                         turns = 3,
@@ -106,12 +106,12 @@ val tr17HellsingMichiru = ActorLoadout(
             },
             ActType.Act9("Perfect Aim Flurry", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         PerfectAimBuff,
                         turns = 1,
                     )
@@ -125,12 +125,12 @@ val tr17HellsingMichiru = ActorLoadout(
             },
             ActType.ClimaxAct("Cross of Retribution NEO", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         PerfectAimBuff,
                         turns = 1,
                     )
@@ -247,7 +247,7 @@ val tr17HellsingMichiruDiff4 = ActorLoadout(
             },
             ActType.Act7("Weakening Concerto", 2) {
                 targetAoe().act{
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerDownBuff,
                         value = 50,
                         turns = 3,
@@ -256,12 +256,12 @@ val tr17HellsingMichiruDiff4 = ActorLoadout(
             },
             ActType.Act8("Helpless Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = DexterityDownBuff,
                         value = 30,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = CriticalDownBuff,
                         value = 30,
                         turns = 3,
@@ -270,12 +270,12 @@ val tr17HellsingMichiruDiff4 = ActorLoadout(
             },
             ActType.Act9("Perfect Aim Flurry", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         PerfectAimBuff,
                         turns = 1,
                     )
@@ -290,12 +290,12 @@ val tr17HellsingMichiruDiff4 = ActorLoadout(
             },
             ActType.ClimaxAct("Cross of Retribution NEO", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         PerfectAimBuff,
                         turns = 1,
                     )

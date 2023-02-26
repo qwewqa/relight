@@ -79,12 +79,12 @@ val tr9QueenOfHeartsShizuha = ActorLoadout(
             },
             ActType.Act7("Ironclad Dance", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalBarrierBuff,
                         value = 10000,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialBarrierBuff,
                         value = 10000,
                         turns = 3,
@@ -93,12 +93,12 @@ val tr9QueenOfHeartsShizuha = ActorLoadout(
             },
             ActType.Act8("Softening Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseDownBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseDownBuff,
                         value = 50,
                         turns = 3,
@@ -111,7 +111,7 @@ val tr9QueenOfHeartsShizuha = ActorLoadout(
                         modifier = 150,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ConfusionBuff,
                         turns = 2,
                         chance = 80,
@@ -124,7 +124,7 @@ val tr9QueenOfHeartsShizuha = ActorLoadout(
                         modifier = 200,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ConfusionBuff,
                         turns = 2,
                         chance = 80,

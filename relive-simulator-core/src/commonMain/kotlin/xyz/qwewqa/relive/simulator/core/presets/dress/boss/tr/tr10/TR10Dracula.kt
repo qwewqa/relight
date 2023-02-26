@@ -79,17 +79,17 @@ val tr10DraculaClaudine = ActorLoadout(
             },
             ActType.Act7("Inspiring Dance", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseUpBuff,
                         value = 50,
                         turns = 3,
@@ -102,7 +102,7 @@ val tr10DraculaClaudine = ActorLoadout(
                         modifier = 150,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ConfusionBuff,
                         turns = 2,
                     )
@@ -114,7 +114,7 @@ val tr10DraculaClaudine = ActorLoadout(
                         modifier = 200,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ConfusionBuff,
                         turns = 2,
                     )

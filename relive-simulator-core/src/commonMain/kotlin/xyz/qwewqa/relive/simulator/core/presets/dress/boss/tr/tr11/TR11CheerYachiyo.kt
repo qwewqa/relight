@@ -91,7 +91,7 @@ val tr11CheerYachiyo = ActorLoadout(
                         modifier = 150,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = StunBuff,
                         turns = 2,
                     )
@@ -99,7 +99,7 @@ val tr11CheerYachiyo = ActorLoadout(
             },
             ActType.Act9("Weakening Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerDownBuff,
                         value = 50,
                         turns = 3,
@@ -112,7 +112,7 @@ val tr11CheerYachiyo = ActorLoadout(
                         modifier = 200,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = StunBuff,
                         turns = 2,
                     )

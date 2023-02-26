@@ -31,7 +31,7 @@ val sakuraTaisenStageGirlMahiruBoss = ActorLoadout(
         acts = actsOf(
             ActType.Act1("Inspiring Slash", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         ActPowerUpBuff,
                         value = 30,
                         turns = 3,
@@ -46,12 +46,12 @@ val sakuraTaisenStageGirlMahiruBoss = ActorLoadout(
             },
             ActType.Act2("Violent Slash", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         DexterityUpBuff,
                         value = 30,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         CriticalUpBuff,
                         value = 30,
                         turns = 3,
@@ -66,7 +66,7 @@ val sakuraTaisenStageGirlMahiruBoss = ActorLoadout(
             },
             ActType.Act3("Accuracy Slash", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         PerfectAimBuff,
                         turns = 1,
                     )
@@ -84,12 +84,12 @@ val sakuraTaisenStageGirlMahiruBoss = ActorLoadout(
                         modifier = 150,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         EvasionUpBuff,
                         value = 50,
                         turns = 2,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         NormalBarrierBuff,
                         value = 7500,
                         turns = 3,

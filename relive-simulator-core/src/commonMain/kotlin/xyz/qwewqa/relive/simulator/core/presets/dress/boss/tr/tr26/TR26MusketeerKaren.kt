@@ -85,7 +85,7 @@ val tr26MusketeerKaren = ActorLoadout(
             },
             ActType.Act7("Weakening Concerto", 3) {
                 targetAoe().act{
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerDownBuff,
                         value = 50,
                         turns = 3,
@@ -94,7 +94,7 @@ val tr26MusketeerKaren = ActorLoadout(
             },
             ActType.Act8("Accuracy Concerto", 3){
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -108,7 +108,7 @@ val tr26MusketeerKaren = ActorLoadout(
             },
             ActType.ClimaxAct("Dance of Hope NEO", 3) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -247,7 +247,7 @@ val tr26MusketeerKarenDiff4 = ActorLoadout(
             },
             ActType.Act7("Weakening Concerto", 3) {
                 targetAoe().act{
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerDownBuff,
                         value = 50,
                         turns = 3,
@@ -256,7 +256,7 @@ val tr26MusketeerKarenDiff4 = ActorLoadout(
             },
             ActType.Act8("Accuracy Concerto", 3){
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -270,7 +270,7 @@ val tr26MusketeerKarenDiff4 = ActorLoadout(
             },
             ActType.ClimaxAct("Dance of Hope NEO", 3) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )

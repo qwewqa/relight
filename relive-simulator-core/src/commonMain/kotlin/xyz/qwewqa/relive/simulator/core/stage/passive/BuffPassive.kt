@@ -10,26 +10,26 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.StageEffect
 
-val SelfFortitudeBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Fortitude, EffectTag.Fortitude) { targetSelf() }
-val SelfEvasionBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Evasion, EffectTag.Evasion) { targetSelf() }
-val SelfReviveBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Revive, EffectTag.Revive) { targetSelf() }
-val SelfInvincibleRebirthBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.InvincibleRebirth, EffectTag.Revive) { targetSelf() }
-val TeamEvasionBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Evasion, EffectTag.Evasion) { targetAllyAoe(it) }
-val TeamReviveBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Revive, EffectTag.Revive) { targetAllyAoe(it) }
-val TeamInvincibleRebirthBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.InvincibleRebirth, EffectTag.Revive) { targetAllyAoe(it) }
-val TeamFortitudeBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Fortitude, EffectTag.Fortitude) { targetAllyAoe(it) }
-val SelfHopeBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Hope, EffectTag.Hope) { targetSelf() }
-val TeamBlessingHPRecoveryPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.BlessingHpRecovery, EffectTag.HpRecovery, "Team") { targetAllyAoe(it) }
-val TeamBlessingCountableDebuffReductionPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.BlessingCountableDebuffReduction, EffectTag.NegativeCountableReduction, "Team") { targetAllyAoe(it) }
-val SelfBlessingCountableDebuffReductionPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.BlessingCountableDebuffReduction, EffectTag.NegativeCountableReduction, "Self") { targetSelf() }
-val TeamBlessingContinuousDebuffRemovalPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.BlessingContinuousDebuffRemoval, EffectTag.NegativeEffectCleanse, "Team") { targetAllyAoe(it) }
-val SelfBlessingContinuousDebuffRemovalPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.BlessingContinuousDebuffRemoval, EffectTag.NegativeEffectCleanse, "Self") { targetSelf() }
-val TeamBlessingEffectiveDamagePassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.BlessingEffectiveDamage, EffectTag.EffectiveDamage, "Team") { targetAllyAoe(it) }
-val SelfBlessingEffectiveDamagePassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.BlessingEffectiveDamage, EffectTag.EffectiveDamage, "Self") { targetSelf() }
-val TeamHopeBuffPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.Hope, EffectTag.Hope, "Team") { targetAllyAoe(it) }
-val TeamBlessingHopePassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.BlessingHope, EffectTag.Hope, "Team") { targetAllyAoe(it) }
-val TeamBlessingAp2DownPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.BlessingAp2Down, EffectTag.AP2Down, "Team") { targetAllyAoe(it) }
-val SelfBlessingBlessingContinuousDebuffRemovalPassive: PassiveEffect = GenericCountableBuffPassive(CountableBuff.BlessingContinuousDebuffRemoval, EffectTag.NegativeEffectCleanse, "Self") { targetSelf() }
+val SelfFortitudeBuffPassive: PassiveEffect = GenericCountableBuffPassive(Buffs.Fortitude, EffectTag.Fortitude) { targetSelf() }
+val SelfEvasionBuffPassive: PassiveEffect = GenericCountableBuffPassive(Buffs.EvasionBuff, EffectTag.Evasion) { targetSelf() }
+val SelfReviveBuffPassive: PassiveEffect = GenericCountableBuffPassive(Buffs.Revive, EffectTag.Revive) { targetSelf() }
+val SelfInvincibleRebirthBuffPassive: PassiveEffect = GenericCountableBuffPassive(Buffs.InvincibleRebirth, EffectTag.Revive) { targetSelf() }
+val TeamEvasionBuffPassive: PassiveEffect = GenericCountableBuffPassive(Buffs.EvasionBuff, EffectTag.Evasion) { targetAllyAoe(it) }
+val TeamReviveBuffPassive: PassiveEffect = GenericCountableBuffPassive(Buffs.Revive, EffectTag.Revive) { targetAllyAoe(it) }
+val TeamInvincibleRebirthBuffPassive: PassiveEffect = GenericCountableBuffPassive(Buffs.InvincibleRebirth, EffectTag.Revive) { targetAllyAoe(it) }
+val TeamFortitudeBuffPassive: PassiveEffect = GenericCountableBuffPassive(Buffs.Fortitude, EffectTag.Fortitude) { targetAllyAoe(it) }
+val SelfHopeBuffPassive: PassiveEffect = GenericCountableBuffPassive(Buffs.Hope, EffectTag.Hope) { targetSelf() }
+val TeamBlessingHPRecoveryPassive: PassiveEffect = GenericCountableBuffPassive(Buffs.BlessingHpRecovery, EffectTag.HpRecovery, "Team") { targetAllyAoe(it) }
+val TeamBlessingCountableDebuffReductionPassive: PassiveEffect = GenericCountableBuffPassive(Buffs.BlessingCountableDebuffReduction, EffectTag.NegativeCountableReduction, "Team") { targetAllyAoe(it) }
+val SelfBlessingCountableDebuffReductionPassive: PassiveEffect = GenericCountableBuffPassive(Buffs.BlessingCountableDebuffReduction, EffectTag.NegativeCountableReduction, "Self") { targetSelf() }
+val TeamBlessingContinuousDebuffRemovalPassive: PassiveEffect = GenericCountableBuffPassive(Buffs.BlessingContinuousDebuffRemoval, EffectTag.NegativeEffectCleanse, "Team") { targetAllyAoe(it) }
+val SelfBlessingContinuousDebuffRemovalPassive: PassiveEffect = GenericCountableBuffPassive(Buffs.BlessingContinuousDebuffRemoval, EffectTag.NegativeEffectCleanse, "Self") { targetSelf() }
+val TeamBlessingEffectiveDamagePassive: PassiveEffect = GenericCountableBuffPassive(Buffs.BlessingEffectiveDamage, EffectTag.EffectiveDamage, "Team") { targetAllyAoe(it) }
+val SelfBlessingEffectiveDamagePassive: PassiveEffect = GenericCountableBuffPassive(Buffs.BlessingEffectiveDamage, EffectTag.EffectiveDamage, "Self") { targetSelf() }
+val TeamHopeBuffPassive: PassiveEffect = GenericCountableBuffPassive(Buffs.Hope, EffectTag.Hope, "Team") { targetAllyAoe(it) }
+val TeamBlessingHopePassive: PassiveEffect = GenericCountableBuffPassive(Buffs.BlessingHope, EffectTag.Hope, "Team") { targetAllyAoe(it) }
+val TeamBlessingApDown2Passive: PassiveEffect = GenericCountableBuffPassive(Buffs.BlessingApDown2, EffectTag.AP2Down, "Team") { targetAllyAoe(it) }
+val SelfBlessingBlessingContinuousDebuffRemovalPassive: PassiveEffect = GenericCountableBuffPassive(Buffs.BlessingContinuousDebuffRemoval, EffectTag.NegativeEffectCleanse, "Self") { targetSelf() }
 
 val TeamActPowerUpBuffPassive: PassiveEffect = GenericBuffPassive(ActPowerUpBuff, EffectTag.Act,"Team") { targetAllyAoe(it) }
 val TeamDexterityUpBuffPassive: PassiveEffect = GenericBuffPassive(DexterityUpBuff, EffectTag.Dexterity, "Team") { targetAllyAoe(it) }
@@ -60,10 +60,10 @@ val TeamLockedInvincibilityBuffPassive: PassiveEffect = GenericBuffPassive(Locke
 val SelfNormalBarrierBuffPassive: PassiveEffect = GenericBuffPassive(NormalBarrierBuff, EffectTag.NormalBarrier) { targetSelf() }
 val SelfSpecialBarrierBuffPassive: PassiveEffect = GenericBuffPassive(SpecialBarrierBuff, EffectTag.SpecialBarrier) { targetSelf() }
 val TeamHpRegenBuffPassive: PassiveEffect = GenericBuffPassive(HpRegenBuff, EffectTag.HpRegen, "Team") { targetAllyAoe(it) }
-val TeamNegativeEffectResistanceUpBuffPassive: PassiveEffect = GenericBuffPassive(NegativeEffectResistanceUpBuff, EffectTag.NegativeEffectResistance, "Team") { targetAllyAoe(it) }
-val TeamLockedNegativeEffectResistanceUpBuffPassive: PassiveEffect = GenericBuffPassive(LockedNegativeEffectResistanceUpBuff, EffectTag.NegativeEffectResistance, "Team") { targetAllyAoe(it) }
-val SelfNegativeEffectResistanceUpBuffPassive: PassiveEffect = GenericBuffPassive(NegativeEffectResistanceUpBuff, EffectTag.NegativeEffectResistance) { targetSelf() }
-val SelfLockedNegativeEffectResistanceUpBuffPassive: PassiveEffect = GenericBuffPassive(LockedNegativeEffectResistanceUpBuff, EffectTag.NegativeEffectResistance) { targetSelf() }
+val TeamContinuousNegativeEffectResistanceUpBuffPassive: PassiveEffect = GenericBuffPassive(ContinuousNegativeEffectResistanceUpBuff, EffectTag.NegativeEffectResistance, "Team") { targetAllyAoe(it) }
+val TeamLockedContinuousNegativeEffectResistanceUpBuffPassive: PassiveEffect = GenericBuffPassive(LockedContinuousNegativeEffectResistanceUpBuff, EffectTag.NegativeEffectResistance, "Team") { targetAllyAoe(it) }
+val SelfContinuousNegativeEffectResistanceUpBuffPassive: PassiveEffect = GenericBuffPassive(ContinuousNegativeEffectResistanceUpBuff, EffectTag.NegativeEffectResistance) { targetSelf() }
+val SelfLockedContinuousNegativeEffectResistanceUpBuffPassive: PassiveEffect = GenericBuffPassive(LockedContinuousNegativeEffectResistanceUpBuff, EffectTag.NegativeEffectResistance) { targetSelf() }
 val SelfNegativeCountableEffectResistanceUpBuffPassive: PassiveEffect = GenericBuffPassive(NegativeCountableEffectResistanceUpBuff, EffectTag.NegativeCountableResistance) { targetSelf() }
 val SelfLockedNegativeCountableEffectResistanceUpBuffPassive: PassiveEffect = GenericBuffPassive(LockedNegativeCountableEffectResistanceUpBuff, EffectTag.NegativeCountableResistance) { targetSelf() }
 val SelfExitEvasionBuffPassive: PassiveEffect = GenericBuffPassive(ExitEvasionBuff, EffectTag.ExitEvasion) { targetSelf() }
@@ -85,7 +85,7 @@ val TeamFreezeResistanceUpBuffPassive: PassiveEffect = ResistanceUpBuffPassive(F
 val TeamBlindResistanceUpBuffPassive: PassiveEffect = ResistanceUpBuffPassive(BlindResistanceUpBuff, EffectTag.BlindnessResistance, "Team") { targetAllyAoe(it) }
 val TeamSleepResistanceUpBuffPassive: PassiveEffect = ResistanceUpBuffPassive(SleepResistanceUpBuff, EffectTag.SleepResistance, "Team") { targetAllyAoe(it) }
 val EnemyBack1ConfusionBuffPassive: PassiveEffect = DebuffPassive(ConfusionBuff, EffectTag.Confusion, "Enemy Back 1") { targetBack(1) }
-val EnemyBack1DazeBuffPassive: PassiveEffect = CountableDebuffPassive(CountableBuff.Daze, EffectTag.Daze, "Enemy Back 1") { targetBack(1) }
+val EnemyBack1DazeBuffPassive: PassiveEffect = CountableDebuffPassive(Buffs.DazeBuff, EffectTag.Daze, "Enemy Back 1") { targetBack(1) }
 val EnemyFront3NightmareBuffPassive: PassiveEffect = DebuffPassive(NightmareBuff, EffectTag.Nightmare, "Enemy Front 3", 80) { targetFront(3) }
 val EnemyBack3StopBuffPassive: PassiveEffect = DebuffPassive(StopBuff, EffectTag.Stop, "Enemy Back 3", 80) { targetBack(3) }
 val EnemyActPowerDownBuffPassive: PassiveEffect = GenericBuffPassive(ActPowerDownBuff, EffectTag.Act, "Enemy AoE") { targetAoe(it) }
@@ -101,8 +101,8 @@ val EnemyAPUpBuffPassive : PassiveEffect = GenericBuffPassive(ApUpBuff, EffectTa
 val EnemyProvokeBuffPassive: PassiveEffect = GenericBuffPassive(ProvokeBuff, EffectTag.Provoke, "Enemy AoE") { targetAoe(it) }
 val EnemyAggroBuffPassive: PassiveEffect = GenericBuffPassive(AggroBuff, EffectTag.Aggro, "Enemy AoE") { targetAoe(it) }
 val EnemyLockedAggroBuffPassive: PassiveEffect = GenericBuffPassive(LockedAggroBuff, EffectTag.Aggro, "Enemy AoE") { targetAoe(it) }
-val EnemyDazeBuffPassive: PassiveEffect = CountableDebuffPassive(CountableBuff.Daze, EffectTag.Daze, "Enemy AoE") { targetAoe(it) }
-val EnemyPrideBuffPassive: PassiveEffect = CountableDebuffPassive(CountableBuff.Pride, EffectTag.Pride, "Enemy AoE") {targetAoe(it)}
+val EnemyDazeBuffPassive: PassiveEffect = CountableDebuffPassive(Buffs.DazeBuff, EffectTag.Daze, "Enemy AoE") { targetAoe(it) }
+val EnemyPrideBuffPassive: PassiveEffect = CountableDebuffPassive(Buffs.Pride, EffectTag.Pride, "Enemy AoE") {targetAoe(it)}
 val EnemyFront5StunBuffPassive: PassiveEffect = DebuffPassive(StunBuff, EffectTag.Stun, "Enemy Front 5") { targetFront(5) }
 val EnemyStunBuffPassive: PassiveEffect = DebuffPassive(StunBuff, EffectTag.Stun, "Enemy AoE") { targetAoe(it) }
 val EnemyFront2FreezeBuffPassive: PassiveEffect = DebuffPassive(FreezeBuff, EffectTag.Freeze, "Enemy Front 2") { targetFront(2) }
@@ -127,7 +127,7 @@ private data class GenericBuffPassive(
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
         target(context, condition).act {
-            applyBuff(buffEffect, value, time)
+            applyTimedBuff(buffEffect, value, time)
         }
 }
 
@@ -159,7 +159,7 @@ private data class ResistanceUpBuffPassive(
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
         target(context, condition).act {
-            applyBuff(buffEffect, value, time)
+            applyTimedBuff(buffEffect, value, time)
         }
 }
 
@@ -176,7 +176,7 @@ private data class DebuffPassive(
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
         target(context, condition).act {
-            applyBuff(buffEffect, value, time, chance)
+            applyTimedBuff(buffEffect, value, time, chance)
         }
 }
 
@@ -237,7 +237,7 @@ object DispelRevivePassive : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         targetAoe(condition).act {
-            dispelCountable(CountableBuff.Revive, time)
+            dispelCountable(Buffs.Revive, time)
         }
     }
 }
@@ -248,7 +248,7 @@ object DispelFortitudePassive : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         targetAoe(condition).act {
-            dispelCountable(CountableBuff.Fortitude, time)
+            dispelCountable(Buffs.Fortitude, time)
         }
     }
 }

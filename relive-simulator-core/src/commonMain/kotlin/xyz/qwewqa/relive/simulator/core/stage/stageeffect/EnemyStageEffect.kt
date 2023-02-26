@@ -5,130 +5,130 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.*
 
 val SelfTrapping = stageEffectData(23).makeStageEffect(
     listOf(
-        StunBuff,
-        NormalDefenseDownBuff,
-        SpecialDefenseDownBuff,
+        Buffs.StunBuff,
+        Buffs.NormalDefenseDownBuff,
+        Buffs.SpecialDefenseDownBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 
 val AlluringEyes = stageEffectData(45).makeStageEffect(
     listOf(
-        LovesicknessBuff,
-        NormalDefenseDownBuff,
-        SpecialDefenseDownBuff,
+        Buffs.LovesicknessBuff,
+        Buffs.NormalDefenseDownBuff,
+        Buffs.SpecialDefenseDownBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 // TODO: Fumbling
 val DeathsKiss = stageEffectData(25).makeStageEffect(
     listOf(
-        NormalDefenseDownBuff,
-        SpecialDefenseDownBuff,
+        Buffs.NormalDefenseDownBuff,
+        Buffs.SpecialDefenseDownBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 // TODO: Curse
 val AfterlifeTrials = stageEffectData(28).makeStageEffect(
     listOf(
-        NormalDefenseDownBuff,
-        SpecialDefenseDownBuff,
+        Buffs.NormalDefenseDownBuff,
+        Buffs.SpecialDefenseDownBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 val DisasterHail = stageEffectData(24).makeStageEffect(
     listOf(
-        BurnBuff,
-        ConfusionBuff,
-        BlindnessBuff,
+        Buffs.BurnBuff,
+        Buffs.ConfusionBuff,
+        Buffs.BlindnessBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 val RoaringFire = stageEffectData(21).makeStageEffect(
     listOf(
-        BurnBuff,
-        BlindnessBuff,
-        NormalDefenseDownBuff,
-        SpecialDefenseDownBuff,
+        Buffs.BurnBuff,
+        Buffs.BlindnessBuff,
+        Buffs.NormalDefenseDownBuff,
+        Buffs.SpecialDefenseDownBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 val Thunder = stageEffectData(13).makeStageEffect(
     listOf(
-        ElectricShockBuff,
-        ActPowerDownBuff,
+        Buffs.ElectricShockBuff,
+        Buffs.ActPowerDownBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 val SunsetTune = stageEffectData(8).makeStageEffect(
     listOf(
-        ActPowerDownBuff,
-        NormalDefenseDownBuff,
-        SpecialDefenseDownBuff,
+        Buffs.ActPowerDownBuff,
+        Buffs.NormalDefenseDownBuff,
+        Buffs.SpecialDefenseDownBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 val Hesitation = stageEffectData(54).makeStageEffect(
     listOf(
-        ApUpBuff,
-        NormalDefenseDownBuff,
-        SpecialDefenseDownBuff,
+        Buffs.ApUpBuff,
+        Buffs.NormalDefenseDownBuff,
+        Buffs.SpecialDefenseDownBuff,
     ).targeting(stageEffectTargetAoe()) + listOf(
-        ApUp2Buff,
+        Buffs.ApUp2Buff,
     ).targeting(stageEffectTargetAoe(condition = SeishoOnlyCondition)),
 )
 
 val CelestialHighlights = stageEffectData(60).makeStageEffect(
     listOf(
-        ContractionBuff,
-        ActPowerDownBuff,
+        Buffs.ContractionBuff,
+        Buffs.ActPowerDownBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 val ShadowStupor = stageEffectData(9).makeStageEffect(
     listOf(
-        AgilityDownBuff,
-        ActPowerDownBuff,
-        DexterityDownBuff,
+        Buffs.AgilityDownBuff,
+        Buffs.ActPowerDownBuff,
+        Buffs.DexterityDownBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 // TODO: evil spirit and brilliance down per turn
 val Catastrophe = stageEffectData(64).makeStageEffect(
     listOf(
-        ElectricShockBuff,
-        NormalDefenseDownBuff,
-        SpecialDefenseDownBuff,
+        Buffs.ElectricShockBuff,
+        Buffs.NormalDefenseDownBuff,
+        Buffs.SpecialDefenseDownBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 val SugaryCorruption = stageEffectData(56).makeStageEffect(
     listOf(
-        BrillianceGainDownBuff,
-        AgilityDownBuff,
+        Buffs.BrillianceGainDownBuff,
+        Buffs.AgilityDownBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 //TODO: SE Seal
 val PlanOfTheAbyss = stageEffectData(57).makeStageEffect(
     listOf(
-        ActPowerDownBuff,
+        Buffs.ActPowerDownBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 
 val BattleStrategy = stageEffectData(74).makeStageEffect(
     listOf(
-        ContractionBuff,
-        AgilityDownBuff,
+        Buffs.ContractionBuff,
+        Buffs.AgilityDownBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 val GrayWorld = stageEffectData(76).makeStageEffect(
     listOf(
-        ConfusionBuff,
-        ElectricShockBuff,
-        NormalDefenseDownBuff,
-        SpecialDefenseDownBuff,
+        Buffs.ConfusionBuff,
+        Buffs.ElectricShockBuff,
+        Buffs.NormalDefenseDownBuff,
+        Buffs.SpecialDefenseDownBuff,
     ).targeting(stageEffectTargetAoe())
 )

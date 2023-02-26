@@ -4,11 +4,11 @@ import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.actor.consumeOnAttackCountableBuffs
-import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
-import xyz.qwewqa.relive.simulator.core.stage.buff.ContractionBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.TimedBuffEffect
+import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ContractionBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ReviveBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.WeakSpotBuff
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHp
 import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistance
@@ -23,7 +23,7 @@ data class ActionLog(
         var successfulHits: Int = 0,
         var attemptedHit: Boolean = false,
         var damageDealtToEnemy: Int = 0,
-        val consumeCountableBuffs: MutableSet<CountableBuff> = mutableSetOf(),
+        val consumeCountableBuffs: MutableSet<CountableBuffEffect> = mutableSetOf(),
 ) {
     fun markConsumeOnAttackCountableBuffs(actor: Actor) {
         consumeOnAttackCountableBuffs.forEach { buff ->
@@ -135,60 +135,114 @@ class TargetContext(
          * Note that since multiple actions can be taken within a single TargetContext,
          * there's no guarantee all targets are alive at the start of a particular action.
          */
-        val targets: List<Actor>,
-        val aggroTarget: Actor? = null,
-        val autoRepeatHits: Boolean = true,
+        private val originalTargets: List<Actor>,
+        private val aggroTarget: Actor? = null,
+        private val autoRepeatHits: Boolean = true,
 ) {
     val stage get() = actionContext.stage
     val self = actionContext.self
+    val team = actionContext.team
+
+    val targets get() = originalTargets.filter { it.isAlive }.map { aggroTarget ?: it }
 
     inline fun act(action: TargetContext.() -> Unit) = run(action)
 
     fun attack(
-            modifier: Int,
-            hitCount: Int = 1,
-            bonusMultiplier: Int = 100,
-            bonusCondition: Condition = Condition { false },
-            damageType: DamageType = self.dress.damageType,
-            attribute: Attribute = self.dress.attribute,
-            addBrilliance: Boolean = true,
-            focus: Boolean = actionContext.focusEnabled,
-            noVariance: Boolean = false,
-            noReflect: Boolean = false,
-            mode: HitMode = HitMode.NORMAL,
+        modifier: Int,
+        hitCount: Int = 1,
+        bonusMultiplier: Int = 100,
+        bonusCondition: Condition = Condition { false },
+        damageType: DamageType = self.dress.damageType,
+        attribute: Attribute = self.dress.attribute,
+        addBrilliance: Boolean = true,
+        focus: Boolean = actionContext.focusEnabled,
+        noVariance: Boolean = false,
+        noReflect: Boolean = false,
+        mode: HitMode = HitMode.NORMAL,
     ) {
         if (!self.isAlive) return
         val hitAttribute = HitAttribute(
-                modifier = modifier,
-                hitCount = hitCount,
-                attribute = attribute,
-                damageType = damageType,
-                bonusModifier = bonusMultiplier,
-                bonusCondition = bonusCondition,
-                addBrilliance = addBrilliance,
-                focus = focus,
-                noReflect = noReflect,
-                noVariance = noVariance,
-                mode = mode,
+            modifier = modifier,
+            hitCount = hitCount,
+            attribute = attribute,
+            damageType = damageType,
+            bonusModifier = bonusMultiplier,
+            bonusCondition = bonusCondition,
+            addBrilliance = addBrilliance,
+            focus = focus,
+            noReflect = noReflect,
+            noVariance = noVariance,
+            mode = mode,
         )
         repeat(if (autoRepeatHits) hitCount else 1) {
-            for (originalTarget in targets) {
+            for (originalTarget in originalTargets) {
                 val target = aggroTarget ?: originalTarget
                 if (!self.isAlive) return
                 if (target.isAlive) {
                     stage.damageCalculator.damage(
-                            self,
-                            target,
-                            hitAttribute,
+                        self,
+                        target,
+                        hitAttribute,
                     )
                 }
             }
         }
     }
 
-    fun applyBuff(effect: TimedBuffEffect<*>, value: Int = 0, turns: Int, chance: Int = 100) {
+    fun attackWithDebuff(
+        modifier: Int,
+        hitCount: Int = 1,
+        bonusMultiplier: Int = 100,
+        bonusCondition: Condition = Condition { false },
+        damageType: DamageType = self.dress.damageType,
+        attribute: Attribute = self.dress.attribute,
+        addBrilliance: Boolean = true,
+        focus: Boolean = actionContext.focusEnabled,
+        noVariance: Boolean = false,
+        noReflect: Boolean = false,
+        mode: HitMode = HitMode.NORMAL,
+        effect: BuffEffect,
+        value: Int,
+        time: Int,
+        chance: Int,
+    ) {
         if (!self.isAlive) return
-        for (originalTarget in targets) {
+        val hitAttribute = HitAttribute(
+            modifier = modifier,
+            hitCount = hitCount,
+            attribute = attribute,
+            damageType = damageType,
+            bonusModifier = bonusMultiplier,
+            bonusCondition = bonusCondition,
+            addBrilliance = addBrilliance,
+            focus = focus,
+            noReflect = noReflect,
+            noVariance = noVariance,
+            mode = mode,
+        )
+        repeat(hitCount) {
+            val target = aggroTarget ?: originalTargets.random(stage.random)
+            if (!self.isAlive) return
+            if (target.isAlive) {
+                stage.damageCalculator.damage(
+                    self,
+                    target,
+                    hitAttribute,
+                )
+                // TODO: Make this less hacky
+                TargetContext(actionContext, listOf(target)).applyBuff(effect, value, time, chance)
+            }
+        }
+    }
+
+    fun applyBuff(effect: BuffEffect, value: Int = 0, time: Int, chance: Int = 100) = when (effect) {
+        is TimedBuffEffect<*> -> applyTimedBuff(effect = effect, value = value, turns = time, chance = chance)
+        is CountableBuffEffect -> applyCountableBuff(effect = effect, count = time, value = value, chance = chance)
+    }
+
+    fun applyTimedBuff(effect: TimedBuffEffect<*>, value: Int = 0, turns: Int, chance: Int = 100) {
+        if (!self.isAlive) return
+        for (originalTarget in originalTargets) {
             val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
@@ -216,9 +270,40 @@ class TargetContext(
         }
     }
 
-    fun applyCountableBuff(effect: CountableBuff, count: Int = 1, value: Int = 0, chance: Int = 100) {
+    fun applyTimedBuff(effect: TimedBuffEffect<*>, value: (Actor) -> Int, turns: Int, chance: Int = 100) {
         if (!self.isAlive) return
-        for (originalTarget in targets) {
+        for (originalTarget in originalTargets) {
+            val target = aggroTarget ?: originalTarget
+            if (!target.isAlive) continue
+            val computedValue = value(target)
+            target.apply {
+                when (effect.category) {
+                    BuffCategory.Positive -> {
+                        val applyChance = chance / 100.0 * (100 - mod { positiveEffectResistance(effect) }) / 100.0
+                        if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
+                            buffs.add(self, effect, computedValue, turns)
+                            actionContext.log("Buff", category = LogCategory.BUFF) { "Positive buff ${effect.formatName(computedValue)} (${turns}t) applied to [$name]." }
+                        } else {
+                            actionContext.log("Buff", category = LogCategory.BUFF) { "Positive buff ${effect.formatName(computedValue)} (${turns}t) missed to [$name]." }
+                        }
+                    }
+                    BuffCategory.Negative -> {
+                        val applyChance = chance / 100.0 * (100 - mod { negativeEffectResistance(effect) }) / 100.0
+                        if (applyChance >= 1.0 || stage.random.nextDouble() < applyChance) {
+                            buffs.add(self, effect, computedValue, turns)
+                            actionContext.log("Buff", category = LogCategory.BUFF) { "Negative buff ${effect.formatName(computedValue)} (${turns}t) applied to [$name]." }
+                        } else {
+                            actionContext.log("Buff", category = LogCategory.BUFF) { "Negative buff ${effect.formatName(computedValue)} (${turns}t) missed to [$name]." }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun applyCountableBuff(effect: CountableBuffEffect, count: Int = 1, value: Int = 0, chance: Int = 100) {
+        if (!self.isAlive) return
+        for (originalTarget in originalTargets) {
             val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
@@ -248,7 +333,7 @@ class TargetContext(
 
     fun dispelTimed(category: BuffCategory) {
         if (!self.isAlive) return
-        for (originalTarget in targets) {
+        for (originalTarget in originalTargets) {
             val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
@@ -260,7 +345,7 @@ class TargetContext(
 
     fun dispelTimed(effect: TimedBuffEffect<*>) {
         if (!self.isAlive) return
-        for (originalTarget in targets) {
+        for (originalTarget in originalTargets) {
             val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
@@ -272,7 +357,7 @@ class TargetContext(
 
     fun flipTimed(category: BuffCategory, count: Int) {
         if (!self.isAlive) return
-        for (originalTarget in targets) {
+        for (originalTarget in originalTargets) {
             val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
@@ -284,7 +369,7 @@ class TargetContext(
 
     fun dispelCountable(category: BuffCategory) {
         if (!self.isAlive) return
-        for (originalTarget in targets) {
+        for (originalTarget in originalTargets) {
             val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
@@ -296,7 +381,7 @@ class TargetContext(
 
     fun dispelCountable(category: BuffCategory, count: Int) {
         if (!self.isAlive) return
-        for (originalTarget in targets) {
+        for (originalTarget in originalTargets) {
             val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
@@ -306,9 +391,9 @@ class TargetContext(
         }
     }
 
-    fun dispelCountable(effect: CountableBuff, count: Int) {
+    fun dispelCountable(effect: CountableBuffEffect, count: Int) {
         if (!self.isAlive) return
-        for (originalTarget in targets) {
+        for (originalTarget in originalTargets) {
             val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
@@ -318,9 +403,33 @@ class TargetContext(
         }
     }
 
+    fun convertRevive(count: Int) {
+        if (!self.isAlive) return
+        for (originalTarget in originalTargets) {
+            val target = aggroTarget ?: originalTarget
+            if (!target.isAlive) continue
+            target.apply {
+                actionContext.log("Conversion", category = LogCategory.BUFF) { "Convert ${count}x Revive from [$name]." }
+                buffs.addCountable(WeakSpotBuff, count=buffs.dispelCountable(ReviveBuff, count))
+            }
+        }
+    }
+
+    fun convertCountableNegative(count: Int) {
+        if (!self.isAlive) return
+        for (originalTarget in originalTargets) {
+            val target = aggroTarget ?: originalTarget
+            if (!target.isAlive) continue
+            target.apply {
+                actionContext.log("Conversion", category = LogCategory.BUFF) { "Convert ${count}x negative countable effects from [$name]." }
+                buffs.addCountable(ReviveBuff, count=buffs.dispelCountable(BuffCategory.Negative, count))
+            }
+        }
+    }
+
     fun heal(percent: Int = 0, fixed: Int = 0) {
         if (!self.isAlive) return
-        for (originalTarget in targets) {
+        for (originalTarget in originalTargets) {
             val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
@@ -332,7 +441,7 @@ class TargetContext(
 
     fun addBrilliance(amount: Int) {
         if (!self.isAlive) return
-        for (originalTarget in targets) {
+        for (originalTarget in originalTargets) {
             val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
@@ -344,13 +453,34 @@ class TargetContext(
 
     fun removeBrilliance(amount: Int) {
         if (!self.isAlive) return
-        for (originalTarget in targets) {
+        for (originalTarget in originalTargets) {
             val target = aggroTarget ?: originalTarget
             if (!target.isAlive) continue
             target.apply {
                 actionContext.log("Brilliance", category = LogCategory.BRILLIANCE) { "Remove brilliance from [$name] (amount: $amount)." }
                 this.addBrilliance(-amount)
             }
+        }
+    }
+
+    fun absorbBrilliance(amount: Int) {
+        if (!self.isAlive) return
+        var drained = 0
+        for (originalTarget in originalTargets) {
+            val target = aggroTarget ?: originalTarget
+            if (!target.isAlive) continue
+            target.apply {
+                actionContext.log("Brilliance", category = LogCategory.BRILLIANCE) { "Remove brilliance from [$name] (amount: $amount)." }
+                if (hasBrillianceBar) {
+                    val startingBrilliance = this.brilliance
+                    this.addBrilliance(-amount)
+                    drained += startingBrilliance - this.brilliance
+                }
+            }
+        }
+        if (drained > 0) {
+            actionContext.log("Brilliance", category = LogCategory.BRILLIANCE) { "Absorb $drained brilliance from targets." }
+            self.addBrilliance(drained)
         }
     }
 }

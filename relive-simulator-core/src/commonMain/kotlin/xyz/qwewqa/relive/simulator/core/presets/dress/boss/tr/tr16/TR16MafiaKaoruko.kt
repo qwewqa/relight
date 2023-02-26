@@ -1,9 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr16
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.flower.SakuyahimeMahiru
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.space.HuntingRevueNana
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.MoonAruru
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -74,7 +72,7 @@ val tr16MafiaKaoruko = ActorLoadout(
             },
             ActType.Act6("Perfect Aim Tri-Slash", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -88,12 +86,12 @@ val tr16MafiaKaoruko = ActorLoadout(
             },
             ActType.Act7("Ironclad Dance", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalBarrierBuff,
                         value = 10000,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialBarrierBuff,
                         value = 10000,
                         turns = 3,
@@ -102,7 +100,7 @@ val tr16MafiaKaoruko = ActorLoadout(
             },
             ActType.Act8("Dazzling Concerto", 2) {
                 targetAoe().act{
-                    applyBuff(
+                    applyTimedBuff(
                         effect = AccuracyDownBuff,
                         value = 50,
                         turns = 2,
@@ -115,7 +113,7 @@ val tr16MafiaKaoruko = ActorLoadout(
                         modifier = 200,
                         hitCount = 5,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = AccuracyDownBuff,
                         value = 50,
                         turns = 2,
@@ -234,7 +232,7 @@ val tr16MafiaKaorukoDiff4 = ActorLoadout(
             },
             ActType.Act6("Perfect Aim Tri-Slash", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -248,12 +246,12 @@ val tr16MafiaKaorukoDiff4 = ActorLoadout(
             },
             ActType.Act7("Ironclad Dance", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalBarrierBuff,
                         value = 10000,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialBarrierBuff,
                         value = 10000,
                         turns = 3,
@@ -262,7 +260,7 @@ val tr16MafiaKaorukoDiff4 = ActorLoadout(
             },
             ActType.Act8("Dazzling Concerto", 2) {
                 targetAoe().act{
-                    applyBuff(
+                    applyTimedBuff(
                         effect = AccuracyDownBuff,
                         value = 50,
                         turns = 2,
@@ -271,7 +269,7 @@ val tr16MafiaKaorukoDiff4 = ActorLoadout(
             },
             ActType.Act9("Perfect Aim Tri-Slash", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -291,7 +289,7 @@ val tr16MafiaKaorukoDiff4 = ActorLoadout(
                         hitCount = 5,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = AccuracyDownBuff,
                         value = 50,
                         turns = 2,

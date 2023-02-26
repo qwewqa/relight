@@ -40,7 +40,7 @@ val sakuraTaisenStageGirlKarenBoss = ActorLoadout(
             },
             ActType.Act2("Firedance", 2) {
                 targetFront(3).act {
-                    applyBuff(
+                    applyTimedBuff(
                         BurnBuff,
                         value = 3000,
                         turns = 3,
@@ -53,7 +53,7 @@ val sakuraTaisenStageGirlKarenBoss = ActorLoadout(
             },
             ActType.Act3("Befuddling Slash", 2) {
                 targetFront(3).act {
-                    applyBuff(
+                    applyTimedBuff(
                         ConfusionBuff,
                         turns = 2,
                         chance = 50,
@@ -66,7 +66,7 @@ val sakuraTaisenStageGirlKarenBoss = ActorLoadout(
             },
             ActType.ClimaxAct("We will all do Starlight! NEO", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         ConfusionBuff,
                         turns = 2,
                     )

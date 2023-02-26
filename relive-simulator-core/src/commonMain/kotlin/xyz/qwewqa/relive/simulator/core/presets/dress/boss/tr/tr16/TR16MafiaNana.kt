@@ -1,9 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr16
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.flower.SakuyahimeMahiru
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.space.HuntingRevueNana
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.MoonAruru
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -82,17 +80,17 @@ val tr16MafiaNana = ActorLoadout(
             },
             ActType.Act7("Inspiring Gust", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseUpBuff,
                         value = 50,
                         turns = 3,
@@ -113,7 +111,7 @@ val tr16MafiaNana = ActorLoadout(
                         modifier = 150,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = StunBuff,
                         turns = 2,
                     )
@@ -125,7 +123,7 @@ val tr16MafiaNana = ActorLoadout(
                         modifier = 200,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = StunBuff,
                         turns = 2,
                     )
@@ -251,17 +249,17 @@ val tr16MafiaNanaDiff4 = ActorLoadout(
             },
             ActType.Act7("Inspiring Gust", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseUpBuff,
                         value = 50,
                         turns = 3,
@@ -283,7 +281,7 @@ val tr16MafiaNanaDiff4 = ActorLoadout(
                         hitCount = 3,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = StunBuff,
                         turns = 2,
                     )
@@ -296,7 +294,7 @@ val tr16MafiaNanaDiff4 = ActorLoadout(
                         hitCount = 3,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = StunBuff,
                         turns = 2,
                     )

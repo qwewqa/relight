@@ -72,7 +72,7 @@ val tr27MafiaKaoruko = ActorLoadout(
             },
             ActType.Act6("Perfect Aim Tri-Slash", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -86,12 +86,12 @@ val tr27MafiaKaoruko = ActorLoadout(
             },
             ActType.Act7("Ironclad Dance", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalBarrierBuff,
                         value = 10000,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialBarrierBuff,
                         value = 10000,
                         turns = 3,
@@ -100,7 +100,7 @@ val tr27MafiaKaoruko = ActorLoadout(
             },
             ActType.Act8("Dazzling Concerto", 2) {
                 targetAoe().act{
-                    applyBuff(
+                    applyTimedBuff(
                         effect = AccuracyDownBuff,
                         value = 50,
                         turns = 2,
@@ -113,7 +113,7 @@ val tr27MafiaKaoruko = ActorLoadout(
                         modifier = 200,
                         hitCount = 5,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = AccuracyDownBuff,
                         value = 50,
                         turns = 2,
@@ -232,7 +232,7 @@ val tr27MafiaKaorukoDiff4 = ActorLoadout(
             },
             ActType.Act6("Perfect Aim Tri-Slash", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -246,12 +246,12 @@ val tr27MafiaKaorukoDiff4 = ActorLoadout(
             },
             ActType.Act7("Ironclad Dance", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalBarrierBuff,
                         value = 10000,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialBarrierBuff,
                         value = 10000,
                         turns = 3,
@@ -260,7 +260,7 @@ val tr27MafiaKaorukoDiff4 = ActorLoadout(
             },
             ActType.Act8("Dazzling Concerto", 2) {
                 targetAoe().act{
-                    applyBuff(
+                    applyTimedBuff(
                         effect = AccuracyDownBuff,
                         value = 50,
                         turns = 2,
@@ -269,7 +269,7 @@ val tr27MafiaKaorukoDiff4 = ActorLoadout(
             },
             ActType.Act9("Perfect Aim Tri-Slash", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -289,7 +289,7 @@ val tr27MafiaKaorukoDiff4 = ActorLoadout(
                         hitCount = 5,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = AccuracyDownBuff,
                         value = 50,
                         turns = 2,

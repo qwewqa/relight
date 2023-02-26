@@ -72,7 +72,7 @@ val tr25SetsunaIchie = ActorLoadout(
             },
             ActType.Act6("Weakening Concerto", 2) {
                 targetAoe().act{
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerDownBuff,
                         value = 50,
                         turns = 3,
@@ -93,7 +93,7 @@ val tr25SetsunaIchie = ActorLoadout(
                         modifier = 150,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PoisonBuff,
                         value = 10000,
                         turns = 3,
@@ -106,7 +106,7 @@ val tr25SetsunaIchie = ActorLoadout(
                         modifier = 200,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PoisonBuff,
                         value = 10000,
                         turns = 3,
@@ -225,7 +225,7 @@ val tr25SetsunaIchieDiff4 = ActorLoadout(
             },
             ActType.Act6("Weakening Concerto", 2) {
                 targetAoe().act{
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerDownBuff,
                         value = 50,
                         turns = 3,
@@ -246,7 +246,7 @@ val tr25SetsunaIchieDiff4 = ActorLoadout(
                         modifier = 150,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PoisonBuff,
                         value = 99999,
                         turns = 3,
@@ -260,7 +260,7 @@ val tr25SetsunaIchieDiff4 = ActorLoadout(
                         hitCount = 4,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PoisonBuff,
                         value = 99999,
                         turns = 3,

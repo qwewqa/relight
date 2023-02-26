@@ -81,12 +81,12 @@ val tr23MafiaMaya = ActorLoadout(
             },
             ActType.Act7("Helpless Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = DexterityDownBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = CriticalDownBuff,
                         value = 50,
                         turns = 3,
@@ -95,12 +95,12 @@ val tr23MafiaMaya = ActorLoadout(
             },
             ActType.Act8("Perfect Aim Flurry", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         PerfectAimBuff,
                         turns = 1,
                     )
@@ -114,12 +114,12 @@ val tr23MafiaMaya = ActorLoadout(
             },
             ActType.ClimaxAct("Maid's Etiquette NEO", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         PerfectAimBuff,
                         turns = 1,
                     )
@@ -252,12 +252,12 @@ val tr23MafiaMayaDiff4 = ActorLoadout(
             },
             ActType.Act7("Helpless Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = DexterityDownBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = CriticalDownBuff,
                         value = 50,
                         turns = 3,
@@ -266,12 +266,12 @@ val tr23MafiaMayaDiff4 = ActorLoadout(
             },
             ActType.Act8("Perfect Aim Flurry", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         PerfectAimBuff,
                         turns = 1,
                     )
@@ -285,12 +285,12 @@ val tr23MafiaMayaDiff4 = ActorLoadout(
             },
             ActType.Act9("Perfect Aim Flurry", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         PerfectAimBuff,
                         turns = 1,
                     )
@@ -305,12 +305,12 @@ val tr23MafiaMayaDiff4 = ActorLoadout(
             },
             ActType.ClimaxAct("Maid's Etiquette NEO", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         PerfectAimBuff,
                         turns = 1,
                     )

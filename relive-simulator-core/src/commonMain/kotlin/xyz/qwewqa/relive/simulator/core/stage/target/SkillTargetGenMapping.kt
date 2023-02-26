@@ -5,7 +5,7 @@ import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenSkillTarget
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
-import xyz.qwewqa.relive.simulator.core.stage.buff.ContractionBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ContractionBuff
 
 data class SkillTargetData(
     val id: Int,

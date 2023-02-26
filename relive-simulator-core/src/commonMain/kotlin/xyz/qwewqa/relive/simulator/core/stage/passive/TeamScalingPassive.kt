@@ -62,7 +62,7 @@ val TeamEvasionUpBuffScalingPassive60 = TeamScalingPassive(
     60,
     PassiveEffectCategory.TurnStartPositiveB,
 ) { value, time ->
-    applyBuff(
+    applyTimedBuff(
         EvasionUpBuff,
         value,
         time,

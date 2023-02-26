@@ -92,7 +92,7 @@ val tr21CheerYachiyo = ActorLoadout(
                         modifier = 150,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = StunBuff,
                         turns = 2,
                     )
@@ -100,7 +100,7 @@ val tr21CheerYachiyo = ActorLoadout(
             },
             ActType.Act9("Weakening Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerDownBuff,
                         value = 50,
                         turns = 3,
@@ -113,7 +113,7 @@ val tr21CheerYachiyo = ActorLoadout(
                         modifier = 200,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = StunBuff,
                         turns = 2,
                     )
@@ -252,7 +252,7 @@ val tr21CheerYachiyoDiff4 = ActorLoadout(
                         hitCount = 3,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = StunBuff,
                         turns = 2,
                     )
@@ -260,7 +260,7 @@ val tr21CheerYachiyoDiff4 = ActorLoadout(
             },
             ActType.Act9("Weakening Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerDownBuff,
                         value = 50,
                         turns = 3,
@@ -274,7 +274,7 @@ val tr21CheerYachiyoDiff4 = ActorLoadout(
                         hitCount = 4,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = StunBuff,
                         turns = 2,
                     )

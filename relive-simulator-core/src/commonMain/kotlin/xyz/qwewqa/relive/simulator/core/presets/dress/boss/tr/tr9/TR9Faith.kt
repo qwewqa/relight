@@ -76,7 +76,7 @@ val tr9FaithMisora = ActorLoadout(
                         modifier = 120,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = BrillianceGainDownBuff,
                         value = 80,
                         turns = 2,
@@ -85,17 +85,17 @@ val tr9FaithMisora = ActorLoadout(
             },
             ActType.Act7("Inspiring Gust", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = DexterityUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = CriticalUpBuff,
                         value = 50,
                         turns = 3,
@@ -108,7 +108,7 @@ val tr9FaithMisora = ActorLoadout(
                         modifier = 150,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SleepBuff,
                         turns = 2,
                         chance = 80,
@@ -121,7 +121,7 @@ val tr9FaithMisora = ActorLoadout(
                         modifier = 200,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SleepBuff,
                         turns = 2,
                         chance = 80,

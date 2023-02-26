@@ -8,6 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifier
 
 data class BuffData(
+    val id: Int,
     val name: String,
     val iconId: Int,
     val locked: Boolean,
@@ -22,6 +23,7 @@ data class BuffData(
         crossinline onStart: ActionContext.(value: Int, source: Actor?) -> T,
         crossinline onEnd: ActionContext.(value: Int, source: Actor?, T) -> Unit,
     ): TimedBuffEffect<T> = object : TimedBuffEffect<T> {
+        override val id: Int = this@BuffData.id
         override val name: String = this@BuffData.name
         override val iconId: Int = this@BuffData.iconId
         override val category: BuffCategory = category
@@ -49,6 +51,7 @@ data class BuffData(
         crossinline onStart: ActionContext.() -> Unit,
         crossinline onEnd: ActionContext.() -> Unit,
     ): TimedBuffEffect<Unit> = object : TimedBuffEffect<Unit> {
+        override val id: Int = this@BuffData.id
         override val name: String = this@BuffData.name
         override val iconId: Int = this@BuffData.iconId
         override val category: BuffCategory = category
@@ -118,14 +121,18 @@ data class BuffData(
 
     fun makeCountableBuffEffect(
         category: BuffCategory,
+        isLocked: Boolean = false,
     ): CountableBuffEffect = SimpleCountableBuffEffect(
+        id = id,
         name = name,
         iconId = iconId,
         category = category,
+        isLocked = isLocked,
     )
 }
 
 fun GenBuff.toBuffData() = BuffData(
+    id = _id_,
     name = name.getLocalizedString(),
     iconId = icon_id,
     locked = is_lock != 0,

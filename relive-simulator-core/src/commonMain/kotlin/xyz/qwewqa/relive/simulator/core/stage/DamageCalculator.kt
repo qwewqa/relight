@@ -3,9 +3,19 @@ package xyz.qwewqa.relive.simulator.core.stage
 import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.actor.getEffectiveCoef
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.BlindnessBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FreezeBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FrostbiteBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LockedNormalBarrierBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LockedSpecialBarrierBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.NormalBarrierBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.SpecialBarrierBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.InvincibilityBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.PerfectAimBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.NormalSuperReflectBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.SpecialSuperReflectBuff
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.modifier.*
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -42,7 +52,7 @@ open class RandomDamageCalculator : DamageCalculator {
                         "Possible critical rolls: ${possibleRolls(true)}."
             }
         }
-        if (target.buffs.tryRemove(CountableBuff.Evasion)) {
+        if (target.buffs.tryRemove(Buffs.EvasionBuff)) {
             if (!(PerfectAimBuff in self.buffs) && !hitAttribute.focus) {
                 log("Hit", category = LogCategory.DAMAGE) { "Miss against [${target.name}] from Evade." }
                 return@run
@@ -85,11 +95,11 @@ open class RandomDamageCalculator : DamageCalculator {
             var afterBarrier = unreflected
             if (!hitAttribute.focus) {
                 when (hitAttribute.damageType) {
-                    DamageType.Normal -> NormalBarrierBuff
-                    DamageType.Special -> SpecialBarrierBuff
+                    DamageType.Normal -> listOf(NormalBarrierBuff, LockedNormalBarrierBuff)
+                    DamageType.Special -> listOf(SpecialBarrierBuff, LockedSpecialBarrierBuff)
                     else -> null
                 }?.let { barrierEffectType ->
-                    val barriers = target.buffs.get(barrierEffectType)
+                    val barriers = barrierEffectType.flatMap { target.buffs.get(it) }
                     if (barriers.isNotEmpty()) {
                         for (barrier in barriers.toList()) {
                             if (barrier.value > afterBarrier) {
@@ -179,15 +189,15 @@ open class RandomDamageCalculator : DamageCalculator {
             100
         }
 
-        val critCoef = 100 + attacker.mod { +critical }
+        val critCoef = 100 + (attacker.mod { +critical } - target.mod { +criticalDamageReceivedDown}).coerceAtLeast(0)
         val dex = attacker.mod { +dexterity }
 
         val dmgDealtUpCoef = 100 + attacker.mod { +damageDealtUpModifier(target) }
         val dmgDealtDownCoef = 100 - attacker.mod { +damageDealtDown }
 
         // tentative
-        var dmgTakenCoef = 100 + target.mod { +damageReceivedModifier }
-        if (CountableBuff.WeakSpot in target.buffs) dmgTakenCoef += 60
+        var dmgTakenCoef = 100 + target.mod { +damageReceivedModifier(attacker) }
+        if (Buffs.WeakSpot in target.buffs) dmgTakenCoef += 60
 
         val attributeDamageDealtUpCoef = 100 + attacker.attributeDamageDealtUp[attribute]
         val againstAttributeDamageDealtUpCoef =
@@ -207,7 +217,7 @@ open class RandomDamageCalculator : DamageCalculator {
         }
 
         // TODO: Figure out if this is in the right place in the formula order
-        val cheerCoef = 100 + (attacker.buffs.getNext(CountableBuff.Cheer) ?: 0)
+        val cheerCoef = 100 + (attacker.buffs.getNext(Buffs.CheerBuff) ?: 0)
 
         val eventBonusCoef = 100 + attacker.eventBonus
         val eventMultiplier = attacker.eventMultiplier
@@ -278,7 +288,7 @@ class MeanDamageCalculator : RandomDamageCalculator() {
                         "Possible critical rolls: ${possibleRolls(true)}."
             }
         }
-        if (target.buffs.tryRemove(CountableBuff.Evasion)) {
+        if (target.buffs.tryRemove(Buffs.EvasionBuff)) {
             if (!(PerfectAimBuff in self.buffs) && !hitAttribute.focus) {
                 log("Hit", category = LogCategory.DAMAGE) { "Miss against [${target.name}] from Evade." }
                 return@run

@@ -45,7 +45,7 @@ val shinsengumiRinpudenKondoIsamiIchieBoss = ActorLoadout(
                         modifier = 115,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         PoisonBuff,
                         value = 6000,
                         turns = 3,
@@ -58,7 +58,7 @@ val shinsengumiRinpudenKondoIsamiIchieBoss = ActorLoadout(
                         modifier = 115,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         BurnBuff,
                         value = 3000,
                         turns = 3,
@@ -71,7 +71,7 @@ val shinsengumiRinpudenKondoIsamiIchieBoss = ActorLoadout(
                         modifier = 150,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         BlindnessBuff,
                         turns = 2,
                     )

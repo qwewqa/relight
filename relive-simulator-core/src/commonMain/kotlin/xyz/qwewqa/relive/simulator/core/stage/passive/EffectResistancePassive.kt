@@ -7,8 +7,8 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.condition.applyIfTrue
-import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeCountableEffectResistance
-import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistance
+import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeCountableEffectResistanceUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistanceUp
 
 val StopResistancePassive: PassiveEffect = BuffResistancePassive(EffectTag.StopResistance, StopBuff)
 val BlindnessResistancePassive: PassiveEffect = BuffResistancePassive(EffectTag.BlindnessResistance, BlindnessBuff)
@@ -23,7 +23,7 @@ object NegativeEffectResistancePassive : PassiveEffect {
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         condition.applyIfTrue(self) {
             mod {
-                negativeEffectResistance += value
+                negativeEffectResistanceUp += value
             }
         }
     }
@@ -36,7 +36,7 @@ object NegativeCountableResistancePassive : PassiveEffect {
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition)  = context.run {
         condition.applyIfTrue(self) {
             mod {
-                negativeCountableEffectResistance += value
+                negativeCountableEffectResistanceUp += value
             }
         }
     }

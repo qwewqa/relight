@@ -6,17 +6,32 @@ interface FeatureImplementation {
 
 class MissingImplementationException(val id: Int) : Exception("No implementation for $id")
 
-abstract class ImplementationRegistry <T : FeatureImplementation> {
+abstract class ImplementationRegistry<T : FeatureImplementation> : Map<Int, T> {
     private val implementations = mutableMapOf<Int, T>()
 
-    operator fun T.unaryPlus(): T {
-        id?.let { implementations[it] = this }
+    operator fun <U : T?> U.unaryPlus(): U {
+        this?.id?.let { implementations[it] = this }
         return this
     }
 
-    fun include(other: ImplementationRegistry<T>) {
+    fun include(other: ImplementationRegistry<out T>) {
         implementations.putAll(other.implementations)
     }
 
-    operator fun get(id: Int) = implementations[id] ?: throw MissingImplementationException(id)
+    override operator fun get(key: Int) = implementations[key]
+
+    override val entries: Set<Map.Entry<Int, T>>
+        get() = implementations.entries
+    override val keys: Set<Int>
+        get() = implementations.keys
+    override val size: Int
+        get() = implementations.size
+    override val values: Collection<T>
+        get() = implementations.values
+
+    override fun isEmpty() = implementations.isEmpty()
+
+    override fun containsValue(value: T) = implementations.containsValue(value)
+
+    override fun containsKey(key: Int) = implementations.containsKey(key)
 }

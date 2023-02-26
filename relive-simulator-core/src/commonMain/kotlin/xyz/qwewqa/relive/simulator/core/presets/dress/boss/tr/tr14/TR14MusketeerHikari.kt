@@ -37,7 +37,7 @@ val tr14MusketeerHikari = ActorLoadout(
                         modifier = 150,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ConfusionBuff,
                         turns = 2,
                     )
@@ -85,12 +85,12 @@ val tr14MusketeerHikari = ActorLoadout(
             },
             ActType.Act7("Ironclad Dance", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalBarrierBuff,
                         value = 10000,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialBarrierBuff,
                         value = 10000,
                         turns = 3,
@@ -99,7 +99,7 @@ val tr14MusketeerHikari = ActorLoadout(
             },
             ActType.Act8("Accuracy Concerto", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -121,17 +121,17 @@ val tr14MusketeerHikari = ActorLoadout(
             },
             ActType.Act10("Inspiring Gust", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseUpBuff,
                         value = 50,
                         turns = 3,
@@ -144,7 +144,7 @@ val tr14MusketeerHikari = ActorLoadout(
                         modifier = 200,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ConfusionBuff,
                         turns = 2,
                     )
@@ -229,7 +229,7 @@ val tr14MusketeerHikariDiff4 = ActorLoadout(
                         modifier = 150,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ConfusionBuff,
                         turns = 2,
                     )
@@ -277,12 +277,12 @@ val tr14MusketeerHikariDiff4 = ActorLoadout(
             },
             ActType.Act7("Ironclad Dance", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalBarrierBuff,
                         value = 10000,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialBarrierBuff,
                         value = 10000,
                         turns = 3,
@@ -291,7 +291,7 @@ val tr14MusketeerHikariDiff4 = ActorLoadout(
             },
             ActType.Act8("Accuracy Concerto", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -313,17 +313,17 @@ val tr14MusketeerHikariDiff4 = ActorLoadout(
             },
             ActType.Act10("Inspiring Gust", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseUpBuff,
                         value = 50,
                         turns = 3,
@@ -337,7 +337,7 @@ val tr14MusketeerHikariDiff4 = ActorLoadout(
                         hitCount = 4,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ConfusionBuff,
                         turns = 2,
                     )

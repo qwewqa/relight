@@ -2,7 +2,6 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr20
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.GrudgeRevueKaoruko
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.MoonAruru
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -65,7 +64,7 @@ val tr20MusketeerMahiru = ActorLoadout(
             },
             ActType.Act5("Accuracy Smash", 2) {
                 targetSelf().act{
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -87,12 +86,12 @@ val tr20MusketeerMahiru = ActorLoadout(
             },
             ActType.Act7("Softening Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseDownBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseDownBuff,
                         value = 50,
                         turns = 3,
@@ -105,7 +104,7 @@ val tr20MusketeerMahiru = ActorLoadout(
                         modifier = 200,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ApUpBuff,
                         turns = 2,
                     )
@@ -117,7 +116,7 @@ val tr20MusketeerMahiru = ActorLoadout(
                         modifier = 250,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ApUpBuff,
                         turns = 2,
                     )
@@ -227,7 +226,7 @@ val tr20MusketeerMahiruDiff4 = ActorLoadout(
             },
             ActType.Act5("Accuracy Smash", 2) {
                 targetSelf().act{
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -249,12 +248,12 @@ val tr20MusketeerMahiruDiff4 = ActorLoadout(
             },
             ActType.Act7("Softening Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseDownBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseDownBuff,
                         value = 50,
                         turns = 3,
@@ -267,7 +266,7 @@ val tr20MusketeerMahiruDiff4 = ActorLoadout(
                         modifier = 200,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ApUpBuff,
                         turns = 2,
                     )
@@ -280,7 +279,7 @@ val tr20MusketeerMahiruDiff4 = ActorLoadout(
                         hitCount = 3,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ApUpBuff,
                         turns = 2,
                     )

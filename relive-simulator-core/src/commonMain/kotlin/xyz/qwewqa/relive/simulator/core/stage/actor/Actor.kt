@@ -4,11 +4,30 @@ import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.stage.*
 import xyz.qwewqa.relive.simulator.core.stage.accessory.Accessory
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.AggroBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.AgonyBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.BrillianceRegenBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ConfusionBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ElectricShockBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ExitEvasionBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FreezeBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LockedAggroBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LovesicknessBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.NightmareBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.OverwhelmBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ProvokeBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ResilienceBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.SleepBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.StopBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.StunBuff
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoir
 import xyz.qwewqa.relive.simulator.core.stage.modifier.*
 import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
+import xyz.qwewqa.relive.simulator.stage.character.Character
+import xyz.qwewqa.relive.simulator.stage.character.Position
+import xyz.qwewqa.relive.simulator.stage.character.School
 
 class Actor(
     val name: String,
@@ -35,6 +54,8 @@ class Actor(
 
     val specificBuffResist = platformMapOf<BuffEffect, Int>()
     var conditionalDamageDealtUp = mutableListOf<Pair<Condition, Int>>()
+    val againstSchoolDamageDealtUp = platformMapOf<School, Int>()
+    val fromCharacterDamageReceivedUp = platformMapOf<Character, Int>()
 
     var aggroTarget: Actor? = null
 
@@ -64,6 +85,9 @@ class Actor(
 
     var eventBonus: Int = 0
     var eventMultiplier: Int = 100
+
+    // TODO: Have a better way of doing this. (Some bosses do have brilliance bars)
+    val hasBrillianceBar get() = dress.position != Position.None
 
     var inCX = false
         private set
@@ -95,6 +119,10 @@ class Actor(
                 context.log("Act", category = LogCategory.EMPHASIS) { "Actor has already exited." }
                 return
             }
+            if (OverwhelmBuff in buffs) {
+                context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by overwhelm." }
+                return
+            }
             if (StopBuff in buffs) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by stop." }
                 return
@@ -123,7 +151,7 @@ class Actor(
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by lovesickness." }
                 return
             }
-            if (CountableBuff.Daze in buffs) {
+            if (Buffs.DazeBuff in buffs) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by daze." }
                 Act {
                     targetAllyRandom().act {
@@ -159,7 +187,7 @@ class Actor(
                 // Relevant for bosses
                 brilliance = 0
             }
-            if (buffs.tryRemove(CountableBuff.Pride)) {
+            if (buffs.tryRemove(Buffs.ImpudenceBuff)) {
                 context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by pride." }
                 Act {
                     targetRandom().act {
@@ -174,7 +202,7 @@ class Actor(
             act.execute(context)
         } finally {
             if (context.actionLog.successfulHits > startLog.successfulHits) {
-                buffs.tryRemove(CountableBuff.Daze)
+                buffs.tryRemove(Buffs.DazeBuff)
             }
             context.actionLog.consumeCountableBuffs.forEach {
                 buffs.tryRemove(it)
@@ -208,7 +236,7 @@ class Actor(
                 context.log("Damage", category = LogCategory.DAMAGE) { "Resilience activate (newHp: 1)." }
                 return@run
             }
-            if (self.buffs.tryRemove(CountableBuff.InvincibleRebirth)) {
+            if (self.buffs.tryRemove(Buffs.InvincibleRebirth)) {
                 self.hp = self.maxHp
                 context.log(
                     "Damage",
@@ -216,12 +244,12 @@ class Actor(
                 ) { "Invincible Rebirth activate (newHp: ${self.maxHp})." }
                 return@run
             }
-            if (self.buffs.tryRemove(CountableBuff.Fortitude)) {
+            if (self.buffs.tryRemove(Buffs.Fortitude)) {
                 self.hp = 1
                 context.log("Damage", category = LogCategory.DAMAGE) { "Fortitude activate (newHp: 1)." }
                 return@run
             }
-            if (self.buffs.tryRemove(CountableBuff.Revive)) {
+            if (self.buffs.tryRemove(Buffs.ReviveBuff)) {
                 self.hp = self.maxHp / 2
                 context.log("Damage", category = LogCategory.DAMAGE) { "Revive activate (newHp: ${self.maxHp / 2})." }
                 return@run
@@ -242,15 +270,15 @@ class Actor(
         if (additionalEffects) {
             self.addBrilliance(amount * 70 / self.maxHp)
             self.buffs.removeAll(FreezeBuff)
-            self.buffs.tryRemove(CountableBuff.WeakSpot)
+            self.buffs.tryRemove(Buffs.WeakSpotBuff)
             if (SleepBuff in self.buffs && stage.random.nextDouble() > 0.2) {
                 self.buffs.removeAll(SleepBuff)
             }
             if (NightmareBuff in self.buffs && stage.random.nextDouble() > 0.2) {
                 self.buffs.removeAll(NightmareBuff)
             }
-            if (self.mod { +counterHeal } > 0) {
-                self.heal(self.mod { +counterHeal } * self.hp / 100)
+            if (self.mod { +counterHealFixed } > 0 || self.mod { +counterHealPercent } > 0) {
+                self.heal(self.mod { counterHealFixed + counterHealPercent * maxHp / 100})
             }
         }
 

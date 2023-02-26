@@ -43,7 +43,7 @@ val shinsengumiRinpudenNagakuraShinpachiFumiBoss = ActorLoadout(
                         modifier = 115,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         ActPowerDownBuff,
                         value = 30,
                         turns = 3,
@@ -56,12 +56,12 @@ val shinsengumiRinpudenNagakuraShinpachiFumiBoss = ActorLoadout(
                         modifier = 115,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         DexterityDownBuff,
                         value = 30,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         CriticalDownBuff,
                         value = 30,
                         turns = 3,
@@ -74,12 +74,12 @@ val shinsengumiRinpudenNagakuraShinpachiFumiBoss = ActorLoadout(
                         modifier = 150,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         AccuracyDownBuff,
                         value = 30,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         BrillianceGainDownBuff,
                         value = 80,
                         turns = 3,

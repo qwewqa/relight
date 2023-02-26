@@ -2,7 +2,6 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr15
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.flower.SakuyahimeMahiru
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.MoonAruru
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -93,7 +92,7 @@ val tr15CheerYachiyo = ActorLoadout(
                         modifier = 150,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = StunBuff,
                         turns = 2,
                     )
@@ -101,7 +100,7 @@ val tr15CheerYachiyo = ActorLoadout(
             },
             ActType.Act9("Weakening Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerDownBuff,
                         value = 50,
                         turns = 3,
@@ -114,7 +113,7 @@ val tr15CheerYachiyo = ActorLoadout(
                         modifier = 200,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = StunBuff,
                         turns = 2,
                     )
@@ -253,7 +252,7 @@ val tr15CheerYachiyoDiff4 = ActorLoadout(
                         hitCount = 3,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = StunBuff,
                         turns = 2,
                     )
@@ -261,7 +260,7 @@ val tr15CheerYachiyoDiff4 = ActorLoadout(
             },
             ActType.Act9("Weakening Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerDownBuff,
                         value = 50,
                         turns = 3,
@@ -275,7 +274,7 @@ val tr15CheerYachiyoDiff4 = ActorLoadout(
                         hitCount = 4,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = StunBuff,
                         turns = 2,
                     )

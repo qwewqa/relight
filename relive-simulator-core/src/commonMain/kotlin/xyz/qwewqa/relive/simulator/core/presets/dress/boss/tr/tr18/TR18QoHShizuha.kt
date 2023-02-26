@@ -83,12 +83,12 @@ val tr18QueenOfHeartsShizuha = ActorLoadout(
             },
             ActType.Act7("Ironclad Dance", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalBarrierBuff,
                         value = 10000,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialBarrierBuff,
                         value = 10000,
                         turns = 3,
@@ -97,12 +97,12 @@ val tr18QueenOfHeartsShizuha = ActorLoadout(
             },
             ActType.Act8("Softening Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseDownBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseDownBuff,
                         value = 50,
                         turns = 3,
@@ -115,7 +115,7 @@ val tr18QueenOfHeartsShizuha = ActorLoadout(
                         modifier = 150,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ConfusionBuff,
                         turns = 2,
                     )
@@ -127,7 +127,7 @@ val tr18QueenOfHeartsShizuha = ActorLoadout(
                         modifier = 200,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ConfusionBuff,
                         turns = 2,
                     )
@@ -238,12 +238,12 @@ val tr18QueenOfHeartsShizuhaDiff4 = ActorLoadout(
             },
             ActType.Act7("Ironclad Dance", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalBarrierBuff,
                         value = 10000,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialBarrierBuff,
                         value = 10000,
                         turns = 3,
@@ -252,12 +252,12 @@ val tr18QueenOfHeartsShizuhaDiff4 = ActorLoadout(
             },
             ActType.Act8("Softening Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseDownBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseDownBuff,
                         value = 50,
                         turns = 3,
@@ -271,7 +271,7 @@ val tr18QueenOfHeartsShizuhaDiff4 = ActorLoadout(
                         hitCount = 3,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ConfusionBuff,
                         turns = 2,
                     )
@@ -284,7 +284,7 @@ val tr18QueenOfHeartsShizuhaDiff4 = ActorLoadout(
                         hitCount = 3,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ConfusionBuff,
                         turns = 2,
                     )

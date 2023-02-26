@@ -5,236 +5,236 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.*
 
 val AngelicSmile = stageEffectData(22).makeStageEffect(
     listOf(
-        DamageReceivedDownBuff,
-        NormalDefenseUpBuff,
-        SpecialDefenseUpBuff,
+        Buffs.DamageReceivedDownBuff,
+        Buffs.NormalDefenseUpBuff,
+        Buffs.SpecialDefenseUpBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 val BloomingFlowers = stageEffectData(27).makeStageEffect(
     listOf(
-        DexterityUpBuff,
-        HpRegenBuff,
+        Buffs.DexterityUpBuff,
+        Buffs.HpRegenBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 val Bullseye = stageEffectData(36).makeStageEffect(
     listOf(
-        DexterityUpBuff,
-        CriticalUpBuff,
-        PerfectAimBuff,
+        Buffs.DexterityUpBuff,
+        Buffs.CriticalUpBuff,
+        Buffs.PerfectAimBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 val JunnaHoshimisStage = stageEffectData(29).makeStageEffect(
     listOf(
-        DexterityUpBuff,
-        CriticalUpBuff,
+        Buffs.DexterityUpBuff,
+        Buffs.CriticalUpBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 val LightOfCourage = stageEffectData(1).makeStageEffect(
     listOf(
-        ActPowerUpBuff,
-        DexterityUpBuff,
-        CriticalUpBuff,
+        Buffs.ActPowerUpBuff,
+        Buffs.DexterityUpBuff,
+        Buffs.CriticalUpBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 val TrialsForHeroesTemptationsForSaints = stageEffectData(30).makeStageEffect(
     listOf(
-        ClimaxDamageUpBuff,
-        DexterityUpBuff,
-        CriticalUpBuff,
-        AgilityUpBuff,
+        Buffs.ClimaxDamageUpBuff,
+        Buffs.DexterityUpBuff,
+        Buffs.CriticalUpBuff,
+        Buffs.AgilityUpBuff,
     ).targeting(stageEffectTargetAoe(condition = MayaOnlyCondition or ClaudineOnlyCondition))
 )
 
 val FlamesFallingTogether = stageEffectData(32).makeStageEffect(
     listOf(
-        DexterityUpBuff,
-        CriticalUpBuff,
-        BrillianceRegenBuff,
+        Buffs.DexterityUpBuff,
+        Buffs.CriticalUpBuff,
+        Buffs.BrillianceRegenBuff,
     ).targeting(stageEffectTargetAoe(condition = MayaOnlyCondition or ClaudineOnlyCondition))
 )
 
 val WildHope = stageEffectData(20).makeStageEffect(
     listOf(
-        ActPowerUpBuff,
-        NormalDefenseUpBuff,
-        SpecialDefenseUpBuff,
-        CriticalUpBuff,
+        Buffs.ActPowerUpBuff,
+        Buffs.NormalDefenseUpBuff,
+        Buffs.SpecialDefenseUpBuff,
+        Buffs.CriticalUpBuff,
     ).targeting(stageEffectTargetAoe(condition = FrontierOnlyCondition))
 )
 
 val Majestic = stageEffectData(53).makeStageEffect(
     listOf(
-        ActPowerUpBuff,
-        NormalDefenseUpBuff,
-        SpecialDefenseUpBuff,
-        CriticalUpBuff,
+        Buffs.ActPowerUpBuff,
+        Buffs.NormalDefenseUpBuff,
+        Buffs.SpecialDefenseUpBuff,
+        Buffs.CriticalUpBuff,
     ).targeting(stageEffectTargetAoe(condition = RinmeikanOnlyCondition))
 )
 
 val ThisIsSeparation = stageEffectData(33).makeStageEffect(
     listOf(
-        ApDownBuff,
-        DexterityUpBuff,
-        CriticalUpBuff,
-        NegativeEffectResistanceUpBuff,
+        Buffs.ApDownBuff,
+        Buffs.DexterityUpBuff,
+        Buffs.CriticalUpBuff,
+        Buffs.ContinuousNegativeEffectResistanceUpBuff,
     ).targeting(stageEffectTargetAoe(condition = KaorukoOnlyCondition))
 )
 
 val YoureAllHopeless = stageEffectData(34).makeStageEffect(
     listOf(
-        ApDownBuff,
-        DexterityUpBuff,
-        CriticalUpBuff,
-        CounterHealBuff,
+        Buffs.ApDownBuff,
+        Buffs.DexterityUpBuff,
+        Buffs.CriticalUpBuff,
+        Buffs.CounterHealBuff,
     ).targeting(stageEffectTargetAoe(condition = KaorukoOnlyCondition.or(FutabaOnlyCondition)))
 )
 
 val GlitteringStage = stageEffectData(35).makeStageEffect(
     listOf(
-        ActPowerUpBuff,
-        DexterityUpBuff,
-        CriticalUpBuff,
-        AgilityUpBuff,
-        EffectiveDamageDealtUpBuff,
+        Buffs.ActPowerUpBuff,
+        Buffs.DexterityUpBuff,
+        Buffs.CriticalUpBuff,
+        Buffs.AgilityUpBuff,
+        Buffs.EffectiveDamageDealtUpBuff,
     ).targeting(stageEffectTargetAoe(condition = SeishoOnlyCondition))
 )
 
 val SweetMoment = stageEffectData(31).makeStageEffect(
     listOf(
-        NegativeEffectResistanceUpBuff,
-        EffectiveDamageDealtUpBuff,
+        Buffs.ContinuousNegativeEffectResistanceUpBuff,
+        Buffs.EffectiveDamageDealtUpBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 
 val WeAreRivals = stageEffectData(43).makeStageEffect(
     listOf(
-        ApDownBuff,
-        DexterityUpBuff,
-        CriticalUpBuff,
-        DamageReceivedDownBuff,
+        Buffs.ApDownBuff,
+        Buffs.DexterityUpBuff,
+        Buffs.CriticalUpBuff,
+        Buffs.DamageReceivedDownBuff,
     ).targeting(stageEffectTargetAoe(condition = SeishoOnlyCondition))
 )
 
 val RoyalAuthority = stageEffectData(44).makeStageEffect(
     listOf(
-        ApDownBuff,
-        ActPowerUpBuff,
-        DamageReceivedDownBuff,
+        Buffs.ApDownBuff,
+        Buffs.ActPowerUpBuff,
+        Buffs.DamageReceivedDownBuff,
     ).targeting(stageEffectTargetAoe(condition = SiegfeldOnlyCondition))
 )
 
 val ThisIsTheStage = stageEffectData(48).makeStageEffect(
     listOf(
-        ApDownBuff,
-        DexterityUpBuff,
-        CriticalUpBuff,
-        EffectiveDamageDealtUpBuff,
+        Buffs.ApDownBuff,
+        Buffs.DexterityUpBuff,
+        Buffs.CriticalUpBuff,
+        Buffs.EffectiveDamageDealtUpBuff,
     ).targeting(stageEffectTargetAoe(condition = SeishoOnlyCondition)) + listOf(
-        DexterityUpBuff,
+        Buffs.DexterityUpBuff,
     ).targeting(stageEffectTargetAoe(condition = KarenOnlyCondition or HikariOnlyCondition)),
 )
 
 val GoldenVitality = stageEffectData(58).makeStageEffect(
     listOf(
-        NegativeEffectResistanceUpBuff,
-        NegativeCountableEffectResistanceUpBuff,
-        DamageReceivedDownBuff,
+        Buffs.ContinuousNegativeEffectResistanceUpBuff,
+        Buffs.NegativeCountableEffectResistanceUpBuff,
+        Buffs.DamageReceivedDownBuff,
     ).targeting(stageEffectTargetAoe())
 )
 
 val SagesCovenant = stageEffectData(59).makeStageEffect(
     listOf(
-        ApDownBuff,
-        PerfectAimBuff,
-        DexterityUpBuff,
-        CriticalUpBuff,
+        Buffs.ApDownBuff,
+        Buffs.PerfectAimBuff,
+        Buffs.DexterityUpBuff,
+        Buffs.CriticalUpBuff,
     ).targeting(stageEffectTargetAoe()) + listOf(
-        HpRegenBuff,
+        Buffs.HpRegenBuff,
     ).targeting(stageEffectTargetAoe(condition = JunnaOnlyCondition or NanaOnlyCondition)),
 )
 
 val BeautifulNobleAndFun = stageEffectData(61).makeStageEffect(
     listOf(
-        ApDown2Buff,
-        NegativeEffectResistanceUpBuff,
-        ActPowerUpBuff,
+        Buffs.ApDown2Buff,
+        Buffs.ContinuousNegativeEffectResistanceUpBuff,
+        Buffs.ActPowerUpBuff,
     ).targeting(stageEffectTargetAoe(condition = SeiranOnlyCondition)),
 )
 
 val LightningShade = stageEffectData(10).makeStageEffect(
     listOf(
-        AgilityUpBuff,
-        ActPowerUpBuff,
-        DexterityUpBuff,
+        Buffs.AgilityUpBuff,
+        Buffs.ActPowerUpBuff,
+        Buffs.DexterityUpBuff,
     ).targeting(stageEffectTargetAoe()),
 )
 
 val DivinePower = stageEffectData(52).makeStageEffect(
     listOf(
-        ApDown2Buff,
-        NegativeCountableEffectResistanceUpBuff,
-        ActPowerUpBuff,
+        Buffs.ApDown2Buff,
+        Buffs.NegativeCountableEffectResistanceUpBuff,
+        Buffs.ActPowerUpBuff,
     ).targeting(stageEffectTargetAoe()) + listOf(
-        NegativeEffectResistanceUpBuff,
+        Buffs.ContinuousNegativeEffectResistanceUpBuff,
     ).targeting(stageEffectTargetAoe(condition = RoVOnlyCondition)),
 )
 
 val HappyFootsteps = stageEffectData(62).makeStageEffect(
     listOf(
-        ApDownBuff,
-        NegativeEffectResistanceUpBuff,
-        ActPowerUpBuff,
-        BrillianceRegenBuff,
+        Buffs.ApDownBuff,
+        Buffs.ContinuousNegativeEffectResistanceUpBuff,
+        Buffs.ActPowerUpBuff,
+        Buffs.BrillianceRegenBuff,
     ).targeting(stageEffectTargetAoe()),
 )
 
 val LeapOath = stageEffectData(63).makeStageEffect(
     listOf(
-        ApDownBuff,
-        NegativeCountableEffectResistanceUpBuff,
-        ActPowerUpBuff,
-        BrillianceRegenBuff,
+        Buffs.ApDownBuff,
+        Buffs.NegativeCountableEffectResistanceUpBuff,
+        Buffs.ActPowerUpBuff,
+        Buffs.BrillianceRegenBuff,
     ).targeting(stageEffectTargetAoe()),
 )
 
 val ElegantInvitation = stageEffectData(71).makeStageEffect(
     listOf(
-        NegativeCountableEffectResistanceUpBuff,
-        ActPowerUpBuff,
-        NormalDefenseUpBuff,
-        SpecialDefenseUpBuff,
-        CriticalUpBuff,
+        Buffs.NegativeCountableEffectResistanceUpBuff,
+        Buffs.ActPowerUpBuff,
+        Buffs.NormalDefenseUpBuff,
+        Buffs.SpecialDefenseUpBuff,
+        Buffs.CriticalUpBuff,
     ).targeting(stageEffectTargetAoe()),
 )
 
 val FloatingWithTheTide = stageEffectData(72).makeStageEffect(
     listOf(
-        ApDownBuff,
-        NegativeEffectResistanceUpBuff,
-        ActPowerUpBuff,
+        Buffs.ApDownBuff,
+        Buffs.ContinuousNegativeEffectResistanceUpBuff,
+        Buffs.ActPowerUpBuff,
     ).targeting(stageEffectTargetAoe()),
 )
 
 val SparklingTide = stageEffectData(73).makeStageEffect(
     listOf(
-        EvasionUpBuff,
-        DexterityUpBuff,
-        CriticalUpBuff,
-        BrillianceRegenBuff,
+        Buffs.EvasionUpBuff,
+        Buffs.DexterityUpBuff,
+        Buffs.CriticalUpBuff,
+        Buffs.BrillianceRegenBuff,
     ).targeting(stageEffectTargetAoe()),
 )
 
 val MellowFlavor = stageEffectData(55).makeStageEffect(
     listOf(
-        DexterityUpBuff,
-        CriticalUpBuff,
-        AgilityUpBuff,
-        CounterHealBuff,
+        Buffs.DexterityUpBuff,
+        Buffs.CriticalUpBuff,
+        Buffs.AgilityUpBuff,
+        Buffs.CounterHealBuff,
     ).targeting(stageEffectTargetAoe()),
 )

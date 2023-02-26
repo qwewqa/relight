@@ -72,7 +72,7 @@ val tr11CheerTsukasa = ActorLoadout(
             },
             ActType.Act6("Perfect Aim Flurry", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         PerfectAimBuff,
                         turns = 1,
                     )
@@ -90,7 +90,7 @@ val tr11CheerTsukasa = ActorLoadout(
                         modifier = 150,
                         hitCount = 2,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = BurnBuff,
                         value = 7000,
                         turns = 3,
@@ -99,12 +99,12 @@ val tr11CheerTsukasa = ActorLoadout(
             },
             ActType.Act8("Ironclad Dance", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalBarrierBuff,
                         value = 10000,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialBarrierBuff,
                         value = 10000,
                         turns = 3,
@@ -125,7 +125,7 @@ val tr11CheerTsukasa = ActorLoadout(
                         modifier = 200,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = BurnBuff,
                         value = 7000,
                         turns = 3,

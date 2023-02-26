@@ -25,20 +25,20 @@ object AbnormalResistPassiveA : PassiveEffect {
 
     override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
         listOf(
-            StopBuff,
-            SleepBuff,
-            ConfusionBuff,
-            FreezeBuff,
-            StunBuff,
-            LockedStunBuff,
-            BurnBuff,
-            LockedBurnBuff,
-            PoisonBuff,
-            LockedPoisonBuff,
-            ApUpBuff,
-            LockedApUpBuff,
-            BlindnessBuff,
-            LockedBlindnessBuff,
+            Buffs.StopBuff,
+            Buffs.SleepBuff,
+            Buffs.ConfusionBuff,
+            Buffs.FreezeBuff,
+            Buffs.StunBuff,
+            Buffs.LockedStunBuff,
+            Buffs.BurnBuff,
+            Buffs.LockedBurnBuff,
+            Buffs.PoisonBuff,
+            Buffs.LockedPoisonBuff,
+            Buffs.ApUpBuff,
+            Buffs.LockedApUpBuff,
+            Buffs.BlindnessBuff,
+            Buffs.LockedBlindnessBuff,
         ).forEach { buff ->
             self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0) + value
         }

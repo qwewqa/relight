@@ -78,7 +78,7 @@ val tr16HangedManRui = ActorLoadout(
                         modifier = 120,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = BrillianceGainDownBuff,
                         value = 80,
                         turns = 2,
@@ -87,17 +87,17 @@ val tr16HangedManRui = ActorLoadout(
             },
             ActType.Act7("Inspiring Gust", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = DexterityUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = CriticalUpBuff,
                         value = 50,
                         turns = 3,
@@ -110,7 +110,7 @@ val tr16HangedManRui = ActorLoadout(
                         modifier = 150,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SleepBuff,
                         chance = 75,
                         turns = 2,
@@ -123,7 +123,7 @@ val tr16HangedManRui = ActorLoadout(
                         modifier = 200,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SleepBuff,
                         chance = 75,
                         turns = 2,
@@ -249,7 +249,7 @@ val tr16BuggedHangedManRui = ActorLoadout(
                         modifier = 120,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = BrillianceGainDownBuff,
                         value = 80,
                         turns = 2,
@@ -258,17 +258,17 @@ val tr16BuggedHangedManRui = ActorLoadout(
             },
             ActType.Act7("Inspiring Gust", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = DexterityUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = CriticalUpBuff,
                         value = 50,
                         turns = 3,
@@ -281,7 +281,7 @@ val tr16BuggedHangedManRui = ActorLoadout(
                         modifier = 150,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SleepBuff,
                         chance = 75,
                         turns = 2,
@@ -294,7 +294,7 @@ val tr16BuggedHangedManRui = ActorLoadout(
                         modifier = 200,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SleepBuff,
                         chance = 75,
                         turns = 2,
@@ -420,7 +420,7 @@ val tr16HangedManRuiDiff4 = ActorLoadout(
                         modifier = 120,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = BrillianceGainDownBuff,
                         value = 80,
                         turns = 2,
@@ -429,17 +429,17 @@ val tr16HangedManRuiDiff4 = ActorLoadout(
             },
             ActType.Act7("Inspiring Gust", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = DexterityUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = CriticalUpBuff,
                         value = 50,
                         turns = 3,
@@ -452,7 +452,7 @@ val tr16HangedManRuiDiff4 = ActorLoadout(
                         modifier = 150,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SleepBuff,
                         chance = 75,
                         turns = 2,
@@ -466,7 +466,7 @@ val tr16HangedManRuiDiff4 = ActorLoadout(
                         hitCount = 4,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SleepBuff,
                         chance = 75,
                         turns = 2,

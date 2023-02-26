@@ -68,7 +68,7 @@ val tr18AliceAruru = ActorLoadout(
             },
             ActType.Act5("Perfect Aim Sharpshooting", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -82,17 +82,17 @@ val tr18AliceAruru = ActorLoadout(
             },
             ActType.Act6("Insipiring Gust", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseUpBuff,
                         value = 50,
                         turns = 3,
@@ -105,12 +105,12 @@ val tr18AliceAruru = ActorLoadout(
                         modifier = 150,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = BurnBuff,
                         value = 7000,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = BlindnessBuff,
                         turns = 2,
                     )
@@ -122,12 +122,12 @@ val tr18AliceAruru = ActorLoadout(
                         modifier = 200,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = BurnBuff,
                         value = 7000,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = BlindnessBuff,
                         turns = 2,
                     )
@@ -223,7 +223,7 @@ val tr18AliceAruruDiff4 = ActorLoadout(
             },
             ActType.Act5("Perfect Aim Sharpshooting", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -237,17 +237,17 @@ val tr18AliceAruruDiff4 = ActorLoadout(
             },
             ActType.Act6("Insipiring Gust", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseUpBuff,
                         value = 50,
                         turns = 3,
@@ -261,12 +261,12 @@ val tr18AliceAruruDiff4 = ActorLoadout(
                         hitCount = 4,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = BurnBuff,
                         value = 99999,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = BlindnessBuff,
                         turns = 2,
                     )
@@ -279,12 +279,12 @@ val tr18AliceAruruDiff4 = ActorLoadout(
                         hitCount = 4,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = BurnBuff,
                         value = 99999,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = BlindnessBuff,
                         turns = 2,
                     )

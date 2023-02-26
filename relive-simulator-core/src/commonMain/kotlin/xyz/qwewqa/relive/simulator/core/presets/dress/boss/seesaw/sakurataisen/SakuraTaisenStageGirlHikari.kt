@@ -43,7 +43,7 @@ val sakuraTaisenStageGirlHikariBoss = ActorLoadout(
                         modifier = 115,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         ActPowerDownBuff,
                         value = 30,
                         turns = 3,
@@ -56,12 +56,12 @@ val sakuraTaisenStageGirlHikariBoss = ActorLoadout(
                         modifier = 115,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         NormalDefenseDownBuff,
                         value = 30,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         SpecialDefenseDownBuff,
                         value = 30,
                         turns = 3,
@@ -74,17 +74,17 @@ val sakuraTaisenStageGirlHikariBoss = ActorLoadout(
                         modifier = 150,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         ActPowerDownBuff,
                         value = 30,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         DexterityDownBuff,
                         value = 30,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         CriticalDownBuff,
                         value = 30,
                         turns = 3,

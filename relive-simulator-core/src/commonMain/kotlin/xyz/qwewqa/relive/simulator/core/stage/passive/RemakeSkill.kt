@@ -5,7 +5,6 @@ package xyz.qwewqa.relive.simulator.core.stage.passive
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.TargetContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.core.stage.actor.CountableBuff
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffect
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
@@ -156,7 +155,7 @@ val passiveEffects = buildMap {
         valueSuffix = "%",
         timeSuffix = null,
     ) { value, time ->
-        targets.forEach { it.mod { negativeEffectResistance += value } }
+        targets.forEach { it.mod { negativeEffectResistanceUp += value } }
     }
     this[40] = Effect(
         "Climax Damage Up",
@@ -257,7 +256,7 @@ val startEffects = buildMap {
         valueSuffix = "%",
         timeSuffix = "t",
     ) { value, time ->
-        applyBuff(DamageDealtUpBuff, value, time)
+        applyTimedBuff(DamageDealtUpBuff, value, time)
     }
     this[126] = Effect(
         "Damage Taken Down Buff",
@@ -265,7 +264,7 @@ val startEffects = buildMap {
         valueSuffix = "%",
         timeSuffix = "t",
     ) { value, time ->
-        applyBuff(DamageReceivedDownBuff, value, time)
+        applyTimedBuff(DamageReceivedDownBuff, value, time)
     }
     Attribute.values().drop(1).forEachIndexed { index, attribute ->
         this[index + 66] = Effect(
@@ -274,7 +273,7 @@ val startEffects = buildMap {
             valueSuffix = "%",
             timeSuffix = "t",
         ) { value, time ->
-            applyBuff(againstAttributeDamageReceivedDownBuff(attribute), value, time)
+            applyTimedBuff(againstAttributeDamageReceivedDownBuff(attribute), value, time)
         }
     }
     this[34] = Effect(
@@ -283,7 +282,7 @@ val startEffects = buildMap {
         valueSuffix = null,
         timeSuffix = "x",
     ) { value, time ->
-        applyCountableBuff(CountableBuff.Evasion, time)
+        applyCountableBuff(Buffs.EvasionBuff, time)
     }
     this[36] = Effect(
         "Fortitude",
@@ -291,7 +290,7 @@ val startEffects = buildMap {
         valueSuffix = null,
         timeSuffix = "x",
     ) { value, time ->
-        applyCountableBuff(CountableBuff.Fortitude, time)
+        applyCountableBuff(Buffs.Fortitude, time)
     }
     this[30] = Effect(
         "Normal Barrier Buff",
@@ -299,7 +298,7 @@ val startEffects = buildMap {
         valueSuffix = "",
         timeSuffix = "t",
     ) { value, time ->
-        applyBuff(NormalBarrierBuff, value, time)
+        applyTimedBuff(NormalBarrierBuff, value, time)
     }
     this[31] = Effect(
         "Special Barrier Buff",
@@ -307,7 +306,7 @@ val startEffects = buildMap {
         valueSuffix = "",
         timeSuffix = "t",
     ) { value, time ->
-        applyBuff(SpecialBarrierBuff, value, time)
+        applyTimedBuff(SpecialBarrierBuff, value, time)
     }
     this[56] = Effect(
         "Provoke Buff",
@@ -315,7 +314,7 @@ val startEffects = buildMap {
         valueSuffix = null,
         timeSuffix = "t",
     ) { value, time ->
-        applyBuff(ProvokeBuff, value, time)
+        applyTimedBuff(ProvokeBuff, value, time)
     }
     this[152] = Effect(
         "Aggro Buff",
@@ -323,7 +322,7 @@ val startEffects = buildMap {
         valueSuffix = null,
         timeSuffix = "t",
     ) { value, time ->
-        applyBuff(AggroBuff, value, time)
+        applyTimedBuff(AggroBuff, value, time)
     }
 }
 

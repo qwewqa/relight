@@ -70,7 +70,7 @@ val tr10FaithMisora = ActorLoadout(
                     )
                 }
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = EvasionUpBuff,
                         value = 50,
                         turns = 2,
@@ -79,17 +79,17 @@ val tr10FaithMisora = ActorLoadout(
             },
             ActType.Act6("Inspiring Gust", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = DexterityUpBuff,
                         value = 30,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = CriticalUpBuff,
                         value = 30,
                         turns = 3,
@@ -98,7 +98,7 @@ val tr10FaithMisora = ActorLoadout(
             },
             ActType.Act7("Weakening Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerDownBuff,
                         value = 50,
                         turns = 3,
@@ -111,7 +111,7 @@ val tr10FaithMisora = ActorLoadout(
                         modifier = 150,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = FreezeBuff,
                         turns = 1,
                         chance = 100,
@@ -124,7 +124,7 @@ val tr10FaithMisora = ActorLoadout(
                         modifier = 200,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = FreezeBuff,
                         turns = 1,
                         chance = 100,

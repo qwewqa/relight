@@ -80,17 +80,17 @@ val tr23MafiaNana = ActorLoadout(
             },
             ActType.Act7("Inspiring Gust", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseUpBuff,
                         value = 50,
                         turns = 3,
@@ -111,7 +111,7 @@ val tr23MafiaNana = ActorLoadout(
                         modifier = 150,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = StunBuff,
                         turns = 2,
                     )
@@ -123,7 +123,7 @@ val tr23MafiaNana = ActorLoadout(
                         modifier = 200,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = StunBuff,
                         turns = 2,
                     )
@@ -249,17 +249,17 @@ val tr23MafiaNanaDiff4 = ActorLoadout(
             },
             ActType.Act7("Inspiring Gust", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseUpBuff,
                         value = 50,
                         turns = 3,
@@ -281,7 +281,7 @@ val tr23MafiaNanaDiff4 = ActorLoadout(
                         hitCount = 3,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = StunBuff,
                         turns = 2,
                     )
@@ -294,7 +294,7 @@ val tr23MafiaNanaDiff4 = ActorLoadout(
                         hitCount = 3,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = StunBuff,
                         turns = 2,
                     )

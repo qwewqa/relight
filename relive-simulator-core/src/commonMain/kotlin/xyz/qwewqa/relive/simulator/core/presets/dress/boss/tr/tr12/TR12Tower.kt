@@ -38,7 +38,7 @@ val tr12TowerHikari = ActorLoadout(
                     )
                 }
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalReflectBuff,
                         value = 30,
                         turns = 2,
@@ -95,17 +95,17 @@ val tr12TowerHikari = ActorLoadout(
             },
             ActType.Act8("Inspiring Gust", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = DexterityUpBuff,
                         value = 30,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = CriticalUpBuff,
                         value = 30,
                         turns = 3,
@@ -114,12 +114,12 @@ val tr12TowerHikari = ActorLoadout(
             },
             ActType.Act9("Restraint Firedance", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = BurnBuff,
                         value = 7000,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = StunBuff,
                         turns = 2,
                     )
@@ -127,7 +127,7 @@ val tr12TowerHikari = ActorLoadout(
             },
             ActType.Act10("Weakening Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerDownBuff,
                         value = 50,
                         turns = 3,
@@ -142,7 +142,7 @@ val tr12TowerHikari = ActorLoadout(
                     )
                 }
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalReflectBuff,
                         value = 30,
                         turns = 2,

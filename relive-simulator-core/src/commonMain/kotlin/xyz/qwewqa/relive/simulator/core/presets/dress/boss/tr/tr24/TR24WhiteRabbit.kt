@@ -75,7 +75,7 @@ val tr24WhiteRabbitMisora = ActorLoadout(
             },
             ActType.Act6("Weakening Concerto", 2) {
                 targetAoe().run {
-                    applyBuff(
+                    applyTimedBuff(
                         ActPowerDownBuff,
                         value = 50,
                         turns = 3,
@@ -92,7 +92,7 @@ val tr24WhiteRabbitMisora = ActorLoadout(
             },
             ActType.Act8("Perfect Aim Thrust", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -106,7 +106,7 @@ val tr24WhiteRabbitMisora = ActorLoadout(
             },
             ActType.ClimaxAct("I'm Late! NEO", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -215,7 +215,7 @@ val tr24WhiteRabbitMisoraDiff4 = ActorLoadout(
             },
             ActType.Act6("Weakening Concerto", 2) {
                 targetAoe().run {
-                    applyBuff(
+                    applyTimedBuff(
                         ActPowerDownBuff,
                         value = 50,
                         turns = 3,
@@ -232,7 +232,7 @@ val tr24WhiteRabbitMisoraDiff4 = ActorLoadout(
             },
             ActType.Act8("Perfect Aim Thrust", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -247,7 +247,7 @@ val tr24WhiteRabbitMisoraDiff4 = ActorLoadout(
             },
             ActType.ClimaxAct("I'm Late! NEO", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )

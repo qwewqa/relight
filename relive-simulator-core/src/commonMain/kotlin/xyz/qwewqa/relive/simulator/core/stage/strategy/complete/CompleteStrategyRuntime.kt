@@ -7,7 +7,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.BuffManager
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
 import xyz.qwewqa.relive.simulator.core.stage.buff.MarkBuff
 import xyz.qwewqa.relive.simulator.core.stage.modifier.dexterity
-import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistance
+import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistanceUp
 import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
 
 
@@ -124,7 +124,7 @@ class CsActor(val actor: Actor) : CsObject {
             // Buff stats
             "dex", "dexterity" -> actor.mod { +dexterity }
             "hasApDown" -> (actor.mod { apChange } < 0)
-            "hasNer" -> (actor.mod { +negativeEffectResistance } >= 100)
+            "hasNer" -> (actor.mod { +negativeEffectResistanceUp } >= 100)
             "marked" -> MarkBuff in actor.buffs
             "buffs" -> CsFunction { args ->
                 if (args.isEmpty()) {

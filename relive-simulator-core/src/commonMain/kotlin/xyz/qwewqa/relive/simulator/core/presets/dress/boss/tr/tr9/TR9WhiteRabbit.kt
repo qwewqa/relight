@@ -71,7 +71,7 @@ val tr9WhiteRabbitMisora = ActorLoadout(
             },
             ActType.Act6("Weakening Concerto", 2) {
                 targetAoe().run {
-                    applyBuff(
+                    applyTimedBuff(
                         ActPowerDownBuff,
                         value = 50,
                         turns = 3,

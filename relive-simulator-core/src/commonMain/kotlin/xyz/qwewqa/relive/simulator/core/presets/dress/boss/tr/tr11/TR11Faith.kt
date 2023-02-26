@@ -32,17 +32,17 @@ val tr11FaithMisora = ActorLoadout(
         acts = actsOf(
             ActType.Act1("Weakening Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerDownBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseDownBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseDownBuff,
                         value = 50,
                         turns = 3,
@@ -99,7 +99,7 @@ val tr11FaithMisora = ActorLoadout(
             },
             ActType.Act8("Perfect Aim Concerto", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PerfectAimBuff,
                         turns = 1,
                     )
@@ -117,12 +117,12 @@ val tr11FaithMisora = ActorLoadout(
                         modifier = 150,
                         hitCount = 2,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = BurnBuff,
                         value = 7000,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = BlindnessBuff,
                         turns = 3,
                     )
@@ -130,17 +130,17 @@ val tr11FaithMisora = ActorLoadout(
             },
             ActType.Act10("Inspiring Gust", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = DexterityUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = CriticalUpBuff,
                         value = 50,
                         turns = 3,
@@ -153,12 +153,12 @@ val tr11FaithMisora = ActorLoadout(
                         modifier = 200,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = BurnBuff,
                         value = 7000,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = BlindnessBuff,
                         turns = 3,
                     )

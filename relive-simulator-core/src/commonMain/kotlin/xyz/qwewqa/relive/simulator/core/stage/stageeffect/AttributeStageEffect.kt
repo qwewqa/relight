@@ -32,29 +32,29 @@ val StandingOvationSpace = standingOvationAttributeStageEffect(Attribute.Space)
 private fun weAreOnTheStageAttributeStageEffect(attribute: Attribute) =
     stageEffectData(1 + attribute.ordinal).makeStageEffect(
         listOf(
-            ActPowerUpBuff,
-            NormalDefenseUpBuff,
-            SpecialDefenseUpBuff,
-            againstAttributeDamageDealtUpBuff(attribute.advantagedAgainst ?: error("Invalid attribute.")),
+            Buffs.ActPowerUpBuff,
+            Buffs.NormalDefenseUpBuff,
+            Buffs.SpecialDefenseUpBuff,
+            Buffs.againstAttributeDamageDealtUpBuff(attribute.advantagedAgainst ?: error("Invalid attribute.")),
         ).targeting(stageEffectTargetAoe(condition = attribute.condition())),
     )
 
 //TODO: Check if this SE works correctly
 private fun concentrationAttributeStageEffect(attribute: Attribute, id: Int) = stageEffectData(id).makeStageEffect(
     listOf(
-        ActPowerDownBuff,
-        NormalDefenseDownBuff,
-        SpecialDefenseDownBuff,
-        againstAttributeDamageReceivedUpBuff(attribute),
+        Buffs.ActPowerDownBuff,
+        Buffs.NormalDefenseDownBuff,
+        Buffs.SpecialDefenseDownBuff,
+        Buffs.againstAttributeDamageReceivedUpBuff(attribute),
     ).targeting(stageEffectTargetAoe(condition = attribute.condition())),
 )
 
 private fun applauseAttributeStageEffect(attribute: Attribute) =
     stageEffectData(36 + attribute.ordinal).makeStageEffect(
         listOf(
-            DamageDealtUpBuff,
-            NormalDefenseUpBuff,
-            SpecialDefenseUpBuff,
+            Buffs.DamageDealtUpBuff,
+            Buffs.NormalDefenseUpBuff,
+            Buffs.SpecialDefenseUpBuff,
         ).targeting(stageEffectTargetAoe(condition = attribute.condition())),
     )
 
@@ -63,8 +63,8 @@ private fun standingOvationAttributeStageEffect(attribute: Attribute) =
     (stageEffectDataOrNull(64 + attribute.ordinal) ?: stageEffectData(65)).copy(iconId = 64 + attribute.ordinal)
         .makeStageEffect(
             listOf(
-                DamageDealtUpBuff,
-                NormalDefenseUpBuff,
-                SpecialDefenseUpBuff,
+                Buffs.DamageDealtUpBuff,
+                Buffs.NormalDefenseUpBuff,
+                Buffs.SpecialDefenseUpBuff,
             ).targeting(stageEffectTargetAoe(condition = attribute.condition())),
         )

@@ -2,7 +2,6 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr15
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.flower.SakuyahimeMahiru
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.MoonAruru
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -77,7 +76,7 @@ val tr15CheerAkira = ActorLoadout(
                         modifier = 150,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PoisonBuff,
                         value = 10000,
                         turns = 3,
@@ -86,17 +85,17 @@ val tr15CheerAkira = ActorLoadout(
             },
             ActType.Act7("Inspiring Concerto", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseUpBuff,
                         value = 50,
                         turns = 3,
@@ -109,7 +108,7 @@ val tr15CheerAkira = ActorLoadout(
                         modifier = 200,
                         hitCount = 4,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PoisonBuff,
                         value = 10000,
                         turns = 3,
@@ -233,7 +232,7 @@ val tr15CheerAkiraDiff4 = ActorLoadout(
                         hitCount = 3,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PoisonBuff,
                         value = 99999,
                         turns = 3,
@@ -242,17 +241,17 @@ val tr15CheerAkiraDiff4 = ActorLoadout(
             },
             ActType.Act7("Inspiring Concerto", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseUpBuff,
                         value = 50,
                         turns = 3,
@@ -266,7 +265,7 @@ val tr15CheerAkiraDiff4 = ActorLoadout(
                         hitCount = 4,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = PoisonBuff,
                         value = 99999,
                         turns = 3,

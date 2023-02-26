@@ -3,10 +3,16 @@ package xyz.qwewqa.relive.simulator.core.stage.actor
 import xyz.qwewqa.relive.simulator.common.DisplayBuffData
 import xyz.qwewqa.relive.simulator.core.stage.*
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceRegen
-import xyz.qwewqa.relive.simulator.core.stage.modifier.hpFixedRegen
-import xyz.qwewqa.relive.simulator.core.stage.modifier.hpPercentRegen
-import xyz.qwewqa.relive.simulator.core.stage.modifier.reviveRegen
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.burnDamage
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.nightmareDamage
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.poisonDamage
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.TurnDispelContinuousNegativeEffectsBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.TurnDispelCountableNegativeEffectsBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.TurnDispelCountablePositiveEffectsBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ActionRestrictionResistanceUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.abnormalBuffs
+import xyz.qwewqa.relive.simulator.core.stage.modifier.*
 import xyz.qwewqa.relive.simulator.stage.character.Position
 import kotlin.math.min
 
@@ -25,8 +31,8 @@ class BuffManager(val actor: Actor) {
     private val _effectNameMapping = platformMapOf<String, TimedBuffEffect<*>>()
     val effectNameMapping: Map<String, TimedBuffEffect<*>> get() = _effectNameMapping
 
-    private val positiveCountableBuffs = platformMapOf<CountableBuff, MutableList<CountableBuffStack>>()
-    private val negativeCountableBuffs = platformMapOf<CountableBuff, MutableList<CountableBuffStack>>()
+    private val positiveCountableBuffs = platformMapOf<CountableBuffEffect, MutableList<CountableBuffStack>>()
+    private val negativeCountableBuffs = platformMapOf<CountableBuffEffect, MutableList<CountableBuffStack>>()
     private val positiveCountableBuffStacks = mutableListOf<CountableBuffStack>()
     private val negativeCountableBuffStacks = mutableListOf<CountableBuffStack>()
 
@@ -37,13 +43,13 @@ class BuffManager(val actor: Actor) {
     fun timed(): Set<TimedBuff<*>> = positiveBuffs + negativeBuffs
     fun timedPositive(): Set<TimedBuff<*>> = positiveBuffs
     fun timedNegative(): Set<TimedBuff<*>> = negativeBuffs
-    fun countablePositive(): Map<CountableBuff, List<CountableBuffStack>> = positiveCountableBuffs
-    fun countableNegative(): Map<CountableBuff, List<CountableBuffStack>> = negativeCountableBuffs
+    fun countablePositive(): Map<CountableBuffEffect, List<CountableBuffStack>> = positiveCountableBuffs
+    fun countableNegative(): Map<CountableBuffEffect, List<CountableBuffStack>> = negativeCountableBuffs
 
     operator fun contains(buffEffect: TimedBuffEffect<*>) = count(buffEffect) > 0
-    operator fun contains(buff: CountableBuff) = count(buff) > 0
+    operator fun contains(buff: CountableBuffEffect) = count(buff) > 0
     fun count(buffEffect: TimedBuffEffect<*>) = (buffsByEffect[buffEffect]?.size ?: 0) + (pseudoBuffs[buffEffect] ?: 0)
-    fun count(buff: CountableBuff) = when (buff.category) {
+    fun count(buff: CountableBuffEffect) = when (buff.category) {
         BuffCategory.Positive -> positiveCountableBuffs[buff]
         BuffCategory.Negative -> negativeCountableBuffs[buff]
     }?.size ?: 0
@@ -66,6 +72,7 @@ class BuffManager(val actor: Actor) {
 
     fun activatePsuedoBuff(buffEffect: TimedBuffEffect<Unit>, value: Int = 0) {
         actor.context.log("Buff", debug = true) { "Pseudo buff ${buffEffect.name} ($value) added." }
+        buffEffect.related?.let { activatePsuedoBuff(it, value) }
         pseudoBuffs[buffEffect] = (pseudoBuffs[buffEffect] ?: 0) + 1
         buffEffect.onStart(actor.context, value, null)
     }
@@ -75,12 +82,14 @@ class BuffManager(val actor: Actor) {
             return
         }
         actor.context.log("Buff", debug = true) { "Pseudo buff ${buffEffect.name} ($oldValue -> $newValue) updated." }
+        buffEffect.related?.let { updatePseudoBuff(it, oldValue, newValue) }
         buffEffect.onEnd(actor.context, oldValue, null, Unit)
         buffEffect.onStart(actor.context, newValue, null)
     }
 
     fun removePseudoBuff(buffEffect: TimedBuffEffect<Unit>, value: Int) {
         actor.context.log("Buff", debug = true) { "Pseudo buff ${buffEffect.name} ($value) removed." }
+        buffEffect.related?.let { removePseudoBuff(it, value) }
         pseudoBuffs[buffEffect] = (pseudoBuffs[buffEffect] ?: 0) - 1
         buffEffect.onEnd(actor.context, value, null, Unit)
     }
@@ -107,7 +116,7 @@ class BuffManager(val actor: Actor) {
         return buff
     }
 
-    fun addCountable(buff: CountableBuff, count: Int = 1, value: Int = 0) {
+    fun addCountable(buff: CountableBuffEffect, count: Int = 1, value: Int = 0) {
         val categoryStacks = when (buff.category) {
             BuffCategory.Positive -> positiveCountableBuffStacks
             BuffCategory.Negative -> negativeCountableBuffStacks
@@ -127,7 +136,7 @@ class BuffManager(val actor: Actor) {
         }
     }
 
-    fun remove(buff: CountableBuff): Int {
+    fun remove(buff: CountableBuffEffect): Int {
         val categoryStacks = when (buff.category) {
             BuffCategory.Positive -> positiveCountableBuffStacks
             BuffCategory.Negative -> negativeCountableBuffStacks
@@ -145,7 +154,7 @@ class BuffManager(val actor: Actor) {
         return value
     }
 
-    fun getNext(buff: CountableBuff): Int? {
+    fun getNext(buff: CountableBuffEffect): Int? {
         val stacks = when (buff.category) {
             BuffCategory.Positive -> positiveCountableBuffs
             BuffCategory.Negative -> negativeCountableBuffs
@@ -153,7 +162,7 @@ class BuffManager(val actor: Actor) {
         return stacks?.lastOrNull()?.value
     }
 
-    inline fun consumeOnce(buff: CountableBuff, action: (Int) -> Unit = {}): Boolean {
+    inline fun consumeOnce(buff: CountableBuffEffect, action: (Int) -> Unit = {}): Boolean {
         if (count(buff) == 0) {
             return false
         }
@@ -161,7 +170,7 @@ class BuffManager(val actor: Actor) {
         return true
     }
 
-    inline fun consumeAll(buff: CountableBuff, action: (Int) -> Unit = {}): Boolean {
+    inline fun consumeAll(buff: CountableBuffEffect, action: (Int) -> Unit = {}): Boolean {
         val count = count(buff)
         if (count == 0) {
             return false
@@ -172,7 +181,7 @@ class BuffManager(val actor: Actor) {
         return true
     }
 
-    inline fun consumeUpTo(buff: CountableBuff, max: Int, action: (Int) -> Unit = {}): Boolean {
+    inline fun consumeUpTo(buff: CountableBuffEffect, max: Int, action: (Int) -> Unit = {}): Boolean {
         val count = count(buff)
         if (count == 0) {
             return false
@@ -183,7 +192,7 @@ class BuffManager(val actor: Actor) {
         return true
     }
 
-    fun tryRemove(buff: CountableBuff) = if (count(buff) > 0) {
+    fun tryRemove(buff: CountableBuffEffect) = if (count(buff) > 0) {
         remove(buff)
         true
     } else {
@@ -215,10 +224,12 @@ class BuffManager(val actor: Actor) {
         when (category) {
             BuffCategory.Positive -> positiveCountableBuffs
             BuffCategory.Negative -> negativeCountableBuffs
-        }.clear()
+        }.let { buffs ->
+            buffs.keys.forEach { if (!it.isLocked) buffs[it]!!.clear() }
+        }
     }
 
-    fun dispelCountable(category: BuffCategory, count: Int) {
+    fun dispelCountable(category: BuffCategory, count: Int): Int {
         val categoryStacks = when (category) {
             BuffCategory.Positive -> positiveCountableBuffStacks
             BuffCategory.Negative -> negativeCountableBuffStacks
@@ -235,9 +246,10 @@ class BuffManager(val actor: Actor) {
         repeat(targets.size) {
             categoryStacks.removeLast()
         }
+        return targets.size
     }
 
-    fun dispelCountable(effect: CountableBuff, count: Int) {
+    fun dispelCountable(effect: CountableBuffEffect, count: Int): Int {
         val categoryStacks = when (effect.category) {
             BuffCategory.Positive -> positiveCountableBuffStacks
             BuffCategory.Negative -> negativeCountableBuffStacks
@@ -245,11 +257,30 @@ class BuffManager(val actor: Actor) {
         val effectStacks = when (effect.category) {
             BuffCategory.Positive -> positiveCountableBuffs
             BuffCategory.Negative -> negativeCountableBuffs
-        }[effect] ?: return  // No stacks of this effect if null
-        repeat(min(count, effectStacks.size)) {
+        }[effect] ?: return 0 // No stacks of this effect if null
+        val actualCount = min(count, effectStacks.size)
+        repeat(actualCount) {
             val stack = effectStacks.removeLast()
             categoryStacks.remove(stack)
         }
+        return actualCount
+    }
+
+    fun dispelCountable(effect: CountableBuffEffect): Int {
+        val categoryStacks = when (effect.category) {
+            BuffCategory.Positive -> positiveCountableBuffStacks
+            BuffCategory.Negative -> negativeCountableBuffStacks
+        }
+        val effectStacks = when (effect.category) {
+            BuffCategory.Positive -> positiveCountableBuffs
+            BuffCategory.Negative -> negativeCountableBuffs
+        }[effect] ?: return 0 // No stacks of this effect if null
+        val actualCount = effectStacks.size
+        repeat(actualCount) {
+            val stack = effectStacks.removeLast()
+            categoryStacks.remove(stack)
+        }
+        return actualCount
     }
 
     fun flip(category: BuffCategory, count: Int) {
@@ -296,12 +327,31 @@ class BuffManager(val actor: Actor) {
             addBrilliance(brillianceRegenValue)
         }
 
+        val brillianceSapValue = mod { +brillianceSap }
+        if (brillianceSapValue > 0) {
+            context.log("Brilliance Sap") { "Brilliance Sap tick." }
+            addBrilliance(-brillianceSapValue)
+        }
+
         val reviveRegenValue = mod { +reviveRegen }
         if (reviveRegenValue > 0) {
             context.log("Revive Regen") { "Revive Regen tick." }
-            addCountable(CountableBuff.Revive, count = reviveRegenValue)
+            addCountable(Buffs.ReviveBuff, count = reviveRegenValue)
         }
 
+        if (TurnDispelContinuousNegativeEffectsBuff in buffs) {
+            dispel(BuffCategory.Negative)
+        }
+
+        if (TurnDispelCountableNegativeEffectsBuff in buffs) {
+            dispelCountable(BuffCategory.Negative)
+        }
+
+        val turnReduceCountableNegativeEffects = mod { +turnReduceCountableNegativeEffects }
+        if (turnReduceCountableNegativeEffects > 0) {
+            dispelCountable(BuffCategory.Negative, count = turnReduceCountableNegativeEffects)
+        }
+        
         positiveBuffs.tick()
 
         val burn = mod { +burnDamage }
@@ -322,9 +372,18 @@ class BuffManager(val actor: Actor) {
             damage(nightmare, additionalEffects = false)
         }
 
+        if (TurnDispelCountablePositiveEffectsBuff in buffs) {
+            dispelCountable(BuffCategory.Positive)
+        }
+        
+        val turnReduceCountablePositiveEffects = mod { +turnReduceCountablePositiveEffects }
+        if (turnReduceCountablePositiveEffects > 0) {
+            dispelCountable(BuffCategory.Positive, count = turnReduceCountablePositiveEffects)
+        }
+
         negativeBuffs.tick()
 
-        if (actor.brilliance >= 100 || actor.dress.position == Position.None) {  // Bosses activate each turn
+        if (actor.brilliance >= 100 || !actor.hasBrillianceBar) {  // Bosses activate each turn
             actor.activateBlessings()
         }
     }
@@ -409,47 +468,23 @@ class BuffManager(val actor: Actor) {
     }
 }
 
-enum class CountableBuff(
-    override val category: BuffCategory,
-    override val iconId: Int,
-) : CountableBuffEffect {
-    Evasion(BuffCategory.Positive, 27),
-    Fortitude(BuffCategory.Positive, 29),
-    Revive(BuffCategory.Positive, 164),
-    InvincibleRebirth(BuffCategory.Positive, 265),
-    Daze(BuffCategory.Negative, 167),
-    Pride(BuffCategory.Negative, 168),
-    Hope(BuffCategory.Positive, 169),
-    WeakSpot(BuffCategory.Negative, 170),
-    DisasterBrillianceReduction(BuffCategory.Negative, 254),
-    BlessingHpRecovery(BuffCategory.Positive, 255),
-    BlessingCountableDebuffReduction(BuffCategory.Positive, 256),
-    DisasterDaze(BuffCategory.Negative, 257),
-    BlessingContinuousDebuffRemoval(BuffCategory.Positive, 258),
-    BlessingHope(BuffCategory.Positive, 260),
-    BlessingEffectiveDamage(BuffCategory.Positive, 264),
-    DisasterApUp(BuffCategory.Negative, 267),
-    BlessingAp2Down(BuffCategory.Positive, 268),
-    Cheer(BuffCategory.Positive, 282),
-}
-
 val consumeOnAttackCountableBuffs = listOf(
-    CountableBuff.Hope,
-    CountableBuff.Cheer,
+    Buffs.HopeBuff,
+    Buffs.CheerBuff,
 )
 
 class CountableBuffStack(
-    val effect: CountableBuff,
+    val effect: CountableBuffEffect,
     val value: Int,
 )
 
-val countableBuffsByName = (CountableBuff.values().associateBy { it.name.lowercase() } + mapOf(
-    "impudence" to CountableBuff.Pride,
-    "evade" to CountableBuff.Evasion,
-    "fort" to CountableBuff.Fortitude,
+val countableBuffsByName = (Buffs.values.associateBy { it.name.lowercase() } + mapOf(
+    "impudence" to Buffs.ImpudenceBuff,
+    "evade" to Buffs.EvasionBuff,
+    "fort" to Buffs.Fortitude,
 )).toPlatformMap()
 
 val abnormalCountableBuffs = platformSetOf(
-    CountableBuff.Daze,
-    CountableBuff.Pride,
+    Buffs.DazeBuff,
+    Buffs.ImpudenceBuff,
 )

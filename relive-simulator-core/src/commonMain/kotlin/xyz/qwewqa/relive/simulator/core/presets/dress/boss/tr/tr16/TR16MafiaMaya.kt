@@ -1,6 +1,5 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr16
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.flower.SakuyahimeMahiru
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.space.HuntingRevueNana
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
@@ -82,12 +81,12 @@ val tr16MafiaMaya = ActorLoadout(
             },
             ActType.Act7("Helpless Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = DexterityDownBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = CriticalDownBuff,
                         value = 50,
                         turns = 3,
@@ -96,12 +95,12 @@ val tr16MafiaMaya = ActorLoadout(
             },
             ActType.Act8("Perfect Aim Flurry", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         PerfectAimBuff,
                         turns = 1,
                     )
@@ -115,12 +114,12 @@ val tr16MafiaMaya = ActorLoadout(
             },
             ActType.ClimaxAct("Maid's Etiquette NEO", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         PerfectAimBuff,
                         turns = 1,
                     )
@@ -253,12 +252,12 @@ val tr16MafiaMayaDiff4 = ActorLoadout(
             },
             ActType.Act7("Helpless Concerto", 2) {
                 targetAoe().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = DexterityDownBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = CriticalDownBuff,
                         value = 50,
                         turns = 3,
@@ -267,12 +266,12 @@ val tr16MafiaMayaDiff4 = ActorLoadout(
             },
             ActType.Act8("Perfect Aim Flurry", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         PerfectAimBuff,
                         turns = 1,
                     )
@@ -286,12 +285,12 @@ val tr16MafiaMayaDiff4 = ActorLoadout(
             },
             ActType.Act9("Perfect Aim Flurry", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         PerfectAimBuff,
                         turns = 1,
                     )
@@ -306,12 +305,12 @@ val tr16MafiaMayaDiff4 = ActorLoadout(
             },
             ActType.ClimaxAct("Maid's Etiquette NEO", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         PerfectAimBuff,
                         turns = 1,
                     )

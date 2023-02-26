@@ -86,17 +86,17 @@ val tr17DraculaClaudine = ActorLoadout(
             },
             ActType.Act7("Inspiring Dance", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseUpBuff,
                         value = 50,
                         turns = 3,
@@ -109,7 +109,7 @@ val tr17DraculaClaudine = ActorLoadout(
                         modifier = 150,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ConfusionBuff,
                         turns = 2,
                     )
@@ -121,7 +121,7 @@ val tr17DraculaClaudine = ActorLoadout(
                         modifier = 200,
                         hitCount = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ConfusionBuff,
                         turns = 2,
                     )
@@ -232,17 +232,17 @@ val tr17DraculaClaudineDiff4 = ActorLoadout(
             },
             ActType.Act7("Inspiring Dance", 2) {
                 targetSelf().act {
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ActPowerUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = NormalDefenseUpBuff,
                         value = 50,
                         turns = 3,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = SpecialDefenseUpBuff,
                         value = 50,
                         turns = 3,
@@ -256,7 +256,7 @@ val tr17DraculaClaudineDiff4 = ActorLoadout(
                         hitCount = 3,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ConfusionBuff,
                         turns = 2,
                     )
@@ -269,7 +269,7 @@ val tr17DraculaClaudineDiff4 = ActorLoadout(
                         hitCount = 3,
                         mode = HitMode.FIXED,
                     )
-                    applyBuff(
+                    applyTimedBuff(
                         effect = ConfusionBuff,
                         turns = 2,
                     )
