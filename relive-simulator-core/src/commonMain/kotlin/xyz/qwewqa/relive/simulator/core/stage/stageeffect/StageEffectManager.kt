@@ -3,6 +3,7 @@ package xyz.qwewqa.relive.simulator.core.stage.stageeffect
 import xyz.qwewqa.relive.simulator.common.DisplayStageEffectData
 import xyz.qwewqa.relive.simulator.core.stage.BasicTargetSelectionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.platformMapOf
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
@@ -11,6 +12,7 @@ class StageEffectManager(val team: Team) {
     private var activeStacks = mutableListOf<StageEffectStack>()
     private val activeEffects = platformMapOf<StageEffect, ActiveStageEffect>()
 
+    // TODO: stop using this and just check whether targets changed each refresh
     private var targetsValid = true
 
     fun values() = levels.mapNotNull { (k, v) -> (k to v).takeIf { v > 9 } }
@@ -19,6 +21,24 @@ class StageEffectManager(val team: Team) {
         if (turns <= 0) return
         activeStacks += StageEffectStack(effect, turns, level)
         levels[effect] = (levels[effect] ?: 0) + level
+    }
+
+    fun adjustLevels(category: BuffCategory, count: Int, delta: Int) {
+        activeStacks
+            .asReversed()
+            .asSequence()
+            .filter { it.effect.category == category }
+            .take(count)
+            .forEach { it.adjustLevel(delta) }
+        activeStacks.removeAll { it.level == 0 }
+    }
+
+    private fun StageEffectStack.adjustLevel(delta: Int) {
+        val originalLevel = level
+        level = (level + delta).coerceAtLeast(0)
+        if (originalLevel != level) {
+            levels[effect] = (levels[effect] ?: 0) + (level - originalLevel)
+        }
     }
 
     fun tick() {
@@ -109,7 +129,7 @@ class StageEffectManager(val team: Team) {
     fun ActiveStageEffect.deactivate() = effect.deactivate(values)
 }
 
-class StageEffectStack(val effect: StageEffect, var turns: Int, val level: Int)
+class StageEffectStack(val effect: StageEffect, var turns: Int, var level: Int)
 typealias StageEffectActiveBuffValues = List<List<Pair<Actor, Int>>>
 
 data class ActiveStageEffect(val effect: StageEffect, val values: StageEffectActiveBuffValues, val level: Int)

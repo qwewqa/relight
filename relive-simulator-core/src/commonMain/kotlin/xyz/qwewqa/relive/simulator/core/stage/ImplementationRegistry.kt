@@ -18,7 +18,11 @@ abstract class ImplementationRegistry<T : FeatureImplementation> : Map<Int, T> {
         implementations.putAll(other.implementations)
     }
 
-    override operator fun get(key: Int) = implementations[key]
+    override operator fun get(key: Int): T? {
+        return implementations[key].also { if (it == null) missingImplementation(key) }
+    }
+
+    open fun missingImplementation(id: Int) {}
 
     override val entries: Set<Map.Entry<Int, T>>
         get() = implementations.entries
