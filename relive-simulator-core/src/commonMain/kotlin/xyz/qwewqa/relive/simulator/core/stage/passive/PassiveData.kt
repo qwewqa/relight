@@ -12,13 +12,16 @@ data class PassiveData(
     val time: Int = 0,
     val condition: NamedCondition? = null,
 ) {
-    val name get() = effect.formatName(value, condition ?: Condition { true })
-    fun activate(context: ActionContext) = effect.activate(context, value, time, condition ?: Condition { true })
+  val name
+    get() = effect.formatName(value, condition ?: Condition { true })
+  fun activate(context: ActionContext) =
+      effect.activate(context, value, time, condition ?: Condition { true })
 
-    operator fun plus(condition: NamedCondition) = PassiveData(
-        effect,
-        value,
-        time,
-        this.condition + condition,
-    )
+  operator fun plus(condition: NamedCondition) =
+      PassiveData(
+          effect,
+          value,
+          time,
+          this.condition + condition,
+      )
 }

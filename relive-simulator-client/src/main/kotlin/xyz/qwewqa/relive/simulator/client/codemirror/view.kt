@@ -13,9 +13,8 @@ external val crosshairCursor: dynamic
 external val lineNumbers: dynamic
 external val highlightActiveLineGutter: dynamic
 
-
 external class EditorView(args: dynamic) {
-    val state: dynamic
+  val state: dynamic
 
-    fun dispatch(args: dynamic)
+  fun dispatch(args: dynamic)
 }

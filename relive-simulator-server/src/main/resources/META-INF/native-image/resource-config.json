@@ -1,10 +1,19 @@
 {
-  "resources":{
-    "includes":[
-      {"pattern":"\\QMETA-INF/services/kotlin.reflect.jvm.internal.impl.resolve.ExternalOverridabilityCondition\\E"},
-      {"pattern":"client.*"},
-      {"pattern":".*\\.yaml"},
-      {"pattern":"\\Qorg/slf4j/impl/StaticLoggerBinder.class\\E"}
-    ]},
-  "bundles":[]
+  "resources": {
+    "includes": [
+      {
+        "pattern": "\\QMETA-INF/services/kotlin.reflect.jvm.internal.impl.resolve.ExternalOverridabilityCondition\\E"
+      },
+      {
+        "pattern": "client.*"
+      },
+      {
+        "pattern": ".*\\.yaml"
+      },
+      {
+        "pattern": "\\Qorg/slf4j/impl/StaticLoggerBinder.class\\E"
+      }
+    ]
+  },
+  "bundles": []
 }

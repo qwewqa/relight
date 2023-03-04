@@ -11,50 +11,48 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeCountableEffectRe
 import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistanceUp
 
 val StopResistancePassive: PassiveEffect = BuffResistancePassive(EffectTag.StopResistance, StopBuff)
-val BlindnessResistancePassive: PassiveEffect = BuffResistancePassive(EffectTag.BlindnessResistance, BlindnessBuff)
-val ConfusionResistancePassive: PassiveEffect = BuffResistancePassive(EffectTag.ConfusionResistance, ConfusionBuff)
+val BlindnessResistancePassive: PassiveEffect =
+    BuffResistancePassive(EffectTag.BlindnessResistance, BlindnessBuff)
+val ConfusionResistancePassive: PassiveEffect =
+    BuffResistancePassive(EffectTag.ConfusionResistance, ConfusionBuff)
 val StunResistancePassive: PassiveEffect = BuffResistancePassive(EffectTag.StunResistance, StunBuff)
-val FreezeResistancePassive: PassiveEffect = BuffResistancePassive(EffectTag.FreezeResistance, FreezeBuff)
+val FreezeResistancePassive: PassiveEffect =
+    BuffResistancePassive(EffectTag.FreezeResistance, FreezeBuff)
 
 object NegativeEffectResistancePassive : PassiveEffect {
-    override val category = PassiveEffectCategory.Passive
-    override val tags = listOf(EffectTag.NegativeEffectResistance)
+  override val category = PassiveEffectCategory.Passive
+  override val tags = listOf(EffectTag.NegativeEffectResistance)
 
-    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
-        condition.applyIfTrue(self) {
-            mod {
-                negativeEffectResistanceUp += value
-            }
-        }
-    }
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run { condition.applyIfTrue(self) { mod { negativeEffectResistanceUp += value } } }
 }
 
 object NegativeCountableResistancePassive : PassiveEffect {
-    override val category = PassiveEffectCategory.Passive
-    override val tags = listOf(EffectTag.NegativeCountableResistance)
+  override val category = PassiveEffectCategory.Passive
+  override val tags = listOf(EffectTag.NegativeCountableResistance)
 
-    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition)  = context.run {
-        condition.applyIfTrue(self) {
-            mod {
-                negativeCountableEffectResistanceUp += value
-            }
-        }
-    }
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run {
+        condition.applyIfTrue(self) { mod { negativeCountableEffectResistanceUp += value } }
+      }
 }
 
-private data class BuffResistancePassive(val tag: EffectTag, var effects: List<TimedBuffEffect<*>>) : PassiveEffect {
-    constructor(tag: EffectTag, vararg effects: TimedBuffEffect<*>) : this(tag, effects.toList())
+private data class BuffResistancePassive(
+    val tag: EffectTag,
+    var effects: List<TimedBuffEffect<*>>
+) : PassiveEffect {
+  constructor(tag: EffectTag, vararg effects: TimedBuffEffect<*>) : this(tag, effects.toList())
 
-    override val name = "[${effects.joinToString(", ") { it.name }}] Resistance Passive"
-    override val category = PassiveEffectCategory.Passive
-    override val tags = listOf(tag)
+  override val name = "[${effects.joinToString(", ") { it.name }}] Resistance Passive"
+  override val category = PassiveEffectCategory.Passive
+  override val tags = listOf(tag)
 
-
-    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run {
         condition.applyIfTrue(self) {
-            effects.forEach { effect ->
-                specificBuffResist[effect] = (specificBuffResist[effect] ?: 0) + value
-            }
+          effects.forEach { effect ->
+            specificBuffResist[effect] = (specificBuffResist[effect] ?: 0) + value
+          }
         }
-    }
+      }
 }

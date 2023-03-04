@@ -13,22 +13,20 @@ data class StatData(
     val accuracy: Int = 0,
     val evasion: Int = 0,
 ) {
-    fun growthPart() = StatData(
-        hp = hp,
-        actPower = actPower,
-        normalDefense = normalDefense,
-        specialDefense = specialDefense,
-        agility = agility,
-    )
+  fun growthPart() =
+      StatData(
+          hp = hp,
+          actPower = actPower,
+          normalDefense = normalDefense,
+          specialDefense = specialDefense,
+          agility = agility,
+      )
 
-    fun fixedPart() = StatData(
-        dexterity = dexterity,
-        critical = critical,
-        accuracy = accuracy,
-        evasion = evasion
-    )
+  fun fixedPart() =
+      StatData(dexterity = dexterity, critical = critical, accuracy = accuracy, evasion = evasion)
 
-    fun display() = """{
+  fun display() =
+      """{
         |  hp: $hp,
         |  actPower: $actPower,
         |  normalDefense: $normalDefense,
@@ -38,69 +36,76 @@ data class StatData(
         |  critical: $critical,
         |  accuracy: $accuracy,
         |  evasion: $evasion,
-        |}""".trimMargin()
+        |}"""
+          .trimMargin()
 
-    fun displayGrowth() = """{
+  fun displayGrowth() =
+      """{
         |  hp: $hp,
         |  actPower: $actPower,
         |  normalDefense: $normalDefense,
         |  specialDefense: $specialDefense,
         |  agility: $agility,
-        |}""".trimMargin()
+        |}"""
+          .trimMargin()
 
-    fun addToActor(actor: Actor) {
-        actor.mod {
-            baseMaxHp += this@StatData.hp
-            baseActPower += this@StatData.actPower
-            baseNormalDefense += this@StatData.normalDefense
-            baseSpecialDefense += this@StatData.specialDefense
-            baseAgility += this@StatData.agility
-            baseDexterity += this@StatData.dexterity
-            baseCritical += this@StatData.critical
-            baseAccuracy += this@StatData.accuracy
-            baseEvasion += this@StatData.evasion
-        }
+  fun addToActor(actor: Actor) {
+    actor.mod {
+      baseMaxHp += this@StatData.hp
+      baseActPower += this@StatData.actPower
+      baseNormalDefense += this@StatData.normalDefense
+      baseSpecialDefense += this@StatData.specialDefense
+      baseAgility += this@StatData.agility
+      baseDexterity += this@StatData.dexterity
+      baseCritical += this@StatData.critical
+      baseAccuracy += this@StatData.accuracy
+      baseEvasion += this@StatData.evasion
     }
+  }
 
-    operator fun plus(other: StatData) = StatData(
-        hp + other.hp,
-        actPower + other.actPower,
-        normalDefense + other.normalDefense,
-        specialDefense + other.specialDefense,
-        agility + other.agility,
-        dexterity + other.dexterity,
-        critical + other.critical,
-        accuracy + other.accuracy,
-        evasion + other.evasion,
-    )
+  operator fun plus(other: StatData) =
+      StatData(
+          hp + other.hp,
+          actPower + other.actPower,
+          normalDefense + other.normalDefense,
+          specialDefense + other.specialDefense,
+          agility + other.agility,
+          dexterity + other.dexterity,
+          critical + other.critical,
+          accuracy + other.accuracy,
+          evasion + other.evasion,
+      )
 
-    operator fun times(value: Int) = StatData(
-        hp * value,
-        actPower * value,
-        normalDefense * value,
-        specialDefense * value,
-        agility * value,
-        dexterity * value,
-        critical * value,
-        accuracy * value,
-        evasion * value,
-    )
+  operator fun times(value: Int) =
+      StatData(
+          hp * value,
+          actPower * value,
+          normalDefense * value,
+          specialDefense * value,
+          agility * value,
+          dexterity * value,
+          critical * value,
+          accuracy * value,
+          evasion * value,
+      )
 
-    operator fun div(value: Int) = StatData(
-        hp / value,
-        actPower / value,
-        normalDefense / value,
-        specialDefense / value,
-        agility / value,
-        dexterity / value,
-        critical / value,
-        accuracy / value,
-        evasion / value,
-    )
+  operator fun div(value: Int) =
+      StatData(
+          hp / value,
+          actPower / value,
+          normalDefense / value,
+          specialDefense / value,
+          agility / value,
+          dexterity / value,
+          critical / value,
+          accuracy / value,
+          evasion / value,
+      )
 }
 
 val defaultDressStats
-    get() = StatData(
-        dexterity = 5,
-        critical = 50,
-    )
+  get() =
+      StatData(
+          dexterity = 5,
+          critical = 50,
+      )

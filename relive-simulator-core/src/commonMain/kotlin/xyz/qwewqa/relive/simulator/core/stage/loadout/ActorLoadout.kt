@@ -12,5 +12,5 @@ data class ActorLoadout(
     val accessory: Accessory? = null,
     val isSupport: Boolean = false,
 ) {
-    fun create() = Actor(name, dress, memoir, accessory, isSupport)
+  fun create() = Actor(name, dress, memoir, accessory, isSupport)
 }

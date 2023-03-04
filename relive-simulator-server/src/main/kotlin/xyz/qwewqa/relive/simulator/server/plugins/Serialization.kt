@@ -6,15 +6,14 @@ import io.ktor.server.plugins.contentnegotiation.*
 import kotlinx.serialization.json.Json
 
 fun Application.configureSerialization() {
-    install(ContentNegotiation) {
-        json(
-            Json {
-                encodeDefaults = true
-                isLenient = true
-                allowSpecialFloatingPointValues = true
-                allowStructuredMapKeys = true
-                prettyPrint = false
-            }
-        )
-    }
+  install(ContentNegotiation) {
+    json(
+        Json {
+          encodeDefaults = true
+          isLenient = true
+          allowSpecialFloatingPointValues = true
+          allowStructuredMapKeys = true
+          prettyPrint = false
+        })
+  }
 }

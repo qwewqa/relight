@@ -15,72 +15,76 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
-val shinsengumiRinpudenKondoIsamiIchieBoss = ActorLoadout(
-    "Shinsengumi Rinpuden Kondo Isami Ichie",
-    Dress(
-        name = "Kondo Isami Ichie",
-        character = Character.Ichie,
-        attribute = Attribute.Flower,
-        damageType = DamageType.Normal,
-        position = Position.None,
-        stats = defaultDressStats.copy(
-            hp = 358_951_010,
-            actPower = 1500,
-            normalDefense = 1500,
-            specialDefense = 1500,
-            agility = 1,
+val shinsengumiRinpudenKondoIsamiIchieBoss =
+    ActorLoadout(
+        "Shinsengumi Rinpuden Kondo Isami Ichie",
+        Dress(
+            name = "Kondo Isami Ichie",
+            character = Character.Ichie,
+            attribute = Attribute.Flower,
+            damageType = DamageType.Normal,
+            position = Position.None,
+            stats =
+                defaultDressStats.copy(
+                    hp = 358_951_010,
+                    actPower = 1500,
+                    normalDefense = 1500,
+                    specialDefense = 1500,
+                    agility = 1,
+                ),
+            acts =
+                actsOf(
+                    ActType.Act1("Strong Flash", 2) {
+                      targetFront().act {
+                        attack(
+                            modifier = 200,
+                            hitCount = 2,
+                        )
+                      }
+                    },
+                    ActType.Act2("Noxious Flower", 2) {
+                      targetFront(3).act {
+                        attack(
+                            modifier = 115,
+                            hitCount = 3,
+                        )
+                        applyTimedBuff(
+                            PoisonBuff,
+                            value = 6000,
+                            turns = 3,
+                        )
+                      }
+                    },
+                    ActType.Act3("Firedance", 2) {
+                      targetFront(3).act {
+                        attack(
+                            modifier = 115,
+                            hitCount = 3,
+                        )
+                        applyTimedBuff(
+                            BurnBuff,
+                            value = 3000,
+                            turns = 3,
+                        )
+                      }
+                    },
+                    ActType.ClimaxAct("Kotetsu's Roar NEO", 2) {
+                      targetAoe().act {
+                        attack(
+                            modifier = 150,
+                            hitCount = 3,
+                        )
+                        applyTimedBuff(
+                            BlindnessBuff,
+                            turns = 2,
+                        )
+                      }
+                    },
+                ),
+            autoSkills =
+                listOf(
+                    shinsengumiRinpudenBonusPassive.new(),
+                    AbnormalResistPassiveA.new(100),
+                ),
         ),
-        acts = actsOf(
-            ActType.Act1("Strong Flash", 2) {
-                targetFront().act {
-                    attack(
-                        modifier = 200,
-                        hitCount = 2,
-                    )
-                }
-            },
-            ActType.Act2("Noxious Flower", 2) {
-                targetFront(3).act {
-                    attack(
-                        modifier = 115,
-                        hitCount = 3,
-                    )
-                    applyTimedBuff(
-                        PoisonBuff,
-                        value = 6000,
-                        turns = 3,
-                    )
-                }
-            },
-            ActType.Act3("Firedance", 2) {
-                targetFront(3).act {
-                    attack(
-                        modifier = 115,
-                        hitCount = 3,
-                    )
-                    applyTimedBuff(
-                        BurnBuff,
-                        value = 3000,
-                        turns = 3,
-                    )
-                }
-            },
-            ActType.ClimaxAct("Kotetsu's Roar NEO", 2) {
-                targetAoe().act {
-                    attack(
-                        modifier = 150,
-                        hitCount = 3,
-                    )
-                    applyTimedBuff(
-                        BlindnessBuff,
-                        turns = 2,
-                    )
-                }
-            },
-        ),
-        autoSkills = listOf(
-            shinsengumiRinpudenBonusPassive.new(),
-            AbnormalResistPassiveA.new(100),
-        ),
-    ),
-)
+    )

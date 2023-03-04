@@ -7,6 +7,5 @@ val FrontOnlyCondition = positionCondition(Position.Front)
 val MiddleOnlyCondition = positionCondition(Position.Middle)
 val BackOnlyCondition = positionCondition(Position.Back)
 
-private fun positionCondition(position: Position) = NamedCondition(position.name) {
-    it.dress.position == position
-}
+private fun positionCondition(position: Position) =
+    NamedCondition(position.name) { it.dress.position == position }

@@ -16,67 +16,59 @@ data class TeamScalingPassive(
     val effect: TargetContext.(value: Int, time: Int) -> Unit,
 ) : PassiveEffect {
 
-    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run {
         context.targetAllyAoe(condition).act {
-            effect((value * targets.size).coerceAtMost(cap), time)
+          effect((value * targets.size).coerceAtMost(cap), time)
         }
-    }
+      }
 }
 
-val TeamActUpScalingPassive100 = TeamScalingPassive(
-    "Team Act Up Scaling Passive (max 100%)",
-    100,
-    PassiveEffectCategory.Passive,
-) { value, _ ->
-    targets.forEach {
-        it.mod {
-            actPowerUp += value
-        }
+val TeamActUpScalingPassive100 =
+    TeamScalingPassive(
+        "Team Act Up Scaling Passive (max 100%)",
+        100,
+        PassiveEffectCategory.Passive,
+    ) { value, _ ->
+      targets.forEach { it.mod { actPowerUp += value } }
     }
-}
 
-val TeamActUpScalingPassive120 = TeamScalingPassive(
-    "Team Act Up Scaling Passive (max 120%)",
-    120,
-    PassiveEffectCategory.Passive,
-) { value, _ ->
-    targets.forEach {
-        it.mod {
-            actPowerUp += value
-        }
+val TeamActUpScalingPassive120 =
+    TeamScalingPassive(
+        "Team Act Up Scaling Passive (max 120%)",
+        120,
+        PassiveEffectCategory.Passive,
+    ) { value, _ ->
+      targets.forEach { it.mod { actPowerUp += value } }
     }
-}
 
-val SelfActUpScalingPassive120 = TeamScalingPassive(
-    "Self Act Up Scaling Passive (max 120%)",
-    120,
-    PassiveEffectCategory.Passive,
-) { value, _ ->
-    self.mod {
-        actPowerUp += value
+val SelfActUpScalingPassive120 =
+    TeamScalingPassive(
+        "Self Act Up Scaling Passive (max 120%)",
+        120,
+        PassiveEffectCategory.Passive,
+    ) { value, _ ->
+      self.mod { actPowerUp += value }
     }
-}
 
-val TeamEvasionUpBuffScalingPassive60 = TeamScalingPassive(
-    "Team Evasion Up Buff Scaling Passive (max 60%)",
-    60,
-    PassiveEffectCategory.TurnStartPositiveB,
-) { value, time ->
-    applyTimedBuff(
-        EvasionUpBuff,
-        value,
-        time,
-    )
-}
-
-val TeamHpUpScalingPassive150 = TeamScalingPassive(
-    "Team Hp Up Scaling Passive (max 150%)",
-    150,
-    PassiveEffectCategory.Passive,
-) { value, _ ->
-    targets.forEach {
-        it.mod {
-            maxHpUp += value
-        }
+val TeamEvasionUpBuffScalingPassive60 =
+    TeamScalingPassive(
+        "Team Evasion Up Buff Scaling Passive (max 60%)",
+        60,
+        PassiveEffectCategory.TurnStartPositiveB,
+    ) { value, time ->
+      applyTimedBuff(
+          EvasionUpBuff,
+          value,
+          time,
+      )
     }
-}
+
+val TeamHpUpScalingPassive150 =
+    TeamScalingPassive(
+        "Team Hp Up Scaling Passive (max 150%)",
+        150,
+        PassiveEffectCategory.Passive,
+    ) { value, _ ->
+      targets.forEach { it.mod { maxHpUp += value } }
+    }

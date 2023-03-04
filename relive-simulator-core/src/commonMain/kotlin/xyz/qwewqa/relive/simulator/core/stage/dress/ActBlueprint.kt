@@ -12,22 +12,22 @@ data class ActBlueprint(
     val parameters: List<ActParameters>? = null,
     val value: ActBlueprintContext.() -> Act = { Act {} },
 ) {
-    fun create(level: Int): ActData {
-        return ActData(
-            name,
-            type,
-            apCost ?: 1,
-            icon,
-            (parameters ?: error("Cannot create act with missing parameters.")).let { params ->
-                ActBlueprintContext(
-                    level,
-                    params.map { it.values[level - 1] },
-                    params.map { it.times[level - 1] },
-                    params.map { it.hitRate },
-                ).value()
-            }
-        )
-    }
+  fun create(level: Int): ActData {
+    return ActData(
+        name,
+        type,
+        apCost ?: 1,
+        icon,
+        (parameters ?: error("Cannot create act with missing parameters.")).let { params ->
+          ActBlueprintContext(
+                  level,
+                  params.map { it.values[level - 1] },
+                  params.map { it.times[level - 1] },
+                  params.map { it.hitRate },
+              )
+              .value()
+        })
+  }
 }
 
 fun ActType.blueprint(
@@ -36,14 +36,15 @@ fun ActType.blueprint(
     icon: Int? = null,
     parameters: List<ActParameters>? = null,
     value: ActBlueprintContext.() -> Act,
-) = ActBlueprint(
-    name,
-    this,
-    apCost,
-    icon,
-    parameters,
-    value,
-)
+) =
+    ActBlueprint(
+        name,
+        this,
+        apCost,
+        icon,
+        parameters,
+        value,
+    )
 
 data class ActParameters(
     val values: List<Int> = emptyList(),
@@ -57,20 +58,35 @@ class ActBlueprintContext(
     private val times: List<Int>,
     private val hitRates: List<Int>,
 ) {
-    // To match up with Karth more easily
-    val values1 get() = values[0]
-    val times1 get() = times[0]
-    val hitRate1 get() = hitRates[0]
-    val values2 get() = values[1]
-    val times2 get() = times[1]
-    val hitRate2 get() = hitRates[1]
-    val values3 get() = values[2]
-    val times3 get() = times[2]
-    val hitRate3 get() = hitRates[2]
-    val values4 get() = values[3]
-    val times4 get() = times[3]
-    val hitRate4 get() = hitRates[3]
-    val values5 get() = values[4]
-    val times5 get() = times[4]
-    val hitRate5 get() = hitRates[4]
+  // To match up with Karth more easily
+  val values1
+    get() = values[0]
+  val times1
+    get() = times[0]
+  val hitRate1
+    get() = hitRates[0]
+  val values2
+    get() = values[1]
+  val times2
+    get() = times[1]
+  val hitRate2
+    get() = hitRates[1]
+  val values3
+    get() = values[2]
+  val times3
+    get() = times[2]
+  val hitRate3
+    get() = hitRates[2]
+  val values4
+    get() = values[3]
+  val times4
+    get() = times[3]
+  val hitRate4
+    get() = hitRates[3]
+  val values5
+    get() = values[4]
+  val times5
+    get() = times[4]
+  val hitRate5
+    get() = hitRates[4]
 }

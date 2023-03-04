@@ -16,4 +16,3 @@ external val StreamLanguage: dynamic
 
 external val foldAll: dynamic
 external val unfoldAll: dynamic
-

@@ -1,8 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.buff
 
-import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
-
 interface CountableBuffEffect : BuffEffect
+
 class SimpleCountableBuffEffect(
     override val id: Int?,
     override val name: String,

@@ -1,14 +1,11 @@
 package xyz.qwewqa.relive.simulator.core.stage.memoir
 
 import xyz.qwewqa.relive.simulator.core.stage.Act
-import xyz.qwewqa.relive.simulator.core.stage.actor.ActData
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.EffectTag
-import xyz.qwewqa.relive.simulator.core.stage.dress.ActBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.dress.ActBlueprintContext
 import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
-import xyz.qwewqa.relive.simulator.core.stage.passive.UnitSkill
 
 data class Memoir(
     val id: Int,
@@ -29,49 +26,53 @@ data class MemoirBlueprint(
     val cutinData: CutinBlueprint? = null,
     val additionalTags: List<EffectTag> = emptyList(),
 ) {
-    constructor(
-        id: Int,
-        name: String,
-        rarity: Int,
-        cost: Int,
-        baseStats: StatData,
-        growthStats: StatData,
-        baseAutoskills: List<PassiveData>,
-        maxAutoskills: List<PassiveData>,
-        cutinData: CutinBlueprint? = null,
-        additionalTags: List<EffectTag> = emptyList(),
-    ) : this(id,
-        name,
-        rarity,
-        cost,
-        baseStats,
-        growthStats,
-        List(4) { baseAutoskills } + listOf(maxAutoskills),
-        cutinData,
-        additionalTags)
+  constructor(
+      id: Int,
+      name: String,
+      rarity: Int,
+      cost: Int,
+      baseStats: StatData,
+      growthStats: StatData,
+      baseAutoskills: List<PassiveData>,
+      maxAutoskills: List<PassiveData>,
+      cutinData: CutinBlueprint? = null,
+      additionalTags: List<EffectTag> = emptyList(),
+  ) : this(
+      id,
+      name,
+      rarity,
+      cost,
+      baseStats,
+      growthStats,
+      List(4) { baseAutoskills } + listOf(maxAutoskills),
+      cutinData,
+      additionalTags)
 
-    val tags: List<EffectTag> = mutableSetOf<EffectTag>().apply {
-        autoskills.last().forEach { passive ->
-            addAll(passive.effect.tags)
-        }
-        if (cutinData != null) {
-            add(EffectTag.Cutin)
-        }
-        addAll(additionalTags)
-    }.sortedBy { it.ordinal }
+  val tags: List<EffectTag> =
+      mutableSetOf<EffectTag>()
+          .apply {
+            autoskills.last().forEach { passive -> addAll(passive.effect.tags) }
+            if (cutinData != null) {
+              add(EffectTag.Cutin)
+            }
+            addAll(additionalTags)
+          }
+          .sortedBy { it.ordinal }
 
-    fun maxLevel(limitBreak: Int) = (rarity + 2) * 10 + limitBreak * 5
+  fun maxLevel(limitBreak: Int) = (rarity + 2) * 10 + limitBreak * 5
 
-    fun create(level: Int, limitBreak: Int): Memoir {
-        require(level in 1..maxLevel(limitBreak)) { "Invalid level $level for rarity $rarity at limit break $limitBreak." }
-        return Memoir(
-            id,
-            name,
-            baseStats + growthStats * (level - 1) / 1000,
-            autoskills[limitBreak],
-            cutinData?.create(limitBreak),
-        )
+  fun create(level: Int, limitBreak: Int): Memoir {
+    require(level in 1..maxLevel(limitBreak)) {
+      "Invalid level $level for rarity $rarity at limit break $limitBreak."
     }
+    return Memoir(
+        id,
+        name,
+        baseStats + growthStats * (level - 1) / 1000,
+        autoskills[limitBreak],
+        cutinData?.create(limitBreak),
+    )
+  }
 }
 
 data class PartialMemoirBlueprint(
@@ -84,25 +85,26 @@ data class PartialMemoirBlueprint(
     val cutinData: CutinBlueprint? = null,
     val additionalTags: List<EffectTag> = emptyList(),
 ) {
-    operator fun invoke(
-        name: String,
-        baseAutoskills: List<PassiveData>,
-        maxAutoskills: List<PassiveData>,
-        cutinTarget: CutinTarget = CutinTarget.TurnStart,
-        cutinAct: ActBlueprintContext.() -> Act = { Act {} },
-        additionalTags: List<EffectTag> = emptyList(),
-    ) = MemoirBlueprint(
-        id,
-        name,
-        rarity,
-        cost,
-        baseStats,
-        growthStats,
-        baseAutoskills,
-        maxAutoskills,
-        cutinData?.copy(act = cutinAct, target = cutinTarget),
-        this.additionalTags + additionalTags,
-    )
+  operator fun invoke(
+      name: String,
+      baseAutoskills: List<PassiveData>,
+      maxAutoskills: List<PassiveData>,
+      cutinTarget: CutinTarget = CutinTarget.TurnStart,
+      cutinAct: ActBlueprintContext.() -> Act = { Act {} },
+      additionalTags: List<EffectTag> = emptyList(),
+  ) =
+      MemoirBlueprint(
+          id,
+          name,
+          rarity,
+          cost,
+          baseStats,
+          growthStats,
+          baseAutoskills,
+          maxAutoskills,
+          cutinData?.copy(act = cutinAct, target = cutinTarget),
+          this.additionalTags + additionalTags,
+      )
 }
 
 data class CutinBlueprint(
@@ -114,7 +116,8 @@ data class CutinBlueprint(
     val target: CutinTarget = CutinTarget.TurnStart,
     val act: ActBlueprintContext.() -> Act = { Act {} },
 ) {
-    fun create(limitBreak: Int): CutinData? = if (limitBreak > 0) {
+  fun create(limitBreak: Int): CutinData? =
+      if (limitBreak > 0) {
         CutinData(
             costs[limitBreak],
             startCooldowns[limitBreak],
@@ -124,15 +127,16 @@ data class CutinBlueprint(
             act(
                 ActBlueprintContext(
                     limitBreak + 1,
-                    parameters.map { if (limitBreak < it.values.size) it.values[limitBreak] else 0 },
+                    parameters.map {
+                      if (limitBreak < it.values.size) it.values[limitBreak] else 0
+                    },
                     parameters.map { if (limitBreak < it.times.size) it.times[limitBreak] else 0 },
-                    parameters.map { it.hitRate }
-                ),
+                    parameters.map { it.hitRate }),
             ),
         )
-    } else {
+      } else {
         null
-    }
+      }
 }
 
 data class CutinData(
@@ -145,8 +149,8 @@ data class CutinData(
 )
 
 sealed class CutinTarget {
-    object TurnStart : CutinTarget()
-    object TurnEnd : CutinTarget()
-    data class BeforeAllyAct(val index: Int) : CutinTarget()
-    data class BeforeEnemyAct(val index: Int) : CutinTarget()
+  object TurnStart : CutinTarget()
+  object TurnEnd : CutinTarget()
+  data class BeforeAllyAct(val index: Int) : CutinTarget()
+  data class BeforeEnemyAct(val index: Int) : CutinTarget()
 }

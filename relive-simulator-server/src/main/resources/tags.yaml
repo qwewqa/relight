@@ -1,138 +1,138 @@
 HP:
-  en: ['HP']
-  zh_hant: ['血', '血量', 'hp']
+  en: [ 'HP' ]
+  zh_hant: [ '血', '血量', 'hp' ]
 Act:
-  en: ['Act', 'Act Power']
-  zh_hant: ['攻', '攻擊力', 'act']
+  en: [ 'Act', 'Act Power' ]
+  zh_hant: [ '攻', '攻擊力', 'act' ]
 Damage:
-  en: ['Dmg', 'Damage', 'Damage Dealt']
-  zh_hant: ['傷害提升', '傷', '傷害', '增傷', 'dmg']
+  en: [ 'Dmg', 'Damage', 'Damage Dealt' ]
+  zh_hant: [ '傷害提升', '傷', '傷害', '增傷', 'dmg' ]
 Defense:
-  en: ['Def', 'Defense', 'Defence']
-  zh_hant: ['防', '防禦', 'def']
+  en: [ 'Def', 'Defense', 'Defence' ]
+  zh_hant: [ '防', '防禦', 'def' ]
 Agility:
-  en: ['Agil', 'Agility', 'Speed']
-  zh_hant: ['速度', '速', '敏捷', 'agi']
+  en: [ 'Agil', 'Agility', 'Speed' ]
+  zh_hant: [ '速度', '速', '敏捷', 'agi' ]
 Dexterity:
-  en: ['Dex', 'Dexterity']
-  zh_hant: ['暴率', '暴', '會心率', '會', 'dex']
+  en: [ 'Dex', 'Dexterity' ]
+  zh_hant: [ '暴率', '暴', '會心率', '會', 'dex' ]
 Critical:
-  en: ['Crit', 'Critical']
-  zh_hant: ['爆傷', '爆', '爆擊傷害', '會心威力', '威', 'crit']
+  en: [ 'Crit', 'Critical' ]
+  zh_hant: [ '爆傷', '爆', '爆擊傷害', '會心威力', '威', 'crit' ]
 Regeneration:
-  en: ['Regen', 'Regeneration', 'HP Regeneration']
-  zh_hant: ['每回合回血', '緩回血']
+  en: [ 'Regen', 'Regeneration', 'HP Regeneration' ]
+  zh_hant: [ '每回合回血', '緩回血' ]
 BrillianceRegeneration:
-  en: ['Brill Regen', 'Kiragen', 'Kira Regen', 'Brilliance Regeneration']
-  zh_hant: ['每回合回光芒', '緩回光']
+  en: [ 'Brill Regen', 'Kiragen', 'Kira Regen', 'Brilliance Regeneration' ]
+  zh_hant: [ '每回合回光芒', '緩回光' ]
 NormalBarrier:
-  en: ['Norm Barrier', 'Normal Barrier']
-  zh_hant: ['普通盾', '普盾', 'nb']  
+  en: [ 'Norm Barrier', 'Normal Barrier' ]
+  zh_hant: [ '普通盾', '普盾', 'nb' ]
 SpecialBarrier:
-  en: ['Spec Barrier', 'Special Barrier']
-  zh_hant: ['特殊盾', '特盾', 'sb']
+  en: [ 'Spec Barrier', 'Special Barrier' ]
+  zh_hant: [ '特殊盾', '特盾', 'sb' ]
 Evasion:
-  en: ['Evade', 'Evasion']
-  zh_hant: ['迴避', '迴', '回避', '回', 'evade']
+  en: [ 'Evade', 'Evasion' ]
+  zh_hant: [ '迴避', '迴', '回避', '回', 'evade' ]
 Fortitude:
-  en: ['Fort', 'Fortitude']
-  zh_hant: ['不屈', '屈', 'fort']
+  en: [ 'Fort', 'Fortitude' ]
+  zh_hant: [ '不屈', '屈', 'fort' ]
 Daze:
-  en: ['Daze']
-  zh_hant: ['錯亂', '錯', 'daze']
+  en: [ 'Daze' ]
+  zh_hant: [ '錯亂', '錯', 'daze' ]
 EffectiveDamage:
-  en: ['Eff Dmg', 'Effective Damage']
-  zh_hant: ['有利', '有', '利', '有利傷害', 'eff']
+  en: [ 'Eff Dmg', 'Effective Damage' ]
+  zh_hant: [ '有利', '有', '利', '有利傷害', 'eff' ]
 ClimaxDamage:
-  en: ['CX Dmg', 'Climax Damage', 'Climax Act Damage']
-  zh_hant: ['CA傷害提升', 'CA', 'CA傷', 'CA傷害', 'CA增傷', 'cadmg']
+  en: [ 'CX Dmg', 'Climax Damage', 'Climax Act Damage' ]
+  zh_hant: [ 'CA傷害提升', 'CA', 'CA傷', 'CA傷害', 'CA增傷', 'cadmg' ]
 Brilliance:
-  en: ['Brill', 'Kira', 'Brilliance']
-  zh_hant: ['光芒', '光', 'kira']
+  en: [ 'Brill', 'Kira', 'Brilliance' ]
+  zh_hant: [ '光芒', '光', 'kira' ]
 BrillianceDown:
-  en: ['Brill Down', 'Kira Down', 'Brilliance Down', 'Brilliance Drain', 'Kira Drain', 'Kiradrain']
-  zh_hant: ['減少光芒', '減光']
+  en: [ 'Brill Down', 'Kira Down', 'Brilliance Down', 'Brilliance Drain', 'Kira Drain', 'Kiradrain' ]
+  zh_hant: [ '減少光芒', '減光' ]
 Poison:
-  en: ['Poison']
-  zh_hant: ['中毒', '毒']
+  en: [ 'Poison' ]
+  zh_hant: [ '中毒', '毒' ]
 Stun:
-  en: ['Stun']
-  zh_hant: ['暈眩', '暈', '麻痺', '麻', '昏迷', '昏']
+  en: [ 'Stun' ]
+  zh_hant: [ '暈眩', '暈', '麻痺', '麻', '昏迷', '昏' ]
 Sleep:
-  en: ['Sleep']
-  zh_hant: ['睡眠', '睡']
+  en: [ 'Sleep' ]
+  zh_hant: [ '睡眠', '睡' ]
 Nightmare:
-  en: ['Nightmare']
-  zh_hant: ['惡夢', '惡', '噩夢', '噩']
+  en: [ 'Nightmare' ]
+  zh_hant: [ '惡夢', '惡', '噩夢', '噩' ]
 Confusion:
-  en: ['Confusion']
-  zh_hant: ['混亂', '混', '亂']
+  en: [ 'Confusion' ]
+  zh_hant: [ '混亂', '混', '亂' ]
 Stop:
-  en: ['Stop']
-  zh_hant: ['時停', '時', '停', '停止']
+  en: [ 'Stop' ]
+  zh_hant: [ '時停', '時', '停', '停止' ]
 Freeze:
-  en: ['Freeze']
-  zh_hant: ['冰凍', '冰', '凍', '凍結']
+  en: [ 'Freeze' ]
+  zh_hant: [ '冰凍', '冰', '凍', '凍結' ]
 Blindness:
-  en: ['Blindness']
-  zh_hant: ['盲目', '盲', '致盲', '黑', '黑暗', '黑闇']
+  en: [ 'Blindness' ]
+  zh_hant: [ '盲目', '盲', '致盲', '黑', '黑暗', '黑闇' ]
 Mark:
-  en: ['Mark']
-  zh_hant: ['刻印', '刻', '印']
+  en: [ 'Mark' ]
+  zh_hant: [ '刻印', '刻', '印' ]
 PoisonResistance:
-  en: ['Poison Res', 'Poison Resistance']
-  zh_hant: ['中毒耐性', '抗毒', '毒抗', '中毒免疫', '毒免']
+  en: [ 'Poison Res', 'Poison Resistance' ]
+  zh_hant: [ '中毒耐性', '抗毒', '毒抗', '中毒免疫', '毒免' ]
 BurnResistance:
-  en: ['Burn Res', 'Burn Resistance']
-  zh_hant: ['燒傷耐性', '抗燒', '燒抗', '燒傷免疫', '燒免']
+  en: [ 'Burn Res', 'Burn Resistance' ]
+  zh_hant: [ '燒傷耐性', '抗燒', '燒抗', '燒傷免疫', '燒免' ]
 StunResistance:
-  en: ['Stun Res', 'Stun Resistance']
-  zh_hant: ['暈眩耐性', '抗暈', '暈抗', '暈眩免疫', '暈免']
+  en: [ 'Stun Res', 'Stun Resistance' ]
+  zh_hant: [ '暈眩耐性', '抗暈', '暈抗', '暈眩免疫', '暈免' ]
 SleepResistance:
-  en: ['Sleep Res', 'Sleep Resistance']
-  zh_hant: ['睡眠耐性', '抗睡', '睡抗', '睡眠免疫', '睡免']
+  en: [ 'Sleep Res', 'Sleep Resistance' ]
+  zh_hant: [ '睡眠耐性', '抗睡', '睡抗', '睡眠免疫', '睡免' ]
 ConfusionResistance:
-  en: ['Confusion Res', 'Confusion Resistance']
-  zh_hant: ['混亂耐性', '抗混', '混抗', '混亂免疫', '混免']
+  en: [ 'Confusion Res', 'Confusion Resistance' ]
+  zh_hant: [ '混亂耐性', '抗混', '混抗', '混亂免疫', '混免' ]
 StopResistance:
-  en: ['Stop Res', 'Stop Resistance']
-  zh_hant: ['時停耐性', '抗停', '停抗', '時停免疫', '停免']
+  en: [ 'Stop Res', 'Stop Resistance' ]
+  zh_hant: [ '時停耐性', '抗停', '停抗', '時停免疫', '停免' ]
 FreezeResistance:
-  en: ['Freeze Res', 'Freeze Resistance']
-  zh_hant: ['冰凍耐性', '抗冰', '冰抗', '冰凍免疫', '冰免']
+  en: [ 'Freeze Res', 'Freeze Resistance' ]
+  zh_hant: [ '冰凍耐性', '抗冰', '冰抗', '冰凍免疫', '冰免' ]
 BlindnessResistance:
-  en: ['Blindness Res', 'Blindness Resistance']
-  zh_hant: ['盲目耐性', '抗盲', '盲抗', '盲目免疫', '盲免']
+  en: [ 'Blindness Res', 'Blindness Resistance' ]
+  zh_hant: [ '盲目耐性', '抗盲', '盲抗', '盲目免疫', '盲免' ]
 MarkResistance:
-  en: ['Mark Res', 'Mark Resistance']
-  zh_hant: ['刻印耐性', '抗刻', '刻抗', '刻印免疫', '刻免']
+  en: [ 'Mark Res', 'Mark Resistance' ]
+  zh_hant: [ '刻印耐性', '抗刻', '刻抗', '刻印免疫', '刻免' ]
 Seisho:
-  en: ['Seisho']
-  zh_hant: ['聖翔', '聖']
+  en: [ 'Seisho' ]
+  zh_hant: [ '聖翔', '聖' ]
 Rinmeikan:
-  en: ['Rinmeikan']
-  zh_hant: ['凜明館', '凜']
+  en: [ 'Rinmeikan' ]
+  zh_hant: [ '凜明館', '凜' ]
 Frontier:
-  en: ['Frontier']
-  zh_hant: ['開拓', '開', '芙蘿提亞', '芙']
+  en: [ 'Frontier' ]
+  zh_hant: [ '開拓', '開', '芙蘿提亞', '芙' ]
 Siegfeld:
-  en: ['Siegfeld']
-  zh_hant: ['席格', '席', '席格菲特', '齊格飛', '齊格']
+  en: [ 'Siegfeld' ]
+  zh_hant: [ '席格', '席', '席格菲特', '齊格飛', '齊格' ]
 Seiran:
-  en: ['Seiran']
-  zh_hant: ['青嵐', '青']
+  en: [ 'Seiran' ]
+  zh_hant: [ '青嵐', '青' ]
 NegativeEffectResistance:
-  en: ['NER', 'Negative Effect Resistance']
-  zh_hant: ['異常耐性', '耐性盾', '抗性盾', 'ner']
+  en: [ 'NER', 'Negative Effect Resistance' ]
+  zh_hant: [ '異常耐性', '耐性盾', '抗性盾', 'ner' ]
 PerfectAim:
-  en: ['Perfect Aim']
-  zh_hant: ['必中', '必', 'paim']
+  en: [ 'Perfect Aim' ]
+  zh_hant: [ '必中', '必', 'paim' ]
 ApDown:
-  en: ['Ap Down']
-  zh_hant: ['減AP', '-ap']
+  en: [ 'Ap Down' ]
+  zh_hant: [ '減AP', '-ap' ]
 ApUp:
-  en: ['Ap Up']
-  zh_hant: ['加AP', '+ap']
+  en: [ 'Ap Up' ]
+  zh_hant: [ '加AP', '+ap' ]
 Cutin:
-  en: ['Cutin', 'Cutin Skill']
-  zh_hant: ['切入回憶', '切', '切入', 'cutin']
+  en: [ 'Cutin', 'Cutin Skill' ]
+  zh_hant: [ '切入回憶', '切', '切入', 'cutin' ]

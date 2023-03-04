@@ -11,17 +11,15 @@ import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
 const val ACTOR_CLIPBOARD_LOCAL_STORAGE_KEY = "actor-clipboard"
 
 fun saveActorToClipboard(data: PlayerLoadoutParameters, slot: Int? = null) {
-    val key = ACTOR_CLIPBOARD_LOCAL_STORAGE_KEY + (slot?.let { "-$it" } ?: "")
-    localStorage[key] = json.encodeToString(data)
+  val key = ACTOR_CLIPBOARD_LOCAL_STORAGE_KEY + (slot?.let { "-$it" } ?: "")
+  localStorage[key] = json.encodeToString(data)
 }
 
 fun loadActorFromClipboard(slot: Int? = null): PlayerLoadoutParameters? {
-    return try {
-        val key = ACTOR_CLIPBOARD_LOCAL_STORAGE_KEY + (slot?.let { "-$it" } ?: "")
-        localStorage[key]?.let {
-            json.decodeFromString(it)
-        }
-    } catch (e: Throwable) {
-        null
-    }
+  return try {
+    val key = ACTOR_CLIPBOARD_LOCAL_STORAGE_KEY + (slot?.let { "-$it" } ?: "")
+    localStorage[key]?.let { json.decodeFromString(it) }
+  } catch (e: Throwable) {
+    null
+  }
 }

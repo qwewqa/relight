@@ -26,11 +26,11 @@ data class SimulatorVersion(
     val hash: String,
     val apiVersion: Int = -1,
 ) {
-    override fun toString() = "v$version"
+  override fun toString() = "v$version"
 
-    companion object {
-        val CURRENT_VERSION = SimulatorVersion(MAVEN_GROUP, VERSION, GIT_SHA, API_VERSION)
-    }
+  companion object {
+    val CURRENT_VERSION = SimulatorVersion(MAVEN_GROUP, VERSION, GIT_SHA, API_VERSION)
+  }
 }
 
 @Serializable
@@ -100,10 +100,10 @@ data class DisplayStageEffectData(
 
 @Serializable
 enum class InteractiveRunState {
-    SETUP,
-    QUEUE,
-    RUN,
-    FINISHED,
+  SETUP,
+  QUEUE,
+  RUN,
+  FINISHED,
 }
 
 @Serializable
@@ -132,18 +132,17 @@ data class CutinCardStatus(
 )
 
 enum class ActionStatus {
-    READY,
-    QUEUED,
-    TOO_EXPENSIVE,
-    SEALED,
-    COOLDOWN,
-    NO_MORE_USES,
-    HOLDER_EXITED,
-    HELD,
+  READY,
+  QUEUED,
+  TOO_EXPENSIVE,
+  SEALED,
+  COOLDOWN,
+  NO_MORE_USES,
+  HOLDER_EXITED,
+  HELD,
 }
 
-@Serializable
-data class InteractiveCommand(val text: String)
+@Serializable data class InteractiveCommand(val text: String)
 
 @Serializable
 data class SimulationOptions(
@@ -158,17 +157,17 @@ data class SimulationOptions(
     val bossStrategyTypes: List<SimulationOption>,
     val remakeSkills: List<DataSimulationOption<RemakeSkillData>>,
     val accessories: List<DataSimulationOption<AccessoryData>>,
-)  {
-    val commonTextById by lazy { commonText.associateBy { it.id } }
-    val dressesById by lazy { dresses.associateBy { it.id } }
-    val memoirsById by lazy { memoirs.associateBy { it.id } }
-    val songEffectsById by lazy { songEffects.associateBy { it.id } }
-    val conditionsById by lazy { conditions.associateBy { it.id } }
-    val bossesById by lazy { bosses.associateBy { it.id } }
-    val strategyTypesById by lazy { strategyTypes.associateBy { it.id } }
-    val bossStrategyTypesById by lazy { bossStrategyTypes.associateBy { it.id } }
-    val remakeSkillsById by lazy { remakeSkills.associateBy { it.id } }
-    val accessoriesById by lazy { accessories.associateBy { it.id } }
+) {
+  val commonTextById by lazy { commonText.associateBy { it.id } }
+  val dressesById by lazy { dresses.associateBy { it.id } }
+  val memoirsById by lazy { memoirs.associateBy { it.id } }
+  val songEffectsById by lazy { songEffects.associateBy { it.id } }
+  val conditionsById by lazy { conditions.associateBy { it.id } }
+  val bossesById by lazy { bosses.associateBy { it.id } }
+  val strategyTypesById by lazy { strategyTypes.associateBy { it.id } }
+  val bossStrategyTypesById by lazy { bossStrategyTypes.associateBy { it.id } }
+  val remakeSkillsById by lazy { remakeSkills.associateBy { it.id } }
+  val accessoriesById by lazy { accessories.associateBy { it.id } }
 }
 
 typealias SimulationOption = DataSimulationOption<Unit>
@@ -190,9 +189,8 @@ data class DataSimulationOption<T>(
     val imagePath: String? = null,
     val data: T,
 ) {
-    operator fun get(key: String): String = name[key] ?: name["en"] ?: id
+  operator fun get(key: String): String = name[key] ?: name["en"] ?: id
 }
-
 
 @Serializable
 data class DressData(
@@ -204,11 +202,11 @@ data class DressData(
     val characterName: String = "",
     val cost: Int,
 ) : Comparable<DressData> {
-    override fun compareTo(other: DressData): Int {
-        if (positionValue != other.positionValue) return positionValue - other.positionValue
-        if (id != other.id) return other.id - id  // Note how this is reversed
-        return 0
-    }
+  override fun compareTo(other: DressData): Int {
+    if (positionValue != other.positionValue) return positionValue - other.positionValue
+    if (id != other.id) return other.id - id // Note how this is reversed
+    return 0
+  }
 }
 
 @Serializable
@@ -224,9 +222,10 @@ data class AccessoryData(
     val attributeId: Int?,
     val autoSkillLimitBreak: List<Int>,
 ) {
-    fun compatibleWith(dress: DressData): Boolean {
-        return (dressIds.isEmpty() || dressIds.contains(dress.id)) && (attributeId == null || attributeId == dress.attribute)
-    }
+  fun compatibleWith(dress: DressData): Boolean {
+    return (dressIds.isEmpty() || dressIds.contains(dress.id)) &&
+        (attributeId == null || attributeId == dress.attribute)
+  }
 }
 
 @Serializable
@@ -236,10 +235,7 @@ data class RemakeSkillData(
     val targeting: String,
 )
 
-@Serializable
-data class SimulatorFeatures(
-    val shutdown: Boolean = false
-)
+@Serializable data class SimulatorFeatures(val shutdown: Boolean = false)
 
 @Serializable
 data class SongParameters(
@@ -293,7 +289,8 @@ data class SimulationResult(
     val error: String? = null,
     val complete: Boolean = false,
 ) {
-    val done get() = cancelled || complete
+  val done
+    get() = cancelled || complete
 }
 
 @Serializable
@@ -343,16 +340,16 @@ data class LogEntry(
 
 @Serializable
 enum class LogCategory {
-    DEFAULT,
-    EMPHASIS,
-    WARNING,
-    ERROR,
-    DAMAGE,
-    HEAL,
-    BUFF,
-    BRILLIANCE,
-    USER,
-    COMMAND,
+  DEFAULT,
+  EMPHASIS,
+  WARNING,
+  ERROR,
+  DAMAGE,
+  HEAL,
+  BUFF,
+  BRILLIANCE,
+  USER,
+  COMMAND,
 }
 
 @Serializable
@@ -364,32 +361,25 @@ data class SimulationResultValue(
 
 @Serializable
 sealed class SimulationResultType {
-    @Serializable
-    @SerialName("wipe")
-    data class Wipe(val turn: Int, val tile: Int) : SimulationResultType()
+  @Serializable
+  @SerialName("wipe")
+  data class Wipe(val turn: Int, val tile: Int) : SimulationResultType()
 
-    @Serializable
-    @SerialName("victory")
-    data class Victory(val turn: Int, val tile: Int) : SimulationResultType()
+  @Serializable
+  @SerialName("victory")
+  data class Victory(val turn: Int, val tile: Int) : SimulationResultType()
 
-    @Serializable
-    @SerialName("end")
-    object End : SimulationResultType()
+  @Serializable @SerialName("end") object End : SimulationResultType()
 
-    @Serializable
-    @SerialName("excluded")
-    object Excluded : SimulationResultType()
+  @Serializable @SerialName("excluded") object Excluded : SimulationResultType()
 
-    @Serializable
-    @SerialName("error")
-    object Error : SimulationResultType()
+  @Serializable @SerialName("error") object Error : SimulationResultType()
 }
 
 @Serializable
 enum class SimulationMarginResultType {
-    Wipe,
-    End,
+  Wipe,
+  End,
 }
 
-@Serializable
-data class SimulateResponse(val token: String)
+@Serializable data class SimulateResponse(val token: String)

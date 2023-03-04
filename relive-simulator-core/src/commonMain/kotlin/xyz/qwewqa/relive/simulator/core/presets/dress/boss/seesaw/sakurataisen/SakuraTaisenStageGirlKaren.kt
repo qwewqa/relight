@@ -14,72 +14,76 @@ import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
-val sakuraTaisenStageGirlKarenBoss = ActorLoadout(
-    "Sakura Taisen Stage Girl Karen",
-    Dress(
-        name = "Stage Girl Karen",
-        character = Character.Karen,
-        attribute = Attribute.Wind,
-        damageType = DamageType.Special,
-        position = Position.None,
-        stats = defaultDressStats.copy(
-            hp = 358_951_010,
-            actPower = 1500,
-            normalDefense = 1500,
-            specialDefense = 1500,
-            agility = 1,
+val sakuraTaisenStageGirlKarenBoss =
+    ActorLoadout(
+        "Sakura Taisen Stage Girl Karen",
+        Dress(
+            name = "Stage Girl Karen",
+            character = Character.Karen,
+            attribute = Attribute.Wind,
+            damageType = DamageType.Special,
+            position = Position.None,
+            stats =
+                defaultDressStats.copy(
+                    hp = 358_951_010,
+                    actPower = 1500,
+                    normalDefense = 1500,
+                    specialDefense = 1500,
+                    agility = 1,
+                ),
+            acts =
+                actsOf(
+                    ActType.Act1("Strong Slash", 2) {
+                      targetFront().act {
+                        attack(
+                            modifier = 200,
+                            hitCount = 2,
+                        )
+                      }
+                    },
+                    ActType.Act2("Firedance", 2) {
+                      targetFront(3).act {
+                        applyTimedBuff(
+                            BurnBuff,
+                            value = 3000,
+                            turns = 3,
+                        )
+                        attack(
+                            modifier = 115,
+                            hitCount = 3,
+                        )
+                      }
+                    },
+                    ActType.Act3("Befuddling Slash", 2) {
+                      targetFront(3).act {
+                        applyTimedBuff(
+                            ConfusionBuff,
+                            turns = 2,
+                            chance = 50,
+                        )
+                        attack(
+                            modifier = 115,
+                            hitCount = 3,
+                        )
+                      }
+                    },
+                    ActType.ClimaxAct("We will all do Starlight! NEO", 2) {
+                      targetAoe().act {
+                        applyTimedBuff(
+                            ConfusionBuff,
+                            turns = 2,
+                        )
+                        attack(
+                            modifier = 150,
+                            hitCount = 3,
+                        )
+                      }
+                    },
+                ),
+            autoSkills =
+                listOf(
+                    sakuraTaisenBonusPassive.new(),
+                    AbnormalResistPassiveA.new(100),
+                ),
         ),
-        acts = actsOf(
-            ActType.Act1("Strong Slash", 2) {
-                targetFront().act {
-                    attack(
-                        modifier = 200,
-                        hitCount = 2,
-                    )
-                }
-            },
-            ActType.Act2("Firedance", 2) {
-                targetFront(3).act {
-                    applyTimedBuff(
-                        BurnBuff,
-                        value = 3000,
-                        turns = 3,
-                    )
-                    attack(
-                        modifier = 115,
-                        hitCount = 3,
-                    )
-                }
-            },
-            ActType.Act3("Befuddling Slash", 2) {
-                targetFront(3).act {
-                    applyTimedBuff(
-                        ConfusionBuff,
-                        turns = 2,
-                        chance = 50,
-                    )
-                    attack(
-                        modifier = 115,
-                        hitCount = 3,
-                    )
-                }
-            },
-            ActType.ClimaxAct("We will all do Starlight! NEO", 2) {
-                targetAoe().act {
-                    applyTimedBuff(
-                        ConfusionBuff,
-                        turns = 2,
-                    )
-                    attack(
-                        modifier = 150,
-                        hitCount = 3,
-                    )
-                }
-            },
-        ),
-        autoSkills = listOf(
-            sakuraTaisenBonusPassive.new(),
-            AbnormalResistPassiveA.new(100),
-        ),
-    ),
-)
+    )

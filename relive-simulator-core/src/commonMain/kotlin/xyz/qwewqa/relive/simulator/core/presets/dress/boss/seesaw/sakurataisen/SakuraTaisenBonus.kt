@@ -7,16 +7,18 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.ParisCombatRev
 import xyz.qwewqa.relive.simulator.core.stage.passive.EventBonusPassive
 import xyz.qwewqa.relive.simulator.stage.character.Character
 
-val sakuraTaisenBonusPassive = EventBonusPassive(
-    dresses = mapOf(
-        SakuraShingujiHikari.id to 500,
-        NewYorkCombatRevueGemie.id to 200,
-        ImperialCombatRevueFlowerDivisionSakura.id to 200,
-        ParisCombatRevueFlowerDivisionErika.id to 200,
-    ),
-    characters = mapOf(
-        Character.Karen to 50,
-        Character.Hikari to 50,
-        Character.Mahiru to 50,
-    )
-)
+val sakuraTaisenBonusPassive =
+    EventBonusPassive(
+        dresses =
+            mapOf(
+                SakuraShingujiHikari.id to 500,
+                NewYorkCombatRevueGemie.id to 200,
+                ImperialCombatRevueFlowerDivisionSakura.id to 200,
+                ParisCombatRevueFlowerDivisionErika.id to 200,
+            ),
+        characters =
+            mapOf(
+                Character.Karen to 50,
+                Character.Hikari to 50,
+                Character.Mahiru to 50,
+            ))

@@ -31,110 +31,117 @@ const val WORKER_URL = "relive-simulator-worker.js"
 
 class JsSimulator : Simulator {
 
-    private var workerScriptBlob: Blob? = null
+  private var workerScriptBlob: Blob? = null
 
-    private suspend fun getWorkerScript(): Blob = workerScriptBlob ?: run {
-        val response: String = httpClient.get(
+  private suspend fun getWorkerScript(): Blob =
+      workerScriptBlob
+          ?: run {
+            val response: String =
+                httpClient
+                    .get(
+                        URL(
+                                WORKER_URL,
+                                "${window.location.protocol}//${window.location.host}${window.location.pathname}")
+                            .href)
+                    .body()
+            val blob = Blob(arrayOf(response), BlobPropertyBag("text/javascript"))
+            workerScriptBlob = blob
+            blob
+          }
+
+  override suspend fun simulate(parameters: SimulationParameters): Simulation {
+    return JsSimulation(getWorkerScript(), parameters)
+  }
+
+  override suspend fun simulateInteractive(
+      parameters: SimulationParameters
+  ): InteractiveSimulation {
+    return JsInteractiveSimulation(parameters)
+  }
+
+  override suspend fun version(): SimulatorVersion {
+    return SimulatorClient.version
+  }
+
+  private val httpClient = HttpClient {
+    install(ContentNegotiation) {
+      json(
+          Json {
+            isLenient = true
+            ignoreUnknownKeys = true
+            allowSpecialFloatingPointValues = true
+            useArrayPolymorphism = false
+            encodeDefaults = true
+          })
+    }
+  }
+
+  // This is a hack where the response from server is just copied here until I think of something
+  // better
+  override suspend fun options(): SimulationOptions {
+    return httpClient
+        .get(
             URL(
-                WORKER_URL,
-                "${window.location.protocol}//${window.location.host}${window.location.pathname}"
-            ).href
-        ).body()
-        val blob = Blob(arrayOf(response), BlobPropertyBag("text/javascript"))
-        workerScriptBlob = blob
-        blob
-    }
+                    "options.json",
+                    "${window.location.protocol}//${window.location.host}${window.location.pathname}")
+                .href)
+        .body()
+  }
 
-    override suspend fun simulate(parameters: SimulationParameters): Simulation {
-        return JsSimulation(getWorkerScript(), parameters)
-    }
+  override suspend fun shutdown() {
+    error("Not supported")
+  }
 
-    override suspend fun simulateInteractive(parameters: SimulationParameters): InteractiveSimulation {
-        return JsInteractiveSimulation(parameters)
-    }
-
-    override suspend fun version(): SimulatorVersion {
-        return SimulatorClient.version
-    }
-
-    private val httpClient = HttpClient {
-        install(ContentNegotiation) {
-            json(
-                Json {
-                    isLenient = true
-                    ignoreUnknownKeys = true
-                    allowSpecialFloatingPointValues = true
-                    useArrayPolymorphism = false
-                    encodeDefaults = true
-                }
-            )
-        }
-    }
-
-    // This is a hack where the response from server is just copied here until I think of something better
-    override suspend fun options(): SimulationOptions {
-        return httpClient.get(
-            URL(
-                "options.json",
-                "${window.location.protocol}//${window.location.host}${window.location.pathname}"
-            ).href
-        ).body()
-    }
-
-    override suspend fun shutdown() {
-        error("Not supported")
-    }
-
-    override suspend fun features(): SimulatorFeatures {
-        return SimulatorFeatures(false)
-    }
+  override suspend fun features(): SimulatorFeatures {
+    return SimulatorFeatures(false)
+  }
 }
 
 const val TARGET_BATCH_SIZE = 500
 const val MIN_BATCH_SIZE = 100
 
 fun calcBatchSize(iterations: Int, maxThreads: Int): Int {
-    if (iterations <= MIN_BATCH_SIZE * maxThreads) return MIN_BATCH_SIZE
-    val iterationsPerThread = (iterations + maxThreads - 1) / maxThreads
-    val batchesPerThread = (iterationsPerThread + TARGET_BATCH_SIZE - 1) / TARGET_BATCH_SIZE
-    return (iterationsPerThread + batchesPerThread - 1) / batchesPerThread
+  if (iterations <= MIN_BATCH_SIZE * maxThreads) return MIN_BATCH_SIZE
+  val iterationsPerThread = (iterations + maxThreads - 1) / maxThreads
+  val batchesPerThread = (iterationsPerThread + TARGET_BATCH_SIZE - 1) / TARGET_BATCH_SIZE
+  return (iterationsPerThread + batchesPerThread - 1) / batchesPerThread
 }
 
 class JsSimulation(val scriptBlob: Blob, val parameters: SimulationParameters) : Simulation {
-    var resultCount = 0
-    val resultCounts = mutableMapOf<Pair<List<String>, SimulationResultType>, Int>()
-    val marginResults = mutableMapOf<String, MutableList<MarginStageResult>>()
-    val seedProducer = Random(parameters.seed)
-    var requestCount = 0
-    val startTime = window.performance.now()
-    var firstApplicableIteration: IterationResult? = null
-    val resultEntries = mutableListOf<ResultEntry>()
-    var logFilter: LogFilter? = null
+  var resultCount = 0
+  val resultCounts = mutableMapOf<Pair<List<String>, SimulationResultType>, Int>()
+  val marginResults = mutableMapOf<String, MutableList<MarginStageResult>>()
+  val seedProducer = Random(parameters.seed)
+  var requestCount = 0
+  val startTime = window.performance.now()
+  var firstApplicableIteration: IterationResult? = null
+  val resultEntries = mutableListOf<ResultEntry>()
+  var logFilter: LogFilter? = null
 
-    var marginSummary: Map<SimulationMarginResultType, Map<String?, MarginResult>> = emptyMap()
-    var lastUpdatedMarginSummary = 0
+  var marginSummary: Map<SimulationMarginResultType, Map<String?, MarginResult>> = emptyMap()
+  var lastUpdatedMarginSummary = 0
 
-    val json = Json {
-        encodeDefaults = true
+  val json = Json { encodeDefaults = true }
+
+  var overallResult =
+      SimulationResult(
+          maxIterations = parameters.maxIterations,
+          currentIterations = 0,
+          results = emptyList(),
+          marginResults = emptyMap(),
+          log = null,
+      )
+
+  fun updateResults() {
+    if (resultCount == parameters.maxIterations) {
+      lastUpdatedMarginSummary = resultCount
+      marginSummary = marginResults.summarize()
+    } else if (resultCount > lastUpdatedMarginSummary * 1.5) {
+      lastUpdatedMarginSummary = resultCount
+      marginSummary = marginResults.summarize(500)
     }
-
-    var overallResult = SimulationResult(
-        maxIterations = parameters.maxIterations,
-        currentIterations = 0,
-        results = emptyList(),
-        marginResults = emptyMap(),
-        log = null,
-    )
-
-    fun updateResults() {
-        if (resultCount == parameters.maxIterations) {
-            lastUpdatedMarginSummary = resultCount
-            marginSummary = marginResults.summarize()
-        } else if (resultCount > lastUpdatedMarginSummary * 1.5) {
-            lastUpdatedMarginSummary = resultCount
-            marginSummary = marginResults.summarize(500)
-        }
-        overallResult = SimulationResult(
+    overallResult =
+        SimulationResult(
             maxIterations = parameters.maxIterations,
             currentIterations = resultCount,
             results = resultCounts.map { (k, v) -> SimulationResultValue(k.first, k.second, v) },
@@ -142,143 +149,153 @@ class JsSimulation(val scriptBlob: Blob, val parameters: SimulationParameters) :
             log = null,
             runtime = (window.performance.now() - startTime) / 1_000.0,
         )
-    }
+  }
 
-    val maxBatchSize = calcBatchSize(parameters.maxIterations, window.navigator.hardwareConcurrency.toInt())
+  val maxBatchSize =
+      calcBatchSize(parameters.maxIterations, window.navigator.hardwareConcurrency.toInt())
 
-    val workers = List(
-        window.navigator.hardwareConcurrency.toInt().coerceAtMost(parameters.maxIterations / maxBatchSize)
-            .coerceAtLeast(1)
-    ) {
-        Worker(URL.createObjectURL(scriptBlob)).also { worker ->
-            worker.onmessage = { ev ->
+  val workers =
+      List(
+          window.navigator.hardwareConcurrency
+              .toInt()
+              .coerceAtMost(parameters.maxIterations / maxBatchSize)
+              .coerceAtLeast(1)) {
+            Worker(URL.createObjectURL(scriptBlob)).also { worker ->
+              worker.onmessage = { ev ->
                 val results = Json.decodeFromString<List<IterationResult>>(ev.data as String)
                 if (resultCount == parameters.maxIterations) {
-                    // This means that this is the final run, for use with logging as a rerun of a previous iteration.
-                    // This block should only be run once per simulation.
-                    val result = results.single()
-                    overallResult = overallResult.copy(
-                        error = result.error,
-                        log = result.log?.let {
-                            val header = LogEntry(
-                                turn = 0, tile = 0, move = 0,
-                                tags = listOf("Info"),
-                                content = "Iteration ${result.request.index + 1}",
-                            )
-                            listOf(header) + it
-                        },
-                        runtime = (window.performance.now() - startTime) / 1_000.0,
-                        complete = true,
-                    )
-                    finish()
+                  // This means that this is the final run, for use with logging as a rerun of a
+                  // previous iteration.
+                  // This block should only be run once per simulation.
+                  val result = results.single()
+                  overallResult =
+                      overallResult.copy(
+                          error = result.error,
+                          log =
+                              result.log?.let {
+                                val header =
+                                    LogEntry(
+                                        turn = 0,
+                                        tile = 0,
+                                        move = 0,
+                                        tags = listOf("Info"),
+                                        content = "Iteration ${result.request.index + 1}",
+                                    )
+                                listOf(header) + it
+                              },
+                          runtime = (window.performance.now() - startTime) / 1_000.0,
+                          complete = true,
+                      )
+                  finish()
                 } else {
-                    results.forEach { result ->
-                        if (firstApplicableIteration == null ||
-                            firstApplicableIteration!!.resultPriority < result.resultPriority ||
-                            (firstApplicableIteration!!.resultPriority == result.resultPriority &&
-                                    result.request.index < firstApplicableIteration!!.request.index)
-                        ) {
-                            firstApplicableIteration = result
-                        }
-                        val stageResult = result.toStageResult()
-                        if (stageResult is MarginStageResult) {
-                            marginResults.getOrPut(stageResult.metadata.groupName) { mutableListOf() }.add(stageResult)
-                        }
-                        resultCount++
-                        resultCounts[result.tags to result.result] =
-                            (resultCounts[result.tags to result.result] ?: 0) + 1
-                        resultEntries += ResultEntry(
+                  results.forEach { result ->
+                    if (firstApplicableIteration == null ||
+                        firstApplicableIteration!!.resultPriority < result.resultPriority ||
+                        (firstApplicableIteration!!.resultPriority == result.resultPriority &&
+                            result.request.index < firstApplicableIteration!!.request.index)) {
+                      firstApplicableIteration = result
+                    }
+                    val stageResult = result.toStageResult()
+                    if (stageResult is MarginStageResult) {
+                      marginResults
+                          .getOrPut(stageResult.metadata.groupName) { mutableListOf() }
+                          .add(stageResult)
+                    }
+                    resultCount++
+                    resultCounts[result.tags to result.result] =
+                        (resultCounts[result.tags to result.result] ?: 0) + 1
+                    resultEntries +=
+                        ResultEntry(
                             index = result.request.index,
                             seed = result.request.seed,
                             type = result.result,
                             damage = result.damage,
                         )
-                    }
-                    updateResults()
-                    val batchSize = (parameters.maxIterations - requestCount).coerceAtMost(maxBatchSize)
-                    if (batchSize > 0) {
-                        worker.postMessage(json.encodeToString(List(batchSize) {
-                            IterationRequest(
-                                requestCount++,
-                                seedProducer.nextInt(),
-                            )
-                        }))
-                    }
-                    if (resultCount == parameters.maxIterations) {
-                        worker.postMessage(
-                            json.encodeToString(
-                                listOf(
-                                    firstApplicableIteration!!.request.copy(log = true)
-                                )
-                            )
-                        )
-                    }
+                  }
+                  updateResults()
+                  val batchSize =
+                      (parameters.maxIterations - requestCount).coerceAtMost(maxBatchSize)
+                  if (batchSize > 0) {
+                    worker.postMessage(
+                        json.encodeToString(
+                            List(batchSize) {
+                              IterationRequest(
+                                  requestCount++,
+                                  seedProducer.nextInt(),
+                              )
+                            }))
+                  }
+                  if (resultCount == parameters.maxIterations) {
+                    worker.postMessage(
+                        json.encodeToString(
+                            listOf(firstApplicableIteration!!.request.copy(log = true))))
+                  }
                 }
+              }
+              worker.postMessage(json.encodeToString(parameters))
+              val batchSize = (parameters.maxIterations - requestCount).coerceAtMost(maxBatchSize)
+              if (batchSize > 0) {
+                worker.postMessage(
+                    json.encodeToString(
+                        List(batchSize) {
+                          IterationRequest(
+                              requestCount++,
+                              seedProducer.nextInt(),
+                          )
+                        }))
+              }
             }
-            worker.postMessage(json.encodeToString(parameters))
-            val batchSize = (parameters.maxIterations - requestCount).coerceAtMost(maxBatchSize)
-            if (batchSize > 0) {
-                worker.postMessage(json.encodeToString(List(batchSize) {
-                    IterationRequest(
-                        requestCount++,
-                        seedProducer.nextInt(),
-                    )
-                }))
-            }
-        }
-    }
+          }
 
-    override suspend fun pollResult() = overallResult
+  override suspend fun pollResult() = overallResult
 
-    override suspend fun cancel() {
-        workers.forEach { it.terminate() }
-        overallResult = overallResult.copy(cancelled = true)
-    }
+  override suspend fun cancel() {
+    workers.forEach { it.terminate() }
+    overallResult = overallResult.copy(cancelled = true)
+  }
 
-    override suspend fun filterLog(request: FilterLogRequest): FilterLogResponse {
-        return logFilter?.get(request) ?: FilterLogResponse(null, null, 0)
-    }
+  override suspend fun filterLog(request: FilterLogRequest): FilterLogResponse {
+    return logFilter?.get(request) ?: FilterLogResponse(null, null, 0)
+  }
 
-    private fun finish() {
-        workers.forEach { it.terminate() }
-        logFilter = LogFilter(
+  private fun finish() {
+    workers.forEach { it.terminate() }
+    logFilter =
+        LogFilter(
             parameters.createStageLoadout(),
             parameters.maxTurns,
             parameters.maxIterations,
             resultEntries,
         )
-    }
+  }
 }
 
 class JsInteractiveSimulation(val parameters: SimulationParameters) : InteractiveSimulation {
-    private var rev = -1
-    private var error: String? = null
-    private val controller = try {
-        InteractiveSimulationController(parameters.maxTurns, parameters.seed, parameters.createStageLoadout())
-    } catch (e: Exception) {
+  private var rev = -1
+  private var error: String? = null
+  private val controller =
+      try {
+        InteractiveSimulationController(
+            parameters.maxTurns, parameters.seed, parameters.createStageLoadout())
+      } catch (e: Exception) {
         error = e.message
         null
-    }
+      }
 
-    override suspend fun getLog(): InteractiveLog {
-        return controller?.getLog(rev)?.also { rev = it.rev } ?: InteractiveLog(
+  override suspend fun getLog(): InteractiveLog {
+    return controller?.getLog(rev)?.also { rev = it.rev }
+        ?: InteractiveLog(
             InteractiveLogData(
-                listOf(
-                    LogEntry(
-                        tags = listOf("Error"),
-                        content = error!!
-                    )
-                ),
+                listOf(LogEntry(tags = listOf("Error"), content = error!!)),
                 error = error,
-            )
-        )
-    }
+            ))
+  }
 
-    override suspend fun sendCommand(text: String) {
-        controller?.sendCommand(text)
-    }
+  override suspend fun sendCommand(text: String) {
+    controller?.sendCommand(text)
+  }
 
-    override suspend fun end() {}
+  override suspend fun end() {}
 }
 
 @Serializable
@@ -299,43 +316,46 @@ data class IterationResult(
     val log: List<LogEntry>? = null,
     val error: String? = null,
 ) {
-    fun toStageResult() = when (result) {
-        is SimulationResultType.Excluded -> ExcludedRun(
-            StageResultMetadata(groupName, tags),
-        )
-
-        is SimulationResultType.Victory -> Victory(
-            result.turn,
-            result.tile,
-            StageResultMetadata(groupName, tags),
-        )
-
-        is SimulationResultType.End -> OutOfTurns(
-            damage ?: 0,
-            margin ?: 0,
-            StageResultMetadata(groupName, tags),
-        )
-
-        is SimulationResultType.Wipe -> TeamWipe(
-            damage ?: 0,
-            margin ?: 0,
-            result.turn,
-            result.tile,
-            StageResultMetadata(groupName, tags),
-        )
-
-        is SimulationResultType.Error -> PlayError(
-            Exception(error),
-            StageResultMetadata(groupName, tags),
-        )
-    }
+  fun toStageResult() =
+      when (result) {
+        is SimulationResultType.Excluded ->
+            ExcludedRun(
+                StageResultMetadata(groupName, tags),
+            )
+        is SimulationResultType.Victory ->
+            Victory(
+                result.turn,
+                result.tile,
+                StageResultMetadata(groupName, tags),
+            )
+        is SimulationResultType.End ->
+            OutOfTurns(
+                damage ?: 0,
+                margin ?: 0,
+                StageResultMetadata(groupName, tags),
+            )
+        is SimulationResultType.Wipe ->
+            TeamWipe(
+                damage ?: 0,
+                margin ?: 0,
+                result.turn,
+                result.tile,
+                StageResultMetadata(groupName, tags),
+            )
+        is SimulationResultType.Error ->
+            PlayError(
+                Exception(error),
+                StageResultMetadata(groupName, tags),
+            )
+      }
 }
 
 private val IterationResult.resultPriority
-    get() = when (this.result) {
+  get() =
+      when (this.result) {
         is SimulationResultType.Excluded -> 0
         is SimulationResultType.Victory -> 1
         is SimulationResultType.End -> 2
         is SimulationResultType.Wipe -> 3
         is SimulationResultType.Error -> 4
-    }
+      }

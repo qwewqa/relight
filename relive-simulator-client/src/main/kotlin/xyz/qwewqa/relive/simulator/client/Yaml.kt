@@ -9,8 +9,8 @@ import kotlinx.serialization.json.Json
 @JsNonModule
 @JsName("load")
 external object Yaml {
-    fun load(document: String): dynamic
-    fun dump(obj: dynamic): dynamic
+  fun load(document: String): dynamic
+  fun dump(obj: dynamic): dynamic
 }
 
 // This is an ugly hack but
@@ -18,16 +18,14 @@ external object Yaml {
 // 2. Performance doesn't matter
 // 3. Multiline strings are nice to have (otherwise yamlkt would be fine)
 
-val json = Json {
-    ignoreUnknownKeys = true
-}
+val json = Json { ignoreUnknownKeys = true }
 
 @OptIn(ExperimentalSerializationApi::class)
 inline fun <reified T> dumpYamlSerialize(obj: T): String {
-    return Yaml.dump(Yaml.load(Json.encodeToString(obj))) as String
+  return Yaml.dump(Yaml.load(Json.encodeToString(obj))) as String
 }
 
 @OptIn(ExperimentalSerializationApi::class)
 inline fun <reified T> loadYamlDeserialize(document: String): T {
-    return json.decodeFromString(JSON.stringify(Yaml.load(document)))
+  return json.decodeFromString(JSON.stringify(Yaml.load(document)))
 }

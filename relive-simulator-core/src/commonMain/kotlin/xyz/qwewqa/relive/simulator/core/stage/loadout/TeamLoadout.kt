@@ -11,14 +11,11 @@ data class TeamLoadout(
     val song: Song = Song(),
     val strategy: () -> Strategy,
 ) {
-    fun create() = Team(
-        LinkedHashMap<String, Actor>().apply {
-            actors.forEach {
-                this[it.name] = it.create()
-            }
-        },
-        guest?.create(),
-        song,
-        strategy(),
-    )
+  fun create() =
+      Team(
+          LinkedHashMap<String, Actor>().apply { actors.forEach { this[it.name] = it.create() } },
+          guest?.create(),
+          song,
+          strategy(),
+      )
 }

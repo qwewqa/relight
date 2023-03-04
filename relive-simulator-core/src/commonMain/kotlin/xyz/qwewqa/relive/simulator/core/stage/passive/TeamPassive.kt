@@ -9,107 +9,85 @@ import xyz.qwewqa.relive.simulator.core.stage.condition.applyIfTrue
 import xyz.qwewqa.relive.simulator.core.stage.modifier.*
 
 object TeamActPowerUpPassive : PassiveEffect {
-    override val category = PassiveEffectCategory.Passive
-    override val tags = listOf(EffectTag.Act)
+  override val category = PassiveEffectCategory.Passive
+  override val tags = listOf(EffectTag.Act)
 
-    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run {
         team.actors.values.forEach { member ->
-            condition.applyIfTrue(member) {
-                mod {
-                    actPowerUp += value
-                }
-            }
+          condition.applyIfTrue(member) { mod { actPowerUp += value } }
         }
-    }
+      }
 }
 
 object TeamDexterityUpPassive : PassiveEffect {
-    override val category = PassiveEffectCategory.Passive
-    override val tags = listOf(EffectTag.Dexterity)
+  override val category = PassiveEffectCategory.Passive
+  override val tags = listOf(EffectTag.Dexterity)
 
-    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run {
         team.actors.values.forEach { member ->
-            condition.applyIfTrue(member) {
-                mod {
-                    buffDexterity += value
-                }
-            }
+          condition.applyIfTrue(member) { mod { buffDexterity += value } }
         }
-    }
+      }
 }
 
 object TeamCriticalUpPassive : PassiveEffect {
-    override val category = PassiveEffectCategory.Passive
-    override val tags = listOf(EffectTag.Critical)
+  override val category = PassiveEffectCategory.Passive
+  override val tags = listOf(EffectTag.Critical)
 
-    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run {
         team.actors.values.forEach { member ->
-            condition.applyIfTrue(member) {
-                mod {
-                    buffCritical += value
-                }
-            }
+          condition.applyIfTrue(member) { mod { buffCritical += value } }
         }
-    }
+      }
 }
 
 object TeamHpUpPassive : PassiveEffect {
-    override val category = PassiveEffectCategory.Passive
-    override val tags = listOf(EffectTag.HP)
+  override val category = PassiveEffectCategory.Passive
+  override val tags = listOf(EffectTag.HP)
 
-    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run {
         team.actors.values.forEach { member ->
-            condition.applyIfTrue(member) {
-                mod {
-                    maxHpUp += value
-                }
-            }
+          condition.applyIfTrue(member) { mod { maxHpUp += value } }
         }
-    }
+      }
 }
 
 object TeamNormalDefenseUpPassive : PassiveEffect {
-    override val category = PassiveEffectCategory.Passive
-    override val tags = listOf(EffectTag.Defense)
+  override val category = PassiveEffectCategory.Passive
+  override val tags = listOf(EffectTag.Defense)
 
-    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run {
         team.actors.values.forEach { member ->
-            condition.applyIfTrue(member) {
-                mod {
-                    normalDefenseUp += value
-                }
-            }
+          condition.applyIfTrue(member) { mod { normalDefenseUp += value } }
         }
-    }
+      }
 }
 
 object TeamSpecialDefenseUpPassive : PassiveEffect {
-    override val category = PassiveEffectCategory.Passive
-    override val tags = listOf(EffectTag.SpecialDefense)
+  override val category = PassiveEffectCategory.Passive
+  override val tags = listOf(EffectTag.SpecialDefense)
 
-    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run {
         team.actors.values.forEach { member ->
-            condition.applyIfTrue(member) {
-                mod {
-                    specialDefenseUp += value
-                }
-            }
+          condition.applyIfTrue(member) { mod { specialDefenseUp += value } }
         }
-    }
+      }
 }
 
-
 object TeamDamageUpPassive : PassiveEffect {
-    override val category = PassiveEffectCategory.Passive
-    override val tags = listOf(EffectTag.Damage)
+  override val category = PassiveEffectCategory.Passive
+  override val tags = listOf(EffectTag.Damage)
 
-    override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) = context.run {
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run {
         team.actors.values.forEach { member ->
-            condition.applyIfTrue(member) {
-                mod {
-                    damageDealtUp += value
-                }
-            }
+          condition.applyIfTrue(member) { mod { damageDealtUp += value } }
         }
-    }
+      }
 }

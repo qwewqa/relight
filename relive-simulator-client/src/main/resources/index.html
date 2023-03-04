@@ -2,169 +2,170 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <title>Relight</title>
     <!-- PWA Placeholder (Do Not Remove) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="style.css">
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css"
+          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
 <body>
-<div id="toast-container" class="toast-container position-fixed top-0 start-0 p-3" style="z-index: 100000"></div>
+<div class="toast-container position-fixed top-0 start-0 p-3" id="toast-container" style="z-index: 100000"></div>
 <div class="container">
     <div id="simulator-options">
         <div class="row my-0 gy-2">
             <div class="col-auto pe-0 d-none" id="shutdown-container">
-                <button id="shutdown-button" type="button" class="btn btn-danger text-shutdown">Shutdown</button>
+                <button class="btn btn-danger text-shutdown" id="shutdown-button" type="button">Shutdown</button>
             </div>
             <div class="col-auto pe-0">
-                <select id="language-select" class="form-select"></select>
+                <select class="form-select" id="language-select"></select>
             </div>
             <div class="col-auto ps-2 me-auto">
-                <a id="version-link" role="button" class="btn btn-link"
-                   href="https://github.com/qwewqa/relive-simulator">
+                <a class="btn btn-link" href="https://github.com/qwewqa/relive-simulator" id="version-link"
+                   role="button">
                     vX.X.X
                 </a>
-                <a id="server-link" role="button" class="btn btn-primary" href="https://discord.gg/tGfYwUJsNH">
+                <a class="btn btn-primary" href="https://discord.gg/tGfYwUJsNH" id="server-link" role="button">
                     <i class="bi bi-discord"></i>
                 </a>
             </div>
             <div class="col-auto d-flex align-items-center">
                 <div>
-                    <input class="form-check-input" type="checkbox" value="" id="toasts-checkbox" checked>
+                    <input checked class="form-check-input" id="toasts-checkbox" type="checkbox" value="">
                     <label class="form-check-label text-enable-toasts" for="toasts-checkbox">Toasts</label>
                 </div>
             </div>
             <div class="col-auto">
-                <button id="import-button" type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#import-modal">
+                <button class="btn btn-primary" data-bs-target="#import-modal" data-bs-toggle="modal" id="import-button"
+                        type="button">
                     <i class="bi bi-box-arrow-in-down-left"></i>
                 </button>
-                <button id="export-button" type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                        data-bs-target="#export-modal">
+                <button class="btn btn-secondary" data-bs-target="#export-modal" data-bs-toggle="modal" id="export-button"
+                        type="button">
                     <i class="bi bi-box-arrow-up-right"></i>
                 </button>
-                <button id="share-setup-button-alt" type="button" class="btn btn-success">
+                <button class="btn btn-success" id="share-setup-button-alt" type="button">
                     <i class="bi bi-share"></i>
                 </button>
-                <div class="modal fade" id="import-modal" tabindex="-1" role="dialog">
+                <div class="modal fade" id="import-modal" role="dialog" tabindex="-1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title text-import">Import</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                        type="button"></button>
                             </div>
                             <div class="modal-body">
-                                <textarea id="import-text" class="form-control text-monospace" rows="8"></textarea>
+                                <textarea class="form-control text-monospace" id="import-text" rows="8"></textarea>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary text-close-dialog"
-                                        data-bs-dismiss="modal">Close
+                                <button class="btn btn-secondary text-close-dialog" data-bs-dismiss="modal"
+                                        type="button">Close
                                 </button>
-                                <button type="button" class="btn btn-primary text-import" id="do-import-button"
-                                        data-bs-dismiss="modal">Import
+                                <button class="btn btn-primary text-import" data-bs-dismiss="modal" id="do-import-button"
+                                        type="button">Import
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal fade" id="export-modal" tabindex="-1" role="dialog">
+                <div class="modal fade" id="export-modal" role="dialog" tabindex="-1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title text-export">Export</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                        type="button"></button>
                             </div>
                             <div class="modal-body">
-                                <textarea id="export-text" class="form-control text-monospace" rows="8"
-                                          readonly></textarea>
+                                <textarea class="form-control text-monospace" id="export-text" readonly
+                                          rows="8"></textarea>
                             </div>
                             <div class="modal-footer">
                                 <div class="px-2">
-                                    <input class="form-check-input" type="checkbox" value="" id="import-yaml-checkbox"
-                                           checked>
+                                    <input checked class="form-check-input" id="import-yaml-checkbox" type="checkbox"
+                                           value="">
                                     <label class="form-check-label text-use-yaml" for="import-yaml-checkbox">
                                         Use YAML
                                     </label>
                                 </div>
-                                <button type="button" class="btn btn-primary text-close-dialog" data-bs-dismiss="modal">
+                                <button class="btn btn-primary text-close-dialog" data-bs-dismiss="modal" type="button">
                                     Close
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal fade" id="share-options-modal" tabindex="-1" role="dialog">
+                <div class="modal fade" id="share-options-modal" role="dialog" tabindex="-1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 id="share-options-title" class="modal-title text-share-options">Share Options</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                <h5 class="modal-title text-share-options" id="share-options-title">Share Options</h5>
+                                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                        type="button"></button>
                             </div>
                             <div class="modal-body">
-                                <textarea id="share-options-text" class="form-control text-monospace" rows="1"
-                                          style="white-space: pre;" readonly></textarea>
-                                <textarea id="share-options-url-text" class="form-control text-monospace mt-2" rows="1"
-                                          style="white-space: pre;" readonly></textarea>
+                                <textarea class="form-control text-monospace" id="share-options-text" readonly
+                                          rows="1" style="white-space: pre;"></textarea>
+                                <textarea class="form-control text-monospace mt-2" id="share-options-url-text" readonly
+                                          rows="1" style="white-space: pre;"></textarea>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary text-close-dialog" data-bs-dismiss="modal">
+                                <button class="btn btn-primary text-close-dialog" data-bs-dismiss="modal" type="button">
                                     Close
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal fade" id="import-options-modal" tabindex="-1" role="dialog">
+                <div class="modal fade" id="import-options-modal" role="dialog" tabindex="-1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title text-import">Import</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                        type="button"></button>
                             </div>
                             <div class="modal-body">
-                                <textarea id="import-options-text" class="form-control text-monospace"
+                                <textarea class="form-control text-monospace" id="import-options-text"
                                           rows="1"></textarea>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary text-close-dialog"
-                                        data-bs-dismiss="modal">Close
+                                <button class="btn btn-secondary text-close-dialog" data-bs-dismiss="modal"
+                                        type="button">Close
                                 </button>
-                                <button type="button" class="btn btn-primary text-import" id="do-import-options-button"
-                                        data-bs-dismiss="modal">Import
+                                <button class="btn btn-primary text-import" data-bs-dismiss="modal" id="do-import-options-button"
+                                        type="button">Import
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal fade" id="options-modal" data-bs-backdrop="static" tabindex="-1" role="dialog">
+                <div class="modal fade" data-bs-backdrop="static" id="options-modal" role="dialog" tabindex="-1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header py-2">
                                 <h5 class="modal-title text-options" id="options-title">Options</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                        type="button"></button>
                             </div>
                             <div class="modal-body pt-2">
                                 <div class="row mb-1">
                                     <div class="col-12">
-                                        <label for="option-search" class="form-label text-search mb-1">Search</label>
-                                        <input id="option-search" type="text" class="form-control form-control-sm">
+                                        <label class="form-label text-search mb-1" for="option-search">Search</label>
+                                        <input class="form-control form-control-sm" id="option-search" type="text">
                                     </div>
                                 </div>
-                                <div id="options-list" class="d-flex flex-column"></div>
-                                <div id="new-option-container" class="row">
+                                <div class="d-flex flex-column" id="options-list"></div>
+                                <div class="row" id="new-option-container">
                                     <div class="col-12">
                                         <div class="input-group mt-1">
-                                            <input id="new-option-name-input" class="form-control form-control-sm"
+                                            <input class="form-control form-control-sm" id="new-option-name-input"
                                                    type="text">
-                                            <button id="save-new-option-button" type="button"
-                                                    class="btn btn-primary btn-sm text-new">
+                                            <button class="btn btn-primary btn-sm text-new" id="save-new-option-button"
+                                                    type="button">
                                                 New
                                             </button>
                                         </div>
@@ -174,99 +175,99 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal fade" id="select-options-modal" data-bs-backdrop="static" tabindex="-1" role="dialog">
+                <div class="modal fade" data-bs-backdrop="static" id="select-options-modal" role="dialog" tabindex="-1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header py-2">
-                                <h5 id="select-options-title" class="modal-title text-select-options">Select
+                                <h5 class="modal-title text-select-options" id="select-options-title">Select
                                     Options</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                        type="button"></button>
                             </div>
                             <div class="modal-body pt-2">
                                 <div class="row mb-1">
                                     <div class="col-12">
-                                        <label for="select-options-search"
-                                               class="form-label text-search mb-1">Search</label>
-                                        <input id="select-options-search" type="text"
-                                               class="form-control form-control-sm">
+                                        <label class="form-label text-search mb-1"
+                                               for="select-options-search">Search</label>
+                                        <input class="form-control form-control-sm" id="select-options-search"
+                                               type="text">
                                     </div>
                                 </div>
                                 <div class="d-flex p-1 option-item">
                                     <div class="text-all m-1">All</div>
                                     <div class="d-flex gap-1 ms-auto pe-2" role="group">
-                                        <button role="button" id="select-options-all-yes-button"
-                                                class="btn btn-sm btn-outline-success select-options-no-button">
+                                        <button class="btn btn-sm btn-outline-success select-options-no-button" id="select-options-all-yes-button"
+                                                role="button">
                                             <i class="bi bi-check-lg my-auto"></i>
                                         </button>
-                                        <button role="button" id="select-options-all-no-button"
-                                                class="btn btn-sm btn-outline-danger">
+                                        <button class="btn btn-sm btn-outline-danger" id="select-options-all-no-button"
+                                                role="button">
                                             <i class="bi bi-x-lg my-auto"></i>
                                         </button>
                                     </div>
                                 </div>
-                                <div id="select-options-list" class="d-flex flex-column"></div>
+                                <div class="d-flex flex-column" id="select-options-list"></div>
                             </div>
                             <div class="modal-footer py-1">
-                                <button type="button" class="btn btn-secondary btn-sm text-cancel"
-                                        data-bs-dismiss="modal">
+                                <button class="btn btn-secondary btn-sm text-cancel" data-bs-dismiss="modal"
+                                        type="button">
                                     Cancel
                                 </button>
-                                <button type="button" class="btn btn-primary btn-sm text-confirm"
-                                        id="confirm-select-options-button">
+                                <button class="btn btn-primary btn-sm text-confirm" id="confirm-select-options-button"
+                                        type="button">
                                     Confirm
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal fade" id="team-image-modal" tabindex="-1" role="dialog">
+                <div class="modal fade" id="team-image-modal" role="dialog" tabindex="-1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title text-team-image">Team Image</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                        type="button"></button>
                             </div>
                             <div class="modal-body d-flex flex-column align-items-center" id="team-image-container">
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary text-close-dialog" data-bs-dismiss="modal">
+                                <button class="btn btn-primary text-close-dialog" data-bs-dismiss="modal" type="button">
                                     Close
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal fade" id="share-setup-modal" tabindex="-1" role="dialog">
+                <div class="modal fade" id="share-setup-modal" role="dialog" tabindex="-1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title text-share-setup">Share Setup</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                        type="button"></button>
                             </div>
                             <div class="modal-body">
-                                <div id="share-setup-image-container" class="mb-2"></div>
-                                <textarea id="share-setup-text" class="form-control text-monospace" rows="1"
-                                          style="white-space: pre;" readonly></textarea>
+                                <div class="mb-2" id="share-setup-image-container"></div>
+                                <textarea class="form-control text-monospace" id="share-setup-text" readonly
+                                          rows="1" style="white-space: pre;"></textarea>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary text-close-dialog" data-bs-dismiss="modal">
+                                <button class="btn btn-primary text-close-dialog" data-bs-dismiss="modal" type="button">
                                     Close
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal fade" id="act-icons-modal" tabindex="-1" role="dialog">
+                <div class="modal fade" id="act-icons-modal" role="dialog" tabindex="-1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-body">
-                                <div id="act-icons-container" class="mb-2"></div>
+                                <div class="mb-2" id="act-icons-container"></div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary text-close-dialog" data-bs-dismiss="modal">
+                                <button class="btn btn-primary text-close-dialog" data-bs-dismiss="modal" type="button">
                                     Close
                                 </button>
                             </div>
@@ -282,14 +283,14 @@
                 </div>
                 <div class="col-12 col-md-auto mb-1">
                     <h5 class="text-account">Account</h5>
-                    <div id="profile" class="d-none mb-1"></div>
-                    <button id="login-button" type="button" class="btn btn-primary text-log-in d-none mb-1">
+                    <div class="d-none mb-1" id="profile"></div>
+                    <button class="btn btn-primary text-log-in d-none mb-1" id="login-button" type="button">
                         Log In
                     </button>
-                    <button id="logout-button" type="button" class="btn btn-secondary text-log-out d-none mb-1">
+                    <button class="btn btn-secondary text-log-out d-none mb-1" id="logout-button" type="button">
                         Log Out
                     </button>
-                    <button id="sync-button" type="button" class="btn btn-info text-cloud-sync mb-1" disabled>
+                    <button class="btn btn-info text-cloud-sync mb-1" disabled id="sync-button" type="button">
                         Cloud Sync
                     </button>
                 </div>
@@ -301,21 +302,21 @@
                     </div>
                     <div class="row">
                         <div class="col-auto">
-                            <button id="save-setup-button" type="button" class="btn btn-success text-save mb-1">
+                            <button class="btn btn-success text-save mb-1" id="save-setup-button" type="button">
                                 Save
                             </button>
-                            <button id="load-setup-button" type="button" class="btn btn-primary text-load mb-1">
+                            <button class="btn btn-primary text-load mb-1" id="load-setup-button" type="button">
                                 Load
                             </button>
-                            <button id="manage-setups-button" type="button" class="btn btn-warning text-manage mb-1">
+                            <button class="btn btn-warning text-manage mb-1" id="manage-setups-button" type="button">
                                 Manage
                             </button>
                         </div>
                         <div class="col-auto ps-sm-0">
-                            <button id="share-setups-button" type="button" class="btn btn-primary text-share mb-1">
+                            <button class="btn btn-primary text-share mb-1" id="share-setups-button" type="button">
                                 Share
                             </button>
-                            <button id="import-setups-button" type="button" class="btn btn-secondary text-import mb-1">
+                            <button class="btn btn-secondary text-import mb-1" id="import-setups-button" type="button">
                                 Import
                             </button>
                         </div>
@@ -323,10 +324,10 @@
                 </div>
                 <div class="col-12 col-md-auto">
                     <h5 class="text-presets">Presets</h5>
-                    <button id="share-presets-button" type="button" class="btn btn-primary text-share mb-1">
+                    <button class="btn btn-primary text-share mb-1" id="share-presets-button" type="button">
                         Share
                     </button>
-                    <button id="import-presets-button" type="button" class="btn btn-secondary text-import mb-1">
+                    <button class="btn btn-secondary text-import mb-1" id="import-presets-button" type="button">
                         Import
                     </button>
                 </div>
@@ -334,42 +335,42 @@
             <div class="row my-2 gy-2">
                 <div class="col-12 d-flex">
                     <h4 class="text-stage-configuration">Stage Configuration</h4>
-                    <button id="share-setup-button" type="button" class="btn btn-link px-2 mb-1 py-0 ms-1">
+                    <button class="btn btn-link px-2 mb-1 py-0 ms-1" id="share-setup-button" type="button">
                         <i class="bi bi-share"></i>
                     </button>
                 </div>
                 <div class="col-md-4 col-6">
-                    <label for="iterations-input" class="form-label text-iterations">Iterations</label>
-                    <input id="iterations-input" class="form-control" type="number" placeholder="100000">
+                    <label class="form-label text-iterations" for="iterations-input">Iterations</label>
+                    <input class="form-control" id="iterations-input" placeholder="100000" type="number">
                 </div>
                 <div class="col-md-4 col-6">
-                    <label for="turns-input" class="form-label text-max-turns">Max Turns</label>
-                    <input id="turns-input" class="form-control" type="number" placeholder="6">
+                    <label class="form-label text-max-turns" for="turns-input">Max Turns</label>
+                    <input class="form-control" id="turns-input" placeholder="6" type="number">
                 </div>
                 <div class="col-md-4 col-12">
-                    <label for="seed-input" class="form-label text-seed">Seed</label>
+                    <label class="form-label text-seed" for="seed-input">Seed</label>
                     <div class="input-group">
-                        <input id="seed-input" class="form-control" type="number" placeholder="0">
-                        <button id="seed-randomize" class="btn btn-outline-secondary" type="button"><i
+                        <input class="form-control" id="seed-input" placeholder="0" type="number">
+                        <button class="btn btn-outline-secondary" id="seed-randomize" type="button"><i
                                 class="bi-arrow-repeat"></i></button>
                     </div>
                 </div>
                 <div class="col-md-12 col-12">
-                    <label for="boss-select" class="form-label text-boss">Boss</label>
-                    <select class="selectpicker form-control" id="boss-select" data-live-search="true"></select>
+                    <label class="form-label text-boss" for="boss-select">Boss</label>
+                    <select class="selectpicker form-control" data-live-search="true" id="boss-select"></select>
                 </div>
                 <div class="col-md-4 col-12">
-                    <label for="boss-hp-input" class="form-label text-boss-hp">Boss HP Override</label>
-                    <input id="boss-hp-input" class="form-control" type="number" placeholder="">
+                    <label class="form-label text-boss-hp" for="boss-hp-input">Boss HP Override</label>
+                    <input class="form-control" id="boss-hp-input" placeholder="" type="number">
                 </div>
                 <div class="col-md-4 col-6">
-                    <label for="event-bonus-input" class="form-label text-event-bonus">Extra Event Bonus</label>
-                    <input id="event-bonus-input" class="form-control" type="number" placeholder="0">
+                    <label class="form-label text-event-bonus" for="event-bonus-input">Extra Event Bonus</label>
+                    <input class="form-control" id="event-bonus-input" placeholder="0" type="number">
                 </div>
                 <div class="col-md-4 col-6">
-                    <label for="event-multiplier-input" class="form-label text-event-multiplier">Event
+                    <label class="form-label text-event-multiplier" for="event-multiplier-input">Event
                         Multiplier</label>
-                    <input id="event-multiplier-input" class="form-control" type="number" placeholder="100">
+                    <input class="form-control" id="event-multiplier-input" placeholder="100" type="number">
                 </div>
             </div>
             <div class="row my-4">
@@ -377,10 +378,10 @@
                     <h4 class="text-actors">
                         Actors
                     </h4>
-                    <button id="team-image-button" type="button" class="btn btn-link px-2 mb-1 py-0 ms-2">
+                    <button class="btn btn-link px-2 mb-1 py-0 ms-2" id="team-image-button" type="button">
                         <i class="bi bi-card-image"></i>
                     </button>
-                    <button id="act-icons-button" type="button" class="btn btn-link px-2 mb-1 py-0 ms-1">
+                    <button class="btn btn-link px-2 mb-1 py-0 ms-1" id="act-icons-button" type="button">
                         <i class="bi bi-person-badge"></i>
                     </button>
                     <div class="ms-auto my-auto">
@@ -391,38 +392,41 @@
                     <div class="actor-settings-container">
                         <div class="row" id="actor-actions-top-row">
                             <div class="col-auto my-1 me-auto">
-                                <button id="add-actor-button" type="button" class="btn btn-secondary text-add-actor">
+                                <button class="btn btn-secondary text-add-actor" id="add-actor-button" type="button">
                                     Add
                                 </button>
-                                <button id="add-actor-from-preset-button" type="button"
-                                        class="btn btn-secondary text-add-actor-from-preset">
+                                <button class="btn btn-secondary text-add-actor-from-preset" id="add-actor-from-preset-button"
+                                        type="button">
                                     Presets
                                 </button>
                             </div>
                             <div class="col-auto my-1">
-                                <button id="auto-name-button" type="button"
-                                        class="btn btn-outline-secondary text-auto-name">
+                                <button class="btn btn-outline-secondary text-auto-name" id="auto-name-button"
+                                        type="button">
                                     Auto Name
                                 </button>
-                                <button id="sort-by-position-button" type="button"
-                                        class="btn btn-outline-secondary text-sort-by-position">
+                                <button class="btn btn-outline-secondary text-sort-by-position" id="sort-by-position-button"
+                                        type="button">
                                     Sort
                                 </button>
                             </div>
                         </div>
                         <div class="d-flex">
                             <div class="d-flex flex-column my-1 me-1">
-                                <button id="copy-actor-button" type="button" class="btn btn-sm btn-link btn-actor-setup-action">
+                                <button class="btn btn-sm btn-link btn-actor-setup-action" id="copy-actor-button"
+                                        type="button">
                                     <i class="bi bi-file-arrow-up"></i>
                                 </button>
-                                <button id="paste-actor-button" type="button" class="btn btn-sm btn-link btn-actor-setup-action">
+                                <button class="btn btn-sm btn-link btn-actor-setup-action" id="paste-actor-button"
+                                        type="button">
                                     <i class="bi bi-file-earmark-arrow-down"></i>
                                 </button>
-                                <button id="duplicate-actor-button" type="button" class="btn btn-sm btn-link btn-actor-setup-action">
+                                <button class="btn btn-sm btn-link btn-actor-setup-action" id="duplicate-actor-button"
+                                        type="button">
                                     <i class="bi bi-files"></i>
                                 </button>
                             </div>
-                            <div id="actor-tabs" class="rounded d-flex">
+                            <div class="rounded d-flex" id="actor-tabs">
                             </div>
                         </div>
                         <div id="actor-settings"></div>
@@ -431,7 +435,7 @@
                             </div>
                             <div class="col-auto d-flex align-items-center mt-2">
                                 <div>
-                                    <input class="form-check-input" type="checkbox" value="" id="guest-checkbox">
+                                    <input class="form-check-input" id="guest-checkbox" type="checkbox" value="">
                                     <label class="form-check-label text-first-is-guest" for="guest-checkbox">
                                         First is guest
                                     </label>
@@ -448,13 +452,13 @@
                     <h4 class="text-song">Song</h4>
                 </div>
                 <div class="col-12">
-                    <div id="song-settings" class="accordion">
+                    <div class="accordion" id="song-settings">
                         <div class="accordion-item song-effect-item">
                             <div class="accordion-header">
                                 <h5 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button"
+                                    <button class="accordion-button collapsed" data-bs-target="#collapse-song-effect-1"
                                             data-bs-toggle="collapse"
-                                            data-bs-target="#collapse-song-effect-1">
+                                            type="button">
                                         <div class="d-block">
                                             <span class="text-song-effect-1">Effect 1</span>
                                             <small class="song-effect-description pt-1 d-block"></small>
@@ -462,30 +466,30 @@
                                     </button>
                                 </h5>
                             </div>
-                            <div id="collapse-song-effect-1" class="accordion-collapse collapse"
-                                 data-bs-parent="#song-settings">
+                            <div class="accordion-collapse collapse" data-bs-parent="#song-settings"
+                                 id="collapse-song-effect-1">
                                 <div class="accordion-body song-effect-group">
                                     <div class="row gy-3">
                                         <div class="col-8">
-                                            <label for="song-effect-1-type" class="form-label text-song-effect-type">Type</label>
-                                            <select id="song-effect-1-type"
-                                                    class="selectpicker form-control song-effect-type"
-                                                    data-live-search="true"></select>
+                                            <label class="form-label text-song-effect-type" for="song-effect-1-type">Type</label>
+                                            <select class="selectpicker form-control song-effect-type"
+                                                    data-live-search="true"
+                                                    id="song-effect-1-type"></select>
                                         </div>
                                         <div class="col-4">
-                                            <label for="song-effect-1-value" class="form-label text-song-effect-value">Value</label>
-                                            <input id="song-effect-1-value" class="form-control song-effect-value"
-                                                   type="number" placeholder="0">
+                                            <label class="form-label text-song-effect-value" for="song-effect-1-value">Value</label>
+                                            <input class="form-control song-effect-value" id="song-effect-1-value"
+                                                   placeholder="0" type="number">
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-1-condition-1"
-                                                   class="form-label text-song-condition-1">
+                                            <label class="form-label text-song-condition-1"
+                                                   for="song-effect-1-condition-1">
                                                 Condition 1
                                             </label>
                                             <div class="input-group">
-                                                <select id="song-effect-1-condition-1"
-                                                        class="selectpicker form-control song-effect-condition"
-                                                        data-live-search="true" multiple></select>
+                                                <select class="selectpicker form-control song-effect-condition"
+                                                        data-live-search="true"
+                                                        id="song-effect-1-condition-1" multiple></select>
                                                 <button class="btn btn-outline-secondary clear-select-button text-clear"
                                                         type="button">
                                                     Clear
@@ -493,14 +497,14 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-1-condition-2"
-                                                   class="form-label text-song-condition-2">
+                                            <label class="form-label text-song-condition-2"
+                                                   for="song-effect-1-condition-2">
                                                 Condition 2
                                             </label>
                                             <div class="input-group">
-                                                <select id="song-effect-1-condition-2"
-                                                        class="selectpicker form-control song-effect-condition"
-                                                        data-live-search="true" multiple></select>
+                                                <select class="selectpicker form-control song-effect-condition"
+                                                        data-live-search="true"
+                                                        id="song-effect-1-condition-2" multiple></select>
                                                 <button class="btn btn-outline-secondary clear-select-button text-clear"
                                                         type="button">
                                                     Clear
@@ -514,9 +518,9 @@
                         <div class="accordion-item song-effect-item">
                             <div class="accordion-header">
                                 <h5 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button"
+                                    <button class="accordion-button collapsed" data-bs-target="#collapse-song-effect-2"
                                             data-bs-toggle="collapse"
-                                            data-bs-target="#collapse-song-effect-2">
+                                            type="button">
                                         <div class="d-block">
                                             <span class="text-song-effect-2">Effect 2</span>
                                             <small class="song-effect-description pt-1 d-block"></small>
@@ -524,30 +528,30 @@
                                     </button>
                                 </h5>
                             </div>
-                            <div id="collapse-song-effect-2" class="accordion-collapse collapse"
-                                 data-bs-parent="#song-settings">
+                            <div class="accordion-collapse collapse" data-bs-parent="#song-settings"
+                                 id="collapse-song-effect-2">
                                 <div class="accordion-body song-effect-group">
                                     <div class="row gy-3">
                                         <div class="col-8">
-                                            <label for="song-effect-2-type" class="form-label text-song-effect-type">Type</label>
-                                            <select id="song-effect-2-type"
-                                                    class="selectpicker form-control song-effect-type"
-                                                    data-live-search="true"></select>
+                                            <label class="form-label text-song-effect-type" for="song-effect-2-type">Type</label>
+                                            <select class="selectpicker form-control song-effect-type"
+                                                    data-live-search="true"
+                                                    id="song-effect-2-type"></select>
                                         </div>
                                         <div class="col-4">
-                                            <label for="song-effect-2-value" class="form-label text-song-effect-value">Value</label>
-                                            <input id="song-effect-2-value" class="form-control song-effect-value"
-                                                   type="number" placeholder="0">
+                                            <label class="form-label text-song-effect-value" for="song-effect-2-value">Value</label>
+                                            <input class="form-control song-effect-value" id="song-effect-2-value"
+                                                   placeholder="0" type="number">
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-2-condition-1"
-                                                   class="form-label text-song-condition-1">
+                                            <label class="form-label text-song-condition-1"
+                                                   for="song-effect-2-condition-1">
                                                 Condition 1
                                             </label>
                                             <div class="input-group">
-                                                <select id="song-effect-2-condition-1"
-                                                        class="selectpicker form-control song-effect-condition"
-                                                        data-live-search="true" multiple></select>
+                                                <select class="selectpicker form-control song-effect-condition"
+                                                        data-live-search="true"
+                                                        id="song-effect-2-condition-1" multiple></select>
                                                 <button class="btn btn-outline-secondary clear-select-button text-clear"
                                                         type="button">
                                                     Clear
@@ -555,14 +559,14 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-2-condition-2"
-                                                   class="form-label text-song-condition-2">
+                                            <label class="form-label text-song-condition-2"
+                                                   for="song-effect-2-condition-2">
                                                 Condition 2
                                             </label>
                                             <div class="input-group">
-                                                <select id="song-effect-2-condition-2"
-                                                        class="selectpicker form-control song-effect-condition"
-                                                        data-live-search="true" multiple></select>
+                                                <select class="selectpicker form-control song-effect-condition"
+                                                        data-live-search="true"
+                                                        id="song-effect-2-condition-2" multiple></select>
                                                 <button class="btn btn-outline-secondary clear-select-button text-clear"
                                                         type="button">
                                                     Clear
@@ -576,9 +580,9 @@
                         <div class="accordion-item song-effect-item">
                             <div class="accordion-header">
                                 <h5 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button"
+                                    <button class="accordion-button collapsed" data-bs-target="#collapse-song-effect-3"
                                             data-bs-toggle="collapse"
-                                            data-bs-target="#collapse-song-effect-3">
+                                            type="button">
                                         <div class="d-block">
                                             <span class="text-song-effect-3">Effect 3 (Passive)</span>
                                             <small class="song-effect-description pt-1 d-block"></small>
@@ -586,30 +590,30 @@
                                     </button>
                                 </h5>
                             </div>
-                            <div id="collapse-song-effect-3" class="accordion-collapse collapse"
-                                 data-bs-parent="#song-settings">
+                            <div class="accordion-collapse collapse" data-bs-parent="#song-settings"
+                                 id="collapse-song-effect-3">
                                 <div class="accordion-body song-effect-group">
                                     <div class="row gy-3">
                                         <div class="col-8">
-                                            <label for="song-effect-3-type" class="form-label text-song-effect-type">Type</label>
-                                            <select id="song-effect-3-type"
-                                                    class="selectpicker form-control song-effect-type"
-                                                    data-live-search="true"></select>
+                                            <label class="form-label text-song-effect-type" for="song-effect-3-type">Type</label>
+                                            <select class="selectpicker form-control song-effect-type"
+                                                    data-live-search="true"
+                                                    id="song-effect-3-type"></select>
                                         </div>
                                         <div class="col-4">
-                                            <label for="song-effect-3-value" class="form-label text-song-effect-value">Value</label>
-                                            <input id="song-effect-3-value" class="form-control song-effect-value"
-                                                   type="number" placeholder="0">
+                                            <label class="form-label text-song-effect-value" for="song-effect-3-value">Value</label>
+                                            <input class="form-control song-effect-value" id="song-effect-3-value"
+                                                   placeholder="0" type="number">
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-3-condition-1"
-                                                   class="form-label text-song-condition-1">
+                                            <label class="form-label text-song-condition-1"
+                                                   for="song-effect-3-condition-1">
                                                 Condition 1
                                             </label>
                                             <div class="input-group">
-                                                <select id="song-effect-3-condition-1"
-                                                        class="selectpicker form-control song-effect-condition"
-                                                        data-live-search="true" multiple></select>
+                                                <select class="selectpicker form-control song-effect-condition"
+                                                        data-live-search="true"
+                                                        id="song-effect-3-condition-1" multiple></select>
                                                 <button class="btn btn-outline-secondary clear-select-button text-clear"
                                                         type="button">
                                                     Clear
@@ -617,14 +621,14 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <label for="song-effect-3-condition-2"
-                                                   class="form-label text-song-condition-2">
+                                            <label class="form-label text-song-condition-2"
+                                                   for="song-effect-3-condition-2">
                                                 Condition 2
                                             </label>
                                             <div class="input-group">
-                                                <select id="song-effect-3-condition-2"
-                                                        class="selectpicker form-control song-effect-condition"
-                                                        data-live-search="true" multiple></select>
+                                                <select class="selectpicker form-control song-effect-condition"
+                                                        data-live-search="true"
+                                                        id="song-effect-3-condition-2" multiple></select>
                                                 <button class="btn btn-outline-secondary clear-select-button text-clear"
                                                         type="button">
                                                     Clear
@@ -643,18 +647,19 @@
                     <h4 class="text-strategy">Strategy</h4>
                 </div>
                 <div class="col-12">
-                    <label for="strategy-type-select" class="form-label text-strategy-type">Type</label>
-                    <select class="selectpicker form-control" id="strategy-type-select"
-                            data-live-search="true"></select>
+                    <label class="form-label text-strategy-type" for="strategy-type-select">Type</label>
+                    <select class="selectpicker form-control" data-live-search="true"
+                            id="strategy-type-select"></select>
                 </div>
                 <div class="col-12">
                     <label class="form-label text-strategy-value">Value</label>
                     <div class="d-flex gap-1 mb-1">
-                        <button id="strategy-collapse-all-button" class="btn btn-sm btn-outline-secondary text-collapse-all"
+                        <button class="btn btn-sm btn-outline-secondary text-collapse-all"
+                                id="strategy-collapse-all-button"
                                 type="button">
                             Collapse All
                         </button>
-                        <button id="strategy-expand-all-button" class="btn btn-sm btn-outline-secondary text-expand-all"
+                        <button class="btn btn-sm btn-outline-secondary text-expand-all" id="strategy-expand-all-button"
                                 type="button">
                             Expand All
                         </button>
@@ -662,16 +667,16 @@
                     <div id="strategy-container"></div>
                 </div>
                 <div class="col-12">
-                    <button id="boss-strategy-button" class="btn btn-secondary mt-2 text-boss-strategy" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#boss-strategy-collapse">
+                    <button class="btn btn-secondary mt-2 text-boss-strategy" data-bs-target="#boss-strategy-collapse" data-bs-toggle="collapse"
+                            id="boss-strategy-button" type="button">
                         Boss Strategy Override
                     </button>
                 </div>
                 <div class="collapse" id="boss-strategy-collapse">
                     <div class="col-12">
-                        <label for="boss-strategy-type-select" class="form-label text-strategy-type">Type</label>
-                        <select class="selectpicker form-control" id="boss-strategy-type-select"
-                                data-live-search="true"></select>
+                        <label class="form-label text-strategy-type" for="boss-strategy-type-select">Type</label>
+                        <select class="selectpicker form-control" data-live-search="true"
+                                id="boss-strategy-type-select"></select>
                     </div>
                     <div class="col-12">
                         <label class="form-label text-strategy-value">Value</label>
@@ -681,45 +686,45 @@
             </div>
             <div class="row justify-content-end mt-3 mb-2">
                 <div class="col-12 d-grid d-sm-flex gap-1">
-                    <a id="donate-button" href="https://ko-fi.com/qwewqa" target="_blank" role="button"
-                       class="btn btn-primary text-donate">
+                    <a class="btn btn-primary text-donate" href="https://ko-fi.com/qwewqa" id="donate-button" role="button"
+                       target="_blank">
                         Donate
                     </a>
                     <div class="m-auto d-none d-sm-block"></div>
-                    <button id="interactive-button" type="button" class="btn btn-secondary text-interactive">
+                    <button class="btn btn-secondary text-interactive" id="interactive-button" type="button">
                         Interactive
                     </button>
-                    <button id="cancel-button" type="button" class="btn btn-danger text-cancel-simulation" disabled>
+                    <button class="btn btn-danger text-cancel-simulation" disabled id="cancel-button" type="button">
                         Cancel
                     </button>
-                    <button id="simulate-button" type="button" class="btn btn-success text-simulate">Simulate</button>
+                    <button class="btn btn-success text-simulate" id="simulate-button" type="button">Simulate</button>
                 </div>
             </div>
         </form>
         <div id="results-container">
             <div class="border border-2 rounded pb-3 pb-md-1 my-3 d-none" id="interactive-container">
                 <div id="interactive-ui-container">
-                    <div id="interactive-console-container" class="mx-auto pb-2 collapse">
+                    <div class="mx-auto pb-2 collapse" id="interactive-console-container">
                         <div class="row" id="interactive-display-row">
                             <div class="col-12">
                                 <div id="interactive-log-container">
                                     <div id="interactive-log"></div>
                                     <div id="interactive-log-navigation-container">
                                         <div class="btn-group-vertical">
-                                            <button id="interactive-log-start-button" type="button"
-                                                    class="btn btn-sm btn-secondary">
+                                            <button class="btn btn-sm btn-secondary" id="interactive-log-start-button"
+                                                    type="button">
                                                 <i class="bi bi-chevron-bar-up"></i>
                                             </button>
-                                            <button id="interactive-log-up-button" type="button"
-                                                    class="btn btn-sm btn-secondary">
+                                            <button class="btn btn-sm btn-secondary" id="interactive-log-up-button"
+                                                    type="button">
                                                 <i class="bi bi-chevron-up"></i>
                                             </button>
-                                            <button id="interactive-log-down-button" type="button"
-                                                    class="btn btn-sm btn-secondary">
+                                            <button class="btn btn-sm btn-secondary" id="interactive-log-down-button"
+                                                    type="button">
                                                 <i class="bi bi-chevron-down"></i>
                                             </button>
-                                            <button id="interactive-log-end-button" type="button"
-                                                    class="btn btn-sm btn-secondary">
+                                            <button class="btn btn-sm btn-secondary" id="interactive-log-end-button"
+                                                    type="button">
                                                 <i class="bi bi-chevron-bar-down"></i>
                                             </button>
                                         </div>
@@ -731,11 +736,11 @@
                         <div class="row" id="interactive-input-row">
                             <div class="col-12">
                                 <div class="input-group input-group-sm">
-                                    <input id="interactive-input" class="form-control" value="" type="text"
-                                           autocomplete="off"
-                                           autocorrect="off" spellcheck="false" autocapitalize="off"
-                                           name="interactive-input">
-                                    <button id="interactive-send-button" class="btn btn-outline-secondary"
+                                    <input autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control"
+                                           id="interactive-input"
+                                           name="interactive-input" spellcheck="false" type="text"
+                                           value="">
+                                    <button class="btn btn-outline-secondary" id="interactive-send-button"
                                             type="button"><i
                                             class="bi-send"></i></button>
                                 </div>
@@ -746,31 +751,31 @@
                                 <div class="input-group">
                                     <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
                                             data-interactive-command="undo"
-                                            type="button" title="undo">
+                                            title="undo" type="button">
                                         <i class="bi bi-arrow-90deg-left"></i></button>
                                     <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
                                             data-interactive-command="save temp"
-                                            type="button" title="save">
+                                            title="save" type="button">
                                         <i class="bi bi-download"></i></button>
                                     <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
                                             data-interactive-command="load temp"
-                                            type="button" title="load">
+                                            title="load" type="button">
                                         <i class="bi bi-upload"></i></button>
                                     <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
                                             data-interactive-command="export strict"
-                                            type="button" title="export">
+                                            title="export" type="button">
                                         <i class="bi bi-box-arrow-up-right"></i></button>
                                     <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
                                             data-interactive-command="seed"
-                                            type="button" title="reseed">
+                                            title="reseed" type="button">
                                         <i class="bi bi-shuffle"></i></button>
                                     <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
                                             data-interactive-command="status"
-                                            type="button" title="status">
+                                            title="status" type="button">
                                         <i class="bi bi-activity"></i></button>
                                     <button class="btn btn-sm btn-outline-secondary interactive-shortcut-button"
                                             data-interactive-command="info"
-                                            type="button" title="info">
+                                            title="info" type="button">
                                         <i class="bi bi-info-circle"></i></button>
                                 </div>
                             </div>
@@ -779,12 +784,12 @@
                     <div id="interactive-top-container">
                         <div class="mx-auto">
                         </div>
-                        <button id="interactive-ui-console-button" role="button" class="btn btn-warning"
-                                type="button" data-bs-toggle="collapse"
-                                data-bs-target="#interactive-console-container">
+                        <button class="btn btn-warning" data-bs-target="#interactive-console-container" data-bs-toggle="collapse"
+                                id="interactive-ui-console-button" role="button"
+                                type="button">
                             <i class="bi bi-terminal"></i>
                         </button>
-                        <button id="interactive-ui-export-button" role="button" class="btn btn-primary"
+                        <button class="btn btn-primary" id="interactive-ui-export-button" role="button"
                                 type="button">
                             <i class="bi bi-box-arrow-up-right"></i>
                         </button>
@@ -1218,7 +1223,7 @@
                         </div>
                     </div>
                     <div id="interactive-stage-effect-container">
-                        <div id="interactive-team-stage-effects-container" class="interactive-stage-effects-container">
+                        <div class="interactive-stage-effects-container" id="interactive-team-stage-effects-container">
                             <div class="interactive-stage-effect interactive-stage-effect-lv-1">
                                 <div class="interactive-stage-effect-text">
                                     2
@@ -1255,7 +1260,7 @@
                                      src="https://relight.qwewqa.xyz/legacy/7af4ebdea0e3233992ff85dc0fba28f45c7da32a/img/field_effect_icon/1.png">
                             </div>
                         </div>
-                        <div id="interactive-enemy-stage-effects-container" class="interactive-stage-effects-container">
+                        <div class="interactive-stage-effects-container" id="interactive-enemy-stage-effects-container">
 
                             <div class="interactive-stage-effect interactive-stage-effect-lv-1">
                                 <div class="interactive-stage-effect-text">
@@ -1282,34 +1287,34 @@
                     </div>
                     <div id="interactive-turn-text-container">
                         <div id="interactive-turn-text-center-container">
-                            <button id="interactive-ui-rewind-button" role="button"
-                                    class="btn btn-interactive-nav btn-link"
+                            <button class="btn btn-interactive-nav btn-link" id="interactive-ui-rewind-button"
+                                    role="button"
                                     type="button">
                                 <i class="bi bi-skip-backward-fill"></i>
                             </button>
-                            <button id="interactive-ui-seek-back-button" role="button"
-                                    class="btn btn-interactive-nav btn-link"
+                            <button class="btn btn-interactive-nav btn-link" id="interactive-ui-seek-back-button"
+                                    role="button"
                                     type="button">
                                 <i class="bi bi-skip-start-fill"></i>
                             </button>
-                            <button id="interactive-ui-undo-button" role="button"
-                                    class="btn btn-interactive-nav btn-link"
+                            <button class="btn btn-interactive-nav btn-link" id="interactive-ui-undo-button"
+                                    role="button"
                                     type="button">
                                 <i class="bi bi-caret-left-fill"></i>
                             </button>
-                            <div id="interactive-turn-text" class="font-monospace">3/6</div>
-                            <button id="interactive-ui-redo-button" role="button"
-                                    class="btn btn-interactive-nav btn-link"
+                            <div class="font-monospace" id="interactive-turn-text">3/6</div>
+                            <button class="btn btn-interactive-nav btn-link" id="interactive-ui-redo-button"
+                                    role="button"
                                     type="button">
                                 <i class="bi bi-caret-right-fill"></i>
                             </button>
-                            <button id="interactive-ui-seek-forward-button" role="button"
-                                    class="btn btn-interactive-nav btn-link"
+                            <button class="btn btn-interactive-nav btn-link" id="interactive-ui-seek-forward-button"
+                                    role="button"
                                     type="button">
                                 <i class="bi bi-skip-end-fill"></i>
                             </button>
-                            <button id="interactive-ui-fast-forward-button" role="button"
-                                    class="btn btn-interactive-nav btn-link" type="button">
+                            <button class="btn btn-interactive-nav btn-link" id="interactive-ui-fast-forward-button"
+                                    role="button" type="button">
                                 <i class="bi bi-skip-forward-fill"></i>
                             </button>
                         </div>
@@ -1372,20 +1377,21 @@
                         </div>
                     </div>
                     <div id="interactive-error-container">
-                        <div id="interactive-error-text" class="text-danger text-center"></div>
+                        <div class="text-danger text-center" id="interactive-error-text"></div>
                     </div>
                     <div id="interactive-acts-row-container">
-                        <div id="interactive-acts-row" class="">
+                        <div class="" id="interactive-acts-row">
                             <div class="d-flex flex-column">
-                                <button id="interactive-climax-button" role="button"
-                                        class="btn btn-secondary interactive-climax-button-activated" disabled>
+                                <button class="btn btn-secondary interactive-climax-button-activated" disabled
+                                        id="interactive-climax-button" role="button">
                                     <div class="interactive-climax-button-text-container">
                                         <div class="interactive-climax-button-text font-monospace">
                                             2t
                                         </div>
                                     </div>
                                 </button>
-                                <button class="btn btn-sm btn-dark interactive-act-button" id="interactive-auto-queue-button" disabled>
+                                <button class="btn btn-sm btn-dark interactive-act-button"
+                                        disabled id="interactive-auto-queue-button">
                                     <i class="bi bi-magic"></i>
                                 </button>
                             </div>
@@ -1553,7 +1559,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button id="interactive-ui-go-button" class="btn btn-success">
+                        <button class="btn btn-success" id="interactive-ui-go-button">
                             <i class="bi bi-send"></i>
                         </button>
                     </div>
@@ -1562,52 +1568,52 @@
             <div id="results">
                 <div class="row d-none" id="results-row">
                     <div class="col-12">
-                        <label for="results-text" class="form-label text-error-info">Results</label>
-                        [<a href="#" id="show-result-details" class="text-details" data-bs-toggle="collapse"
-                            data-bs-target="#result-details-collapse">Details</a>]
+                        <label class="form-label text-error-info" for="results-text">Results</label>
+                        [<a class="text-details" data-bs-target="#result-details-collapse" data-bs-toggle="collapse" href="#"
+                            id="show-result-details">Details</a>]
                         <pre id="results-progress-text"></pre>
-                        <div id="result-details-collapse" class="collapse hide mt-2">
+                        <div class="collapse hide mt-2" id="result-details-collapse">
                             <pre id="results-text"></pre>
                         </div>
                         <div id="results-plot"></div>
                         <div id="saved-results-container">
-                            <button id="save-results-button" class="btn btn-primary text-save-results" type="button">
+                            <button class="btn btn-primary text-save-results" id="save-results-button" type="button">
                                 Save Results
                             </button>
-                            <button id="clear-graphs-button" class="btn btn-danger text-clear-graphs" type="button">
+                            <button class="btn btn-danger text-clear-graphs" id="clear-graphs-button" type="button">
                                 Clear Graphs
                             </button>
-                            <div id="saved-results-row" class="d-flex mt-1">
+                            <div class="d-flex mt-1" id="saved-results-row">
                             </div>
                         </div>
                         <div id="plot-container-outer">
                             <div id="plot-container-inner">
-                                <div id="end-plot-damage" class="result-pdf-plot"></div>
-                                <div id="end-plot-damage-box" class="result-box-plot"></div>
-                                <div id="end-plot-margin" class="result-pdf-plot"></div>
-                                <div id="end-plot-margin-box" class="result-box-plot"></div>
-                                <div id="wipe-plot-damage" class="result-pdf-plot"></div>
-                                <div id="wipe-plot-damage-box" class="result-box-plot"></div>
-                                <div id="wipe-plot-margin" class="result-pdf-plot"></div>
-                                <div id="wipe-plot-margin-box" class="result-box-plot"></div>
+                                <div class="result-pdf-plot" id="end-plot-damage"></div>
+                                <div class="result-box-plot" id="end-plot-damage-box"></div>
+                                <div class="result-pdf-plot" id="end-plot-margin"></div>
+                                <div class="result-box-plot" id="end-plot-margin-box"></div>
+                                <div class="result-pdf-plot" id="wipe-plot-damage"></div>
+                                <div class="result-box-plot" id="wipe-plot-damage-box"></div>
+                                <div class="result-pdf-plot" id="wipe-plot-margin"></div>
+                                <div class="result-box-plot" id="wipe-plot-margin-box"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div id="log-filter-container" class="my-2 d-none">
+                <div class="my-2 d-none" id="log-filter-container">
                     <div class="row g-1">
                         <div class="col-4 col-md-auto">
-                            <label for="log-min-damage-input" class="visually-hidden">Min Dmg</label>
-                            <input id="log-min-damage-input" class="form-control" size="9" placeholder="Min Dmg">
+                            <label class="visually-hidden" for="log-min-damage-input">Min Dmg</label>
+                            <input class="form-control" id="log-min-damage-input" placeholder="Min Dmg" size="9">
                         </div>
                         <div class="col-4 col-md-auto">
-                            <label for="log-max-damage-input" class="visually-hidden">Max Dmg</label>
-                            <input id="log-max-damage-input" class="form-control" size="9" placeholder="Max Dmg">
+                            <label class="visually-hidden" for="log-max-damage-input">Max Dmg</label>
+                            <input class="form-control" id="log-max-damage-input" placeholder="Max Dmg" size="9">
                         </div>
                         <div class="col-4 col-md-auto">
-                            <label for="log-result-type" class="visually-hidden">Type</label>
-                            <select id="log-result-type" class="form-select">
-                                <option value="Any" selected="selected">Any</option>
+                            <label class="visually-hidden" for="log-result-type">Type</label>
+                            <select class="form-select" id="log-result-type">
+                                <option selected="selected" value="Any">Any</option>
                                 <option value="Victory">Victory</option>
                                 <option value="End">End</option>
                                 <option value="Wipe">Wipe</option>
@@ -1616,23 +1622,24 @@
                             </select>
                         </div>
                         <div class="col-auto">
-                            <button id="log-filter-button" class="btn btn-primary" type="button">
+                            <button class="btn btn-primary" id="log-filter-button" type="button">
                                 Filter
                             </button>
                         </div>
                     </div>
                     <div class="d-flex mt-3 gap-1 justify-content-center justify-content-md-start">
-                        <button id="log-back-button" role="button"
-                                class="btn btn-secondary"
+                        <button class="btn btn-secondary" id="log-back-button"
+                                role="button"
                                 type="button">
                             <i class="bi bi-caret-left-fill"></i>
                         </button>
                         <div>
-                            <label for="log-index-input" class="visually-hidden">Index</label>
-                            <input id="log-index-input" class="form-control text-center" size="4" placeholder="Index" inputmode="numeric">
+                            <label class="visually-hidden" for="log-index-input">Index</label>
+                            <input class="form-control text-center" id="log-index-input" inputmode="numeric" placeholder="Index"
+                                   size="4">
                         </div>
-                        <button id="log-next-button" role="button"
-                                class="btn btn-secondary"
+                        <button class="btn btn-secondary" id="log-next-button"
+                                role="button"
                                 type="button">
                             <i class="bi bi-caret-right-fill"></i>
                         </button>
@@ -1640,13 +1647,13 @@
                 </div>
                 <div class="row d-none" id="results-error-row">
                     <div class="col-12">
-                        <label for="error-text" class="form-label text-error-info">Error</label>
+                        <label class="form-label text-error-info" for="error-text">Error</label>
                         <pre id="error-text"></pre>
                     </div>
                 </div>
                 <div class="row d-none" id="results-log-row">
                     <div class="col-12">
-                        <label for="log-text" class="form-label text-log">Log</label>
+                        <label class="form-label text-log" for="log-text">Log</label>
                         <div id="log-text"></div>
                     </div>
                 </div>
@@ -1654,9 +1661,11 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="bootstrap-select.js"></script>
 <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
 <script src="https://cdn.auth0.com/js/auth0-spa-js/1.22/auth0-spa-js.production.js"></script>

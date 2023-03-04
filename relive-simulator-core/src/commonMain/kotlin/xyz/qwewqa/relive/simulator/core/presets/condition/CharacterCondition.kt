@@ -36,6 +36,5 @@ val KoharuOnlyCondition = characterCondition(Character.Koharu)
 val SuzuOnlyCondition = characterCondition(Character.Suzu)
 val HisameOnlyCondition = characterCondition(Character.Hisame)
 
-fun characterCondition(character: Character) = NamedCondition(character.displayName) {
-    it.dress.character == character
-}
+fun characterCondition(character: Character) =
+    NamedCondition(character.displayName) { it.dress.character == character }
