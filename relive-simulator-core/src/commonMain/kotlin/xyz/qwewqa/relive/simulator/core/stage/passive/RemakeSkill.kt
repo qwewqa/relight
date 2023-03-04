@@ -8,9 +8,12 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffect
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.againstAttributeDamageReceivedDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.modifier.*
 import xyz.qwewqa.relive.simulator.stage.character.Character
+
+// TODO: Generate this from datamines
 
 data class Targeting(
     val name: String,
@@ -190,15 +193,15 @@ val passiveEffects = buildMap {
         targets.forEach { it.mod { brillianceRegen += value } }
     }
     listOf(
-        PoisonBuff,
-        BurnBuff,
-        ProvokeBuff,
-        StunBuff,
-        SleepBuff,
-        ConfusionBuff,
-        StopBuff,
-        FreezeBuff,
-        BlindnessBuff,
+        Buffs.PoisonBuff,
+        Buffs.BurnBuff,
+        Buffs.ProvokeBuff,
+        Buffs.StunBuff,
+        Buffs.SleepBuff,
+        Buffs.ConfusionBuff,
+        Buffs.StopBuff,
+        Buffs.FreezeBuff,
+        Buffs.BlindnessBuff,
     ).forEachIndexed { index, buffEffect ->
         this[index + 91] = Effect(
             "${buffEffect.name} Resistance Up",
@@ -212,23 +215,23 @@ val passiveEffects = buildMap {
         }
     }
     this[248] = Effect(
-        "${MarkBuff.name} Resistance Up",
+        "${Buffs.MarkBuff.name} Resistance Up",
         category = PassiveEffectCategory.Passive,
         valueSuffix = "%",
         timeSuffix = null,
     ) { value, time ->
         targets.forEach {
-            it.specificBuffResist[MarkBuff] = (it.specificBuffResist[MarkBuff] ?: 0) + value
+            it.specificBuffResist[Buffs.MarkBuff] = (it.specificBuffResist[Buffs.MarkBuff] ?: 0) + value
         }
     }
     this[153] = Effect(
-        "${AggroBuff.name} Resistance Up",
+        "${Buffs.AggroBuff.name} Resistance Up",
         category = PassiveEffectCategory.Passive,
         valueSuffix = "%",
         timeSuffix = null,
     ) { value, time ->
         targets.forEach {
-            it.specificBuffResist[AggroBuff] = (it.specificBuffResist[AggroBuff] ?: 0) + value
+            it.specificBuffResist[Buffs.AggroBuff] = (it.specificBuffResist[Buffs.AggroBuff] ?: 0) + value
         }
     }
 }
@@ -256,7 +259,7 @@ val startEffects = buildMap {
         valueSuffix = "%",
         timeSuffix = "t",
     ) { value, time ->
-        applyTimedBuff(DamageDealtUpBuff, value, time)
+        applyTimedBuff(Buffs.DamageDealtUpBuff, value, time)
     }
     this[126] = Effect(
         "Damage Taken Down Buff",
@@ -264,7 +267,7 @@ val startEffects = buildMap {
         valueSuffix = "%",
         timeSuffix = "t",
     ) { value, time ->
-        applyTimedBuff(DamageReceivedDownBuff, value, time)
+        applyTimedBuff(Buffs.DamageReceivedDownBuff, value, time)
     }
     Attribute.values().drop(1).forEachIndexed { index, attribute ->
         this[index + 66] = Effect(
@@ -298,7 +301,7 @@ val startEffects = buildMap {
         valueSuffix = "",
         timeSuffix = "t",
     ) { value, time ->
-        applyTimedBuff(NormalBarrierBuff, value, time)
+        applyTimedBuff(Buffs.NormalBarrierBuff, value, time)
     }
     this[31] = Effect(
         "Special Barrier Buff",
@@ -306,7 +309,7 @@ val startEffects = buildMap {
         valueSuffix = "",
         timeSuffix = "t",
     ) { value, time ->
-        applyTimedBuff(SpecialBarrierBuff, value, time)
+        applyTimedBuff(Buffs.SpecialBarrierBuff, value, time)
     }
     this[56] = Effect(
         "Provoke Buff",
@@ -314,7 +317,7 @@ val startEffects = buildMap {
         valueSuffix = null,
         timeSuffix = "t",
     ) { value, time ->
-        applyTimedBuff(ProvokeBuff, value, time)
+        applyTimedBuff(Buffs.ProvokeBuff, value, time)
     }
     this[152] = Effect(
         "Aggro Buff",
@@ -322,7 +325,7 @@ val startEffects = buildMap {
         valueSuffix = null,
         timeSuffix = "t",
     ) { value, time ->
-        applyTimedBuff(AggroBuff, value, time)
+        applyTimedBuff(Buffs.AggroBuff, value, time)
     }
 }
 

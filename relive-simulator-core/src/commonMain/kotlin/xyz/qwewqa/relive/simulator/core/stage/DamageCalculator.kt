@@ -197,7 +197,7 @@ open class RandomDamageCalculator : DamageCalculator {
 
         // tentative
         var dmgTakenCoef = 100 + target.mod { +damageReceivedModifier(attacker) }
-        if (Buffs.WeakSpot in target.buffs) dmgTakenCoef += 60
+        if (Buffs.WeakSpotBuff in target.buffs) dmgTakenCoef += 60
 
         val attributeDamageDealtUpCoef = 100 + attacker.attributeDamageDealtUp[attribute]
         val againstAttributeDamageDealtUpCoef =

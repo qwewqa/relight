@@ -34,12 +34,24 @@ data class ActionLog(
     }
 }
 
+interface TargetSelectionContext {
+    val self: Actor?
+    val team: Team
+    val enemy: Team
+}
+
+class BasicTargetSelectionContext(
+    override val self: Actor?,
+    override val team: Team,
+    override val enemy: Team,
+) : TargetSelectionContext
+
 class ActionContext(
-        val self: Actor,
-        val stage: Stage,
-        val team: Team,
-        val enemy: Team,
-) {
+    override val self: Actor,
+    val stage: Stage,
+    override val team: Team,
+    override val enemy: Team,
+) : TargetSelectionContext {
     private var focus = 0
     val focusEnabled get() = focus > 0
 

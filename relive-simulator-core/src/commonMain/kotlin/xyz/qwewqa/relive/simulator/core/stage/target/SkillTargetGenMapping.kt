@@ -4,6 +4,7 @@ import xyz.qwewqa.relive.simulator.core.gen.GenSkillTarget
 import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenSkillTarget
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.TargetSelectionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ContractionBuff
 
@@ -12,12 +13,12 @@ data class SkillTargetData(
     val description: String,
 ) {
     inline fun makeAllyTarget(
-        crossinline target: ActionContext.(provokeTarget: Actor?) -> List<Actor>
+        crossinline target: TargetSelectionContext.(provokeTarget: Actor?) -> List<Actor>
     ) = object : SkillTarget {
         override val id: Int = this@SkillTargetData.id
         override val isAffectedByAggro: Boolean = false
         override val description: String = this@SkillTargetData.description
-        override fun getTargets(context: ActionContext, provokeTarget: Actor?) = target(context, provokeTarget)
+        override fun getTargets(context: TargetSelectionContext, provokeTarget: Actor?) = target(context, provokeTarget)
     }
 
     inline fun makeAllyTargetAoe(
@@ -56,19 +57,19 @@ data class SkillTargetData(
 
     inline fun makeEnemyTarget(
         focus: Boolean = false,
-        crossinline target: ActionContext.(provokeTarget: Actor?) -> List<Actor>
+        crossinline target: TargetSelectionContext.(provokeTarget: Actor?) -> List<Actor>
     ) = object : SkillTarget {
         override val id: Int = this@SkillTargetData.id
         override val isAffectedByAggro: Boolean = !focus
         override val description: String = this@SkillTargetData.description
-        override fun getTargets(context: ActionContext, provokeTarget: Actor?) = context.target(provokeTarget)
+        override fun getTargets(context: TargetSelectionContext, provokeTarget: Actor?) = context.target(provokeTarget)
     }
 
     inline fun makeEnemyTargetAoe(
         focus: Boolean = false,
         crossinline condition: (actor: Actor) -> Boolean = { true },
     ) = makeEnemyTarget(focus) { _ ->
-        if (ContractionBuff in self.buffs) {
+        if (self?.buffs?.contains(ContractionBuff) == true) {
             listOfNotNull(enemy.active.firstOrNull())
         } else {
             enemy.active.filter(condition)

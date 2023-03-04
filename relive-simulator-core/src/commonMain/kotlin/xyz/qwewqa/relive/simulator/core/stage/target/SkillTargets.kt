@@ -10,7 +10,7 @@ import xyz.qwewqa.relive.simulator.stage.character.Position
 import xyz.qwewqa.relive.simulator.stage.character.School
 
 object SkillTargets : ImplementationRegistry<SkillTarget>() {
-    val self = +getSkillTargetData(1001).makeAllyTarget { listOf(self) }
+    val self = +getSkillTargetData(1001).makeAllyTarget { listOfNotNull(self) }
     val allAllies = +getSkillTargetData(1002).makeAllyTarget { team.active.toList() }
     val allyFrontGroup = +getSkillTargetData(1003).makeAllyTarget {
         val active = team.active
