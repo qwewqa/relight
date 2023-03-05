@@ -1,6 +1,5 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr26
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.SagittariusJunna
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassiveV2
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
@@ -8,12 +7,11 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
 import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.ActPowerDownBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.PerfectAimBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -89,7 +87,7 @@ val tr26MusketeerKaren =
                     ActType.Act7("Weakening Concerto", 3) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = ActPowerDownBuff,
+                            effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -98,7 +96,7 @@ val tr26MusketeerKaren =
                     ActType.Act8("Accuracy Concerto", 3) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -112,7 +110,7 @@ val tr26MusketeerKaren =
                     ActType.ClimaxAct("Dance of Hope NEO", 3) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -134,7 +132,7 @@ val tr26MusketeerKaren =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(SagittariusJunna),
+                    trEventBonusPassive(1060025),
                     AbnormalGuardPassive.new(),
                 ),
         ),
@@ -147,7 +145,7 @@ val tr26MusketeerKarenVer2023 =
             tr26MusketeerKaren.dress.copy(
                 autoSkills =
                     listOf(
-                        trEventBonusPassiveV2(SagittariusJunna),
+                        trEventBonusPassiveV2(1060025),
                         AbnormalGuardPassive.new(),
                     ),
             ),
@@ -258,7 +256,7 @@ val tr26MusketeerKarenDiff4 =
                     ActType.Act7("Weakening Concerto", 3) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = ActPowerDownBuff,
+                            effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -267,7 +265,7 @@ val tr26MusketeerKarenDiff4 =
                     ActType.Act8("Accuracy Concerto", 3) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -281,7 +279,7 @@ val tr26MusketeerKarenDiff4 =
                     ActType.ClimaxAct("Dance of Hope NEO", 3) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -304,7 +302,7 @@ val tr26MusketeerKarenDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(SagittariusJunna),
+                    trEventBonusPassive(1060025),
                     AbnormalGuardPassive.new(),
                 ),
         ),
@@ -317,7 +315,7 @@ val tr26MusketeerKarenDiff4Ver2023 =
             tr26MusketeerKarenDiff4.dress.copy(
                 autoSkills =
                     listOf(
-                        trEventBonusPassiveV2(SagittariusJunna),
+                        trEventBonusPassiveV2(1060025),
                         AbnormalGuardPassive.new(),
                     ),
             ),

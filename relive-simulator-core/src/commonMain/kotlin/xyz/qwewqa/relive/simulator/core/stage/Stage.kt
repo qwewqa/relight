@@ -85,16 +85,16 @@ class Stage(
             .forEach { (actor, us) ->
               us.forEach {
                 log("AutoEffect") { "[${actor.name}] unit skill [${it.name}] activate." }
-                it.activate(actor.context)
+                it.execute(actor.context)
               }
             }
 
         allActors.forEach { sg ->
           sg.passives
-              .filter { it.effect.category == AutoSkillType.Passive }
+              .filter { it.type == AutoSkillType.Passive }
               .forEach {
                 sg.context.log("AutoEffect") { "Passive auto effect [${it.name}] activate." }
-                it.activate(sg.context)
+                it.execute(sg.context)
               }
         }
 
@@ -108,12 +108,12 @@ class Stage(
             .forEach { category ->
               autoEffectPriority.forEach { sg ->
                 sg.passives
-                    .filter { it.effect.category == category }
+                    .filter { it.type == category }
                     .forEach {
                       sg.context.log("AutoEffect") {
                         "${category.name} auto effect [${it.name}] activate."
                       }
-                      it.activate(sg.context)
+                      it.execute(sg.context)
                     }
               }
             }

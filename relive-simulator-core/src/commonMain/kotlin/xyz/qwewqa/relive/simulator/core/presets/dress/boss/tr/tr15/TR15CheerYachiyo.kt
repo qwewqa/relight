@@ -1,14 +1,16 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr15
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.flower.SakuyahimeMahiru
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
+import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -96,7 +98,7 @@ val tr15CheerYachiyo =
                             hitCount = 3,
                         )
                         applyTimedBuff(
-                            effect = StunBuff,
+                            effect = Buffs.StunBuff,
                             turns = 2,
                         )
                       }
@@ -104,7 +106,7 @@ val tr15CheerYachiyo =
                     ActType.Act9("Weakening Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = ActPowerDownBuff,
+                            effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -117,7 +119,7 @@ val tr15CheerYachiyo =
                             hitCount = 4,
                         )
                         applyTimedBuff(
-                            effect = StunBuff,
+                            effect = Buffs.StunBuff,
                             turns = 2,
                         )
                       }
@@ -133,7 +135,7 @@ val tr15CheerYachiyo =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(SakuyahimeMahiru),
+                    trEventBonusPassive(1030021),
                     AbnormalGuardPassive.new(),
                 ),
         ),
@@ -260,7 +262,7 @@ val tr15CheerYachiyoDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = StunBuff,
+                            effect = Buffs.StunBuff,
                             turns = 2,
                         )
                       }
@@ -268,7 +270,7 @@ val tr15CheerYachiyoDiff4 =
                     ActType.Act9("Weakening Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = ActPowerDownBuff,
+                            effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -282,7 +284,7 @@ val tr15CheerYachiyoDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = StunBuff,
+                            effect = Buffs.StunBuff,
                             turns = 2,
                         )
                       }
@@ -298,7 +300,7 @@ val tr15CheerYachiyoDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(SakuyahimeMahiru),
+                    trEventBonusPassive(1030021),
                     AbnormalGuardPassive.new(),
                 ),
         ),

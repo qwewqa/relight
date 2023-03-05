@@ -9,7 +9,7 @@ data class ActBlueprint(
     val type: ActType,
     val apCost: Int? = null,
     val icon: Int? = null,
-    val parameters: List<ActParameters>? = null,
+    val parameters: List<ActParameters>? = emptyList(),
     val value: ActBlueprintContext.() -> Act = { Act {} },
 ) {
   fun create(level: Int): ActData {

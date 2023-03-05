@@ -1,16 +1,18 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr16
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.space.HuntingRevueNana
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
-import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
+import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalResistPassiveA
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.BossElementResistPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.BuggedHMRuiBossElementResistPassive
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -82,7 +84,7 @@ val tr16HangedManRui =
                             hitCount = 3,
                         )
                         applyTimedBuff(
-                            effect = BrillianceGainDownBuff,
+                            effect = Buffs.BrillianceGainDownBuff,
                             value = 80,
                             turns = 2,
                         )
@@ -91,17 +93,17 @@ val tr16HangedManRui =
                     ActType.Act7("Inspiring Gust", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = DexterityUpBuff,
+                            effect = Buffs.DexterityUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = CriticalUpBuff,
+                            effect = Buffs.CriticalUpBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -114,7 +116,7 @@ val tr16HangedManRui =
                             hitCount = 4,
                         )
                         applyTimedBuff(
-                            effect = SleepBuff,
+                            effect = Buffs.SleepBuff,
                             chance = 75,
                             turns = 2,
                         )
@@ -127,7 +129,7 @@ val tr16HangedManRui =
                             hitCount = 4,
                         )
                         applyTimedBuff(
-                            effect = SleepBuff,
+                            effect = Buffs.SleepBuff,
                             chance = 75,
                             turns = 2,
                         )
@@ -144,7 +146,7 @@ val tr16HangedManRui =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(HuntingRevueNana),
+                    trEventBonusPassive(1070024),
                     AbnormalResistPassiveA.new(100),
                     BossElementResistPassive.new(50),
                 ),
@@ -257,7 +259,7 @@ val tr16BuggedHangedManRui =
                             hitCount = 3,
                         )
                         applyTimedBuff(
-                            effect = BrillianceGainDownBuff,
+                            effect = Buffs.BrillianceGainDownBuff,
                             value = 80,
                             turns = 2,
                         )
@@ -266,17 +268,17 @@ val tr16BuggedHangedManRui =
                     ActType.Act7("Inspiring Gust", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = DexterityUpBuff,
+                            effect = Buffs.DexterityUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = CriticalUpBuff,
+                            effect = Buffs.CriticalUpBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -289,7 +291,7 @@ val tr16BuggedHangedManRui =
                             hitCount = 4,
                         )
                         applyTimedBuff(
-                            effect = SleepBuff,
+                            effect = Buffs.SleepBuff,
                             chance = 75,
                             turns = 2,
                         )
@@ -302,7 +304,7 @@ val tr16BuggedHangedManRui =
                             hitCount = 4,
                         )
                         applyTimedBuff(
-                            effect = SleepBuff,
+                            effect = Buffs.SleepBuff,
                             chance = 75,
                             turns = 2,
                         )
@@ -319,7 +321,7 @@ val tr16BuggedHangedManRui =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(HuntingRevueNana),
+                    trEventBonusPassive(1070024),
                     AbnormalResistPassiveA.new(100),
                     BuggedHMRuiBossElementResistPassive.new(50),
                 ),
@@ -432,7 +434,7 @@ val tr16HangedManRuiDiff4 =
                             hitCount = 3,
                         )
                         applyTimedBuff(
-                            effect = BrillianceGainDownBuff,
+                            effect = Buffs.BrillianceGainDownBuff,
                             value = 80,
                             turns = 2,
                         )
@@ -441,17 +443,17 @@ val tr16HangedManRuiDiff4 =
                     ActType.Act7("Inspiring Gust", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = DexterityUpBuff,
+                            effect = Buffs.DexterityUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = CriticalUpBuff,
+                            effect = Buffs.CriticalUpBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -464,7 +466,7 @@ val tr16HangedManRuiDiff4 =
                             hitCount = 4,
                         )
                         applyTimedBuff(
-                            effect = SleepBuff,
+                            effect = Buffs.SleepBuff,
                             chance = 75,
                             turns = 2,
                         )
@@ -478,7 +480,7 @@ val tr16HangedManRuiDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = SleepBuff,
+                            effect = Buffs.SleepBuff,
                             chance = 75,
                             turns = 2,
                         )
@@ -495,7 +497,7 @@ val tr16HangedManRuiDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(HuntingRevueNana),
+                    trEventBonusPassive(1070024),
                     AbnormalResistPassiveA.new(100),
                     BossElementResistPassive.new(50),
                 ),

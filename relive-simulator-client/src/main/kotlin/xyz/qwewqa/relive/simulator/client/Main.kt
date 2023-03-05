@@ -1,35 +1,90 @@
 package xyz.qwewqa.relive.simulator.client
 
+import kotlin.js.Promise
+import kotlin.random.Random
 import kotlinx.browser.document
 import kotlinx.browser.sessionStorage
 import kotlinx.browser.window
-import kotlinx.coroutines.*
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.await
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.dom.addClass
 import kotlinx.dom.clear
 import kotlinx.dom.hasClass
 import kotlinx.dom.removeClass
-import kotlinx.html.*
+import kotlinx.html.ButtonType
+import kotlinx.html.DIV
+import kotlinx.html.InputType
+import kotlinx.html.b
+import kotlinx.html.br
+import kotlinx.html.button
+import kotlinx.html.div
 import kotlinx.html.dom.append
 import kotlinx.html.dom.create
+import kotlinx.html.i
+import kotlinx.html.id
+import kotlinx.html.img
+import kotlinx.html.input
 import kotlinx.html.js.div
 import kotlinx.html.js.onChangeFunction
 import kotlinx.html.js.onClickFunction
 import kotlinx.html.js.onContextMenuFunction
+import kotlinx.html.label
+import kotlinx.html.option
+import kotlinx.html.p
+import kotlinx.html.role
+import kotlinx.html.select
+import kotlinx.html.style
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.w3c.dom.*
+import org.w3c.dom.CustomEvent
+import org.w3c.dom.Element
+import org.w3c.dom.HTMLAnchorElement
+import org.w3c.dom.HTMLButtonElement
+import org.w3c.dom.HTMLDivElement
+import org.w3c.dom.HTMLElement
+import org.w3c.dom.HTMLHeadingElement
+import org.w3c.dom.HTMLInputElement
+import org.w3c.dom.HTMLPreElement
+import org.w3c.dom.HTMLSelectElement
+import org.w3c.dom.HTMLSpanElement
+import org.w3c.dom.HTMLTextAreaElement
+import org.w3c.dom.asList
 import org.w3c.dom.clipboard.ClipboardEvent
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.KeyboardEvent
+import org.w3c.dom.get
+import org.w3c.dom.set
 import org.w3c.dom.url.URL
 import xyz.qwewqa.relive.simulator.client.ActorOptions.Companion.rankPanelIds
 import xyz.qwewqa.relive.simulator.client.Plotly.addTraces
 import xyz.qwewqa.relive.simulator.client.Plotly.react
-import xyz.qwewqa.relive.simulator.client.codemirror.*
-import xyz.qwewqa.relive.simulator.common.*
-import kotlin.js.Promise
-import kotlin.random.Random
+import xyz.qwewqa.relive.simulator.client.codemirror.EditorView
+import xyz.qwewqa.relive.simulator.client.codemirror.codeMirrorConfig
+import xyz.qwewqa.relive.simulator.client.codemirror.foldAll
+import xyz.qwewqa.relive.simulator.client.codemirror.loadActorFromClipboard
+import xyz.qwewqa.relive.simulator.client.codemirror.saveActorToClipboard
+import xyz.qwewqa.relive.simulator.client.codemirror.unfoldAll
+import xyz.qwewqa.relive.simulator.client.codemirror.value
+import xyz.qwewqa.relive.simulator.common.InteractiveLogData
+import xyz.qwewqa.relive.simulator.common.MarginResult
+import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
+import xyz.qwewqa.relive.simulator.common.SimulationMarginResultType
+import xyz.qwewqa.relive.simulator.common.SimulationOption
+import xyz.qwewqa.relive.simulator.common.SimulationOptions
+import xyz.qwewqa.relive.simulator.common.SimulationParameters
+import xyz.qwewqa.relive.simulator.common.SimulationResult
+import xyz.qwewqa.relive.simulator.common.SimulationResultType
+import xyz.qwewqa.relive.simulator.common.SimulationResultValue
+import xyz.qwewqa.relive.simulator.common.SimulatorFeatures
+import xyz.qwewqa.relive.simulator.common.SimulatorVersion
+import xyz.qwewqa.relive.simulator.common.SongParameters
+import xyz.qwewqa.relive.simulator.common.StatisticsSummary
+import xyz.qwewqa.relive.simulator.common.StrategyParameter
 
 suspend fun main() {
   SimulatorClient(RemoteSimulator(URL("${window.location.protocol}//${window.location.host}")))
@@ -390,7 +445,7 @@ class SimulatorClient(val simulator: Simulator) {
                     i("bi bi-upload")
                     onClickFunction = {
                       val current = activeActorOptions
-                      val retainMemoir = preset.memoir == "None"
+                      val retainMemoir = preset.memoir == "0"
                       if (current != null) {
                         current.parameters =
                             preset.copy(
@@ -1521,9 +1576,7 @@ class SimulatorClient(val simulator: Simulator) {
                   }
                   val activeAccessories =
                       options.accessories
-                          .filter {
-                            it.id == "None" || it.data.compatibleWith(options.dresses.first().data)
-                          }
+                          .filter { it.data.compatibleWith(options.dresses.first().data) }
                           .toSet()
                   div("col-12 col-md-6 my-1${if (activeAccessories.size <= 1) " d-none" else ""}") {
                     val selectId = "actor-accessory-$actorId"

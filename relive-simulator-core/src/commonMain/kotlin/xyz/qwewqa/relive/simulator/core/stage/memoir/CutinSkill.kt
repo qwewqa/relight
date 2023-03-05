@@ -26,7 +26,7 @@ class CutinSkillBlueprint(
           usageLimits = usageLimits,
           parameters = emptyList(),
           target = target,
-          act = { Skill(parts.map { it.create(level) }) })
+          act = { Skill(parts.map { it.create(level) }, null) })
 }
 
 object CutinSkills : ImplementationRegistry<CutinSkillBlueprint>() {

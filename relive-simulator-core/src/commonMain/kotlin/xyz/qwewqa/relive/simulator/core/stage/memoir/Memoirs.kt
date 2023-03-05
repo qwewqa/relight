@@ -12,7 +12,7 @@ object Memoirs : ImplementationRegistry<MemoirBlueprint>() {
       +MemoirBlueprint(
           0,
           "None",
-          rarity = 0,
+          rarity = 4,
           cost = 0,
           baseStats = StatData(),
           growthStats = StatData(),
@@ -54,4 +54,12 @@ object Memoirs : ImplementationRegistry<MemoirBlueprint>() {
       )
     }
   }
+
+  val aliases: Map<String, MemoirBlueprint> =
+      mutableMapOf<String, MemoirBlueprint>().also { map ->
+        values.forEach { memoir ->
+          map[memoir.name] = memoir
+          map["${memoir.id}"] = memoir
+        }
+      }
 }

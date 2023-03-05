@@ -4,7 +4,60 @@ import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.abnormalCountableBuffs
-import xyz.qwewqa.relive.simulator.core.stage.modifier.*
+import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifier
+import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifiers
+import xyz.qwewqa.relive.simulator.core.stage.modifier.absorb
+import xyz.qwewqa.relive.simulator.core.stage.modifier.accuracyDown
+import xyz.qwewqa.relive.simulator.core.stage.modifier.accuracyUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPowerDown
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPowerUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.agilityDown
+import xyz.qwewqa.relive.simulator.core.stage.modifier.agilityUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceGainDown
+import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceGainUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceRegen
+import xyz.qwewqa.relive.simulator.core.stage.modifier.buffCritical
+import xyz.qwewqa.relive.simulator.core.stage.modifier.buffDexterity
+import xyz.qwewqa.relive.simulator.core.stage.modifier.climaxDamageDown
+import xyz.qwewqa.relive.simulator.core.stage.modifier.climaxDamageUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.counterHealFixed
+import xyz.qwewqa.relive.simulator.core.stage.modifier.counterHealPercent
+import xyz.qwewqa.relive.simulator.core.stage.modifier.criticalDamageReceivedDown
+import xyz.qwewqa.relive.simulator.core.stage.modifier.damageDealtDown
+import xyz.qwewqa.relive.simulator.core.stage.modifier.damageDealtUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.damageReceivedDown
+import xyz.qwewqa.relive.simulator.core.stage.modifier.damageReceivedUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.debuffCritical
+import xyz.qwewqa.relive.simulator.core.stage.modifier.debuffDexterity
+import xyz.qwewqa.relive.simulator.core.stage.modifier.effectiveDamageUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.evasionDown
+import xyz.qwewqa.relive.simulator.core.stage.modifier.evasionUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.fixedActPower
+import xyz.qwewqa.relive.simulator.core.stage.modifier.fixedAgility
+import xyz.qwewqa.relive.simulator.core.stage.modifier.fixedMaxHp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.fixedNormalDefense
+import xyz.qwewqa.relive.simulator.core.stage.modifier.fixedSpecialDefense
+import xyz.qwewqa.relive.simulator.core.stage.modifier.hpFixedRegen
+import xyz.qwewqa.relive.simulator.core.stage.modifier.hpPercentRegen
+import xyz.qwewqa.relive.simulator.core.stage.modifier.hpRecoveryDown
+import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHpDown
+import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHpUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.modifier
+import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeCountableEffectResistanceUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistanceDown
+import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistanceUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.normalDefenseDown
+import xyz.qwewqa.relive.simulator.core.stage.modifier.normalDefenseUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.normalReflect
+import xyz.qwewqa.relive.simulator.core.stage.modifier.positiveCountableEffectResistanceUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.positiveEffectResistanceUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.reviveRegen
+import xyz.qwewqa.relive.simulator.core.stage.modifier.specialDefenseDown
+import xyz.qwewqa.relive.simulator.core.stage.modifier.specialDefenseUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.specialReflect
+import xyz.qwewqa.relive.simulator.core.stage.modifier.staminaActPowerUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.turnReduceCountableNegativeEffects
 import xyz.qwewqa.relive.simulator.core.stage.platformSetOf
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.School
@@ -291,7 +344,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               category = BuffCategory.Positive,
           )
 
-  val EvasionBuff = buffData(27).makeCountableBuffEffect(BuffCategory.Positive)
+  val EvasionBuff = +buffData(27).makeCountableBuffEffect(BuffCategory.Positive)
 
   val PerfectAimBuff =
       +buffData(28)
@@ -300,7 +353,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               exclusive = true,
           )
 
-  val Fortitude = buffData(29).makeCountableBuffEffect(BuffCategory.Positive)
+  val Fortitude = +buffData(29).makeCountableBuffEffect(BuffCategory.Positive)
 
   val FixedNormalDefenseBoostBuff =
       +buffData(30)
@@ -374,38 +427,36 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   // Note: EN localization got the names backwards
   val AgainstFlowerDamageDealtUpBuff =
-      buffData(39)
+      +buffData(39)
           .copy(name = "Bonus Dmg vs. Flower")
           .againstAttributeDamageDealtUpBuff(Attribute.Flower)
   val AgainstWindDamageDealtUpBuff =
-      buffData(40)
+      +buffData(40)
           .copy(name = "Bonus Dmg vs. Wind")
           .againstAttributeDamageDealtUpBuff(Attribute.Wind)
   val AgainstSnowDamageDealtUpBuff =
-      buffData(41)
+      +buffData(41)
           .copy(name = "Bonus Dmg vs. Snow")
           .againstAttributeDamageDealtUpBuff(Attribute.Snow)
   val AgainstMoonDamageDealtUpBuff =
-      buffData(42)
+      +buffData(42)
           .copy(name = "Bonus Dmg vs. Moon")
           .againstAttributeDamageDealtUpBuff(Attribute.Moon)
   val AgainstSpaceDamageDealtUpBuff =
-      buffData(43)
+      +buffData(43)
           .copy(name = "Bonus Dmg vs. Space")
           .againstAttributeDamageDealtUpBuff(Attribute.Space)
   val AgainstCloudDamageDealtUpBuff =
-      buffData(44)
+      +buffData(44)
           .copy(name = "Bonus Dmg vs. Cloud")
           .againstAttributeDamageDealtUpBuff(Attribute.Cloud)
   val AgainstDreamDamageDealtUpBuff =
-      buffData(45)
+      +buffData(45)
           .copy(name = "Bonus Dmg vs. Dream")
           .againstAttributeDamageDealtUpBuff(Attribute.Dream)
 
-  //    val BonusDamageVsBossesBuff = +buffData(46).makeModifierTimedBuffEffect(
-  //        modifier = bonusDamageVsBosses,
-  //        category = BuffCategory.Positive,
-  //    )
+  // TODO: Do something with this I guess
+  val BonusDamageVsBossesBuff = +buffData(46).makeSimpleTimedBuffEffect(BuffCategory.Positive)
 
   val PoisonBuff = +buffData(47).makeDamageOverTimeBuffEffect(poisonDamage)
 
@@ -1224,26 +1275,28 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   // Not implemented
   val AntiOathRevueBuff = +buffData(247).makeSimpleTimedBuffEffect(BuffCategory.Positive)
 
-  val DisasterBrillianceReduction = buffData(248).makeCountableBuffEffect(BuffCategory.Negative)
+  val DisasterBrillianceReduction = +buffData(248).makeCountableBuffEffect(BuffCategory.Negative)
 
-  val BlessingHpRecovery = buffData(249).makeCountableBuffEffect(BuffCategory.Positive)
+  val BlessingHpRecovery = +buffData(249).makeCountableBuffEffect(BuffCategory.Positive)
 
   val BlessingCountableDebuffReduction =
-      buffData(250).makeCountableBuffEffect(BuffCategory.Positive)
+      +buffData(250).makeCountableBuffEffect(BuffCategory.Positive)
 
-  val DisasterDaze = buffData(251).makeCountableBuffEffect(BuffCategory.Negative)
+  val DisasterDaze = +buffData(251).makeCountableBuffEffect(BuffCategory.Negative)
 
-  val BlessingContinuousDebuffRemoval = buffData(252).makeCountableBuffEffect(BuffCategory.Positive)
+  val BlessingContinuousDebuffRemoval =
+      +buffData(252).makeCountableBuffEffect(BuffCategory.Positive)
 
-  val DazeResistanceUpBuff = buffData(253).makeSpecificResistanceUpBuff(DazeBuff)
+  val DazeResistanceUpBuff = +buffData(253).makeSpecificResistanceUpBuff(DazeBuff)
 
-  val LockedDazeResistanceUpBuff = buffData(254).makeLockedVariantOf(DazeResistanceUpBuff)
+  val LockedDazeResistanceUpBuff = +buffData(254).makeLockedVariantOf(DazeResistanceUpBuff)
 
-  val BlessingHope = buffData(255).makeCountableBuffEffect(BuffCategory.Positive)
+  val BlessingHope = +buffData(255).makeCountableBuffEffect(BuffCategory.Positive)
 
-  val ImpudenceResistanceUpBuff = buffData(256).makeSpecificResistanceUpBuff(ImpudenceBuff)
+  val ImpudenceResistanceUpBuff = +buffData(256).makeSpecificResistanceUpBuff(ImpudenceBuff)
 
-  val LockedImpudenceResistanceUpBuff = buffData(257).makeLockedVariantOf(ImpudenceResistanceUpBuff)
+  val LockedImpudenceResistanceUpBuff =
+      +buffData(257).makeLockedVariantOf(ImpudenceResistanceUpBuff)
 
   val NormalSuperReflectBuff =
       +buffData(258)
@@ -1261,16 +1314,16 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val LockedSpecialSuperReflectBuff = +buffData(261).makeLockedVariantOf(SpecialSuperReflectBuff)
 
-  val BlessingEffectiveDamage = buffData(262).makeCountableBuffEffect(BuffCategory.Positive)
+  val BlessingEffectiveDamage = +buffData(262).makeCountableBuffEffect(BuffCategory.Positive)
 
-  val InvincibleRebirth = buffData(263).makeCountableBuffEffect(BuffCategory.Positive)
+  val InvincibleRebirth = +buffData(263).makeCountableBuffEffect(BuffCategory.Positive)
 
   // TODO: implement this
-  val SacrificeBuff = buffData(264).makeCountableBuffEffect(BuffCategory.Negative)
+  val SacrificeBuff = +buffData(264).makeCountableBuffEffect(BuffCategory.Negative)
 
-  val DisasterApUp = buffData(265).makeCountableBuffEffect(BuffCategory.Negative)
+  val DisasterApUp = +buffData(265).makeCountableBuffEffect(BuffCategory.Negative)
 
-  val BlessingApDown2 = buffData(266).makeCountableBuffEffect(BuffCategory.Positive)
+  val BlessingApDown2 = +buffData(266).makeCountableBuffEffect(BuffCategory.Positive)
 
   val ContractionBuff =
       +buffData(267)
@@ -1306,19 +1359,19 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val LockedSealInstantSkillBuff = +buffData(270).makeLockedVariantOf(SealInstantSkillBuff)
 
   val CountablePositiveEffectResistanceUpBuff =
-      buffData(271)
+      +buffData(271)
           .makeModifierTimedBuffEffect(
               modifier = positiveCountableEffectResistanceUp,
               category = BuffCategory.Negative,
           )
 
   val LockedCountablePositiveEffectResistanceUpBuff =
-      buffData(272).makeLockedVariantOf(CountablePositiveEffectResistanceUpBuff)
+      +buffData(272).makeLockedVariantOf(CountablePositiveEffectResistanceUpBuff)
 
   val LockedPerfectAimBuff = +buffData(273).makeLockedVariantOf(PerfectAimBuff)
 
   val StaminaActPowerUpBuff =
-      buffData(274)
+      +buffData(274)
           .makeModifierTimedBuffEffect(
               modifier = staminaActPowerUp,
               category = BuffCategory.Positive,
@@ -1334,14 +1387,14 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
           )
 
   val BrillianceSap =
-      buffData(277)
+      +buffData(277)
           .makeModifierTimedBuffEffect(
               modifier = brillianceRegen,
               category = BuffCategory.Negative,
           )
 
   val EffectiveDamageDealtUpBuff2 =
-      buffData(278)
+      +buffData(278)
           .makeModifierTimedBuffEffect(
               modifier = effectiveDamageUp,
               category = BuffCategory.Positive,
@@ -1353,7 +1406,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
           .makeLockedVariantOf(BrillianceRegenBuff)
 
   val ReviveRegen =
-      buffData(280)
+      +buffData(280)
           .makeModifierTimedBuffEffect(
               modifier = reviveRegen,
               category = BuffCategory.Positive,
@@ -1362,10 +1415,10 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val LockedInvincibilityBuff = +buffData(281).makeLockedVariantOf(InvincibilityBuff)
 
   val SealStageEffectResistanceUpBuff =
-      buffData(282).makeSpecificResistanceUpBuff(SealStageEffectBuff)
+      +buffData(282).makeSpecificResistanceUpBuff(SealStageEffectBuff)
 
   val LockedSealStageEffectResistanceUpBuff =
-      buffData(283).makeLockedVariantOf(SealStageEffectResistanceUpBuff)
+      +buffData(283).makeLockedVariantOf(SealStageEffectResistanceUpBuff)
 
   val TurnDispelContinuousNegativeEffectsBuff =
       +buffData(284).makeSimpleTimedBuffEffect(BuffCategory.Positive)
@@ -1385,17 +1438,17 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val LockedTurnDispelContinuousPositiveEffectsBuff =
       +buffData(289).makeLockedVariantOf(TurnDispelContinuousPositiveEffectsBuff)
 
-  val TurnDispelCountablePositiveEffectsBuff =
-      +buffData(290).makeSimpleTimedBuffEffect(BuffCategory.Negative)
-
-  val LockedTurnDispelCountablePositiveEffectsBuff =
-      +buffData(291).makeLockedVariantOf(TurnDispelCountablePositiveEffectsBuff)
+  //  val TurnDispelCountablePositiveEffectsBuff =
+  //      +buffData(xxx).makeSimpleTimedBuffEffect(BuffCategory.Negative)
+  //
+  //  val LockedTurnDispelCountablePositiveEffectsBuff =
+  //      +buffData(xxx).makeLockedVariantOf(TurnDispelCountablePositiveEffectsBuff)
 
   val TurnAddSuperStrengthBuff = +buffData(292).makeSimpleTimedBuffEffect(BuffCategory.Positive)
 
   val LockedTurnAddSuperStrengthBuff = +buffData(293).makeLockedVariantOf(TurnAddSuperStrengthBuff)
 
-  val CheerBuff = buffData(294).makeCountableBuffEffect(BuffCategory.Positive)
+  val CheerBuff = +buffData(294).makeCountableBuffEffect(BuffCategory.Positive)
 
   val TurnReduceCountableNegativeEffectsBuff =
       +buffData(297)

@@ -1,14 +1,16 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr16
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.space.HuntingRevueNana
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
+import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -76,7 +78,7 @@ val tr16MafiaKaoruko =
                     ActType.Act6("Perfect Aim Tri-Slash", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -90,12 +92,12 @@ val tr16MafiaKaoruko =
                     ActType.Act7("Ironclad Dance", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = NormalBarrierBuff,
+                            effect = Buffs.NormalBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialBarrierBuff,
+                            effect = Buffs.SpecialBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
@@ -104,7 +106,7 @@ val tr16MafiaKaoruko =
                     ActType.Act8("Dazzling Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = AccuracyDownBuff,
+                            effect = Buffs.AccuracyDownBuff,
                             value = 50,
                             turns = 2,
                         )
@@ -117,7 +119,7 @@ val tr16MafiaKaoruko =
                             hitCount = 5,
                         )
                         applyTimedBuff(
-                            effect = AccuracyDownBuff,
+                            effect = Buffs.AccuracyDownBuff,
                             value = 50,
                             turns = 2,
                         )
@@ -134,7 +136,7 @@ val tr16MafiaKaoruko =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(HuntingRevueNana),
+                    trEventBonusPassive(1070024),
                     AbnormalGuardPassive.new(),
                 ),
         ),
@@ -240,7 +242,7 @@ val tr16MafiaKaorukoDiff4 =
                     ActType.Act6("Perfect Aim Tri-Slash", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -254,12 +256,12 @@ val tr16MafiaKaorukoDiff4 =
                     ActType.Act7("Ironclad Dance", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = NormalBarrierBuff,
+                            effect = Buffs.NormalBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialBarrierBuff,
+                            effect = Buffs.SpecialBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
@@ -268,7 +270,7 @@ val tr16MafiaKaorukoDiff4 =
                     ActType.Act8("Dazzling Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = AccuracyDownBuff,
+                            effect = Buffs.AccuracyDownBuff,
                             value = 50,
                             turns = 2,
                         )
@@ -277,7 +279,7 @@ val tr16MafiaKaorukoDiff4 =
                     ActType.Act9("Perfect Aim Tri-Slash", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -297,7 +299,7 @@ val tr16MafiaKaorukoDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = AccuracyDownBuff,
+                            effect = Buffs.AccuracyDownBuff,
                             value = 50,
                             turns = 2,
                         )
@@ -314,7 +316,7 @@ val tr16MafiaKaorukoDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(HuntingRevueNana),
+                    trEventBonusPassive(1070024),
                     AbnormalGuardPassive.new(),
                 ),
         ),

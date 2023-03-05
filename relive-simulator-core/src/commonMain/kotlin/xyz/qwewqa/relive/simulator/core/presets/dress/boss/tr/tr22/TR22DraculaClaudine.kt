@@ -1,20 +1,16 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr22
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.space.CollectionYachiyo
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
 import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.ActPowerUpBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.ConfusionBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.NormalDefenseUpBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.SpecialDefenseUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -90,17 +86,17 @@ val tr22DraculaClaudine =
                     ActType.Act7("Inspiring Dance", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = NormalDefenseUpBuff,
+                            effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialDefenseUpBuff,
+                            effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -113,7 +109,7 @@ val tr22DraculaClaudine =
                             hitCount = 3,
                         )
                         applyTimedBuff(
-                            effect = ConfusionBuff,
+                            effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
                       }
@@ -125,7 +121,7 @@ val tr22DraculaClaudine =
                             hitCount = 3,
                         )
                         applyTimedBuff(
-                            effect = ConfusionBuff,
+                            effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
                       }
@@ -141,7 +137,7 @@ val tr22DraculaClaudine =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(CollectionYachiyo),
+                    trEventBonusPassive(4050019),
                     AbnormalGuardPassive.new(),
                 ),
         ),
@@ -240,17 +236,17 @@ val tr22DraculaClaudineDiff4 =
                     ActType.Act7("Inspiring Dance", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = NormalDefenseUpBuff,
+                            effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialDefenseUpBuff,
+                            effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -264,7 +260,7 @@ val tr22DraculaClaudineDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = ConfusionBuff,
+                            effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
                       }
@@ -277,7 +273,7 @@ val tr22DraculaClaudineDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = ConfusionBuff,
+                            effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
                       }
@@ -293,7 +289,7 @@ val tr22DraculaClaudineDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(CollectionYachiyo),
+                    trEventBonusPassive(4050019),
                     AbnormalGuardPassive.new(),
                 ),
         ),

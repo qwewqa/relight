@@ -1,17 +1,16 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr18
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.SoulRevueMaya
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
 import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -79,7 +78,7 @@ val tr18WhiteRabbitMisora =
                     ActType.Act6("Weakening Concerto", 2) {
                       targetAoe().run {
                         applyTimedBuff(
-                            ActPowerDownBuff,
+                            effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -92,7 +91,7 @@ val tr18WhiteRabbitMisora =
                     ActType.Act8("Perfect Aim Thrust", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -106,7 +105,7 @@ val tr18WhiteRabbitMisora =
                     ActType.ClimaxAct("I'm Late! NEO", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -128,7 +127,7 @@ val tr18WhiteRabbitMisora =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(SoulRevueMaya),
+                    trEventBonusPassive(1050025),
                     AbnormalGuardPassive.new(),
                 ),
         ),
@@ -219,7 +218,7 @@ val tr18WhiteRabbitMisoraDiff4 =
                     ActType.Act6("Weakening Concerto", 2) {
                       targetAoe().run {
                         applyTimedBuff(
-                            ActPowerDownBuff,
+                            effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -232,7 +231,7 @@ val tr18WhiteRabbitMisoraDiff4 =
                     ActType.Act8("Perfect Aim Thrust", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -247,7 +246,7 @@ val tr18WhiteRabbitMisoraDiff4 =
                     ActType.ClimaxAct("I'm Late! NEO", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -270,7 +269,7 @@ val tr18WhiteRabbitMisoraDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(SoulRevueMaya),
+                    trEventBonusPassive(1050025),
                     AbnormalGuardPassive.new(),
                 ),
         ),

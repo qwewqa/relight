@@ -502,7 +502,7 @@ class ActorOptions(
       tabAccessoryLevel.textContent = param.accessoryLevel.toString()
       tabAccessoryUnbindImage.src = getAccessoryUnbindImagePath(param.accessoryLimitBreak)
 
-      if (validAccessories.size > 1 && accessory.value != "None") {
+      if (validAccessories.size > 1 && accessory.value != "0") {
         tabAccessoryImage.removeClass("d-none")
         tabAccessoryLevel.parentElement?.removeClass("d-none")
         tabAccessoryUnbindImage.removeClass("d-none")

@@ -1,14 +1,16 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr20
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.GrudgeRevueKaoruko
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
+import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -84,7 +86,7 @@ val tr20MusketeerKaren =
                     ActType.Act7("Weakening Concerto", 3) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = ActPowerDownBuff,
+                            effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -93,7 +95,7 @@ val tr20MusketeerKaren =
                     ActType.Act8("Accuracy Concerto", 3) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -107,7 +109,7 @@ val tr20MusketeerKaren =
                     ActType.ClimaxAct("Dance of Hope NEO", 3) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -129,7 +131,7 @@ val tr20MusketeerKaren =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(GrudgeRevueKaoruko),
+                    trEventBonusPassive(1090024),
                     AbnormalGuardPassive.new(),
                 ),
         ),
@@ -240,7 +242,7 @@ val tr20MusketeerKarenDiff4 =
                     ActType.Act7("Weakening Concerto", 3) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = ActPowerDownBuff,
+                            effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -249,7 +251,7 @@ val tr20MusketeerKarenDiff4 =
                     ActType.Act8("Accuracy Concerto", 3) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -263,7 +265,7 @@ val tr20MusketeerKarenDiff4 =
                     ActType.ClimaxAct("Dance of Hope NEO", 3) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -286,7 +288,7 @@ val tr20MusketeerKarenDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(GrudgeRevueKaoruko),
+                    trEventBonusPassive(1090024),
                     AbnormalGuardPassive.new(),
                 ),
         ),

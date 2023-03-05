@@ -7,6 +7,7 @@ import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.SkillFieldEffect
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.SkillFieldEffects
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTarget
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTargets
 
@@ -51,32 +52,16 @@ class StartSkillBlueprint(
 }
 
 class StartSkillGroup(
-    override val skills: List<StartSkill>,
+    override val skills: List<AutoSkill>,
 ) : AutoSkillGroup
 
 class StartSkillGroupBlueprint(
     override val id: Int,
     val skills: List<StartSkillBlueprint>,
+    val stageEffect: StageEffectStartSkill? = null,
 ) : AutoSkillGroupBlueprint, FeatureImplementation {
-  override fun create(level: Int) = StartSkillGroup(skills.map { it.create(level) })
-}
-
-private fun getStartSkillBlueprint(
-    optionId: Int,
-    targetId: Int,
-    values: List<Int>,
-    times: List<Int>,
-    chance: Int,
-): StartSkillBlueprint? {
-  val option = SkillOptions[optionId] as? ActiveSkillOption ?: return null
-  val target = SkillTargets[targetId] ?: return null
-  return StartSkillBlueprint(
-      option = option,
-      target = target,
-      values = values,
-      times = times,
-      chance = chance,
-  )
+  override fun create(level: Int) =
+      StartSkillGroup(skills.map { it.create(level) } + listOfNotNull(stageEffect))
 }
 
 object StartSkillGroups : ImplementationRegistry<StartSkillGroupBlueprint>() {
@@ -137,6 +122,10 @@ object StartSkillGroups : ImplementationRegistry<StartSkillGroupBlueprint>() {
                       )
                   else null,
               ),
+          stageEffect =
+              if (skill.skill_field_effect_id != 0)
+                  SkillFieldEffects[skill.skill_field_effect_id]?.let { StageEffectStartSkill(it) }
+              else null,
       )
     }
   }

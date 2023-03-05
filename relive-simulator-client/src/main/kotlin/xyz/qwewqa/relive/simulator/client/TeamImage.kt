@@ -163,7 +163,7 @@ class TeamImage(
       }
 
   private val PlayerLoadoutParameters.hasAccessory
-    get() = accessory != null && accessory != "None"
+    get() = accessory != null && accessory != "0"
 
   private suspend fun drawDress(loadout: PlayerLoadoutParameters, names: Boolean = true) {
     withState {

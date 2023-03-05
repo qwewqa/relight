@@ -1,16 +1,19 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr26
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.SagittariusJunna
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassiveV2
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
-import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
+import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalResistPassiveA
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.BossElementResistPassive
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -42,7 +45,7 @@ val tr26MusketeerHikari =
                             hitCount = 4,
                         )
                         applyTimedBuff(
-                            effect = ConfusionBuff,
+                            effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
                       }
@@ -90,12 +93,12 @@ val tr26MusketeerHikari =
                     ActType.Act7("Ironclad Dance", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = NormalBarrierBuff,
+                            effect = Buffs.NormalBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialBarrierBuff,
+                            effect = Buffs.SpecialBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
@@ -104,7 +107,7 @@ val tr26MusketeerHikari =
                     ActType.Act8("Accuracy Concerto", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -122,17 +125,17 @@ val tr26MusketeerHikari =
                     ActType.Act10("Inspiring Gust", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = NormalDefenseUpBuff,
+                            effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialDefenseUpBuff,
+                            effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -145,7 +148,7 @@ val tr26MusketeerHikari =
                             hitCount = 4,
                         )
                         applyTimedBuff(
-                            effect = ConfusionBuff,
+                            effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
                       }
@@ -161,7 +164,7 @@ val tr26MusketeerHikari =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(SagittariusJunna),
+                    trEventBonusPassive(1060025),
                     AbnormalResistPassiveA.new(100),
                     BossElementResistPassive.new(50),
                 ),
@@ -175,7 +178,7 @@ val tr26MusketeerHikariVer2023 =
             tr26MusketeerHikari.dress.copy(
                 autoSkills =
                     listOf(
-                        trEventBonusPassiveV2(SagittariusJunna),
+                        trEventBonusPassiveV2(1060025),
                         AbnormalResistPassiveA.new(100),
                         BossElementResistPassive.new(50),
                     ),
@@ -248,7 +251,7 @@ val tr26MusketeerHikariDiff4 =
                             hitCount = 4,
                         )
                         applyTimedBuff(
-                            effect = ConfusionBuff,
+                            effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
                       }
@@ -296,12 +299,12 @@ val tr26MusketeerHikariDiff4 =
                     ActType.Act7("Ironclad Dance", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = NormalBarrierBuff,
+                            effect = Buffs.NormalBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialBarrierBuff,
+                            effect = Buffs.SpecialBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
@@ -310,7 +313,7 @@ val tr26MusketeerHikariDiff4 =
                     ActType.Act8("Accuracy Concerto", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -328,17 +331,17 @@ val tr26MusketeerHikariDiff4 =
                     ActType.Act10("Inspiring Gust", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = NormalDefenseUpBuff,
+                            effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialDefenseUpBuff,
+                            effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -352,7 +355,7 @@ val tr26MusketeerHikariDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = ConfusionBuff,
+                            effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
                       }
@@ -368,7 +371,7 @@ val tr26MusketeerHikariDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(SagittariusJunna),
+                    trEventBonusPassive(1060025),
                     AbnormalResistPassiveA.new(100),
                     BossElementResistPassive.new(50),
                 ),
@@ -382,7 +385,7 @@ val tr26MusketeerHikariDiff4Ver2023 =
             tr26MusketeerHikariDiff4.dress.copy(
                 autoSkills =
                     listOf(
-                        trEventBonusPassiveV2(SagittariusJunna),
+                        trEventBonusPassiveV2(1060025),
                         AbnormalResistPassiveA.new(100),
                         BossElementResistPassive.new(50),
                     ),

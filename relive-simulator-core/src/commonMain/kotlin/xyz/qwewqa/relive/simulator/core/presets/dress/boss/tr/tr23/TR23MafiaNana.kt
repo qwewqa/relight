@@ -1,14 +1,17 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr23
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow.CompetitionRevueMahiru
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
+import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -84,17 +87,17 @@ val tr23MafiaNana =
                     ActType.Act7("Inspiring Gust", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = NormalDefenseUpBuff,
+                            effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialDefenseUpBuff,
+                            effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -111,7 +114,7 @@ val tr23MafiaNana =
                             hitCount = 3,
                         )
                         applyTimedBuff(
-                            effect = StunBuff,
+                            effect = Buffs.StunBuff,
                             turns = 2,
                         )
                       }
@@ -123,7 +126,7 @@ val tr23MafiaNana =
                             hitCount = 3,
                         )
                         applyTimedBuff(
-                            effect = StunBuff,
+                            effect = Buffs.StunBuff,
                             turns = 2,
                         )
                       }
@@ -139,7 +142,7 @@ val tr23MafiaNana =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(CompetitionRevueMahiru),
+                    trEventBonusPassive(1030024),
                     AbnormalGuardPassive.new(),
                 ),
         ),
@@ -253,17 +256,17 @@ val tr23MafiaNanaDiff4 =
                     ActType.Act7("Inspiring Gust", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = NormalDefenseUpBuff,
+                            effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialDefenseUpBuff,
+                            effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -281,7 +284,7 @@ val tr23MafiaNanaDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = StunBuff,
+                            effect = Buffs.StunBuff,
                             turns = 2,
                         )
                       }
@@ -294,7 +297,7 @@ val tr23MafiaNanaDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = StunBuff,
+                            effect = Buffs.StunBuff,
                             turns = 2,
                         )
                       }
@@ -310,7 +313,7 @@ val tr23MafiaNanaDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(CompetitionRevueMahiru),
+                    trEventBonusPassive(1030024),
                     AbnormalGuardPassive.new(),
                 ),
         ),

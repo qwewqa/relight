@@ -1,14 +1,16 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr14
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.MoonAruru
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
+import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -68,7 +70,7 @@ val tr14MusketeerMahiru =
                     ActType.Act5("Accuracy Smash", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -90,12 +92,12 @@ val tr14MusketeerMahiru =
                     ActType.Act7("Softening Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = NormalDefenseDownBuff,
+                            effect = Buffs.NormalDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialDefenseDownBuff,
+                            effect = Buffs.SpecialDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -108,7 +110,7 @@ val tr14MusketeerMahiru =
                             hitCount = 3,
                         )
                         applyTimedBuff(
-                            effect = ApUpBuff,
+                            effect = Buffs.ApUpBuff,
                             turns = 2,
                         )
                       }
@@ -120,7 +122,7 @@ val tr14MusketeerMahiru =
                             hitCount = 3,
                         )
                         applyTimedBuff(
-                            effect = ApUpBuff,
+                            effect = Buffs.ApUpBuff,
                             turns = 2,
                         )
                       }
@@ -136,7 +138,7 @@ val tr14MusketeerMahiru =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(MoonAruru),
+                    trEventBonusPassive(3010015),
                     AbnormalGuardPassive.new(),
                 ),
         ),
@@ -234,7 +236,7 @@ val tr14MusketeerMahiruDiff4 =
                     ActType.Act5("Accuracy Smash", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -256,12 +258,12 @@ val tr14MusketeerMahiruDiff4 =
                     ActType.Act7("Softening Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = NormalDefenseDownBuff,
+                            effect = Buffs.NormalDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialDefenseDownBuff,
+                            effect = Buffs.SpecialDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -274,7 +276,7 @@ val tr14MusketeerMahiruDiff4 =
                             hitCount = 3,
                         )
                         applyTimedBuff(
-                            effect = ApUpBuff,
+                            effect = Buffs.ApUpBuff,
                             turns = 2,
                         )
                       }
@@ -287,7 +289,7 @@ val tr14MusketeerMahiruDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = ApUpBuff,
+                            effect = Buffs.ApUpBuff,
                             turns = 2,
                         )
                       }
@@ -303,7 +305,7 @@ val tr14MusketeerMahiruDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(MoonAruru),
+                    trEventBonusPassive(3010015),
                     AbnormalGuardPassive.new(),
                 ),
         ),

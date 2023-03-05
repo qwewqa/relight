@@ -4,6 +4,7 @@ import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 
 interface AutoSkill {
   val type: AutoSkillType
+  val name get() = "Unnamed"
   fun execute(context: ActionContext)
 }
 

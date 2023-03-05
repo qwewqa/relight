@@ -1,15 +1,14 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr15
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.flower.SakuyahimeMahiru
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalResistPassiveA
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.BossElementResistPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalResistPassiveA
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.BossElementResistPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -77,7 +76,7 @@ val tr15CheerTsukasa =
                     ActType.Act6("Perfect Aim Flurry", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -95,7 +94,7 @@ val tr15CheerTsukasa =
                             hitCount = 2,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 7000,
                             turns = 3,
                         )
@@ -104,12 +103,12 @@ val tr15CheerTsukasa =
                     ActType.Act8("Ironclad Dance", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = NormalBarrierBuff,
+                            effect = Buffs.NormalBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialBarrierBuff,
+                            effect = Buffs.SpecialBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
@@ -126,7 +125,7 @@ val tr15CheerTsukasa =
                             hitCount = 4,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 7000,
                             turns = 3,
                         )
@@ -143,7 +142,7 @@ val tr15CheerTsukasa =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(SakuyahimeMahiru),
+                    trEventBonusPassive(1030021),
                     AbnormalResistPassiveA.new(100),
                     BossElementResistPassive.new(50),
                 ),
@@ -250,7 +249,7 @@ val tr15CheerTsukasaDiff4 =
                     ActType.Act6("Perfect Aim Flurry", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -269,7 +268,7 @@ val tr15CheerTsukasaDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,
                         )
@@ -278,12 +277,12 @@ val tr15CheerTsukasaDiff4 =
                     ActType.Act8("Ironclad Dance", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = NormalBarrierBuff,
+                            effect = Buffs.NormalBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialBarrierBuff,
+                            effect = Buffs.SpecialBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
@@ -301,7 +300,7 @@ val tr15CheerTsukasaDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,
                         )
@@ -318,7 +317,7 @@ val tr15CheerTsukasaDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(SakuyahimeMahiru),
+                    trEventBonusPassive(1030021),
                     AbnormalResistPassiveA.new(100),
                     BossElementResistPassive.new(50),
                 ),

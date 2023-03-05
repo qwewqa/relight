@@ -1,17 +1,16 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr24
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.CollectionKaoruko
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
 import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -87,12 +86,12 @@ val tr24QueenOfHeartsShizuha =
                     ActType.Act7("Ironclad Dance", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = NormalBarrierBuff,
+                            effect = Buffs.NormalBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialBarrierBuff,
+                            effect = Buffs.SpecialBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
@@ -101,12 +100,12 @@ val tr24QueenOfHeartsShizuha =
                     ActType.Act8("Softening Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = NormalDefenseDownBuff,
+                            effect = Buffs.NormalDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialDefenseDownBuff,
+                            effect = Buffs.SpecialDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -119,7 +118,7 @@ val tr24QueenOfHeartsShizuha =
                             hitCount = 3,
                         )
                         applyTimedBuff(
-                            effect = ConfusionBuff,
+                            effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
                       }
@@ -131,7 +130,7 @@ val tr24QueenOfHeartsShizuha =
                             hitCount = 3,
                         )
                         applyTimedBuff(
-                            effect = ConfusionBuff,
+                            effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
                       }
@@ -147,7 +146,7 @@ val tr24QueenOfHeartsShizuha =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(CollectionKaoruko),
+                    trEventBonusPassive(1090020),
                     AbnormalGuardPassive.new(),
                 ),
         ),
@@ -246,12 +245,12 @@ val tr24QueenOfHeartsShizuhaDiff4 =
                     ActType.Act7("Ironclad Dance", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = NormalBarrierBuff,
+                            effect = Buffs.NormalBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialBarrierBuff,
+                            effect = Buffs.SpecialBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
@@ -260,12 +259,12 @@ val tr24QueenOfHeartsShizuhaDiff4 =
                     ActType.Act8("Softening Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = NormalDefenseDownBuff,
+                            effect = Buffs.NormalDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialDefenseDownBuff,
+                            effect = Buffs.SpecialDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -279,7 +278,7 @@ val tr24QueenOfHeartsShizuhaDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = ConfusionBuff,
+                            effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
                       }
@@ -292,7 +291,7 @@ val tr24QueenOfHeartsShizuhaDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = ConfusionBuff,
+                            effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
                       }
@@ -308,7 +307,7 @@ val tr24QueenOfHeartsShizuhaDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(CollectionKaoruko),
+                    trEventBonusPassive(1090020),
                     AbnormalGuardPassive.new(),
                 ),
         ),

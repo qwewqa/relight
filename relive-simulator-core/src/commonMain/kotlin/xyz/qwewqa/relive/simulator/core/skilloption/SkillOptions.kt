@@ -875,7 +875,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             bonusMultiplier = 200,
-            bonusCondition = { DressCategory.Arcana in it.dress.categories },
+            bonusCondition = { it.dress.id in DressCategory.Arcana.ids },
         )
       }
 
@@ -968,12 +968,12 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
 
   val HoldBack = +skillOptionData(460).applyEffect()
 
-  val DispelCountableNegativeEffectResistance = +skillOptionData(461).dispelTimedEffect()
+  val DispelCountableNegativeEffectResistance = +skillOptionData(462).dispelTimedEffect()
 
-  val SealStageEffect = +skillOptionData(462).applyEffect()
-  val LockedSealStageEffect = +skillOptionData(463).applyEffect()
+  val SealStageEffect = +skillOptionData(463).applyEffect()
+  val LockedSealStageEffect = +skillOptionData(464).applyEffect()
 
-  val FortitudeReduction = +skillOptionData(464).reduceCountable()
+  val FortitudeReduction = +skillOptionData(465).reduceCountable()
 
   // Some OR stuff here
   val OathDamageUp = +skillOptionData(469).applyEffect()

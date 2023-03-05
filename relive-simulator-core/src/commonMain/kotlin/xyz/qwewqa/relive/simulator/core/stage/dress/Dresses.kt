@@ -168,6 +168,14 @@ object Dresses : ImplementationRegistry<DressBlueprint>() {
       )
     }
   }
+
+  val aliases: Map<String, DressBlueprint> =
+      mutableMapOf<String, DressBlueprint>().also { map ->
+        values.forEach { dress ->
+          map[dress.fullName] = dress
+          map["${dress.id}"] = dress
+        }
+      }
 }
 
 fun characterFromId(id: Int) =

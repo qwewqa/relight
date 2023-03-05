@@ -1,20 +1,20 @@
 package xyz.qwewqa.relive.simulator.core.stage
 
+import Accessories
 import xyz.qwewqa.relive.simulator.common.SimulationMarginResultType
 import xyz.qwewqa.relive.simulator.common.SimulationParameters
 import xyz.qwewqa.relive.simulator.common.SimulationResultType
-import xyz.qwewqa.relive.simulator.core.presets.accessory.accessories
 import xyz.qwewqa.relive.simulator.core.presets.condition.conditions
 import xyz.qwewqa.relive.simulator.core.presets.dress.bossLoadouts
-import xyz.qwewqa.relive.simulator.core.presets.dress.playerDresses
-import xyz.qwewqa.relive.simulator.core.presets.memoir.memoirs
 import xyz.qwewqa.relive.simulator.core.presets.song.songEffects
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.remakeSkills
 import xyz.qwewqa.relive.simulator.core.stage.condition.NamedCondition
 import xyz.qwewqa.relive.simulator.core.stage.condition.plus
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dresses
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.loadout.TeamLoadout
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.remakeSkills
+import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoirs
 import xyz.qwewqa.relive.simulator.core.stage.song.Song
 import xyz.qwewqa.relive.simulator.core.stage.song.SongEffectData
 import xyz.qwewqa.relive.simulator.core.stage.strategy.bossStrategyParsers
@@ -37,7 +37,7 @@ fun SimulationParameters.createStageLoadout(): StageLoadout {
           team.map {
             ActorLoadout(
                 it.name.trim(),
-                playerDresses[it.dress]!!.create(
+                Dresses.aliases[it.dress]!!.create(
                     rarity = it.rarity,
                     level = it.level,
                     friendship = it.friendship,
@@ -47,8 +47,8 @@ fun SimulationParameters.createStageLoadout(): StageLoadout {
                     unitSkillLevel = it.unitSkillLevel,
                     remakeSkill = it.remakeSkill?.let { id -> remakeSkills[id]!! },
                 ),
-                memoirs[it.memoir]!!.create(it.memoirLevel, it.memoirLimitBreak),
-                accessories[it.accessory ?: "None"]!!.create(
+                Memoirs.aliases[it.memoir]!!.create(it.memoirLevel, it.memoirLimitBreak),
+                Accessories.aliases[it.accessory ?: "None"]!!.create(
                     it.accessoryLevel, it.accessoryLimitBreak),
                 it.isSupport,
             )
@@ -56,7 +56,7 @@ fun SimulationParameters.createStageLoadout(): StageLoadout {
           guest?.let {
             ActorLoadout(
                 it.name.trim(),
-                playerDresses[it.dress]!!.create(
+                Dresses.aliases[it.dress]!!.create(
                     rarity = it.rarity,
                     level = it.level,
                     friendship = it.friendship,
@@ -66,8 +66,8 @@ fun SimulationParameters.createStageLoadout(): StageLoadout {
                     unitSkillLevel = it.unitSkillLevel,
                     remakeSkill = null,
                 ),
-                memoirs[it.memoir]!!.create(it.memoirLevel, it.memoirLimitBreak),
-                accessories[it.accessory ?: "None"]!!.create(
+                Memoirs.aliases[it.memoir]!!.create(it.memoirLevel, it.memoirLimitBreak),
+                Accessories.aliases[it.accessory ?: "None"]!!.create(
                     it.accessoryLevel, it.accessoryLimitBreak),
             )
           },

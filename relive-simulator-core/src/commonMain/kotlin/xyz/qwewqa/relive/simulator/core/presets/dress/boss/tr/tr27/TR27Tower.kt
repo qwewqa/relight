@@ -1,15 +1,17 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr27
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassiveV2
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow.CapricornClaudine
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
-import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
+import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalResistPassiveA
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.BossElementResistPassive
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -43,7 +45,7 @@ val tr27TowerHikari =
                       }
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = NormalReflectBuff,
+                            effect = Buffs.NormalReflectBuff,
                             value = 30,
                             turns = 2,
                         )
@@ -100,17 +102,17 @@ val tr27TowerHikari =
                     ActType.Act8("Inspiring Gust", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = DexterityUpBuff,
+                            effect = Buffs.DexterityUpBuff,
                             value = 30,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = CriticalUpBuff,
+                            effect = Buffs.CriticalUpBuff,
                             value = 30,
                             turns = 3,
                         )
@@ -119,12 +121,12 @@ val tr27TowerHikari =
                     ActType.Act9("Restraint Firedance", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 7000,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = StunBuff,
+                            effect = Buffs.StunBuff,
                             turns = 2,
                         )
                       }
@@ -132,7 +134,7 @@ val tr27TowerHikari =
                     ActType.Act10("Weakening Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = ActPowerDownBuff,
+                            effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -147,7 +149,7 @@ val tr27TowerHikari =
                       }
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = NormalReflectBuff,
+                            effect = Buffs.NormalReflectBuff,
                             value = 30,
                             turns = 2,
                         )
@@ -164,7 +166,7 @@ val tr27TowerHikari =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassiveV2(CapricornClaudine),
+                    trEventBonusPassiveV2(1040022),
                     AbnormalResistPassiveA.new(100),
                     BossElementResistPassive.new(50),
                 ),
@@ -239,7 +241,7 @@ val tr27TowerHikariDiff4 =
                       }
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = NormalReflectBuff,
+                            effect = Buffs.NormalReflectBuff,
                             value = 30,
                             turns = 2,
                         )
@@ -296,17 +298,17 @@ val tr27TowerHikariDiff4 =
                     ActType.Act8("Inspiring Gust", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = DexterityUpBuff,
+                            effect = Buffs.DexterityUpBuff,
                             value = 30,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = CriticalUpBuff,
+                            effect = Buffs.CriticalUpBuff,
                             value = 30,
                             turns = 3,
                         )
@@ -315,12 +317,12 @@ val tr27TowerHikariDiff4 =
                     ActType.Act9("Restraint Firedance", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = StunBuff,
+                            effect = Buffs.StunBuff,
                             turns = 2,
                         )
                       }
@@ -328,7 +330,7 @@ val tr27TowerHikariDiff4 =
                     ActType.Act10("Weakening Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = ActPowerDownBuff,
+                            effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -344,7 +346,7 @@ val tr27TowerHikariDiff4 =
                       }
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = NormalReflectBuff,
+                            effect = Buffs.NormalReflectBuff,
                             value = 30,
                             turns = 2,
                         )
@@ -361,7 +363,7 @@ val tr27TowerHikariDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassiveV2(CapricornClaudine),
+                    trEventBonusPassiveV2(1040022),
                     AbnormalResistPassiveA.new(100),
                     BossElementResistPassive.new(50),
                 ),

@@ -1,18 +1,17 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr22
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.space.CollectionYachiyo
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
 import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
-import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalResistPassiveA
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.BossElementResistPassive
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -40,17 +39,17 @@ val tr22FaithMisora =
                     ActType.Act1("Weakening Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = ActPowerDownBuff,
+                            effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = NormalDefenseDownBuff,
+                            effect = Buffs.NormalDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialDefenseDownBuff,
+                            effect = Buffs.SpecialDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -107,7 +106,7 @@ val tr22FaithMisora =
                     ActType.Act8("Perfect Aim Concerto", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -125,12 +124,12 @@ val tr22FaithMisora =
                             hitCount = 2,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 7000,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = BlindnessBuff,
+                            effect = Buffs.BlindnessBuff,
                             turns = 3,
                         )
                       }
@@ -138,17 +137,17 @@ val tr22FaithMisora =
                     ActType.Act10("Inspiring Gust", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = DexterityUpBuff,
+                            effect = Buffs.DexterityUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = CriticalUpBuff,
+                            effect = Buffs.CriticalUpBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -161,12 +160,12 @@ val tr22FaithMisora =
                             hitCount = 4,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 7000,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = BlindnessBuff,
+                            effect = Buffs.BlindnessBuff,
                             turns = 3,
                         )
                       }
@@ -182,7 +181,7 @@ val tr22FaithMisora =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(CollectionYachiyo),
+                    trEventBonusPassive(4050019),
                     AbnormalResistPassiveA.new(100),
                     BossElementResistPassive.new(50),
                 ),
@@ -236,17 +235,17 @@ val tr22FaithMisoraDiff4 =
                     ActType.Act1("Weakening Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = ActPowerDownBuff,
+                            effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = NormalDefenseDownBuff,
+                            effect = Buffs.NormalDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialDefenseDownBuff,
+                            effect = Buffs.SpecialDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -303,7 +302,7 @@ val tr22FaithMisoraDiff4 =
                     ActType.Act8("Perfect Aim Concerto", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -322,12 +321,12 @@ val tr22FaithMisoraDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = BlindnessBuff,
+                            effect = Buffs.BlindnessBuff,
                             turns = 3,
                         )
                       }
@@ -335,17 +334,17 @@ val tr22FaithMisoraDiff4 =
                     ActType.Act10("Inspiring Gust", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = DexterityUpBuff,
+                            effect = Buffs.DexterityUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = CriticalUpBuff,
+                            effect = Buffs.CriticalUpBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -359,12 +358,12 @@ val tr22FaithMisoraDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = BlindnessBuff,
+                            effect = Buffs.BlindnessBuff,
                             turns = 3,
                         )
                       }
@@ -380,7 +379,7 @@ val tr22FaithMisoraDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(CollectionYachiyo),
+                    trEventBonusPassive(4050019),
                     AbnormalResistPassiveA.new(100),
                     BossElementResistPassive.new(50),
                 ),

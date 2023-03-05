@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.server.plugins
 
+import Accessories
 import com.charleskorn.kaml.Yaml
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -11,13 +12,12 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import xyz.qwewqa.relive.simulator.common.*
-import xyz.qwewqa.relive.simulator.core.presets.accessory.accessories
 import xyz.qwewqa.relive.simulator.core.presets.condition.conditions
 import xyz.qwewqa.relive.simulator.core.presets.dress.bossLoadouts
-import xyz.qwewqa.relive.simulator.core.presets.dress.playerDresses
-import xyz.qwewqa.relive.simulator.core.presets.memoir.memoirs
 import xyz.qwewqa.relive.simulator.core.presets.song.songEffects
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.remakeSkills
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dresses
+import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoirs
 import xyz.qwewqa.relive.simulator.core.stage.strategy.bossStrategyParsers
 import xyz.qwewqa.relive.simulator.core.stage.strategy.strategyParsers
 import xyz.qwewqa.relive.simulator.server.*
@@ -164,8 +164,8 @@ fun Application.configureRouting() {
       SimulationOptions(
           locales,
           commonText,
-          getLocalizationConfig("dress.yaml", playerDresses.keys).map { option ->
-            val dress = playerDresses[option.id]!!
+          getLocalizationConfig("dress.yaml", Dresses.keys.map { "$it" }).map { option ->
+            val dress = Dresses.aliases[option.id]!!
             val tags =
                 (option.tags ?: locales.keys.associateWith { emptyList() }).mapValues {
                     (locale, tags) ->
@@ -192,7 +192,7 @@ fun Application.configureRouting() {
                 }
             DataSimulationOption(
                 id = option.id,
-                name = option.name,
+                name = mapOf("en" to dress.name),
                 description = option.description
                         ?: tags.mapValues { (_, v) -> v.takeLast(3).joinToString(", ") },
                 tags = tags,
@@ -209,21 +209,21 @@ fun Application.configureRouting() {
                     ),
             )
           },
-          getLocalizationConfig("memoir.yaml", memoirs.keys).map { option ->
-            val memoir = memoirs[option.id]!!
-            val tags = memoir.tags
+          getLocalizationConfig("memoir.yaml", Memoirs.keys.map { "$it" }).map { option ->
+            val memoir = Memoirs.aliases[option.id]!!
+            val tags = emptyList<String>()
             DataSimulationOption(
                 id = option.id,
-                name = option.name,
+                name = mapOf("en" to memoir.name),
                 description =
                     locales.keys.associateWith { locale ->
-                      (tags.map { tag -> tagConfig[tag.name]?.get(locale)?.first() ?: tag.name } +
+                      (tags.map { tag -> tagConfig[tag]?.get(locale)?.first() ?: tag } +
                               listOf("c${memoir.cost}"))
                           .joinToString(", ")
                     },
                 tags =
                     locales.keys.associateWith { locale ->
-                      tags.flatMap { tag -> tagConfig[tag.name]?.get(locale) ?: listOf(tag.name) } +
+                      tags.flatMap { tag -> tagConfig[tag]?.get(locale) ?: listOf(tag) } +
                           listOf("c${memoir.cost}")
                     },
                 imagePath =
@@ -260,11 +260,11 @@ fun Application.configureRouting() {
                         targeting = skill.effects.firstOrNull()?.targeting?.shortName ?: "None",
                     ))
           },
-          getLocalizationConfig("accessory.yaml", accessories.keys).map { option ->
-            val accessory = accessories[option.id]!!
+          getLocalizationConfig("accessory.yaml", Accessories.keys.map { "$it" }).map { option ->
+            val accessory = Accessories.aliases[option.id]!!
             DataSimulationOption(
                 id = option.id,
-                name = option.name,
+                name = mapOf("en" to accessory.name),
                 description = option.description,
                 tags = option.tags,
                 imagePath =

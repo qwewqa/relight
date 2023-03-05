@@ -10,6 +10,30 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveSkillGroups
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.StartSkillGroups
 
 object Accessories : ImplementationRegistry<AccessoryBlueprint>() {
+  val emptyAccessory =
+      +AccessoryBlueprint(
+          0,
+          0,
+          "None",
+          emptyList(),
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          List(100) { 0 },
+          emptySet(),
+      )
+
   init {
     for ((id, accessory) in valuesGenAccessory) {
       +AccessoryBlueprint(
@@ -100,6 +124,14 @@ object Accessories : ImplementationRegistry<AccessoryBlueprint>() {
       )
     }
   }
+
+  val aliases: Map<String, AccessoryBlueprint> =
+      mutableMapOf<String, AccessoryBlueprint>().also { map ->
+        values.forEach { accessory ->
+          map[accessory.name] = accessory
+          map["${accessory.id}"] = accessory
+        }
+      }
 }
 
 fun getAttributeFromId(id: Int) =

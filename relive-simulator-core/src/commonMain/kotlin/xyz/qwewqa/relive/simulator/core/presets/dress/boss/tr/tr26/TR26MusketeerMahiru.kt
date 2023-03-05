@@ -1,15 +1,17 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr26
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.SagittariusJunna
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassiveV2
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
+import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -69,7 +71,7 @@ val tr26MusketeerMahiru =
                     ActType.Act5("Accuracy Smash", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -91,12 +93,12 @@ val tr26MusketeerMahiru =
                     ActType.Act7("Softening Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = NormalDefenseDownBuff,
+                            effect = Buffs.NormalDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialDefenseDownBuff,
+                            effect = Buffs.SpecialDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -109,7 +111,7 @@ val tr26MusketeerMahiru =
                             hitCount = 3,
                         )
                         applyTimedBuff(
-                            effect = ApUpBuff,
+                            effect = Buffs.ApUpBuff,
                             turns = 2,
                         )
                       }
@@ -121,7 +123,7 @@ val tr26MusketeerMahiru =
                             hitCount = 3,
                         )
                         applyTimedBuff(
-                            effect = ApUpBuff,
+                            effect = Buffs.ApUpBuff,
                             turns = 2,
                         )
                       }
@@ -137,7 +139,7 @@ val tr26MusketeerMahiru =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(SagittariusJunna),
+                    trEventBonusPassive(1060025),
                     AbnormalGuardPassive.new(),
                 ),
         ),
@@ -150,7 +152,7 @@ val tr26MusketeerMahiruVer2023 =
             tr26MusketeerMahiru.dress.copy(
                 autoSkills =
                     listOf(
-                        trEventBonusPassiveV2(SagittariusJunna),
+                        trEventBonusPassiveV2(1060025),
                         AbnormalGuardPassive.new(),
                     ),
             ),
@@ -248,7 +250,7 @@ val tr26MusketeerMahiruDiff4 =
                     ActType.Act5("Accuracy Smash", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -270,12 +272,12 @@ val tr26MusketeerMahiruDiff4 =
                     ActType.Act7("Softening Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = NormalDefenseDownBuff,
+                            effect = Buffs.NormalDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialDefenseDownBuff,
+                            effect = Buffs.SpecialDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -288,7 +290,7 @@ val tr26MusketeerMahiruDiff4 =
                             hitCount = 3,
                         )
                         applyTimedBuff(
-                            effect = ApUpBuff,
+                            effect = Buffs.ApUpBuff,
                             turns = 2,
                         )
                       }
@@ -301,7 +303,7 @@ val tr26MusketeerMahiruDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = ApUpBuff,
+                            effect = Buffs.ApUpBuff,
                             turns = 2,
                         )
                       }
@@ -317,7 +319,7 @@ val tr26MusketeerMahiruDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(SagittariusJunna),
+                    trEventBonusPassive(1060025),
                     AbnormalGuardPassive.new(),
                 ),
         ),
@@ -330,7 +332,7 @@ val tr26MusketeerMahiruDiff4Ver2023 =
             tr26MusketeerMahiruDiff4.dress.copy(
                 autoSkills =
                     listOf(
-                        trEventBonusPassiveV2(SagittariusJunna),
+                        trEventBonusPassiveV2(1060025),
                         AbnormalGuardPassive.new(),
                     ),
             ),

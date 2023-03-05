@@ -1,15 +1,14 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr27
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassiveV2
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow.CapricornClaudine
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalResistPassiveA
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.BossElementResistPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalResistPassiveA
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.BossElementResistPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -85,12 +84,12 @@ val tr27MafiaMaya =
                     ActType.Act7("Helpless Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = DexterityDownBuff,
+                            effect = Buffs.DexterityDownBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = CriticalDownBuff,
+                            effect = Buffs.CriticalDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -99,12 +98,12 @@ val tr27MafiaMaya =
                     ActType.Act8("Perfect Aim Flurry", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -118,12 +117,12 @@ val tr27MafiaMaya =
                     ActType.ClimaxAct("Maid's Etiquette NEO", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -145,7 +144,7 @@ val tr27MafiaMaya =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassiveV2(CapricornClaudine),
+                    trEventBonusPassiveV2(1040022),
                     AbnormalResistPassiveA.new(100),
                     BossElementResistPassive.new(50),
                 ),
@@ -260,12 +259,12 @@ val tr27MafiaMayaDiff4 =
                     ActType.Act7("Helpless Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = DexterityDownBuff,
+                            effect = Buffs.DexterityDownBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = CriticalDownBuff,
+                            effect = Buffs.CriticalDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -274,12 +273,12 @@ val tr27MafiaMayaDiff4 =
                     ActType.Act8("Perfect Aim Flurry", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -293,12 +292,12 @@ val tr27MafiaMayaDiff4 =
                     ActType.Act9("Perfect Aim Flurry", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -309,12 +308,12 @@ val tr27MafiaMayaDiff4 =
                     ActType.ClimaxAct("Maid's Etiquette NEO", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -333,7 +332,7 @@ val tr27MafiaMayaDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassiveV2(CapricornClaudine),
+                    trEventBonusPassiveV2(1040022),
                     AbnormalResistPassiveA.new(100),
                     BossElementResistPassive.new(50),
                 ),

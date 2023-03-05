@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
+import kotlin.jvm.JvmName
 import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenSkill
 import xyz.qwewqa.relive.simulator.core.skilloption.ActiveSkillOption
@@ -9,6 +10,8 @@ import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 import xyz.qwewqa.relive.simulator.core.stage.dress.ActBlueprint
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.SkillFieldEffect
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.SkillFieldEffects
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTarget
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTargets
 
@@ -43,9 +46,12 @@ class SkillPartBlueprint(
 
 class Skill(
     val parts: List<SkillPart>,
+    val stageEffect: SkillFieldEffect?,
 ) : Act {
+  @JvmName("exec")
   fun execute(context: ActionContext) {
     parts.forEach { it.execute(context) }
+    stageEffect?.execute(context)
   }
 
   override fun ActionContext.execute() {
@@ -58,10 +64,11 @@ class SkillBlueprint(
     val name: String,
     val cost: Int,
     val iconId: Int,
-    val parts: List<SkillPartBlueprint>,
     val isMultipleCa: Boolean,
+    val parts: List<SkillPartBlueprint>,
+    val stageEffect: SkillFieldEffect?,
 ) : FeatureImplementation {
-  fun create(level: Int) = Skill(parts.map { it.create(level) })
+  fun create(level: Int) = Skill(parts.map { it.create(level) }, stageEffect)
 
   fun asActBlueprint(type: ActType) =
       ActBlueprint(
@@ -129,7 +136,12 @@ object Skills : ImplementationRegistry<SkillBlueprint>() {
                         chance = skill.skill_option5_hit_rate,
                     )
                   } else null,
-              ))
+              ),
+          stageEffect =
+              if (skill.skill_field_effect_id != 0) {
+                SkillFieldEffects[skill.skill_field_effect_id] ?: continue
+              } else null,
+      )
     }
   }
 }

@@ -33,6 +33,8 @@ data class DressBlueprint(
     val unitSkill: UnitSkillBlueprint,
     val multipleCA: Boolean,
 ) : FeatureImplementation {
+  val fullName get() = "$name ${character.displayName}"
+
   fun create(
       rarity: Int,
       level: Int,
@@ -129,15 +131,15 @@ data class DressBlueprint(
   }
 }
 
-enum class DressCategory {
-  Arcana,
-  StageGirl,
-  Birthday2022,
-  Birthday2023,
-  TroupeRevueShop,
-  Movie,
-  RoV,
-  Sweets,
+enum class DressCategory(val ids: Set<Int>) {
+  Arcana(setOf()),
+  StageGirl(setOf()),
+  Birthday2022(setOf()),
+  Birthday2023(setOf()),
+  TroupeRevueShop(setOf()),
+  Movie(setOf()),
+  RoV(setOf()),
+  Sweets(setOf()),
 }
 
 data class StatBoost(val type: StatBoostType, val value: Int)

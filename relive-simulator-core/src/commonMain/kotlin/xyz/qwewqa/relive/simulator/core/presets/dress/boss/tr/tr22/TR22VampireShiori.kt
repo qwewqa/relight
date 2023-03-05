@@ -1,18 +1,17 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr22
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.space.CollectionYachiyo
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
 import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalResistPassiveA
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.BossElementResistPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalResistPassiveA
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.BossElementResistPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -80,7 +79,7 @@ val tr22VampireShiori =
                     ActType.Act6("Perfect Aim Concerto", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -98,12 +97,12 @@ val tr22VampireShiori =
                     ActType.Act8("Ironclad Dance", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = NormalBarrierBuff,
+                            effect = Buffs.NormalBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialBarrierBuff,
+                            effect = Buffs.SpecialBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
@@ -116,7 +115,7 @@ val tr22VampireShiori =
                             hitCount = 3,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 7000,
                             turns = 3,
                         )
@@ -129,7 +128,7 @@ val tr22VampireShiori =
                             hitCount = 3,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 7000,
                             turns = 3,
                         )
@@ -146,7 +145,7 @@ val tr22VampireShiori =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(CollectionYachiyo),
+                    trEventBonusPassive(4050019),
                     AbnormalResistPassiveA.new(100),
                     BossElementResistPassive.new(50),
                 ),
@@ -238,7 +237,7 @@ val tr22VampireShioriDiff4 =
                     ActType.Act6("Perfect Aim Concerto", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -256,12 +255,12 @@ val tr22VampireShioriDiff4 =
                     ActType.Act8("Ironclad Dance", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = NormalBarrierBuff,
+                            effect = Buffs.NormalBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialBarrierBuff,
+                            effect = Buffs.SpecialBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
@@ -275,7 +274,7 @@ val tr22VampireShioriDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,
                         )
@@ -289,7 +288,7 @@ val tr22VampireShioriDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,
                         )
@@ -306,7 +305,7 @@ val tr22VampireShioriDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(CollectionYachiyo),
+                    trEventBonusPassive(4050019),
                     AbnormalResistPassiveA.new(100),
                     BossElementResistPassive.new(50),
                 ),

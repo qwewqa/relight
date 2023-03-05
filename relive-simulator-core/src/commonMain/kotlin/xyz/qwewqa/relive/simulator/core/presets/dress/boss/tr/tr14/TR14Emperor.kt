@@ -1,15 +1,17 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr14
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.MoonAruru
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
-import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
+import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalResistPassiveA
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.BossElementResistPassive
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -75,7 +77,7 @@ val tr14EmperorAkira =
                       }
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = DamageReceivedDownBuff,
+                            effect = Buffs.DamageReceivedDownBuff,
                             value = 30,
                             turns = 2,
                         )
@@ -88,11 +90,11 @@ val tr14EmperorAkira =
                             hitCount = 4,
                         )
                         applyTimedBuff(
-                            effect = ConfusionBuff,
+                            effect = Buffs.ConfusionBuff,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 5000,
                             turns = 3,
                         )
@@ -101,17 +103,17 @@ val tr14EmperorAkira =
                     ActType.Act7("Inspiring Gust", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 30,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = DexterityUpBuff,
+                            effect = Buffs.DexterityUpBuff,
                             value = 20,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = CriticalUpBuff,
+                            effect = Buffs.CriticalUpBuff,
                             value = 20,
                             turns = 3,
                         )
@@ -124,11 +126,11 @@ val tr14EmperorAkira =
                             hitCount = 4,
                         )
                         applyTimedBuff(
-                            effect = ConfusionBuff,
+                            effect = Buffs.ConfusionBuff,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 5000,
                             turns = 3,
                         )
@@ -145,7 +147,7 @@ val tr14EmperorAkira =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(MoonAruru),
+                    trEventBonusPassive(3010015),
                     AbnormalResistPassiveA.new(100),
                     BossElementResistPassive.new(50),
                 ),
@@ -252,7 +254,7 @@ val tr14EmperorAkiraDiff4 =
                       }
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = DamageReceivedDownBuff,
+                            effect = Buffs.DamageReceivedDownBuff,
                             value = 30,
                             turns = 2,
                         )
@@ -265,11 +267,11 @@ val tr14EmperorAkiraDiff4 =
                             hitCount = 4,
                         )
                         applyTimedBuff(
-                            effect = ConfusionBuff,
+                            effect = Buffs.ConfusionBuff,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,
                         )
@@ -278,17 +280,17 @@ val tr14EmperorAkiraDiff4 =
                     ActType.Act7("Inspiring Gust", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 30,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = DexterityUpBuff,
+                            effect = Buffs.DexterityUpBuff,
                             value = 20,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = CriticalUpBuff,
+                            effect = Buffs.CriticalUpBuff,
                             value = 20,
                             turns = 3,
                         )
@@ -302,11 +304,11 @@ val tr14EmperorAkiraDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = ConfusionBuff,
+                            effect = Buffs.ConfusionBuff,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,
                         )
@@ -323,7 +325,7 @@ val tr14EmperorAkiraDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(MoonAruru),
+                    trEventBonusPassive(3010015),
                     AbnormalResistPassiveA.new(100),
                     BossElementResistPassive.new(50),
                 ),

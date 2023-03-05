@@ -1,18 +1,17 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr24
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
-import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.CollectionKaoruko
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
 import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
-import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
-import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalResistPassiveA
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.BossElementResistPassive
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -72,7 +71,7 @@ val tr24AliceAruru =
                     ActType.Act5("Perfect Aim Sharpshooting", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -86,17 +85,17 @@ val tr24AliceAruru =
                     ActType.Act6("Insipiring Gust", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = NormalDefenseUpBuff,
+                            effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialDefenseUpBuff,
+                            effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -109,12 +108,12 @@ val tr24AliceAruru =
                             hitCount = 4,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 7000,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = BlindnessBuff,
+                            effect = Buffs.BlindnessBuff,
                             turns = 2,
                         )
                       }
@@ -126,12 +125,12 @@ val tr24AliceAruru =
                             hitCount = 4,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 7000,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = BlindnessBuff,
+                            effect = Buffs.BlindnessBuff,
                             turns = 2,
                         )
                       }
@@ -147,7 +146,7 @@ val tr24AliceAruru =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(CollectionKaoruko),
+                    trEventBonusPassive(1090020),
                     AbnormalResistPassiveA.new(100),
                     BossElementResistPassive.new(50),
                 ),
@@ -231,7 +230,7 @@ val tr24AliceAruruDiff4 =
                     ActType.Act5("Perfect Aim Sharpshooting", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -245,17 +244,17 @@ val tr24AliceAruruDiff4 =
                     ActType.Act6("Insipiring Gust", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = NormalDefenseUpBuff,
+                            effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = SpecialDefenseUpBuff,
+                            effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -269,12 +268,12 @@ val tr24AliceAruruDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = BlindnessBuff,
+                            effect = Buffs.BlindnessBuff,
                             turns = 2,
                         )
                       }
@@ -287,12 +286,12 @@ val tr24AliceAruruDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = BurnBuff,
+                            effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = BlindnessBuff,
+                            effect = Buffs.BlindnessBuff,
                             turns = 2,
                         )
                       }
@@ -308,7 +307,7 @@ val tr24AliceAruruDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(CollectionKaoruko),
+                    trEventBonusPassive(1090020),
                     AbnormalResistPassiveA.new(100),
                     BossElementResistPassive.new(50),
                 ),

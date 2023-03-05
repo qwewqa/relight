@@ -1,17 +1,16 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr17
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.snow.HuntingRevueJunna
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
 import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -87,7 +86,7 @@ val tr17HellsingMichiru =
                     ActType.Act7("Weakening Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = ActPowerDownBuff,
+                            effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -96,12 +95,12 @@ val tr17HellsingMichiru =
                     ActType.Act8("Helpless Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = DexterityDownBuff,
+                            effect = Buffs.DexterityDownBuff,
                             value = 30,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = CriticalDownBuff,
+                            effect = Buffs.CriticalDownBuff,
                             value = 30,
                             turns = 3,
                         )
@@ -110,12 +109,12 @@ val tr17HellsingMichiru =
                     ActType.Act9("Perfect Aim Flurry", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -129,12 +128,12 @@ val tr17HellsingMichiru =
                     ActType.ClimaxAct("Cross of Retribution NEO", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -156,7 +155,7 @@ val tr17HellsingMichiru =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(HuntingRevueJunna),
+                    trEventBonusPassive(1060024),
                     AbnormalGuardPassive.new(),
                 ),
         ),
@@ -255,7 +254,7 @@ val tr17HellsingMichiruDiff4 =
                     ActType.Act7("Weakening Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = ActPowerDownBuff,
+                            effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -264,12 +263,12 @@ val tr17HellsingMichiruDiff4 =
                     ActType.Act8("Helpless Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = DexterityDownBuff,
+                            effect = Buffs.DexterityDownBuff,
                             value = 30,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = CriticalDownBuff,
+                            effect = Buffs.CriticalDownBuff,
                             value = 30,
                             turns = 3,
                         )
@@ -278,12 +277,12 @@ val tr17HellsingMichiruDiff4 =
                     ActType.Act9("Perfect Aim Flurry", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -298,12 +297,12 @@ val tr17HellsingMichiruDiff4 =
                     ActType.ClimaxAct("Cross of Retribution NEO", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -326,7 +325,7 @@ val tr17HellsingMichiruDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(HuntingRevueJunna),
+                    trEventBonusPassive(1060024),
                     AbnormalGuardPassive.new(),
                 ),
         ),

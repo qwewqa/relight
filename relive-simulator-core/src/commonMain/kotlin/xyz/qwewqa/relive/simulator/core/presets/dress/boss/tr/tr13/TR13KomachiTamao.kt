@@ -1,14 +1,16 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr13
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.JudgementShizuha
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
+import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -84,12 +86,12 @@ val tr13KomachiTamao =
                     ActType.Act7("Helpless Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = DexterityDownBuff,
+                            effect = Buffs.DexterityDownBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = CriticalDownBuff,
+                            effect = Buffs.CriticalDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -98,7 +100,7 @@ val tr13KomachiTamao =
                     ActType.Act8("Evasion Dance", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = EvasionUpBuff,
+                            effect = Buffs.EvasionUpBuff,
                             value = 50,
                             turns = 2,
                         )
@@ -107,12 +109,12 @@ val tr13KomachiTamao =
                     ActType.Act9("Perfect Aim Flurry", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -126,12 +128,12 @@ val tr13KomachiTamao =
                     ActType.ClimaxAct("Cherry Blossom Quick-Draw NEO", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = PerfectAimBuff,
+                            effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
                       }
@@ -153,7 +155,7 @@ val tr13KomachiTamao =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(JudgementShizuha),
+                    trEventBonusPassive(3050008),
                     AbnormalGuardPassive.new(),
                 ),
         ),
@@ -254,12 +256,12 @@ val tr13KomachiTamaoDiff4 =
                     ActType.Act7("Helpless Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = DexterityDownBuff,
+                            effect = Buffs.DexterityDownBuff,
                             value = 50,
                             turns = 3,
                         )
                         applyTimedBuff(
-                            effect = CriticalDownBuff,
+                            effect = Buffs.CriticalDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -268,7 +270,7 @@ val tr13KomachiTamaoDiff4 =
                     ActType.Act8("Evasion Dance", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = EvasionUpBuff,
+                            effect = Buffs.EvasionUpBuff,
                             value = 50,
                             turns = 2,
                         )
@@ -277,11 +279,11 @@ val tr13KomachiTamaoDiff4 =
                     ActType.Act9("Perfect Aim Flurry", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(effect = PerfectAimBuff, turns = 1)
+                        applyTimedBuff(effect = Buffs.PerfectAimBuff, turns = 1)
                       }
                       targetAoe().act {
                         attack(
@@ -293,11 +295,11 @@ val tr13KomachiTamaoDiff4 =
                     ActType.ClimaxAct("Cherry Blossom Quick-Draw NEO", 2) {
                       targetSelf().act {
                         applyTimedBuff(
-                            effect = ActPowerUpBuff,
+                            effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(effect = PerfectAimBuff, turns = 1)
+                        applyTimedBuff(effect = Buffs.PerfectAimBuff, turns = 1)
                       }
                       targetAoe().act {
                         attack(
@@ -318,7 +320,7 @@ val tr13KomachiTamaoDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(JudgementShizuha),
+                    trEventBonusPassive(3050008),
                     AbnormalGuardPassive.new(),
                 ),
         ),

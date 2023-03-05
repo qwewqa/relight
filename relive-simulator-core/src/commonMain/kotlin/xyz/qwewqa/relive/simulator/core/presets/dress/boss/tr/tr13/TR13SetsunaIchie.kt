@@ -1,14 +1,17 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr13
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.back.cloud.JudgementShizuha
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
-import xyz.qwewqa.relive.simulator.core.stage.actor.*
+import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
+import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -76,7 +79,7 @@ val tr13SetsunaIchie =
                     ActType.Act6("Weakening Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = ActPowerDownBuff,
+                            effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -93,7 +96,7 @@ val tr13SetsunaIchie =
                             hitCount = 4,
                         )
                         applyTimedBuff(
-                            effect = PoisonBuff,
+                            effect = Buffs.PoisonBuff,
                             value = 10000,
                             turns = 3,
                         )
@@ -106,7 +109,7 @@ val tr13SetsunaIchie =
                             hitCount = 4,
                         )
                         applyTimedBuff(
-                            effect = PoisonBuff,
+                            effect = Buffs.PoisonBuff,
                             value = 10000,
                             turns = 3,
                         )
@@ -123,7 +126,7 @@ val tr13SetsunaIchie =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(JudgementShizuha),
+                    trEventBonusPassive(3050008),
                     AbnormalGuardPassive.new(),
                 ),
         ),
@@ -229,7 +232,7 @@ val tr13SetsunaIchieDiff4 =
                     ActType.Act6("Weakening Concerto", 2) {
                       targetAoe().act {
                         applyTimedBuff(
-                            effect = ActPowerDownBuff,
+                            effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
                         )
@@ -246,7 +249,7 @@ val tr13SetsunaIchieDiff4 =
                             hitCount = 4,
                         )
                         applyTimedBuff(
-                            effect = PoisonBuff,
+                            effect = Buffs.PoisonBuff,
                             value = 99999,
                             turns = 3,
                         )
@@ -260,7 +263,7 @@ val tr13SetsunaIchieDiff4 =
                             mode = HitMode.FIXED,
                         )
                         applyTimedBuff(
-                            effect = PoisonBuff,
+                            effect = Buffs.PoisonBuff,
                             value = 99999,
                             turns = 3,
                         )
@@ -277,7 +280,7 @@ val tr13SetsunaIchieDiff4 =
                 ),
             autoSkills =
                 listOf(
-                    trEventBonusPassive(JudgementShizuha),
+                    trEventBonusPassive(3050008),
                     AbnormalGuardPassive.new(),
                 ),
         ),

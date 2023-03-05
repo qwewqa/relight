@@ -1153,9 +1153,9 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
       +getSkillTargetData(4069).makeEnemyTargetAoe { it.dress.position == Position.Back }
 
   val allyArcanaArcadia =
-      +getSkillTargetData(4070).makeAllyTargetAoe { DressCategory.Arcana in it.dress.categories }
+      +getSkillTargetData(4070).makeAllyTargetAoe { it.dress.id in DressCategory.Arcana.ids }
   val enemyArcanaArcadia =
-      +getSkillTargetData(4071).makeEnemyTargetAoe { DressCategory.Arcana in it.dress.categories }
+      +getSkillTargetData(4071).makeEnemyTargetAoe { it.dress.id in DressCategory.Arcana.ids }
 
   val allySeiran3 =
       +getSkillTargetData(4072).makeAllyTargetAoe { it.dress.character.school == School.Seiran }
@@ -1497,14 +1497,14 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
       }
 
   val allyMovieSeries =
-      +getSkillTargetData(4136).makeAllyTargetAoe { DressCategory.Movie in it.dress.categories }
+      +getSkillTargetData(4136).makeAllyTargetAoe { it.dress.id in DressCategory.Movie.ids }
   val enemyMovieSeries =
-      +getSkillTargetData(4137).makeEnemyTargetAoe { DressCategory.Movie in it.dress.categories }
+      +getSkillTargetData(4137).makeEnemyTargetAoe { it.dress.id in DressCategory.Movie.ids }
 
   val allyRoseOfVersaillesSeries =
-      +getSkillTargetData(4138).makeAllyTargetAoe { DressCategory.RoV in it.dress.categories }
+      +getSkillTargetData(4138).makeAllyTargetAoe { it.dress.id in DressCategory.RoV.ids }
   val enemyRoseOfVersaillesSeries =
-      +getSkillTargetData(4139).makeEnemyTargetAoe { DressCategory.RoV in it.dress.categories }
+      +getSkillTargetData(4139).makeEnemyTargetAoe { it.dress.id in DressCategory.RoV.ids }
 
   val allyJunnaHoshimiNanaDaiba =
       +getSkillTargetData(4140).makeAllyTargetAoe {

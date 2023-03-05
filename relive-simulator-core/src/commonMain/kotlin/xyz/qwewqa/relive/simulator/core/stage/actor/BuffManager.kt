@@ -8,7 +8,6 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ActionRestrictionResistanceUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.TurnDispelContinuousNegativeEffectsBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.TurnDispelCountableNegativeEffectsBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.TurnDispelCountablePositiveEffectsBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.abnormalBuffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.burnDamage
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.nightmareDamage
@@ -407,9 +406,9 @@ class BuffManager(val actor: Actor) {
           damage(nightmare, additionalEffects = false)
         }
 
-        if (TurnDispelCountablePositiveEffectsBuff in buffs) {
-          dispelCountable(BuffCategory.Positive)
-        }
+//        if (TurnDispelCountablePositiveEffectsBuff in buffs) {
+//          dispelCountable(BuffCategory.Positive)
+//        }
 
         val turnReduceCountablePositiveEffects = mod { +turnReduceCountablePositiveEffects }
         if (turnReduceCountablePositiveEffects > 0) {
