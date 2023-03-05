@@ -1,8 +1,10 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
+import kotlin.math.min
 import xyz.qwewqa.relive.simulator.common.DisplayBuffData
-import xyz.qwewqa.relive.simulator.core.stage.*
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.PlatformSet
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ActionRestrictionResistanceUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.TurnDispelContinuousNegativeEffectsBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.TurnDispelCountableNegativeEffectsBuff
@@ -11,8 +13,22 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.abnormalBuffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.burnDamage
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.nightmareDamage
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.poisonDamage
-import xyz.qwewqa.relive.simulator.core.stage.modifier.*
-import kotlin.math.min
+import xyz.qwewqa.relive.simulator.core.stage.buff.CountableBuffEffect
+import xyz.qwewqa.relive.simulator.core.stage.buff.TimedBuffEffect
+import xyz.qwewqa.relive.simulator.core.stage.buff.activateBlessings
+import xyz.qwewqa.relive.simulator.core.stage.buff.displayPriority
+import xyz.qwewqa.relive.simulator.core.stage.log
+import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceRegen
+import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceSap
+import xyz.qwewqa.relive.simulator.core.stage.modifier.hpFixedRegen
+import xyz.qwewqa.relive.simulator.core.stage.modifier.hpPercentRegen
+import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.reviveRegen
+import xyz.qwewqa.relive.simulator.core.stage.modifier.turnReduceCountableNegativeEffects
+import xyz.qwewqa.relive.simulator.core.stage.modifier.turnReduceCountablePositiveEffects
+import xyz.qwewqa.relive.simulator.core.stage.platformMapOf
+import xyz.qwewqa.relive.simulator.core.stage.platformSetOf
+import xyz.qwewqa.relive.simulator.core.stage.toPlatformMap
 
 class BuffManager(val actor: Actor) {
   private val positiveBuffs = platformSetOf<TimedBuffImpl<*>>()
@@ -500,7 +516,7 @@ class CountableBuffStack(
 )
 
 val countableBuffsByName =
-    (Buffs.values.associateBy { it.name.lowercase() } +
+    (Buffs.values.filterIsInstance<CountableBuffEffect>().associateBy { it.name.lowercase() } +
             mapOf(
                 "impudence" to Buffs.ImpudenceBuff,
                 "evade" to Buffs.EvasionBuff,

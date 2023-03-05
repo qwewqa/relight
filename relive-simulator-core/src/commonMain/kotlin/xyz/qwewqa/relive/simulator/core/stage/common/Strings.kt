@@ -5,3 +5,6 @@ fun substituteString(string: String, values: List<Pair<String, String>>): String
   values.forEach { (key, value) -> result = result.replace("%$key%", value) }
   return result
 }
+
+fun String.substitute(vararg values: Pair<String, String>): String =
+    substituteString(this, values.toList())

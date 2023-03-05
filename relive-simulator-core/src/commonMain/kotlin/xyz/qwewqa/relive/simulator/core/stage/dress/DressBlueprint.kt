@@ -1,16 +1,18 @@
 package xyz.qwewqa.relive.simulator.core.stage.dress
 
+import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkill
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.RemakeSkill
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.UnitSkillBlueprint
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position
 
 data class DressBlueprint(
-    val id: Int,
+    override val id: Int,
     val name: String,
     val baseRarity: Int,
     val cost: Int,
@@ -22,16 +24,15 @@ data class DressBlueprint(
     val stats: StatData,
     val growthStats: StatData,
     val acts: List<ActBlueprint>,
-    val autoSkills: List<List<PassiveData>>,
+    val autoSkills: List<List<AutoSkill>>,
     val autoSkillRanks: List<Int?>,
     val autoSkillPanels: List<Int>,
     val rankPanels: List<List<StatBoost>>,
     val friendshipPanels: List<StatBoost>,
     val remakeParameters: List<StatData>,
-    val unitSkill: UnitSkill,
-    val categories: Set<DressCategory>,
+    val unitSkill: UnitSkillBlueprint,
     val multipleCA: Boolean,
-) {
+) : FeatureImplementation {
   fun create(
       rarity: Int,
       level: Int,
@@ -121,8 +122,7 @@ data class DressBlueprint(
         },
         autoSkills.take(autoSkillCount).flatten() +
             (remakeSkill?.data?.takeIf { remake >= 4 } ?: emptyList()),
-        unitSkill.forLevel(unitSkillLevel),
-        categories,
+        unitSkill.create(unitSkillLevel).skills,
         multipleCA,
         this,
     )
@@ -138,66 +138,6 @@ enum class DressCategory {
   Movie,
   RoV,
   Sweets,
-}
-
-data class PartialDressBlueprint(
-    val id: Int,
-    val name: String,
-    val baseRarity: Int,
-    val cost: Int,
-    val character: Character,
-    val attribute: Attribute,
-    val damageType: DamageType,
-    val position: Position,
-    val positionValue: Int,
-    val stats: StatData,
-    val growthStats: StatData,
-    val actParameters: Map<ActType, ActBlueprint>,
-    val autoSkillRanks: List<Int?>,
-    val autoSkillPanels: List<Int>,
-    val rankPanels: List<List<StatBoost>>,
-    val friendshipPanels: List<StatBoost>,
-    val remakeParameters: List<StatData>,
-) {
-  operator fun invoke(
-      name: String,
-      acts: List<ActBlueprint>,
-      autoSkills: List<List<PassiveData>>,
-      unitSkill: UnitSkill,
-      categories: Set<DressCategory> = emptySet(),
-      multipleCA: Boolean = false,
-  ) =
-      DressBlueprint(
-          id,
-          name,
-          baseRarity,
-          cost,
-          character,
-          attribute,
-          damageType,
-          position,
-          positionValue,
-          stats,
-          growthStats,
-          acts.map {
-            actParameters[it.type]?.let { baseParams ->
-              it.copy(
-                  apCost = it.apCost ?: baseParams.apCost,
-                  parameters = it.parameters ?: baseParams.parameters,
-                  icon = it.icon ?: baseParams.icon)
-            }
-                ?: it
-          },
-          autoSkills,
-          autoSkillRanks,
-          autoSkillPanels,
-          rankPanels,
-          friendshipPanels,
-          remakeParameters,
-          unitSkill,
-          categories,
-          multipleCA,
-      )
 }
 
 data class StatBoost(val type: StatBoostType, val value: Int)

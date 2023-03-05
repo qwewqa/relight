@@ -4,7 +4,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActData
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.BuffManager
-import xyz.qwewqa.relive.simulator.core.stage.buff.MarkBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.MarkBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
 import xyz.qwewqa.relive.simulator.core.stage.modifier.dexterity
 import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistanceUp

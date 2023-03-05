@@ -3,7 +3,7 @@ package xyz.qwewqa.relive.simulator.core.stage.strategy.complete
 import xyz.qwewqa.relive.simulator.core.stage.Stage
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
-import xyz.qwewqa.relive.simulator.core.stage.buff.MultipleCAficationBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.MultipleCAficationBuff
 import xyz.qwewqa.relive.simulator.core.stage.ignoreRun
 import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.strategy.*

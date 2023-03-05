@@ -7,7 +7,7 @@ import xyz.qwewqa.relive.simulator.core.stage.*
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.countableBuffsByName
-import xyz.qwewqa.relive.simulator.core.stage.buff.MultipleCAficationBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.MultipleCAficationBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.modifier.*

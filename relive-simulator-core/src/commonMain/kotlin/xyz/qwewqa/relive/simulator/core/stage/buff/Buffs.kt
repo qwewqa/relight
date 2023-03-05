@@ -1464,3 +1464,21 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
         else -> error("Attribute $attribute not supported")
       }
 }
+
+inline val Modifiers.apChange: Int
+  get() =
+      actor.buffs.run {
+        val decrease =
+            when {
+              Buffs.ApDown2Buff in this -> 2
+              Buffs.ApDownBuff in this -> 1
+              else -> 0
+            }
+        val increase =
+            when {
+              Buffs.ApUp2Buff in this -> 2
+              Buffs.ApUpBuff in this -> 1
+              else -> 0
+            }
+        increase - decrease
+      }

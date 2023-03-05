@@ -1,8 +1,10 @@
 package xyz.qwewqa.relive.simulator.core.stage.memoir
 
 import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.EffectTag
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkill
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkillGroupBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.dress.ActBlueprintContext
 import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
 
@@ -10,54 +12,20 @@ data class Memoir(
     val id: Int,
     val name: String,
     val stats: StatData,
-    val autoskills: List<PassiveData>,
+    val autoskills: List<AutoSkill>,
     val cutinData: CutinData? = null,
 )
 
 data class MemoirBlueprint(
-    val id: Int,
+    override val id: Int,
     val name: String,
     val rarity: Int,
     val cost: Int,
     val baseStats: StatData,
     val growthStats: StatData,
-    val autoskills: List<List<PassiveData>>,
+    val autoskills: List<AutoSkillGroupBlueprint>,
     val cutinData: CutinBlueprint? = null,
-    val additionalTags: List<EffectTag> = emptyList(),
-) {
-  constructor(
-      id: Int,
-      name: String,
-      rarity: Int,
-      cost: Int,
-      baseStats: StatData,
-      growthStats: StatData,
-      baseAutoskills: List<PassiveData>,
-      maxAutoskills: List<PassiveData>,
-      cutinData: CutinBlueprint? = null,
-      additionalTags: List<EffectTag> = emptyList(),
-  ) : this(
-      id,
-      name,
-      rarity,
-      cost,
-      baseStats,
-      growthStats,
-      List(4) { baseAutoskills } + listOf(maxAutoskills),
-      cutinData,
-      additionalTags)
-
-  val tags: List<EffectTag> =
-      mutableSetOf<EffectTag>()
-          .apply {
-            autoskills.last().forEach { passive -> addAll(passive.effect.tags) }
-            if (cutinData != null) {
-              add(EffectTag.Cutin)
-            }
-            addAll(additionalTags)
-          }
-          .sortedBy { it.ordinal }
-
+) : FeatureImplementation {
   fun maxLevel(limitBreak: Int) = (rarity + 2) * 10 + limitBreak * 5
 
   fun create(level: Int, limitBreak: Int): Memoir {
@@ -68,42 +36,13 @@ data class MemoirBlueprint(
         id,
         name,
         baseStats + growthStats * (level - 1) / 1000,
-        autoskills[limitBreak],
+        when (limitBreak) {
+          4 -> autoskills.map { it.create(5) }
+          else -> autoskills.map { it.create(1) }
+        }.flatMap { it.skills },
         cutinData?.create(limitBreak),
     )
   }
-}
-
-data class PartialMemoirBlueprint(
-    val id: Int,
-    val name: String,
-    val rarity: Int,
-    val cost: Int,
-    val baseStats: StatData,
-    val growthStats: StatData,
-    val cutinData: CutinBlueprint? = null,
-    val additionalTags: List<EffectTag> = emptyList(),
-) {
-  operator fun invoke(
-      name: String,
-      baseAutoskills: List<PassiveData>,
-      maxAutoskills: List<PassiveData>,
-      cutinTarget: CutinTarget = CutinTarget.TurnStart,
-      cutinAct: ActBlueprintContext.() -> Act = { Act {} },
-      additionalTags: List<EffectTag> = emptyList(),
-  ) =
-      MemoirBlueprint(
-          id,
-          name,
-          rarity,
-          cost,
-          baseStats,
-          growthStats,
-          baseAutoskills,
-          maxAutoskills,
-          cutinData?.copy(act = cutinAct, target = cutinTarget),
-          this.additionalTags + additionalTags,
-      )
 }
 
 data class CutinBlueprint(

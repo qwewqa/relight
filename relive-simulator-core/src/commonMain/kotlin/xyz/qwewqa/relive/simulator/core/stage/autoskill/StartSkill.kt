@@ -87,54 +87,54 @@ object StartSkillGroups : ImplementationRegistry<StartSkillGroupBlueprint>() {
           skills =
               listOfNotNull(
                   if (skill.skill_option1_id != 0)
-                      getStartSkillBlueprint(
-                          skill.skill_option1_id,
-                          skill.skill_option1_target_id,
-                          skill.skill_option1_values,
-                          skill.skill_option1_times,
-                          skill.skill_option1_hit_rate,
+                      StartSkillBlueprint(
+                          option = SkillOptions[skill.skill_option1_id] as? ActiveSkillOption
+                                  ?: continue,
+                          target = SkillTargets[skill.skill_option1_target_id] ?: continue,
+                          values = skill.skill_option1_values,
+                          times = skill.skill_option1_times,
+                          chance = skill.skill_option1_hit_rate,
                       )
-                          ?: continue
                   else null,
                   if (skill.skill_option2_id != 0)
-                      getStartSkillBlueprint(
-                          skill.skill_option2_id,
-                          skill.skill_option2_target_id,
-                          skill.skill_option2_values,
-                          skill.skill_option2_times,
-                          skill.skill_option2_hit_rate,
+                      StartSkillBlueprint(
+                          option = SkillOptions[skill.skill_option2_id] as? ActiveSkillOption
+                                  ?: continue,
+                          target = SkillTargets[skill.skill_option2_target_id] ?: continue,
+                          values = skill.skill_option2_values,
+                          times = skill.skill_option2_times,
+                          chance = skill.skill_option2_hit_rate,
                       )
-                          ?: continue
                   else null,
                   if (skill.skill_option3_id != 0)
-                      getStartSkillBlueprint(
-                          skill.skill_option3_id,
-                          skill.skill_option3_target_id,
-                          skill.skill_option3_values,
-                          skill.skill_option3_times,
-                          skill.skill_option3_hit_rate,
+                      StartSkillBlueprint(
+                          option = SkillOptions[skill.skill_option3_id] as? ActiveSkillOption
+                                  ?: continue,
+                          target = SkillTargets[skill.skill_option3_target_id] ?: continue,
+                          values = skill.skill_option3_values,
+                          times = skill.skill_option3_times,
+                          chance = skill.skill_option3_hit_rate,
                       )
-                          ?: continue
                   else null,
                   if (skill.skill_option4_id != 0)
-                      getStartSkillBlueprint(
-                          skill.skill_option4_id,
-                          skill.skill_option4_target_id,
-                          skill.skill_option4_values,
-                          skill.skill_option4_times,
-                          skill.skill_option4_hit_rate,
+                      StartSkillBlueprint(
+                          option = SkillOptions[skill.skill_option4_id] as? ActiveSkillOption
+                                  ?: continue,
+                          target = SkillTargets[skill.skill_option4_target_id] ?: continue,
+                          values = skill.skill_option4_values,
+                          times = skill.skill_option4_times,
+                          chance = skill.skill_option4_hit_rate,
                       )
-                          ?: continue
                   else null,
                   if (skill.skill_option5_id != 0)
-                      getStartSkillBlueprint(
-                          skill.skill_option5_id,
-                          skill.skill_option5_target_id,
-                          skill.skill_option5_values,
-                          skill.skill_option5_times,
-                          skill.skill_option5_hit_rate,
+                      StartSkillBlueprint(
+                          option = SkillOptions[skill.skill_option5_id] as? ActiveSkillOption
+                                  ?: continue,
+                          target = SkillTargets[skill.skill_option5_target_id] ?: continue,
+                          values = skill.skill_option5_values,
+                          times = skill.skill_option5_times,
+                          chance = skill.skill_option5_hit_rate,
                       )
-                          ?: continue
                   else null,
               ),
       )

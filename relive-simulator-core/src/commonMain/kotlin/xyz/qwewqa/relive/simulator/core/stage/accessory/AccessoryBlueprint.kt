@@ -1,8 +1,10 @@
 package xyz.qwewqa.relive.simulator.core.stage.accessory
 
 import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkill
 import xyz.qwewqa.relive.simulator.core.stage.dress.ActBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.dress.ActBlueprintContext
 
@@ -22,11 +24,10 @@ val ACCESSORY_SKILL_LEVELS =
     )
 
 data class AccessoryBlueprint(
-    val id: Int,
+    override val id: Int,
     val iconId: Int,
     val name: String,
-    val act: (ActBlueprintContext.() -> Act)?,
-    val autoskills: List<Pair<Int, List<PassiveData>>>,
+    val autoskills: List<Pair<Int, List<AutoSkill>>>,
     val baseHp: Int,
     val baseActPower: Int,
     val baseNormalDefense: Int,
@@ -45,7 +46,7 @@ data class AccessoryBlueprint(
     val dressIds: Set<Int>,
     val attribute: Attribute? = null,
     val actData: ActBlueprint? = null,
-) {
+) : FeatureImplementation {
   fun create(level: Int, limitBreak: Int): Accessory {
     val actLevel =
         ACCESSORY_SKILL_LEVELS[limitBreak]
@@ -73,59 +74,4 @@ data class AccessoryBlueprint(
   }
 
   private fun scaleStat(base: Int, max: Int, factor: Int) = base + (max - base) * factor / 1024
-}
-
-data class PartialAccessoryBlueprint(
-    val id: Int,
-    val iconId: Int,
-    val name: String,
-    val baseHp: Int,
-    val baseActPower: Int,
-    val baseNormalDefense: Int,
-    val baseSpecialDefense: Int,
-    val baseDexterity: Int,
-    val baseCritical: Int,
-    val baseAgility: Int,
-    val maxHp: Int,
-    val maxActPower: Int,
-    val maxNormalDefense: Int,
-    val maxSpecialDefense: Int,
-    val maxDexterity: Int,
-    val maxCritical: Int,
-    val maxAgility: Int,
-    val growValues: List<Int>,
-    val dressIds: Set<Int>,
-    val attribute: Attribute? = null,
-    val actData: ActBlueprint? = null,
-) {
-  operator fun invoke(
-      name: String,
-      autoskills: List<Pair<Int, List<PassiveData>>> = emptyList(),
-      act: (ActBlueprintContext.() -> Act)? = null,
-  ) =
-      AccessoryBlueprint(
-          id,
-          iconId,
-          name,
-          act,
-          autoskills,
-          baseHp,
-          baseActPower,
-          baseNormalDefense,
-          baseSpecialDefense,
-          baseDexterity,
-          baseCritical,
-          baseAgility,
-          maxHp,
-          maxActPower,
-          maxNormalDefense,
-          maxSpecialDefense,
-          maxDexterity,
-          maxCritical,
-          maxAgility,
-          growValues,
-          dressIds,
-          attribute,
-          actData,
-      )
 }

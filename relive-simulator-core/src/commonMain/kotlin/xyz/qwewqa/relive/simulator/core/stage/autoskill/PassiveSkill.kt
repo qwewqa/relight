@@ -73,44 +73,44 @@ object PassiveSkillGroups : ImplementationRegistry<PassiveSkillGroupBlueprint>()
           skills =
               listOfNotNull(
                   if (skill.skill_option1_id != 0)
-                      getPassiveSkillBlueprint(
-                          optionId = skill.skill_option1_id,
-                          targetId = skill.skill_option1_target_id,
+                      PassiveSkillBlueprint(
+                          option = SkillOptions[skill.skill_option1_id] as? PassiveSkillOption
+                                  ?: continue,
+                          target = SkillTargets[skill.skill_option1_target_id] ?: continue,
                           values = skill.skill_option1_values,
                       )
-                          ?: continue
                   else null,
                   if (skill.skill_option2_id != 0)
-                      getPassiveSkillBlueprint(
-                          optionId = skill.skill_option2_id,
-                          targetId = skill.skill_option2_target_id,
+                      PassiveSkillBlueprint(
+                          option = SkillOptions[skill.skill_option2_id] as? PassiveSkillOption
+                                  ?: continue,
+                          target = SkillTargets[skill.skill_option2_target_id] ?: continue,
                           values = skill.skill_option2_values,
                       )
-                          ?: continue
                   else null,
                   if (skill.skill_option3_id != 0)
-                      getPassiveSkillBlueprint(
-                          optionId = skill.skill_option3_id,
-                          targetId = skill.skill_option3_target_id,
+                      PassiveSkillBlueprint(
+                          option = SkillOptions[skill.skill_option3_id] as? PassiveSkillOption
+                                  ?: continue,
+                          target = SkillTargets[skill.skill_option3_target_id] ?: continue,
                           values = skill.skill_option3_values,
                       )
-                          ?: continue
                   else null,
                   if (skill.skill_option4_id != 0)
-                      getPassiveSkillBlueprint(
-                          optionId = skill.skill_option4_id,
-                          targetId = skill.skill_option4_target_id,
+                      PassiveSkillBlueprint(
+                          option = SkillOptions[skill.skill_option4_id] as? PassiveSkillOption
+                                  ?: continue,
+                          target = SkillTargets[skill.skill_option4_target_id] ?: continue,
                           values = skill.skill_option4_values,
                       )
-                          ?: continue
                   else null,
                   if (skill.skill_option5_id != 0)
-                      getPassiveSkillBlueprint(
-                          optionId = skill.skill_option5_id,
-                          targetId = skill.skill_option5_target_id,
+                      PassiveSkillBlueprint(
+                          option = SkillOptions[skill.skill_option5_id] as? PassiveSkillOption
+                                  ?: continue,
+                          target = SkillTargets[skill.skill_option5_target_id] ?: continue,
                           values = skill.skill_option5_values,
                       )
-                          ?: continue
                   else null,
               ),
       )
@@ -127,43 +127,38 @@ object UnitSkills : ImplementationRegistry<UnitSkillBlueprint>() {
               listOfNotNull(
                   if (skill.skill_option1_id != 0)
                       getPassiveSkillBlueprint(
-                          optionId = skill.skill_option1_id,
-                          targetId = skill.skill_option1_target_id,
-                          values = skill.skill_option1_values,
+                          skill.skill_option1_id,
+                          skill.skill_option1_target_id,
+                          skill.skill_option1_values,
                       )
-                          ?: continue
                   else null,
                   if (skill.skill_option2_id != 0)
                       getPassiveSkillBlueprint(
-                          optionId = skill.skill_option2_id,
-                          targetId = skill.skill_option2_target_id,
-                          values = skill.skill_option2_values,
+                          skill.skill_option2_id,
+                          skill.skill_option2_target_id,
+                          skill.skill_option2_values,
                       )
-                          ?: continue
                   else null,
                   if (skill.skill_option3_id != 0)
                       getPassiveSkillBlueprint(
-                          optionId = skill.skill_option3_id,
-                          targetId = skill.skill_option3_target_id,
-                          values = skill.skill_option3_values,
+                          skill.skill_option3_id,
+                          skill.skill_option3_target_id,
+                          skill.skill_option3_values,
                       )
-                          ?: continue
                   else null,
                   if (skill.skill_option4_id != 0)
                       getPassiveSkillBlueprint(
-                          optionId = skill.skill_option4_id,
-                          targetId = skill.skill_option4_target_id,
-                          values = skill.skill_option4_values,
+                          skill.skill_option4_id,
+                          skill.skill_option4_target_id,
+                          skill.skill_option4_values,
                       )
-                          ?: continue
                   else null,
                   if (skill.skill_option5_id != 0)
                       getPassiveSkillBlueprint(
-                          optionId = skill.skill_option5_id,
-                          targetId = skill.skill_option5_target_id,
-                          values = skill.skill_option5_values,
+                          skill.skill_option5_id,
+                          skill.skill_option5_target_id,
+                          skill.skill_option5_values,
                       )
-                          ?: continue
                   else null,
               ))
     }
