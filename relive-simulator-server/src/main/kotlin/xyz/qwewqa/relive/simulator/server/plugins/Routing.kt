@@ -17,7 +17,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.bossLoadouts
 import xyz.qwewqa.relive.simulator.core.presets.dress.playerDresses
 import xyz.qwewqa.relive.simulator.core.presets.memoir.memoirs
 import xyz.qwewqa.relive.simulator.core.presets.song.songEffects
-import xyz.qwewqa.relive.simulator.core.stage.passive.remakeSkills
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.remakeSkills
 import xyz.qwewqa.relive.simulator.core.stage.strategy.bossStrategyParsers
 import xyz.qwewqa.relive.simulator.core.stage.strategy.strategyParsers
 import xyz.qwewqa.relive.simulator.server.*

@@ -14,7 +14,7 @@ import xyz.qwewqa.relive.simulator.core.stage.condition.plus
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.loadout.TeamLoadout
-import xyz.qwewqa.relive.simulator.core.stage.passive.remakeSkills
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.remakeSkills
 import xyz.qwewqa.relive.simulator.core.stage.song.Song
 import xyz.qwewqa.relive.simulator.core.stage.song.SongEffectData
 import xyz.qwewqa.relive.simulator.core.stage.strategy.bossStrategyParsers

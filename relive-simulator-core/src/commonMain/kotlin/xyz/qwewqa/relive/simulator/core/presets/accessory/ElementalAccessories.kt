@@ -2,7 +2,7 @@ package xyz.qwewqa.relive.simulator.core.presets.accessory
 
 import xyz.qwewqa.relive.simulator.core.presets.accessory.generated.*
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.passive.*
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.*
 
 val ringAutoskills =
     listOf(

@@ -9,7 +9,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.BurnBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.ConfusionBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.passive.AbnormalResistPassiveA
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalResistPassiveA
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position

@@ -5,7 +5,6 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.dress.ActBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.dress.ActBlueprintContext
-import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
 
 val ACCESSORY_SKILL_LEVELS =
     mapOf(

@@ -4,6 +4,7 @@ import xyz.qwewqa.relive.simulator.core.gen.GenSkillOption
 import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenSkillOption
 import xyz.qwewqa.relive.simulator.core.stage.TargetContext
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkillType
 import xyz.qwewqa.relive.simulator.core.stage.common.DescriptionUnit
 
 data class SkillOptionData(
@@ -18,127 +19,88 @@ data class SkillOptionData(
     val valueUnit: DescriptionUnit,
     val type: Int?,
 ) {
-  inline fun makeSkillOption(crossinline action: TargetContext.(value: Int) -> Unit) =
-      makeSkillOption { value, time, chance, params ->
-        action(value)
-      }
-  inline fun makeSkillOption(crossinline action: TargetContext.(value: Int, time: Int) -> Unit) =
-      makeSkillOption { value, time, chance, params ->
-        action(value, time)
-      }
   inline fun makeSkillOption(
+      activeType: AutoSkillType = AutoSkillType.TurnStartB,
+      crossinline action: TargetContext.(value: Int) -> Unit
+  ) = makeSkillOption(activeType) { value, _, _ -> action(value) }
+  inline fun makeSkillOption(
+      activeType: AutoSkillType = AutoSkillType.TurnStartB,
+      crossinline action: TargetContext.(value: Int, time: Int) -> Unit
+  ) = makeSkillOption(activeType) { value, time, _ -> action(value, time) }
+  inline fun makeSkillOption(
+      activeType: AutoSkillType = AutoSkillType.TurnStartB,
       crossinline action: TargetContext.(value: Int, time: Int, chance: Int) -> Unit
-  ) = makeSkillOption { value, time, chance, params -> action(value, time, chance) }
-  inline fun makeSkillOption(
-      crossinline action:
-          TargetContext.(value: Int, time: Int, chance: Int, params: List<Int>) -> Unit
   ) =
       object : ActiveSkillOption {
-        override val id: Int
-          get() = this@SkillOptionData.id
-        override val description
-          get() = this@SkillOptionData.description
-        override val extraDescription
-          get() = this@SkillOptionData.extraDescription
-        override val iconId
-          get() = this@SkillOptionData.iconId
-        override val params
-          get() = this@SkillOptionData.params
-        override val timeOverride
-          get() = this@SkillOptionData.timeOverride
-        override val timeUnit
-          get() = this@SkillOptionData.timeUnit
-        override val valueOverride
-          get() = this@SkillOptionData.valueOverride
-        override val valueUnit
-          get() = this@SkillOptionData.valueUnit
-        override val type
-          get() = this@SkillOptionData.type
+        override val id: Int = this@SkillOptionData.id
+        override val description = this@SkillOptionData.description
+        override val extraDescription = this@SkillOptionData.extraDescription
+        override val iconId = this@SkillOptionData.iconId
+        override val params = this@SkillOptionData.params
+        override val timeOverride = this@SkillOptionData.timeOverride
+        override val timeUnit = this@SkillOptionData.timeUnit
+        override val valueOverride = this@SkillOptionData.valueOverride
+        override val valueUnit = this@SkillOptionData.valueUnit
+        override val type = this@SkillOptionData.type
+        override val activeType = activeType
 
         override fun actActive(
             context: TargetContext,
             value: Int,
             time: Int,
             chance: Int,
-            params: List<Int>
         ) {
-          context.action(value, time, chance, params)
+          context.action(value, time, chance)
         }
       }
 
   inline fun makePassiveSkillOption(crossinline action: TargetContext.(value: Int) -> Unit) =
-      makePassiveSkillOption { value, params ->
-        action(value)
-      }
-  inline fun makePassiveSkillOption(
-      crossinline action: TargetContext.(value: Int, params: List<Int>) -> Unit
-  ) =
       object : PassiveSkillOption {
-        override val id: Int
-          get() = this@SkillOptionData.id
-        override val description
-          get() = this@SkillOptionData.description
-        override val extraDescription
-          get() = this@SkillOptionData.extraDescription
-        override val iconId
-          get() = this@SkillOptionData.iconId
-        override val params
-          get() = this@SkillOptionData.params
-        override val timeOverride
-          get() = this@SkillOptionData.timeOverride
-        override val timeUnit
-          get() = this@SkillOptionData.timeUnit
-        override val valueOverride
-          get() = this@SkillOptionData.valueOverride
-        override val valueUnit
-          get() = this@SkillOptionData.valueUnit
-        override val type
-          get() = this@SkillOptionData.type
+        override val id = this@SkillOptionData.id
+        override val description = this@SkillOptionData.description
+        override val extraDescription = this@SkillOptionData.extraDescription
+        override val iconId = this@SkillOptionData.iconId
+        override val params = this@SkillOptionData.params
+        override val timeOverride = this@SkillOptionData.timeOverride
+        override val timeUnit = this@SkillOptionData.timeUnit
+        override val valueOverride = this@SkillOptionData.valueOverride
+        override val valueUnit = this@SkillOptionData.valueUnit
+        override val type = this@SkillOptionData.type
 
-        override fun actPassive(context: TargetContext, value: Int, params: List<Int>) {
-          context.action(value, params)
+        override fun actPassive(context: TargetContext, value: Int) {
+          context.action(value)
         }
       }
 
   inline fun makeDualSkillOption(
-      crossinline activeAction:
-          TargetContext.(value: Int, time: Int, chance: Int, params: List<Int>) -> Unit,
-      crossinline passiveAction: TargetContext.(value: Int, params: List<Int>) -> Unit,
+      activeType: AutoSkillType = AutoSkillType.TurnStartB,
+      crossinline activeAction: TargetContext.(value: Int, time: Int, chance: Int) -> Unit,
+      crossinline passiveAction: TargetContext.(value: Int) -> Unit,
   ) =
       object : DualSkillOption {
-        override val id: Int
-          get() = this@SkillOptionData.id
-        override val description
-          get() = this@SkillOptionData.description
-        override val extraDescription
-          get() = this@SkillOptionData.extraDescription
-        override val iconId
-          get() = this@SkillOptionData.iconId
-        override val params
-          get() = this@SkillOptionData.params
-        override val timeOverride
-          get() = this@SkillOptionData.timeOverride
-        override val timeUnit
-          get() = this@SkillOptionData.timeUnit
-        override val valueOverride
-          get() = this@SkillOptionData.valueOverride
-        override val valueUnit
-          get() = this@SkillOptionData.valueUnit
-        override val type
-          get() = this@SkillOptionData.type
+        override val id = this@SkillOptionData.id
+        override val description = this@SkillOptionData.description
+        override val extraDescription = this@SkillOptionData.extraDescription
+        override val iconId = this@SkillOptionData.iconId
+        override val params = this@SkillOptionData.params
+        override val timeOverride = this@SkillOptionData.timeOverride
+        override val timeUnit = this@SkillOptionData.timeUnit
+        override val valueOverride = this@SkillOptionData.valueOverride
+        override val valueUnit = this@SkillOptionData.valueUnit
+        override val type = this@SkillOptionData.type
+        override val activeType = activeType
 
         override fun actActive(
             context: TargetContext,
             value: Int,
             time: Int,
             chance: Int,
-            params: List<Int>
         ) {
-          context.activeAction(value, time, chance, params)
+          context.activeAction(value, time, chance)
         }
 
-        override fun actPassive(context: TargetContext, value: Int, params: List<Int>) {
-          context.passiveAction(value, params)
+        override fun actPassive(context: TargetContext, value: Int) {
+          context.passiveAction(value)
         }
       }
 }

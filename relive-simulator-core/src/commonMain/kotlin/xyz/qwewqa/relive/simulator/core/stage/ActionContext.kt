@@ -1,5 +1,8 @@
 package xyz.qwewqa.relive.simulator.core.stage
 
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
@@ -13,11 +16,9 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHp
 import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistance
 import xyz.qwewqa.relive.simulator.core.stage.modifier.positiveEffectResistance
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.StageEffect
+import xyz.qwewqa.relive.simulator.core.stage.target.SkillTarget
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
 
 data class ActionLog(
     var successfulHits: Int = 0,
@@ -153,6 +154,12 @@ class ActionContext(
     }
     enemy.stageEffects.add(effect, turns, level)
   }
+
+  fun resolveTarget(target: SkillTarget) =
+      TargetContext(
+          this,
+          target.getTargets(this, self.provokeTarget).map { self.aggroTarget ?: it },
+      )
 }
 
 class TargetContext(
@@ -163,7 +170,7 @@ class TargetContext(
      * start of a particular action.
      */
     private val originalTargets: List<Actor>,
-    private val aggroTarget: Actor? = null,
+    private val aggroTarget: Actor? = null, // TODO: Get rid of this
     private val autoRepeatHits: Boolean = true,
 ) {
   val stage

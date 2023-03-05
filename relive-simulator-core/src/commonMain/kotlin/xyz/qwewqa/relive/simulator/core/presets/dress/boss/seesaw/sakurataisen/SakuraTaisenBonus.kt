@@ -4,7 +4,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.back.wind.ImperialCombatRe
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.wind.SakuraShingujiHikari
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.flower.NewYorkCombatRevueGemie
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.ParisCombatRevueFlowerDivisionErika
-import xyz.qwewqa.relive.simulator.core.stage.passive.EventBonusPassive
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.EventBonusPassive
 import xyz.qwewqa.relive.simulator.stage.character.Character
 
 val sakuraTaisenBonusPassive =

@@ -5,7 +5,6 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.EffectTag
 import xyz.qwewqa.relive.simulator.core.stage.dress.ActBlueprintContext
 import xyz.qwewqa.relive.simulator.core.stage.dress.ActParameters
-import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
 
 data class Memoir(
     val id: Int,

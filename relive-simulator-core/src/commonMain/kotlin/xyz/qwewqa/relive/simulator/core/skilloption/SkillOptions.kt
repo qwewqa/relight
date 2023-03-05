@@ -6,6 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkillType
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
@@ -24,14 +25,17 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   }
 
   @Suppress("UNCHECKED_CAST")
-  fun SkillOptionData.applyEffect(): SkillOption {
+  fun SkillOptionData.applyEffect(
+      activeType: AutoSkillType = AutoSkillType.TurnStartB
+  ): SkillOption {
     return when (val effect = Buffs[params[0]] ?: error("No buff effect for ${params[0]}")) {
       is TimedBuffEffect<*> -> {
         makeDualSkillOption(
-            activeAction = { value, time, chance, _ ->
+            activeType = activeType,
+            activeAction = { value, time, chance ->
               applyTimedBuff(effect = effect, value = value, turns = time, chance = chance)
             },
-            passiveAction = { value, _ ->
+            passiveAction = { value ->
               targets.forEach { target ->
                 target.buffs.activatePsuedoBuff(effect as TimedBuffEffect<Unit>, value = value)
               }
@@ -95,8 +99,10 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val CriticalDown = +skillOptionData(23).applyEffect()
   val MaxHpUp = +skillOptionData(24).applyEffect()
   val MaxHpDown = +skillOptionData(25).applyEffect()
-  val ContinuousNegativeEffectResistanceUp = +skillOptionData(26).applyEffect()
-  val ContinuousNegativeEffectResistanceDown = +skillOptionData(27).applyEffect()
+  val ContinuousNegativeEffectResistanceUp =
+      +skillOptionData(26).applyEffect(AutoSkillType.TurnStartA)
+  val ContinuousNegativeEffectResistanceDown =
+      +skillOptionData(27).applyEffect(AutoSkillType.TurnStartA)
   val HpRegen = +skillOptionData(28).applyEffect()
   val BrillianceRegen = +skillOptionData(29).applyEffect()
   val NormalBarrierFixed = +skillOptionData(30).applyEffect()
@@ -160,16 +166,16 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val BrillianceRecovery = +skillOptionData(89).makeSkillOption { value -> addBrilliance(value) }
 
   //    val ActionRestrictionResistanceUpAuto = +skillOptionData(90).applyEffect()
-  val PoisonResistanceUp = +skillOptionData(91).applyEffect()
-  val BurnResistanceUp = +skillOptionData(92).applyEffect()
-  val ProvokeResistanceUp = +skillOptionData(93).applyEffect()
-  val StunResistanceUp = +skillOptionData(94).applyEffect()
-  val SleepResistanceUp = +skillOptionData(95).applyEffect()
-  val ConfusionResistanceUp = +skillOptionData(96).applyEffect()
-  val StopResistanceUp = +skillOptionData(97).applyEffect()
-  val FreezeResistanceUp = +skillOptionData(98).applyEffect()
-  val BlindnessResistanceUp = +skillOptionData(99).applyEffect()
-  val HpRecoveryReductionResistanceUp = +skillOptionData(100).applyEffect()
+  val PoisonResistanceUp = +skillOptionData(91).applyEffect(AutoSkillType.TurnStartA)
+  val BurnResistanceUp = +skillOptionData(92).applyEffect(AutoSkillType.TurnStartA)
+  val ProvokeResistanceUp = +skillOptionData(93).applyEffect(AutoSkillType.TurnStartA)
+  val StunResistanceUp = +skillOptionData(94).applyEffect(AutoSkillType.TurnStartA)
+  val SleepResistanceUp = +skillOptionData(95).applyEffect(AutoSkillType.TurnStartA)
+  val ConfusionResistanceUp = +skillOptionData(96).applyEffect(AutoSkillType.TurnStartA)
+  val StopResistanceUp = +skillOptionData(97).applyEffect(AutoSkillType.TurnStartA)
+  val FreezeResistanceUp = +skillOptionData(98).applyEffect(AutoSkillType.TurnStartA)
+  val BlindnessResistanceUp = +skillOptionData(99).applyEffect(AutoSkillType.TurnStartA)
+  val HpRecoveryReductionResistanceUp = +skillOptionData(100).applyEffect(AutoSkillType.TurnStartA)
 
   //    val DispelStatBuffs = +skillOptionData(101).makeSkillOption {  }
   //    val DispelStatDebuffs = +skillOptionData(102).makeSkillOption {  }
@@ -218,14 +224,14 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         flipTimed(category = BuffCategory.Negative, count = time)
       }
   val Aggro = +skillOptionData(152).applyEffect()
-  val AggroResistanceUp = +skillOptionData(153).applyEffect()
+  val AggroResistanceUp = +skillOptionData(153).applyEffect(AutoSkillType.TurnStartA)
   val DispelAggro = +skillOptionData(154).dispelTimedEffect()
   val ExitEvasion = +skillOptionData(155).applyEffect()
   val Invincible = +skillOptionData(156).applyEffect()
   val ApDown = +skillOptionData(157).applyEffect()
 
   val ApUp = +skillOptionData(224).applyEffect()
-  val ApUpResistanceUp = +skillOptionData(225).applyEffect()
+  val ApUpResistanceUp = +skillOptionData(225).applyEffect(AutoSkillType.TurnStartA)
 
   val HitRandom20Stop1t =
       +skillOptionData(230).makeSkillOption { value, time ->
@@ -244,14 +250,14 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val LockedHpRegen = +skillOptionData(233).applyEffect()
   val LockedStop = +skillOptionData(234).applyEffect()
   val LockedCounterHealFixed = +skillOptionData(235).applyEffect()
-  val ActionRestrictionResistanceUp = +skillOptionData(238).applyEffect()
+  val ActionRestrictionResistanceUp = +skillOptionData(238).applyEffect(AutoSkillType.TurnStartA)
 
   val DispelContinuousEffects =
       +skillOptionData(239).makeSkillOption { _ ->
         dispelTimed(BuffCategory.Positive)
         dispelTimed(BuffCategory.Negative)
       }
-  val AllEffectsResistanceUp = +skillOptionData(240).applyEffect()
+  val AllEffectsResistanceUp = +skillOptionData(240).applyEffect(AutoSkillType.TurnStartA)
 
   val CounterHealPercent = +skillOptionData(241).applyEffect()
 
@@ -280,19 +286,20 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
 
   // TODO: figure out 247
 
-  val MarkResistanceUp = +skillOptionData(248).applyEffect()
+  val MarkResistanceUp = +skillOptionData(248).applyEffect(AutoSkillType.TurnStartA)
   val EventBossDamageReceivedDown = +skillOptionData(249).applyEffect()
   val SealAct1 = +skillOptionData(250).applyEffect()
   val SealAct2 = +skillOptionData(251).applyEffect()
   val SealAct3 = +skillOptionData(252).applyEffect()
-  val SealAct1ResistanceUp = +skillOptionData(253).applyEffect()
-  val SealAct2ResistanceUp = +skillOptionData(254).applyEffect()
-  val SealAct3ResistanceUp = +skillOptionData(255).applyEffect()
+  val SealAct1ResistanceUp = +skillOptionData(253).applyEffect(AutoSkillType.TurnStartA)
+  val SealAct2ResistanceUp = +skillOptionData(254).applyEffect(AutoSkillType.TurnStartA)
+  val SealAct3ResistanceUp = +skillOptionData(255).applyEffect(AutoSkillType.TurnStartA)
   val DispelSealAct1 = +skillOptionData(256).dispelTimedEffect()
   val DispelSealAct2 = +skillOptionData(257).dispelTimedEffect()
   val DispelSealAct3 = +skillOptionData(258).dispelTimedEffect()
   val BrillianceRecoveryDown = +skillOptionData(259).applyEffect()
-  val BrillianceRecoveryDownResistanceUp = +skillOptionData(260).applyEffect()
+  val BrillianceRecoveryDownResistanceUp =
+      +skillOptionData(260).applyEffect(AutoSkillType.TurnStartA)
   val DispelBrillianceRecoveryDown = +skillOptionData(261).dispelTimedEffect()
 
   val HitRandom20Stun2t =
@@ -353,14 +360,14 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
 
   // TODO: 267
 
-  val LockedPoisonResistanceUp = +skillOptionData(268).applyEffect()
-  val LockedBurnResistanceUp = +skillOptionData(269).applyEffect()
-  val LockedStunResistanceUp = +skillOptionData(270).applyEffect()
-  val LockedSleepResistanceUp = +skillOptionData(271).applyEffect()
-  val LockedConfusionResistanceUp = +skillOptionData(272).applyEffect()
-  val LockedStopResistanceUp = +skillOptionData(273).applyEffect()
-  val LockedFreezeResistanceUp = +skillOptionData(274).applyEffect()
-  val LockedBlindnessResistanceUp = +skillOptionData(275).applyEffect()
+  val LockedPoisonResistanceUp = +skillOptionData(268).applyEffect(AutoSkillType.TurnStartA)
+  val LockedBurnResistanceUp = +skillOptionData(269).applyEffect(AutoSkillType.TurnStartA)
+  val LockedStunResistanceUp = +skillOptionData(270).applyEffect(AutoSkillType.TurnStartA)
+  val LockedSleepResistanceUp = +skillOptionData(271).applyEffect(AutoSkillType.TurnStartA)
+  val LockedConfusionResistanceUp = +skillOptionData(272).applyEffect(AutoSkillType.TurnStartA)
+  val LockedStopResistanceUp = +skillOptionData(273).applyEffect(AutoSkillType.TurnStartA)
+  val LockedFreezeResistanceUp = +skillOptionData(274).applyEffect(AutoSkillType.TurnStartA)
+  val LockedBlindnessResistanceUp = +skillOptionData(275).applyEffect(AutoSkillType.TurnStartA)
 
   val AttackPoisonBoost =
       +skillOptionData(276).makeSkillOption { value, time ->
@@ -569,8 +576,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val AttackElementalSetDamage10Hit = +skillOptionData(317).elementalFixedAttack()
 
   // TODO: Implement buffs
-  //    val StrongPoisonResistanceUp = +skillOptionData(318).applyEffect()
-  //    val HeavyBurnResistanceUp = +skillOptionData(319).applyEffect()
+  //    val StrongPoisonResistanceUp = +skillOptionData(318).applyEffect(AutoSkillType.TurnStartA)
+  //    val HeavyBurnResistanceUp = +skillOptionData(319).applyEffect(AutoSkillType.TurnStartA)
 
   val AttackNonElementalSetDamage =
       +skillOptionData(320).makeSkillOption { value, time ->
@@ -614,8 +621,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
 
   val Lovesickness = +skillOptionData(340).applyEffect()
   val LockedLovesickness = +skillOptionData(341).applyEffect()
-  val LovesicknessResistanceUp = +skillOptionData(342).applyEffect()
-  val LockedLovesicknessResistanceUp = +skillOptionData(343).applyEffect()
+  val LovesicknessResistanceUp = +skillOptionData(342).applyEffect(AutoSkillType.TurnStartA)
+  val LockedLovesicknessResistanceUp = +skillOptionData(343).applyEffect(AutoSkillType.TurnStartA)
   val DispelLovesickness = +skillOptionData(344).dispelTimedEffect()
   val AttackLovesicknessBoost =
       +skillOptionData(345).makeSkillOption { value, time ->
@@ -626,7 +633,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             bonusCondition = { Buffs.LovesicknessBuff in it.buffs })
       }
 
-  val LockedContinuousNegativeEffectResistanceUp = +skillOptionData(346).applyEffect()
+  val LockedContinuousNegativeEffectResistanceUp =
+      +skillOptionData(346).applyEffect(AutoSkillType.TurnStartA)
   val BrillianceReduction =
       +skillOptionData(347).makeSkillOption { value -> removeBrilliance(value) }
 
@@ -640,8 +648,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   //    val ShockPercent = +skillOptionData(353).applyEffect()
   val LockedShockFixed = +skillOptionData(354).applyEffect()
   //    val LockedShockPercent = +skillOptionData(355).applyEffect()
-  val ShockResistanceUp = +skillOptionData(356).applyEffect()
-  val LockedShockResistanceUp = +skillOptionData(357).applyEffect()
+  val ShockResistanceUp = +skillOptionData(356).applyEffect(AutoSkillType.TurnStartA)
+  val LockedShockResistanceUp = +skillOptionData(357).applyEffect(AutoSkillType.TurnStartA)
   val DispelShock = +skillOptionData(358).dispelTimedEffect()
   val AttackShockBoost =
       +skillOptionData(359).makeSkillOption { value, time ->
@@ -766,10 +774,12 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val NightmareFixed = +skillOptionData(377).applyEffect()
   //    val NightmarePercent = +skillOptionData(378).applyEffect()
 
-  val ContinuousPositiveEffectResistanceUp = +skillOptionData(379).applyEffect()
-  val LockedContinuousPositiveEffectResistanceUp = +skillOptionData(380).applyEffect()
-  val PositiveEffectResistanceUp = +skillOptionData(381).applyEffect()
-  val LockedPositiveEffectResistanceUp = +skillOptionData(382).applyEffect()
+  val ContinuousPositiveEffectResistanceUp =
+      +skillOptionData(379).applyEffect(AutoSkillType.TurnStartA)
+  val LockedContinuousPositiveEffectResistanceUp =
+      +skillOptionData(380).applyEffect(AutoSkillType.TurnStartA)
+  val PositiveEffectResistanceUp = +skillOptionData(381).applyEffect(AutoSkillType.TurnStartA)
+  val LockedPositiveEffectResistanceUp = +skillOptionData(382).applyEffect(AutoSkillType.TurnStartA)
 
   val DispelCountablePositiveEffects =
       +skillOptionData(383).makeSkillOption { _ -> dispelCountable(BuffCategory.Positive) }
@@ -936,8 +946,10 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         dispelCountable(BuffCategory.Negative, count = time)
       }
 
-  val CountableNegativeEffectResistanceUp = +skillOptionData(445).applyEffect()
-  val LockedCountableNegativeEffectResistanceUp = +skillOptionData(446).applyEffect()
+  val CountableNegativeEffectResistanceUp =
+      +skillOptionData(445).applyEffect(AutoSkillType.TurnStartA)
+  val LockedCountableNegativeEffectResistanceUp =
+      +skillOptionData(446).applyEffect(AutoSkillType.TurnStartA)
   val BrillianceGainUp = +skillOptionData(447).applyEffect()
   val LockedResilience = +skillOptionData(448).applyEffect()
   val ApUp2 = +skillOptionData(449).applyEffect()
@@ -974,11 +986,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val BlessingCountableNegativeEffectReduction = +skillOptionData(473).applyEffect()
   val DisasterDaze = +skillOptionData(474).applyEffect()
   val BlessingDispelContinuousNegtiveEffects = +skillOptionData(475).applyEffect()
-  val DazeResistanceUp = +skillOptionData(476).applyEffect()
-  val LockedDazeResistanceUp = +skillOptionData(477).applyEffect()
+  val DazeResistanceUp = +skillOptionData(476).applyEffect(AutoSkillType.TurnStartA)
+  val LockedDazeResistanceUp = +skillOptionData(477).applyEffect(AutoSkillType.TurnStartA)
   val BlessingHope = +skillOptionData(478).applyEffect()
-  val ImpudenceResistanceUp = +skillOptionData(479).applyEffect()
-  val LockedImpudenceResistanceUp = +skillOptionData(480).applyEffect()
+  val ImpudenceResistanceUp = +skillOptionData(479).applyEffect(AutoSkillType.TurnStartA)
+  val LockedImpudenceResistanceUp = +skillOptionData(480).applyEffect(AutoSkillType.TurnStartA)
 
   fun SkillOptionData.scalingEffect(
       effect: TimedBuffEffect<Unit>,
@@ -986,11 +998,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
       condition: (Actor) -> Boolean
   ) =
       makeDualSkillOption(
-          activeAction = { value, time, chance, _ ->
+          activeAction = { value, time, chance ->
             val totalValue = (team.active.count { condition(it) } * value).coerceAtMost(cap)
             applyBuff(effect, value = totalValue, time = time, chance = chance)
           },
-          passiveAction = { value, _ ->
+          passiveAction = { value ->
             val totalValue = (team.active.count { condition(it) } * value).coerceAtMost(cap)
             targets.forEach { target ->
               target.buffs.activatePsuedoBuff(effect, value = totalValue)
@@ -1099,8 +1111,10 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val Contraction = +skillOptionData(498).applyEffect()
   val SealInstantSkill = +skillOptionData(499).applyEffect()
   val LockedSealInstantSkill = +skillOptionData(500).applyEffect()
-  val CountablePositiveEffectResistanceUp = +skillOptionData(501).applyEffect()
-  val LockedCountablePositiveEffectResistanceUp = +skillOptionData(502).applyEffect()
+  val CountablePositiveEffectResistanceUp =
+      +skillOptionData(501).applyEffect(AutoSkillType.TurnStartA)
+  val LockedCountablePositiveEffectResistanceUp =
+      +skillOptionData(502).applyEffect(AutoSkillType.TurnStartA)
 
   val ScalingActPowerUp100Seisho =
       +skillOptionData(503).scalingActPowerUp(100) { it.dress.character.school == School.Seisho }
@@ -1281,5 +1295,5 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val LockedBrillianceRegeneration = +skillOptionData(556).applyEffect()
   val ReviveRegeneration = +skillOptionData(557).applyEffect()
   val LockedInvincibility = +skillOptionData(558).applyEffect()
-  val SealStageEffectResistance = +skillOptionData(559).applyEffect()
+  val SealStageEffectResistance = +skillOptionData(559).applyEffect(AutoSkillType.TurnStartA)
 }

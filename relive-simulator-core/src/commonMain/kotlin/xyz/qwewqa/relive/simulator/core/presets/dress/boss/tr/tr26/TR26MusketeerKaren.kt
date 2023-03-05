@@ -13,7 +13,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.ActPowerDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.PerfectAimBuff
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
-import xyz.qwewqa.relive.simulator.core.stage.passive.AbnormalGuardPassive
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType

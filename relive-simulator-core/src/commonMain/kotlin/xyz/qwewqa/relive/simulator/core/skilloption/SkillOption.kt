@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.core.skilloption
 
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.TargetContext
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkillType
 import xyz.qwewqa.relive.simulator.core.stage.common.DescriptionUnit
 
 interface SkillOption : FeatureImplementation {
@@ -17,11 +18,12 @@ interface SkillOption : FeatureImplementation {
 }
 
 interface ActiveSkillOption : SkillOption {
-  fun actActive(context: TargetContext, value: Int, time: Int, chance: Int, params: List<Int>)
+  val activeType: AutoSkillType
+  fun actActive(context: TargetContext, value: Int, time: Int, chance: Int)
 }
 
 interface PassiveSkillOption : SkillOption {
-  fun actPassive(context: TargetContext, value: Int, params: List<Int>)
+  fun actPassive(context: TargetContext, value: Int)
 }
 
 interface DualSkillOption : ActiveSkillOption, PassiveSkillOption

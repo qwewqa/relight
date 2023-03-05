@@ -3,7 +3,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.boss.seesaw.shinsengumiri
 import xyz.qwewqa.relive.simulator.core.presets.dress.back.flower.KondoIsamiIchie
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.moon.HijikataToshizoTamao
 import xyz.qwewqa.relive.simulator.core.presets.dress.middle.snow.NagakuraShinpachiFumi
-import xyz.qwewqa.relive.simulator.core.stage.passive.EventBonusPassive
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.EventBonusPassive
 import xyz.qwewqa.relive.simulator.stage.character.Character
 
 val shinsengumiRinpudenBonusPassive =

@@ -3,7 +3,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
-import xyz.qwewqa.relive.simulator.core.stage.passive.EventBonusPassive
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.EventBonusPassive
 
 fun trEventBonusPassive(dress: DressBlueprint) =
     EventBonusPassive(

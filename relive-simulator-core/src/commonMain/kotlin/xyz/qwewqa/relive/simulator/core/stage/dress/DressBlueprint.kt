@@ -3,9 +3,8 @@ package xyz.qwewqa.relive.simulator.core.stage.dress
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
-import xyz.qwewqa.relive.simulator.core.stage.passive.PassiveData
-import xyz.qwewqa.relive.simulator.core.stage.passive.RemakeSkill
-import xyz.qwewqa.relive.simulator.core.stage.passive.UnitSkill
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.RemakeSkill
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.UnitSkill
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.DamageType
 import xyz.qwewqa.relive.simulator.stage.character.Position

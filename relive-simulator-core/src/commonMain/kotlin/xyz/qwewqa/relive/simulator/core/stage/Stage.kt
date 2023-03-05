@@ -3,7 +3,7 @@ package xyz.qwewqa.relive.simulator.core.stage
 import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffectCategory
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkillType
 import xyz.qwewqa.relive.simulator.core.stage.memoir.CutinTarget
 import xyz.qwewqa.relive.simulator.core.stage.modifier.agility
 import xyz.qwewqa.relive.simulator.core.stage.strategy.ActionTile
@@ -91,7 +91,7 @@ class Stage(
 
         allActors.forEach { sg ->
           sg.passives
-              .filter { it.effect.category == PassiveEffectCategory.Passive }
+              .filter { it.effect.category == AutoSkillType.Passive }
               .forEach {
                 sg.context.log("AutoEffect") { "Passive auto effect [${it.name}] activate." }
                 it.activate(sg.context)
@@ -103,7 +103,7 @@ class Stage(
               it.mod { +agility }
             }
 
-        PassiveEffectCategory.values()
+        AutoSkillType.values()
             .drop(1) // skip passive
             .forEach { category ->
               autoEffectPriority.forEach { sg ->
