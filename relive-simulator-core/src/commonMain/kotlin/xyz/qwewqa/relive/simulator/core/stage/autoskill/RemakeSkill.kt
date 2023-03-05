@@ -380,7 +380,7 @@ data class RemakeEffectEntry(
 ) {
   val passive = RemakePassiveEffect(targeting, effect)
   val data = passive.new(value, time)
-  val name = "${passive.name}${if (time > 0) " (${time}t)" else ""}"
+  val name = "${passive.name}${if (value > 0) " $value" else ""}${if (time > 0) " (${time}t)" else ""}"
 }
 
 data class RemakeSkill(
