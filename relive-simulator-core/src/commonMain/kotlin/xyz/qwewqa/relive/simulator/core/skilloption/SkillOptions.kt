@@ -163,7 +163,10 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val Attack8Hit = +skillOptionData(86).simpleAttack()
   val Attack9Hit = +skillOptionData(87).simpleAttack()
   val Attack10Hit = +skillOptionData(88).simpleAttack()
-  val BrillianceRecovery = +skillOptionData(89).makeSkillOption { value -> addBrilliance(value) }
+  val BrillianceRecovery =
+      +skillOptionData(89).makeSkillOption(AutoSkillType.TurnStartA) { value ->
+        addBrilliance(value)
+      }
 
   //    val ActionRestrictionResistanceUpAuto = +skillOptionData(90).applyEffect()
   val PoisonResistanceUp = +skillOptionData(91).applyEffect(AutoSkillType.TurnStartA)
@@ -527,7 +530,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         attack(
             modifier = value,
             hitCount = time,
-            bonusMultiplier = 150,
+            bonusMultiplier = 125,
             bonusCondition = { it.dress.damageType == DamageType.Normal })
       }
   val AttackNormalBoost150 =
@@ -543,7 +546,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         attack(
             modifier = value,
             hitCount = time,
-            bonusMultiplier = 150,
+            bonusMultiplier = 125,
             bonusCondition = { it.dress.damageType == DamageType.Special })
       }
   val AttackSpecialBoost150 =
@@ -792,7 +795,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         attack(
             modifier = value,
             hitCount = time,
-            bonusMultiplier = 200,
+            bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Seisho },
             focus = true,
         )
@@ -802,7 +805,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         attack(
             modifier = value,
             hitCount = time,
-            bonusMultiplier = 200,
+            bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Rinmeikan },
             focus = true,
         )
@@ -812,7 +815,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         attack(
             modifier = value,
             hitCount = time,
-            bonusMultiplier = 200,
+            bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Frontier },
             focus = true,
         )
@@ -822,7 +825,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         attack(
             modifier = value,
             hitCount = time,
-            bonusMultiplier = 200,
+            bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Siegfeld },
             focus = true,
         )
@@ -832,7 +835,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         attack(
             modifier = value,
             hitCount = time,
-            bonusMultiplier = 200,
+            bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Seiran },
             focus = true,
         )
@@ -874,7 +877,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         attack(
             modifier = value,
             hitCount = time,
-            bonusMultiplier = 200,
+            bonusMultiplier = 150,
             bonusCondition = { it.dress.id in DressCategory.Arcana.ids },
         )
       }
@@ -1043,7 +1046,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         attackWithDebuff(
             modifier = value,
             hitCount = time,
-            bonusMultiplier = 200,
+            bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Seisho },
             effect = Buffs.DazeBuff,
             value = 0,
@@ -1056,7 +1059,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         attackWithDebuff(
             modifier = value,
             hitCount = time,
-            bonusMultiplier = 200,
+            bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Rinmeikan },
             effect = Buffs.DazeBuff,
             value = 0,
@@ -1069,7 +1072,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         attackWithDebuff(
             modifier = value,
             hitCount = time,
-            bonusMultiplier = 200,
+            bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Frontier },
             effect = Buffs.DazeBuff,
             value = 0,
@@ -1082,7 +1085,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         attackWithDebuff(
             modifier = value,
             hitCount = time,
-            bonusMultiplier = 200,
+            bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Siegfeld },
             effect = Buffs.DazeBuff,
             value = 0,
@@ -1095,7 +1098,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         attackWithDebuff(
             modifier = value,
             hitCount = time,
-            bonusMultiplier = 200,
+            bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Seiran },
             effect = Buffs.DazeBuff,
             value = 0,
@@ -1231,7 +1234,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         attackWithDebuff(
             modifier = value,
             hitCount = time,
-            bonusMultiplier = 200,
+            bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Seisho },
             effect = Buffs.ImpudenceBuff,
             value = 0,
@@ -1244,7 +1247,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         attackWithDebuff(
             modifier = value,
             hitCount = time,
-            bonusMultiplier = 200,
+            bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Rinmeikan },
             effect = Buffs.ImpudenceBuff,
             value = 0,
@@ -1257,7 +1260,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         attackWithDebuff(
             modifier = value,
             hitCount = time,
-            bonusMultiplier = 200,
+            bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Frontier },
             effect = Buffs.ImpudenceBuff,
             value = 0,
@@ -1270,7 +1273,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         attackWithDebuff(
             modifier = value,
             hitCount = time,
-            bonusMultiplier = 200,
+            bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Siegfeld },
             effect = Buffs.ImpudenceBuff,
             value = 0,
@@ -1283,7 +1286,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         attackWithDebuff(
             modifier = value,
             hitCount = time,
-            bonusMultiplier = 200,
+            bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Seiran },
             effect = Buffs.ImpudenceBuff,
             value = 0,
