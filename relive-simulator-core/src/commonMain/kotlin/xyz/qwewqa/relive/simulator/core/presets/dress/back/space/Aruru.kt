@@ -1,4 +1,4 @@
-package xyz.qwewqa.relive.simulator.core.presets.dress.middle.space
+package xyz.qwewqa.relive.simulator.core.presets.dress.back.space
 
 import xyz.qwewqa.relive.simulator.core.presets.condition.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.generated.dress3010021
@@ -125,8 +125,8 @@ val CordeliaAruru = dress3010021(
                 }
                 targetAnyRandom(times4).act {
                     attack(
-                        modifier = values5,
-                        hitCount = times5,
+                        modifier = values4,
+                        hitCount = times4,
                     )
                     applyCountableBuff(
                         CountableBuff.Pride,

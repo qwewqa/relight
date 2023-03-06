@@ -27,6 +27,8 @@ class Actor(
     val buffs = BuffManager(this)
     val mod = _Modifiers(this)
 
+    val hpFraction get() = hp.toDouble() / maxHp
+
     val maxHp get() = mod { maxHp }
 
     lateinit var context: ActionContext
