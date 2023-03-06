@@ -911,3 +911,6 @@
 # v1.0.0
 - Rewrite of all playable dresses, memoirs, accessories, and associated mechanics
 - Minor interface changes
+
+# v1.0.1
+- Improved loading and sim initialization time
