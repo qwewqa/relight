@@ -123,7 +123,7 @@ val CordeliaAruru = dress3010021(
                 targetAoe().act {
                     dispelTimed(BuffCategory.Positive)
                 }
-                targetAnyRandom(times5).act {
+                targetAnyRandom(times4).act {
                     attack(
                         modifier = values5,
                         hitCount = times5,
