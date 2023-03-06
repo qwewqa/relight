@@ -4,6 +4,8 @@ package xyz.qwewqa.relive.simulator.core.gen
 
 import kotlinx.serialization.Serializable
 
+typealias ListGenFriendshipPattern = List<FriendshipPanel>
+
 @Serializable
 class FriendshipPanel(
     val effect_arg1: Int,
@@ -14,6 +16,4 @@ class FriendshipPanel(
     val res_quantity: Int,
 )
 
-typealias GenFriendshipPattern = List<FriendshipPanel>
-
-val valuesGenFriendshipPattern = loadMasterData<GenFriendshipPattern>(dataGenFriendshipPattern)
+val valuesGenFriendshipPattern = loadMasterData<ListGenFriendshipPattern>(dataGenFriendshipPattern)

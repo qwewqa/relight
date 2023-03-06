@@ -4,6 +4,8 @@ package xyz.qwewqa.relive.simulator.core.gen
 
 import kotlinx.serialization.Serializable
 
+typealias ListGenDressRemakeParameter = List<DressRemakeParameter>
+
 @Serializable
 data class DressRemakeParameter(
     val hp: Int,
@@ -13,6 +15,5 @@ data class DressRemakeParameter(
     val agi: Int,
 )
 
-typealias GenDressRemakeParameter = List<DressRemakeParameter>
-
-val valuesGenDressRemakeParameter = loadMasterData<GenDressRemakeParameter>(dataGenDressRemakeParameter)
+val valuesGenDressRemakeParameter =
+    loadMasterData<ListGenDressRemakeParameter>(dataGenDressRemakeParameter)
