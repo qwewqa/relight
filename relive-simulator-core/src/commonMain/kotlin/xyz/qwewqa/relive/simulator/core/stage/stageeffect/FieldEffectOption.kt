@@ -1,18 +1,90 @@
 package xyz.qwewqa.relive.simulator.core.stage.stageeffect
 
+import xyz.qwewqa.relive.simulator.core.gen.GenFieldEffectOption
 import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenFieldEffectOption
+import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.common.DescriptionUnit
+import xyz.qwewqa.relive.simulator.core.stage.common.substitute
+import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
 interface FieldEffectOption : FeatureImplementation {
   val description: String
   val extraDescription: String?
+  val param1: Int
+  val param1Unit: DescriptionUnit
+  val valueUnit: DescriptionUnit
+  val timeUnit: DescriptionUnit
+  val type: Int
 
   fun execute(target: Team, value: Int, time: Int)
 }
+
+fun ActionContext.executeFieldEffectOption(
+    option: FieldEffectOption,
+    target: SkillFieldEffectTarget,
+    value: Int,
+    time: Int,
+) {
+  val team =
+      when (target) {
+        SkillFieldEffectTarget.Allies -> team
+        SkillFieldEffectTarget.Enemies -> enemy
+      }
+  if (stage.configuration.logging) {
+    val substitutions =
+        listOf(
+            "value" to option.valueUnit.format(value),
+            "param1" to option.param1Unit.format(option.param1),
+        )
+    val primaryDescription = option.description.substitute(substitutions)
+    val extraDescription =
+        " (${option.extraDescription?.substitute(substitutions)})".takeIf {
+          option.extraDescription?.isNotBlank() ?: false
+        }
+            ?: ""
+    val targetDescription = " -> ${target.name}"
+    val timeDescription =
+        when (option.type) {
+          1 -> " ${time}t"
+          else -> ""
+        }
+    val levelDescription =
+        when (option.type) {
+          1 -> " lv${value}"
+          else -> ""
+        }
+    val description =
+        "$primaryDescription$extraDescription$timeDescription$levelDescription$targetDescription"
+    log("Action") { "Begin stage effect action [$description]" }
+    option.execute(team, value, time)
+    log("Action") { "End stage effect action [$description]" }
+  } else {
+    option.execute(team, value, time)
+  }
+}
+
+inline fun makeFieldEffectOption(
+    option: GenFieldEffectOption,
+    crossinline action: (target: Team, value: Int, time: Int) -> Unit,
+) =
+    object : FieldEffectOption {
+      override val id = option._id_
+      override val description = option.effect_description.getLocalizedString()
+      override val extraDescription =
+          option.extra_description.getLocalizedString().takeIf { it.isNotBlank() }
+      override val param1 = option.param1
+      override val param1Unit = DescriptionUnit.fromId(option.param1_unit)
+      override val valueUnit = DescriptionUnit.fromId(option.value_unit)
+      override val timeUnit = DescriptionUnit.fromId(option.time_unit)
+      override val type = option.type
+
+      override fun execute(target: Team, value: Int, time: Int) = action(target, value, time)
+    }
 
 @Suppress("UNCHECKED_CAST")
 object FieldEffectOptions : ImplementationRegistry<FieldEffectOption>() {
@@ -21,87 +93,52 @@ object FieldEffectOptions : ImplementationRegistry<FieldEffectOption>() {
       +when (option.type) {
         1 -> {
           val effect = StageEffects[option.param1] ?: continue
-          object : FieldEffectOption {
-            override val id = id
-            override val description = option.effect_description.getLocalizedString()
-            override val extraDescription =
-                option.extra_description.getLocalizedString().takeIf { it.isNotBlank() }
-
-            override fun execute(target: Team, value: Int, time: Int) {
-              target.stageEffects.add(
-                  effect = effect,
-                  level = value,
-                  turns = time,
-              )
-            }
+          makeFieldEffectOption(option) { target, value, time ->
+            target.stageEffects.add(
+                effect = effect,
+                level = value,
+                turns = time,
+            )
           }
         }
         2 -> {
-          object : FieldEffectOption {
-            override val id = id
-            override val description = option.effect_description.getLocalizedString()
-            override val extraDescription =
-                option.extra_description.getLocalizedString().takeIf { it.isNotBlank() }
-
-            override fun execute(target: Team, value: Int, time: Int) {
-              require(time == 1) { "Time must be 1 for field effect level adjustment effects." }
-              target.stageEffects.adjustLevels(
-                  category = BuffCategory.Negative,
-                  count = option.param1,
-                  delta = -value,
-              )
-            }
+          makeFieldEffectOption(option) { target, value, time ->
+            require(time == 1) { "Time must be 1 for field effect level adjustment effects." }
+            target.stageEffects.adjustLevels(
+                category = BuffCategory.Negative,
+                count = option.param1,
+                delta = -value,
+            )
           }
         }
         3 -> {
-          object : FieldEffectOption {
-            override val id = id
-            override val description = option.effect_description.getLocalizedString()
-            override val extraDescription =
-                option.extra_description.getLocalizedString().takeIf { it.isNotBlank() }
-
-            override fun execute(target: Team, value: Int, time: Int) {
-              require(time == 1) { "Time must be 1 for field level adjustment effects." }
-              target.stageEffects.adjustLevels(
-                  category = BuffCategory.Positive,
-                  count = option.param1,
-                  delta = -value,
-              )
-            }
+          makeFieldEffectOption(option) { target, value, time ->
+            require(time == 1) { "Time must be 1 for field level adjustment effects." }
+            target.stageEffects.adjustLevels(
+                category = BuffCategory.Positive,
+                count = option.param1,
+                delta = -value,
+            )
           }
         }
         4 -> {
-          object : FieldEffectOption {
-            override val id = id
-            override val description = option.effect_description.getLocalizedString()
-            override val extraDescription =
-                option.extra_description.getLocalizedString().takeIf { it.isNotBlank() }
-
-            override fun execute(target: Team, value: Int, time: Int) {
-              require(time == 1) { "Time must be 1 for field effect level adjustment effects." }
-              target.stageEffects.adjustLevels(
-                  category = BuffCategory.Negative,
-                  count = option.param1,
-                  delta = value,
-              )
-            }
+          makeFieldEffectOption(option) { target, value, time ->
+            require(time == 1) { "Time must be 1 for field effect level adjustment effects." }
+            target.stageEffects.adjustLevels(
+                category = BuffCategory.Negative,
+                count = option.param1,
+                delta = value,
+            )
           }
         }
         5 -> {
-          object : FieldEffectOption {
-            override val id = id
-            override val description = option.effect_description.getLocalizedString()
-            override val extraDescription =
-                option.extra_description.getLocalizedString().takeIf { it.isNotBlank() }
-
-            override fun execute(target: Team, value: Int, time: Int) {
-              require(time == 1) { "Time must be 1 for field level adjustment effects." }
-              target.stageEffects.adjustLevels(
-                  category = BuffCategory.Positive,
-                  count = option.param1,
-                  delta = value,
-              )
-            }
+          makeFieldEffectOption(option) { target, value, time ->
+            require(time == 1) { "Time must be 1 for field level adjustment effects." }
+            target.stageEffects.adjustLevels(
+                category = BuffCategory.Positive,
+                count = option.param1,
+                delta = value,
+            )
           }
         }
         else -> null

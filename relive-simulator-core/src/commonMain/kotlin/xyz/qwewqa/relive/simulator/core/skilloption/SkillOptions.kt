@@ -16,12 +16,16 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   // Note that some buffs have separate percent and fixed versions.
   // The only difference is the description, the actual effect checks whether the value is <= 100.
 
-  fun SkillOptionData.simpleAttack() = makeSkillOption { value, time, chance ->
-    attack(modifier = value, hitCount = time)
+  fun SkillOptionData.simpleAttack() = makeSkillOption { value, time, chance, attribute ->
+    attack(modifier = value, hitCount = time, attribute = attribute)
   }
 
-  fun SkillOptionData.elementalFixedAttack() = makeSkillOption { value, time, chance ->
-    attack(modifier = value, hitCount = time, mode = HitMode.ELEMENTAL_FIXED)
+  fun SkillOptionData.elementalFixedAttack() = makeSkillOption { value, time, chance, attribute ->
+    attack(
+        modifier = value,
+        hitCount = time,
+        attribute = attribute,
+        mode = HitMode.ELEMENTAL_FIXED)
   }
 
   @Suppress("UNCHECKED_CAST")
@@ -237,10 +241,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val ApUpResistanceUp = +skillOptionData(225).applyEffect(AutoSkillType.TurnStartA)
 
   val HitRandom20Stop1t =
-      +skillOptionData(230).makeSkillOption { value, time ->
+      +skillOptionData(230).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             effect = Buffs.StopBuff,
             value = 0,
             time = 1,
@@ -306,10 +311,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val DispelBrillianceRecoveryDown = +skillOptionData(261).dispelTimedEffect()
 
   val HitRandom20Stun2t =
-      +skillOptionData(262).makeSkillOption { value, time ->
+      +skillOptionData(262).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             effect = Buffs.StunBuff,
             value = 0,
             time = 2,
@@ -317,10 +323,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         )
       }
   val HitRandom20Sleep2t =
-      +skillOptionData(263).makeSkillOption { value, time ->
+      +skillOptionData(263).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             effect = Buffs.SleepBuff,
             value = 0,
             time = 2,
@@ -328,10 +335,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         )
       }
   val HitRandom20Confusion2t =
-      +skillOptionData(264).makeSkillOption { value, time ->
+      +skillOptionData(264).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             effect = Buffs.ConfusionBuff,
             value = 0,
             time = 2,
@@ -339,10 +347,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         )
       }
   val HitRandom20Freeze2t =
-      +skillOptionData(265).makeSkillOption { value, time ->
+      +skillOptionData(265).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             effect = Buffs.FreezeBuff,
             value = 0,
             time = 2,
@@ -350,10 +359,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         )
       }
   val HitRandom20Blindness2t =
-      +skillOptionData(266).makeSkillOption { value, time ->
+      +skillOptionData(266).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             effect = Buffs.BlindnessBuff,
             value = 0,
             time = 2,
@@ -373,138 +383,155 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val LockedBlindnessResistanceUp = +skillOptionData(275).applyEffect(AutoSkillType.TurnStartA)
 
   val AttackPoisonBoost =
-      +skillOptionData(276).makeSkillOption { value, time ->
+      +skillOptionData(276).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 200,
             bonusCondition = { Buffs.PoisonBuff in it.buffs })
       }
   val AttackBurnBoost =
-      +skillOptionData(277).makeSkillOption { value, time ->
+      +skillOptionData(277).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 200,
             bonusCondition = { Buffs.BurnBuff in it.buffs })
       }
   val AttackProvokeBoost =
-      +skillOptionData(278).makeSkillOption { value, time ->
+      +skillOptionData(278).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 200,
             bonusCondition = { Buffs.ProvokeBuff in it.buffs })
       }
   val AttackStunBoost =
-      +skillOptionData(279).makeSkillOption { value, time ->
+      +skillOptionData(279).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 200,
             bonusCondition = { Buffs.StunBuff in it.buffs })
       }
   val AttackSleepBoost =
-      +skillOptionData(280).makeSkillOption { value, time ->
+      +skillOptionData(280).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 200,
             bonusCondition = { Buffs.SleepBuff in it.buffs })
       }
   val AttackConfusionBoost =
-      +skillOptionData(281).makeSkillOption { value, time ->
+      +skillOptionData(281).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 200,
             bonusCondition = { Buffs.ConfusionBuff in it.buffs })
       }
   val AttackStopBoost =
-      +skillOptionData(282).makeSkillOption { value, time ->
+      +skillOptionData(282).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 200,
             bonusCondition = { Buffs.StopBuff in it.buffs })
       }
   val AttackFreezeBoost =
-      +skillOptionData(283).makeSkillOption { value, time ->
+      +skillOptionData(283).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 200,
             bonusCondition = { Buffs.FreezeBuff in it.buffs })
       }
   val AttackBlindnessBoost =
-      +skillOptionData(284).makeSkillOption { value, time ->
+      +skillOptionData(284).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 200,
             bonusCondition = { Buffs.BlindnessBuff in it.buffs })
       }
   val AttackHpRecoveryDownBoost =
-      +skillOptionData(285).makeSkillOption { value, time ->
+      +skillOptionData(285).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 200,
             bonusCondition = { Buffs.HpRecoveryDownBuff in it.buffs })
       }
   val AttackMarkBoost =
-      +skillOptionData(286).makeSkillOption { value, time ->
+      +skillOptionData(286).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 200,
             bonusCondition = { Buffs.MarkBuff in it.buffs })
       }
   val AttackAggroBoost =
-      +skillOptionData(287).makeSkillOption { value, time ->
+      +skillOptionData(287).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 200,
             bonusCondition = { Buffs.AggroBuff in it.buffs })
       }
   val AttackApUpBoost =
-      +skillOptionData(288).makeSkillOption { value, time ->
+      +skillOptionData(288).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 200,
             bonusCondition = { Buffs.ApUpBuff in it.buffs })
       }
   val AttackSealAct1Boost =
-      +skillOptionData(289).makeSkillOption { value, time ->
+      +skillOptionData(289).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 200,
             bonusCondition = { Buffs.SealAct1Buff in it.buffs })
       }
   val AttackSealAct2Boost =
-      +skillOptionData(290).makeSkillOption { value, time ->
+      +skillOptionData(290).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 200,
             bonusCondition = { Buffs.SealAct2Buff in it.buffs })
       }
   val AttackSealAct3Boost =
-      +skillOptionData(291).makeSkillOption { value, time ->
+      +skillOptionData(291).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 200,
             bonusCondition = { Buffs.SealAct3Buff in it.buffs })
       }
   val AttackBrillianceGainDownBoost =
-      +skillOptionData(292).makeSkillOption { value, time ->
+      +skillOptionData(292).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 200,
             bonusCondition = { Buffs.BrillianceGainDownBuff in it.buffs })
       }
@@ -526,34 +553,38 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val LockedHeavyBurn = +skillOptionData(304).applyEffect()
 
   val AttackNormalBoost125 =
-      +skillOptionData(305).makeSkillOption { value, time ->
+      +skillOptionData(305).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 125,
             bonusCondition = { it.dress.damageType == DamageType.Normal })
       }
   val AttackNormalBoost150 =
-      +skillOptionData(306).makeSkillOption { value, time ->
+      +skillOptionData(306).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.damageType == DamageType.Normal })
       }
   val AttackSpecialBoost125 =
-      +skillOptionData(307).makeSkillOption { value, time ->
+      +skillOptionData(307).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 125,
             bonusCondition = { it.dress.damageType == DamageType.Special })
       }
   val AttackSpecialBoost150 =
-      +skillOptionData(308).makeSkillOption { value, time ->
+      +skillOptionData(308).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.damageType == DamageType.Special })
       }
@@ -561,10 +592,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   // TODO: remove exit
 
   val FocusAttack =
-      +skillOptionData(310).makeSkillOption { value, time ->
+      +skillOptionData(310).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             focus = true,
         )
       }
@@ -583,10 +615,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   //    val HeavyBurnResistanceUp = +skillOptionData(319).applyEffect(AutoSkillType.TurnStartA)
 
   val AttackNonElementalSetDamage =
-      +skillOptionData(320).makeSkillOption { value, time ->
+      +skillOptionData(320).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             mode = HitMode.FIXED,
         )
       }
@@ -628,10 +661,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val LockedLovesicknessResistanceUp = +skillOptionData(343).applyEffect(AutoSkillType.TurnStartA)
   val DispelLovesickness = +skillOptionData(344).dispelTimedEffect()
   val AttackLovesicknessBoost =
-      +skillOptionData(345).makeSkillOption { value, time ->
+      +skillOptionData(345).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 200,
             bonusCondition = { Buffs.LovesicknessBuff in it.buffs })
       }
@@ -655,10 +689,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val LockedShockResistanceUp = +skillOptionData(357).applyEffect(AutoSkillType.TurnStartA)
   val DispelShock = +skillOptionData(358).dispelTimedEffect()
   val AttackShockBoost =
-      +skillOptionData(359).makeSkillOption { value, time ->
+      +skillOptionData(359).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 200,
             bonusCondition = { Buffs.ElectricShockBuff in it.buffs })
       }
@@ -666,52 +701,58 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val ReviveBuff = +skillOptionData(360).applyEffect()
 
   val AttackSeishoBoost150 =
-      +skillOptionData(361).makeSkillOption { value, time ->
+      +skillOptionData(361).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Seisho })
       }
   val AttackRinmeikanBoost150 =
-      +skillOptionData(362).makeSkillOption { value, time ->
+      +skillOptionData(362).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Rinmeikan })
       }
   val AttackFrontierBoost150 =
-      +skillOptionData(363).makeSkillOption { value, time ->
+      +skillOptionData(363).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Frontier })
       }
   val AttackSiegfeldBoost150 =
-      +skillOptionData(364).makeSkillOption { value, time ->
+      +skillOptionData(364).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Siegfeld })
       }
   val AttackSeiranBoost150 =
-      +skillOptionData(365).makeSkillOption { value, time ->
+      +skillOptionData(365).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Seiran })
       }
   // TODO: other boosts
 
   val HitRandom33Stop1t =
-      +skillOptionData(371).makeSkillOption { value, time ->
+      +skillOptionData(371).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             effect = Buffs.StopBuff,
             value = 0,
             time = 1,
@@ -719,10 +760,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         )
       }
   val HitRandom33Stun2t =
-      +skillOptionData(372).makeSkillOption { value, time ->
+      +skillOptionData(372).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             effect = Buffs.StunBuff,
             value = 0,
             time = 2,
@@ -730,10 +772,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         )
       }
   val HitRandom33Sleep2t =
-      +skillOptionData(373).makeSkillOption { value, time ->
+      +skillOptionData(373).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             effect = Buffs.SleepBuff,
             value = 0,
             time = 2,
@@ -741,10 +784,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         )
       }
   val HitRandom33Confusion2t =
-      +skillOptionData(374).makeSkillOption { value, time ->
+      +skillOptionData(374).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             effect = Buffs.ConfusionBuff,
             value = 0,
             time = 2,
@@ -752,10 +796,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         )
       }
   val HitRandom33Freeze2t =
-      +skillOptionData(375).makeSkillOption { value, time ->
+      +skillOptionData(375).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             effect = Buffs.FreezeBuff,
             value = 0,
             time = 2,
@@ -763,10 +808,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         )
       }
   val HitRandom33Blindness2t =
-      +skillOptionData(376).makeSkillOption { value, time ->
+      +skillOptionData(376).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             effect = Buffs.BlindnessBuff,
             value = 0,
             time = 2,
@@ -791,50 +837,55 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val Impudence = +skillOptionData(385).applyEffect()
 
   val AttackFocusSeishoBoost =
-      +skillOptionData(386).makeSkillOption { value, time ->
+      +skillOptionData(386).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Seisho },
             focus = true,
         )
       }
   val AttackFocusRinmeikanBoost =
-      +skillOptionData(387).makeSkillOption { value, time ->
+      +skillOptionData(387).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Rinmeikan },
             focus = true,
         )
       }
   val AttackFocusFrontierBoost =
-      +skillOptionData(388).makeSkillOption { value, time ->
+      +skillOptionData(388).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Frontier },
             focus = true,
         )
       }
   val AttackFocusSiegfeldBoost =
-      +skillOptionData(389).makeSkillOption { value, time ->
+      +skillOptionData(389).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Siegfeld },
             focus = true,
         )
       }
   val AttackFocusSeiranBoost =
-      +skillOptionData(390).makeSkillOption { value, time ->
+      +skillOptionData(390).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Seiran },
             focus = true,
@@ -842,10 +893,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
       }
 
   val HitRandom33Impudence5000v1x =
-      +skillOptionData(391).makeSkillOption { value, time ->
+      +skillOptionData(391).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             effect = Buffs.ImpudenceBuff,
             value = 5000,
             time = 1,
@@ -856,10 +908,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val Hope = +skillOptionData(392).applyEffect()
 
   val HitRandom33Daze1x =
-      +skillOptionData(393).makeSkillOption { value, time ->
+      +skillOptionData(393).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             effect = Buffs.DazeBuff,
             value = 0,
             time = 1,
@@ -873,10 +926,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val MaxHpUpFixed = +skillOptionData(396).applyEffect()
 
   val AttackArcanaBoost =
-      +skillOptionData(397).makeSkillOption { value, time ->
+      +skillOptionData(397).makeSkillOption { value, time, _, attribute ->
         attack(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.id in DressCategory.Arcana.ids },
         )
@@ -1042,10 +1096,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
       +skillOptionData(488).makeSkillOption { _, time -> convertRevive(time) }
 
   val HitRandom33DazeSeishoBoost =
-      +skillOptionData(489).makeSkillOption { value, time ->
+      +skillOptionData(489).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Seisho },
             effect = Buffs.DazeBuff,
@@ -1055,10 +1110,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         )
       }
   val HitRandom33DazeRinmeikanBoost =
-      +skillOptionData(490).makeSkillOption { value, time ->
+      +skillOptionData(490).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Rinmeikan },
             effect = Buffs.DazeBuff,
@@ -1068,10 +1124,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         )
       }
   val HitRandom33DazeFrontierBoost =
-      +skillOptionData(491).makeSkillOption { value, time ->
+      +skillOptionData(491).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Frontier },
             effect = Buffs.DazeBuff,
@@ -1081,10 +1138,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         )
       }
   val HitRandom33DazeSiegfeldBoost =
-      +skillOptionData(492).makeSkillOption { value, time ->
+      +skillOptionData(492).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Siegfeld },
             effect = Buffs.DazeBuff,
@@ -1094,10 +1152,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         )
       }
   val HitRandom33DazeSeiranBoost =
-      +skillOptionData(493).makeSkillOption { value, time ->
+      +skillOptionData(493).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Seiran },
             effect = Buffs.DazeBuff,
@@ -1230,10 +1289,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val LockedEffectiveDamageUp = +skillOptionData(550).applyEffect()
 
   val HitRandom33ImpudenceSeishoBoost =
-      +skillOptionData(551).makeSkillOption { value, time ->
+      +skillOptionData(551).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Seisho },
             effect = Buffs.ImpudenceBuff,
@@ -1243,10 +1303,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         )
       }
   val HitRandom33ImpudenceRinmeikanBoost =
-      +skillOptionData(552).makeSkillOption { value, time ->
+      +skillOptionData(552).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Rinmeikan },
             effect = Buffs.ImpudenceBuff,
@@ -1256,10 +1317,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         )
       }
   val HitRandom33ImpudenceFrontierBoost =
-      +skillOptionData(553).makeSkillOption { value, time ->
+      +skillOptionData(553).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Frontier },
             effect = Buffs.ImpudenceBuff,
@@ -1269,10 +1331,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         )
       }
   val HitRandom33ImpudenceSiegfeldBoost =
-      +skillOptionData(554).makeSkillOption { value, time ->
+      +skillOptionData(554).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Siegfeld },
             effect = Buffs.ImpudenceBuff,
@@ -1282,10 +1345,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         )
       }
   val HitRandom33ImpudenceSeiranBoost =
-      +skillOptionData(555).makeSkillOption { value, time ->
+      +skillOptionData(555).makeSkillOption { value, time, _, attribute ->
         attackWithDebuff(
             modifier = value,
             hitCount = time,
+            attribute = attribute,
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Seiran },
             effect = Buffs.ImpudenceBuff,

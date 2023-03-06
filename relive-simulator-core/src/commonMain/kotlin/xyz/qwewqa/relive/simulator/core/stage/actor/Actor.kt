@@ -1,7 +1,8 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
 import xyz.qwewqa.relive.simulator.common.LogCategory
-import xyz.qwewqa.relive.simulator.core.stage.*
+import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.accessory.Accessory
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
@@ -23,8 +24,16 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.StopBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.StunBuff
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
+import xyz.qwewqa.relive.simulator.core.stage.execute
+import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoir
-import xyz.qwewqa.relive.simulator.core.stage.modifier.*
+import xyz.qwewqa.relive.simulator.core.stage.modifier._Modifiers
+import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceGainAdjustment
+import xyz.qwewqa.relive.simulator.core.stage.modifier.counterHealFixed
+import xyz.qwewqa.relive.simulator.core.stage.modifier.counterHealPercent
+import xyz.qwewqa.relive.simulator.core.stage.modifier.hpRecoveryAdjustment
+import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHp
+import xyz.qwewqa.relive.simulator.core.stage.platformMapOf
 import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
 import xyz.qwewqa.relive.simulator.stage.character.Character
 import xyz.qwewqa.relive.simulator.stage.character.Position
@@ -37,8 +46,9 @@ class Actor(
     val accessory: Accessory?,
     val isSupport: Boolean = false,
 ) {
-  val passives =
-      dress.autoSkills +
+  val autoskills =
+      dress.unitSkill +
+          dress.autoSkills +
           (memoir?.autoskills ?: emptyList()) +
           (accessory?.autoskills ?: emptyList())
   val acts = dress.acts.toMutableMap()

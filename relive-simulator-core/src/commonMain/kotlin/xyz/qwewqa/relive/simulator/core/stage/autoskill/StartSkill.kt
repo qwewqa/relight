@@ -3,6 +3,7 @@ package xyz.qwewqa.relive.simulator.core.stage.autoskill
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenStartSkill
 import xyz.qwewqa.relive.simulator.core.skilloption.ActiveSkillOption
 import xyz.qwewqa.relive.simulator.core.skilloption.SkillOptions
+import xyz.qwewqa.relive.simulator.core.skilloption.executeActiveSkillOption
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
@@ -30,7 +31,13 @@ class StartSkill(
     get() = option.activeType
 
   override fun execute(context: ActionContext) {
-    option.actActive(context.resolveTarget(target), value, time, chance)
+    context.executeActiveSkillOption(
+        option = option,
+        attribute = context.self.dress.attribute,
+        target = target,
+        value = value,
+        time = time,
+        chance = chance)
   }
 }
 

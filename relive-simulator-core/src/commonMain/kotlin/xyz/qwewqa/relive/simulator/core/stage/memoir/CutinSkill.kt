@@ -7,6 +7,7 @@ import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 import xyz.qwewqa.relive.simulator.core.stage.actor.Skill
 import xyz.qwewqa.relive.simulator.core.stage.actor.SkillPartBlueprint
+import xyz.qwewqa.relive.simulator.core.stage.dress.attributeFromId
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTargets
 
 class CutinSkillBlueprint(
@@ -32,6 +33,12 @@ class CutinSkillBlueprint(
 object CutinSkills : ImplementationRegistry<CutinSkillBlueprint>() {
   init {
     for ((id, skill) in valuesGenEquipActiveSkill) {
+      val attribute =
+          when (skill.attribute_id) {
+            99 -> null
+            else -> attributeFromId(skill.attribute_id)
+                    ?: error("Invalid attribute id ${skill.attribute_id} for skill $id")
+          }
       +CutinSkillBlueprint(
           id = id,
           costs = skill.skill_cost_values,
@@ -45,6 +52,7 @@ object CutinSkills : ImplementationRegistry<CutinSkillBlueprint>() {
                     SkillPartBlueprint(
                         option = SkillOptions[skill.skill_option1_id] as? ActiveSkillOption
                                 ?: continue,
+                        attribute = attribute,
                         target = SkillTargets[skill.skill_option1_target_id] ?: continue,
                         values = skill.skill_option1_values,
                         times = skill.skill_option1_times,
@@ -55,6 +63,7 @@ object CutinSkills : ImplementationRegistry<CutinSkillBlueprint>() {
                     SkillPartBlueprint(
                         option = SkillOptions[skill.skill_option2_id] as? ActiveSkillOption
                                 ?: continue,
+                        attribute = attribute,
                         target = SkillTargets[skill.skill_option2_target_id] ?: continue,
                         values = skill.skill_option2_values,
                         times = skill.skill_option2_times,
@@ -65,6 +74,7 @@ object CutinSkills : ImplementationRegistry<CutinSkillBlueprint>() {
                     SkillPartBlueprint(
                         option = SkillOptions[skill.skill_option3_id] as? ActiveSkillOption
                                 ?: continue,
+                        attribute = attribute,
                         target = SkillTargets[skill.skill_option3_target_id] ?: continue,
                         values = skill.skill_option3_values,
                         times = skill.skill_option3_times,
@@ -75,6 +85,7 @@ object CutinSkills : ImplementationRegistry<CutinSkillBlueprint>() {
                     SkillPartBlueprint(
                         option = SkillOptions[skill.skill_option4_id] as? ActiveSkillOption
                                 ?: continue,
+                        attribute = attribute,
                         target = SkillTargets[skill.skill_option4_target_id] ?: continue,
                         values = skill.skill_option4_values,
                         times = skill.skill_option4_times,
@@ -85,6 +96,7 @@ object CutinSkills : ImplementationRegistry<CutinSkillBlueprint>() {
                     SkillPartBlueprint(
                         option = SkillOptions[skill.skill_option5_id] as? ActiveSkillOption
                                 ?: continue,
+                        attribute = attribute,
                         target = SkillTargets[skill.skill_option5_target_id] ?: continue,
                         values = skill.skill_option5_values,
                         times = skill.skill_option5_times,

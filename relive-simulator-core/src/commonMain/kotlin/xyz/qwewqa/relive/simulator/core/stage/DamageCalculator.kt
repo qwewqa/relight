@@ -51,7 +51,7 @@ open class RandomDamageCalculator : DamageCalculator {
               }
         }
         if (target.buffs.tryRemove(Buffs.EvasionBuff)) {
-          if (!(PerfectAimBuff in self.buffs) && !hitAttribute.focus) {
+          if (PerfectAimBuff !in self.buffs && !hitAttribute.focus) {
             log("Hit", category = LogCategory.DAMAGE) {
               "Miss against [${target.name}] from Evade."
             }

@@ -4,6 +4,7 @@ import xyz.qwewqa.relive.simulator.core.gen.GenSkillOption
 import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenSkillOption
 import xyz.qwewqa.relive.simulator.core.stage.TargetContext
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkillType
 import xyz.qwewqa.relive.simulator.core.stage.common.DescriptionUnit
 
@@ -22,14 +23,19 @@ data class SkillOptionData(
   inline fun makeSkillOption(
       activeType: AutoSkillType = AutoSkillType.TurnStartB,
       crossinline action: TargetContext.(value: Int) -> Unit
-  ) = makeSkillOption(activeType) { value, _, _ -> action(value) }
+  ) = makeSkillOption(activeType) { value, _, _, _ -> action(value) }
   inline fun makeSkillOption(
       activeType: AutoSkillType = AutoSkillType.TurnStartB,
       crossinline action: TargetContext.(value: Int, time: Int) -> Unit
-  ) = makeSkillOption(activeType) { value, time, _ -> action(value, time) }
+  ) = makeSkillOption(activeType) { value, time, _, _ -> action(value, time) }
   inline fun makeSkillOption(
       activeType: AutoSkillType = AutoSkillType.TurnStartB,
       crossinline action: TargetContext.(value: Int, time: Int, chance: Int) -> Unit
+  ) = makeSkillOption(activeType) { value, time, chance, _ -> action(value, time, chance) }
+  inline fun makeSkillOption(
+      activeType: AutoSkillType = AutoSkillType.TurnStartB,
+      crossinline action:
+          TargetContext.(value: Int, time: Int, chance: Int, attribute: Attribute) -> Unit
   ) =
       object : ActiveSkillOption {
         override val id: Int = this@SkillOptionData.id
@@ -44,13 +50,14 @@ data class SkillOptionData(
         override val type = this@SkillOptionData.type
         override val activeType = activeType
 
-        override fun actActive(
+        override fun executeActive(
             context: TargetContext,
             value: Int,
             time: Int,
             chance: Int,
+            attribute: Attribute,
         ) {
-          context.action(value, time, chance)
+          context.action(value, time, chance, attribute)
         }
       }
 
@@ -67,7 +74,7 @@ data class SkillOptionData(
         override val valueUnit = this@SkillOptionData.valueUnit
         override val type = this@SkillOptionData.type
 
-        override fun actPassive(context: TargetContext, value: Int) {
+        override fun executePassive(context: TargetContext, value: Int) {
           context.action(value)
         }
       }
@@ -90,16 +97,17 @@ data class SkillOptionData(
         override val type = this@SkillOptionData.type
         override val activeType = activeType
 
-        override fun actActive(
+        override fun executeActive(
             context: TargetContext,
             value: Int,
             time: Int,
             chance: Int,
+            attribute: Attribute,
         ) {
           context.activeAction(value, time, chance)
         }
 
-        override fun actPassive(context: TargetContext, value: Int) {
+        override fun executePassive(context: TargetContext, value: Int) {
           context.passiveAction(value)
         }
       }

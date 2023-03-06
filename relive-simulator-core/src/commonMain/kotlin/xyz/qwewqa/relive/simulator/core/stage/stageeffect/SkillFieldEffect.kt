@@ -6,8 +6,8 @@ import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 
 enum class SkillFieldEffectTarget {
-  Ally,
-  Enemy,
+  Allies,
+  Enemies,
 }
 
 data class SkillFieldEffectOption(
@@ -17,12 +17,7 @@ data class SkillFieldEffectOption(
     val target: SkillFieldEffectTarget,
 ) {
   fun execute(context: ActionContext) {
-    val team =
-        when (target) {
-          SkillFieldEffectTarget.Ally -> context.team
-          SkillFieldEffectTarget.Enemy -> context.enemy
-        }
-    option.execute(team, value, time)
+    context.executeFieldEffectOption(option = option, target = target, value = value, time = time)
   }
 }
 
@@ -47,8 +42,8 @@ object SkillFieldEffects : ImplementationRegistry<SkillFieldEffect>() {
         time = time,
         target =
             when (targetType) {
-              1 -> SkillFieldEffectTarget.Ally
-              2 -> SkillFieldEffectTarget.Enemy
+              1 -> SkillFieldEffectTarget.Allies
+              2 -> SkillFieldEffectTarget.Enemies
               else -> error("Invalid target type $targetType")
             })
   }

@@ -4,6 +4,7 @@ import xyz.qwewqa.relive.simulator.core.gen.valuesGenPartySkill
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenPassiveSkill
 import xyz.qwewqa.relive.simulator.core.skilloption.PassiveSkillOption
 import xyz.qwewqa.relive.simulator.core.skilloption.SkillOptions
+import xyz.qwewqa.relive.simulator.core.skilloption.executePassiveSkillOption
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
@@ -18,7 +19,7 @@ class PassiveSkill(
   override val type = AutoSkillType.Passive
 
   override fun execute(context: ActionContext) {
-    option.actPassive(context.resolveTarget(target), value)
+    context.executePassiveSkillOption(option = option, target = target, value = value)
   }
 }
 

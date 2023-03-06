@@ -72,7 +72,7 @@ class ActionContext(
     return TargetContext(
         this@ActionContext,
         this,
-        enemy.active.firstOrNull()?.takeIf { ContractionBuff in self.buffs }
+        enemy.active.firstOrNull()?.takeIf { ContractionBuff in self.buffs && affectedByAggro }
             ?: self.aggroTarget.takeIf { affectedByAggro },
         autoRepeatHits,
     )

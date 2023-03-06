@@ -1,5 +1,9 @@
 package xyz.qwewqa.relive.simulator.core.stage
 
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
+import kotlin.random.Random
 import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
@@ -10,10 +14,6 @@ import xyz.qwewqa.relive.simulator.core.stage.strategy.ActionTile
 import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
 import xyz.qwewqa.relive.simulator.core.stage.strategy.IdleTile
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
-import kotlin.random.Random
 
 data class PlayInfo(
     val maxTurns: Int,
@@ -63,7 +63,7 @@ class Stage(
       try {
         log("Stage") { "Begin." }
 
-        log("AutoEffect") { "Begin." }
+        log("AutoSkill") { "Begin." }
 
         arrayOf(player, enemy).forEach { team ->
           if (team.song.passive != null) {
@@ -74,51 +74,22 @@ class Stage(
           }
         }
 
-        // for consistent results with earlier versions which performed two rounds of shuffling
-        repeat(player.actors.size + enemy.actors.size - 1) { random.nextInt() }
-
         val allActors =
             player.actors.values + enemy.actors.values + listOfNotNull(player.guest, enemy.guest)
 
-        allActors
-            .map { it to it.dress.unitSkill }
-            .forEach { (actor, us) ->
-              us.forEach {
-                log("AutoEffect") { "[${actor.name}] unit skill [${it.name}] activate." }
-                it.execute(actor.context)
-              }
-            }
-
-        allActors.forEach { sg ->
-          sg.passives
-              .filter { it.type == AutoSkillType.Passive }
-              .forEach {
-                sg.context.log("AutoEffect") { "Passive auto effect [${it.name}] activate." }
-                it.execute(sg.context)
+        AutoSkillType.values().forEach { category ->
+          allActors
+              .shuffled(random)
+              .sortedByDescending { it.mod { +agility } }
+              .forEach { actor ->
+                actor.context.log("AutoSkill") { "${category.name} autoskills activate." }
+                actor.autoskills
+                    .filter { it.type == category }
+                    .forEach { skill -> skill.execute(actor.context) }
               }
         }
 
-        val autoEffectPriority =
-            (player.actors.values + enemy.actors.values).shuffled(random).sortedByDescending {
-              it.mod { +agility }
-            }
-
-        AutoSkillType.values()
-            .drop(1) // skip passive
-            .forEach { category ->
-              autoEffectPriority.forEach { sg ->
-                sg.passives
-                    .filter { it.type == category }
-                    .forEach {
-                      sg.context.log("AutoEffect") {
-                        "${category.name} auto effect [${it.name}] activate."
-                      }
-                      it.execute(sg.context)
-                    }
-              }
-            }
-
-        log("AutoEffect") { "End." }
+        log("AutoSkill") { "End." }
 
         player.finalizeTurnZero()
         enemy.finalizeTurnZero()
