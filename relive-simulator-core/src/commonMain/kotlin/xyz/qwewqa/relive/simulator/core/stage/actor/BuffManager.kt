@@ -6,6 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.PlatformSet
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ActionRestrictionResistanceUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.OverwhelmBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.TurnDispelContinuousNegativeEffectsBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.TurnDispelCountableNegativeEffectsBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.abnormalBuffs
@@ -349,6 +350,10 @@ class BuffManager(val actor: Actor) {
 
   fun tick() =
       actor.run {
+        while (OverwhelmBuff in buffs) {
+          buffs.remove(OverwhelmBuff)
+        }
+
         val hpRegenValue = mod { +hpFixedRegen } + mod { maxHp pfmul hpPercentRegen }
         if (hpRegenValue > 0) {
           context.log("HP Regen") { "HP Regen tick." }
@@ -406,9 +411,9 @@ class BuffManager(val actor: Actor) {
           damage(nightmare, additionalEffects = false)
         }
 
-//        if (TurnDispelCountablePositiveEffectsBuff in buffs) {
-//          dispelCountable(BuffCategory.Positive)
-//        }
+        //        if (TurnDispelCountablePositiveEffectsBuff in buffs) {
+        //          dispelCountable(BuffCategory.Positive)
+        //        }
 
         val turnReduceCountablePositiveEffects = mod { +turnReduceCountablePositiveEffects }
         if (turnReduceCountablePositiveEffects > 0) {
