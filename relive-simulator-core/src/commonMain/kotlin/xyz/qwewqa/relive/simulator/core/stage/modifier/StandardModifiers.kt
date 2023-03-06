@@ -21,6 +21,11 @@ inline val Modifiers.hopeFactor: Int
     return 20 given { HopeBuff in actor.buffs }
   }
 
+inline val Modifiers.superStrengthFactor: Int
+  get() {
+    return 30 given { Buffs.SuperStrengthBuff in actor.buffs }
+  }
+
 val baseActPower = modifier("baseActPower")
 val actPowerUp = modifier("actPowerUp")
 val actPowerDown = modifier("actPowerDown")
@@ -83,7 +88,9 @@ val debuffCritical = modifier("debuffCritical")
 inline val Modifiers.critical: Int
   get() {
     val holdBackModifier = -100 given { Buffs.HoldBackBuff in actor.buffs }
-    return (baseCritical + buffCritical + holdBackModifier - debuffCritical + hopeFactor)
+    return (baseCritical + buffCritical + holdBackModifier - debuffCritical +
+            hopeFactor +
+            superStrengthFactor)
         .coerceAtLeast(0)
   }
 
@@ -167,6 +174,7 @@ val damageDealtDown = modifier("damageDealtDown")
 
 fun Modifiers.damageDealtUpModifier(target: Actor): Int {
   return (damageDealtUp +
+      superStrengthFactor +
       actor.conditionalDamageDealtUp.sumOf { (cond, value) -> value given cond.evaluate(target) } +
       (actor.againstSchoolDamageDealtUp[target.dress.character.school] ?: 0))
 }
@@ -183,6 +191,7 @@ val brillianceSap = modifier("brillianceSap")
 val hpFixedRegen = modifier("hpRegen")
 val hpPercentRegen = modifier("hpPercentRegen")
 val reviveRegen = modifier("reviveRegen")
+val superStrengthRegen = modifier("superStrengthRegen")
 
 val counterHealFixed = modifier("counterHealFixed")
 val counterHealPercent = modifier("counterHealPercent")

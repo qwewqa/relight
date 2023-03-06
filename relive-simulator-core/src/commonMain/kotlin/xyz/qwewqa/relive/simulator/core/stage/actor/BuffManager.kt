@@ -24,6 +24,7 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.hpFixedRegen
 import xyz.qwewqa.relive.simulator.core.stage.modifier.hpPercentRegen
 import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHp
 import xyz.qwewqa.relive.simulator.core.stage.modifier.reviveRegen
+import xyz.qwewqa.relive.simulator.core.stage.modifier.superStrengthRegen
 import xyz.qwewqa.relive.simulator.core.stage.modifier.turnReduceCountableNegativeEffects
 import xyz.qwewqa.relive.simulator.core.stage.modifier.turnReduceCountablePositiveEffects
 import xyz.qwewqa.relive.simulator.core.stage.platformMapOf
@@ -378,6 +379,12 @@ class BuffManager(val actor: Actor) {
           addCountable(Buffs.ReviveBuff, count = reviveRegenValue)
         }
 
+        val superStrengthRegenValue = mod { +superStrengthRegen }
+        if (superStrengthRegenValue > 0) {
+          context.log("Super Strength Regen") { "Super Strength Regen tick." }
+          addCountable(Buffs.SuperStrengthBuff, count = superStrengthRegenValue)
+        }
+
         if (TurnDispelContinuousNegativeEffectsBuff in buffs) {
           dispel(BuffCategory.Negative)
         }
@@ -512,6 +519,7 @@ val consumeOnAttackCountableBuffs =
     listOf(
         Buffs.HopeBuff,
         Buffs.CheerBuff,
+        Buffs.SuperStrengthBuff,
     )
 
 class CountableBuffStack(

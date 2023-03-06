@@ -3,6 +3,8 @@ package xyz.qwewqa.relive.simulator.core.stage.buff
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.Character
+import xyz.qwewqa.relive.simulator.core.stage.actor.School
 import xyz.qwewqa.relive.simulator.core.stage.actor.abnormalCountableBuffs
 import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifier
 import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifiers
@@ -57,10 +59,9 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.specialDefenseDown
 import xyz.qwewqa.relive.simulator.core.stage.modifier.specialDefenseUp
 import xyz.qwewqa.relive.simulator.core.stage.modifier.specialReflect
 import xyz.qwewqa.relive.simulator.core.stage.modifier.staminaActPowerUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.superStrengthRegen
 import xyz.qwewqa.relive.simulator.core.stage.modifier.turnReduceCountableNegativeEffects
 import xyz.qwewqa.relive.simulator.core.stage.platformSetOf
-import xyz.qwewqa.relive.simulator.core.stage.actor.Character
-import xyz.qwewqa.relive.simulator.core.stage.actor.School
 
 object Buffs : ImplementationRegistry<BuffEffect>() {
   private fun BuffData.makeDamageOverTimeBuffEffect(
@@ -1444,9 +1445,16 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   //  val LockedTurnDispelCountablePositiveEffectsBuff =
   //      +buffData(xxx).makeLockedVariantOf(TurnDispelCountablePositiveEffectsBuff)
 
-  val TurnAddSuperStrengthBuff = +buffData(292).makeSimpleTimedBuffEffect(BuffCategory.Positive)
+  val SuperStrengthBuff = +buffData(290).makeCountableBuffEffect(BuffCategory.Positive)
 
-  val LockedTurnAddSuperStrengthBuff = +buffData(293).makeLockedVariantOf(TurnAddSuperStrengthBuff)
+  val SuperStrengthRegenBuff =
+      +buffData(292)
+          .makeModifierTimedBuffEffect(
+              modifier = superStrengthRegen,
+              category = BuffCategory.Positive,
+          )
+
+  val LockedSuperStrengthRegenBuff = +buffData(293).makeLockedVariantOf(SuperStrengthRegenBuff)
 
   val CheerBuff = +buffData(294).makeCountableBuffEffect(BuffCategory.Positive)
 
