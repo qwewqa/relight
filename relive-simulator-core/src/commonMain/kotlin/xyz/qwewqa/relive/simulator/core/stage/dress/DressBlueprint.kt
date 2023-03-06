@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage.dress
 
+import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
@@ -14,6 +15,7 @@ import xyz.qwewqa.relive.simulator.stage.character.Position
 data class DressBlueprint(
     override val id: Int,
     val name: String,
+    val names: Map<String, String>? = null,
     val baseRarity: Int,
     val cost: Int,
     val character: Character,
@@ -32,8 +34,14 @@ data class DressBlueprint(
     val remakeParameters: List<StatData>,
     val unitSkill: UnitSkillBlueprint,
     val multipleCA: Boolean,
+    val releaseTime: Int? = null,
 ) : FeatureImplementation {
-  val fullName get() = "$name ${character.displayName}"
+  val fullName
+    get() = "$name ${character.displayName}"
+  val fullNames
+    get() =
+        names?.mapValues { (lang, name) -> "$name ${character.names.getLocalizedString(lang) }" }
+            ?: mapOf("en" to fullName)
 
   fun create(
       rarity: Int,

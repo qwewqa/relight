@@ -8,11 +8,14 @@ import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.SkillFieldEffect
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.SkillFieldEffectOption
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.SkillFieldEffects
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTarget
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTargets
 
-class StageEffectStartSkill(val effect: SkillFieldEffect) : AutoSkill {
+class StageEffectStartSkill(val effect: SkillFieldEffectOption) : AutoSkill {
+  override val iconId
+    get() = effect.option.iconId
   override val type = AutoSkillType.StageEffect
 
   override fun execute(context: ActionContext) {
@@ -27,6 +30,8 @@ class StartSkill(
     val time: Int,
     val chance: Int,
 ) : AutoSkill {
+  override val iconId
+    get() = option.iconId
   override val type: AutoSkillType
     get() = option.activeType
 
@@ -65,10 +70,12 @@ class StartSkillGroup(
 class StartSkillGroupBlueprint(
     override val id: Int,
     val skills: List<StartSkillBlueprint>,
-    val stageEffect: StageEffectStartSkill? = null,
+    val stageEffect: SkillFieldEffect? = null,
 ) : AutoSkillGroupBlueprint, FeatureImplementation {
   override fun create(level: Int) =
-      StartSkillGroup(skills.map { it.create(level) } + listOfNotNull(stageEffect))
+      StartSkillGroup(
+          skills.map { it.create(level) } +
+              (stageEffect?.options ?: emptyList()).map { StageEffectStartSkill(it) })
 }
 
 object StartSkillGroups : ImplementationRegistry<StartSkillGroupBlueprint>() {
@@ -131,7 +138,7 @@ object StartSkillGroups : ImplementationRegistry<StartSkillGroupBlueprint>() {
               ),
           stageEffect =
               if (skill.skill_field_effect_id != 0)
-                  SkillFieldEffects[skill.skill_field_effect_id]?.let { StageEffectStartSkill(it) }
+                  SkillFieldEffects[skill.skill_field_effect_id] ?: continue
               else null,
       )
     }

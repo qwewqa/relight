@@ -22,6 +22,8 @@ fun PassiveEffect.new(
     time: Int = 0,
 ) =
     object : AutoSkill {
+      override val iconId = null
+
       override val type
         get() = AutoSkillType.Passive
 

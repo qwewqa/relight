@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage.memoir
 
+import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
@@ -18,14 +19,17 @@ data class Memoir(
 
 data class MemoirBlueprint(
     override val id: Int,
-    val name: String,
+    val names: Map<String, String>,
     val rarity: Int,
     val cost: Int,
     val baseStats: StatData,
     val growthStats: StatData,
     val autoskills: List<AutoSkillGroupBlueprint>,
     val cutinData: CutinBlueprint? = null,
+    val releaseTime: Int? = null,
 ) : FeatureImplementation {
+  val name get() = names.getLocalizedString()
+
   fun maxLevel(limitBreak: Int) = (rarity + 2) * 10 + limitBreak * 5
 
   fun create(level: Int, limitBreak: Int): Memoir {

@@ -756,7 +756,7 @@
 
                 if (options.subtext) {
                     subtextElement = elementTemplates.subtext.cloneNode(false);
-                    subtextElement.textContent = options.subtext;
+                    subtextElement.innerHTML = options.subtext;
                     subtextElement.className = "select-option-subtext"
                     textElement.appendChild(subtextElement);
                 }

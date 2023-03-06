@@ -19,6 +19,7 @@ import xyz.qwewqa.relive.simulator.client.Simulation
 import xyz.qwewqa.relive.simulator.client.Simulator
 import xyz.qwewqa.relive.simulator.client.SimulatorClient
 import xyz.qwewqa.relive.simulator.common.*
+import xyz.qwewqa.relive.simulator.core.getSimulationOptions
 import xyz.qwewqa.relive.simulator.core.stage.*
 import xyz.qwewqa.relive.simulator.core.stage.strategy.interactive.InteractiveSimulationController
 import xyz.qwewqa.relive.simulator.core.stage.utils.summarize
@@ -76,17 +77,7 @@ class JsSimulator : Simulator {
     }
   }
 
-  // This is a hack where the response from server is just copied here until I think of something
-  // better
-  override suspend fun options(): SimulationOptions {
-    return httpClient
-        .get(
-            URL(
-                    "options.json",
-                    "${window.location.protocol}//${window.location.host}${window.location.pathname}")
-                .href)
-        .body()
-  }
+  override suspend fun options(): SimulationOptions = getSimulationOptions()
 
   override suspend fun shutdown() {
     error("Not supported")

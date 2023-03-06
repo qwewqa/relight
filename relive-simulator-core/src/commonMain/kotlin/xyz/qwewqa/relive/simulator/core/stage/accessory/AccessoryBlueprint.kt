@@ -1,12 +1,11 @@
 package xyz.qwewqa.relive.simulator.core.stage.accessory
 
-import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkill
 import xyz.qwewqa.relive.simulator.core.stage.dress.ActBlueprint
-import xyz.qwewqa.relive.simulator.core.stage.dress.ActBlueprintContext
 
 val ACCESSORY_SKILL_LEVELS =
     mapOf(
@@ -26,7 +25,7 @@ val ACCESSORY_SKILL_LEVELS =
 data class AccessoryBlueprint(
     override val id: Int,
     val iconId: Int,
-    val name: String,
+    val names: Map<String, String>,
     val autoskills: List<Pair<Int, List<AutoSkill>>>,
     val baseHp: Int,
     val baseActPower: Int,
@@ -58,7 +57,7 @@ data class AccessoryBlueprint(
     return Accessory(
         id,
         iconId,
-        name,
+        names.getLocalizedString(),
         StatData(
             hp = scaleStat(baseHp, maxHp, factor),
             actPower = scaleStat(baseActPower, maxActPower, factor),

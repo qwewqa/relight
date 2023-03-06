@@ -1,4 +1,3 @@
-import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenAccessory
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenAccessoryGrow
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
@@ -14,7 +13,7 @@ object Accessories : ImplementationRegistry<AccessoryBlueprint>() {
       +AccessoryBlueprint(
           0,
           0,
-          "None",
+          mapOf("en" to "None", "ja" to "なし", "zh_hant" to "無", "ko" to "없음"),
           emptyList(),
           0,
           0,
@@ -39,7 +38,7 @@ object Accessories : ImplementationRegistry<AccessoryBlueprint>() {
       +AccessoryBlueprint(
           id = id,
           iconId = accessory.icon_id,
-          name = accessory.name.getLocalizedString(),
+          names = accessory.name,
           autoskills =
               listOfNotNull(
                   if (accessory.auto_skill1_id != 0)
@@ -128,7 +127,6 @@ object Accessories : ImplementationRegistry<AccessoryBlueprint>() {
   val aliases: Map<String, AccessoryBlueprint> =
       mutableMapOf<String, AccessoryBlueprint>().also { map ->
         values.forEach { accessory ->
-          map[accessory.name] = accessory
           map["${accessory.id}"] = accessory
         }
       }

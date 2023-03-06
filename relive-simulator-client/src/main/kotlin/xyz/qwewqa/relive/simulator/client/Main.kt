@@ -37,6 +37,8 @@ import kotlinx.html.option
 import kotlinx.html.p
 import kotlinx.html.role
 import kotlinx.html.select
+import kotlinx.html.span
+import kotlinx.html.stream.createHTML
 import kotlinx.html.style
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -959,6 +961,10 @@ class SimulatorClient(val simulator: Simulator) {
       val options: Element,
   )
 
+  fun String.escapeHtml(): String {
+    return this.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+  }
+
   val actorElementCache = mutableListOf<CachedActorElements>()
 
   var actorIdCounter = 0
@@ -1235,7 +1241,8 @@ class SimulatorClient(val simulator: Simulator) {
                             attributes["data-img"] = it.imagePath ?: ""
                             value = it.id
                             +it[locale]
-                            attributes["data-subtext"] = it.description?.get(locale) ?: ""
+                            attributes["data-subtext"] =
+                                it.description?.get(locale)?.escapeHtml() ?: ""
                             attributes["data-tokens"] =
                                 it.tags?.get(locale)?.joinToString(" ") ?: ""
                           }
@@ -1491,7 +1498,21 @@ class SimulatorClient(val simulator: Simulator) {
                             val name = it[locale]
                             val description = it.description?.get(locale)
                             attributes["data-img"] = it.imagePath ?: ""
-                            attributes["data-subtext"] = description ?: ""
+                            attributes["data-subtext"] =
+                                createHTML().span {
+                                  style = "display: inline-flex; align-items: center;"
+                                  it.descriptionIcons?.forEach { iconUrl ->
+                                    img {
+                                      style =
+                                          "height: 1.6em; margin: 0.2em 0.1em; padding-top: 0.2em;"
+                                      src = iconUrl
+                                    }
+                                  }
+                                  span {
+                                    style = "margin-left: 0.1em;"
+                                    +(description ?: "")
+                                  }
+                                }
                             value = it.id
                             +name
                             attributes["data-tokens"] =
@@ -1594,7 +1615,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 val name = it[locale]
                                 val description = it.description?.get(locale)
                                 attributes["data-img"] = it.imagePath ?: ""
-                                attributes["data-subtext"] = description ?: ""
+                                attributes["data-subtext"] = description?.escapeHtml() ?: ""
                                 attributes["data-hidden"] =
                                     if (it in activeAccessories) "false" else "true"
                                 value = it.id

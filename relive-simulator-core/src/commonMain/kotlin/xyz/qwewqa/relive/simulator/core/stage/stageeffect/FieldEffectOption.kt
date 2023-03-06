@@ -13,6 +13,7 @@ import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
 interface FieldEffectOption : FeatureImplementation {
+  val iconId: Int
   val description: String
   val extraDescription: String?
   val param1: Int
@@ -74,6 +75,7 @@ inline fun makeFieldEffectOption(
 ) =
     object : FieldEffectOption {
       override val id = option._id_
+      override val iconId = option.icon_id
       override val description = option.effect_description.getLocalizedString()
       override val extraDescription =
           option.extra_description.getLocalizedString().takeIf { it.isNotBlank() }

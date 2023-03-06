@@ -1,6 +1,5 @@
 package xyz.qwewqa.relive.simulator.core.stage.memoir
 
-import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenEquip
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
@@ -11,7 +10,7 @@ object Memoirs : ImplementationRegistry<MemoirBlueprint>() {
   val EmptyMemoir =
       +MemoirBlueprint(
           0,
-          "None",
+          mapOf("en" to "None", "ja" to "なし", "zh_hant" to "無", "ko" to "없음"),
           rarity = 4,
           cost = 0,
           baseStats = StatData(),
@@ -23,7 +22,7 @@ object Memoirs : ImplementationRegistry<MemoirBlueprint>() {
       if (equip.type != 1) continue
       +MemoirBlueprint(
           id = id,
-          name = equip.name.getLocalizedString(),
+          names = equip.name,
           rarity = equip.rarity,
           cost = equip.cost,
           baseStats =
@@ -51,6 +50,7 @@ object Memoirs : ImplementationRegistry<MemoirBlueprint>() {
               if (equip.active_skill_id != 0)
                   (CutinSkills[equip.active_skill_id] ?: continue).asCutinBlueprint()
               else null,
+          releaseTime = equip.published_at,
       )
     }
   }

@@ -10,6 +10,7 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 import org.w3c.dom.url.URL
 import xyz.qwewqa.relive.simulator.common.*
+import xyz.qwewqa.relive.simulator.core.getSimulationOptions
 
 class RemoteSimulator(val baseUrl: URL) : Simulator {
   private val client = HttpClient {
@@ -55,9 +56,7 @@ class RemoteSimulator(val baseUrl: URL) : Simulator {
     return client.get(URL("/version", baseUrl.href).href).body()
   }
 
-  override suspend fun options(): SimulationOptions {
-    return client.get(URL("/options", baseUrl.href).href).body()
-  }
+  override suspend fun options(): SimulationOptions = getSimulationOptions()
 
   override suspend fun features(): SimulatorFeatures {
     return try {

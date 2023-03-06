@@ -175,21 +175,23 @@ typealias SimulationOption = DataSimulationOption<Unit>
 fun SimulationOption(
     id: String,
     name: Map<String, String>,
+    descriptionIcons: List<String>? = null,
     description: Map<String, String>? = null,
     tags: Map<String, List<String>>? = null,
     imagePath: String? = null,
-) = DataSimulationOption(id, name, description, tags, imagePath, Unit)
+) = DataSimulationOption(id, name, descriptionIcons, description, tags, imagePath, Unit)
 
 @Serializable
 data class DataSimulationOption<T>(
     val id: String,
     val name: Map<String, String>,
+    val descriptionIcons: List<String>? = null,
     val description: Map<String, String>? = null,
     val tags: Map<String, List<String>>? = null,
     val imagePath: String? = null,
     val data: T,
 ) {
-  operator fun get(key: String): String = name[key] ?: name["en"] ?: id
+  operator fun get(key: String): String = name[key] ?: name["en"] ?: name["ja"] ?: id
 }
 
 @Serializable
@@ -200,6 +202,7 @@ data class DressData(
     val positionValue: Int,
     val positionName: String,
     val characterName: String = "",
+    val releaseTime: Int?,
     val cost: Int,
 ) : Comparable<DressData> {
   override fun compareTo(other: DressData): Int {
@@ -213,6 +216,7 @@ data class DressData(
 data class MemoirData(
     val id: Int,
     val cost: Int,
+    val releaseTime: Int?,
 )
 
 @Serializable

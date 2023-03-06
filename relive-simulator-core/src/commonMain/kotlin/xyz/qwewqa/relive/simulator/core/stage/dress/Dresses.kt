@@ -29,6 +29,7 @@ object Dresses : ImplementationRegistry<DressBlueprint>() {
       +DressBlueprint(
           id = id,
           name = dress.name.getLocalizedString(),
+          names = dress.name,
           baseRarity = dress.base_rarity,
           cost = dress.cost,
           character = characterFromId(dress.chara_id) ?: continue,
@@ -165,6 +166,7 @@ object Dresses : ImplementationRegistry<DressBlueprint>() {
                   ?: emptyList(),
           unitSkill = UnitSkills[dress.party_skill_id] ?: continue,
           multipleCA = Skills[dress.command_unique_skill_id]!!.isMultipleCa,
+          releaseTime = dress.published_at,
       )
     }
   }

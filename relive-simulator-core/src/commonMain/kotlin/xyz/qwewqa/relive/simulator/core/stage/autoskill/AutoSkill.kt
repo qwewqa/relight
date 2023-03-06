@@ -3,6 +3,7 @@ package xyz.qwewqa.relive.simulator.core.stage.autoskill
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 
 interface AutoSkill {
+  val iconId: Int?
   val type: AutoSkillType
   fun execute(context: ActionContext)
 }
