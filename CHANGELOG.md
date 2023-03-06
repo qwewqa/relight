@@ -907,3 +907,7 @@
 
 # v0.36.6
 - Fixed Cordelia Aruru's climax act damage by Mikayla
+
+# v1.0.0
+- Rewrite of all playable dresses, memoirs, accessories, and associated mechanics
+- Minor interface changes
