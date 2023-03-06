@@ -1,8 +1,8 @@
-package xyz.qwewqa.relive.simulator.stage.character
+package xyz.qwewqa.relive.simulator.core.stage.actor
 
-enum class Position {
+enum class Position(val id: Int? = null) {
   None,
-  Back,
-  Middle,
-  Front,
+  Back(3),
+  Middle(2),
+  Front(1),
 }

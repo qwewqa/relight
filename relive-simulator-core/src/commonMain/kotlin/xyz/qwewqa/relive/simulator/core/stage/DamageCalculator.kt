@@ -18,7 +18,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.SpecialBarrierBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.SpecialSuperReflectBuff
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.modifier.*
-import xyz.qwewqa.relive.simulator.stage.character.DamageType
+import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
 import kotlin.math.floor
 import kotlin.math.roundToInt
 

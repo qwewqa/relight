@@ -14,9 +14,9 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
-import xyz.qwewqa.relive.simulator.stage.character.Character
-import xyz.qwewqa.relive.simulator.stage.character.DamageType
-import xyz.qwewqa.relive.simulator.stage.character.Position
+import xyz.qwewqa.relive.simulator.core.stage.actor.Character
+import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Position
 
 val tr26EmperorAkira =
     ActorLoadout(

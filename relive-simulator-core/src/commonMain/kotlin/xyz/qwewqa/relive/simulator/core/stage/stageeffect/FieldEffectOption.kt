@@ -39,8 +39,8 @@ fun ActionContext.executeFieldEffectOption(
   if (stage.configuration.logging) {
     val substitutions =
         listOf(
-            "value" to option.valueUnit.format(value),
-            "param1" to option.param1Unit.format(option.param1),
+            "value" to "$value",
+            "param1" to "${option.param1}",
         )
     val primaryDescription = option.description.substitute(substitutions)
     val extraDescription =

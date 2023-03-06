@@ -9,8 +9,8 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkillType
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
-import xyz.qwewqa.relive.simulator.stage.character.DamageType
-import xyz.qwewqa.relive.simulator.stage.character.School
+import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
+import xyz.qwewqa.relive.simulator.core.stage.actor.School
 
 object SkillOptions : ImplementationRegistry<SkillOption>() {
   // Note that some buffs have separate percent and fixed versions.

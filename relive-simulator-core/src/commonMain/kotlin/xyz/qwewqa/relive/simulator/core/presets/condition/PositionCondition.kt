@@ -1,7 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.condition
 
 import xyz.qwewqa.relive.simulator.core.stage.condition.NamedCondition
-import xyz.qwewqa.relive.simulator.stage.character.Position
+import xyz.qwewqa.relive.simulator.core.stage.actor.Position
 
 val FrontOnlyCondition = positionCondition(Position.Front)
 val MiddleOnlyCondition = positionCondition(Position.Middle)

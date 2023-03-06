@@ -59,6 +59,10 @@ class Skill(
     val parts: List<SkillPart>,
     val stageEffect: SkillFieldEffect?,
 ) : Act {
+  val iconIds =
+      parts.map { it.option.iconId } +
+          (stageEffect?.options?.map { it.option.iconId } ?: emptyList())
+
   @JvmName("exec")
   fun execute(context: ActionContext) {
     parts.forEach { it.execute(context) }

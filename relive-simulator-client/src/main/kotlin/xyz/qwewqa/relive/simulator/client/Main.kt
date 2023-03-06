@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.client
 
+import Accessories
 import kotlin.js.Promise
 import kotlin.random.Random
 import kotlinx.browser.document
@@ -72,6 +73,7 @@ import xyz.qwewqa.relive.simulator.client.codemirror.loadActorFromClipboard
 import xyz.qwewqa.relive.simulator.client.codemirror.saveActorToClipboard
 import xyz.qwewqa.relive.simulator.client.codemirror.unfoldAll
 import xyz.qwewqa.relive.simulator.client.codemirror.value
+import xyz.qwewqa.relive.simulator.common.DataSimulationOption
 import xyz.qwewqa.relive.simulator.common.InteractiveLogData
 import xyz.qwewqa.relive.simulator.common.MarginResult
 import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
@@ -87,6 +89,8 @@ import xyz.qwewqa.relive.simulator.common.SimulatorVersion
 import xyz.qwewqa.relive.simulator.common.SongParameters
 import xyz.qwewqa.relive.simulator.common.StatisticsSummary
 import xyz.qwewqa.relive.simulator.common.StrategyParameter
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dresses
+import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoirs
 
 suspend fun main() {
   SimulatorClient(RemoteSimulator(URL("${window.location.protocol}//${window.location.host}")))
@@ -961,10 +965,6 @@ class SimulatorClient(val simulator: Simulator) {
       val options: Element,
   )
 
-  fun String.escapeHtml(): String {
-    return this.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-  }
-
   val actorElementCache = mutableListOf<CachedActorElements>()
 
   var actorIdCounter = 0
@@ -1241,8 +1241,7 @@ class SimulatorClient(val simulator: Simulator) {
                             attributes["data-img"] = it.imagePath ?: ""
                             value = it.id
                             +it[locale]
-                            attributes["data-subtext"] =
-                                it.description?.get(locale)?.escapeHtml() ?: ""
+                            attributes["data-subtext"] = it.subtextHtml(locale)
                             attributes["data-tokens"] =
                                 it.tags?.get(locale)?.joinToString(" ") ?: ""
                           }
@@ -1496,23 +1495,8 @@ class SimulatorClient(val simulator: Simulator) {
                         options.memoirs.forEach {
                           option {
                             val name = it[locale]
-                            val description = it.description?.get(locale)
                             attributes["data-img"] = it.imagePath ?: ""
-                            attributes["data-subtext"] =
-                                createHTML().span {
-                                  style = "display: inline-flex; align-items: center;"
-                                  it.descriptionIcons?.forEach { iconUrl ->
-                                    img {
-                                      style =
-                                          "height: 1.6em; margin: 0.2em 0.1em; padding-top: 0.2em;"
-                                      src = iconUrl
-                                    }
-                                  }
-                                  span {
-                                    style = "margin-left: 0.1em;"
-                                    +(description ?: "")
-                                  }
-                                }
+                            attributes["data-subtext"] = it.subtextHtml(locale)
                             value = it.id
                             +name
                             attributes["data-tokens"] =
@@ -1613,9 +1597,8 @@ class SimulatorClient(val simulator: Simulator) {
                             options.accessories.forEach {
                               option {
                                 val name = it[locale]
-                                val description = it.description?.get(locale)
                                 attributes["data-img"] = it.imagePath ?: ""
-                                attributes["data-subtext"] = description?.escapeHtml() ?: ""
+                                attributes["data-subtext"] = it.subtextHtml(locale)
                                 attributes["data-hidden"] =
                                     if (it in activeAccessories) "false" else "true"
                                 value = it.id
@@ -1796,8 +1779,61 @@ class SimulatorClient(val simulator: Simulator) {
     )
   }
 
+  fun SimulationParameters.migrate() =
+      copy(
+          team = team.map { it.migrate() },
+          guest = guest?.migrate(),
+      )
+
+  fun Iterable<String>.closestLevenshteinDistance(target: String, threshold: Int = 15): String? {
+    var minDistance = Int.MAX_VALUE
+    var closest: String? = null
+    for (s in this) {
+      val distance = s.levenshteinDistance(target)
+      if (distance < minDistance) {
+        minDistance = distance
+        closest = s
+      }
+    }
+    return if (minDistance <= threshold) closest else null
+  }
+
+  fun String.levenshteinDistance(target: String): Int {
+    if (this == target) return 0
+    val m = length
+    val n = target.length
+    if (m == 0) return n
+    if (n == 0) return m
+    var v0 = IntArray(n + 1)
+    var v1 = IntArray(n + 1)
+    for (i in 0..n) {
+      v0[i] = i
+    }
+    for (i in 0 until m) {
+      v1[0] = i + 1
+      for (j in 0 until n) {
+        val cost = if (this[i] == target[j]) 0 else 1
+        v1[j + 1] = minOf(v1[j] + 1, v0[j + 1] + 1, v0[j] + cost)
+      }
+      val vTemp = v0
+      v0 = v1
+      v1 = vTemp
+    }
+    return v0[n]
+  }
+
+  fun <T> Map<String, T>.getFuzzy(key: String) =
+      get(key) ?: keys.closestLevenshteinDistance(key)?.let { get(it) }
+
+  fun PlayerLoadoutParameters.migrate() =
+      copy(
+          dress = Dresses.aliases.getFuzzy(dress)?.id?.toString() ?: dress,
+          memoir = Memoirs.aliases.getFuzzy(memoir)?.id?.toString() ?: memoir,
+          accessory = accessory?.let { Accessories.aliases.getFuzzy(it)?.id?.toString() ?: it },
+      )
+
   fun setSetup(setup: SimulationParameters) =
-      setup.run {
+      setup.migrate().run {
         turnsInput.value = maxTurns
         iterationsInput.value = maxIterations
         when {
@@ -2057,6 +2093,7 @@ class SimulatorClient(val simulator: Simulator) {
     val dresses = options.dresses.associateBy { it.id }
     val remakeSkills = options.remakeSkills.associateBy { it.id }
     val memoirs = options.memoirs.associateBy { it.id }
+    val accessories = options.accessories.associateBy { it.id }
 
     locale = options.locales.keys.first()
 
@@ -2677,6 +2714,11 @@ class SimulatorClient(val simulator: Simulator) {
           .asList()
           .filterIsInstance<HTMLSelectElement>()
           .forEach { select -> SingleSelect(select, true).localize(memoirs, locale) }
+      document
+          .getElementsByClassName("actor-accessory")
+          .asList()
+          .filterIsInstance<HTMLSelectElement>()
+          .forEach { select -> SingleSelect(select, true).localize(accessories, locale) }
       songSettings.getElementsByClassName("song-effect-item").asList().forEach {
         SongEffect(it).update()
       }
@@ -3348,6 +3390,25 @@ class ResultEntry(
         children.getOrPut(tags[0]) { ResultEntry(tags[0], this) }[tags.drop(1)]
       }
 }
+
+fun DataSimulationOption<*>.subtextHtml(locale: String) =
+    if (descriptionIcons?.isEmpty() != false && description == null) {
+      ""
+    } else {
+      createHTML().span {
+        style = "display: inline-flex; align-items: center;"
+        descriptionIcons?.forEach { iconUrl ->
+          img {
+            style = "height: 1.8em; margin: 0.1em; padding-top: 0.2em;"
+            src = iconUrl
+          }
+        }
+        span {
+          style = "margin-left: 0.4em;"
+          +(description?.get(locale) ?: "")
+        }
+      }
+    }
 
 fun List<String>.indented() = map { "    $it" }
 

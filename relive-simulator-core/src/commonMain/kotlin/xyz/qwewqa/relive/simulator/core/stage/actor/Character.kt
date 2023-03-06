@@ -1,12 +1,12 @@
-package xyz.qwewqa.relive.simulator.stage.character
+package xyz.qwewqa.relive.simulator.core.stage.actor
 
 import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenChara
-import xyz.qwewqa.relive.simulator.stage.character.School.Frontier
-import xyz.qwewqa.relive.simulator.stage.character.School.Rinmeikan
-import xyz.qwewqa.relive.simulator.stage.character.School.Seiran
-import xyz.qwewqa.relive.simulator.stage.character.School.Seisho
-import xyz.qwewqa.relive.simulator.stage.character.School.Siegfeld
+import xyz.qwewqa.relive.simulator.core.stage.actor.School.Frontier
+import xyz.qwewqa.relive.simulator.core.stage.actor.School.Rinmeikan
+import xyz.qwewqa.relive.simulator.core.stage.actor.School.Seiran
+import xyz.qwewqa.relive.simulator.core.stage.actor.School.Seisho
+import xyz.qwewqa.relive.simulator.core.stage.actor.School.Siegfeld
 
 enum class Character(val id: Int? = null, val school: School) {
   None(school = School.None),

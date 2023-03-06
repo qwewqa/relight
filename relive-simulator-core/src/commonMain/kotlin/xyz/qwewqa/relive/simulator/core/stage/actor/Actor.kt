@@ -35,9 +35,9 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.hpRecoveryAdjustment
 import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHp
 import xyz.qwewqa.relive.simulator.core.stage.platformMapOf
 import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
-import xyz.qwewqa.relive.simulator.stage.character.Character
-import xyz.qwewqa.relive.simulator.stage.character.Position
-import xyz.qwewqa.relive.simulator.stage.character.School
+import xyz.qwewqa.relive.simulator.core.stage.actor.Character
+import xyz.qwewqa.relive.simulator.core.stage.actor.Position
+import xyz.qwewqa.relive.simulator.core.stage.actor.School
 
 class Actor(
     val name: String,

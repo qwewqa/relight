@@ -6,10 +6,10 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.modifier.normalDefense
 import xyz.qwewqa.relive.simulator.core.stage.modifier.specialDefense
-import xyz.qwewqa.relive.simulator.stage.character.Character
-import xyz.qwewqa.relive.simulator.stage.character.DamageType
-import xyz.qwewqa.relive.simulator.stage.character.Position
-import xyz.qwewqa.relive.simulator.stage.character.School
+import xyz.qwewqa.relive.simulator.core.stage.actor.Character
+import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Position
+import xyz.qwewqa.relive.simulator.core.stage.actor.School
 
 object SkillTargets : ImplementationRegistry<SkillTarget>() {
   val self = +getSkillTargetData(1001).makeAllyTarget { listOfNotNull(self) }

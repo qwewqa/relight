@@ -166,7 +166,7 @@ sealed class Select(val element: HTMLSelectElement, val selectpicker: Boolean) {
       element.add(
           document.create.option {
             value = id
-            attributes["data-subtext"] = option.description?.get(locale) ?: ""
+            attributes["data-subtext"] = option.subtextHtml(locale)
             attributes["data-tokens"] = option.tags?.get(locale)?.joinToString(" ") ?: ""
             +option[locale]
           } as UnionHTMLOptGroupElementOrHTMLOptionElement)
@@ -188,13 +188,12 @@ sealed class Select(val element: HTMLSelectElement, val selectpicker: Boolean) {
     element.options.asList().filterIsInstance<HTMLOptionElement>().forEach { selectOption ->
       val option = mapping[selectOption.value]
       val name = option?.get(locale) ?: selectOption.value
-      val description = option?.description?.get(locale)
       selectOption.run {
         if (getAttribute("data-img") != null) {
           setAttribute("data-img", option?.imagePath ?: "")
         }
         if (getAttribute("data-subtext") != null) {
-          setAttribute("data-subtext", description ?: "")
+          setAttribute("data-subtext", option?.subtextHtml(locale) ?: "")
         }
         setAttribute("data-tokens", option?.tags?.get(locale)?.joinToString(" ") ?: "")
         text = name
@@ -377,7 +376,7 @@ class ActorOptions(
         PlayerLoadoutParameters(
             name = "",
             dress = dressId,
-            memoir = options.memoirs.first().id,
+            memoir = memoirId,
             memoirLevel = 80,
             memoirLimitBreak = 4,
             unitSkillLevel = 21,

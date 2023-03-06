@@ -51,7 +51,7 @@ fun ActionContext.executeActiveSkillOption(
   if (stage.configuration.logging) {
     val substitutions =
         listOf(
-            "value" to option.valueUnit.format(value),
+            "value" to "$value",
             "attr" to actualAttribute.name,
         )
     val primaryDescription = option.description.substitute(substitutions)
@@ -60,7 +60,7 @@ fun ActionContext.executeActiveSkillOption(
           option.extraDescription.isNotBlank()
         }
             ?: ""
-    val timeDescription = " ${option.timeUnit.format(time)}".takeIf { time > 0 } ?: ""
+    val timeDescription = " $time".takeIf { time > 0 } ?: ""
     val chanceDescription = " @${chance}%".takeIf { chance < 100 } ?: ""
     val targetDescription = " -> ${target.description}"
     val description =
@@ -81,7 +81,7 @@ fun ActionContext.executePassiveSkillOption(
   if (stage.configuration.logging) {
     val substitutions =
         listOf(
-            "value" to option.valueUnit.format(value),
+            "value" to "$value",
         )
     val primaryDescription = option.description.substitute(substitutions)
     val extraDescription =

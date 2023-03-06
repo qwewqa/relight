@@ -1,10 +1,10 @@
-package xyz.qwewqa.relive.simulator.stage.character
+package xyz.qwewqa.relive.simulator.core.stage.actor
 
-enum class School {
+enum class School(val id: Int? = null) {
   None,
-  Seisho,
-  Rinmeikan,
-  Frontier,
-  Siegfeld,
-  Seiran,
+  Seisho(1),
+  Rinmeikan(2),
+  Frontier(3),
+  Siegfeld(4),
+  Seiran(5),
 }

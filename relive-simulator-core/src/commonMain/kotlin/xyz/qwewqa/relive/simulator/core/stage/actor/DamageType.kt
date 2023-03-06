@@ -1,7 +1,7 @@
-package xyz.qwewqa.relive.simulator.stage.character
+package xyz.qwewqa.relive.simulator.core.stage.actor
 
-enum class DamageType {
+enum class DamageType(val id: Int? = null) {
   Neutral,
-  Normal,
-  Special,
+  Normal(1),
+  Special(2),
 }

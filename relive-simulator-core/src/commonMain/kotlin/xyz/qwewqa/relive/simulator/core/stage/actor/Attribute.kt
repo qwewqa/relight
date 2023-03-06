@@ -1,16 +1,16 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
-enum class Attribute {
+enum class Attribute(val id: Int? = null) {
   Neutral,
-  Flower,
-  Wind,
-  Snow,
-  Moon,
-  Space,
-  Cloud,
-  Dream,
-  Sun,
-  Star,
+  Flower(1),
+  Wind(2),
+  Snow(3),
+  Moon(4),
+  Space(5),
+  Cloud(6),
+  Dream(7),
+  Sun(8),
+  Star(9),
 }
 
 // Has a minor performance benefit

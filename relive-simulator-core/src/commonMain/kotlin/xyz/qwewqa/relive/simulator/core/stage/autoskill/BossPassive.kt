@@ -8,7 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.log
-import xyz.qwewqa.relive.simulator.stage.character.Character
+import xyz.qwewqa.relive.simulator.core.stage.actor.Character
 
 interface PassiveEffect {
   val type

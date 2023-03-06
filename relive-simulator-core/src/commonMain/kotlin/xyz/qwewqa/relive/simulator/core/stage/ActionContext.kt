@@ -18,7 +18,7 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.positiveEffectResistance
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.StageEffect
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTarget
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
-import xyz.qwewqa.relive.simulator.stage.character.DamageType
+import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
 
 data class ActionLog(
     var successfulHits: Int = 0,

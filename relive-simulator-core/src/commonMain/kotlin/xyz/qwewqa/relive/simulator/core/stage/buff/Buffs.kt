@@ -59,8 +59,8 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.specialReflect
 import xyz.qwewqa.relive.simulator.core.stage.modifier.staminaActPowerUp
 import xyz.qwewqa.relive.simulator.core.stage.modifier.turnReduceCountableNegativeEffects
 import xyz.qwewqa.relive.simulator.core.stage.platformSetOf
-import xyz.qwewqa.relive.simulator.stage.character.Character
-import xyz.qwewqa.relive.simulator.stage.character.School
+import xyz.qwewqa.relive.simulator.core.stage.actor.Character
+import xyz.qwewqa.relive.simulator.core.stage.actor.School
 
 object Buffs : ImplementationRegistry<BuffEffect>() {
   private fun BuffData.makeDamageOverTimeBuffEffect(

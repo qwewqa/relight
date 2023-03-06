@@ -1,7 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.condition
 
 import xyz.qwewqa.relive.simulator.core.stage.condition.NamedCondition
-import xyz.qwewqa.relive.simulator.stage.character.Character
+import xyz.qwewqa.relive.simulator.core.stage.actor.Character
 
 val KarenOnlyCondition = characterCondition(Character.Karen)
 val HikariOnlyCondition = characterCondition(Character.Hikari)

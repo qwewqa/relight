@@ -12,6 +12,7 @@ import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenRemakeSkill
 import xyz.qwewqa.relive.simulator.core.presets.dress.bossLoadouts
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.remakeSkills
+import xyz.qwewqa.relive.simulator.core.stage.common.substitute
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dresses
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoirs
 import xyz.qwewqa.relive.simulator.core.stage.strategy.bossStrategyParsers
@@ -39,7 +40,18 @@ fun getSimulationOptions(): SimulationOptions {
                 DataSimulationOption(
                     id = "$id",
                     name = dress.fullNames,
-                    description = tags.mapValues { (_, v) -> v.drop(1).joinToString(", ") },
+                    descriptionIcons =
+                        listOfNotNull(
+                            dress.character.school.id?.let {
+                              "img/icon_colored/60x56_school$it.png"
+                            },
+                            dress.attribute.id?.let { "img/icon_colored/56x56_attribute$it.png" },
+                            dress.damageType.id?.let {
+                              "img/icon_colored/54x54_attack_type$it.png"
+                            },
+                            dress.position.id?.let { "img/icon_colored/54x54_position$it.png" },
+                        ),
+                    description = localeIds.associateWith { "c${dress.cost}" },
                     tags = tags,
                     imagePath = "img/large_icon/1_${dress.id}.png".takeIf { dress.id > 0 },
                     data =
@@ -89,7 +101,7 @@ fun getSimulationOptions(): SimulationOptions {
                             releaseTime = memoir.releaseTime,
                         ))
               }
-              .sortedByDescending { it.data.releaseTime },
+              .sortedByDescending { it.data.releaseTime ?: Int.MAX_VALUE },
       songEffects = songEffectText.map { (k, v) -> SimulationOption(k, v) },
       conditions = conditionText.map { (k, v) -> SimulationOption(k, v) },
       bosses = bossLoadouts.map { (k, _) -> SimulationOption(k, mapOf("en" to k)) },
@@ -112,7 +124,13 @@ fun getSimulationOptions(): SimulationOptions {
                         "ko" to "없음",
                         "zh_hant" to "無",
                     )
-                else data!!.description,
+                else
+                    data!!.description.mapValues { (_, desc) ->
+                      desc.substitute(
+                          "opt1_value" to "$value",
+                          "opt1_time" to "$time",
+                      )
+                    },
             imagePath = "img/skill_icon/skill_icon_${skill.icon}.png",
             data =
                 RemakeSkillData(
@@ -125,7 +143,7 @@ fun getSimulationOptions(): SimulationOptions {
         DataSimulationOption(
             id = "$id",
             name = accessory.names,
-            description = mapOf("en" to "", "ja" to ""),
+            description = null,
             tags = mapOf("en" to listOf(), "ja" to listOf()),
             imagePath =
                 if (accessory.iconId == 0) "img/common/plate_unselected_6.png"

@@ -9,7 +9,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.againstAttributeDamageReceivedDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.modifier.*
-import xyz.qwewqa.relive.simulator.stage.character.Character
+import xyz.qwewqa.relive.simulator.core.stage.actor.Character
 
 // TODO: Generate this from datamines
 
