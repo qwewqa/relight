@@ -3,6 +3,7 @@ package xyz.qwewqa.relive.simulator.core.stage.memoir
 import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
+import xyz.qwewqa.relive.simulator.core.stage.actor.Character
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkill
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkillGroupBlueprint
@@ -20,6 +21,7 @@ data class Memoir(
 data class MemoirBlueprint(
     override val id: Int,
     val names: Map<String, String>,
+    val characters: List<Character> = emptyList(),
     val rarity: Int,
     val cost: Int,
     val baseStats: StatData,

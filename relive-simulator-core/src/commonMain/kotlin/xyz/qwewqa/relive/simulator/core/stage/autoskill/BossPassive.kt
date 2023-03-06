@@ -3,12 +3,11 @@ package xyz.qwewqa.relive.simulator.core.stage.autoskill
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.Character
 import xyz.qwewqa.relive.simulator.core.stage.actor.disadvantagedAgainst
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
-import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.log
-import xyz.qwewqa.relive.simulator.core.stage.actor.Character
 
 interface PassiveEffect {
   val type
@@ -23,6 +22,7 @@ fun PassiveEffect.new(
 ) =
     object : AutoSkill {
       override val iconId = null
+      override val descriptions = null
 
       override val type
         get() = AutoSkillType.Passive

@@ -16,6 +16,8 @@ import xyz.qwewqa.relive.simulator.core.stage.target.SkillTargets
 class StageEffectStartSkill(val effect: SkillFieldEffectOption) : AutoSkill {
   override val iconId
     get() = effect.option.iconId
+  override val descriptions: Map<String, String>
+    get() = effect.option.descriptions
   override val type = AutoSkillType.StageEffect
 
   override fun execute(context: ActionContext) {
@@ -32,6 +34,8 @@ class StartSkill(
 ) : AutoSkill {
   override val iconId
     get() = option.iconId
+  override val descriptions: Map<String, String>
+    get() = option.descriptions
   override val type: AutoSkillType
     get() = option.activeType
 

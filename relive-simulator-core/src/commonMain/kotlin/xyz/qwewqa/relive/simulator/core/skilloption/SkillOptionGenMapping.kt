@@ -1,7 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.skilloption
 
 import xyz.qwewqa.relive.simulator.core.gen.GenSkillOption
-import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenSkillOption
 import xyz.qwewqa.relive.simulator.core.stage.TargetContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
@@ -10,8 +9,8 @@ import xyz.qwewqa.relive.simulator.core.stage.common.DescriptionUnit
 
 data class SkillOptionData(
     val id: Int,
-    val description: String,
-    val extraDescription: String,
+    val descriptions: Map<String, String>,
+    val extraDescriptions: Map<String, String>,
     val iconId: Int,
     val params: List<Int>,
     val timeOverride: Int?,
@@ -39,8 +38,8 @@ data class SkillOptionData(
   ) =
       object : ActiveSkillOption {
         override val id: Int = this@SkillOptionData.id
-        override val description = this@SkillOptionData.description
-        override val extraDescription = this@SkillOptionData.extraDescription
+        override val descriptions = this@SkillOptionData.descriptions
+        override val extraDescriptions = this@SkillOptionData.extraDescriptions
         override val iconId = this@SkillOptionData.iconId
         override val params = this@SkillOptionData.params
         override val timeOverride = this@SkillOptionData.timeOverride
@@ -64,8 +63,8 @@ data class SkillOptionData(
   inline fun makePassiveSkillOption(crossinline action: TargetContext.(value: Int) -> Unit) =
       object : PassiveSkillOption {
         override val id = this@SkillOptionData.id
-        override val description = this@SkillOptionData.description
-        override val extraDescription = this@SkillOptionData.extraDescription
+        override val descriptions = this@SkillOptionData.descriptions
+        override val extraDescriptions = this@SkillOptionData.extraDescriptions
         override val iconId = this@SkillOptionData.iconId
         override val params = this@SkillOptionData.params
         override val timeOverride = this@SkillOptionData.timeOverride
@@ -86,8 +85,8 @@ data class SkillOptionData(
   ) =
       object : DualSkillOption {
         override val id = this@SkillOptionData.id
-        override val description = this@SkillOptionData.description
-        override val extraDescription = this@SkillOptionData.extraDescription
+        override val descriptions = this@SkillOptionData.descriptions
+        override val extraDescriptions = this@SkillOptionData.extraDescriptions
         override val iconId = this@SkillOptionData.iconId
         override val params = this@SkillOptionData.params
         override val timeOverride = this@SkillOptionData.timeOverride
@@ -116,8 +115,8 @@ data class SkillOptionData(
 fun GenSkillOption.toSkillOptionData() =
     SkillOptionData(
         id = _id_,
-        description = effect_description.getLocalizedString(),
-        extraDescription = extra_description.getLocalizedString(),
+        descriptions = effect_description,
+        extraDescriptions = extra_description,
         iconId = icon_id,
         params = listOf(param1),
         timeOverride = time_override,

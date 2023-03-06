@@ -11,6 +11,7 @@ import xyz.qwewqa.relive.simulator.common.SimulationOptions
 import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenRemakeSkill
 import xyz.qwewqa.relive.simulator.core.presets.dress.bossLoadouts
+import xyz.qwewqa.relive.simulator.core.stage.actor.Skill
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.remakeSkills
 import xyz.qwewqa.relive.simulator.core.stage.common.substitute
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dresses
@@ -85,8 +86,16 @@ fun getSimulationOptions(): SimulationOptions {
                             .distinct(),
                     tags =
                         localeIds.associateWith { locale ->
-                          listOfNotNull(
-                              "c${memoir.cost}", "cutin".takeIf { memoir.cutinData != null })
+                          memoir.characters.map { it.names.getLocalizedString(locale) } +
+                              memoir.autoskills
+                                  .flatMap { it.create(5).skills }
+                                  .mapNotNull { it.descriptions?.getLocalizedString(locale) } +
+                              ((memoir.cutinData?.create(4)?.act as? Skill)?.descriptions?.map {
+                                it.getLocalizedString(locale)
+                              }
+                                  ?: emptyList()) +
+                              listOfNotNull(
+                                  "c${memoir.cost}", "cutin".takeIf { memoir.cutinData != null })
                         },
                     imagePath =
                         if (memoir.id > 0) {

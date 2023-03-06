@@ -62,6 +62,9 @@ class Skill(
   val iconIds =
       parts.map { it.option.iconId } +
           (stageEffect?.options?.map { it.option.iconId } ?: emptyList())
+  val descriptions =
+      parts.map { it.option.descriptions } +
+          (stageEffect?.options?.map { it.option.descriptions } ?: emptyList())
 
   @JvmName("exec")
   fun execute(context: ActionContext) {

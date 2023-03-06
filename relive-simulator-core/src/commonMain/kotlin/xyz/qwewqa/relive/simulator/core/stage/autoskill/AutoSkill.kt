@@ -4,6 +4,7 @@ import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 
 interface AutoSkill {
   val iconId: Int?
+  val descriptions: Map<String, String>?
   val type: AutoSkillType
   fun execute(context: ActionContext)
 }

@@ -5,6 +5,7 @@ import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveSkillGroups
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.StartSkillGroups
+import xyz.qwewqa.relive.simulator.core.stage.dress.characterFromId
 
 object Memoirs : ImplementationRegistry<MemoirBlueprint>() {
   val EmptyMemoir =
@@ -23,6 +24,7 @@ object Memoirs : ImplementationRegistry<MemoirBlueprint>() {
       +MemoirBlueprint(
           id = id,
           names = equip.name,
+          characters = equip.appearance_chara_ids.mapNotNull { characterFromId(it) },
           rarity = equip.rarity,
           cost = equip.cost,
           baseStats =

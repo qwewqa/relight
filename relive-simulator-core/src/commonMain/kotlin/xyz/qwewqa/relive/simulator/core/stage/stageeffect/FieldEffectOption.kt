@@ -14,13 +14,19 @@ import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
 interface FieldEffectOption : FeatureImplementation {
   val iconId: Int
-  val description: String
-  val extraDescription: String?
+  val descriptions: Map<String, String>
+  val extraDescriptions: Map<String, String>?
   val param1: Int
   val param1Unit: DescriptionUnit
   val valueUnit: DescriptionUnit
   val timeUnit: DescriptionUnit
   val type: Int
+
+  val description: String
+    get() = descriptions.getLocalizedString()
+
+  val extraDescription: String?
+    get() = extraDescriptions?.getLocalizedString()
 
   fun execute(target: Team, value: Int, time: Int)
 }
@@ -76,9 +82,9 @@ inline fun makeFieldEffectOption(
     object : FieldEffectOption {
       override val id = option._id_
       override val iconId = option.icon_id
-      override val description = option.effect_description.getLocalizedString()
-      override val extraDescription =
-          option.extra_description.getLocalizedString().takeIf { it.isNotBlank() }
+      override val descriptions = option.effect_description
+      override val extraDescriptions =
+          option.extra_description.takeIf { desc -> desc.values.any { it.isNotBlank() } }
       override val param1 = option.param1
       override val param1Unit = DescriptionUnit.fromId(option.param1_unit)
       override val valueUnit = DescriptionUnit.fromId(option.value_unit)

@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.skilloption
 
+import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.TargetContext
@@ -11,8 +12,8 @@ import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTarget
 
 interface SkillOption : FeatureImplementation {
-  val description: String
-  val extraDescription: String
+  val descriptions: Map<String, String>
+  val extraDescriptions: Map<String, String>
   val iconId: Int
   val params: List<Int>
   val timeOverride: Int?
@@ -20,6 +21,11 @@ interface SkillOption : FeatureImplementation {
   val valueOverride: Int?
   val valueUnit: DescriptionUnit
   val type: Int?
+
+  val description: String
+    get() = descriptions.getLocalizedString()
+  val extraDescription: String
+    get() = extraDescriptions.getLocalizedString()
 }
 
 interface ActiveSkillOption : SkillOption {

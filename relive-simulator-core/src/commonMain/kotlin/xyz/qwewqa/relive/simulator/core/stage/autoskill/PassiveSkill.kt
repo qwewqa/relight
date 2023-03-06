@@ -16,7 +16,10 @@ class PassiveSkill(
     val target: SkillTarget,
     val value: Int,
 ) : AutoSkill {
-  override val iconId get() = option.iconId
+  override val iconId
+    get() = option.iconId
+  override val descriptions: Map<String, String>
+    get() = option.descriptions
   override val type = AutoSkillType.Passive
 
   override fun execute(context: ActionContext) {
