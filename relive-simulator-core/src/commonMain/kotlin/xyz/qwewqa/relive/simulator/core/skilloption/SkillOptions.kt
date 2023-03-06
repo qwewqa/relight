@@ -932,7 +932,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             hitCount = time,
             attribute = attribute,
             bonusMultiplier = 150,
-            bonusCondition = { it.dress.id in DressCategory.Arcana.ids },
+            bonusCondition = { it.dress.id in DressCategory.Arcana },
         )
       }
 

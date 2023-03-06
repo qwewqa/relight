@@ -4,13 +4,14 @@ import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.Character
+import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Position
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkill
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.RemakeSkill
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.UnitSkillBlueprint
-import xyz.qwewqa.relive.simulator.core.stage.actor.Character
-import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
-import xyz.qwewqa.relive.simulator.core.stage.actor.Position
+import xyz.qwewqa.relive.simulator.core.stage.platformSetOf
 
 data class DressBlueprint(
     override val id: Int,
@@ -139,15 +140,143 @@ data class DressBlueprint(
   }
 }
 
-enum class DressCategory(val ids: Set<Int>) {
-  Arcana(setOf()),
-  StageGirl(setOf()),
-  Birthday2022(setOf()),
-  Birthday2023(setOf()),
-  TroupeRevueShop(setOf()),
-  Movie(setOf()),
-  RoV(setOf()),
-  Sweets(setOf()),
+object DressCategory {
+  val Arcana =
+      platformSetOf(
+          1030006,
+          1020004,
+          4030003,
+          1060015,
+          1080004,
+          2040004,
+          2050010,
+          1010014,
+          4040015,
+          4020004,
+          1040005,
+          1070004,
+          2020003,
+          3020015,
+          1090013,
+          2010015,
+          4050015,
+          3040005,
+          1050007,
+          2030015,
+          3050008,
+          3030015,
+          4010015,
+          3010015,
+      )
+
+  val TroupeRevueShop =
+      platformSetOf(
+          1020004,
+          2040004,
+          3020015,
+          4010015,
+          4010019,
+      )
+
+  val StageGirl =
+      platformSetOf(
+          1010017,
+          1020017,
+          1030017,
+          1040017,
+          1050017,
+          1060017,
+          1070017,
+          1080017,
+          1090017,
+          2010017,
+          2020017,
+          2030017,
+          2040017,
+          2050017,
+          3010017,
+          3020017,
+          3030017,
+          3040017,
+          3050017,
+          4010017,
+          4020017,
+          4030017,
+          4040017,
+          4050017,
+          5010001,
+          5020001,
+          5030001,
+      )
+
+  val Birthday2022 =
+      platformSetOf(
+          1010023,
+          1020023,
+          1030023,
+          1040023,
+          1050023,
+          1060023,
+          1070023,
+          1080023,
+          1090023,
+          2010018,
+          2020018,
+          2030018,
+          2040018,
+          2050018,
+          3010018,
+          3020018,
+          3030018,
+          3040018,
+          3050018,
+          4010018,
+          4020018,
+          4030018,
+          4040018,
+          4050018,
+          5010005,
+          5020005,
+          5030005,
+      )
+
+  val Birthday2023 =
+      platformSetOf(
+          1020026,
+          3040014,
+          2030020,
+          4020020,
+          1090026,
+          5010008,
+      )
+
+  val Movie =
+      platformSetOf(
+          1010024,
+          1020024,
+          1030024,
+          1040024,
+          1050024,
+          1060024,
+          1070024,
+          1080024,
+          1090024,
+      )
+
+  val RoV =
+      platformSetOf(
+          1040021,
+          1040020,
+          1050019,
+          5010006,
+      )
+
+  val Sweets =
+      platformSetOf(
+          1090019,
+          1010022,
+          1070021,
+      )
 }
 
 data class StatBoost(val type: StatBoostType, val value: Int)

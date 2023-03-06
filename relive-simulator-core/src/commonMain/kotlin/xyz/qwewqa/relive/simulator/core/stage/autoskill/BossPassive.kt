@@ -98,7 +98,7 @@ object BuggedHMRuiBossElementResistPassive : PassiveEffect {
 class EventBonusPassive(
     val dresses: Map<Int, Int> = emptyMap(),
     val characters: Map<Character, Int> = emptyMap(),
-    val categories: Map<DressCategory, Int> = emptyMap(),
+    val categories: Map<Set<Int>, Int> = emptyMap(),
 ) : PassiveEffect {
   override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
       context.run {
@@ -110,7 +110,7 @@ class EventBonusPassive(
     val bonus =
         dresses[dress.id]
             ?: characters[dress.character]
-                ?: categories.keys.firstOrNull { dress.id in it.ids }?.let { categories[it]!! }
+                ?: categories.keys.firstOrNull { dress.id in it }?.let { categories[it]!! }
     if (bonus != null) {
       context.run {
         team.actors.values.forEach { member -> member.eventBonus += bonus }

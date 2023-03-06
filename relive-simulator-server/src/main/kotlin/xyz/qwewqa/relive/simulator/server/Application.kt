@@ -7,6 +7,8 @@ import io.ktor.server.cio.*
 import io.ktor.server.engine.*
 import io.ktor.server.plugins.cachingheaders.*
 import io.ktor.server.plugins.cors.routing.*
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dresses
 import xyz.qwewqa.relive.simulator.server.plugins.configureHTTP
 import xyz.qwewqa.relive.simulator.server.plugins.configureRouting
 import xyz.qwewqa.relive.simulator.server.plugins.configureSerialization
