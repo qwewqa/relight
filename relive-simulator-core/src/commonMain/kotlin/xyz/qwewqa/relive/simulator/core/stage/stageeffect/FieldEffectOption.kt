@@ -60,13 +60,8 @@ fun ActionContext.executeFieldEffectOption(
           1 -> " ${time}t"
           else -> ""
         }
-    val levelDescription =
-        when (option.type) {
-          1 -> " lv${value}"
-          else -> ""
-        }
     val description =
-        "$primaryDescription$extraDescription$timeDescription$levelDescription$targetDescription"
+        "$primaryDescription$extraDescription$timeDescription$targetDescription"
     log("Action") { "Begin stage effect action [$description]" }
     option.execute(team, value, time)
     log("Action") { "End stage effect action [$description]" }
@@ -111,7 +106,7 @@ object FieldEffectOptions : ImplementationRegistry<FieldEffectOption>() {
         }
         2 -> {
           makeFieldEffectOption(option) { target, value, time ->
-            require(time == 1) { "Time must be 1 for field effect level adjustment effects." }
+            require(time == value) { "Expected time to equal value." }
             target.stageEffects.adjustLevels(
                 category = BuffCategory.Negative,
                 count = option.param1,
@@ -121,7 +116,7 @@ object FieldEffectOptions : ImplementationRegistry<FieldEffectOption>() {
         }
         3 -> {
           makeFieldEffectOption(option) { target, value, time ->
-            require(time == 1) { "Time must be 1 for field level adjustment effects." }
+            require(time == value) { "Expected time to equal value." }
             target.stageEffects.adjustLevels(
                 category = BuffCategory.Positive,
                 count = option.param1,
@@ -131,7 +126,7 @@ object FieldEffectOptions : ImplementationRegistry<FieldEffectOption>() {
         }
         4 -> {
           makeFieldEffectOption(option) { target, value, time ->
-            require(time == 1) { "Time must be 1 for field effect level adjustment effects." }
+            require(time == value) { "Expected time to equal value." }
             target.stageEffects.adjustLevels(
                 category = BuffCategory.Negative,
                 count = option.param1,
@@ -141,7 +136,7 @@ object FieldEffectOptions : ImplementationRegistry<FieldEffectOption>() {
         }
         5 -> {
           makeFieldEffectOption(option) { target, value, time ->
-            require(time == 1) { "Time must be 1 for field level adjustment effects." }
+            require(time == value) { "Expected time to equal value." }
             target.stageEffects.adjustLevels(
                 category = BuffCategory.Positive,
                 count = option.param1,
