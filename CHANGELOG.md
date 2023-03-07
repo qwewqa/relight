@@ -916,4 +916,7 @@
 - Improved loading and sim initialization time
 
 # v1.0.2
-- Implemented more features.
+- Implemented more features
+
+# v1.0.3
+- Fixed errors on some dresses with stage effect dispel
