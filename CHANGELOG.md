@@ -914,3 +914,6 @@
 
 # v1.0.1
 - Improved loading and sim initialization time
+
+# v1.0.2
+- Implemented more features.
