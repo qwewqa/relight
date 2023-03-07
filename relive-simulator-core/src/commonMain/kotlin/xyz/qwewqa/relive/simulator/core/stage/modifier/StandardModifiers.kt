@@ -187,6 +187,7 @@ fun Modifiers.damageReceivedModifier(attacker: Actor) =
         (actor.fromCharacterDamageReceivedUp[attacker.dress.character] ?: 0))
 
 val brillianceRegen = modifier("brillianceRegen")
+val brillianceRegenTurnScaling = modifier("brillianceRegenTurnScaling")
 val brillianceSap = modifier("brillianceSap")
 val hpFixedRegen = modifier("hpRegen")
 val hpPercentRegen = modifier("hpPercentRegen")

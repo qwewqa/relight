@@ -19,6 +19,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.activateBlessings
 import xyz.qwewqa.relive.simulator.core.stage.buff.displayPriority
 import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceRegen
+import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceRegenTurnScaling
 import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceSap
 import xyz.qwewqa.relive.simulator.core.stage.modifier.hpFixedRegen
 import xyz.qwewqa.relive.simulator.core.stage.modifier.hpPercentRegen
@@ -361,7 +362,9 @@ class BuffManager(val actor: Actor) {
           heal(hpRegenValue)
         }
 
-        val brillianceRegenValue = mod { +brillianceRegen }
+        val brillianceRegenValue = mod {
+          brillianceRegen + context.stage.turn * brillianceRegenTurnScaling
+        }
         if (brillianceRegenValue > 0) {
           context.log("Brilliance Regen") { "Brilliance Regen tick." }
           addBrilliance(brillianceRegenValue)

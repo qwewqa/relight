@@ -18,6 +18,7 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.agilityUp
 import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceGainDown
 import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceGainUp
 import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceRegen
+import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceRegenTurnScaling
 import xyz.qwewqa.relive.simulator.core.stage.modifier.buffCritical
 import xyz.qwewqa.relive.simulator.core.stage.modifier.buffDexterity
 import xyz.qwewqa.relive.simulator.core.stage.modifier.climaxDamageDown
@@ -1467,6 +1468,16 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val LockedTurnReduceCountableNegativeEffectsBuff =
       +buffData(298).makeLockedVariantOf(TurnReduceCountableNegativeEffectsBuff)
+
+  val BrillianceRegenTurnScalingBuff =
+      +buffData(299)
+          .makeModifierTimedBuffEffect(
+              modifier = brillianceRegenTurnScaling,
+              category = BuffCategory.Positive,
+          )
+
+  val LockedBrillianceRegenTurnScalingBuff =
+      +buffData(300).makeLockedVariantOf(BrillianceRegenTurnScalingBuff)
 
   val abnormalBuffs =
       platformSetOf(

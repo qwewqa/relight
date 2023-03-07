@@ -1390,4 +1390,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
 
   val TurnReduceCountableNegativeEffects = +skillOptionData(573).applyEffect()
   val LockedTurnReduceCountableNegativeEffects = +skillOptionData(574).applyEffect()
+
+  val BrillianceRegenTurnScaling = +skillOptionData(575).applyEffect()
+  val LockedBrillianceRegenTurnScaling = +skillOptionData(576).applyEffect()
 }
