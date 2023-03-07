@@ -21,12 +21,17 @@ interface SkillOption : FeatureImplementation {
   val valueOverride: Int?
   val valueUnit: DescriptionUnit
   val type: Int?
-
   val description: String
     get() = descriptions.getLocalizedString()
   val extraDescription: String
     get() = extraDescriptions.getLocalizedString()
 }
+
+fun SkillOption.formatTime(time: Int) =
+    when (type) {
+      1 -> "${time}#"
+      else -> timeUnit.format(time)
+    }
 
 interface ActiveSkillOption : SkillOption {
   val activeType: AutoSkillType
@@ -66,7 +71,7 @@ fun ActionContext.executeActiveSkillOption(
           option.extraDescription.isNotBlank()
         }
             ?: ""
-    val timeDescription = " $time".takeIf { time > 0 } ?: ""
+    val timeDescription = " ${option.formatTime(time)}".takeIf { time > 0 } ?: ""
     val chanceDescription = " @${chance}%".takeIf { chance < 100 } ?: ""
     val targetDescription = " -> ${target.description}"
     val description =
