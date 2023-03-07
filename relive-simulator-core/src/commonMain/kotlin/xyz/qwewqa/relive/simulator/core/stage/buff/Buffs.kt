@@ -355,7 +355,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               exclusive = true,
           )
 
-  val Fortitude = +buffData(29).makeCountableBuffEffect(BuffCategory.Positive)
+  val FortitudeBuff = +buffData(29).makeCountableBuffEffect(BuffCategory.Positive)
 
   val FixedNormalDefenseBoostBuff =
       +buffData(30)
@@ -756,8 +756,8 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val LockedFreezeResistanceUpBuff = +buffData(134).makeLockedVariantOf(FreezeResistanceUpBuff)
   val LockedBlindResistanceUpBuff = +buffData(135).makeLockedVariantOf(BlindResistanceUpBuff)
 
-  val CountableActChange = +buffData(136).makeCountableBuffEffect(BuffCategory.Positive)
-  val TimedActChange = +buffData(137).makeSimpleTimedBuffEffect(BuffCategory.Positive)
+  val CountableActChangeBuff = +buffData(136).makeCountableBuffEffect(BuffCategory.Positive)
+  val TimedActChangeBuff = +buffData(137).makeSimpleTimedBuffEffect(BuffCategory.Positive)
 
   val LockedConfusionBuff = +buffData(138).makeLockedVariantOf(ConfusionBuff)
 
@@ -1277,23 +1277,24 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   // Not implemented
   val AntiOathRevueBuff = +buffData(247).makeSimpleTimedBuffEffect(BuffCategory.Positive)
 
-  val DisasterBrillianceReduction = +buffData(248).makeCountableBuffEffect(BuffCategory.Negative)
+  val DisasterBrillianceReductionBuff =
+      +buffData(248).makeCountableBuffEffect(BuffCategory.Negative)
 
-  val BlessingHpRecovery = +buffData(249).makeCountableBuffEffect(BuffCategory.Positive)
+  val BlessingHpRecoveryBuff = +buffData(249).makeCountableBuffEffect(BuffCategory.Positive)
 
-  val BlessingCountableDebuffReduction =
+  val BlessingReduceCountableNegativeEffectsBuff =
       +buffData(250).makeCountableBuffEffect(BuffCategory.Positive)
 
   val DisasterDaze = +buffData(251).makeCountableBuffEffect(BuffCategory.Negative)
 
-  val BlessingContinuousDebuffRemoval =
+  val BlessingRemoveContinuousNegativeEffectsBuff =
       +buffData(252).makeCountableBuffEffect(BuffCategory.Positive)
 
   val DazeResistanceUpBuff = +buffData(253).makeSpecificResistanceUpBuff(DazeBuff)
 
   val LockedDazeResistanceUpBuff = +buffData(254).makeLockedVariantOf(DazeResistanceUpBuff)
 
-  val BlessingHope = +buffData(255).makeCountableBuffEffect(BuffCategory.Positive)
+  val BlessingHopeBuff = +buffData(255).makeCountableBuffEffect(BuffCategory.Positive)
 
   val ImpudenceResistanceUpBuff = +buffData(256).makeSpecificResistanceUpBuff(ImpudenceBuff)
 
@@ -1316,14 +1317,14 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val LockedSpecialSuperReflectBuff = +buffData(261).makeLockedVariantOf(SpecialSuperReflectBuff)
 
-  val BlessingEffectiveDamage = +buffData(262).makeCountableBuffEffect(BuffCategory.Positive)
+  val BlessingEffectiveDamageUpBuff = +buffData(262).makeCountableBuffEffect(BuffCategory.Positive)
 
-  val InvincibleRebirth = +buffData(263).makeCountableBuffEffect(BuffCategory.Positive)
+  val InvincibleRebirthBuff = +buffData(263).makeCountableBuffEffect(BuffCategory.Positive)
 
   // TODO: implement this
   val SacrificeBuff = +buffData(264).makeCountableBuffEffect(BuffCategory.Negative)
 
-  val DisasterApUp = +buffData(265).makeCountableBuffEffect(BuffCategory.Negative)
+  val DisasterApUpBuff = +buffData(265).makeCountableBuffEffect(BuffCategory.Negative)
 
   val BlessingApDown2 = +buffData(266).makeCountableBuffEffect(BuffCategory.Positive)
 
@@ -1355,7 +1356,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               },
           )
 
-  // Not implemented
+  // TODO: Not implemented
   val SealInstantSkillBuff = +buffData(269).makeSimpleTimedBuffEffect(BuffCategory.Negative)
 
   val LockedSealInstantSkillBuff = +buffData(270).makeLockedVariantOf(SealInstantSkillBuff)
@@ -1388,26 +1389,22 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               exclusive = true,
           )
 
-  val BrillianceSap =
+  val BrillianceSapBuff =
       +buffData(277)
           .makeModifierTimedBuffEffect(
               modifier = brillianceRegen,
               category = BuffCategory.Negative,
           )
 
-  val EffectiveDamageDealtUpBuff2 =
-      +buffData(278)
-          .makeModifierTimedBuffEffect(
-              modifier = effectiveDamageUp,
-              category = BuffCategory.Positive,
-          )
+  val LockedEffectiveDamageDealtUpBuff =
+      +buffData(278).makeLockedVariantOf(EffectiveDamageDealtUpBuff)
 
   val LockedBrillianceRegenBuff =
       +buffData(279)
           .copy(name = "(Unremovable) Brilliance Regen")
           .makeLockedVariantOf(BrillianceRegenBuff)
 
-  val ReviveRegen =
+  val ReviveRegenBuff =
       +buffData(280)
           .makeModifierTimedBuffEffect(
               modifier = reviveRegen,
@@ -1422,29 +1419,29 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val LockedSealStageEffectResistanceUpBuff =
       +buffData(283).makeLockedVariantOf(SealStageEffectResistanceUpBuff)
 
-  val TurnDispelContinuousNegativeEffectsBuff =
+  val TurnRemoveContinuousNegativeEffectsBuff =
       +buffData(284).makeSimpleTimedBuffEffect(BuffCategory.Positive)
 
-  val LockedTurnDispelContinuousNegativeEffectsBuff =
-      +buffData(285).makeLockedVariantOf(TurnDispelContinuousNegativeEffectsBuff)
+  val LockedTurnRemoveContinuousNegativeEffectsBuff =
+      +buffData(285).makeLockedVariantOf(TurnRemoveContinuousNegativeEffectsBuff)
 
-  val TurnDispelCountableNegativeEffectsBuff =
+  val TurnRemoveCountableNegativeEffectsBuff =
       +buffData(286).makeSimpleTimedBuffEffect(BuffCategory.Positive)
 
-  val LockedTurnDispelCountableNegativeEffectsBuff =
-      +buffData(287).makeLockedVariantOf(TurnDispelCountableNegativeEffectsBuff)
+  val LockedTurnRemoveCountableNegativeEffectsBuff =
+      +buffData(287).makeLockedVariantOf(TurnRemoveCountableNegativeEffectsBuff)
 
-  val TurnDispelContinuousPositiveEffectsBuff =
+  val TurnRemoveContinuousPositiveEffectsBuff =
       +buffData(288).makeSimpleTimedBuffEffect(BuffCategory.Negative)
 
-  val LockedTurnDispelContinuousPositiveEffectsBuff =
-      +buffData(289).makeLockedVariantOf(TurnDispelContinuousPositiveEffectsBuff)
+  val LockedTurnRemoveContinuousPositiveEffectsBuff =
+      +buffData(289).makeLockedVariantOf(TurnRemoveContinuousPositiveEffectsBuff)
 
-  //  val TurnDispelCountablePositiveEffectsBuff =
+  //  val TurnRemoveCountablePositiveEffectsBuff =
   //      +buffData(xxx).makeSimpleTimedBuffEffect(BuffCategory.Negative)
   //
-  //  val LockedTurnDispelCountablePositiveEffectsBuff =
-  //      +buffData(xxx).makeLockedVariantOf(TurnDispelCountablePositiveEffectsBuff)
+  //  val LockedTurnRemoveCountablePositiveEffectsBuff =
+  //      +buffData(xxx).makeLockedVariantOf(TurnRemoveCountablePositiveEffectsBuff)
 
   val SuperStrengthBuff = +buffData(290).makeCountableBuffEffect(BuffCategory.Positive)
 
@@ -1479,6 +1476,18 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val LockedBrillianceRegenTurnScalingBuff =
       +buffData(300).makeLockedVariantOf(BrillianceRegenTurnScalingBuff)
 
+  val LockedAgonyBuff = +buffData(301).makeLockedVariantOf(AgonyBuff)
+
+  val SealMultipleCABuff = +buffData(302).makeSimpleTimedBuffEffect(BuffCategory.Negative)
+  val LockedSealMultipleCABuff = +buffData(303).makeLockedVariantOf(SealMultipleCABuff)
+
+  // TODO: Unfilled gap
+
+  // TODO 306 ACT Boost Pride
+
+  val BlessingRemoveCountableNegativeEffectsBuff =
+      +buffData(307).makeCountableBuffEffect(BuffCategory.Positive)
+
   val abnormalBuffs =
       platformSetOf(
           StopBuff,
@@ -1493,6 +1502,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
           PoisonBuff,
           LockedPoisonBuff,
           AgonyBuff,
+          LockedAgonyBuff,
           LovesicknessBuff,
           LockedLovesicknessBuff,
           ElectricShockBuff,
@@ -1554,3 +1564,8 @@ inline val Modifiers.apChange: Int
             }
         increase - decrease
       }
+
+val Actor.hasMultipleCA
+  get() =
+      (dress.multipleCA || Buffs.MultipleCAficationBuff in buffs) &&
+          Buffs.SealMultipleCABuff !in buffs

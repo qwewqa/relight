@@ -35,9 +35,6 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.hpRecoveryAdjustment
 import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHp
 import xyz.qwewqa.relive.simulator.core.stage.platformMapOf
 import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
-import xyz.qwewqa.relive.simulator.core.stage.actor.Character
-import xyz.qwewqa.relive.simulator.core.stage.actor.Position
-import xyz.qwewqa.relive.simulator.core.stage.actor.School
 
 class Actor(
     val name: String,
@@ -253,14 +250,14 @@ class Actor(
             }
             return@run
           }
-          if (self.buffs.tryRemove(Buffs.InvincibleRebirth)) {
+          if (self.buffs.tryRemove(Buffs.InvincibleRebirthBuff)) {
             self.hp = self.maxHp
             context.log("Damage", category = LogCategory.DAMAGE) {
               "Invincible Rebirth activate (newHp: ${self.maxHp})."
             }
             return@run
           }
-          if (self.buffs.tryRemove(Buffs.Fortitude)) {
+          if (self.buffs.tryRemove(Buffs.FortitudeBuff)) {
             self.hp = 1
             context.log("Damage", category = LogCategory.DAMAGE) {
               "Fortitude activate (newHp: 1)."

@@ -3,10 +3,15 @@ package xyz.qwewqa.relive.simulator.core.stage.strategy.complete
 import xyz.qwewqa.relive.simulator.core.stage.Stage
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
-import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.MultipleCAficationBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.hasMultipleCA
 import xyz.qwewqa.relive.simulator.core.stage.ignoreRun
 import xyz.qwewqa.relive.simulator.core.stage.log
-import xyz.qwewqa.relive.simulator.core.stage.strategy.*
+import xyz.qwewqa.relive.simulator.core.stage.strategy.ActionTile
+import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
+import xyz.qwewqa.relive.simulator.core.stage.strategy.IdleTile
+import xyz.qwewqa.relive.simulator.core.stage.strategy.QueueResult
+import xyz.qwewqa.relive.simulator.core.stage.strategy.QueueTile
+import xyz.qwewqa.relive.simulator.core.stage.strategy.Strategy
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
 /** Check that a strategy arguments list consists only of acts and return the list unchanged. */
@@ -369,8 +374,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
               .map { it.acts[ActType.ClimaxAct]!!.asCsAct(it) }
               .filter {
                 it !in usedClimaxActs ||
-                    MultipleCAficationBuff in it.actor.buffs ||
-                    it.actor.dress.multipleCA
+                    it.actor.hasMultipleCA
               }
     }
     if (hand.size < 5) hand += drawCard(5 - hand.size)

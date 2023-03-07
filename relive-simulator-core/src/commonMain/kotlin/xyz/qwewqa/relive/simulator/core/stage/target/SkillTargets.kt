@@ -2,14 +2,14 @@ package xyz.qwewqa.relive.simulator.core.stage.target
 
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
-import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
-import xyz.qwewqa.relive.simulator.core.stage.modifier.normalDefense
-import xyz.qwewqa.relive.simulator.core.stage.modifier.specialDefense
 import xyz.qwewqa.relive.simulator.core.stage.actor.Character
 import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Position
 import xyz.qwewqa.relive.simulator.core.stage.actor.School
+import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
+import xyz.qwewqa.relive.simulator.core.stage.modifier.normalDefense
+import xyz.qwewqa.relive.simulator.core.stage.modifier.specialDefense
 
 object SkillTargets : ImplementationRegistry<SkillTarget>() {
   val self = +getSkillTargetData(1001).makeAllyTarget { listOfNotNull(self) }
@@ -1237,10 +1237,10 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
   val enemyActTypeSpecial =
       +getSkillTargetData(4084).makeEnemyTargetAoe { it.dress.damageType == DamageType.Special }
 
-  // TODO: Implement this
-  //    val allyStageGirlsCollection = +getSkillTargetData(4085).makeAllyTargetAoe {
-  //        DressCategory.StageGirlsCollection in it.dress.categories
-  //    }
+  val allyStageGirlsCollection =
+      +getSkillTargetData(4085).makeAllyTargetAoe {
+        it.dress.id in DressCategory.StageGirlsCollection
+      }
 
   val allyFlowerWindSnow =
       +getSkillTargetData(4086).makeAllyTargetAoe {
@@ -1574,6 +1574,9 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
       +getSkillTargetData(4152).makeAllyTargetAoe {
         it.dress.character == Character.Yachiyo || it.dress.character == Character.Rui
       }
+
+  val milkyHolmesSeries =
+      +getSkillTargetData(4153).makeAllyTargetAoe { it.dress.id in DressCategory.MilkyHolmes }
 
   // Handled specially
   val randomAllyPerHIt = +getSkillTargetData(5001).makeAllyTargetAoe()

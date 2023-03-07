@@ -7,23 +7,26 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.EffectiveDamageDealtUpB
 
 fun Actor.activateBlessings() =
     context.targetSelf().act {
-      buffs.consumeOnce(Buffs.BlessingHpRecovery) { value -> heal(percent = value) }
-      buffs.consumeOnce(Buffs.BlessingCountableDebuffReduction) { value ->
+      buffs.consumeOnce(Buffs.BlessingHpRecoveryBuff) { value -> heal(percent = value) }
+      buffs.consumeOnce(Buffs.BlessingRemoveCountableNegativeEffectsBuff) { _ ->
+        dispelCountable(BuffCategory.Negative)
+      }
+      buffs.consumeOnce(Buffs.BlessingReduceCountableNegativeEffectsBuff) { value ->
         dispelCountable(BuffCategory.Negative, value)
       }
-      buffs.consumeOnce(Buffs.BlessingContinuousDebuffRemoval) {
+      buffs.consumeOnce(Buffs.BlessingRemoveContinuousNegativeEffectsBuff) {
         dispelTimed(BuffCategory.Negative)
       }
-      buffs.consumeOnce(Buffs.BlessingEffectiveDamage) { value ->
+      buffs.consumeOnce(Buffs.BlessingEffectiveDamageUpBuff) { value ->
         applyTimedBuff(EffectiveDamageDealtUpBuff, value, 1)
       }
-      buffs.consumeOnce(Buffs.BlessingHope) { value ->
+      buffs.consumeOnce(Buffs.BlessingHopeBuff) { value ->
         applyCountableBuff(Buffs.HopeBuff, count = value)
       }
       buffs.consumeOnce(Buffs.BlessingApDown2) { _ -> applyTimedBuff(ApDown2Buff, 0, 1) }
-      buffs.consumeOnce(Buffs.DisasterBrillianceReduction) { value -> removeBrilliance(value) }
+      buffs.consumeOnce(Buffs.DisasterBrillianceReductionBuff) { value -> removeBrilliance(value) }
       buffs.consumeOnce(Buffs.DisasterDaze) { value ->
         applyCountableBuff(Buffs.DazeBuff, count = value)
       }
-      buffs.consumeOnce(Buffs.DisasterApUp) { _ -> applyTimedBuff(ApUpBuff, 0, 1) }
+      buffs.consumeOnce(Buffs.DisasterApUpBuff) { _ -> applyTimedBuff(ApUpBuff, 0, 1) }
     }

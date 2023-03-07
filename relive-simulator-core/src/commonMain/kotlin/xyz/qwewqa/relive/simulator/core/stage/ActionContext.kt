@@ -524,6 +524,20 @@ class TargetContext(
     }
   }
 
+  fun increaseCountablePositive(count: Int) {
+    if (!self.isAlive) return
+    for (originalTarget in originalTargets) {
+      val target = aggroTarget ?: originalTarget
+      if (!target.isAlive) continue
+      target.apply {
+        actionContext.log("Countable Increase", category = LogCategory.BUFF) {
+          "Increase positive countable effects ${count}x to [$name]."
+        }
+        buffs.increaseCountable(BuffCategory.Positive, count)
+      }
+    }
+  }
+
   fun heal(percent: Int = 0, fixed: Int = 0) {
     if (!self.isAlive) return
     for (originalTarget in originalTargets) {

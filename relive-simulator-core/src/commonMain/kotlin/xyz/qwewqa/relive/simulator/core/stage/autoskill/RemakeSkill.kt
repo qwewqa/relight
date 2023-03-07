@@ -320,7 +320,7 @@ val startEffects = buildMap {
           valueSuffix = null,
           timeSuffix = "x",
       ) { value, time ->
-        applyCountableBuff(Buffs.Fortitude, time)
+        applyCountableBuff(Buffs.FortitudeBuff, time)
       }
   this[30] =
       Effect(

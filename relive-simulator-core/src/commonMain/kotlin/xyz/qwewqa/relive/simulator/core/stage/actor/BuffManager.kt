@@ -7,8 +7,8 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ActionRestrictionResistanceUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.OverwhelmBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.TurnDispelContinuousNegativeEffectsBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.TurnDispelCountableNegativeEffectsBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.TurnRemoveContinuousNegativeEffectsBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.TurnRemoveCountableNegativeEffectsBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.abnormalBuffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.burnDamage
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.nightmareDamage
@@ -258,10 +258,26 @@ class BuffManager(val actor: Actor) {
   }
 
   fun dispelCountable(category: BuffCategory) {
-    when (category) {
-      BuffCategory.Positive -> positiveCountableBuffs
-      BuffCategory.Negative -> negativeCountableBuffs
-    }.let { buffs -> buffs.keys.forEach { if (!it.isLocked) buffs[it]!!.clear() } }
+    val stacks =
+        when (category) {
+          BuffCategory.Positive -> positiveCountableBuffs
+          BuffCategory.Negative -> negativeCountableBuffs
+        }
+    stacks.keys.forEach { if (!it.isLocked) stacks[it]!!.clear() }
+  }
+
+  fun increaseCountable(category: BuffCategory, count: Int) {
+    val stacks =
+        when (category) {
+          BuffCategory.Positive -> positiveCountableBuffs
+          BuffCategory.Negative -> negativeCountableBuffs
+        }
+    // TODO: Test how this works for countables that can have different values
+    stacks.values.forEach {
+      it.lastOrNull()?.let { buff ->
+        addCountable(buff = buff.effect, count = count, value = buff.value)
+      }
+    }
   }
 
   fun dispelCountable(category: BuffCategory, count: Int): Int {
@@ -388,11 +404,11 @@ class BuffManager(val actor: Actor) {
           addCountable(Buffs.SuperStrengthBuff, count = superStrengthRegenValue)
         }
 
-        if (TurnDispelContinuousNegativeEffectsBuff in buffs) {
+        if (TurnRemoveContinuousNegativeEffectsBuff in buffs) {
           dispel(BuffCategory.Negative)
         }
 
-        if (TurnDispelCountableNegativeEffectsBuff in buffs) {
+        if (TurnRemoveCountableNegativeEffectsBuff in buffs) {
           dispelCountable(BuffCategory.Negative)
         }
 
@@ -535,7 +551,7 @@ val countableBuffsByName =
             mapOf(
                 "impudence" to Buffs.ImpudenceBuff,
                 "evade" to Buffs.EvasionBuff,
-                "fort" to Buffs.Fortitude,
+                "fort" to Buffs.FortitudeBuff,
             ))
         .toPlatformMap()
 

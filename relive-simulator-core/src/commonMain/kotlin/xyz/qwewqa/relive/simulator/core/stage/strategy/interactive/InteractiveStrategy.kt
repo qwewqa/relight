@@ -2,15 +2,39 @@ package xyz.qwewqa.relive.simulator.core.stage.strategy.interactive
 
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import xyz.qwewqa.relive.simulator.common.*
-import xyz.qwewqa.relive.simulator.core.stage.*
+import xyz.qwewqa.relive.simulator.common.ActCardStatus
+import xyz.qwewqa.relive.simulator.common.ActionStatus
+import xyz.qwewqa.relive.simulator.common.ActorStatus
+import xyz.qwewqa.relive.simulator.common.CutinCardStatus
+import xyz.qwewqa.relive.simulator.common.InteractiveLog
+import xyz.qwewqa.relive.simulator.common.InteractiveLogData
+import xyz.qwewqa.relive.simulator.common.InteractiveQueueStatus
+import xyz.qwewqa.relive.simulator.common.InteractiveRunState
+import xyz.qwewqa.relive.simulator.common.LogCategory
+import xyz.qwewqa.relive.simulator.common.LogEntry
+import xyz.qwewqa.relive.simulator.core.stage.PlayInfo
+import xyz.qwewqa.relive.simulator.core.stage.Stage
+import xyz.qwewqa.relive.simulator.core.stage.StageConfiguration
+import xyz.qwewqa.relive.simulator.core.stage.SwitchableDamageCalculator
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.countableBuffsByName
-import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.MultipleCAficationBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
+import xyz.qwewqa.relive.simulator.core.stage.buff.hasMultipleCA
+import xyz.qwewqa.relive.simulator.core.stage.hierarchicalString
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
-import xyz.qwewqa.relive.simulator.core.stage.modifier.*
+import xyz.qwewqa.relive.simulator.core.stage.log
+import xyz.qwewqa.relive.simulator.core.stage.modifier.accuracy
+import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
+import xyz.qwewqa.relive.simulator.core.stage.modifier.agility
+import xyz.qwewqa.relive.simulator.core.stage.modifier.baseMaxHp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.critical
+import xyz.qwewqa.relive.simulator.core.stage.modifier.dexterity
+import xyz.qwewqa.relive.simulator.core.stage.modifier.evasion
+import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHpUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.normalDefense
+import xyz.qwewqa.relive.simulator.core.stage.modifier.specialDefense
 import xyz.qwewqa.relive.simulator.core.stage.strategy.*
 import xyz.qwewqa.relive.simulator.core.stage.strategy.complete.qsort
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
@@ -759,8 +783,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 .map { BoundAct(it, ActType.ClimaxAct) }
                 .filter {
                   it !in usedClimaxActs ||
-                      MultipleCAficationBuff in it.actor.buffs ||
-                      it.actor.dress.multipleCA
+                      it.actor.hasMultipleCA
                 }
       }
       if (hand.size < 5) hand += drawCard(5 - hand.size)
@@ -1412,8 +1435,7 @@ ${
                             .map { BoundAct(it, ActType.ClimaxAct) }
                             .filter {
                               it !in usedClimaxActs ||
-                                  MultipleCAficationBuff in it.actor.buffs ||
-                                  it.actor.dress.multipleCA
+                                  it.actor.hasMultipleCA
                             }
                       } else {
                         emptyList()

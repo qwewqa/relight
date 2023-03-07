@@ -277,6 +277,22 @@ object DressCategory {
           1010022,
           1070021,
       )
+
+  val MilkyHolmes =
+      platformSetOf(
+          1020022,
+          3050016,
+          3010021,
+          1010026,
+      )
+
+  val StageGirlsCollection =
+      platformSetOf(
+          1080016,
+          1090020,
+          2050012,
+          4050019,
+      )
 }
 
 data class StatBoost(val type: StatBoostType, val value: Int)
