@@ -1359,8 +1359,35 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         )
       }
 
-  val LockedBrillianceRegeneration = +skillOptionData(556).applyEffect()
-  val ReviveRegeneration = +skillOptionData(557).applyEffect()
+  val LockedBrillianceRegen = +skillOptionData(556).applyEffect()
+  val ReviveRegen = +skillOptionData(557).applyEffect()
   val LockedInvincibility = +skillOptionData(558).applyEffect()
   val SealStageEffectResistance = +skillOptionData(559).applyEffect(AutoSkillType.TurnStartA)
+  val LockedSealStageEffectResistance = +skillOptionData(560).applyEffect(AutoSkillType.TurnStartA)
+  val TurnDispelContinuousNegativeEffects = +skillOptionData(561).applyEffect()
+  val LockedTurnDispelContinuousNegativeEffects = +skillOptionData(562).applyEffect()
+  val TurnDispelCountableNegativeEffects = +skillOptionData(563).applyEffect()
+  val LockedTurnDispelCountableNegativeEffects = +skillOptionData(564).applyEffect()
+  val TurnDispelContinuousPositiveEffects = +skillOptionData(565).applyEffect()
+  val LockedTurnDispelContinuousPositiveEffects = +skillOptionData(566).applyEffect()
+  val SuperStrength = +skillOptionData(567).applyEffect()
+  val SuperStrengthRegen = +skillOptionData(568).applyEffect()
+  val LockedSuperStrengthRegen = +skillOptionData(569).applyEffect()
+  val Cheer = +skillOptionData(570).applyEffect()
+
+  val HitSunStarBoost =
+      +skillOptionData(571).makeSkillOption { value, time, _, attribute ->
+        attack(
+            modifier = value,
+            hitCount = time,
+            attribute = attribute,
+            bonusMultiplier = 150,
+            bonusCondition = { it.dress.attribute == Attribute.Sun || it.dress.attribute == Attribute.Star },
+        )
+      }
+
+  // TODO: count. postive increase
+
+  val TurnReduceCountableNegativeEffects = +skillOptionData(573).applyEffect()
+  val LockedTurnReduceCountableNegativeEffects = +skillOptionData(574).applyEffect()
 }
