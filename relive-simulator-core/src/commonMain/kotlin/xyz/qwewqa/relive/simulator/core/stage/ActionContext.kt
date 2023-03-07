@@ -6,6 +6,7 @@ import kotlin.contracts.contract
 import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
 import xyz.qwewqa.relive.simulator.core.stage.actor.consumeOnAttackCountableBuffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ContractionBuff
@@ -18,7 +19,6 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.positiveEffectResistance
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.StageEffect
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTarget
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
-import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
 
 data class ActionLog(
     var successfulHits: Int = 0,
@@ -492,6 +492,20 @@ class TargetContext(
           "Dispel ${count}x countable effect ${effect.name} from [$name]."
         }
         buffs.dispelCountable(effect, count)
+      }
+    }
+  }
+
+  fun dispelCountable(effect: CountableBuffEffect) {
+    if (!self.isAlive) return
+    for (originalTarget in originalTargets) {
+      val target = aggroTarget ?: originalTarget
+      if (!target.isAlive) continue
+      target.apply {
+        actionContext.log("Dispel", category = LogCategory.BUFF) {
+          "Dispel all countable effect ${effect.name} from [$name]."
+        }
+        buffs.dispelCountable(effect)
       }
     }
   }

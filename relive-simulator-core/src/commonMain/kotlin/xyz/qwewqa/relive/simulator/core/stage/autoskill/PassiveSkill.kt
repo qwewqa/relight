@@ -124,6 +124,8 @@ object PassiveSkillGroups : ImplementationRegistry<PassiveSkillGroupBlueprint>()
 }
 
 object UnitSkills : ImplementationRegistry<UnitSkillBlueprint>() {
+  // TODO: Conditional skills like only if 2 back row are on the team (always active for now)
+
   init {
     for ((id, skill) in valuesGenPartySkill) {
       +UnitSkillBlueprint(

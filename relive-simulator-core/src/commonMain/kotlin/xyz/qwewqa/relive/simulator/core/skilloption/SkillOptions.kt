@@ -57,19 +57,13 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   fun SkillOptionData.reduceCountable(): ActiveSkillOption {
     val effect =
         Buffs[params[0]] as? CountableBuffEffect ?: error("No buff effect for ${params[0]}")
-    return makeSkillOption { _, time ->
-      targets.forEach { target -> repeat(time) { target.buffs.remove(effect) } }
-    }
+    return makeSkillOption { value -> dispelCountable(effect, value) }
   }
 
   fun SkillOptionData.removeAllCountable(): ActiveSkillOption {
     val effect =
         Buffs[params[0]] as? CountableBuffEffect ?: error("No buff effect for ${params[0]}")
-    return makeSkillOption { _ ->
-      targets.forEach { target ->
-        repeat(target.buffs.count(effect)) { target.buffs.remove(effect) }
-      }
-    }
+    return makeSkillOption { _ -> dispelCountable(effect) }
   }
 
   val Attack1Hit = +skillOptionData(1).simpleAttack()
