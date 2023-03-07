@@ -264,7 +264,7 @@ open class CsList(val value: List<CsObject>) : CsObject {
   }
 }
 
-data class CsActiveBuff(val buff: BuffManager.TimedBuff<*>) : CsObject {
+data class CsActiveBuff(val buff: BuffManager.ContinuousBuff<*>) : CsObject {
   override fun getAttribute(name: String): CsObject? =
       when (name) {
         "turns" -> buff.turns.asCsNumber()

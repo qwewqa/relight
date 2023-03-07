@@ -77,7 +77,7 @@ val tr27MafiaKaoruko =
                     },
                     ActType.Act6("Perfect Aim Tri-Slash", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -91,12 +91,12 @@ val tr27MafiaKaoruko =
                     },
                     ActType.Act7("Ironclad Dance", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialBarrierBuff,
                             value = 10000,
                             turns = 3,
@@ -105,7 +105,7 @@ val tr27MafiaKaoruko =
                     },
                     ActType.Act8("Dazzling Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.AccuracyDownBuff,
                             value = 50,
                             turns = 2,
@@ -118,7 +118,7 @@ val tr27MafiaKaoruko =
                             modifier = 200,
                             hitCount = 5,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.AccuracyDownBuff,
                             value = 50,
                             turns = 2,
@@ -241,7 +241,7 @@ val tr27MafiaKaorukoDiff4 =
                     },
                     ActType.Act6("Perfect Aim Tri-Slash", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -255,12 +255,12 @@ val tr27MafiaKaorukoDiff4 =
                     },
                     ActType.Act7("Ironclad Dance", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialBarrierBuff,
                             value = 10000,
                             turns = 3,
@@ -269,7 +269,7 @@ val tr27MafiaKaorukoDiff4 =
                     },
                     ActType.Act8("Dazzling Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.AccuracyDownBuff,
                             value = 50,
                             turns = 2,
@@ -278,7 +278,7 @@ val tr27MafiaKaorukoDiff4 =
                     },
                     ActType.Act9("Perfect Aim Tri-Slash", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -298,7 +298,7 @@ val tr27MafiaKaorukoDiff4 =
                             hitCount = 5,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.AccuracyDownBuff,
                             value = 50,
                             turns = 2,

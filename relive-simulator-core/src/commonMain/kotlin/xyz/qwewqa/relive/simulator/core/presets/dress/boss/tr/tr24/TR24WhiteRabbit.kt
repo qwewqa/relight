@@ -77,7 +77,7 @@ val tr24WhiteRabbitMisora =
                     },
                     ActType.Act6("Weakening Concerto", 2) {
                       targetAoe().run {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
@@ -85,12 +85,12 @@ val tr24WhiteRabbitMisora =
                       }
                     },
                     ActType.Act7("Purifying Dance", 2) {
-                      targetSelf().act { dispelTimed(BuffCategory.Negative) }
-                      targetAoe().act { dispelTimed(BuffCategory.Positive) }
+                      targetSelf().act { removeContinuous(BuffCategory.Negative) }
+                      targetAoe().act { removeContinuous(BuffCategory.Positive) }
                     },
                     ActType.Act8("Perfect Aim Thrust", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -104,7 +104,7 @@ val tr24WhiteRabbitMisora =
                     },
                     ActType.ClimaxAct("I'm Late! NEO", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -217,7 +217,7 @@ val tr24WhiteRabbitMisoraDiff4 =
                     },
                     ActType.Act6("Weakening Concerto", 2) {
                       targetAoe().run {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
@@ -225,12 +225,12 @@ val tr24WhiteRabbitMisoraDiff4 =
                       }
                     },
                     ActType.Act7("Purifying Dance", 2) {
-                      targetSelf().act { dispelTimed(BuffCategory.Negative) }
-                      targetAoe().act { dispelTimed(BuffCategory.Positive) }
+                      targetSelf().act { removeContinuous(BuffCategory.Negative) }
+                      targetAoe().act { removeContinuous(BuffCategory.Positive) }
                     },
                     ActType.Act8("Perfect Aim Thrust", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -245,7 +245,7 @@ val tr24WhiteRabbitMisoraDiff4 =
                     },
                     ActType.ClimaxAct("I'm Late! NEO", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )

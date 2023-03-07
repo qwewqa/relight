@@ -38,17 +38,17 @@ val tr17FaithMisora =
                 actsOf(
                     ActType.Act1("Weakening Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialDefenseDownBuff,
                             value = 50,
                             turns = 3,
@@ -105,7 +105,7 @@ val tr17FaithMisora =
                     },
                     ActType.Act8("Perfect Aim Concerto", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -123,12 +123,12 @@ val tr17FaithMisora =
                             modifier = 150,
                             hitCount = 2,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BurnBuff,
                             value = 7000,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BlindnessBuff,
                             turns = 3,
                         )
@@ -136,17 +136,17 @@ val tr17FaithMisora =
                     },
                     ActType.Act10("Inspiring Gust", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.DexterityUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.CriticalUpBuff,
                             value = 50,
                             turns = 3,
@@ -159,12 +159,12 @@ val tr17FaithMisora =
                             modifier = 200,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BurnBuff,
                             value = 7000,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BlindnessBuff,
                             turns = 3,
                         )
@@ -234,17 +234,17 @@ val tr17FaithMisoraDiff4 =
                 actsOf(
                     ActType.Act1("Weakening Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialDefenseDownBuff,
                             value = 50,
                             turns = 3,
@@ -301,7 +301,7 @@ val tr17FaithMisoraDiff4 =
                     },
                     ActType.Act8("Perfect Aim Concerto", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -321,12 +321,12 @@ val tr17FaithMisoraDiff4 =
                             hitCount = 2,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BlindnessBuff,
                             turns = 3,
                         )
@@ -334,17 +334,17 @@ val tr17FaithMisoraDiff4 =
                     },
                     ActType.Act10("Inspiring Gust", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.DexterityUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.CriticalUpBuff,
                             value = 50,
                             turns = 3,
@@ -358,12 +358,12 @@ val tr17FaithMisoraDiff4 =
                             hitCount = 4,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BlindnessBuff,
                             turns = 3,
                         )

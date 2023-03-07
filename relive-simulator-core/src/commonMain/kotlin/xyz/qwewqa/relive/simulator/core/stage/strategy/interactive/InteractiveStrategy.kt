@@ -1613,9 +1613,9 @@ ${
             }
           }
           "Buffs" {
-            "Timed" {
-              "Positive" { buffs.timedPositive().map { it.toString() }.sorted().forEach { +it } }
-              "Negative" { buffs.timedNegative().map { it.toString() }.sorted().forEach { +it } }
+            "Continuous" {
+              "Positive" { buffs.continuousPositive().map { it.toString() }.sorted().forEach { +it } }
+              "Negative" { buffs.continuousNegative().map { it.toString() }.sorted().forEach { +it } }
             }
             "Countable" {
               "Positive" {

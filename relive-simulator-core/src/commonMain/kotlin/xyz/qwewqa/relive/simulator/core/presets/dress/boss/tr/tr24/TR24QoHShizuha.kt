@@ -85,12 +85,12 @@ val tr24QueenOfHeartsShizuha =
                     },
                     ActType.Act7("Ironclad Dance", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialBarrierBuff,
                             value = 10000,
                             turns = 3,
@@ -99,12 +99,12 @@ val tr24QueenOfHeartsShizuha =
                     },
                     ActType.Act8("Softening Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialDefenseDownBuff,
                             value = 50,
                             turns = 3,
@@ -117,7 +117,7 @@ val tr24QueenOfHeartsShizuha =
                             modifier = 150,
                             hitCount = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
@@ -129,7 +129,7 @@ val tr24QueenOfHeartsShizuha =
                             modifier = 200,
                             hitCount = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
@@ -244,12 +244,12 @@ val tr24QueenOfHeartsShizuhaDiff4 =
                     },
                     ActType.Act7("Ironclad Dance", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialBarrierBuff,
                             value = 10000,
                             turns = 3,
@@ -258,12 +258,12 @@ val tr24QueenOfHeartsShizuhaDiff4 =
                     },
                     ActType.Act8("Softening Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialDefenseDownBuff,
                             value = 50,
                             turns = 3,
@@ -277,7 +277,7 @@ val tr24QueenOfHeartsShizuhaDiff4 =
                             hitCount = 3,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
@@ -290,7 +290,7 @@ val tr24QueenOfHeartsShizuhaDiff4 =
                             hitCount = 3,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )

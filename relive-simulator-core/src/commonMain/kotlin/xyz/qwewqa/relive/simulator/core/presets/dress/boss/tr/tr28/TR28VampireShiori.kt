@@ -78,7 +78,7 @@ val tr28VampireShiori =
                     },
                     ActType.Act6("Perfect Aim Concerto", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -91,17 +91,17 @@ val tr28VampireShiori =
                       }
                     },
                     ActType.Act7("Purifying Dance", 2) {
-                      targetSelf().act { dispelTimed(BuffCategory.Negative) }
-                      targetAoe().act { dispelTimed(BuffCategory.Positive) }
+                      targetSelf().act { removeContinuous(BuffCategory.Negative) }
+                      targetAoe().act { removeContinuous(BuffCategory.Positive) }
                     },
                     ActType.Act8("Ironclad Dance", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialBarrierBuff,
                             value = 10000,
                             turns = 3,
@@ -114,7 +114,7 @@ val tr28VampireShiori =
                             modifier = 150,
                             hitCount = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BurnBuff,
                             value = 7000,
                             turns = 3,
@@ -127,7 +127,7 @@ val tr28VampireShiori =
                             modifier = 200,
                             hitCount = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BurnBuff,
                             value = 7000,
                             turns = 3,
@@ -236,7 +236,7 @@ val tr28VampireShioriDiff4 =
                     },
                     ActType.Act6("Perfect Aim Concerto", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -249,17 +249,17 @@ val tr28VampireShioriDiff4 =
                       }
                     },
                     ActType.Act7("Purifying Dance", 2) {
-                      targetSelf().act { dispelTimed(BuffCategory.Negative) }
-                      targetAoe().act { dispelTimed(BuffCategory.Positive) }
+                      targetSelf().act { removeContinuous(BuffCategory.Negative) }
+                      targetAoe().act { removeContinuous(BuffCategory.Positive) }
                     },
                     ActType.Act8("Ironclad Dance", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialBarrierBuff,
                             value = 10000,
                             turns = 3,
@@ -273,7 +273,7 @@ val tr28VampireShioriDiff4 =
                             hitCount = 3,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,
@@ -287,7 +287,7 @@ val tr28VampireShioriDiff4 =
                             hitCount = 3,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,

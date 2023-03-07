@@ -3,7 +3,7 @@ package xyz.qwewqa.relive.simulator.core.stage.buff
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 
-interface TimedBuffEffect<T> : BuffEffect {
+interface ContinuousBuffEffect<T> : BuffEffect {
   override val name: String
   override val iconId: Int
   override val category: BuffCategory
@@ -13,9 +13,9 @@ interface TimedBuffEffect<T> : BuffEffect {
     get() = isLocked
   val exclusive: Boolean
     get() = false
-  val flipped: TimedBuffEffect<*>?
+  val flipped: ContinuousBuffEffect<*>?
     get() = null
-  val related: TimedBuffEffect<Unit>?
+  val related: ContinuousBuffEffect<Unit>?
     get() = null
   fun onStart(context: ActionContext, value: Int, source: Actor?): T
   fun onEnd(context: ActionContext, value: Int, source: Actor?, data: T)

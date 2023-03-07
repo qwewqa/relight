@@ -85,7 +85,7 @@ val tr14MusketeerKaren =
                     },
                     ActType.Act7("Weakening Concerto", 3) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
@@ -94,7 +94,7 @@ val tr14MusketeerKaren =
                     },
                     ActType.Act8("Accuracy Concerto", 3) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -108,7 +108,7 @@ val tr14MusketeerKaren =
                     },
                     ActType.ClimaxAct("Dance of Hope NEO", 3) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -241,7 +241,7 @@ val tr14MusketeerKarenDiff4 =
                     },
                     ActType.Act7("Weakening Concerto", 3) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
@@ -250,7 +250,7 @@ val tr14MusketeerKarenDiff4 =
                     },
                     ActType.Act8("Accuracy Concerto", 3) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -264,7 +264,7 @@ val tr14MusketeerKarenDiff4 =
                     },
                     ActType.ClimaxAct("Dance of Hope NEO", 3) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )

@@ -70,7 +70,7 @@ val tr13SuirenYuyuko =
                     },
                     ActType.Act5("Perfect Aim Flurry", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -84,17 +84,17 @@ val tr13SuirenYuyuko =
                     },
                     ActType.Act6("Inspiring Gust", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
@@ -107,7 +107,7 @@ val tr13SuirenYuyuko =
                             modifier = 150,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
@@ -119,7 +119,7 @@ val tr13SuirenYuyuko =
                             modifier = 200,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
@@ -221,7 +221,7 @@ val tr13SuirenYuyukoDiff4 =
                     },
                     ActType.Act5("Perfect Aim Flurry", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -235,17 +235,17 @@ val tr13SuirenYuyukoDiff4 =
                     },
                     ActType.Act6("Inspiring Gust", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
@@ -258,7 +258,7 @@ val tr13SuirenYuyukoDiff4 =
                             modifier = 150,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
@@ -271,7 +271,7 @@ val tr13SuirenYuyukoDiff4 =
                             hitCount = 4,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )

@@ -97,7 +97,7 @@ val tr21CheerYachiyo =
                             modifier = 150,
                             hitCount = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.StunBuff,
                             turns = 2,
                         )
@@ -105,7 +105,7 @@ val tr21CheerYachiyo =
                     },
                     ActType.Act9("Weakening Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
@@ -118,7 +118,7 @@ val tr21CheerYachiyo =
                             modifier = 200,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.StunBuff,
                             turns = 2,
                         )
@@ -261,7 +261,7 @@ val tr21CheerYachiyoDiff4 =
                             hitCount = 3,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.StunBuff,
                             turns = 2,
                         )
@@ -269,7 +269,7 @@ val tr21CheerYachiyoDiff4 =
                     },
                     ActType.Act9("Weakening Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
@@ -283,7 +283,7 @@ val tr21CheerYachiyoDiff4 =
                             hitCount = 4,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.StunBuff,
                             turns = 2,
                         )

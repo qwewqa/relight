@@ -282,7 +282,7 @@ val startEffects = buildMap {
           valueSuffix = "%",
           timeSuffix = "t",
       ) { value, time ->
-        applyTimedBuff(Buffs.DamageDealtUpBuff, value, time)
+        applyContinuousBuff(Buffs.DamageDealtUpBuff, value, time)
       }
   this[126] =
       Effect(
@@ -291,7 +291,7 @@ val startEffects = buildMap {
           valueSuffix = "%",
           timeSuffix = "t",
       ) { value, time ->
-        applyTimedBuff(Buffs.DamageReceivedDownBuff, value, time)
+        applyContinuousBuff(Buffs.DamageReceivedDownBuff, value, time)
       }
   Attribute.values().drop(1).forEachIndexed { index, attribute ->
     this[index + 66] =
@@ -301,7 +301,7 @@ val startEffects = buildMap {
             valueSuffix = "%",
             timeSuffix = "t",
         ) { value, time ->
-          applyTimedBuff(againstAttributeDamageReceivedDownBuff(attribute), value, time)
+          applyContinuousBuff(againstAttributeDamageReceivedDownBuff(attribute), value, time)
         }
   }
   this[34] =
@@ -329,7 +329,7 @@ val startEffects = buildMap {
           valueSuffix = "",
           timeSuffix = "t",
       ) { value, time ->
-        applyTimedBuff(Buffs.NormalBarrierBuff, value, time)
+        applyContinuousBuff(Buffs.NormalBarrierBuff, value, time)
       }
   this[31] =
       Effect(
@@ -338,7 +338,7 @@ val startEffects = buildMap {
           valueSuffix = "",
           timeSuffix = "t",
       ) { value, time ->
-        applyTimedBuff(Buffs.SpecialBarrierBuff, value, time)
+        applyContinuousBuff(Buffs.SpecialBarrierBuff, value, time)
       }
   this[56] =
       Effect(
@@ -347,7 +347,7 @@ val startEffects = buildMap {
           valueSuffix = null,
           timeSuffix = "t",
       ) { value, time ->
-        applyTimedBuff(Buffs.ProvokeBuff, value, time)
+        applyContinuousBuff(Buffs.ProvokeBuff, value, time)
       }
   this[152] =
       Effect(
@@ -356,7 +356,7 @@ val startEffects = buildMap {
           valueSuffix = null,
           timeSuffix = "t",
       ) { value, time ->
-        applyTimedBuff(Buffs.AggroBuff, value, time)
+        applyContinuousBuff(Buffs.AggroBuff, value, time)
       }
 }
 

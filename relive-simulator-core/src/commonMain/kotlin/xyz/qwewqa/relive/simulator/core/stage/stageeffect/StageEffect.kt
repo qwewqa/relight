@@ -5,12 +5,12 @@ import xyz.qwewqa.relive.simulator.core.gen.valuesGenFieldEffect
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
-import xyz.qwewqa.relive.simulator.core.stage.buff.TimedBuffEffect
+import xyz.qwewqa.relive.simulator.core.stage.buff.ContinuousBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTarget
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTargets
 
 data class StageEffectBuff(
-    val effect: TimedBuffEffect<Unit>,
+    val effect: ContinuousBuffEffect<Unit>,
     val values: List<Int>,
     val target: SkillTarget,
 )
@@ -29,7 +29,7 @@ object StageEffects : ImplementationRegistry<StageEffect>() {
   @Suppress("UNCHECKED_CAST")
   private fun getStageEffectBuff(type: Int, target: Int, values: List<Int>): StageEffectBuff? {
     if (type == 0) return null
-    val effect = (Buffs[type] as? TimedBuffEffect<Unit>) ?: return null
+    val effect = (Buffs[type] as? ContinuousBuffEffect<Unit>) ?: return null
     val targeting = SkillTargets[target] ?: return null
     return StageEffectBuff(effect, values, targeting)
   }

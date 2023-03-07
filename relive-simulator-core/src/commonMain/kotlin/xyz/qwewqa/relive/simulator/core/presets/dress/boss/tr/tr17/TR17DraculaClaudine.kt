@@ -85,17 +85,17 @@ val tr17DraculaClaudine =
                     },
                     ActType.Act7("Inspiring Dance", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
@@ -108,7 +108,7 @@ val tr17DraculaClaudine =
                             modifier = 150,
                             hitCount = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
@@ -120,7 +120,7 @@ val tr17DraculaClaudine =
                             modifier = 200,
                             hitCount = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
@@ -235,17 +235,17 @@ val tr17DraculaClaudineDiff4 =
                     },
                     ActType.Act7("Inspiring Dance", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
@@ -259,7 +259,7 @@ val tr17DraculaClaudineDiff4 =
                             hitCount = 3,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
@@ -272,7 +272,7 @@ val tr17DraculaClaudineDiff4 =
                             hitCount = 3,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )

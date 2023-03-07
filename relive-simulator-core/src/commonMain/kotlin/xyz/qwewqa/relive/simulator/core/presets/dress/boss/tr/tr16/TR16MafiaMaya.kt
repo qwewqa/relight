@@ -83,12 +83,12 @@ val tr16MafiaMaya =
                     },
                     ActType.Act7("Helpless Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.DexterityDownBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.CriticalDownBuff,
                             value = 50,
                             turns = 3,
@@ -97,12 +97,12 @@ val tr16MafiaMaya =
                     },
                     ActType.Act8("Perfect Aim Flurry", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -116,12 +116,12 @@ val tr16MafiaMaya =
                     },
                     ActType.ClimaxAct("Maid's Etiquette NEO", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -258,12 +258,12 @@ val tr16MafiaMayaDiff4 =
                     },
                     ActType.Act7("Helpless Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.DexterityDownBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.CriticalDownBuff,
                             value = 50,
                             turns = 3,
@@ -272,12 +272,12 @@ val tr16MafiaMayaDiff4 =
                     },
                     ActType.Act8("Perfect Aim Flurry", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -291,12 +291,12 @@ val tr16MafiaMayaDiff4 =
                     },
                     ActType.Act9("Perfect Aim Flurry", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -307,12 +307,12 @@ val tr16MafiaMayaDiff4 =
                     },
                     ActType.ClimaxAct("Maid's Etiquette NEO", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )

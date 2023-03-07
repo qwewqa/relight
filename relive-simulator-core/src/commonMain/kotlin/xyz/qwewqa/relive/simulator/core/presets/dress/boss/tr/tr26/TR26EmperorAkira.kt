@@ -77,7 +77,7 @@ val tr26EmperorAkira =
                         )
                       }
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.DamageReceivedDownBuff,
                             value = 30,
                             turns = 2,
@@ -90,11 +90,11 @@ val tr26EmperorAkira =
                             modifier = 120,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BurnBuff,
                             value = 5000,
                             turns = 3,
@@ -103,17 +103,17 @@ val tr26EmperorAkira =
                     },
                     ActType.Act7("Inspiring Gust", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 30,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.DexterityUpBuff,
                             value = 20,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.CriticalUpBuff,
                             value = 20,
                             turns = 3,
@@ -126,11 +126,11 @@ val tr26EmperorAkira =
                             modifier = 150,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BurnBuff,
                             value = 5000,
                             turns = 3,
@@ -253,7 +253,7 @@ val tr26EmperorAkiraDiff4 =
                         )
                       }
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.DamageReceivedDownBuff,
                             value = 30,
                             turns = 2,
@@ -266,11 +266,11 @@ val tr26EmperorAkiraDiff4 =
                             modifier = 120,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,
@@ -279,17 +279,17 @@ val tr26EmperorAkiraDiff4 =
                     },
                     ActType.Act7("Inspiring Gust", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 30,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.DexterityUpBuff,
                             value = 20,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.CriticalUpBuff,
                             value = 20,
                             turns = 3,
@@ -303,11 +303,11 @@ val tr26EmperorAkiraDiff4 =
                             hitCount = 4,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,

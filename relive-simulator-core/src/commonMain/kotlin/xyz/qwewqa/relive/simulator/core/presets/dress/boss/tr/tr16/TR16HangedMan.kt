@@ -83,7 +83,7 @@ val tr16HangedManRui =
                             modifier = 120,
                             hitCount = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BrillianceGainDownBuff,
                             value = 80,
                             turns = 2,
@@ -92,17 +92,17 @@ val tr16HangedManRui =
                     },
                     ActType.Act7("Inspiring Gust", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.DexterityUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.CriticalUpBuff,
                             value = 50,
                             turns = 3,
@@ -115,7 +115,7 @@ val tr16HangedManRui =
                             modifier = 150,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SleepBuff,
                             chance = 75,
                             turns = 2,
@@ -128,7 +128,7 @@ val tr16HangedManRui =
                             modifier = 200,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SleepBuff,
                             chance = 75,
                             turns = 2,
@@ -258,7 +258,7 @@ val tr16BuggedHangedManRui =
                             modifier = 120,
                             hitCount = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BrillianceGainDownBuff,
                             value = 80,
                             turns = 2,
@@ -267,17 +267,17 @@ val tr16BuggedHangedManRui =
                     },
                     ActType.Act7("Inspiring Gust", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.DexterityUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.CriticalUpBuff,
                             value = 50,
                             turns = 3,
@@ -290,7 +290,7 @@ val tr16BuggedHangedManRui =
                             modifier = 150,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SleepBuff,
                             chance = 75,
                             turns = 2,
@@ -303,7 +303,7 @@ val tr16BuggedHangedManRui =
                             modifier = 200,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SleepBuff,
                             chance = 75,
                             turns = 2,
@@ -433,7 +433,7 @@ val tr16HangedManRuiDiff4 =
                             modifier = 120,
                             hitCount = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BrillianceGainDownBuff,
                             value = 80,
                             turns = 2,
@@ -442,17 +442,17 @@ val tr16HangedManRuiDiff4 =
                     },
                     ActType.Act7("Inspiring Gust", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.DexterityUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.CriticalUpBuff,
                             value = 50,
                             turns = 3,
@@ -465,7 +465,7 @@ val tr16HangedManRuiDiff4 =
                             modifier = 150,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SleepBuff,
                             chance = 75,
                             turns = 2,
@@ -479,7 +479,7 @@ val tr16HangedManRuiDiff4 =
                             hitCount = 4,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SleepBuff,
                             chance = 75,
                             turns = 2,

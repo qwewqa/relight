@@ -78,7 +78,7 @@ val tr19SetsunaIchie =
                     },
                     ActType.Act6("Weakening Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
@@ -86,8 +86,8 @@ val tr19SetsunaIchie =
                       }
                     },
                     ActType.Act7("Purifying Dance", 2) {
-                      targetSelf().act { dispelTimed(BuffCategory.Negative) }
-                      targetAoe().act { dispelTimed(BuffCategory.Positive) }
+                      targetSelf().act { removeContinuous(BuffCategory.Negative) }
+                      targetAoe().act { removeContinuous(BuffCategory.Positive) }
                     },
                     ActType.Act8("Noxious Flower Dance", 2) {
                       targetAoe().act {
@@ -95,7 +95,7 @@ val tr19SetsunaIchie =
                             modifier = 150,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PoisonBuff,
                             value = 10000,
                             turns = 3,
@@ -108,7 +108,7 @@ val tr19SetsunaIchie =
                             modifier = 200,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PoisonBuff,
                             value = 10000,
                             turns = 3,
@@ -231,7 +231,7 @@ val tr19SetsunaIchieDiff4 =
                     },
                     ActType.Act6("Weakening Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
@@ -239,8 +239,8 @@ val tr19SetsunaIchieDiff4 =
                       }
                     },
                     ActType.Act7("Purifying Dance", 2) {
-                      targetSelf().act { dispelTimed(BuffCategory.Negative) }
-                      targetAoe().act { dispelTimed(BuffCategory.Positive) }
+                      targetSelf().act { removeContinuous(BuffCategory.Negative) }
+                      targetAoe().act { removeContinuous(BuffCategory.Positive) }
                     },
                     ActType.Act8("Noxious Flower Dance", 2) {
                       targetAoe().act {
@@ -248,7 +248,7 @@ val tr19SetsunaIchieDiff4 =
                             modifier = 150,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PoisonBuff,
                             value = 99999,
                             turns = 3,
@@ -262,7 +262,7 @@ val tr19SetsunaIchieDiff4 =
                             hitCount = 4,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PoisonBuff,
                             value = 99999,
                             turns = 3,

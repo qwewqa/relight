@@ -70,7 +70,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
       exclusive: Boolean = false,
       locked: Boolean = false,
   ) =
-      makeSimpleTimedBuffEffect(
+      makeSimpleContinuousBuffEffect(
           category = BuffCategory.Negative,
           exclusive = exclusive,
           locked = locked,
@@ -98,7 +98,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
       buff: BuffEffect,
       locked: Boolean = false,
   ) =
-      makeSimpleTimedBuffEffect(
+      makeSimpleContinuousBuffEffect(
           category = BuffCategory.Positive,
           locked = locked,
           onStart = { value ->
@@ -109,14 +109,14 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
           },
       )
 
-  private inline fun <T> BuffData.makeMapModifierTimedBuffEffect(
+  private inline fun <T> BuffData.makeMapModifierContinuousBuffEffect(
       crossinline mapAccessor: (Actor) -> MutableMap<T, Int>,
       key: T,
       category: BuffCategory,
       locked: Boolean = false,
       exclusive: Boolean = false,
   ) =
-      makeSimpleTimedBuffEffect(
+      makeSimpleContinuousBuffEffect(
           category = category,
           locked = locked,
           exclusive = exclusive,
@@ -125,31 +125,31 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
       )
 
   private fun BuffData.againstAttributeDamageReceivedUpBuff(attribute: Attribute) =
-      makeSimpleTimedBuffEffect(
+      makeSimpleContinuousBuffEffect(
           category = BuffCategory.Negative,
           onStart = { value -> self.againstAttributeDamageReceivedDown[attribute] -= value },
           onEnd = { value -> self.againstAttributeDamageReceivedDown[attribute] += value })
 
   private fun BuffData.againstAttributeDamageReceivedDownBuff(attribute: Attribute) =
-      makeSimpleTimedBuffEffect(
+      makeSimpleContinuousBuffEffect(
           category = BuffCategory.Positive,
           onStart = { value -> self.againstAttributeDamageReceivedDown[attribute] += value },
           onEnd = { value -> self.againstAttributeDamageReceivedDown[attribute] -= value })
 
   private fun BuffData.againstAttributeDamageDealtUpBuff(attribute: Attribute) =
-      makeSimpleTimedBuffEffect(
+      makeSimpleContinuousBuffEffect(
           category = BuffCategory.Positive,
           onStart = { value -> self.againstAttributeDamageDealtUp[attribute] += value },
           onEnd = { value -> self.againstAttributeDamageDealtUp[attribute] -= value })
 
   private fun BuffData.attributeDamageDealtUpBuff(attribute: Attribute) =
-      makeSimpleTimedBuffEffect(
+      makeSimpleContinuousBuffEffect(
           category = BuffCategory.Positive,
           onStart = { value -> self.attributeDamageDealtUp[attribute] += value },
           onEnd = { value -> self.attributeDamageDealtUp[attribute] -= value })
 
   private fun BuffData.attributeDamageDealtDownBuff(attribute: Attribute) =
-      makeSimpleTimedBuffEffect(
+      makeSimpleContinuousBuffEffect(
           category = BuffCategory.Negative,
           onStart = { value -> self.attributeDamageDealtUp[attribute] -= value },
           onEnd = { value -> self.attributeDamageDealtUp[attribute] += value })
@@ -159,135 +159,135 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val frostbiteDamage = modifier("frostbiteDamage")
   val nightmareDamage = modifier("nightmareDamage")
 
-  val ActPowerUpBuff: TimedBuffEffect<Unit> =
+  val ActPowerUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(1)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = actPowerUp,
               category = BuffCategory.Positive,
               flipped = { ActPowerDownBuff })
 
-  val ActPowerDownBuff: TimedBuffEffect<Unit> =
+  val ActPowerDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(2)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = actPowerDown,
               category = BuffCategory.Negative,
               flipped = { ActPowerUpBuff })
 
-  val NormalDefenseUpBuff: TimedBuffEffect<Unit> =
+  val NormalDefenseUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(3)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = normalDefenseUp,
               category = BuffCategory.Positive,
               flipped = { NormalDefenseDownBuff })
 
-  val NormalDefenseDownBuff: TimedBuffEffect<Unit> =
+  val NormalDefenseDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(4)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = normalDefenseDown,
               category = BuffCategory.Negative,
               flipped = { NormalDefenseUpBuff })
 
-  val SpecialDefenseUpBuff: TimedBuffEffect<Unit> =
+  val SpecialDefenseUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(5)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = specialDefenseUp,
               category = BuffCategory.Positive,
               flipped = { SpecialDefenseDownBuff })
 
-  val SpecialDefenseDownBuff: TimedBuffEffect<Unit> =
+  val SpecialDefenseDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(6)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = specialDefenseDown,
               category = BuffCategory.Negative,
               flipped = { SpecialDefenseUpBuff })
 
-  val AgilityUpBuff: TimedBuffEffect<Unit> =
+  val AgilityUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(7)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = agilityUp, category = BuffCategory.Positive, flipped = { AgilityDownBuff })
 
-  val AgilityDownBuff: TimedBuffEffect<Unit> =
+  val AgilityDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(8)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = agilityDown, category = BuffCategory.Negative, flipped = { AgilityUpBuff })
 
-  val AccuracyUpBuff: TimedBuffEffect<Unit> =
+  val AccuracyUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(9)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = accuracyUp,
               category = BuffCategory.Positive,
               flipped = { AccuracyDownBuff })
 
-  val AccuracyDownBuff: TimedBuffEffect<Unit> =
+  val AccuracyDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(10)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = accuracyDown,
               category = BuffCategory.Negative,
               flipped = { AccuracyUpBuff })
 
-  val EvasionUpBuff: TimedBuffEffect<Unit> =
+  val EvasionUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(11)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = evasionUp, category = BuffCategory.Positive, flipped = { EvasionDownBuff })
 
-  val EvasionDownBuff: TimedBuffEffect<Unit> =
+  val EvasionDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(12)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = evasionDown, category = BuffCategory.Negative, flipped = { EvasionUpBuff })
 
-  val DexterityUpBuff: TimedBuffEffect<Unit> =
+  val DexterityUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(13)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = buffDexterity,
               category = BuffCategory.Positive,
               flipped = { DexterityDownBuff })
 
-  val DexterityDownBuff: TimedBuffEffect<Unit> =
+  val DexterityDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(14)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = debuffDexterity,
               category = BuffCategory.Negative,
               flipped = { DexterityUpBuff })
 
-  val CriticalUpBuff: TimedBuffEffect<Unit> =
+  val CriticalUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(15)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = buffCritical,
               category = BuffCategory.Positive,
               flipped = { CriticalDownBuff })
 
-  val CriticalDownBuff: TimedBuffEffect<Unit> =
+  val CriticalDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(16)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = debuffCritical,
               category = BuffCategory.Negative,
               flipped = { CriticalUpBuff })
 
   // Note: should not be used as a buff until DoTs are updated to support this
-  val MaxHpUpBuff: TimedBuffEffect<Unit> =
+  val MaxHpUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(17)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = maxHpUp,
               category = BuffCategory.Positive,
           )
 
-  val MaxHpDownBuff: TimedBuffEffect<Unit> =
+  val MaxHpDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(18)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = maxHpDown,
               category = BuffCategory.Negative,
           )
 
   val ContinuousNegativeEffectResistanceUpBuff =
       +buffData(19)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = negativeEffectResistanceUp,
               category = BuffCategory.Positive,
           )
 
   val ContinuousNegativeEffectResistanceDownBuff =
       +buffData(20)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = negativeEffectResistanceDown,
               category = BuffCategory.Negative,
           )
@@ -295,7 +295,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val HpRegenBuff =
       +buffData(21)
           .copy(name = "HP Regen")
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Positive,
               onStart = { value ->
                 if (value <= 100) {
@@ -316,32 +316,32 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val BrillianceRegenBuff =
       +buffData(22)
           .copy(name = "Brilliance Regen")
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = brillianceRegen,
               category = BuffCategory.Positive,
           )
   val NormalBarrierBuff =
       +buffData(23)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Positive,
           )
 
   val SpecialBarrierBuff =
       +buffData(24)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Positive,
           )
 
   val NormalReflectBuff =
       +buffData(25)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = normalReflect,
               category = BuffCategory.Positive,
           )
 
   val SpecialReflectBuff =
       +buffData(26)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = specialReflect,
               category = BuffCategory.Positive,
           )
@@ -350,7 +350,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val PerfectAimBuff =
       +buffData(28)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Positive,
               exclusive = true,
           )
@@ -359,57 +359,57 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val FixedNormalDefenseBoostBuff =
       +buffData(30)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = fixedNormalDefense,
               category = BuffCategory.Positive,
           )
 
   val FixedSpecialDefenseBoostBuff =
       +buffData(31)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = fixedSpecialDefense,
               category = BuffCategory.Positive,
           )
 
   val EffectiveDamageDealtUpBuff =
       +buffData(32)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = effectiveDamageUp,
               category = BuffCategory.Positive,
           )
 
-  val ClimaxDamageUpBuff: TimedBuffEffect<Unit> =
+  val ClimaxDamageUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(33)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = climaxDamageUp,
               category = BuffCategory.Positive,
               exclusive = true,
               flipped = { ClimaxDamageDownBuff })
 
-  val CriticalDamageReceivedDownBuff: TimedBuffEffect<Unit> =
+  val CriticalDamageReceivedDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(34)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = criticalDamageReceivedDown,
               category = BuffCategory.Positive,
           )
 
   val FixedActPowerBoostBuff =
       +buffData(35)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = fixedActPower,
               category = BuffCategory.Positive,
           )
 
   val AbsorbBuff =
       +buffData(37)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = absorb,
               category = BuffCategory.Positive,
           )
 
   val CounterHealBuff =
       +buffData(38)
-          .makeTimedBuffEffect(
+          .makeContinuousBuffEffect(
               category = BuffCategory.Positive,
               onStart = { value, _ ->
                 if (value <= 100) {
@@ -458,7 +458,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
           .againstAttributeDamageDealtUpBuff(Attribute.Dream)
 
   // TODO: Do something with this I guess
-  val BonusDamageVsBossesBuff = +buffData(46).makeSimpleTimedBuffEffect(BuffCategory.Positive)
+  val BonusDamageVsBossesBuff = +buffData(46).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
   val PoisonBuff = +buffData(47).makeDamageOverTimeBuffEffect(poisonDamage)
 
@@ -466,7 +466,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val ProvokeBuff =
       +buffData(49)
-          .makeTimedBuffEffect(
+          .makeContinuousBuffEffect(
               category = BuffCategory.Negative,
               exclusive = true,
               onStart = { _, source -> self.provokeTarget = source },
@@ -475,42 +475,42 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val StunBuff =
       +buffData(50)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Negative,
               exclusive = true,
           )
 
   val SleepBuff =
       +buffData(51)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Negative,
               exclusive = true,
           )
 
   val ConfusionBuff =
       +buffData(52)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Negative,
               exclusive = true,
           )
 
   val StopBuff =
       +buffData(53)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Negative,
               exclusive = true,
           )
 
   val FreezeBuff =
       +buffData(54)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Negative,
               exclusive = true,
           )
 
   val BlindnessBuff =
       +buffData(55)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Negative,
               exclusive = true,
           )
@@ -520,7 +520,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val HpRecoveryDownBuff =
       +buffData(58)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = hpRecoveryDown,
               category = BuffCategory.Negative,
           )
@@ -553,7 +553,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val ActionRestrictionResistanceUpBuff =
       +buffData(74)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Positive,
               locked = true,
               onStart = {
@@ -586,48 +586,48 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val RecoveryReductionResistance = +buffData(84).makeSpecificResistanceUpBuff(HpRecoveryDownBuff)
 
   // Not implemented
-  val AntiSoliderBuff = +buffData(85).makeSimpleTimedBuffEffect(BuffCategory.Positive)
-  val AntiLancerBuff = +buffData(86).makeSimpleTimedBuffEffect(BuffCategory.Positive)
-  val AntiFencerBuff = +buffData(87).makeSimpleTimedBuffEffect(BuffCategory.Positive)
-  val AntiMagicianBuff = +buffData(88).makeSimpleTimedBuffEffect(BuffCategory.Positive)
-  val AntiShielderBuff = +buffData(89).makeSimpleTimedBuffEffect(BuffCategory.Positive)
-  val AntiGunnerBuff = +buffData(90).makeSimpleTimedBuffEffect(BuffCategory.Positive)
-  val AntiJokerBuff = +buffData(91).makeSimpleTimedBuffEffect(BuffCategory.Positive)
-  val AntiBeastBuff = +buffData(92).makeSimpleTimedBuffEffect(BuffCategory.Positive)
-  val AntiQQQBuff = +buffData(93).makeSimpleTimedBuffEffect(BuffCategory.Positive)
-  val AntiMaterialBuff = +buffData(94).makeSimpleTimedBuffEffect(BuffCategory.Positive)
+  val AntiSoliderBuff = +buffData(85).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+  val AntiLancerBuff = +buffData(86).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+  val AntiFencerBuff = +buffData(87).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+  val AntiMagicianBuff = +buffData(88).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+  val AntiShielderBuff = +buffData(89).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+  val AntiGunnerBuff = +buffData(90).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+  val AntiJokerBuff = +buffData(91).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+  val AntiBeastBuff = +buffData(92).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+  val AntiQQQBuff = +buffData(93).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+  val AntiMaterialBuff = +buffData(94).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
-  val DamageDealtUpBuff: TimedBuffEffect<Unit> =
+  val DamageDealtUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(95)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = damageDealtUp,
               category = BuffCategory.Positive,
               flipped = { DamageDealtDownBuff })
 
-  val DamageDealtDownBuff: TimedBuffEffect<Unit> =
+  val DamageDealtDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(96)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = damageDealtDown,
               category = BuffCategory.Negative,
               flipped = { DamageDealtUpBuff })
 
-  val DamageReceivedUpBuff: TimedBuffEffect<Unit> =
+  val DamageReceivedUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(97)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = damageReceivedUp,
               category = BuffCategory.Negative,
               flipped = { DamageReceivedDownBuff })
 
-  val DamageReceivedDownBuff: TimedBuffEffect<Unit> =
+  val DamageReceivedDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(98)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = damageReceivedDown,
               category = BuffCategory.Positive,
               flipped = { DamageReceivedUpBuff })
 
-  val MarkBuff: TimedBuffEffect<Unit> =
+  val MarkBuff: ContinuousBuffEffect<Unit> =
       +buffData(99)
-          .makeIdempotentTimedBuffEffect(
+          .makeIdempotentContinuousBuffEffect(
               category = BuffCategory.Negative,
               exclusive = true,
               flipped = { FlippedMarkBuff },
@@ -635,9 +635,9 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               onEnd = { self.mod { damageReceivedUp -= 30 } },
           )
 
-  val FlippedMarkBuff: TimedBuffEffect<Unit> =
+  val FlippedMarkBuff: ContinuousBuffEffect<Unit> =
       +buffData(100)
-          .makeIdempotentTimedBuffEffect(
+          .makeIdempotentContinuousBuffEffect(
               category = BuffCategory.Positive,
               exclusive = true,
               flipped = { MarkBuff },
@@ -647,7 +647,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val AggroBuff =
       +buffData(101)
-          .makeTimedBuffEffect(
+          .makeContinuousBuffEffect(
               category = BuffCategory.Negative,
               exclusive = true,
               onStart = { _, source -> self.aggroTarget = source },
@@ -658,29 +658,29 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val ExitEvasionBuff =
       +buffData(103)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Positive,
               exclusive = true,
           )
 
   val InvincibilityBuff =
       +buffData(104)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Positive,
               exclusive = true,
           )
 
-  val ApDownBuff: TimedBuffEffect<Unit> =
+  val ApDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(105)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Positive,
               flipped = { ApUpBuff },
           )
 
-  val ApUpBuff: TimedBuffEffect<Unit> =
+  val ApUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(106)
           .copy(name = "AP Up")
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Negative,
               flipped = { ApDownBuff },
           )
@@ -705,7 +705,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val AllEffectResistanceUpBuff =
       +buffData(117)
-          .makeTimedBuffEffect(
+          .makeContinuousBuffEffect(
               category = BuffCategory.Positive,
               locked = true,
               onStart = { value, _ ->
@@ -729,19 +729,19 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val MarkResistanceUpBuff = +buffData(118).makeSpecificResistanceUpBuff(MarkBuff)
 
   // Not implemented
-  val EventBossDamageReductionBuff = +buffData(119).makeSimpleTimedBuffEffect(BuffCategory.Positive)
+  val EventBossDamageReductionBuff = +buffData(119).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
   // Not Implemented
-  val SealAct1Buff = +buffData(120).makeSimpleTimedBuffEffect(BuffCategory.Negative)
-  val SealAct2Buff = +buffData(121).makeSimpleTimedBuffEffect(BuffCategory.Negative)
-  val SealAct3Buff = +buffData(122).makeSimpleTimedBuffEffect(BuffCategory.Negative)
+  val SealAct1Buff = +buffData(120).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+  val SealAct2Buff = +buffData(121).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+  val SealAct3Buff = +buffData(122).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
 
   val SealAct1ResistanceUpBuff = +buffData(123).makeSpecificResistanceUpBuff(SealAct1Buff)
   val SealAct2ResistanceUpBuff = +buffData(124).makeSpecificResistanceUpBuff(SealAct2Buff)
   val SealAct3ResistanceUpBuff = +buffData(125).makeSpecificResistanceUpBuff(SealAct3Buff)
 
   val BrillianceGainDownBuff =
-      +buffData(126).makeModifierTimedBuffEffect(brillianceGainDown, BuffCategory.Negative)
+      +buffData(126).makeModifierContinuousBuffEffect(brillianceGainDown, BuffCategory.Negative)
 
   val BrillianceGainDownResistanceBuff =
       +buffData(127).makeSpecificResistanceUpBuff(BrillianceGainDownBuff)
@@ -757,13 +757,13 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val LockedBlindResistanceUpBuff = +buffData(135).makeLockedVariantOf(BlindResistanceUpBuff)
 
   val CountableActChangeBuff = +buffData(136).makeCountableBuffEffect(BuffCategory.Positive)
-  val TimedActChangeBuff = +buffData(137).makeSimpleTimedBuffEffect(BuffCategory.Positive)
+  val ContinuousActChangeBuff = +buffData(137).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
   val LockedConfusionBuff = +buffData(138).makeLockedVariantOf(ConfusionBuff)
 
   val ResilienceBuff =
       +buffData(139)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Positive,
               exclusive = true,
           )
@@ -803,16 +803,16 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val CloudDamageDealtDownBuff = +buffData(159).attributeDamageDealtDownBuff(Attribute.Cloud)
   val DreamDamageDealtDownBuff = +buffData(160).attributeDamageDealtDownBuff(Attribute.Dream)
 
-  val ClimaxDamageDownBuff: TimedBuffEffect<Unit> =
+  val ClimaxDamageDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(161)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = climaxDamageDown,
               category = BuffCategory.Negative,
               flipped = { ClimaxDamageUpBuff })
 
   val LovesicknessBuff =
       +buffData(162)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Negative,
               exclusive = true,
           )
@@ -828,13 +828,13 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
       +buffData(166).makeLockedVariantOf(ContinuousNegativeEffectResistanceUpBuff)
 
   // Not implemented
-  val SealCABuff = +buffData(167).makeSimpleTimedBuffEffect(BuffCategory.Negative)
+  val SealCABuff = +buffData(167).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
 
   val LockedSealCABuff = +buffData(168).makeLockedVariantOf(SealCABuff)
 
   val ElectricShockBuff =
       +buffData(169)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Negative,
               exclusive = true,
           )
@@ -852,7 +852,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val ContinuousPositiveEffectResistanceUpBuff =
       +buffData(175)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = positiveEffectResistanceUp, category = BuffCategory.Negative)
 
   val LockedContinuousPositiveEffectResistanceUpBuff =
@@ -860,7 +860,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val PositiveEffectResistanceUpBuff =
       +buffData(177)
-          .makeTimedBuffEffect(
+          .makeContinuousBuffEffect(
               category = BuffCategory.Positive,
               locked = true,
               onStart = { value, _ ->
@@ -890,14 +890,14 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val FixedAgilityBoost =
       +buffData(183)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = fixedAgility,
               category = BuffCategory.Positive,
           )
 
   val FixedMaxHpBoost =
       +buffData(184)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = fixedMaxHp,
               category = BuffCategory.Positive,
           )
@@ -906,7 +906,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageToSeishoUpBuff =
       +buffData(186)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.againstSchoolDamageDealtUp },
               key = School.Seisho,
               category = BuffCategory.Positive,
@@ -914,7 +914,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageToRinmeikanUpBuff =
       +buffData(187)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.againstSchoolDamageDealtUp },
               key = School.Rinmeikan,
               category = BuffCategory.Positive,
@@ -922,7 +922,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageToFrontierUpBuff =
       +buffData(188)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.againstSchoolDamageDealtUp },
               key = School.Frontier,
               category = BuffCategory.Positive,
@@ -930,7 +930,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageToSiegfeldUpBuff =
       +buffData(189)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.againstSchoolDamageDealtUp },
               key = School.Siegfeld,
               category = BuffCategory.Positive,
@@ -938,7 +938,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageToSeiranUpBuff =
       +buffData(190)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.againstSchoolDamageDealtUp },
               key = School.Seiran,
               category = BuffCategory.Positive,
@@ -946,7 +946,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromKarenUpBuff =
       +buffData(191)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Karen,
               category = BuffCategory.Negative,
@@ -954,7 +954,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromHikariUpBuff =
       +buffData(192)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Hikari,
               category = BuffCategory.Negative,
@@ -962,7 +962,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromMahiruUpBuff =
       +buffData(193)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Mahiru,
               category = BuffCategory.Negative,
@@ -970,7 +970,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromClaudineUpBuff =
       +buffData(194)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Claudine,
               category = BuffCategory.Negative,
@@ -978,7 +978,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromMayaUpBuff =
       +buffData(195)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Maya,
               category = BuffCategory.Negative,
@@ -986,7 +986,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromJunnaUpBuff =
       +buffData(196)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Junna,
               category = BuffCategory.Negative,
@@ -994,7 +994,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromNanaUpBuff =
       +buffData(197)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Nana,
               category = BuffCategory.Negative,
@@ -1002,7 +1002,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromFutabaUpBuff =
       +buffData(198)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Futaba,
               category = BuffCategory.Negative,
@@ -1010,7 +1010,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromKaorukoUpBuff =
       +buffData(199)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Kaoruko,
               category = BuffCategory.Negative,
@@ -1018,7 +1018,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromTamaoUpBuff =
       +buffData(200)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Tamao,
               category = BuffCategory.Negative,
@@ -1026,7 +1026,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromIchieUpBuff =
       +buffData(201)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Ichie,
               category = BuffCategory.Negative,
@@ -1034,7 +1034,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromFumiUpBuff =
       +buffData(202)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Fumi,
               category = BuffCategory.Negative,
@@ -1042,7 +1042,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromRuiUpBuff =
       +buffData(203)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Rui,
               category = BuffCategory.Negative,
@@ -1050,7 +1050,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromYuyukoUpBuff =
       +buffData(204)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Yuyuko,
               category = BuffCategory.Negative,
@@ -1058,7 +1058,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromAruruUpBuff =
       +buffData(205)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Aruru,
               category = BuffCategory.Negative,
@@ -1066,7 +1066,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromMisoraUpBuff =
       +buffData(206)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Misora,
               category = BuffCategory.Negative,
@@ -1074,7 +1074,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromLalafinUpBuff =
       +buffData(207)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Lalafin,
               category = BuffCategory.Negative,
@@ -1082,7 +1082,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromTsukasaUpBuff =
       +buffData(208)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Tsukasa,
               category = BuffCategory.Negative,
@@ -1090,7 +1090,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromShizuhaUpBuff =
       +buffData(209)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Shizuha,
               category = BuffCategory.Negative,
@@ -1098,7 +1098,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromAkiraUpBuff =
       +buffData(210)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Akira,
               category = BuffCategory.Negative,
@@ -1106,7 +1106,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromMichiruUpBuff =
       +buffData(211)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Michiru,
               category = BuffCategory.Negative,
@@ -1114,7 +1114,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromMeiFanUpBuff =
       +buffData(212)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.MeiFan,
               category = BuffCategory.Negative,
@@ -1122,7 +1122,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromShioriUpBuff =
       +buffData(213)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Shiori,
               category = BuffCategory.Negative,
@@ -1130,7 +1130,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromYachiyoUpBuff =
       +buffData(214)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Yachiyo,
               category = BuffCategory.Negative,
@@ -1138,7 +1138,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromKoharuUpBuff =
       +buffData(215)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Koharu,
               category = BuffCategory.Negative,
@@ -1146,7 +1146,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromSuzuUpBuff =
       +buffData(216)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Suzu,
               category = BuffCategory.Negative,
@@ -1154,7 +1154,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DamageFromHisameUpBuff =
       +buffData(217)
-          .makeMapModifierTimedBuffEffect(
+          .makeMapModifierContinuousBuffEffect(
               { it.fromCharacterDamageReceivedUp },
               key = Character.Hisame,
               category = BuffCategory.Negative,
@@ -1162,7 +1162,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val AgonyBuff =
       +buffData(218)
-          .makeIdempotentTimedBuffEffect(
+          .makeIdempotentContinuousBuffEffect(
               category = BuffCategory.Negative,
               exclusive = true,
               onStart = { self.mod { damageReceivedUp += 30 } },
@@ -1181,7 +1181,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val PossessionBuff =
       +buffData(225)
-          .makeTimedBuffEffect(
+          .makeContinuousBuffEffect(
               BuffCategory.Positive,
               related = ResilienceBuff,
               onStart = { _, _ -> self.mod { negativeEffectResistanceUp += 100 } },
@@ -1199,13 +1199,13 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   // Not implemented
   // Doesn't work in PvE anyways
-  val CurtainsClosedBuff = +buffData(229).makeSimpleTimedBuffEffect(BuffCategory.Negative)
+  val CurtainsClosedBuff = +buffData(229).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
 
   val LockedCurtainsClosedBuff = +buffData(230).makeLockedVariantOf(CurtainsClosedBuff)
 
   val NegativeCountableEffectResistanceUpBuff =
       +buffData(231)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = negativeCountableEffectResistanceUp,
               category = BuffCategory.Positive,
           )
@@ -1215,41 +1215,41 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val BrillianceGainUpBuff =
       +buffData(233)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = brillianceGainUp,
               category = BuffCategory.Positive,
           )
 
   val LockedResilienceBuff = +buffData(234).makeLockedVariantOf(ResilienceBuff)
 
-  val ApUp2Buff: TimedBuffEffect<Unit> =
+  val ApUp2Buff: ContinuousBuffEffect<Unit> =
       +buffData(235)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Negative,
           )
 
-  val LockedApUp2Buff: TimedBuffEffect<Unit> =
+  val LockedApUp2Buff: ContinuousBuffEffect<Unit> =
       +buffData(236)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Negative,
           )
 
-  val ApDown2Buff: TimedBuffEffect<Unit> =
+  val ApDown2Buff: ContinuousBuffEffect<Unit> =
       +buffData(237)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Positive,
           )
 
-  val LockedApDown2Buff: TimedBuffEffect<Unit> =
+  val LockedApDown2Buff: ContinuousBuffEffect<Unit> =
       +buffData(238)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Positive,
           )
 
   // TODO: handle stacking properly
   val CutinInitialCooldownReductionBuff =
       +buffData(239)
-          .makeTimedBuffEffect(
+          .makeContinuousBuffEffect(
               category = BuffCategory.Positive,
               onStart = { value, _ -> self.cutinInitialCooldownReduction += value },
               onEnd = { value, _, _ -> self.cutinInitialCooldownReduction -= value },
@@ -1257,25 +1257,25 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val CounterHealBuff2 =
       +buffData(240)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = counterHealFixed,
               category = BuffCategory.Positive,
           )
 
   val HoldBackBuff = +buffData(241).makeCountableBuffEffect(BuffCategory.Negative)
 
-  val SealStageEffectBuff = +buffData(242).makeSimpleTimedBuffEffect(BuffCategory.Negative)
+  val SealStageEffectBuff = +buffData(242).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
 
   val LockedSealStageEffectBuff = +buffData(243).makeLockedVariantOf(SealStageEffectBuff)
 
   // This is for OR, so it's not really used
-  val AddActs1Buff = +buffData(244).makeSimpleTimedBuffEffect(BuffCategory.Positive)
-  val AddActs2Buff = +buffData(245).makeSimpleTimedBuffEffect(BuffCategory.Positive)
+  val AddActs1Buff = +buffData(244).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+  val AddActs2Buff = +buffData(245).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
-  //    val BulkheadBuff = +buffData(246).makeSimpleTimedBuffEffect(BuffCategory.Positive)
+  //    val BulkheadBuff = +buffData(246).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
   // Not implemented
-  val AntiOathRevueBuff = +buffData(247).makeSimpleTimedBuffEffect(BuffCategory.Positive)
+  val AntiOathRevueBuff = +buffData(247).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
   val DisasterBrillianceReductionBuff =
       +buffData(248).makeCountableBuffEffect(BuffCategory.Negative)
@@ -1303,13 +1303,13 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val NormalSuperReflectBuff =
       +buffData(258)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Positive,
           )
 
   val SpecialSuperReflectBuff =
       +buffData(259)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Positive,
           )
 
@@ -1330,7 +1330,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val ContractionBuff =
       +buffData(267)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Negative,
               exclusive = true,
           )
@@ -1338,7 +1338,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val HpRegenBuff2 =
       +buffData(268)
           .copy(name = "HP Regen")
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Positive,
               onStart = { value ->
                 if (value <= 100) {
@@ -1357,13 +1357,13 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
           )
 
   // TODO: Not implemented
-  val SealInstantSkillBuff = +buffData(269).makeSimpleTimedBuffEffect(BuffCategory.Negative)
+  val SealInstantSkillBuff = +buffData(269).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
 
   val LockedSealInstantSkillBuff = +buffData(270).makeLockedVariantOf(SealInstantSkillBuff)
 
   val CountablePositiveEffectResistanceUpBuff =
       +buffData(271)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = positiveCountableEffectResistanceUp,
               category = BuffCategory.Negative,
           )
@@ -1375,7 +1375,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val StaminaActPowerUpBuff =
       +buffData(274)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = staminaActPowerUp,
               category = BuffCategory.Positive,
           )
@@ -1384,14 +1384,14 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val MultipleCAficationBuff =
       +buffData(276)
-          .makeSimpleTimedBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Positive,
               exclusive = true,
           )
 
   val BrillianceSapBuff =
       +buffData(277)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = brillianceRegen,
               category = BuffCategory.Negative,
           )
@@ -1406,7 +1406,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val ReviveRegenBuff =
       +buffData(280)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = reviveRegen,
               category = BuffCategory.Positive,
           )
@@ -1420,25 +1420,25 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
       +buffData(283).makeLockedVariantOf(SealStageEffectResistanceUpBuff)
 
   val TurnRemoveContinuousNegativeEffectsBuff =
-      +buffData(284).makeSimpleTimedBuffEffect(BuffCategory.Positive)
+      +buffData(284).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
   val LockedTurnRemoveContinuousNegativeEffectsBuff =
       +buffData(285).makeLockedVariantOf(TurnRemoveContinuousNegativeEffectsBuff)
 
   val TurnRemoveCountableNegativeEffectsBuff =
-      +buffData(286).makeSimpleTimedBuffEffect(BuffCategory.Positive)
+      +buffData(286).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
   val LockedTurnRemoveCountableNegativeEffectsBuff =
       +buffData(287).makeLockedVariantOf(TurnRemoveCountableNegativeEffectsBuff)
 
   val TurnRemoveContinuousPositiveEffectsBuff =
-      +buffData(288).makeSimpleTimedBuffEffect(BuffCategory.Negative)
+      +buffData(288).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
 
   val LockedTurnRemoveContinuousPositiveEffectsBuff =
       +buffData(289).makeLockedVariantOf(TurnRemoveContinuousPositiveEffectsBuff)
 
   //  val TurnRemoveCountablePositiveEffectsBuff =
-  //      +buffData(xxx).makeSimpleTimedBuffEffect(BuffCategory.Negative)
+  //      +buffData(xxx).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
   //
   //  val LockedTurnRemoveCountablePositiveEffectsBuff =
   //      +buffData(xxx).makeLockedVariantOf(TurnRemoveCountablePositiveEffectsBuff)
@@ -1447,7 +1447,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val SuperStrengthRegenBuff =
       +buffData(292)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = superStrengthRegen,
               category = BuffCategory.Positive,
           )
@@ -1458,7 +1458,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val TurnReduceCountableNegativeEffectsBuff =
       +buffData(297)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = turnReduceCountableNegativeEffects,
               category = BuffCategory.Positive,
           )
@@ -1468,7 +1468,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val BrillianceRegenTurnScalingBuff =
       +buffData(299)
-          .makeModifierTimedBuffEffect(
+          .makeModifierContinuousBuffEffect(
               modifier = brillianceRegenTurnScaling,
               category = BuffCategory.Positive,
           )
@@ -1478,7 +1478,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val LockedAgonyBuff = +buffData(301).makeLockedVariantOf(AgonyBuff)
 
-  val SealMultipleCABuff = +buffData(302).makeSimpleTimedBuffEffect(BuffCategory.Negative)
+  val SealMultipleCABuff = +buffData(302).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
   val LockedSealMultipleCABuff = +buffData(303).makeLockedVariantOf(SealMultipleCABuff)
 
   // TODO: Unfilled gap

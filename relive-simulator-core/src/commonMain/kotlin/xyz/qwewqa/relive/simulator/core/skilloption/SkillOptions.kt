@@ -29,15 +29,15 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
       activeType: AutoSkillType = AutoSkillType.TurnStartB
   ): SkillOption {
     return when (val effect = Buffs[params[0]] ?: error("No buff effect for ${params[0]}")) {
-      is TimedBuffEffect<*> -> {
+      is ContinuousBuffEffect<*> -> {
         makeDualSkillOption(
             activeType = activeType,
             activeAction = { value, time, chance ->
-              applyTimedBuff(effect = effect, value = value, turns = time, chance = chance)
+              applyContinuousBuff(effect = effect, value = value, turns = time, chance = chance)
             },
             passiveAction = { value ->
               targets.forEach { target ->
-                target.buffs.activatePsuedoBuff(effect as TimedBuffEffect<Unit>, value = value)
+                target.buffs.activatePsuedoBuff(effect as ContinuousBuffEffect<Unit>, value = value)
               }
             })
       }
@@ -49,21 +49,22 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
     }
   }
 
-  fun SkillOptionData.dispelTimedEffect(): ActiveSkillOption {
-    val effect = Buffs[params[0]] as? TimedBuffEffect<*> ?: error("No buff effect for ${params[0]}")
-    return makeSkillOption { value, time -> dispelTimed(effect = effect) }
+  fun SkillOptionData.removeContinuousEffect(): ActiveSkillOption {
+    val effect =
+        Buffs[params[0]] as? ContinuousBuffEffect<*> ?: error("No buff effect for ${params[0]}")
+    return makeSkillOption { value, time -> removeContinuous(effect = effect) }
   }
 
   fun SkillOptionData.reduceCountable(): ActiveSkillOption {
     val effect =
         Buffs[params[0]] as? CountableBuffEffect ?: error("No buff effect for ${params[0]}")
-    return makeSkillOption { value -> dispelCountable(effect, value) }
+    return makeSkillOption { value -> removeCountable(effect, value) }
   }
 
   fun SkillOptionData.removeAllCountable(): ActiveSkillOption {
     val effect =
         Buffs[params[0]] as? CountableBuffEffect ?: error("No buff effect for ${params[0]}")
-    return makeSkillOption { _ -> dispelCountable(effect) }
+    return makeSkillOption { _ -> removeCountable(effect) }
   }
 
   val Attack1Hit = +skillOptionData(1).simpleAttack()
@@ -176,16 +177,16 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
 
   //    val RemoveStatBuffs = +skillOptionData(101).makeSkillOption {  }
   //    val RemoveStatDebuffs = +skillOptionData(102).makeSkillOption {  }
-  val RemovePoison = +skillOptionData(103).dispelTimedEffect()
-  val RemoveBurn = +skillOptionData(104).dispelTimedEffect()
-  val RemoveProvoke = +skillOptionData(105).dispelTimedEffect()
-  val RemoveStun = +skillOptionData(106).dispelTimedEffect()
-  val RemoveSleep = +skillOptionData(107).dispelTimedEffect()
-  val RemoveConfusion = +skillOptionData(108).dispelTimedEffect()
-  val RemoveStop = +skillOptionData(109).dispelTimedEffect()
-  val RemoveFreeze = +skillOptionData(110).dispelTimedEffect()
-  val RemoveBlindness = +skillOptionData(111).dispelTimedEffect()
-  val RemoveHpRecoveryReduction = +skillOptionData(112).dispelTimedEffect()
+  val RemovePoison = +skillOptionData(103).removeContinuousEffect()
+  val RemoveBurn = +skillOptionData(104).removeContinuousEffect()
+  val RemoveProvoke = +skillOptionData(105).removeContinuousEffect()
+  val RemoveStun = +skillOptionData(106).removeContinuousEffect()
+  val RemoveSleep = +skillOptionData(107).removeContinuousEffect()
+  val RemoveConfusion = +skillOptionData(108).removeContinuousEffect()
+  val RemoveStop = +skillOptionData(109).removeContinuousEffect()
+  val RemoveFreeze = +skillOptionData(110).removeContinuousEffect()
+  val RemoveBlindness = +skillOptionData(111).removeContinuousEffect()
+  val RemoveHpRecoveryReduction = +skillOptionData(112).removeContinuousEffect()
   val BonusDamageVsSoldiers = +skillOptionData(113).applyEffect()
   val BonusDamageVsLancers = +skillOptionData(114).applyEffect()
   val BonusDamageVsFencers = +skillOptionData(115).applyEffect()
@@ -201,9 +202,9 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val DamageReceivedUp = +skillOptionData(125).applyEffect()
   val DamageReceivedDown = +skillOptionData(126).applyEffect()
   val RemoveContinuousPositiveEffects =
-      +skillOptionData(127).makeSkillOption { _ -> dispelTimed(BuffCategory.Positive) }
+      +skillOptionData(127).makeSkillOption { _ -> removeContinuous(BuffCategory.Positive) }
   val RemoveContinuousNegativeEffects =
-      +skillOptionData(128).makeSkillOption { _ -> dispelTimed(BuffCategory.Negative) }
+      +skillOptionData(128).makeSkillOption { _ -> removeContinuous(BuffCategory.Negative) }
 
   // TODO: bypass damage
 
@@ -218,11 +219,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val Mark = +skillOptionData(150).applyEffect()
   val FlipNegativeEffects =
       +skillOptionData(151).makeSkillOption { value, time ->
-        flipTimed(category = BuffCategory.Negative, count = time)
+        flipContinuous(category = BuffCategory.Negative, count = time)
       }
   val Aggro = +skillOptionData(152).applyEffect()
   val AggroResistanceUp = +skillOptionData(153).applyEffect(AutoSkillType.TurnStartA)
-  val RemoveAggro = +skillOptionData(154).dispelTimedEffect()
+  val RemoveAggro = +skillOptionData(154).removeContinuousEffect()
   val ExitEvasion = +skillOptionData(155).applyEffect()
   val Invincible = +skillOptionData(156).applyEffect()
   val ApDown = +skillOptionData(157).applyEffect()
@@ -252,8 +253,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
 
   val RemoveContinuousEffects =
       +skillOptionData(239).makeSkillOption { _ ->
-        dispelTimed(BuffCategory.Positive)
-        dispelTimed(BuffCategory.Negative)
+        removeContinuous(BuffCategory.Positive)
+        removeContinuous(BuffCategory.Negative)
       }
   val AllEffectsResistanceUp = +skillOptionData(240).applyEffect(AutoSkillType.TurnStartA)
 
@@ -261,7 +262,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
 
   val NormalBarrierPercent =
       +skillOptionData(242).makeSkillOption { value, time, chance ->
-        applyTimedBuff(
+        applyContinuousBuff(
             effect = Buffs.NormalBarrierBuff,
             value = { target: Actor -> target.maxHp * value / 100 },
             turns = time,
@@ -270,7 +271,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
       }
   val SpecialBarrierPercent =
       +skillOptionData(243).makeSkillOption { value, time, chance ->
-        applyTimedBuff(
+        applyContinuousBuff(
             effect = Buffs.SpecialBarrierBuff,
             value = { target: Actor -> target.maxHp * value / 100 },
             turns = time,
@@ -292,13 +293,13 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val SealAct1ResistanceUp = +skillOptionData(253).applyEffect(AutoSkillType.TurnStartA)
   val SealAct2ResistanceUp = +skillOptionData(254).applyEffect(AutoSkillType.TurnStartA)
   val SealAct3ResistanceUp = +skillOptionData(255).applyEffect(AutoSkillType.TurnStartA)
-  val RemoveSealAct1 = +skillOptionData(256).dispelTimedEffect()
-  val RemoveSealAct2 = +skillOptionData(257).dispelTimedEffect()
-  val RemoveSealAct3 = +skillOptionData(258).dispelTimedEffect()
+  val RemoveSealAct1 = +skillOptionData(256).removeContinuousEffect()
+  val RemoveSealAct2 = +skillOptionData(257).removeContinuousEffect()
+  val RemoveSealAct3 = +skillOptionData(258).removeContinuousEffect()
   val BrillianceRecoveryDown = +skillOptionData(259).applyEffect()
   val BrillianceRecoveryDownResistanceUp =
       +skillOptionData(260).applyEffect(AutoSkillType.TurnStartA)
-  val RemoveBrillianceRecoveryDown = +skillOptionData(261).dispelTimedEffect()
+  val RemoveBrillianceRecoveryDown = +skillOptionData(261).removeContinuousEffect()
 
   val HitRandom20Stun2t =
       +skillOptionData(262).makeSkillOption { value, time, _, attribute ->
@@ -530,7 +531,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val ReduceActChange = +skillOptionData(294).reduceCountable()
   val RemoveActChange = +skillOptionData(295).removeAllCountable()
   val ActChangeContinuous = +skillOptionData(296).applyEffect()
-  val RemoveActChangeContinuous = +skillOptionData(297).dispelTimedEffect()
+  val RemoveActChangeContinuous = +skillOptionData(297).removeContinuousEffect()
 
   val LockedConfusion = +skillOptionData(298).applyEffect()
 
@@ -593,7 +594,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
 
   val LockedHpRecoveryDown = +skillOptionData(311).applyEffect()
 
-  // TODO: 312, 313 : DoT dispel/resistance
+  // TODO: 312, 313 : DoT remove/resistance
 
   val AttackElementalSetDamage7Hit = +skillOptionData(314).elementalFixedAttack()
   val AttackElementalSetDamage8Hit = +skillOptionData(315).elementalFixedAttack()
@@ -618,7 +619,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
 
   val FlipPositiveEffects =
       +skillOptionData(323).makeSkillOption { _, time ->
-        flipTimed(BuffCategory.Positive, count = time)
+        flipContinuous(BuffCategory.Positive, count = time)
       }
 
   val FlowerDamageReceiveedUp = +skillOptionData(324).applyEffect()
@@ -639,8 +640,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
 
   val RemovePositiveEffects =
       +skillOptionData(338).makeSkillOption { _ ->
-        dispelTimed(BuffCategory.Positive)
-        dispelCountable(BuffCategory.Positive)
+        removeContinuous(BuffCategory.Positive)
+        removeCountable(BuffCategory.Positive)
       }
 
   val ClimaxActDamageDown = +skillOptionData(339).applyEffect()
@@ -649,7 +650,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val LockedLovesickness = +skillOptionData(341).applyEffect()
   val LovesicknessResistanceUp = +skillOptionData(342).applyEffect(AutoSkillType.TurnStartA)
   val LockedLovesicknessResistanceUp = +skillOptionData(343).applyEffect(AutoSkillType.TurnStartA)
-  val RemoveLovesickness = +skillOptionData(344).dispelTimedEffect()
+  val RemoveLovesickness = +skillOptionData(344).removeContinuousEffect()
   val AttackLovesicknessBoost =
       +skillOptionData(345).makeSkillOption { value, time, _, attribute ->
         attack(
@@ -668,8 +669,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val SealClimaxAct = +skillOptionData(348).applyEffect()
   val LockedSealClimaxAct = +skillOptionData(349).applyEffect()
 
-  val RemoveContinuousNegativeEffectResistanceUp = +skillOptionData(350).dispelTimedEffect()
-  val RemoveContinuousNegativeEffectResistanceDown = +skillOptionData(351).dispelTimedEffect()
+  val RemoveContinuousNegativeEffectResistanceUp = +skillOptionData(350).removeContinuousEffect()
+  val RemoveContinuousNegativeEffectResistanceDown = +skillOptionData(351).removeContinuousEffect()
 
   val ShockFixed = +skillOptionData(352).applyEffect()
   //    val ShockPercent = +skillOptionData(353).applyEffect()
@@ -677,7 +678,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   //    val LockedShockPercent = +skillOptionData(355).applyEffect()
   val ShockResistanceUp = +skillOptionData(356).applyEffect(AutoSkillType.TurnStartA)
   val LockedShockResistanceUp = +skillOptionData(357).applyEffect(AutoSkillType.TurnStartA)
-  val RemoveShock = +skillOptionData(358).dispelTimedEffect()
+  val RemoveShock = +skillOptionData(358).removeContinuousEffect()
   val AttackShockBoost =
       +skillOptionData(359).makeSkillOption { value, time, _, attribute ->
         attack(
@@ -821,7 +822,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val LockedPositiveEffectResistanceUp = +skillOptionData(382).applyEffect(AutoSkillType.TurnStartA)
 
   val RemoveCountablePositiveEffects =
-      +skillOptionData(383).makeSkillOption { _ -> dispelCountable(BuffCategory.Positive) }
+      +skillOptionData(383).makeSkillOption { _ -> removeCountable(BuffCategory.Positive) }
 
   val Daze = +skillOptionData(384).applyEffect()
   val Impudence = +skillOptionData(385).applyEffect()
@@ -990,7 +991,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
 
   val ReduceCountableNegativeEffects =
       +skillOptionData(444).makeSkillOption { _, time ->
-        dispelCountable(BuffCategory.Negative, count = time)
+        removeCountable(BuffCategory.Negative, count = time)
       }
 
   val CountableNegativeEffectResistanceUp =
@@ -1006,7 +1007,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
 
   val CountablePositiveEffectsReduction =
       +skillOptionData(453).makeSkillOption { _, time ->
-        dispelCountable(BuffCategory.Positive, count = time)
+        removeCountable(BuffCategory.Positive, count = time)
       }
 
   val ReviveReduction = +skillOptionData(454).reduceCountable()
@@ -1015,7 +1016,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
 
   val HoldBack = +skillOptionData(460).applyEffect()
 
-  val RemoveCountableNegativeEffectResistance = +skillOptionData(462).dispelTimedEffect()
+  val RemoveCountableNegativeEffectResistance = +skillOptionData(462).removeContinuousEffect()
 
   val SealStageEffect = +skillOptionData(463).applyEffect()
   val LockedSealStageEffect = +skillOptionData(464).applyEffect()
@@ -1040,7 +1041,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val LockedImpudenceResistanceUp = +skillOptionData(480).applyEffect(AutoSkillType.TurnStartA)
 
   fun SkillOptionData.scalingEffect(
-      effect: TimedBuffEffect<Unit>,
+      effect: ContinuousBuffEffect<Unit>,
       cap: Int,
       condition: (Actor) -> Boolean
   ) =
@@ -1190,7 +1191,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
       +skillOptionData(511).makeSkillOption { _ ->
         targets.forEach { target ->
           // Bypass resistances
-          target.buffs.dispelCountable(Buffs.OverwhelmBuff)
+          target.buffs.removeCountable(Buffs.OverwhelmBuff)
           target.buffs.addCountable(Buffs.OverwhelmBuff)
         }
       }
@@ -1273,7 +1274,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
       +skillOptionData(547).scalingEvasionUp(60) { it.dress.attribute == Attribute.Dream }
 
   val RemoveCountableNegativeEffects =
-      +skillOptionData(548).makeSkillOption { _ -> dispelCountable(BuffCategory.Negative) }
+      +skillOptionData(548).makeSkillOption { _ -> removeCountable(BuffCategory.Negative) }
 
   val BrillianceSap = +skillOptionData(549).applyEffect()
   val LockedEffectiveDamageUp = +skillOptionData(550).applyEffect()
@@ -1392,7 +1393,12 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val SealMultipleCA = +skillOptionData(578).applyEffect()
   val LockedSealMultipleCA = +skillOptionData(579).applyEffect()
 
-  // TODO: 580: Act Boost Pride, 581: Cont. Positive Shortening
+  // TODO: 580: Act Boost Pride
+
+  val ShortenContinuousPositiveEffects =
+      +skillOptionData(581).makeSkillOption { value ->
+        shortenContinuous(BuffCategory.Positive, value)
+      }
 
   val BlessingRemoveCountableNegativeEffect = +skillOptionData(582).applyEffect()
 }

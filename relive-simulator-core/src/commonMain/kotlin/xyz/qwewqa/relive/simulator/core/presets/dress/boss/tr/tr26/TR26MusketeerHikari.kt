@@ -44,7 +44,7 @@ val tr26MusketeerHikari =
                             modifier = 150,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
@@ -92,12 +92,12 @@ val tr26MusketeerHikari =
                     },
                     ActType.Act7("Ironclad Dance", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialBarrierBuff,
                             value = 10000,
                             turns = 3,
@@ -106,7 +106,7 @@ val tr26MusketeerHikari =
                     },
                     ActType.Act8("Accuracy Concerto", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -119,22 +119,22 @@ val tr26MusketeerHikari =
                       }
                     },
                     ActType.Act9("Purifying Dance", 2) {
-                      targetSelf().act { dispelTimed(BuffCategory.Negative) }
-                      targetAoe().act { dispelTimed(BuffCategory.Positive) }
+                      targetSelf().act { removeContinuous(BuffCategory.Negative) }
+                      targetAoe().act { removeContinuous(BuffCategory.Positive) }
                     },
                     ActType.Act10("Inspiring Gust", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
@@ -147,7 +147,7 @@ val tr26MusketeerHikari =
                             modifier = 200,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
@@ -250,7 +250,7 @@ val tr26MusketeerHikariDiff4 =
                             modifier = 150,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )
@@ -298,12 +298,12 @@ val tr26MusketeerHikariDiff4 =
                     },
                     ActType.Act7("Ironclad Dance", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalBarrierBuff,
                             value = 10000,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialBarrierBuff,
                             value = 10000,
                             turns = 3,
@@ -312,7 +312,7 @@ val tr26MusketeerHikariDiff4 =
                     },
                     ActType.Act8("Accuracy Concerto", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -325,22 +325,22 @@ val tr26MusketeerHikariDiff4 =
                       }
                     },
                     ActType.Act9("Purifying Dance", 2) {
-                      targetSelf().act { dispelTimed(BuffCategory.Negative) }
-                      targetAoe().act { dispelTimed(BuffCategory.Positive) }
+                      targetSelf().act { removeContinuous(BuffCategory.Negative) }
+                      targetAoe().act { removeContinuous(BuffCategory.Positive) }
                     },
                     ActType.Act10("Inspiring Gust", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
@@ -354,7 +354,7 @@ val tr26MusketeerHikariDiff4 =
                             hitCount = 4,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ConfusionBuff,
                             turns = 2,
                         )

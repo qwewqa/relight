@@ -81,7 +81,7 @@ val tr21CheerAkira =
                             modifier = 150,
                             hitCount = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PoisonBuff,
                             value = 10000,
                             turns = 3,
@@ -90,17 +90,17 @@ val tr21CheerAkira =
                     },
                     ActType.Act7("Inspiring Concerto", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
@@ -113,7 +113,7 @@ val tr21CheerAkira =
                             modifier = 200,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PoisonBuff,
                             value = 10000,
                             turns = 3,
@@ -241,7 +241,7 @@ val tr21CheerAkiraDiff4 =
                             hitCount = 3,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PoisonBuff,
                             value = 99999,
                             turns = 3,
@@ -250,17 +250,17 @@ val tr21CheerAkiraDiff4 =
                     },
                     ActType.Act7("Inspiring Concerto", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
@@ -274,7 +274,7 @@ val tr21CheerAkiraDiff4 =
                             hitCount = 4,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PoisonBuff,
                             value = 99999,
                             turns = 3,

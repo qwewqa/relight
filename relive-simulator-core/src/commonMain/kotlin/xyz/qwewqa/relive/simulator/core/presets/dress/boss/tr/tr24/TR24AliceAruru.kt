@@ -70,7 +70,7 @@ val tr24AliceAruru =
                     },
                     ActType.Act5("Perfect Aim Sharpshooting", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -84,17 +84,17 @@ val tr24AliceAruru =
                     },
                     ActType.Act6("Insipiring Gust", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
@@ -107,12 +107,12 @@ val tr24AliceAruru =
                             modifier = 150,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BurnBuff,
                             value = 7000,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BlindnessBuff,
                             turns = 2,
                         )
@@ -124,12 +124,12 @@ val tr24AliceAruru =
                             modifier = 200,
                             hitCount = 4,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BurnBuff,
                             value = 7000,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BlindnessBuff,
                             turns = 2,
                         )
@@ -229,7 +229,7 @@ val tr24AliceAruruDiff4 =
                     },
                     ActType.Act5("Perfect Aim Sharpshooting", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -243,17 +243,17 @@ val tr24AliceAruruDiff4 =
                     },
                     ActType.Act6("Insipiring Gust", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
@@ -267,12 +267,12 @@ val tr24AliceAruruDiff4 =
                             hitCount = 4,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BlindnessBuff,
                             turns = 2,
                         )
@@ -285,12 +285,12 @@ val tr24AliceAruruDiff4 =
                             hitCount = 4,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BlindnessBuff,
                             turns = 2,
                         )

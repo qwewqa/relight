@@ -85,12 +85,12 @@ val tr19KomachiTamao =
                     },
                     ActType.Act7("Helpless Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.DexterityDownBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.CriticalDownBuff,
                             value = 50,
                             turns = 3,
@@ -99,7 +99,7 @@ val tr19KomachiTamao =
                     },
                     ActType.Act8("Evasion Dance", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.EvasionUpBuff,
                             value = 50,
                             turns = 2,
@@ -108,12 +108,12 @@ val tr19KomachiTamao =
                     },
                     ActType.Act9("Perfect Aim Flurry", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -127,12 +127,12 @@ val tr19KomachiTamao =
                     },
                     ActType.ClimaxAct("Cherry Blossom Quick-Draw NEO", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -255,12 +255,12 @@ val tr19KomachiTamaoDiff4 =
                     },
                     ActType.Act7("Helpless Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.DexterityDownBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.CriticalDownBuff,
                             value = 50,
                             turns = 3,
@@ -269,7 +269,7 @@ val tr19KomachiTamaoDiff4 =
                     },
                     ActType.Act8("Evasion Dance", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.EvasionUpBuff,
                             value = 50,
                             turns = 2,
@@ -278,12 +278,12 @@ val tr19KomachiTamaoDiff4 =
                     },
                     ActType.Act9("Perfect Aim Flurry", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(effect = Buffs.PerfectAimBuff, turns = 1)
+                        applyContinuousBuff(effect = Buffs.PerfectAimBuff, turns = 1)
                       }
                       targetAoe().act {
                         attack(
@@ -294,12 +294,12 @@ val tr19KomachiTamaoDiff4 =
                     },
                     ActType.ClimaxAct("Cherry Blossom Quick-Draw NEO", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(effect = Buffs.PerfectAimBuff, turns = 1)
+                        applyContinuousBuff(effect = Buffs.PerfectAimBuff, turns = 1)
                       }
                       targetAoe().act {
                         attack(

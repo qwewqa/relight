@@ -86,17 +86,17 @@ val tr23MafiaNana =
                     },
                     ActType.Act7("Inspiring Gust", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
@@ -104,8 +104,8 @@ val tr23MafiaNana =
                       }
                     },
                     ActType.Act8("Purifying Dance", 2) {
-                      targetSelf().act { dispelTimed(BuffCategory.Negative) }
-                      targetAoe().act { dispelTimed(BuffCategory.Positive) }
+                      targetSelf().act { removeContinuous(BuffCategory.Negative) }
+                      targetAoe().act { removeContinuous(BuffCategory.Positive) }
                     },
                     ActType.Act9("Constraint Concerto", 2) {
                       targetAoe().act {
@@ -113,7 +113,7 @@ val tr23MafiaNana =
                             modifier = 150,
                             hitCount = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.StunBuff,
                             turns = 2,
                         )
@@ -125,7 +125,7 @@ val tr23MafiaNana =
                             modifier = 200,
                             hitCount = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.StunBuff,
                             turns = 2,
                         )
@@ -255,17 +255,17 @@ val tr23MafiaNanaDiff4 =
                     },
                     ActType.Act7("Inspiring Gust", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalDefenseUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialDefenseUpBuff,
                             value = 50,
                             turns = 3,
@@ -273,8 +273,8 @@ val tr23MafiaNanaDiff4 =
                       }
                     },
                     ActType.Act8("Purifying Dance", 2) {
-                      targetSelf().act { dispelTimed(BuffCategory.Negative) }
-                      targetAoe().act { dispelTimed(BuffCategory.Positive) }
+                      targetSelf().act { removeContinuous(BuffCategory.Negative) }
+                      targetAoe().act { removeContinuous(BuffCategory.Positive) }
                     },
                     ActType.Act9("Constraint Concerto", 2) {
                       targetAoe().act {
@@ -283,7 +283,7 @@ val tr23MafiaNanaDiff4 =
                             hitCount = 3,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.StunBuff,
                             turns = 2,
                         )
@@ -296,7 +296,7 @@ val tr23MafiaNanaDiff4 =
                             hitCount = 3,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.StunBuff,
                             turns = 2,
                         )

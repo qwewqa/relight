@@ -275,13 +275,13 @@ class TargetContext(
 
   fun applyBuff(effect: BuffEffect, value: Int = 0, time: Int, chance: Int = 100) =
       when (effect) {
-        is TimedBuffEffect<*> ->
-            applyTimedBuff(effect = effect, value = value, turns = time, chance = chance)
+        is ContinuousBuffEffect<*> ->
+            applyContinuousBuff(effect = effect, value = value, turns = time, chance = chance)
         is CountableBuffEffect ->
             applyCountableBuff(effect = effect, count = time, value = value, chance = chance)
       }
 
-  fun applyTimedBuff(effect: TimedBuffEffect<*>, value: Int = 0, turns: Int, chance: Int = 100) {
+  fun applyContinuousBuff(effect: ContinuousBuffEffect<*>, value: Int = 0, turns: Int, chance: Int = 100) {
     if (!self.isAlive) return
     for (originalTarget in originalTargets) {
       val target = aggroTarget ?: originalTarget
@@ -321,8 +321,8 @@ class TargetContext(
     }
   }
 
-  fun applyTimedBuff(
-      effect: TimedBuffEffect<*>,
+  fun applyContinuousBuff(
+      effect: ContinuousBuffEffect<*>,
       value: (Actor) -> Int,
       turns: Int,
       chance: Int = 100
@@ -412,49 +412,77 @@ class TargetContext(
     }
   }
 
-  fun dispelTimed(category: BuffCategory) {
+  fun removeContinuous(category: BuffCategory) {
     if (!self.isAlive) return
     for (originalTarget in originalTargets) {
       val target = aggroTarget ?: originalTarget
       if (!target.isAlive) continue
       target.apply {
         actionContext.log("Dispel", category = LogCategory.BUFF) {
-          "Dispel timed ${category.name} effects from [$name]."
+          "Dispel continuous ${category.name} effects from [$name]."
         }
-        buffs.dispel(category)
+        buffs.remove(category)
       }
     }
   }
 
-  fun dispelTimed(effect: TimedBuffEffect<*>) {
+  fun shortenContinuous(category: BuffCategory, amount: Int) {
     if (!self.isAlive) return
     for (originalTarget in originalTargets) {
       val target = aggroTarget ?: originalTarget
       if (!target.isAlive) continue
       target.apply {
         actionContext.log("Dispel", category = LogCategory.BUFF) {
-          "Dispel timed ${effect.name} effects from [$name]."
+          "Shorten continuous ${category.name} effects to [$name]."
+        }
+        buffs.adjustContinuousTurns(category, -amount)
+      }
+    }
+  }
+
+  fun lengthenContinuous(category: BuffCategory, amount: Int) {
+    if (!self.isAlive) return
+    for (originalTarget in originalTargets) {
+      val target = aggroTarget ?: originalTarget
+      if (!target.isAlive) continue
+      target.apply {
+        actionContext.log("Dispel", category = LogCategory.BUFF) {
+          "Lengthen continuous ${category.name} effects to [$name]."
+        }
+        buffs.adjustContinuousTurns(category, amount)
+      }
+    }
+  }
+
+  fun removeContinuous(effect: ContinuousBuffEffect<*>) {
+    if (!self.isAlive) return
+    for (originalTarget in originalTargets) {
+      val target = aggroTarget ?: originalTarget
+      if (!target.isAlive) continue
+      target.apply {
+        actionContext.log("Dispel", category = LogCategory.BUFF) {
+          "Dispel continuous ${effect.name} effects from [$name]."
         }
         buffs.removeAll(effect)
       }
     }
   }
 
-  fun flipTimed(category: BuffCategory, count: Int) {
+  fun flipContinuous(category: BuffCategory, count: Int) {
     if (!self.isAlive) return
     for (originalTarget in originalTargets) {
       val target = aggroTarget ?: originalTarget
       if (!target.isAlive) continue
       target.apply {
         actionContext.log("Flip", category = LogCategory.BUFF) {
-          "Flip last $count timed ${category.name} effects from [$name]."
+          "Flip last $count continuous ${category.name} effects from [$name]."
         }
         buffs.flip(category, count)
       }
     }
   }
 
-  fun dispelCountable(category: BuffCategory) {
+  fun removeCountable(category: BuffCategory) {
     if (!self.isAlive) return
     for (originalTarget in originalTargets) {
       val target = aggroTarget ?: originalTarget
@@ -463,12 +491,12 @@ class TargetContext(
         actionContext.log("Dispel", category = LogCategory.BUFF) {
           "Dispel countable ${category.name} effects from [$name]."
         }
-        buffs.dispelCountable(category)
+        buffs.removeCountable(category)
       }
     }
   }
 
-  fun dispelCountable(category: BuffCategory, count: Int) {
+  fun removeCountable(category: BuffCategory, count: Int) {
     if (!self.isAlive) return
     for (originalTarget in originalTargets) {
       val target = aggroTarget ?: originalTarget
@@ -477,12 +505,12 @@ class TargetContext(
         actionContext.log("Dispel", category = LogCategory.BUFF) {
           "Dispel ${count}x countable ${category.name} effects from [$name]."
         }
-        buffs.dispelCountable(category, count)
+        buffs.removeCountable(category, count)
       }
     }
   }
 
-  fun dispelCountable(effect: CountableBuffEffect, count: Int) {
+  fun removeCountable(effect: CountableBuffEffect, count: Int) {
     if (!self.isAlive) return
     for (originalTarget in originalTargets) {
       val target = aggroTarget ?: originalTarget
@@ -491,12 +519,12 @@ class TargetContext(
         actionContext.log("Dispel", category = LogCategory.BUFF) {
           "Dispel ${count}x countable effect ${effect.name} from [$name]."
         }
-        buffs.dispelCountable(effect, count)
+        buffs.removeCountable(effect, count)
       }
     }
   }
 
-  fun dispelCountable(effect: CountableBuffEffect) {
+  fun removeCountable(effect: CountableBuffEffect) {
     if (!self.isAlive) return
     for (originalTarget in originalTargets) {
       val target = aggroTarget ?: originalTarget
@@ -505,7 +533,7 @@ class TargetContext(
         actionContext.log("Dispel", category = LogCategory.BUFF) {
           "Dispel all countable effect ${effect.name} from [$name]."
         }
-        buffs.dispelCountable(effect)
+        buffs.removeCountable(effect)
       }
     }
   }
@@ -519,7 +547,7 @@ class TargetContext(
         actionContext.log("Conversion", category = LogCategory.BUFF) {
           "Convert ${count}x Revive from [$name]."
         }
-        buffs.addCountable(WeakSpotBuff, count = buffs.dispelCountable(ReviveBuff, count))
+        buffs.addCountable(WeakSpotBuff, count = buffs.removeCountable(ReviveBuff, count))
       }
     }
   }
@@ -533,7 +561,7 @@ class TargetContext(
         actionContext.log("Conversion", category = LogCategory.BUFF) {
           "Convert ${count}x negative countable effects from [$name]."
         }
-        buffs.addCountable(ReviveBuff, count = buffs.dispelCountable(BuffCategory.Negative, count))
+        buffs.addCountable(ReviveBuff, count = buffs.removeCountable(BuffCategory.Negative, count))
       }
     }
   }

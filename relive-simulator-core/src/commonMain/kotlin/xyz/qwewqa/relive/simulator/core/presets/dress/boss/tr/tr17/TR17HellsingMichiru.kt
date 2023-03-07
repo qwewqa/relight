@@ -85,7 +85,7 @@ val tr17HellsingMichiru =
                     },
                     ActType.Act7("Weakening Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
@@ -94,12 +94,12 @@ val tr17HellsingMichiru =
                     },
                     ActType.Act8("Helpless Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.DexterityDownBuff,
                             value = 30,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.CriticalDownBuff,
                             value = 30,
                             turns = 3,
@@ -108,12 +108,12 @@ val tr17HellsingMichiru =
                     },
                     ActType.Act9("Perfect Aim Flurry", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -127,12 +127,12 @@ val tr17HellsingMichiru =
                     },
                     ActType.ClimaxAct("Cross of Retribution NEO", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -253,7 +253,7 @@ val tr17HellsingMichiruDiff4 =
                     },
                     ActType.Act7("Weakening Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
@@ -262,12 +262,12 @@ val tr17HellsingMichiruDiff4 =
                     },
                     ActType.Act8("Helpless Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.DexterityDownBuff,
                             value = 30,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.CriticalDownBuff,
                             value = 30,
                             turns = 3,
@@ -276,12 +276,12 @@ val tr17HellsingMichiruDiff4 =
                     },
                     ActType.Act9("Perfect Aim Flurry", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -296,12 +296,12 @@ val tr17HellsingMichiruDiff4 =
                     },
                     ActType.ClimaxAct("Cross of Retribution NEO", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )

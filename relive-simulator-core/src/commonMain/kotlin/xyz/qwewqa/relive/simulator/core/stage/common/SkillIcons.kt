@@ -128,7 +128,7 @@ val skillIcons =
                 "dmg reduction",
                 "damage reduction"),
         140 to listOf("act change"),
-        141 to listOf("act change dispel"),
+        141 to listOf("act change remove"),
         150 to listOf("mark"),
         151 to listOf("flip"),
         152 to listOf("aggro"),

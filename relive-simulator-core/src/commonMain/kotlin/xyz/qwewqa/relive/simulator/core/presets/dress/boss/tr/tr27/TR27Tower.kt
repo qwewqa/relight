@@ -44,7 +44,7 @@ val tr27TowerHikari =
                         )
                       }
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalReflectBuff,
                             value = 30,
                             turns = 2,
@@ -101,17 +101,17 @@ val tr27TowerHikari =
                     },
                     ActType.Act8("Inspiring Gust", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.DexterityUpBuff,
                             value = 30,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.CriticalUpBuff,
                             value = 30,
                             turns = 3,
@@ -120,12 +120,12 @@ val tr27TowerHikari =
                     },
                     ActType.Act9("Restraint Firedance", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BurnBuff,
                             value = 7000,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.StunBuff,
                             turns = 2,
                         )
@@ -133,7 +133,7 @@ val tr27TowerHikari =
                     },
                     ActType.Act10("Weakening Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
@@ -148,7 +148,7 @@ val tr27TowerHikari =
                         )
                       }
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalReflectBuff,
                             value = 30,
                             turns = 2,
@@ -240,7 +240,7 @@ val tr27TowerHikariDiff4 =
                         )
                       }
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalReflectBuff,
                             value = 30,
                             turns = 2,
@@ -297,17 +297,17 @@ val tr27TowerHikariDiff4 =
                     },
                     ActType.Act8("Inspiring Gust", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerUpBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.DexterityUpBuff,
                             value = 30,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.CriticalUpBuff,
                             value = 30,
                             turns = 3,
@@ -316,12 +316,12 @@ val tr27TowerHikariDiff4 =
                     },
                     ActType.Act9("Restraint Firedance", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.BurnBuff,
                             value = 99999,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.StunBuff,
                             turns = 2,
                         )
@@ -329,7 +329,7 @@ val tr27TowerHikariDiff4 =
                     },
                     ActType.Act10("Weakening Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ActPowerDownBuff,
                             value = 50,
                             turns = 3,
@@ -345,7 +345,7 @@ val tr27TowerHikariDiff4 =
                         )
                       }
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalReflectBuff,
                             value = 30,
                             turns = 2,

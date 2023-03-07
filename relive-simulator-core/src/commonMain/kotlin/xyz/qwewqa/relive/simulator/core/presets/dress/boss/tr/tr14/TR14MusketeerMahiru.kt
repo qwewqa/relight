@@ -69,7 +69,7 @@ val tr14MusketeerMahiru =
                     },
                     ActType.Act5("Accuracy Smash", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -91,12 +91,12 @@ val tr14MusketeerMahiru =
                     },
                     ActType.Act7("Softening Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialDefenseDownBuff,
                             value = 50,
                             turns = 3,
@@ -109,7 +109,7 @@ val tr14MusketeerMahiru =
                             modifier = 200,
                             hitCount = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ApUpBuff,
                             turns = 2,
                         )
@@ -121,7 +121,7 @@ val tr14MusketeerMahiru =
                             modifier = 250,
                             hitCount = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ApUpBuff,
                             turns = 2,
                         )
@@ -235,7 +235,7 @@ val tr14MusketeerMahiruDiff4 =
                     },
                     ActType.Act5("Accuracy Smash", 2) {
                       targetSelf().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.PerfectAimBuff,
                             turns = 1,
                         )
@@ -257,12 +257,12 @@ val tr14MusketeerMahiruDiff4 =
                     },
                     ActType.Act7("Softening Concerto", 2) {
                       targetAoe().act {
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.NormalDefenseDownBuff,
                             value = 50,
                             turns = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.SpecialDefenseDownBuff,
                             value = 50,
                             turns = 3,
@@ -275,7 +275,7 @@ val tr14MusketeerMahiruDiff4 =
                             modifier = 200,
                             hitCount = 3,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ApUpBuff,
                             turns = 2,
                         )
@@ -288,7 +288,7 @@ val tr14MusketeerMahiruDiff4 =
                             hitCount = 3,
                             mode = HitMode.FIXED,
                         )
-                        applyTimedBuff(
+                        applyContinuousBuff(
                             effect = Buffs.ApUpBuff,
                             turns = 2,
                         )
