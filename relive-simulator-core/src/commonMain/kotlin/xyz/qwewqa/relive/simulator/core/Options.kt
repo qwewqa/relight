@@ -113,7 +113,22 @@ fun getSimulationOptions(): SimulationOptions {
               .sortedByDescending { it.data.releaseTime ?: Int.MAX_VALUE },
       songEffects = songEffectText.map { (k, v) -> SimulationOption(k, v) },
       conditions = conditionText.map { (k, v) -> SimulationOption(k, v) },
-      bosses = bossLoadouts.map { (k, _) -> SimulationOption(k, mapOf("en" to k)) },
+      bosses =
+          bossLoadouts.map { (k, v) ->
+            val boss = v.loadout.create()
+            val dress = boss.dress
+            SimulationOption(
+                id = k,
+                name = mapOf("en" to k),
+                descriptionIcons =
+                    listOfNotNull(
+                        dress.character.school.id?.let { "img/icon_colored/60x56_school$it.png" },
+                        dress.attribute.id?.let { "img/icon_colored/56x56_attribute$it.png" },
+                        dress.damageType.id?.let { "img/icon_colored/54x54_attack_type$it.png" },
+                        dress.position.id?.let { "img/icon_colored/54x54_position$it.png" },
+                    ),
+                description = mapOf("en" to "${boss.maxHp}hp"))
+          },
       strategyTypes = strategyParsers.map { (k, _) -> SimulationOption(k, mapOf("en" to k)) },
       bossStrategyTypes =
           bossStrategyParsers.map { (k, _) -> SimulationOption(k, mapOf("en" to k)) },
