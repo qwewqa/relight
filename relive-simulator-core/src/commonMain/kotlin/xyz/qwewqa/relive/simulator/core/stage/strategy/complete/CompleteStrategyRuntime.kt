@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage.strategy.complete
 
+import xyz.qwewqa.relive.simulator.core.i54.I54
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActData
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
@@ -76,6 +77,7 @@ object CsNil : CsObject {
 }
 
 fun Number.asCsNumber() = CsNumber(toDouble())
+fun I54.asCsNumber() = CsNumber(toDouble())
 
 fun Boolean.asCsBoolean() = if (this) CsBoolean.TRUE else CsBoolean.FALSE
 
@@ -282,7 +284,7 @@ class CsBuffList(private val buffs: List<CsActiveBuff>) : CsList(buffs) {
 
   private val values by lazy { CsList(buffs.map { it.buff.value.asCsNumber() }) }
   private val turns by lazy { CsList(buffs.map { it.buff.turns.asCsNumber() }) }
-  private val totalValue by lazy { buffs.sumOf { it.buff.value }.asCsNumber() }
+  private val totalValue by lazy { buffs.sumOf { it.buff.value.toDouble() }.asCsNumber() }
   private val maxTurns by lazy {
     (buffs.maxOfOrNull { it.buff.turns } ?: 0).coerceAtLeast(0).asCsNumber()
   }

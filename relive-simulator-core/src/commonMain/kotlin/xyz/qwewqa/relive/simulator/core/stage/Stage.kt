@@ -5,6 +5,7 @@ import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 import kotlin.random.Random
 import xyz.qwewqa.relive.simulator.common.LogCategory
+import xyz.qwewqa.relive.simulator.core.i54.sumOfI54
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkillType
@@ -256,7 +257,9 @@ class Stage(
         enemy.strategy.finalize(this, enemy, player)
         log("Stage") { "End." }
         return OutOfTurns(
-            enemy.active.sumOf { it.maxHp - it.hp }, enemy.active.sumOf { it.hp }, resultMetadata)
+            enemy.active.sumOfI54 { it.maxHp - it.hp }.toDouble(),
+            enemy.active.sumOfI54 { it.hp }.toDouble(),
+            resultMetadata)
       } catch (e: IgnoreRunException) {
         log("Stage") { "Early run end." }
         player.strategy.finalize(this, player, enemy)
@@ -287,8 +290,8 @@ class Stage(
       enemy.strategy.finalize(this, enemy, player)
       log("Stage") { "End." }
       return TeamWipe(
-          enemy.active.sumOf { it.maxHp - it.hp },
-          enemy.active.sumOf { it.hp },
+          enemy.active.sumOfI54 { it.maxHp - it.hp }.toDouble(),
+          enemy.active.sumOfI54 { it.hp }.toDouble(),
           turn,
           tile,
           resultMetadata)
@@ -324,21 +327,21 @@ data class StageResultMetadata(
 )
 
 sealed class MarginStageResult : StageResult() {
-  abstract val damage: Int
-  abstract val margin: Int
+  abstract val damage: Double
+  abstract val margin: Double
 }
 
 data class TeamWipe(
-    override val damage: Int,
-    override val margin: Int,
+    override val damage: Double,
+    override val margin: Double,
     val turn: Int,
     val tile: Int,
     override val metadata: StageResultMetadata,
 ) : MarginStageResult()
 
 data class OutOfTurns(
-    override val damage: Int,
-    override val margin: Int,
+    override val damage: Double,
+    override val margin: Double,
     override val metadata: StageResultMetadata,
 ) : MarginStageResult()
 

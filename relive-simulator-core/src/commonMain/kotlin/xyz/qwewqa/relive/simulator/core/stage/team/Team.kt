@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage.team
 
+import xyz.qwewqa.relive.simulator.core.i54.i54
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.song.Song
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.StageEffectManager
@@ -43,7 +44,7 @@ class Team(
   fun enterCX() {
     if (cxTurns > 0) return
     cxTurns = 2
-    active.filter { it.brilliance == 100 }.forEach { it.enterCX() }
+    active.filter { it.brilliance == 100.i54 }.forEach { it.enterCX() }
   }
 
   fun endTurn() {

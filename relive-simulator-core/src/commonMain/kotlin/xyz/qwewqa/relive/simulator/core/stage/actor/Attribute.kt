@@ -1,5 +1,8 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
+import xyz.qwewqa.relive.simulator.core.i54.I54
+import xyz.qwewqa.relive.simulator.core.i54.toI54
+
 enum class Attribute(val id: Int? = null) {
   Neutral,
   Flower(1),
@@ -11,53 +14,6 @@ enum class Attribute(val id: Int? = null) {
   Dream(7),
   Sun(8),
   Star(9),
-}
-
-// Has a minor performance benefit
-class AttributeMap(val default: Int) : MutableMap<Attribute, Int> {
-  private val array = IntArray(Attribute.values().size) { default }
-
-  override val entries: MutableSet<MutableMap.MutableEntry<Attribute, Int>>
-    get() {
-      throw UnsupportedOperationException()
-    }
-  override val keys: MutableSet<Attribute>
-    get() {
-      throw UnsupportedOperationException()
-    }
-  override val size: Int
-    get() {
-      throw UnsupportedOperationException()
-    }
-  override val values: MutableCollection<Int>
-    get() {
-      throw UnsupportedOperationException()
-    }
-
-  override fun clear() {
-    throw UnsupportedOperationException()
-  }
-
-  override fun isEmpty(): Boolean = false
-
-  override fun remove(key: Attribute): Int? {
-    throw UnsupportedOperationException()
-  }
-
-  override fun putAll(from: Map<out Attribute, Int>) {
-    for ((key, value) in from) {
-      this[key] = value
-    }
-  }
-
-  override fun put(key: Attribute, value: Int): Int =
-      array[key.ordinal].also { array[key.ordinal] = value }
-
-  override fun get(key: Attribute) = array[key.ordinal]
-
-  override fun containsValue(value: Int) = array.contains(value)
-
-  override fun containsKey(key: Attribute) = true
 }
 
 val nonNeutralAttributes = Attribute.values().filter { it != Attribute.Neutral }

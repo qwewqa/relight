@@ -4,6 +4,7 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 import xyz.qwewqa.relive.simulator.common.LogCategory
+import xyz.qwewqa.relive.simulator.core.i54.*
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
@@ -23,7 +24,7 @@ import xyz.qwewqa.relive.simulator.core.stage.team.Team
 data class ActionLog(
     var successfulHits: Int = 0,
     var attemptedHit: Boolean = false,
-    var damageDealtToEnemy: Int = 0,
+    var damageDealtToEnemy: I54 = 0.i54,
     val consumeCountableBuffs: MutableSet<CountableBuffEffect> = mutableSetOf(),
 ) {
   fun markConsumeOnAttackCountableBuffs(actor: Actor) {
@@ -268,12 +269,12 @@ class TargetContext(
             hitAttribute,
         )
         // TODO: Make this less hacky
-        TargetContext(actionContext, listOf(target)).applyBuff(effect, value, time, chance)
+        TargetContext(actionContext, listOf(target)).applyBuff(effect, value.toI54(), time, chance)
       }
     }
   }
 
-  fun applyBuff(effect: BuffEffect, value: Int = 0, time: Int, chance: Int = 100) =
+  fun applyBuff(effect: BuffEffect, value: I54 = 0.i54, time: Int, chance: Int = 100) =
       when (effect) {
         is ContinuousBuffEffect<*> ->
             applyContinuousBuff(effect = effect, value = value, turns = time, chance = chance)
@@ -281,9 +282,12 @@ class TargetContext(
             applyCountableBuff(effect = effect, count = time, value = value, chance = chance)
       }
 
+  fun applyBuff(effect: BuffEffect, value: Int, time: Int, chance: Int = 100) =
+      applyBuff(effect, value.toI54(), time, chance)
+
   fun applyContinuousBuff(
       effect: ContinuousBuffEffect<*>,
-      value: Int = 0,
+      value: I54 = 0.i54,
       turns: Int,
       chance: Int = 100
   ) {
@@ -328,7 +332,14 @@ class TargetContext(
 
   fun applyContinuousBuff(
       effect: ContinuousBuffEffect<*>,
-      value: (Actor) -> Int,
+      value: Int,
+      turns: Int,
+      chance: Int = 100
+  ) = applyContinuousBuff(effect, value.toI54(), turns, chance)
+
+  fun applyContinuousBuff(
+      effect: ContinuousBuffEffect<*>,
+      value: (Actor) -> I54,
       turns: Int,
       chance: Int = 100
   ) {
@@ -375,7 +386,7 @@ class TargetContext(
   fun applyCountableBuff(
       effect: CountableBuffEffect,
       count: Int = 1,
-      value: Int = 0,
+      value: I54 = 0.i54,
       chance: Int = 100
   ) {
     if (!self.isAlive) return
@@ -416,6 +427,13 @@ class TargetContext(
       }
     }
   }
+
+  fun applyCountableBuff(
+      effect: CountableBuffEffect,
+      count: Int = 1,
+      value: Int,
+      chance: Int = 100
+  ) = applyCountableBuff(effect, count, value.toI54(), chance)
 
   fun removeContinuous(category: BuffCategory) {
     if (!self.isAlive) return
@@ -585,7 +603,7 @@ class TargetContext(
     }
   }
 
-  fun heal(percent: Int = 0, fixed: Int = 0) {
+  fun heal(percent: I54 = 0.i54, fixed: I54 = 0.i54) {
     if (!self.isAlive) return
     for (originalTarget in originalTargets) {
       val target = aggroTarget ?: originalTarget
@@ -599,7 +617,9 @@ class TargetContext(
     }
   }
 
-  fun addBrilliance(amount: Int) {
+  fun heal(percent: Int = 0, fixed: Int = 0) = heal(percent.toI54(), fixed.toI54())
+
+  fun addBrilliance(amount: I54) {
     if (!self.isAlive) return
     for (originalTarget in originalTargets) {
       val target = aggroTarget ?: originalTarget
@@ -613,7 +633,9 @@ class TargetContext(
     }
   }
 
-  fun removeBrilliance(amount: Int) {
+  fun addBrilliance(amount: Int) = addBrilliance(amount.toI54())
+
+  fun removeBrilliance(amount: I54) {
     if (!self.isAlive) return
     for (originalTarget in originalTargets) {
       val target = aggroTarget ?: originalTarget
@@ -627,9 +649,11 @@ class TargetContext(
     }
   }
 
-  fun absorbBrilliance(amount: Int) {
+  fun removeBrilliance(amount: Int) = removeBrilliance(amount.toI54())
+
+  fun absorbBrilliance(amount: I54) {
     if (!self.isAlive) return
-    var drained = 0
+    var drained = 0.i54
     for (originalTarget in originalTargets) {
       val target = aggroTarget ?: originalTarget
       if (!target.isAlive) continue
@@ -651,6 +675,8 @@ class TargetContext(
       self.addBrilliance(drained)
     }
   }
+
+  fun absorbBrilliance(amount: Int) = absorbBrilliance(amount.toI54())
 }
 
 fun interface Act {

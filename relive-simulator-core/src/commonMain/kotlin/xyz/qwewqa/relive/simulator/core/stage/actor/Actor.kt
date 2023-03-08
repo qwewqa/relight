@@ -1,6 +1,14 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
 import xyz.qwewqa.relive.simulator.common.LogCategory
+import xyz.qwewqa.relive.simulator.core.i54.I54
+import xyz.qwewqa.relive.simulator.core.i54.coerceAtLeast
+import xyz.qwewqa.relive.simulator.core.i54.coerceAtMost
+import xyz.qwewqa.relive.simulator.core.i54.coerceIn
+import xyz.qwewqa.relive.simulator.core.i54.div
+import xyz.qwewqa.relive.simulator.core.i54.i54
+import xyz.qwewqa.relive.simulator.core.i54.plus
+import xyz.qwewqa.relive.simulator.core.i54.toI54
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.accessory.Accessory
@@ -50,9 +58,9 @@ class Actor(
           (accessory?.autoskills ?: emptyList())
   val acts = dress.acts.toMutableMap()
 
-  var hp = 1
+  var hp = 1.i54
     private set
-  var brilliance = 0
+  var brilliance = 0.i54
     private set
   val buffs = BuffManager(this)
   val mod = _Modifiers(this)
@@ -65,10 +73,10 @@ class Actor(
 
   lateinit var context: ActionContext
 
-  val specificBuffResist = platformMapOf<BuffEffect, Int>()
-  var conditionalDamageDealtUp = mutableListOf<Pair<Condition, Int>>()
-  val againstSchoolDamageDealtUp = platformMapOf<School, Int>()
-  val fromCharacterDamageReceivedUp = platformMapOf<Character, Int>()
+  val specificBuffResist = platformMapOf<BuffEffect, I54>()
+  var conditionalDamageDealtUp = mutableListOf<Pair<Condition, I54>>()
+  val againstSchoolDamageDealtUp = platformMapOf<School, I54>()
+  val fromCharacterDamageReceivedUp = platformMapOf<Character, I54>()
 
   var aggroTarget: Actor? = null
 
@@ -88,11 +96,11 @@ class Actor(
   /** If true, prevents taking damage via [damage]. Calling [exit] will still result in an exit. */
   var forceInvulnerable = false
 
-  val againstAttributeDamageDealtUp = AttributeMap(0)
-  val againstAttributeDamageReceivedDown = AttributeMap(0)
-  val attributeDamageDealtUp = AttributeMap(0)
+  val againstAttributeDamageDealtUp = platformMapOf<Attribute, I54>()
+  val againstAttributeDamageReceivedDown = platformMapOf<Attribute, I54>()
+  val attributeDamageDealtUp = platformMapOf<Attribute, I54>()
 
-  var cutinInitialCooldownReduction = 0
+  var cutinInitialCooldownReduction = 0.i54
 
   var eventBonus: Int = 0
   var eventMultiplier: Int = 100
@@ -198,12 +206,12 @@ class Actor(
         context.log("Abnormal", category = LogCategory.EMPHASIS) {
           "Act prevented by electric shock."
         }
-        Act { damage(7500) }.execute(context)
+        Act { damage(7500.i54) }.execute(context)
         return
       }
       if (inCXAct && !inCX) {
         // Relevant for bosses
-        brilliance = 0
+        brilliance = 0.i54
       }
       if (buffs.tryRemove(Buffs.ImpudenceBuff)) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by pride." }
@@ -211,7 +219,7 @@ class Actor(
         return
       }
       if (!inCXAct) {
-        addBrilliance(7 * apCost)
+        addBrilliance(7.i54 * apCost)
       }
       act.execute(context)
     } finally {
@@ -230,7 +238,7 @@ class Actor(
   }
 
   /** Damages this stage girl by [amount]. */
-  fun damage(amount: Int, additionalEffects: Boolean = true) =
+  fun damage(amount: I54, additionalEffects: Boolean = true) =
       context.run {
         if (!isAlive) {
           context.log("Damage", category = LogCategory.DAMAGE, debug = true) { "Already exited." }
@@ -242,9 +250,9 @@ class Actor(
           else "Force invulnerable."
         }
         self.hp = newHp
-        if (newHp == 0) {
+        if (newHp == 0.i54) {
           if (self.buffs.count(ResilienceBuff) > 0) {
-            self.hp = 1
+            self.hp = 1.i54
             context.log("Damage", category = LogCategory.DAMAGE) {
               "Resilience activate (newHp: 1)."
             }
@@ -258,7 +266,7 @@ class Actor(
             return@run
           }
           if (self.buffs.tryRemove(Buffs.FortitudeBuff)) {
-            self.hp = 1
+            self.hp = 1.i54
             context.log("Damage", category = LogCategory.DAMAGE) {
               "Fortitude activate (newHp: 1)."
             }
@@ -274,7 +282,7 @@ class Actor(
           if (self.buffs.count(ExitEvasionBuff) > 0) {
             self.buffs.removeAll(ExitEvasionBuff)
             self.hp = self.maxHp / 2
-            self.buffs.add(null, BrillianceRegenBuff, 100, 2)
+            self.buffs.add(null, BrillianceRegenBuff, 100.i54, 2)
             context.log("Damage", category = LogCategory.DAMAGE) {
               "Exit Evasion activate (newHp: ${self.maxHp / 2})."
             }
@@ -299,10 +307,13 @@ class Actor(
         }
       }
 
+  fun damage(amount: Int, additionalEffects: Boolean = true) =
+      damage(amount.toI54(), additionalEffects)
+
   fun exit() =
       context.run {
-        hp = 0
-        brilliance = 0
+        hp = 0.i54
+        brilliance = 0.i54
         team.strategy.onExit(self)
         buffs.clear()
         self.exitCX()
@@ -319,7 +330,7 @@ class Actor(
         log("Revive", category = LogCategory.EMPHASIS) { "Revived." }
       }
 
-  fun heal(amount: Int) =
+  fun heal(amount: I54) =
       context.run {
         context.log("Heal") {
           "Healed $amount (prevHp: ${self.hp}, newHp: ${
@@ -330,7 +341,9 @@ class Actor(
         self.hp = self.hp.coerceAtMost(self.maxHp)
       }
 
-  fun adjustHp(amount: Int) =
+  fun heal(amount: Int) = heal(amount.toI54())
+
+  fun adjustHp(amount: I54) =
       context.run {
         if (amount <= 0) {
           if (isAlive) {
@@ -347,7 +360,9 @@ class Actor(
         }
       }
 
-  fun addBrilliance(base: Int) =
+  fun adjustHp(amount: Int) = adjustHp(amount.toI54())
+
+  fun addBrilliance(base: I54) =
       context.run {
         if (base > 0) {
           if (StopBuff in buffs) {
@@ -374,7 +389,9 @@ class Actor(
         adjustBrilliance(self.brilliance + amount)
       }
 
-  fun adjustBrilliance(amount: Int) =
+  fun addBrilliance(base: Int) = addBrilliance(base.toI54())
+
+  fun adjustBrilliance(amount: I54) =
       context.run {
         val newValue = amount.coerceIn(0, 100)
         context.log("Brilliance", category = LogCategory.BRILLIANCE) {
@@ -382,6 +399,8 @@ class Actor(
         }
         self.brilliance = newValue
       }
+
+  fun adjustBrilliance(amount: Int) = adjustBrilliance(amount.toI54())
 
   fun enterCX() =
       context.run {
@@ -399,7 +418,7 @@ class Actor(
         if (!inCX) return
         context.log("Climax") { "Exit cx." }
         team.song.effects.forEach { it.end(context) }
-        brilliance = 0
+        brilliance = 0.i54
         inCX = false
       }
 

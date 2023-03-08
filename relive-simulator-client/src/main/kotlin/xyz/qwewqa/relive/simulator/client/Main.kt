@@ -146,7 +146,7 @@ class SimulatorClient(val simulator: Simulator) {
   val interactiveButton = document.getElementById("interactive-button") as HTMLButtonElement
   val eventBonusInput = document.getElementById("event-bonus-input").integerInput(0)
   val eventMultiplierInput = document.getElementById("event-multiplier-input").integerInput(100)
-  val bossHpInput = document.getElementById("boss-hp-input").integerInput(-1)
+  val bossHpInput = document.getElementById("boss-hp-input").shorthandDoubleInput()
   val turnsInput = document.getElementById("turns-input").integerInput(3)
   val iterationsInput = document.getElementById("iterations-input").integerInput(100000)
   val strategyEditor = EditorView(codeMirrorConfig(strategyContainer))
@@ -1772,7 +1772,7 @@ class SimulatorClient(val simulator: Simulator) {
                 )
                 .takeIf { bossStrategyCollapse.show },
         boss = bossSelect.value,
-        bossHp = if (bossHpInput.value > 0) bossHpInput.value else null,
+        bossHp = bossHpInput.value?.takeIf { it > 0.0 },
         additionalEventBonus = eventBonusInput.value,
         eventMultiplier = eventMultiplierInput.value,
         seed = seedInput.value,

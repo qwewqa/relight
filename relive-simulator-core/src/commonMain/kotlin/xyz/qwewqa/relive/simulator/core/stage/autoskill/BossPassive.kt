@@ -1,5 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.autoskill
 
+import xyz.qwewqa.relive.simulator.core.i54.i54
+import xyz.qwewqa.relive.simulator.core.i54.toI54
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
@@ -57,7 +59,7 @@ object AbnormalResistPassiveA : PassiveEffect {
                 Buffs.LockedBlindnessBuff,
             )
             .forEach { buff ->
-              self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0) + value
+              self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0.i54) + value
             }
       }
 }
@@ -66,17 +68,17 @@ object BossElementResistPassive : PassiveEffect {
   override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
       context.run {
         Attribute.values().forEach {
-          self.againstAttributeDamageDealtUp[it] = value
-          self.againstAttributeDamageReceivedDown[it] = value
+          self.againstAttributeDamageDealtUp[it] = value.toI54()
+          self.againstAttributeDamageReceivedDown[it] = value.toI54()
         }
         (self.dress.attribute.disadvantagedAgainst
                 ?: error("Expected a non-neutral or dream attribute."))
             .forEach {
-              self.againstAttributeDamageDealtUp[it] = 0
-              self.againstAttributeDamageReceivedDown[it] = 0
+              self.againstAttributeDamageDealtUp[it] = 0.i54
+              self.againstAttributeDamageReceivedDown[it] = 0.i54
             }
-        self.againstAttributeDamageDealtUp[Attribute.Dream] = 0
-        self.againstAttributeDamageReceivedDown[Attribute.Dream] = 0
+        self.againstAttributeDamageDealtUp[Attribute.Dream] = 0.i54
+        self.againstAttributeDamageReceivedDown[Attribute.Dream] = 0.i54
       }
 }
 
@@ -84,13 +86,13 @@ object BuggedHMRuiBossElementResistPassive : PassiveEffect {
   override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
       context.run {
         Attribute.values().forEach {
-          self.againstAttributeDamageDealtUp[it] = value
-          self.againstAttributeDamageReceivedDown[it] = value
+          self.againstAttributeDamageDealtUp[it] = value.toI54()
+          self.againstAttributeDamageReceivedDown[it] = value.toI54()
         }
-        self.againstAttributeDamageDealtUp[Attribute.Flower] = 0
-        self.againstAttributeDamageReceivedDown[Attribute.Flower] = 0
-        self.againstAttributeDamageDealtUp[Attribute.Dream] = 0
-        self.againstAttributeDamageReceivedDown[Attribute.Dream] = 0
+        self.againstAttributeDamageDealtUp[Attribute.Flower] = 0.i54
+        self.againstAttributeDamageReceivedDown[Attribute.Flower] = 0.i54
+        self.againstAttributeDamageDealtUp[Attribute.Dream] = 0.i54
+        self.againstAttributeDamageReceivedDown[Attribute.Dream] = 0.i54
       }
 }
 

@@ -13,7 +13,7 @@ data class SimulationParameters(
     val strategy: StrategyParameter = StrategyParameter("Simple", ""),
     val bossStrategy: StrategyParameter? = null,
     val boss: String,
-    val bossHp: Int? = null,
+    val bossHp: Double? = null,
     val additionalEventBonus: Int = 0,
     val eventMultiplier: Int = 100,
     val seed: Int = 0,
@@ -53,12 +53,12 @@ data class ActorStatus(
     val name: String,
     val dressId: Int,
     val isSupport: Boolean,
-    val hp: Int,
-    val maxHp: Int,
+    val hp: Double,
+    val maxHp: Double,
     val dexterity: Int,
     val brilliance: Int,
     val inClimax: Boolean,
-    val damageContribution: Int,
+    val damageContribution: Double,
     val displayBuffs: List<DisplayBuffData>,
 )
 
@@ -300,8 +300,8 @@ data class SimulationResult(
 @Serializable
 data class FilterLogRequest(
     val type: SimulationResultType?,
-    val minDamage: Int?,
-    val maxDamage: Int?,
+    val minDamage: Double?,
+    val maxDamage: Double?,
     val index: Int,
 )
 

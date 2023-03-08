@@ -1,5 +1,11 @@
 package xyz.qwewqa.relive.simulator.core.stage.modifier
 
+import xyz.qwewqa.relive.simulator.core.i54.I54
+import xyz.qwewqa.relive.simulator.core.i54.coerceAtLeast
+import xyz.qwewqa.relive.simulator.core.i54.coerceAtMost
+import xyz.qwewqa.relive.simulator.core.i54.coerceIn
+import xyz.qwewqa.relive.simulator.core.i54.i54
+import xyz.qwewqa.relive.simulator.core.i54.sumOfI54
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
@@ -11,17 +17,17 @@ val baseMaxHp = modifier("baseMaxHp")
 val maxHpUp = modifier("buffMaxHp")
 val maxHpDown = modifier("debuffMaxHp")
 val fixedMaxHp = modifier("fixedMaxHp")
-val Modifiers.maxHp: Int
+val Modifiers.maxHp: I54
   get() {
-    return (baseMaxHp pfmod (maxHpUp - maxHpDown)) + fixedMaxHp
+    return (baseMaxHp ptmod (maxHpUp - maxHpDown)) + fixedMaxHp
   }
 
-inline val Modifiers.hopeFactor: Int
+inline val Modifiers.hopeFactor: I54
   get() {
     return 20 given { HopeBuff in actor.buffs }
   }
 
-inline val Modifiers.superStrengthFactor: Int
+inline val Modifiers.superStrengthFactor: I54
   get() {
     return 30 given { Buffs.SuperStrengthBuff in actor.buffs }
   }
@@ -31,12 +37,12 @@ val actPowerUp = modifier("actPowerUp")
 val actPowerDown = modifier("actPowerDown")
 val fixedActPower = modifier("fixedActPower")
 val staminaActPowerUp = modifier("staminaActPowerUp")
-inline val Modifiers.actPower: Int
+inline val Modifiers.actPower: I54
   get() {
     val staminaModifier = staminaActPowerUp given { actor.hp == maxHp }
     val burnModifier = -10 given { BurnBuff in actor.buffs }
     val holdBackModifier = -50 given { Buffs.HoldBackBuff in actor.buffs }
-    return (baseActPower pfmod
+    return (baseActPower ptmod
         (actPowerUp - actPowerDown +
             staminaModifier +
             burnModifier +
@@ -48,33 +54,33 @@ val baseNormalDefense = modifier("baseNormalDefense")
 val normalDefenseUp = modifier("normalDefenseUp")
 val normalDefenseDown = modifier("normalDefenseDown")
 val fixedNormalDefense = modifier("fixedNormalDefense")
-inline val Modifiers.normalDefense: Int
+inline val Modifiers.normalDefense: I54
   get() {
-    return (baseNormalDefense pfmod (normalDefenseUp - normalDefenseDown)) + fixedNormalDefense
+    return (baseNormalDefense ptmod (normalDefenseUp - normalDefenseDown)) + fixedNormalDefense
   }
 
 val baseSpecialDefense = modifier("baseSpecialDefense")
 val specialDefenseUp = modifier("specialDefenseUp")
 val specialDefenseDown = modifier("specialDefenseDown")
 val fixedSpecialDefense = modifier("fixedSpecialDefense")
-inline val Modifiers.specialDefense: Int
+inline val Modifiers.specialDefense: I54
   get() {
-    return (baseSpecialDefense pfmod (specialDefenseUp - specialDefenseDown)) + fixedSpecialDefense
+    return (baseSpecialDefense ptmod (specialDefenseUp - specialDefenseDown)) + fixedSpecialDefense
   }
 
 val baseAgility = modifier("baseAgility")
 val agilityUp = modifier("agilityUp")
 val agilityDown = modifier("agilityDown")
 val fixedAgility = modifier("fixedAgility")
-inline val Modifiers.agility: Int
+inline val Modifiers.agility: I54
   get() {
-    return (baseAgility pfmod (agilityUp - agilityDown + hopeFactor)) + fixedAgility
+    return (baseAgility ptmod (agilityUp - agilityDown + hopeFactor)) + fixedAgility
   }
 
 val baseDexterity = modifier("baseDexterity")
 val buffDexterity = modifier("buffDexterity")
 val debuffDexterity = modifier("debuffDexterity")
-inline val Modifiers.dexterity: Int
+inline val Modifiers.dexterity: I54
   get() {
     val holdBackModifier = -100 given { Buffs.HoldBackBuff in actor.buffs }
     return (baseDexterity + (hopeFactor + buffDexterity).coerceAtMost(100) + holdBackModifier -
@@ -85,7 +91,7 @@ inline val Modifiers.dexterity: Int
 val baseCritical = modifier("baseCritical")
 val buffCritical = modifier("buffCritical")
 val debuffCritical = modifier("debuffCritical")
-inline val Modifiers.critical: Int
+inline val Modifiers.critical: I54
   get() {
     val holdBackModifier = -100 given { Buffs.HoldBackBuff in actor.buffs }
     return (baseCritical + buffCritical + holdBackModifier - debuffCritical +
@@ -99,17 +105,17 @@ val criticalDamageReceivedDown = modifier("criticalDamageReceivedDown")
 val baseAccuracy = modifier("baseAccuracy")
 val accuracyUp = modifier("buffAccuracy")
 val accuracyDown = modifier("debuffAccuracy")
-inline val Modifiers.accuracy: Int
+inline val Modifiers.accuracy: I54
   get() {
-    return baseAccuracy pfmod (accuracyUp - accuracyDown)
+    return baseAccuracy ptmod (accuracyUp - accuracyDown)
   }
 
 val baseEvasion = modifier("baseEvasion")
 val evasionUp = modifier("buffEvasion")
 val evasionDown = modifier("debuffEvasion")
-inline val Modifiers.evasion: Int
+inline val Modifiers.evasion: I54
   get() {
-    return baseEvasion pfmod (evasionUp - evasionDown)
+    return baseEvasion ptmod (evasionUp - evasionDown)
   }
 
 val effectiveDamageUp = modifier("effectiveDamageUp")
@@ -120,14 +126,14 @@ val specialReflect = modifier("specialReflect")
 
 val brillianceGainUp = modifier("brillianceGainUp")
 val brillianceGainDown = modifier("brillianceGainDown")
-val Modifiers.brillianceGainAdjustment: Int
+val Modifiers.brillianceGainAdjustment: I54
   get() {
     return brillianceGainUp - brillianceGainDown
   }
 
 val hpRecoveryUp = modifier("hpRecoveryUp")
 val hpRecoveryDown = modifier("hpRecoveryDown")
-val Modifiers.hpRecoveryAdjustment: Int
+val Modifiers.hpRecoveryAdjustment: I54
   get() {
     return hpRecoveryUp - hpRecoveryDown
   }
@@ -141,30 +147,30 @@ val negativeCountableEffectResistanceDown = modifier("negativeCountableEffectRes
 val positiveEffectResistanceUp = modifier("positiveEffectResistanceUp")
 val positiveCountableEffectResistanceUp = modifier("positiveCountableEffectResistanceUp")
 
-fun Modifiers.positiveEffectResistance(effect: BuffEffect): Int {
+fun Modifiers.positiveEffectResistance(effect: BuffEffect): I54 {
   val resistance =
       when (effect) {
         is CountableBuffEffect -> positiveCountableEffectResistanceUp
         else -> positiveEffectResistanceUp
       }
-  val specificResistance = actor.specificBuffResist[effect] ?: 0
+  val specificResistance = actor.specificBuffResist[effect] ?: 0.i54
   return resistance + specificResistance
 }
 
-fun Modifiers.negativeEffectResistance(effect: BuffEffect): Int {
+fun Modifiers.negativeEffectResistance(effect: BuffEffect): I54 {
   val resistance =
       when (effect) {
         is CountableBuffEffect ->
             negativeCountableEffectResistanceUp - negativeCountableEffectResistanceDown
         else -> negativeEffectResistanceUp - negativeEffectResistanceDown
       }
-  val specificResistance = actor.specificBuffResist[effect] ?: 0
+  val specificResistance = actor.specificBuffResist[effect] ?: 0.i54
   return resistance + specificResistance
 }
 
 val climaxDamageUp = modifier("climaxDamageUp")
 val climaxDamageDown = modifier("climaxDamageDown")
-val Modifiers.climaxDamageAdjustment: Int
+val Modifiers.climaxDamageAdjustment: I54
   get() {
     return climaxDamageUp - climaxDamageDown
   }
@@ -172,11 +178,13 @@ val Modifiers.climaxDamageAdjustment: Int
 val damageDealtUp = modifier("damageDealtUp")
 val damageDealtDown = modifier("damageDealtDown")
 
-fun Modifiers.damageDealtUpModifier(target: Actor): Int {
+fun Modifiers.damageDealtUpModifier(target: Actor): I54 {
   return (damageDealtUp +
       superStrengthFactor +
-      actor.conditionalDamageDealtUp.sumOf { (cond, value) -> value given cond.evaluate(target) } +
-      (actor.againstSchoolDamageDealtUp[target.dress.character.school] ?: 0))
+      actor.conditionalDamageDealtUp.sumOfI54 { (cond, value) ->
+        value given { cond.evaluate(target) }
+      } +
+      (actor.againstSchoolDamageDealtUp[target.dress.character.school] ?: 0.i54))
 }
 
 val damageReceivedDown = modifier("damageReceivedDown")
@@ -184,7 +192,7 @@ val damageReceivedUp = modifier("damageReceivedUp")
 
 fun Modifiers.damageReceivedModifier(attacker: Actor) =
     (damageReceivedUp - (+damageReceivedDown).coerceAtMost(50) +
-        (actor.fromCharacterDamageReceivedUp[attacker.dress.character] ?: 0))
+        (actor.fromCharacterDamageReceivedUp[attacker.dress.character] ?: 0.i54))
 
 val brillianceRegen = modifier("brillianceRegen")
 val brillianceRegenTurnScaling = modifier("brillianceRegenTurnScaling")

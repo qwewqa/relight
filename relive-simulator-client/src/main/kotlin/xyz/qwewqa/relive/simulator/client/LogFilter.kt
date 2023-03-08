@@ -114,9 +114,9 @@ fun updateLogFilter(
           onClickFunction = {
             GlobalScope.launch {
               val minDamageInput =
-                  document.getElementById("log-min-damage-input").shorthandIntegerInput()
+                  document.getElementById("log-min-damage-input").shorthandDoubleInput()
               val maxDamageInput =
-                  document.getElementById("log-max-damage-input").shorthandIntegerInput()
+                  document.getElementById("log-max-damage-input").shorthandDoubleInput()
               val resultTypeInput = document.getElementById("log-result-type").singleSelect(false)
               val minDamage = minDamageInput.value
               val maxDamage = maxDamageInput.value

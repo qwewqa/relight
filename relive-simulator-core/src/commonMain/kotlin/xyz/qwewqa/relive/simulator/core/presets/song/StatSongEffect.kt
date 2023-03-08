@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.song
 
+import xyz.qwewqa.relive.simulator.core.i54.i54
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
@@ -58,7 +59,7 @@ private data class DamageAgainstAttributeUpSongEffect(val attribute: Attribute) 
       context.run {
         condition.applyIfTrue(self) {
           self.againstAttributeDamageDealtUp[attribute] =
-              self.againstAttributeDamageDealtUp[attribute] + value
+              (self.againstAttributeDamageDealtUp[attribute] ?: 0.i54) + value
         }
       }
 
@@ -66,7 +67,7 @@ private data class DamageAgainstAttributeUpSongEffect(val attribute: Attribute) 
       context.run {
         condition.applyIfTrue(self) {
           self.againstAttributeDamageDealtUp[attribute] =
-              self.againstAttributeDamageDealtUp[attribute] - value
+              (self.againstAttributeDamageDealtUp[attribute] ?: 0.i54) - value
         }
       }
 }
@@ -79,7 +80,7 @@ data class againstAttributeDamageDealtUpSongEffect(val attribute: Attribute) : S
       context.run {
         condition.applyIfTrue(self) {
           self.againstAttributeDamageDealtUp[attribute] =
-              self.againstAttributeDamageDealtUp[attribute] + value
+              (self.againstAttributeDamageDealtUp[attribute] ?: 0.i54) + value
         }
       }
 
@@ -87,7 +88,7 @@ data class againstAttributeDamageDealtUpSongEffect(val attribute: Attribute) : S
       context.run {
         condition.applyIfTrue(self) {
           self.againstAttributeDamageDealtUp[attribute] =
-              self.againstAttributeDamageDealtUp[attribute] - value
+              (self.againstAttributeDamageDealtUp[attribute] ?: 0.i54) - value
         }
       }
 }
@@ -99,14 +100,16 @@ data class AttributeDamageDealtUpSongEffect(val attribute: Attribute) : SongEffe
   override fun start(context: ActionContext, value: Int, condition: Condition) =
       context.run {
         condition.applyIfTrue(self) {
-          self.attributeDamageDealtUp[attribute] = self.attributeDamageDealtUp[attribute] + value
+          self.attributeDamageDealtUp[attribute] =
+              (self.attributeDamageDealtUp[attribute] ?: 0.i54) + value
         }
       }
 
   override fun end(context: ActionContext, value: Int, condition: Condition) =
       context.run {
         condition.applyIfTrue(self) {
-          self.attributeDamageDealtUp[attribute] = self.attributeDamageDealtUp[attribute] - value
+          self.attributeDamageDealtUp[attribute] =
+              (self.attributeDamageDealtUp[attribute] ?: 0.i54) - value
         }
       }
 }

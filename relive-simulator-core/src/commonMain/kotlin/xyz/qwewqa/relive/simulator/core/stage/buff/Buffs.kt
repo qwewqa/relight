@@ -1,5 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.buff
 
+import xyz.qwewqa.relive.simulator.core.i54.I54
+import xyz.qwewqa.relive.simulator.core.i54.i54
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
@@ -19,6 +21,7 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceGainDown
 import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceGainUp
 import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceRegen
 import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceRegenTurnScaling
+import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceSap
 import xyz.qwewqa.relive.simulator.core.stage.modifier.buffCritical
 import xyz.qwewqa.relive.simulator.core.stage.modifier.buffDexterity
 import xyz.qwewqa.relive.simulator.core.stage.modifier.climaxDamageDown
@@ -77,18 +80,18 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
           onStart = { value ->
             val damage =
                 if (value <= 100) {
-                  self.mod { +maxHp pfmul value }.coerceAtMost(99_999)
+                  self.mod { +maxHp ptmul value }.coerceAtMost(99_999.i54)
                 } else {
-                  value
+                  value.toI54()
                 }
             self.mod { modifier += damage }
           },
           onEnd = { value ->
             val damage =
                 if (value <= 100) {
-                  self.mod { +maxHp pfmul value }.coerceAtMost(99_999)
+                  self.mod { +maxHp ptmul value }.coerceAtMost(99_999.i54)
                 } else {
-                  value
+                  value.toI54()
                 }
             self.mod { modifier -= damage }
           },
@@ -102,15 +105,15 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
           category = BuffCategory.Positive,
           locked = locked,
           onStart = { value ->
-            self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0) + value
+            self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0.i54) + value
           },
           onEnd = { value ->
-            self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0) - value
+            self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0.i54) - value
           },
       )
 
   private inline fun <T> BuffData.makeMapModifierContinuousBuffEffect(
-      crossinline mapAccessor: (Actor) -> MutableMap<T, Int>,
+      crossinline mapAccessor: (Actor) -> MutableMap<T, I54>,
       key: T,
       category: BuffCategory,
       locked: Boolean = false,
@@ -120,39 +123,69 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
           category = category,
           locked = locked,
           exclusive = exclusive,
-          onStart = { value -> mapAccessor(self)[key] = (mapAccessor(self)[key] ?: 0) + value },
-          onEnd = { value -> mapAccessor(self)[key] = (mapAccessor(self)[key] ?: 0) - value },
+          onStart = { value -> mapAccessor(self)[key] = (mapAccessor(self)[key] ?: 0.i54) + value },
+          onEnd = { value -> mapAccessor(self)[key] = (mapAccessor(self)[key] ?: 0.i54) - value },
       )
 
   private fun BuffData.againstAttributeDamageReceivedUpBuff(attribute: Attribute) =
       makeSimpleContinuousBuffEffect(
           category = BuffCategory.Negative,
-          onStart = { value -> self.againstAttributeDamageReceivedDown[attribute] -= value },
-          onEnd = { value -> self.againstAttributeDamageReceivedDown[attribute] += value })
+          onStart = { value ->
+            self.againstAttributeDamageReceivedDown[attribute] =
+                (self.againstAttributeDamageReceivedDown[attribute] ?: 0.i54) - value
+          },
+          onEnd = { value ->
+            self.againstAttributeDamageReceivedDown[attribute] =
+                self.againstAttributeDamageReceivedDown[attribute]!! + value
+          })
 
   private fun BuffData.againstAttributeDamageReceivedDownBuff(attribute: Attribute) =
       makeSimpleContinuousBuffEffect(
           category = BuffCategory.Positive,
-          onStart = { value -> self.againstAttributeDamageReceivedDown[attribute] += value },
-          onEnd = { value -> self.againstAttributeDamageReceivedDown[attribute] -= value })
+          onStart = { value ->
+            self.againstAttributeDamageReceivedDown[attribute] =
+                (self.againstAttributeDamageReceivedDown[attribute] ?: 0.i54) + value
+          },
+          onEnd = { value ->
+            self.againstAttributeDamageReceivedDown[attribute] =
+                self.againstAttributeDamageReceivedDown[attribute]!! - value
+          })
 
   private fun BuffData.againstAttributeDamageDealtUpBuff(attribute: Attribute) =
       makeSimpleContinuousBuffEffect(
           category = BuffCategory.Positive,
-          onStart = { value -> self.againstAttributeDamageDealtUp[attribute] += value },
-          onEnd = { value -> self.againstAttributeDamageDealtUp[attribute] -= value })
+          onStart = { value ->
+            self.againstAttributeDamageDealtUp[attribute] =
+                (self.againstAttributeDamageDealtUp[attribute] ?: 0.i54) + value
+          },
+          onEnd = { value ->
+            self.againstAttributeDamageDealtUp[attribute] =
+                self.againstAttributeDamageDealtUp[attribute]!! - value
+          })
 
   private fun BuffData.attributeDamageDealtUpBuff(attribute: Attribute) =
       makeSimpleContinuousBuffEffect(
           category = BuffCategory.Positive,
-          onStart = { value -> self.attributeDamageDealtUp[attribute] += value },
-          onEnd = { value -> self.attributeDamageDealtUp[attribute] -= value })
+          onStart = { value ->
+            self.attributeDamageDealtUp[attribute] =
+                (self.attributeDamageDealtUp[attribute] ?: 0.i54) + value
+          },
+          onEnd = { value ->
+            self.attributeDamageDealtUp[attribute] =
+                self.attributeDamageDealtUp[attribute]!! - value
+          })
 
   private fun BuffData.attributeDamageDealtDownBuff(attribute: Attribute) =
       makeSimpleContinuousBuffEffect(
           category = BuffCategory.Negative,
-          onStart = { value -> self.attributeDamageDealtUp[attribute] -= value },
-          onEnd = { value -> self.attributeDamageDealtUp[attribute] += value })
+          onStart = { value ->
+            self.attributeDamageDealtUp[attribute] =
+                (self.attributeDamageDealtUp[attribute] ?: 0.i54) - value
+          },
+          onEnd = { value ->
+            self.attributeDamageDealtUp[attribute] =
+                self.attributeDamageDealtUp[attribute]!! + value
+          })
 
   val poisonDamage = modifier("poisonDamage")
   val burnDamage = modifier("burnDamage")
@@ -558,10 +591,10 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               locked = true,
               onStart = {
                 abnormalBuffs.forEach { buff ->
-                  self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0) + 100
+                  self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0.i54) + 100
                 }
                 abnormalCountableBuffs.forEach { buff ->
-                  self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0) + 100
+                  self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0.i54) + 100
                 }
               },
               onEnd = {
@@ -729,7 +762,8 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val MarkResistanceUpBuff = +buffData(118).makeSpecificResistanceUpBuff(MarkBuff)
 
   // Not implemented
-  val EventBossDamageReductionBuff = +buffData(119).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+  val EventBossDamageReductionBuff =
+      +buffData(119).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
   // Not Implemented
   val SealAct1Buff = +buffData(120).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
@@ -1392,7 +1426,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val BrillianceSapBuff =
       +buffData(277)
           .makeModifierContinuousBuffEffect(
-              modifier = brillianceRegen,
+              modifier = brillianceSap,
               category = BuffCategory.Negative,
           )
 

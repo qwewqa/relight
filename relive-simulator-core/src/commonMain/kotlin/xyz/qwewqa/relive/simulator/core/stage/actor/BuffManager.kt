@@ -2,6 +2,8 @@ package xyz.qwewqa.relive.simulator.core.stage.actor
 
 import kotlin.math.min
 import xyz.qwewqa.relive.simulator.common.DisplayBuffData
+import xyz.qwewqa.relive.simulator.core.i54.I54
+import xyz.qwewqa.relive.simulator.core.i54.i54
 import xyz.qwewqa.relive.simulator.core.stage.PlatformSet
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
@@ -13,8 +15,8 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.abnormalBuffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.burnDamage
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.nightmareDamage
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.poisonDamage
-import xyz.qwewqa.relive.simulator.core.stage.buff.CountableBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.buff.ContinuousBuffEffect
+import xyz.qwewqa.relive.simulator.core.stage.buff.CountableBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.buff.activateBlessings
 import xyz.qwewqa.relive.simulator.core.stage.buff.displayPriority
 import xyz.qwewqa.relive.simulator.core.stage.log
@@ -35,7 +37,8 @@ import xyz.qwewqa.relive.simulator.core.stage.toPlatformMap
 class BuffManager(val actor: Actor) {
   private val positiveBuffs = platformSetOf<ContinuousBuffImpl<*>>()
   private val negativeBuffs = platformSetOf<ContinuousBuffImpl<*>>()
-  private val buffsByEffect = platformMapOf<ContinuousBuffEffect<*>, PlatformSet<ContinuousBuffImpl<*>>>()
+  private val buffsByEffect =
+      platformMapOf<ContinuousBuffEffect<*>, PlatformSet<ContinuousBuffImpl<*>>>()
 
   /**
    * We count these for checking whether a buff is active or not, but they are controlled by another
@@ -79,7 +82,7 @@ class BuffManager(val actor: Actor) {
 
   private fun ContinuousBuffEffect<*>.activate(
       source: Actor?,
-      value: Int,
+      value: I54,
       turns: Int,
   ) =
       startContinuousBuff(this, source, value, turns).also { activeBuff ->
@@ -96,14 +99,14 @@ class BuffManager(val actor: Actor) {
         actor.context.log("Buff", debug = true) { "Buff ${activeBuff.name} added." }
       }
 
-  fun activatePsuedoBuff(buffEffect: ContinuousBuffEffect<Unit>, value: Int = 0) {
+  fun activatePsuedoBuff(buffEffect: ContinuousBuffEffect<Unit>, value: I54 = 0.i54) {
     actor.context.log("Buff", debug = true) { "Pseudo buff ${buffEffect.name} ($value) added." }
     buffEffect.related?.let { activatePsuedoBuff(it, value) }
     pseudoBuffs[buffEffect] = (pseudoBuffs[buffEffect] ?: 0) + 1
     buffEffect.onStart(actor.context, value, null)
   }
 
-  fun updatePseudoBuff(buffEffect: ContinuousBuffEffect<Unit>, oldValue: Int, newValue: Int) {
+  fun updatePseudoBuff(buffEffect: ContinuousBuffEffect<Unit>, oldValue: I54, newValue: I54) {
     if (oldValue == newValue) {
       return
     }
@@ -115,14 +118,19 @@ class BuffManager(val actor: Actor) {
     buffEffect.onStart(actor.context, newValue, null)
   }
 
-  fun removePseudoBuff(buffEffect: ContinuousBuffEffect<Unit>, value: Int) {
+  fun removePseudoBuff(buffEffect: ContinuousBuffEffect<Unit>, value: I54) {
     actor.context.log("Buff", debug = true) { "Pseudo buff ${buffEffect.name} ($value) removed." }
     buffEffect.related?.let { removePseudoBuff(it, value) }
     pseudoBuffs[buffEffect] = (pseudoBuffs[buffEffect] ?: 0) - 1
     buffEffect.onEnd(actor.context, value, null, Unit)
   }
 
-  fun add(source: Actor?, buffEffect: ContinuousBuffEffect<*>, value: Int, turns: Int): ContinuousBuff<*>? {
+  fun add(
+      source: Actor?,
+      buffEffect: ContinuousBuffEffect<*>,
+      value: I54,
+      turns: Int
+  ): ContinuousBuff<*>? {
     require(turns >= 0) { "Buff turns should not be negative." }
     if (buffEffect.exclusive) {
       val existing = get(buffEffect).singleOrNull()
@@ -143,12 +151,12 @@ class BuffManager(val actor: Actor) {
     val buff = buffEffect.activate(source, value, turns)
     if (guardOnAbnormal && buffEffect in abnormalBuffs) {
       actor.context.log("Buff") { "Abnormal Guard activated." }
-      add(null, ActionRestrictionResistanceUpBuff, 100, 9)
+      add(null, ActionRestrictionResistanceUpBuff, 100.i54, 9)
     }
     return buff
   }
 
-  fun addCountable(buff: CountableBuffEffect, count: Int = 1, value: Int = 0) {
+  fun addCountable(buff: CountableBuffEffect, count: Int = 1, value: I54 = 0.i54) {
     val categoryStacks =
         when (buff.category) {
           BuffCategory.Positive -> positiveCountableBuffStacks
@@ -166,11 +174,11 @@ class BuffManager(val actor: Actor) {
     }
     if (guardOnAbnormal && buff in abnormalCountableBuffs) {
       actor.context.log("Buff") { "Abnormal Guard activated." }
-      add(null, ActionRestrictionResistanceUpBuff, 100, 9)
+      add(null, ActionRestrictionResistanceUpBuff, 100.i54, 9)
     }
   }
 
-  fun remove(buff: CountableBuffEffect): Int {
+  fun remove(buff: CountableBuffEffect): I54 {
     val categoryStacks =
         when (buff.category) {
           BuffCategory.Positive -> positiveCountableBuffStacks
@@ -188,12 +196,12 @@ class BuffManager(val actor: Actor) {
     categoryStacks.remove(stack)
     val value = stack.value
     actor.context.log("Buff") {
-      "Countable buff ${buff.name}${if (value != 0) " ($value)" else ""} removed (prev: $prevCount, new: ${prevCount - 1})."
+      "Countable buff ${buff.name}${if (value != 0.i54) " ($value)" else ""} removed (prev: $prevCount, new: ${prevCount - 1})."
     }
     return value
   }
 
-  fun getNext(buff: CountableBuffEffect): Int? {
+  fun getNext(buff: CountableBuffEffect): I54? {
     val stacks =
         when (buff.category) {
           BuffCategory.Positive -> positiveCountableBuffs
@@ -202,7 +210,7 @@ class BuffManager(val actor: Actor) {
     return stacks?.lastOrNull()?.value
   }
 
-  inline fun consumeOnce(buff: CountableBuffEffect, action: (Int) -> Unit = {}): Boolean {
+  inline fun consumeOnce(buff: CountableBuffEffect, action: (I54) -> Unit = {}): Boolean {
     if (count(buff) == 0) {
       return false
     }
@@ -210,7 +218,7 @@ class BuffManager(val actor: Actor) {
     return true
   }
 
-  inline fun consumeAll(buff: CountableBuffEffect, action: (Int) -> Unit = {}): Boolean {
+  inline fun consumeAll(buff: CountableBuffEffect, action: (I54) -> Unit = {}): Boolean {
     val count = count(buff)
     if (count == 0) {
       return false
@@ -219,7 +227,7 @@ class BuffManager(val actor: Actor) {
     return true
   }
 
-  inline fun consumeUpTo(buff: CountableBuffEffect, max: Int, action: (Int) -> Unit = {}): Boolean {
+  inline fun consumeUpTo(buff: CountableBuffEffect, max: Int, action: (I54) -> Unit = {}): Boolean {
     val count = count(buff)
     if (count == 0) {
       return false
@@ -384,7 +392,7 @@ class BuffManager(val actor: Actor) {
           buffs.remove(OverwhelmBuff)
         }
 
-        val hpRegenValue = mod { +hpFixedRegen } + mod { maxHp pfmul hpPercentRegen }
+        val hpRegenValue = mod { +hpFixedRegen } + mod { maxHp ptmul hpPercentRegen }
         if (hpRegenValue > 0) {
           context.log("HP Regen") { "HP Regen tick." }
           heal(hpRegenValue)
@@ -407,13 +415,13 @@ class BuffManager(val actor: Actor) {
         val reviveRegenValue = mod { +reviveRegen }
         if (reviveRegenValue > 0) {
           context.log("Revive Regen") { "Revive Regen tick." }
-          addCountable(Buffs.ReviveBuff, count = reviveRegenValue)
+          addCountable(Buffs.ReviveBuff, count = reviveRegenValue.toInt())
         }
 
         val superStrengthRegenValue = mod { +superStrengthRegen }
         if (superStrengthRegenValue > 0) {
           context.log("Super Strength Regen") { "Super Strength Regen tick." }
-          addCountable(Buffs.SuperStrengthBuff, count = superStrengthRegenValue)
+          addCountable(Buffs.SuperStrengthBuff, count = superStrengthRegenValue.toInt())
         }
 
         if (TurnRemoveContinuousNegativeEffectsBuff in buffs) {
@@ -426,7 +434,7 @@ class BuffManager(val actor: Actor) {
 
         val turnReduceCountableNegativeEffects = mod { +turnReduceCountableNegativeEffects }
         if (turnReduceCountableNegativeEffects > 0) {
-          removeCountable(BuffCategory.Negative, count = turnReduceCountableNegativeEffects)
+          removeCountable(BuffCategory.Negative, count = turnReduceCountableNegativeEffects.toInt())
         }
 
         positiveBuffs.tick()
@@ -455,7 +463,7 @@ class BuffManager(val actor: Actor) {
 
         val turnReduceCountablePositiveEffects = mod { +turnReduceCountablePositiveEffects }
         if (turnReduceCountablePositiveEffects > 0) {
-          removeCountable(BuffCategory.Positive, count = turnReduceCountablePositiveEffects)
+          removeCountable(BuffCategory.Positive, count = turnReduceCountablePositiveEffects.toInt())
         }
 
         negativeBuffs.tick()
@@ -482,18 +490,18 @@ class BuffManager(val actor: Actor) {
   private fun <T> startContinuousBuff(
       effect: ContinuousBuffEffect<T>,
       source: Actor?,
-      value: Int,
+      value: I54,
       turns: Int,
   ) = ContinuousBuffImpl(effect, source, value, turns, effect.startEffect(source, value))
 
   private fun <T> ContinuousBuffEffect<T>.startEffect(
       source: Actor?,
-      value: Int,
+      value: I54,
   ) = onStart(actor.context, value, source).also { related?.let { activatePsuedoBuff(it, value) } }
 
   private fun <T> ContinuousBuffEffect<T>.endEffect(
       source: Actor?,
-      value: Int,
+      value: I54,
       data: T,
   ) =
       onEnd(actor.context, value, source, data).also {
@@ -503,20 +511,20 @@ class BuffManager(val actor: Actor) {
   interface ContinuousBuff<T> {
     val effect: ContinuousBuffEffect<T>
     val source: Actor?
-    val value: Int
+    val value: I54
     val turns: Int
     val data: T
     val originalTurns: Int
     val name: String
 
-    fun updateValue(newValue: Int): ContinuousBuff<T>
+    fun updateValue(newValue: I54): ContinuousBuff<T>
     fun remove()
   }
 
   private inner class ContinuousBuffImpl<T>(
       override val effect: ContinuousBuffEffect<T>,
       override val source: Actor?,
-      override val value: Int,
+      override val value: I54,
       override var turns: Int,
       override var data: T,
   ) : ContinuousBuff<T> {
@@ -524,7 +532,7 @@ class BuffManager(val actor: Actor) {
     override val name
       get() = "${effect.formatName(value)} (${turns}/${originalTurns}t)"
 
-    override fun updateValue(newValue: Int): ContinuousBuff<T> {
+    override fun updateValue(newValue: I54): ContinuousBuff<T> {
       effect.endEffect(source, value, data)
       data = effect.startEffect(source, newValue)
       return this
@@ -555,7 +563,7 @@ val consumeOnAttackCountableBuffs =
 
 class CountableBuffStack(
     val effect: CountableBuffEffect,
-    val value: Int,
+    val value: I54,
 )
 
 val countableBuffsByName =

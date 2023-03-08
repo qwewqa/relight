@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.dress
 
 import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
+import xyz.qwewqa.relive.simulator.core.i54.i54
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
@@ -67,11 +68,11 @@ data class DressBlueprint(
         friendshipPanels.take(friendship) + // intentionally not friendship - 1
         rankPanels.take(rank - 1).flatten() +
             rankPanels[rank - 1].filterIndexed { i, _ -> rankPanelPattern[i] }
-    var panelHp = 0
-    var panelActPower = 0
-    var panelNormalDefense = 0
-    var panelSpecialDefense = 0
-    var panelAgility = 0
+    var panelHp = 0.i54
+    var panelActPower = 0.i54
+    var panelNormalDefense = 0.i54
+    var panelSpecialDefense = 0.i54
+    var panelAgility = 0.i54
     var act1Level = 1
     var act2Level = 1
     var act3Level = 1

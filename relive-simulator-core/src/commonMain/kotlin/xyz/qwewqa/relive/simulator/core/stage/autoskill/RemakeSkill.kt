@@ -2,29 +2,30 @@
 
 package xyz.qwewqa.relive.simulator.core.stage.autoskill
 
+import xyz.qwewqa.relive.simulator.core.i54.i54
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.TargetContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.Character
 import xyz.qwewqa.relive.simulator.core.stage.buff.*
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.againstAttributeDamageReceivedDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.modifier.*
-import xyz.qwewqa.relive.simulator.core.stage.actor.Character
 
 // TODO: Generate this from datamines
 
 data class Targeting(
-  val name: String,
-  val shortName: String = name,
-  val value: ActionContext.() -> TargetContext,
+    val name: String,
+    val shortName: String = name,
+    val value: ActionContext.() -> TargetContext,
 )
 
 data class Effect(
-  val name: String,
-  val category: AutoSkillType,
-  val valueSuffix: String?,
-  val timeSuffix: String?,
-  val value: TargetContext.(value: Int, time: Int) -> Unit,
+    val name: String,
+    val category: AutoSkillType,
+    val valueSuffix: String?,
+    val timeSuffix: String?,
+    val value: TargetContext.(value: Int, time: Int) -> Unit,
 )
 
 val targetings = buildMap {
@@ -207,16 +208,16 @@ val passiveEffects = buildMap {
         targets.forEach { it.mod { brillianceRegen += value } }
       }
   listOf(
-      Buffs.PoisonBuff,
-      Buffs.BurnBuff,
-      Buffs.ProvokeBuff,
-      Buffs.StunBuff,
-      Buffs.SleepBuff,
-      Buffs.ConfusionBuff,
-      Buffs.StopBuff,
-      Buffs.FreezeBuff,
-      Buffs.BlindnessBuff,
-  )
+          Buffs.PoisonBuff,
+          Buffs.BurnBuff,
+          Buffs.ProvokeBuff,
+          Buffs.StunBuff,
+          Buffs.SleepBuff,
+          Buffs.ConfusionBuff,
+          Buffs.StopBuff,
+          Buffs.FreezeBuff,
+          Buffs.BlindnessBuff,
+      )
       .forEachIndexed { index, buffEffect ->
         this[index + 91] =
             Effect(
@@ -226,7 +227,8 @@ val passiveEffects = buildMap {
                 timeSuffix = null,
             ) { value, time ->
               targets.forEach {
-                it.specificBuffResist[buffEffect] = (it.specificBuffResist[buffEffect] ?: 0) + value
+                it.specificBuffResist[buffEffect] =
+                    (it.specificBuffResist[buffEffect] ?: 0.i54) + value
               }
             }
       }
@@ -239,7 +241,7 @@ val passiveEffects = buildMap {
       ) { value, time ->
         targets.forEach {
           it.specificBuffResist[Buffs.MarkBuff] =
-              (it.specificBuffResist[Buffs.MarkBuff] ?: 0) + value
+              (it.specificBuffResist[Buffs.MarkBuff] ?: 0.i54) + value
         }
       }
   this[153] =
@@ -251,7 +253,7 @@ val passiveEffects = buildMap {
       ) { value, time ->
         targets.forEach {
           it.specificBuffResist[Buffs.AggroBuff] =
-              (it.specificBuffResist[Buffs.AggroBuff] ?: 0) + value
+              (it.specificBuffResist[Buffs.AggroBuff] ?: 0.i54) + value
         }
       }
 }
@@ -361,8 +363,8 @@ val startEffects = buildMap {
 }
 
 data class RemakePassiveEffect(
-  val targeting: Targeting,
-  val effect: Effect,
+    val targeting: Targeting,
+    val effect: Effect,
 ) : PassiveEffect {
   val name = "[${targeting.name}] ${effect.name}"
   override val type = effect.category
@@ -373,20 +375,21 @@ data class RemakePassiveEffect(
 }
 
 data class RemakeEffectEntry(
-  val targeting: Targeting,
-  val effect: Effect,
-  val value: Int,
-  val time: Int,
+    val targeting: Targeting,
+    val effect: Effect,
+    val value: Int,
+    val time: Int,
 ) {
   val passive = RemakePassiveEffect(targeting, effect)
   val data = passive.new(value, time)
-  val name = "${passive.name}${if (value > 0) " $value" else ""}${if (time > 0) " (${time}t)" else ""}"
+  val name =
+      "${passive.name}${if (value > 0) " $value" else ""}${if (time > 0) " (${time}t)" else ""}"
 }
 
 data class RemakeSkill(
-  val id: Int,
-  val effects: List<RemakeEffectEntry>,
-  val icon: Int,
+    val id: Int,
+    val effects: List<RemakeEffectEntry>,
+    val icon: Int,
 ) {
   val name = if (effects.isNotEmpty()) effects.joinToString(", ") { it.name } else "None"
   val data = effects.map { it.data }

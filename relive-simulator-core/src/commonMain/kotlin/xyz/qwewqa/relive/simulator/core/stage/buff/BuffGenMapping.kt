@@ -3,6 +3,7 @@ package xyz.qwewqa.relive.simulator.core.stage.buff
 import xyz.qwewqa.relive.simulator.core.gen.GenBuff
 import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenBuff
+import xyz.qwewqa.relive.simulator.core.i54.I54
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifier
@@ -20,8 +21,8 @@ data class BuffData(
       exclusive: Boolean = false,
       crossinline flipped: () -> ContinuousBuffEffect<*>? = { null },
       related: ContinuousBuffEffect<Unit>? = null,
-      crossinline onStart: ActionContext.(value: Int, source: Actor?) -> T,
-      crossinline onEnd: ActionContext.(value: Int, source: Actor?, T) -> Unit,
+      crossinline onStart: ActionContext.(value: I54, source: Actor?) -> T,
+      crossinline onEnd: ActionContext.(value: I54, source: Actor?, T) -> Unit,
   ): ContinuousBuffEffect<T> =
       object : ContinuousBuffEffect<T> {
         override val id: Int = this@BuffData.id
@@ -36,11 +37,11 @@ data class BuffData(
         override val related
           get() = related
 
-        override fun onStart(context: ActionContext, value: Int, source: Actor?): T {
+        override fun onStart(context: ActionContext, value: I54, source: Actor?): T {
           return context.onStart(value, source)
         }
 
-        override fun onEnd(context: ActionContext, value: Int, source: Actor?, data: T) {
+        override fun onEnd(context: ActionContext, value: I54, source: Actor?, data: T) {
           context.onEnd(value, source, data)
         }
       }
@@ -67,13 +68,13 @@ data class BuffData(
         override val related
           get() = related
 
-        override fun onStart(context: ActionContext, value: Int, source: Actor?) {
+        override fun onStart(context: ActionContext, value: I54, source: Actor?) {
           if (this !in context.self.buffs) {
             context.onStart()
           }
         }
 
-        override fun onEnd(context: ActionContext, value: Int, source: Actor?, data: Unit) {
+        override fun onEnd(context: ActionContext, value: I54, source: Actor?, data: Unit) {
           if (this !in context.self.buffs) {
             context.onEnd()
           }
@@ -105,8 +106,8 @@ data class BuffData(
       exclusive: Boolean = false,
       crossinline flipped: () -> ContinuousBuffEffect<*>? = { null },
       related: ContinuousBuffEffect<Unit>? = null,
-      crossinline onStart: ActionContext.(value: Int) -> Unit = { _ -> },
-      crossinline onEnd: ActionContext.(value: Int) -> Unit = { _ -> },
+      crossinline onStart: ActionContext.(value: I54) -> Unit = { _ -> },
+      crossinline onEnd: ActionContext.(value: I54) -> Unit = { _ -> },
   ): ContinuousBuffEffect<Unit> =
       makeContinuousBuffEffect(
           category = category,

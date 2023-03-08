@@ -13,6 +13,7 @@ import xyz.qwewqa.relive.simulator.common.InteractiveQueueStatus
 import xyz.qwewqa.relive.simulator.common.InteractiveRunState
 import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.common.LogEntry
+import xyz.qwewqa.relive.simulator.core.i54.*
 import xyz.qwewqa.relive.simulator.core.stage.PlayInfo
 import xyz.qwewqa.relive.simulator.core.stage.Stage
 import xyz.qwewqa.relive.simulator.core.stage.StageConfiguration
@@ -296,7 +297,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
     resultLog = stage.logger.get()
   }
 
-  private fun playStageTest(testActs: List<Int>): Int {
+  private fun playStageTest(testActs: List<Int>): I54 {
     val managedRandom = ManagedRandom(Random(Random(seed).nextInt()))
     val strategy = InteractiveStrategy(managedRandom, status.history, testActs = testActs)
     val stage =
@@ -312,7 +313,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
       stage.play(PlayInfo(maxTurns = maxTurns, null, null))
     } catch (_: UserInput) {}
 
-    return stage.enemy.actors.values.sumOf { it.hp }
+    return stage.enemy.actors.values.sumOfI54 { it.hp }
   }
 
   init {
@@ -687,17 +688,17 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
           name,
           dress.id,
           isSupport,
-          hp,
-          maxHp,
-          dexterity,
-          brilliance,
+          hp.toDouble(),
+          maxHp.toDouble(),
+          dexterity.toInt(),
+          brilliance.toInt(),
           cxActive,
-          context.actionLog.damageDealtToEnemy,
+          context.actionLog.damageDealtToEnemy.toDouble(),
           buffs.getDisplayBuffs())
     }
 
     private val Actor.cxActive
-      get() = inCX || (hp > 0 && brilliance == 100 && this in team.active && climax)
+      get() = inCX || (hp > 0 && brilliance == 100.i54 && this in team.active && climax)
 
     private inline fun log(value: () -> String) {
       stage.log("Command", category = LogCategory.COMMAND) { value() }
@@ -809,7 +810,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
           if (cutinUseCounts.getValue(this) > 0) {
             data.cooldown
           } else {
-            (data.startCooldown - actor.cutinInitialCooldownReduction).coerceAtLeast(0)
+            (data.startCooldown - actor.cutinInitialCooldownReduction.toInt()).coerceAtLeast(0)
           }
 
     override fun nextQueue(stage: Stage, team: Team, enemy: Team): QueueResult {

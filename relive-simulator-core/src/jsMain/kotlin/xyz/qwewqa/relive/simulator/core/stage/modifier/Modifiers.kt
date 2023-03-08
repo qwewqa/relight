@@ -8,11 +8,11 @@ actual class ModifiersImpl actual constructor(actor: Actor) : Modifiers(actor) {
     js("Array(size).fill(0)")
   }
 
-  actual override operator fun get(modifier: Modifier): Int {
-    return values[modifier.id].unsafeCast<Int>()
+  actual override fun _get(modifier: Modifier): Double {
+    return values[modifier.id].unsafeCast<Double>()
   }
 
-  actual override operator fun set(modifier: Modifier, value: Int) {
+  actual override fun _set(modifier: Modifier, value: Double) {
     values[modifier.id] = value
   }
 }

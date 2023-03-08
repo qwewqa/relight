@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.stageeffect
 
 import xyz.qwewqa.relive.simulator.common.DisplayStageEffectData
+import xyz.qwewqa.relive.simulator.core.i54.toI54
 import xyz.qwewqa.relive.simulator.core.stage.BasicTargetSelectionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
@@ -97,7 +98,7 @@ class StageEffectManager(val team: Team) {
         // are added to the enemy team but retain the enemy targeting.
         val targets = buff.target.getTargets(BasicTargetSelectionContext(null, team, team), null)
         targets.map { actor ->
-          actor.buffs.activatePsuedoBuff(buff.effect, value)
+          actor.buffs.activatePsuedoBuff(buff.effect, value.toI54())
           actor to value
         }
       }
@@ -110,7 +111,7 @@ class StageEffectManager(val team: Team) {
     return values.zip(buffs).map { (buffValues, buff) ->
       val newValue = buff.values[level.coerceAtMost(buff.values.size) - 1]
       buffValues.map { (actor, oldValue) ->
-        actor.buffs.updatePseudoBuff(buff.effect, oldValue, newValue)
+        actor.buffs.updatePseudoBuff(buff.effect, oldValue.toI54(), newValue.toI54())
         actor to newValue
       }
     }
@@ -118,7 +119,9 @@ class StageEffectManager(val team: Team) {
 
   private fun StageEffect.deactivate(values: StageEffectActiveBuffValues) =
       values.zip(buffs).forEach { (buffValues, buff) ->
-        buffValues.forEach { (actor, value) -> actor.buffs.removePseudoBuff(buff.effect, value) }
+        buffValues.forEach { (actor, value) ->
+          actor.buffs.removePseudoBuff(buff.effect, value.toI54())
+        }
       }
 
   fun ActiveStageEffect.update(level: Int): ActiveStageEffect =

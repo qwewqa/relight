@@ -4,6 +4,7 @@ import Accessories
 import xyz.qwewqa.relive.simulator.common.SimulationMarginResultType
 import xyz.qwewqa.relive.simulator.common.SimulationParameters
 import xyz.qwewqa.relive.simulator.common.SimulationResultType
+import xyz.qwewqa.relive.simulator.core.i54.toI54
 import xyz.qwewqa.relive.simulator.core.presets.condition.conditions
 import xyz.qwewqa.relive.simulator.core.presets.dress.bossLoadouts
 import xyz.qwewqa.relive.simulator.core.presets.song.songEffects
@@ -110,7 +111,9 @@ fun SimulationParameters.createStageLoadout(): StageLoadout {
                         loadout.dress.let { dress ->
                           dress.copy(
                               stats =
-                                  dress.stats.let { stats -> stats.copy(hp = bossHp ?: stats.hp) })
+                                  dress.stats.let { stats ->
+                                    stats.copy(hp = bossHp?.toI54() ?: stats.hp)
+                                  })
                         })
               }),
           strategy =

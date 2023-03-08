@@ -32,7 +32,8 @@ class LogFilter(
                 when (it.type) {
                   is SimulationResultType.Wipe -> it.damage
                   is SimulationResultType.End -> it.damage
-                  is SimulationResultType.Victory -> loadout.enemy.actors.first().dress.stats.hp
+                  is SimulationResultType.Victory ->
+                      loadout.enemy.actors.first().dress.stats.hp.toDouble()
                   else -> null
                 }
             damage != null &&
@@ -85,5 +86,5 @@ data class ResultEntry(
     val index: Int,
     val seed: Int,
     val type: SimulationResultType,
-    val damage: Int?,
+    val damage: Double?,
 )

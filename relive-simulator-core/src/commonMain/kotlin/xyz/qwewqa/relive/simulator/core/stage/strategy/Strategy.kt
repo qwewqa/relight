@@ -1,6 +1,8 @@
 package xyz.qwewqa.relive.simulator.core.stage.strategy
 
 import xyz.qwewqa.relive.simulator.common.LogCategory
+import xyz.qwewqa.relive.simulator.core.i54.I54
+import xyz.qwewqa.relive.simulator.core.i54.i54
 import xyz.qwewqa.relive.simulator.core.stage.PlayInfo
 import xyz.qwewqa.relive.simulator.core.stage.Stage
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActData
@@ -57,11 +59,11 @@ data class QueueResult(
 )
 
 sealed class QueueTile {
-  abstract val agility: Int
+  abstract val agility: I54
 }
 
 object IdleTile : QueueTile() {
-  override val agility = 0
+  override val agility = 0.i54
 }
 
 class ActionTile(val actor: Actor, val apCost: Int, val actData: ActData) : QueueTile() {

@@ -1,15 +1,15 @@
 package xyz.qwewqa.relive.simulator.core.stage.utils
 
+import kotlin.math.ceil
+import kotlin.math.floor
+import kotlin.math.pow
 import xyz.qwewqa.relive.simulator.common.MarginResult
 import xyz.qwewqa.relive.simulator.common.SimulationMarginResultType
 import xyz.qwewqa.relive.simulator.common.StatisticsSummary
 import xyz.qwewqa.relive.simulator.core.stage.MarginStageResult
 import xyz.qwewqa.relive.simulator.core.stage.marginResultType
-import kotlin.math.ceil
-import kotlin.math.floor
-import kotlin.math.pow
 
-fun List<Int>.statistics() =
+fun List<Double>.statistics() =
     if (isEmpty()) {
       null
     } else {
@@ -17,18 +17,22 @@ fun List<Int>.statistics() =
       val mean = sorted.average()
       val standardDeviation = sorted.map { (it - mean).pow(2) }.average().pow(0.5)
       val min = sorted.first().toDouble()
-      val q1 = sorted[sorted.size / 4].toDouble()
-      val median = sorted[sorted.size / 2].toDouble()
-      val q3 = sorted[sorted.size * 3 / 4].toDouble()
+      val q1 = sorted[sorted.size / 4]
+      val median = sorted[sorted.size / 2]
+      val q3 = sorted[sorted.size * 3 / 4]
       val max = sorted.last().toDouble()
       StatisticsSummary(mean, standardDeviation, min, q1, median, q3, max)
     }
 
-fun resultMarginKernelDensityEstimate(data: List<Int>, h: Double, count: Int): Map<Double, Double> {
-  return epanechnikovKernelDensityEstimate(data.map { it.toDouble() }, h, count)
+fun resultMarginKernelDensityEstimate(
+    data: List<Double>,
+    h: Double,
+    count: Int
+): Map<Double, Double> {
+  return epanechnikovKernelDensityEstimate(data, h, count)
 }
 
-fun chooseBandwidth(data: List<Int>): Double =
+fun chooseBandwidth(data: List<Double>): Double =
     if (data.isEmpty()) {
       1.0
     } else {

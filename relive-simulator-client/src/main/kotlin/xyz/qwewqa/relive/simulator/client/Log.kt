@@ -133,7 +133,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
       val hpLabelElement = document.getElementById("boss-hp-label-$i") as HTMLDivElement
       val buffsElement = document.getElementById("boss-buffs-$i") as HTMLDivElement
       nameElement.textContent = status.name
-      hpElement.style.width = "${status.hp.toDouble() / status.maxHp * 100}%"
+      hpElement.style.width = "${status.hp / status.maxHp * 100}%"
       if (status.hp > 0) {
         hpElement.textContent =
             "${status.hp}/${status.maxHp} (-${(status.maxHp - status.hp).formatShort()})"
@@ -148,7 +148,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
         append { buffElements(status) }
       }
     }
-    val totalDamage = data.playerStatus?.sumOf { it.damageContribution } ?: 0
+    val totalDamage = data.playerStatus?.sumOf { it.damageContribution } ?: 0.0
     data.playerStatus?.reversed()?.forEachIndexed { i, status ->
       val statusImageContainer =
           document.getElementById("player-status-image-container-$i") as HTMLDivElement
@@ -177,10 +177,10 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
           }
         }
       }
-      hpElement.style.width = "${status.hp.toDouble() / status.maxHp * 100}%"
+      hpElement.style.width = "${status.hp / status.maxHp * 100}%"
       brillianceElement.style.width = "${status.brilliance}%"
       damageElement.style.width =
-          "${status.damageContribution.toDouble() / totalDamage.coerceAtLeast(1) * 100}%"
+          "${status.damageContribution / totalDamage.coerceAtLeast(1.0) * 100}%"
       if (status.hp > 0) {
         hpElement.textContent = "${status.hp}/${status.maxHp}"
         hpLabelElement.textContent = "${status.hp}/${status.maxHp}"
@@ -238,7 +238,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
         }
       }
       div(classes = "row justify-content-evenly g-1 g-md-2 mt-1") {
-        val totalDamage = data.playerStatus?.sumOf { it.damageContribution } ?: 0
+        val totalDamage = data.playerStatus?.sumOf { it.damageContribution } ?: 0.0
         data.playerStatus?.reversed()?.forEachIndexed { i, status ->
           div(classes = "$playerWidth interactive-status-container") {
             div(classes = "interactive-status-image-container") {
@@ -303,7 +303,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                 div(classes = "progress-bar bg-info") {
                   id = "player-damage-$i"
                   style =
-                      "width: ${status.damageContribution.toDouble() / totalDamage.coerceAtLeast(1) * 100}%;color: black;font-weight: bold;z-index: 2;"
+                      "width: ${status.damageContribution / totalDamage.coerceAtLeast(1.0) * 100}%;color: black;font-weight: bold;z-index: 2;"
                   if (status.damageContribution > 0) {
                     +"${status.damageContribution}"
                   }
@@ -329,10 +329,12 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
   }
 }
 
-private fun Int.formatShort(): String {
+private fun Double.formatShort(): String {
   return when {
-    this >= 1000000 -> "${(this.toDouble() / 1000000).toFixed(1)}M"
-    this >= 1000 -> "${(this.toDouble() / 1000).toFixed(1)}K"
+    this >= 1_000_000_000_000 -> "${(this / 1_000_000_000_000).toFixed(2)}T"
+    this >= 1_000_000_000 -> "${(this / 1_000_000_000).toFixed(2)}B"
+    this >= 1_000_000 -> "${(this / 1_000_000).toFixed(2)}M"
+    this >= 1_000 -> "${(this / 1_000).toFixed(2)}K"
     else -> this.toString()
   }
 }

@@ -116,7 +116,7 @@ external class RawSimulationParameters {
   val strategy: RawStrategyParameter
   val bossStrategy: RawStrategyParameter?
   val boss: String
-  val bossHp: Int?
+  val bossHp: Double?
   val additionalEventBonus: Int
   val eventMultiplier: Int
   val seed: Int
@@ -217,8 +217,8 @@ fun iterationResult(
     result: SimulationResultType,
     groupName: String,
     tags: List<String> = emptyList(),
-    margin: Int? = 0,
-    damage: Int? = 0,
+    margin: Double? = 0.0,
+    damage: Double? = 0.0,
     log: List<LogEntry>? = null,
     error: String? = null,
 ) =

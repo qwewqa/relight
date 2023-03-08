@@ -2,6 +2,7 @@
 
 package xyz.qwewqa.relive.simulator.core.skilloption
 
+import xyz.qwewqa.relive.simulator.core.i54.toI54
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
@@ -37,7 +38,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             },
             passiveAction = { value ->
               targets.forEach { target ->
-                target.buffs.activatePsuedoBuff(effect as ContinuousBuffEffect<Unit>, value = value)
+                target.buffs.activatePsuedoBuff(effect as ContinuousBuffEffect<Unit>, value = value.toI54())
               }
             })
       }
@@ -1053,7 +1054,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
           passiveAction = { value ->
             val totalValue = (team.active.count { condition(it) } * value).coerceAtMost(cap)
             targets.forEach { target ->
-              target.buffs.activatePsuedoBuff(effect, value = totalValue)
+              target.buffs.activatePsuedoBuff(effect, value = totalValue.toI54())
             }
           },
       )

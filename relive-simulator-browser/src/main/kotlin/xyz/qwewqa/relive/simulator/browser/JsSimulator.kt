@@ -325,8 +325,8 @@ data class IterationResult(
   val result: SimulationResultType,
   val groupName: String,
   val tags: List<String> = emptyList(),
-  val margin: Int? = 0,
-  val damage: Int? = 0,
+  val margin: Double? = 0.0,
+  val damage: Double? = 0.0,
   val log: List<LogEntry>? = null,
   val error: String? = null,
 ) {
@@ -344,14 +344,14 @@ data class IterationResult(
             )
         is SimulationResultType.End ->
             OutOfTurns(
-                damage ?: 0,
-                margin ?: 0,
+                damage ?: 0.0,
+                margin ?: 0.0,
                 StageResultMetadata(groupName, tags),
             )
         is SimulationResultType.Wipe ->
             TeamWipe(
-                damage ?: 0,
-                margin ?: 0,
+                damage ?: 0.0,
+                margin ?: 0.0,
                 result.turn,
                 result.tile,
                 StageResultMetadata(groupName, tags),
