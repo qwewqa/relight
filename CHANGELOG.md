@@ -920,3 +920,10 @@
 
 # v1.0.3
 - Fixed errors on some dresses with stage effect dispel
+
+# v1.0.4
+- Implemented more features
+- Minor fixes
+- Added icons to boss select
+- Increased maximum stats
+- Adjusted some log strings
