@@ -3,7 +3,7 @@ val ktor_version: String by project
 
 plugins {
   kotlin("js")
-  id("org.jetbrains.kotlin.plugin.serialization") version "1.7.10"
+  id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
 }
 
 group = "xyz.qwewqa.relive.simulator"
@@ -27,14 +27,14 @@ kotlin {
         directory = File("${project(":relive-simulator-browser").projectDir}/src/main/resources")
       }
 
-      webpackTask { cssSupport.enabled = true }
+      webpackTask { cssSupport { enabled.set(true) } }
 
-      runTask { cssSupport.enabled = true }
+      runTask { cssSupport { enabled.set(true) } }
 
       testTask {
         useKarma {
           useChromeHeadless()
-          webpackConfig.cssSupport.enabled = true
+          webpackConfig.cssSupport { enabled.set(true) }
         }
       }
     }
