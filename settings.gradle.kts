@@ -9,5 +9,3 @@ include("relive-simulator-client")
 include("relive-simulator-browser")
 
 include("relive-simulator-worker")
-
-include("relive-simulator-common")

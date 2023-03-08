@@ -21,7 +21,7 @@ import xyz.qwewqa.relive.simulator.core.stage.strategy.bossStrategyParsers
 import xyz.qwewqa.relive.simulator.core.stage.strategy.strategyParsers
 
 fun SimulationParameters.createStageLoadout(): StageLoadout {
-  require(bossHp == null || bossHp!! > 0) { "Boss HP must be a positive integer." }
+  require(bossHp == null || bossHp > 0) { "Boss HP must be a positive integer." }
   require(maxTurns > 0) { "Max turns must be a positive integer." }
   require(maxIterations > 0) { "Max iterations must be a positive integer" }
   require(team.isNotEmpty()) { "Team must not be empty." }
@@ -115,7 +115,7 @@ fun SimulationParameters.createStageLoadout(): StageLoadout {
               }),
           strategy =
               if (bossStrategy != null) {
-                bossStrategyParsers[bossStrategy!!.type]!!.parse(bossStrategy!!.value)
+                bossStrategyParsers[bossStrategy.type]!!.parse(bossStrategy.value)
               } else {
                 { bossLoadouts[boss]!!.strategy }
               }),

@@ -1,10 +1,10 @@
 package xyz.qwewqa.relive.simulator.worker
 
+import kotlin.random.Random
 import org.w3c.dom.DedicatedWorkerGlobalScope
 import xyz.qwewqa.relive.simulator.common.*
 import xyz.qwewqa.relive.simulator.core.stage.*
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
-import kotlin.random.Random
 
 external val self: DedicatedWorkerGlobalScope
 

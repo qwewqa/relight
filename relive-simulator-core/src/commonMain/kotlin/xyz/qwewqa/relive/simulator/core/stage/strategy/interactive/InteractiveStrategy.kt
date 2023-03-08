@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage.strategy.interactive
 
+import kotlin.random.Random
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import xyz.qwewqa.relive.simulator.common.ActCardStatus
@@ -38,7 +39,6 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.specialDefense
 import xyz.qwewqa.relive.simulator.core.stage.strategy.*
 import xyz.qwewqa.relive.simulator.core.stage.strategy.complete.qsort
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
-import kotlin.random.Random
 
 private const val INDENT = "  "
 
@@ -781,10 +781,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
             team.active
                 .filter { it.brilliance >= 100 }
                 .map { BoundAct(it, ActType.ClimaxAct) }
-                .filter {
-                  it !in usedClimaxActs ||
-                      it.actor.hasMultipleCA
-                }
+                .filter { it !in usedClimaxActs || it.actor.hasMultipleCA }
       }
       if (hand.size < 5) hand += drawCard(5 - hand.size)
       if (climax || team.cxTurns > 0) {
@@ -1433,10 +1430,7 @@ ${
                         team.active
                             .filter { it.brilliance >= 100 }
                             .map { BoundAct(it, ActType.ClimaxAct) }
-                            .filter {
-                              it !in usedClimaxActs ||
-                                  it.actor.hasMultipleCA
-                            }
+                            .filter { it !in usedClimaxActs || it.actor.hasMultipleCA }
                       } else {
                         emptyList()
                       }
@@ -1614,8 +1608,12 @@ ${
           }
           "Buffs" {
             "Continuous" {
-              "Positive" { buffs.continuousPositive().map { it.toString() }.sorted().forEach { +it } }
-              "Negative" { buffs.continuousNegative().map { it.toString() }.sorted().forEach { +it } }
+              "Positive" {
+                buffs.continuousPositive().map { it.toString() }.sorted().forEach { +it }
+              }
+              "Negative" {
+                buffs.continuousNegative().map { it.toString() }.sorted().forEach { +it }
+              }
             }
             "Countable" {
               "Positive" {

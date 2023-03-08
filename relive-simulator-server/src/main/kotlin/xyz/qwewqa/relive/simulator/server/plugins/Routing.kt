@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.server.plugins
 
 import Accessories
 import com.charleskorn.kaml.Yaml
+import xyz.qwewqa.relive.simulator.common.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -93,7 +94,8 @@ fun Application.configureRouting() {
                       ),
                       error = errorMessage,
                   ),
-              ))
+              )
+          )
         } else {
           call.respond(HttpStatusCode.NotFound)
         }

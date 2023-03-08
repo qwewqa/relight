@@ -281,7 +281,12 @@ class TargetContext(
             applyCountableBuff(effect = effect, count = time, value = value, chance = chance)
       }
 
-  fun applyContinuousBuff(effect: ContinuousBuffEffect<*>, value: Int = 0, turns: Int, chance: Int = 100) {
+  fun applyContinuousBuff(
+      effect: ContinuousBuffEffect<*>,
+      value: Int = 0,
+      turns: Int,
+      chance: Int = 100
+  ) {
     if (!self.isAlive) return
     for (originalTarget in originalTargets) {
       val target = aggroTarget ?: originalTarget

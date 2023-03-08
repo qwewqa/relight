@@ -18,9 +18,31 @@ import xyz.qwewqa.relive.simulator.client.InteractiveSimulation
 import xyz.qwewqa.relive.simulator.client.Simulation
 import xyz.qwewqa.relive.simulator.client.Simulator
 import xyz.qwewqa.relive.simulator.client.SimulatorClient
-import xyz.qwewqa.relive.simulator.common.*
+import xyz.qwewqa.relive.simulator.common.FilterLogRequest
+import xyz.qwewqa.relive.simulator.common.FilterLogResponse
+import xyz.qwewqa.relive.simulator.common.InteractiveLog
+import xyz.qwewqa.relive.simulator.common.InteractiveLogData
+import xyz.qwewqa.relive.simulator.common.LogEntry
+import xyz.qwewqa.relive.simulator.common.MarginResult
+import xyz.qwewqa.relive.simulator.common.SimulationMarginResultType
+import xyz.qwewqa.relive.simulator.common.SimulationOptions
+import xyz.qwewqa.relive.simulator.common.SimulationParameters
+import xyz.qwewqa.relive.simulator.common.SimulationResult
+import xyz.qwewqa.relive.simulator.common.SimulationResultType
+import xyz.qwewqa.relive.simulator.common.SimulationResultValue
+import xyz.qwewqa.relive.simulator.common.SimulatorFeatures
+import xyz.qwewqa.relive.simulator.common.SimulatorVersion
 import xyz.qwewqa.relive.simulator.core.getSimulationOptions
-import xyz.qwewqa.relive.simulator.core.stage.*
+import xyz.qwewqa.relive.simulator.core.stage.ExcludedRun
+import xyz.qwewqa.relive.simulator.core.stage.LogFilter
+import xyz.qwewqa.relive.simulator.core.stage.MarginStageResult
+import xyz.qwewqa.relive.simulator.core.stage.OutOfTurns
+import xyz.qwewqa.relive.simulator.core.stage.PlayError
+import xyz.qwewqa.relive.simulator.core.stage.ResultEntry
+import xyz.qwewqa.relive.simulator.core.stage.StageResultMetadata
+import xyz.qwewqa.relive.simulator.core.stage.TeamWipe
+import xyz.qwewqa.relive.simulator.core.stage.Victory
+import xyz.qwewqa.relive.simulator.core.stage.createStageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.interactive.InteractiveSimulationController
 import xyz.qwewqa.relive.simulator.core.stage.utils.summarize
 import kotlin.collections.component1
@@ -279,7 +301,8 @@ class JsInteractiveSimulation(val parameters: SimulationParameters) : Interactiv
             InteractiveLogData(
                 listOf(LogEntry(tags = listOf("Error"), content = error!!)),
                 error = error,
-            ))
+            )
+        )
   }
 
   override suspend fun sendCommand(text: String) {
@@ -298,14 +321,14 @@ data class IterationRequest(
 
 @Serializable
 data class IterationResult(
-    val request: IterationRequest,
-    val result: SimulationResultType,
-    val groupName: String,
-    val tags: List<String> = emptyList(),
-    val margin: Int? = 0,
-    val damage: Int? = 0,
-    val log: List<LogEntry>? = null,
-    val error: String? = null,
+  val request: IterationRequest,
+  val result: SimulationResultType,
+  val groupName: String,
+  val tags: List<String> = emptyList(),
+  val margin: Int? = 0,
+  val damage: Int? = 0,
+  val log: List<LogEntry>? = null,
+  val error: String? = null,
 ) {
   fun toStageResult() =
       when (result) {

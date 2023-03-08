@@ -1,6 +1,11 @@
 package xyz.qwewqa.relive.simulator.server
 
 import com.charleskorn.kaml.Yaml
+import xyz.qwewqa.relive.simulator.common.LogEntry
+import xyz.qwewqa.relive.simulator.common.SimulationParameters
+import xyz.qwewqa.relive.simulator.common.SimulationResult
+import xyz.qwewqa.relive.simulator.common.SimulationResultType
+import xyz.qwewqa.relive.simulator.common.SimulationResultValue
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.serialization.builtins.ListSerializer
@@ -73,9 +78,9 @@ fun simulateInteractive(parameters: SimulationParameters, logger: Logger? = null
 }
 
 private fun simulateSingle(
-    parameters: SimulationParameters,
-    token: String,
-    logger: Logger? = null,
+  parameters: SimulationParameters,
+  token: String,
+  logger: Logger? = null,
 ) =
     CoroutineScope(Dispatchers.Default).launch {
       val loadout = parameters.createStageLoadoutOrReportError(token) ?: return@launch
@@ -119,9 +124,9 @@ private val StageResult.resultPriority
       }
 
 private fun simulateMany(
-    parameters: SimulationParameters,
-    token: String,
-    logger: Logger? = null,
+  parameters: SimulationParameters,
+  token: String,
+  logger: Logger? = null,
 ) =
     CoroutineScope(Dispatchers.Default).launch {
       val loadout = parameters.createStageLoadoutOrReportError(token) ?: return@launch
