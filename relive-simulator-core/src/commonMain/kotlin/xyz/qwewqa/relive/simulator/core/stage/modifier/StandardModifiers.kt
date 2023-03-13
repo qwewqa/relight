@@ -84,7 +84,7 @@ inline val Modifiers.dexterity: I54
   get() {
     val holdBackModifier = -100 given { Buffs.HoldBackBuff in actor.buffs }
     return (baseDexterity + (hopeFactor + buffDexterity).coerceAtMost(100) + holdBackModifier -
-            debuffDexterity + hopeFactor)
+            debuffDexterity)
         .coerceIn(0, 100)
   }
 
