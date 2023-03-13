@@ -603,4 +603,5 @@ val abnormalCountableBuffs =
     platformSetOf(
         Buffs.DazeBuff,
         Buffs.ImpudenceBuff,
+        Buffs.DelusionBuff,
     )

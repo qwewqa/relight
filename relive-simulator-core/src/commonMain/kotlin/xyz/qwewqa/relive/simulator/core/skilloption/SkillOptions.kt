@@ -1289,7 +1289,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Seisho },
             effect = Buffs.ImpudenceBuff,
-            value = 0,
+            value = 5000,
             time = 1,
             chance = 33,
         )
@@ -1303,7 +1303,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Rinmeikan },
             effect = Buffs.ImpudenceBuff,
-            value = 0,
+            value = 5000,
             time = 1,
             chance = 33,
         )
@@ -1317,7 +1317,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Frontier },
             effect = Buffs.ImpudenceBuff,
-            value = 0,
+            value = 5000,
             time = 1,
             chance = 33,
         )
@@ -1331,7 +1331,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Siegfeld },
             effect = Buffs.ImpudenceBuff,
-            value = 0,
+            value = 5000,
             time = 1,
             chance = 33,
         )
@@ -1345,7 +1345,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Seiran },
             effect = Buffs.ImpudenceBuff,
-            value = 0,
+            value = 5000,
             time = 1,
             chance = 33,
         )
@@ -1394,7 +1394,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val SealMultipleCA = +skillOptionData(578).applyEffect()
   val LockedSealMultipleCA = +skillOptionData(579).applyEffect()
 
-  // TODO: 580: Act Boost Pride
+  val ActBoostPride = +skillOptionData(580).applyEffect()
 
   val ShortenContinuousPositiveEffects =
       +skillOptionData(581).makeSkillOption { value ->
@@ -1402,4 +1402,26 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
       }
 
   val BlessingRemoveCountableNegativeEffect = +skillOptionData(582).applyEffect()
+
+  val Delusion = +skillOptionData(583).applyEffect()
+
+  val CutinCostReduction = +skillOptionData(584).applyEffect()
+  val LockedCutinCostReduction = +skillOptionData(585).applyEffect()
+
+  val ActBoostDaze = +skillOptionData(586).applyEffect()
+
+  val HitRandom33DelusionSeishoBoost =
+      +skillOptionData(587).makeSkillOption { value, time, _, attribute ->
+        attackWithDebuff(
+            modifier = value,
+            hitCount = time,
+            attribute = attribute,
+            bonusMultiplier = 150,
+            bonusCondition = { it.dress.character.school == School.Seisho },
+            effect = Buffs.DelusionBuff,
+            value = 20,
+            time = 1,
+            chance = 33,
+        )
+      }
 }

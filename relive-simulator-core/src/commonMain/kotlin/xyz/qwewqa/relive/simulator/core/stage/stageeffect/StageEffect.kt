@@ -25,8 +25,8 @@ data class StageEffect(
   val category = buffs.first().effect.category
 }
 
+@Suppress("UNCHECKED_CAST")
 object StageEffects : ImplementationRegistry<StageEffect>() {
-  @Suppress("UNCHECKED_CAST")
   private fun getStageEffectBuff(type: Int, target: Int, values: List<Int>): StageEffectBuff? {
     if (type == 0) return null
     val effect = (Buffs[type] as? ContinuousBuffEffect<Unit>) ?: return null
@@ -42,29 +42,47 @@ object StageEffects : ImplementationRegistry<StageEffect>() {
           iconId = effect.icon_id,
           buffs =
               listOfNotNull(
-                      getStageEffectBuff(
-                          effect.buff_type1,
-                          effect.buff_type1_target_id,
-                          effect.buff_type1_value_list),
-                      getStageEffectBuff(
-                          effect.buff_type2,
-                          effect.buff_type2_target_id,
-                          effect.buff_type2_value_list),
-                      getStageEffectBuff(
-                          effect.buff_type3,
-                          effect.buff_type3_target_id,
-                          effect.buff_type3_value_list),
-                      getStageEffectBuff(
-                          effect.buff_type4,
-                          effect.buff_type4_target_id,
-                          effect.buff_type4_value_list),
-                      getStageEffectBuff(
-                          effect.buff_type5,
-                          effect.buff_type5_target_id,
-                          effect.buff_type5_value_list),
-                  )
-                  .takeIf { it.isNotEmpty() }
-                  ?: continue)
+                  if (effect.buff_type1 != 0)
+                      StageEffectBuff(
+                          effect = Buffs[effect.buff_type1] as? ContinuousBuffEffect<Unit>
+                                  ?: continue,
+                          values = effect.buff_type1_value_list,
+                          target = SkillTargets[effect.buff_type1_target_id] ?: continue,
+                      )
+                  else null,
+                  if (effect.buff_type2 != 0)
+                      StageEffectBuff(
+                          effect = Buffs[effect.buff_type2] as? ContinuousBuffEffect<Unit>
+                                  ?: continue,
+                          values = effect.buff_type2_value_list,
+                          target = SkillTargets[effect.buff_type2_target_id] ?: continue,
+                      )
+                  else null,
+                  if (effect.buff_type3 != 0)
+                      StageEffectBuff(
+                          effect = Buffs[effect.buff_type3] as? ContinuousBuffEffect<Unit>
+                                  ?: continue,
+                          values = effect.buff_type3_value_list,
+                          target = SkillTargets[effect.buff_type3_target_id] ?: continue,
+                      )
+                  else null,
+                  if (effect.buff_type4 != 0)
+                      StageEffectBuff(
+                          effect = Buffs[effect.buff_type4] as? ContinuousBuffEffect<Unit>
+                                  ?: continue,
+                          values = effect.buff_type4_value_list,
+                          target = SkillTargets[effect.buff_type4_target_id] ?: continue,
+                      )
+                  else null,
+                  if (effect.buff_type5 != 0)
+                      StageEffectBuff(
+                          effect = Buffs[effect.buff_type5] as? ContinuousBuffEffect<Unit>
+                                  ?: continue,
+                          values = effect.buff_type5_value_list,
+                          target = SkillTargets[effect.buff_type5_target_id] ?: continue,
+                      )
+                  else null,
+              ))
     }
   }
 }

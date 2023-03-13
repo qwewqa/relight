@@ -100,7 +100,13 @@ class Actor(
   val againstAttributeDamageReceivedDown = platformMapOf<Attribute, I54>()
   val attributeDamageDealtUp = platformMapOf<Attribute, I54>()
 
-  var cutinInitialCooldownReduction = 0.i54
+  val cutinInitialCooldownReductionPool = mutableListOf<I54>()
+  val cutinCostReductionPool = mutableListOf<I54>()
+
+  val cutinInitialCooldownReduction
+    get() = cutinInitialCooldownReductionPool.maxOrNull() ?: 0.i54
+  val cutinCostReduction
+    get() = cutinCostReductionPool.maxOrNull() ?: 0.i54
 
   var eventBonus: Int = 0
   var eventMultiplier: Int = 100
@@ -213,9 +219,16 @@ class Actor(
         // Relevant for bosses
         brilliance = 0.i54
       }
+      // TODO: account for buff values
       if (buffs.tryRemove(Buffs.ImpudenceBuff)) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by pride." }
         Act { targetRandom().act { heal(fixed = 5000) } }.execute(context)
+        return
+      }
+      // TODO: test order
+      if (buffs.tryRemove(Buffs.DelusionBuff)) {
+        context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by delusion." }
+        Act { targetRandom().act { heal(percent = 20) } }.execute(context)
         return
       }
       if (!inCXAct) {

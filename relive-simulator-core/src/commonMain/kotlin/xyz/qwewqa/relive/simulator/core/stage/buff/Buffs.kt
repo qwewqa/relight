@@ -1280,13 +1280,12 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               category = BuffCategory.Positive,
           )
 
-  // TODO: handle stacking properly
   val CutinInitialCooldownReductionBuff =
       +buffData(239)
           .makeContinuousBuffEffect(
               category = BuffCategory.Positive,
-              onStart = { value, _ -> self.cutinInitialCooldownReduction += value },
-              onEnd = { value, _, _ -> self.cutinInitialCooldownReduction -= value },
+              onStart = { value, _ -> self.cutinInitialCooldownReductionPool += value },
+              onEnd = { value, _, _ -> self.cutinInitialCooldownReductionPool -= value },
           )
 
   val CounterHealBuff2 =
@@ -1515,12 +1514,28 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val SealMultipleCABuff = +buffData(302).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
   val LockedSealMultipleCABuff = +buffData(303).makeLockedVariantOf(SealMultipleCABuff)
 
-  // TODO: Unfilled gap
+  // TODO: Implement this if needed
+  val FumblingInTheDarkBuff = +buffData(304).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+  val EvilCurseBuff = +buffData(305).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
 
-  // TODO 306 ACT Boost Pride
+  val ActBoostImpudenceBuff = +buffData(306).makeCountableBuffEffect(BuffCategory.Positive)
 
   val BlessingRemoveCountableNegativeEffectsBuff =
       +buffData(307).makeCountableBuffEffect(BuffCategory.Positive)
+
+  val DelusionBuff = + buffData(308).makeCountableBuffEffect(BuffCategory.Negative)
+
+  val CutinCustReductionBuff =
+      +buffData(309)
+          .makeContinuousBuffEffect(
+              category = BuffCategory.Positive,
+              onStart = { value, _ -> self.cutinCostReductionPool += value },
+              onEnd = { value, _, _ -> self.cutinCostReductionPool -= value },
+          )
+
+  val LockedCutinCustReductionBuff = +buffData(310).makeLockedVariantOf(CutinCustReductionBuff)
+
+  val ActBoostDazeBuff = +buffData(311).makeCountableBuffEffect(BuffCategory.Positive)
 
   val abnormalBuffs =
       platformSetOf(

@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.target
 
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
+import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.Character
 import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
@@ -12,6 +13,7 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.normalDefense
 import xyz.qwewqa.relive.simulator.core.stage.modifier.specialDefense
 
 object SkillTargets : ImplementationRegistry<SkillTarget>() {
+  val allyPlayer = +getSkillTargetData(1000).makeAllyTarget { emptyList() }
   val self = +getSkillTargetData(1001).makeAllyTarget { listOfNotNull(self) }
   val allAllies = +getSkillTargetData(1002).makeAllyTarget { team.active.toList() }
   val allyFrontGroup =

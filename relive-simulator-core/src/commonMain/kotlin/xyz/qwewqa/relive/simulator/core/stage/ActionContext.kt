@@ -68,14 +68,12 @@ class ActionContext(
 
   private fun List<Actor>.targetContext(
       affectedByAggro: Boolean = false,
-      autoRepeatHits: Boolean = true
   ): TargetContext {
     return TargetContext(
         this@ActionContext,
         this,
         enemy.active.firstOrNull()?.takeIf { ContractionBuff in self.buffs && affectedByAggro }
             ?: self.aggroTarget.takeIf { affectedByAggro },
-        autoRepeatHits,
     )
   }
 
@@ -110,10 +108,6 @@ class ActionContext(
   // TODO: Check if pride is affected by provoke / aggro
   fun targetRandom(count: Int = 1) =
       provokable { List(count) { enemy.active.random(stage.random) } }.targetContext(true)
-
-  fun targetAnyRandom(count: Int) =
-      provokable { List(count) { enemy.active.random(stage.random) } }
-          .targetContext(true, autoRepeatHits = false)
 
   fun targetAllyAoe() = team.active.targetContext()
   fun targetAllyAoe(condition: Condition) =
@@ -172,7 +166,6 @@ class TargetContext(
      */
     private val originalTargets: List<Actor>,
     private val aggroTarget: Actor? = null, // TODO: Get rid of this
-    private val autoRepeatHits: Boolean = true,
 ) {
   val stage
     get() = actionContext.stage
@@ -212,7 +205,10 @@ class TargetContext(
             noVariance = noVariance,
             mode = mode,
         )
-    repeat(if (autoRepeatHits) hitCount else 1) {
+    val impudenceBoost = self.buffs.tryRemove(Buffs.ActBoostImpudenceBuff)
+    val dazeBoost = self.buffs.tryRemove(Buffs.ActBoostDazeBuff)
+    repeat(hitCount) { hitIndex ->
+      val isLastHit = hitIndex == hitCount - 1
       for (originalTarget in originalTargets) {
         val target = aggroTarget ?: originalTarget
         if (!self.isAlive) return
@@ -222,6 +218,16 @@ class TargetContext(
               target,
               hitAttribute,
           )
+          if (isLastHit) {
+            TargetContext(actionContext, listOf(target)).act {
+              if (impudenceBoost) {
+                applyBuff(Buffs.ImpudenceBuff, time = 1, value = 5000)
+              }
+              if (dazeBoost) {
+                applyBuff(Buffs.DazeBuff, time = 1)
+              }
+            }
+          }
         }
       }
     }
@@ -259,7 +265,10 @@ class TargetContext(
             noVariance = noVariance,
             mode = mode,
         )
-    repeat(hitCount) {
+    val impudenceBoost = self.buffs.tryRemove(Buffs.ActBoostImpudenceBuff)
+    val dazeBoost = self.buffs.tryRemove(Buffs.ActBoostDazeBuff)
+    repeat(hitCount) { hitIndex ->
+      val isLastHit = hitIndex == hitCount - 1
       val target = aggroTarget ?: originalTargets.random(stage.random)
       if (!self.isAlive) return
       if (target.isAlive) {
@@ -269,7 +278,17 @@ class TargetContext(
             hitAttribute,
         )
         // TODO: Make this less hacky
-        TargetContext(actionContext, listOf(target)).applyBuff(effect, value.toI54(), time, chance)
+        TargetContext(actionContext, listOf(target)).act {
+          applyBuff(effect, value.toI54(), time, chance)
+          if (isLastHit) {
+            if (impudenceBoost) {
+              applyBuff(Buffs.ImpudenceBuff, time = 1, value = 5000)
+            }
+            if (dazeBoost) {
+              applyBuff(Buffs.DazeBuff, time = 1)
+            }
+          }
+        }
       }
     }
   }

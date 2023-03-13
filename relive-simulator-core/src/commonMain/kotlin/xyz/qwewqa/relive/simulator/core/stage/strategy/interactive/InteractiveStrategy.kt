@@ -13,7 +13,10 @@ import xyz.qwewqa.relive.simulator.common.InteractiveQueueStatus
 import xyz.qwewqa.relive.simulator.common.InteractiveRunState
 import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.common.LogEntry
-import xyz.qwewqa.relive.simulator.core.i54.*
+import xyz.qwewqa.relive.simulator.core.i54.I54
+import xyz.qwewqa.relive.simulator.core.i54.i54
+import xyz.qwewqa.relive.simulator.core.i54.sumOfI54
+import xyz.qwewqa.relive.simulator.core.i54.times
 import xyz.qwewqa.relive.simulator.core.stage.PlayInfo
 import xyz.qwewqa.relive.simulator.core.stage.Stage
 import xyz.qwewqa.relive.simulator.core.stage.StageConfiguration
@@ -617,7 +620,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
               if (queuing) hand.map { it.status } else emptyList(),
               if (!finished) held?.status else null,
               if (queuing) team.actors.values.mapNotNull { it.cutin?.status } else lastCutinStatus,
-              cutinQueue.sumOf { it.data.cost },
+              cutinQueue.sumOf { it.currentCost },
               cutinEnergy,
               queuing && !hasPerformedHoldAction && team.active.size > 1,
               if (climax) 2 else team.cxTurns,
@@ -660,7 +663,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
               actor.name,
               actor.dress.id,
               actor.memoir!!.id,
-              data.cost,
+              currentCost,
               (currentCooldownValue + 1 + (cutinLastUseTurns.getValue(this) - stage.turn))
                   .coerceAtLeast(0),
               cutinUseCounts.getValue(this),
@@ -671,7 +674,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 cutinUseCounts.getValue(this) >= data.usageLimit -> ActionStatus.NO_MORE_USES
                 stage.turn - cutinLastUseTurns.getValue(this) <= currentCooldownValue ->
                     ActionStatus.COOLDOWN
-                data.cost + cutinQueue.sumOf { it.data.cost } > cutinEnergy ->
+                currentCost + cutinQueue.sumOf { it.currentCost } > cutinEnergy ->
                     ActionStatus.TOO_EXPENSIVE
                 else -> ActionStatus.READY
               },
@@ -804,6 +807,9 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
       hand.clear()
       internalHand.clear()
     }
+
+    private val BoundCutin.currentCost
+      get() = (data.cost - actor.cutinCostReduction.toInt()).coerceAtLeast(0)
 
     private val BoundCutin.currentCooldownValue
       get() =
@@ -1185,7 +1191,7 @@ ${
                 !cutin.actor.isAlive -> {
                   log("Cutin") { "Error: Actor has already exited." }
                 }
-                cutin.data.cost + cutinQueue.sumOf { it.data.cost } > cutinEnergy -> {
+                cutin.currentCost + cutinQueue.sumOf { it.currentCost } > cutinEnergy -> {
                   log("Cutin") { "Error: Not enough cutin energy." }
                 }
                 cutinUseCounts.getValue(cutin) >= cutin.data.usageLimit -> {
@@ -1642,7 +1648,7 @@ ${
             queue.sumOf { it.apCost } + apCost <= 6
 
     private fun BoundCutin.fullInfo() =
-        "@(memoir:${actor.memoir?.id})[${actor.name} (${actor.dress.name})]:[${actor.memoir?.name}](Cost: ${data.cost}, Cooldown: ${
+        "@(memoir:${actor.memoir?.id})[${actor.name} (${actor.dress.name})]:[${actor.memoir?.name}](Cost: ${currentCost}, Cooldown: ${
                 (1 + currentCooldownValue - (stage.turn - cutinLastUseTurns.getValue(this))).coerceAtLeast(0)
             }, Remaining Uses: ${data.usageLimit - cutinUseCounts.getValue(this)}/${data.usageLimit})"
 
@@ -1677,7 +1683,7 @@ ${
 
     private fun BoundCutin.canQueue() =
         actor.isAlive &&
-            data.cost + cutinQueue.sumOf { it.data.cost } <= cutinEnergy &&
+            currentCost + cutinQueue.sumOf { it.currentCost } <= cutinEnergy &&
             cutinUseCounts.getValue(this) < data.usageLimit &&
             stage.turn - cutinLastUseTurns.getValue(this) > currentCooldownValue &&
             this !in cutinQueue
@@ -1695,7 +1701,7 @@ ${INDENT}${
             }
         }
 
-Cutins (${cutinEnergy - cutinQueue.sumOf { it.data.cost }}/${cutinEnergy} Energy):
+Cutins (${cutinEnergy - cutinQueue.sumOf { it.currentCost }}/${cutinEnergy} Energy):
 ${
             (team.actors.values
                 .filter { it.isAlive }

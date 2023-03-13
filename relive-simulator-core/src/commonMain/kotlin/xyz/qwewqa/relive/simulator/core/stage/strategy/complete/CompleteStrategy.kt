@@ -433,9 +433,12 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
   // (though this would break with a zero cooldown cutin, which probably won't happen)
   private fun canActivateCutin(cutin: BoundCutin): Boolean =
       cutin.actor.isAlive &&
-          cutin.data.cost <= cutinEnergy &&
+          cutin.currentCost <= cutinEnergy &&
           cutinUseCounts.getValue(cutin) < cutin.data.usageLimit &&
           stage.turn - cutinLastUseTurns.getValue(cutin) > cutin.currentCooldownValue
+
+  private val BoundCutin.currentCost
+    get() = (data.cost - actor.cutinCostReduction.toInt()).coerceAtLeast(0)
 
   private val BoundCutin.currentCooldownValue
     get() =
@@ -447,9 +450,9 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
 
   private fun activateCutin(cutin: BoundCutin) {
     stage.log("Strategy") {
-      "Activating cutin for actor ${cutin.actor.name} (prevEnergy = $cutinEnergy, newEnergy = ${cutinEnergy - cutin.data.cost})"
+      "Activating cutin for actor ${cutin.actor.name} (prevEnergy = $cutinEnergy, newEnergy = ${cutinEnergy - cutin.currentCost})"
     }
-    cutinEnergy -= cutin.data.cost
+    cutinEnergy -= cutin.currentCost
     cutinLastUseTurns[cutin] = stage.turn
     cutinUseCounts[cutin] = cutinUseCounts.getValue(cutin) + 1
     queuedCutins += cutin

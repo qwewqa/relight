@@ -21,9 +21,8 @@ data class SkillFieldEffectOption(
   }
 }
 
-interface SkillFieldEffect : FeatureImplementation {
-  val options: List<SkillFieldEffectOption>
-
+class SkillFieldEffect(override val id: Int, val options: List<SkillFieldEffectOption>) :
+    FeatureImplementation {
   fun execute(context: ActionContext) {
     options.forEach { it.execute(context) }
   }
@@ -50,37 +49,51 @@ object SkillFieldEffects : ImplementationRegistry<SkillFieldEffect>() {
 
   init {
     for ((id, effect) in valuesGenSkillFieldEffect) {
-      +object : SkillFieldEffect {
-        override val id = id
-        override val options =
-            listOfNotNull(
-                getSkillFieldEffectOption(
-                    effect.option1_id,
-                    effect.option1_target_type,
-                    effect.option1_time,
-                    effect.option1_value),
-                getSkillFieldEffectOption(
-                    effect.option2_id,
-                    effect.option2_target_type,
-                    effect.option2_time,
-                    effect.option2_value),
-                getSkillFieldEffectOption(
-                    effect.option3_id,
-                    effect.option3_target_type,
-                    effect.option3_time,
-                    effect.option3_value),
-                getSkillFieldEffectOption(
-                    effect.option4_id,
-                    effect.option4_target_type,
-                    effect.option4_time,
-                    effect.option4_value),
-                getSkillFieldEffectOption(
-                    effect.option5_id,
-                    effect.option5_target_type,
-                    effect.option5_time,
-                    effect.option5_value),
-            )
-      }
+      +SkillFieldEffect(
+          id = id,
+          options =
+              listOfNotNull(
+                  if (effect.option1_id != 0)
+                      getSkillFieldEffectOption(
+                          effect.option1_id,
+                          effect.option1_target_type,
+                          effect.option1_time,
+                          effect.option1_value)
+                          ?: continue
+                  else null,
+                  if (effect.option2_id != 0)
+                      getSkillFieldEffectOption(
+                          effect.option2_id,
+                          effect.option2_target_type,
+                          effect.option2_time,
+                          effect.option2_value)
+                          ?: continue
+                  else null,
+                  if (effect.option3_id != 0)
+                      getSkillFieldEffectOption(
+                          effect.option3_id,
+                          effect.option3_target_type,
+                          effect.option3_time,
+                          effect.option3_value)
+                          ?: continue
+                  else null,
+                  if (effect.option4_id != 0)
+                      getSkillFieldEffectOption(
+                          effect.option4_id,
+                          effect.option4_target_type,
+                          effect.option4_time,
+                          effect.option4_value)
+                          ?: continue
+                  else null,
+                  if (effect.option5_id != 0)
+                      getSkillFieldEffectOption(
+                          effect.option5_id,
+                          effect.option5_target_type,
+                          effect.option5_time,
+                          effect.option5_value)
+                          ?: continue
+                  else null,
+              ))
     }
   }
 }
