@@ -927,3 +927,7 @@
 - Added icons to boss select
 - Increased maximum stats
 - Adjusted some log strings
+
+# v1.0.5
+- Implemented more features
+- Added new dresses and memoirs
