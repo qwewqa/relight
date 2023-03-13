@@ -201,6 +201,30 @@ class BuffManager(val actor: Actor) {
     return value
   }
 
+  fun removeHighest(buff: CountableBuffEffect): I54 {
+    val categoryStacks =
+        when (buff.category) {
+          BuffCategory.Positive -> positiveCountableBuffStacks
+          BuffCategory.Negative -> negativeCountableBuffStacks
+        }
+    val stacks =
+        when (buff.category) {
+          BuffCategory.Positive -> positiveCountableBuffs
+          BuffCategory.Negative -> negativeCountableBuffs
+        }[buff]
+    if (stacks == null || stacks.size == 0)
+        error("Cannot remove countable buff $buff which is already at zero stacks.")
+    val prevCount = stacks.size
+    val stack = stacks.maxBy { it.value }
+    stacks.remove(stack)
+    categoryStacks.remove(stack)
+    val value = stack.value
+    actor.context.log("Buff") {
+      "Countable buff ${buff.name}${if (value != 0.i54) " ($value)" else ""} removed (prev: $prevCount, new: ${prevCount - 1})."
+    }
+    return value
+  }
+
   fun getNext(buff: CountableBuffEffect): I54? {
     val stacks =
         when (buff.category) {
@@ -214,7 +238,7 @@ class BuffManager(val actor: Actor) {
     if (count(buff) == 0) {
       return false
     }
-    action(remove(buff))
+    action(removeHighest(buff))
     return true
   }
 
@@ -223,7 +247,7 @@ class BuffManager(val actor: Actor) {
     if (count == 0) {
       return false
     }
-    repeat(count) { action(remove(buff)) }
+    repeat(count) { action(removeHighest(buff)) }
     return true
   }
 
@@ -232,7 +256,7 @@ class BuffManager(val actor: Actor) {
     if (count == 0) {
       return false
     }
-    repeat(count.coerceAtMost(max)) { action(remove(buff)) }
+    repeat(count.coerceAtMost(max)) { action(removeHighest(buff)) }
     return true
   }
 
