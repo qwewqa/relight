@@ -327,7 +327,6 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val HpRegenBuff =
       +buffData(21)
-          .copy(name = "HP Regen")
           .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Positive,
               onStart = { value ->
@@ -348,7 +347,6 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val BrillianceRegenBuff =
       +buffData(22)
-          .copy(name = "Brilliance Regen")
           .makeModifierContinuousBuffEffect(
               modifier = brillianceRegen,
               category = BuffCategory.Positive,
@@ -462,33 +460,16 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   // Note: EN localization got the names backwards
   val AgainstFlowerDamageDealtUpBuff =
-      +buffData(39)
-          .copy(name = "Bonus Dmg vs. Flower")
-          .againstAttributeDamageDealtUpBuff(Attribute.Flower)
-  val AgainstWindDamageDealtUpBuff =
-      +buffData(40)
-          .copy(name = "Bonus Dmg vs. Wind")
-          .againstAttributeDamageDealtUpBuff(Attribute.Wind)
-  val AgainstSnowDamageDealtUpBuff =
-      +buffData(41)
-          .copy(name = "Bonus Dmg vs. Snow")
-          .againstAttributeDamageDealtUpBuff(Attribute.Snow)
-  val AgainstMoonDamageDealtUpBuff =
-      +buffData(42)
-          .copy(name = "Bonus Dmg vs. Moon")
-          .againstAttributeDamageDealtUpBuff(Attribute.Moon)
+      +buffData(39).againstAttributeDamageDealtUpBuff(Attribute.Flower)
+  val AgainstWindDamageDealtUpBuff = +buffData(40).againstAttributeDamageDealtUpBuff(Attribute.Wind)
+  val AgainstSnowDamageDealtUpBuff = +buffData(41).againstAttributeDamageDealtUpBuff(Attribute.Snow)
+  val AgainstMoonDamageDealtUpBuff = +buffData(42).againstAttributeDamageDealtUpBuff(Attribute.Moon)
   val AgainstSpaceDamageDealtUpBuff =
-      +buffData(43)
-          .copy(name = "Bonus Dmg vs. Space")
-          .againstAttributeDamageDealtUpBuff(Attribute.Space)
+      +buffData(43).againstAttributeDamageDealtUpBuff(Attribute.Space)
   val AgainstCloudDamageDealtUpBuff =
-      +buffData(44)
-          .copy(name = "Bonus Dmg vs. Cloud")
-          .againstAttributeDamageDealtUpBuff(Attribute.Cloud)
+      +buffData(44).againstAttributeDamageDealtUpBuff(Attribute.Cloud)
   val AgainstDreamDamageDealtUpBuff =
-      +buffData(45)
-          .copy(name = "Bonus Dmg vs. Dream")
-          .againstAttributeDamageDealtUpBuff(Attribute.Dream)
+      +buffData(45).againstAttributeDamageDealtUpBuff(Attribute.Dream)
 
   // TODO: Do something with this I guess
   val BonusDamageVsBossesBuff = +buffData(46).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
@@ -712,7 +693,6 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val ApUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(106)
-          .copy(name = "AP Up")
           .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Negative,
               flipped = { ApDownBuff },
@@ -1370,7 +1350,6 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val HpRegenBuff2 =
       +buffData(268)
-          .copy(name = "HP Regen")
           .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Positive,
               onStart = { value ->
@@ -1432,10 +1411,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val LockedEffectiveDamageDealtUpBuff =
       +buffData(278).makeLockedVariantOf(EffectiveDamageDealtUpBuff)
 
-  val LockedBrillianceRegenBuff =
-      +buffData(279)
-          .copy(name = "(Unremovable) Brilliance Regen")
-          .makeLockedVariantOf(BrillianceRegenBuff)
+  val LockedBrillianceRegenBuff = +buffData(279).makeLockedVariantOf(BrillianceRegenBuff)
 
   val ReviveRegenBuff =
       +buffData(280)
@@ -1523,7 +1499,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val BlessingRemoveCountableNegativeEffectsBuff =
       +buffData(307).makeCountableBuffEffect(BuffCategory.Positive)
 
-  val DelusionBuff = + buffData(308).makeCountableBuffEffect(BuffCategory.Negative)
+  val DelusionBuff = +buffData(308).makeCountableBuffEffect(BuffCategory.Negative)
 
   val CutinCustReductionBuff =
       +buffData(309)
