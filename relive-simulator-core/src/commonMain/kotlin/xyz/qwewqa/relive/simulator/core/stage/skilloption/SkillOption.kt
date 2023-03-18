@@ -1,4 +1,4 @@
-package xyz.qwewqa.relive.simulator.core.skilloption
+package xyz.qwewqa.relive.simulator.core.stage.skilloption
 
 import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext

@@ -1,6 +1,6 @@
 @file:Suppress("UNUSED_ANONYMOUS_PARAMETER")
 
-package xyz.qwewqa.relive.simulator.core.skilloption
+package xyz.qwewqa.relive.simulator.core.stage.skilloption
 
 import xyz.qwewqa.relive.simulator.core.i54.toI54
 import xyz.qwewqa.relive.simulator.core.stage.HitMode

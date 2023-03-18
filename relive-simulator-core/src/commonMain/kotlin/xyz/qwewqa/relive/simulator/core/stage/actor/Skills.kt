@@ -3,9 +3,9 @@ package xyz.qwewqa.relive.simulator.core.stage.actor
 import kotlin.jvm.JvmName
 import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenSkill
-import xyz.qwewqa.relive.simulator.core.skilloption.ActiveSkillOption
-import xyz.qwewqa.relive.simulator.core.skilloption.SkillOptions
-import xyz.qwewqa.relive.simulator.core.skilloption.executeActiveSkillOption
+import xyz.qwewqa.relive.simulator.core.stage.skilloption.ActiveSkillOption
+import xyz.qwewqa.relive.simulator.core.stage.skilloption.SkillOptions
+import xyz.qwewqa.relive.simulator.core.stage.skilloption.executeActiveSkillOption
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation

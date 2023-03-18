@@ -1,4 +1,4 @@
-package xyz.qwewqa.relive.simulator.core.skilloption
+package xyz.qwewqa.relive.simulator.core.stage.skilloption
 
 import xyz.qwewqa.relive.simulator.core.gen.GenSkillOption
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenSkillOption

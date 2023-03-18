@@ -1,9 +1,9 @@
 package xyz.qwewqa.relive.simulator.core.stage.autoskill
 
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenStartSkill
-import xyz.qwewqa.relive.simulator.core.skilloption.ActiveSkillOption
-import xyz.qwewqa.relive.simulator.core.skilloption.SkillOptions
-import xyz.qwewqa.relive.simulator.core.skilloption.executeActiveSkillOption
+import xyz.qwewqa.relive.simulator.core.stage.skilloption.ActiveSkillOption
+import xyz.qwewqa.relive.simulator.core.stage.skilloption.SkillOptions
+import xyz.qwewqa.relive.simulator.core.stage.skilloption.executeActiveSkillOption
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
