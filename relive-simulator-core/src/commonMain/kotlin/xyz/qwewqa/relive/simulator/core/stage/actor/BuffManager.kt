@@ -102,8 +102,8 @@ class BuffManager(val actor: Actor) {
   fun activatePsuedoBuff(buffEffect: ContinuousBuffEffect<Unit>, value: I54 = 0.i54) {
     actor.context.log("Buff", debug = true) { "Pseudo buff ${buffEffect.name} ($value) added." }
     buffEffect.related?.let { activatePsuedoBuff(it, value) }
-    pseudoBuffs[buffEffect] = (pseudoBuffs[buffEffect] ?: 0) + 1
     buffEffect.onStart(actor.context, value, null)
+    pseudoBuffs[buffEffect] = (pseudoBuffs[buffEffect] ?: 0) + 1
   }
 
   fun updatePseudoBuff(buffEffect: ContinuousBuffEffect<Unit>, oldValue: I54, newValue: I54) {
