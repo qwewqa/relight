@@ -1,7 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage.target
 
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
-import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.Character
 import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
@@ -1587,111 +1586,111 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
 
   val selfAndKaren =
       +getSkillTargetData(7101).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Karen }
+        if (self.dress.character == Character.Karen) listOf(self) else emptyList()
       }
   val selfAndHikari =
       +getSkillTargetData(7102).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Hikari }
+        if (self.dress.character == Character.Hikari) listOf(self) else emptyList()
       }
   val selfAndMahiru =
       +getSkillTargetData(7103).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Mahiru }
+        if (self.dress.character == Character.Mahiru) listOf(self) else emptyList()
       }
   val selfAndClaudine =
       +getSkillTargetData(7104).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Claudine }
+        if (self.dress.character == Character.Claudine) listOf(self) else emptyList()
       }
   val selfAndMaya =
       +getSkillTargetData(7105).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Maya }
+        if (self.dress.character == Character.Maya) listOf(self) else emptyList()
       }
   val selfAndJunna =
       +getSkillTargetData(7106).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Junna }
+        if (self.dress.character == Character.Junna) listOf(self) else emptyList()
       }
   val selfAndNana =
       +getSkillTargetData(7107).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Nana }
+        if (self.dress.character == Character.Nana) listOf(self) else emptyList()
       }
   val selfAndFutaba =
       +getSkillTargetData(7108).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Futaba }
+        if (self.dress.character == Character.Futaba) listOf(self) else emptyList()
       }
   val selfAndKaoruko =
       +getSkillTargetData(7109).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Kaoruko }
+        if (self.dress.character == Character.Kaoruko) listOf(self) else emptyList()
       }
   val selfAndTamao =
       +getSkillTargetData(7201).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Tamao }
+        if (self.dress.character == Character.Tamao) listOf(self) else emptyList()
       }
   val selfAndIchie =
       +getSkillTargetData(7202).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Ichie }
+        if (self.dress.character == Character.Ichie) listOf(self) else emptyList()
       }
   val selfAndFumi =
       +getSkillTargetData(7203).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Fumi }
+        if (self.dress.character == Character.Fumi) listOf(self) else emptyList()
       }
   val selfAndRui =
       +getSkillTargetData(7204).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Rui }
+        if (self.dress.character == Character.Rui) listOf(self) else emptyList()
       }
   val selfAndYuyuko =
       +getSkillTargetData(7205).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Yuyuko }
+        if (self.dress.character == Character.Yuyuko) listOf(self) else emptyList()
       }
   val selfAndAruru =
       +getSkillTargetData(7301).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Aruru }
+        if (self.dress.character == Character.Aruru) listOf(self) else emptyList()
       }
   val selfAndMisora =
       +getSkillTargetData(7302).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Misora }
+        if (self.dress.character == Character.Misora) listOf(self) else emptyList()
       }
   val selfAndLalafin =
       +getSkillTargetData(7303).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Lalafin }
+        if (self.dress.character == Character.Lalafin) listOf(self) else emptyList()
       }
   val selfAndTsukasa =
       +getSkillTargetData(7304).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Tsukasa }
+        if (self.dress.character == Character.Tsukasa) listOf(self) else emptyList()
       }
   val selfAndShizuha =
       +getSkillTargetData(7305).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Shizuha }
+        if (self.dress.character == Character.Shizuha) listOf(self) else emptyList()
       }
   val selfAndAkira =
       +getSkillTargetData(7401).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Akira }
+        if (self.dress.character == Character.Akira) listOf(self) else emptyList()
       }
   val selfAndMichiru =
       +getSkillTargetData(7402).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Michiru }
+        if (self.dress.character == Character.Michiru) listOf(self) else emptyList()
       }
   val selfAndLiuMeiFan =
       +getSkillTargetData(7403).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.MeiFan }
+        if (self.dress.character == Character.MeiFan) listOf(self) else emptyList()
       }
   val selfAndShiori =
       +getSkillTargetData(7404).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Shiori }
+        if (self.dress.character == Character.Shiori) listOf(self) else emptyList()
       }
   val selfAndYachiyo =
       +getSkillTargetData(7405).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Yachiyo }
+        if (self.dress.character == Character.Yachiyo) listOf(self) else emptyList()
       }
   val selfAndKoharu =
       +getSkillTargetData(7501).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Koharu }
+        if (self.dress.character == Character.Koharu) listOf(self) else emptyList()
       }
   val selfAndSuzu =
       +getSkillTargetData(7502).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Suzu }
+        if (self.dress.character == Character.Suzu) listOf(self) else emptyList()
       }
   val selfAndHisame =
       +getSkillTargetData(7503).makeAllyTarget {
-        team.active.filter { it == self || it.dress.character == Character.Hisame }
+        if (self.dress.character == Character.Hisame) listOf(self) else emptyList()
       }
 
   // TODO: revives
