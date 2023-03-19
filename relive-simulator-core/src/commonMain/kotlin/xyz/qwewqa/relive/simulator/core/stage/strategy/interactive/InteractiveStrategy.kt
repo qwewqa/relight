@@ -1627,7 +1627,7 @@ ${
                 buffs
                     .countablePositive()
                     .filter { (_, v) -> v.isNotEmpty() }
-                    .map { (k, v) -> "[$k] x${v.size}" }
+                    .map { (k, v) -> "[${k.name}] x${v.size}" }
                     .sorted()
                     .forEach { +it }
               }
@@ -1635,7 +1635,7 @@ ${
                 buffs
                     .countableNegative()
                     .filter { (_, v) -> v.isNotEmpty() }
-                    .map { (k, v) -> "[$k] x$v" }
+                    .map { (k, v) -> "[${k.name}] x$v" }
                     .sorted()
                     .forEach { +it }
               }

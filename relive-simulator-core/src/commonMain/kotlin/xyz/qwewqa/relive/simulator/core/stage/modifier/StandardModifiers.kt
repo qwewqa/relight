@@ -56,7 +56,8 @@ val normalDefenseDown = modifier("normalDefenseDown")
 val fixedNormalDefense = modifier("fixedNormalDefense")
 inline val Modifiers.normalDefense: I54
   get() {
-    return (baseNormalDefense ptmod (normalDefenseUp - normalDefenseDown)) + fixedNormalDefense
+    return (baseNormalDefense ptmod (normalDefenseUp - normalDefenseDown)).coerceAtLeast(0) +
+        fixedNormalDefense
   }
 
 val baseSpecialDefense = modifier("baseSpecialDefense")
@@ -65,7 +66,8 @@ val specialDefenseDown = modifier("specialDefenseDown")
 val fixedSpecialDefense = modifier("fixedSpecialDefense")
 inline val Modifiers.specialDefense: I54
   get() {
-    return (baseSpecialDefense ptmod (specialDefenseUp - specialDefenseDown)) + fixedSpecialDefense
+    return (baseSpecialDefense ptmod (specialDefenseUp - specialDefenseDown)).coerceAtLeast(0) +
+        fixedSpecialDefense
   }
 
 val baseAgility = modifier("baseAgility")
