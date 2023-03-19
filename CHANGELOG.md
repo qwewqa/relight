@@ -933,4 +933,7 @@
 - Added new dresses and memoirs
 
 # v1.0.6
-- Add Cheshire Ichie's missing boost
+- Added Cheshire Ichie's missing boost
+
+# v1.0.7
+- Fixed birthday memoir targets
