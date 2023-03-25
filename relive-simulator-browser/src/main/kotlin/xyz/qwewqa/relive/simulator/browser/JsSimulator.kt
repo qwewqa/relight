@@ -5,6 +5,10 @@ import io.ktor.client.call.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
+import kotlin.random.Random
 import kotlinx.browser.window
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -45,10 +49,6 @@ import xyz.qwewqa.relive.simulator.core.stage.Victory
 import xyz.qwewqa.relive.simulator.core.stage.createStageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.interactive.InteractiveSimulationController
 import xyz.qwewqa.relive.simulator.core.stage.utils.summarize
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
-import kotlin.random.Random
 
 const val WORKER_URL = "relive-simulator-worker.js"
 
@@ -111,13 +111,17 @@ class JsSimulator : Simulator {
 }
 
 const val TARGET_BATCH_SIZE = 500
-const val MIN_BATCH_SIZE = 100
+const val ADD_THREAD_ITERATION_THRESHOLD = 10000
+
+infix fun Int.ceilDiv(divisor: Int): Int = (this + divisor - 1) / divisor
 
 fun calcBatchSize(iterations: Int, maxThreads: Int): Int {
-  if (iterations <= MIN_BATCH_SIZE * maxThreads) return MIN_BATCH_SIZE
-  val iterationsPerThread = (iterations + maxThreads - 1) / maxThreads
-  val batchesPerThread = (iterationsPerThread + TARGET_BATCH_SIZE - 1) / TARGET_BATCH_SIZE
-  return (iterationsPerThread + batchesPerThread - 1) / batchesPerThread
+  if (iterations <= ADD_THREAD_ITERATION_THRESHOLD * maxThreads) {
+    return iterations ceilDiv ADD_THREAD_ITERATION_THRESHOLD
+  }
+  val iterationsPerThread = iterations ceilDiv maxThreads
+  val batchesPerThread = iterationsPerThread ceilDiv TARGET_BATCH_SIZE
+  return iterationsPerThread ceilDiv batchesPerThread
 }
 
 class JsSimulation(val scriptBlob: Blob, val parameters: SimulationParameters) : Simulation {
@@ -167,85 +171,67 @@ class JsSimulation(val scriptBlob: Blob, val parameters: SimulationParameters) :
   val maxBatchSize =
       calcBatchSize(parameters.maxIterations, window.navigator.hardwareConcurrency.toInt())
 
+  val workerCount =
+      window.navigator.hardwareConcurrency
+          .toInt()
+          .coerceAtMost(parameters.maxIterations / maxBatchSize)
+          .coerceAtLeast(1)
+
   val workers =
-      List(
-          window.navigator.hardwareConcurrency
-              .toInt()
-              .coerceAtMost(parameters.maxIterations / maxBatchSize)
-              .coerceAtLeast(1)) {
-            Worker(URL.createObjectURL(scriptBlob)).also { worker ->
-              worker.onmessage = { ev ->
-                val results = Json.decodeFromString<List<IterationResult>>(ev.data as String)
-                if (resultCount == parameters.maxIterations) {
-                  // This means that this is the final run, for use with logging as a rerun of a
-                  // previous iteration.
-                  // This block should only be run once per simulation.
-                  val result = results.single()
-                  overallResult =
-                      overallResult.copy(
-                          error = result.error,
-                          log =
-                              result.log?.let {
-                                val header =
-                                    LogEntry(
-                                        turn = 0,
-                                        tile = 0,
-                                        move = 0,
-                                        tags = listOf("Info"),
-                                        content = "Iteration ${result.request.index + 1}",
-                                    )
-                                listOf(header) + it
-                              },
-                          runtime = (window.performance.now() - startTime) / 1_000.0,
-                          complete = true,
-                      )
-                  finish()
-                } else {
-                  results.forEach { result ->
-                    if (firstApplicableIteration == null ||
-                        firstApplicableIteration!!.resultPriority < result.resultPriority ||
-                        (firstApplicableIteration!!.resultPriority == result.resultPriority &&
-                            result.request.index < firstApplicableIteration!!.request.index)) {
-                      firstApplicableIteration = result
-                    }
-                    val stageResult = result.toStageResult()
-                    if (stageResult is MarginStageResult) {
-                      marginResults
-                          .getOrPut(stageResult.metadata.groupName) { mutableListOf() }
-                          .add(stageResult)
-                    }
-                    resultCount++
-                    resultCounts[result.tags to result.result] =
-                        (resultCounts[result.tags to result.result] ?: 0) + 1
-                    resultEntries +=
-                        ResultEntry(
-                            index = result.request.index,
-                            seed = result.request.seed,
-                            type = result.result,
-                            damage = result.damage,
-                        )
-                  }
-                  updateResults()
-                  val batchSize =
-                      (parameters.maxIterations - requestCount).coerceAtMost(maxBatchSize)
-                  if (batchSize > 0) {
-                    worker.postMessage(
-                        json.encodeToString(
-                            List(batchSize) {
-                              IterationRequest(
-                                  requestCount++,
-                                  seedProducer.nextInt(),
-                              )
-                            }))
-                  }
-                  if (resultCount == parameters.maxIterations) {
-                    worker.postMessage(
-                        json.encodeToString(
-                            listOf(firstApplicableIteration!!.request.copy(log = true))))
-                  }
+      List(workerCount) {
+        Worker(URL.createObjectURL(scriptBlob)).also { worker ->
+          worker.onmessage = { ev ->
+            val results = Json.decodeFromString<List<IterationResult>>(ev.data as String)
+            if (resultCount == parameters.maxIterations) {
+              // This means that this is the final run, for use with logging as a rerun of a
+              // previous iteration.
+              // This block should only be run once per simulation.
+              val result = results.single()
+              overallResult =
+                  overallResult.copy(
+                      error = result.error,
+                      log =
+                          result.log?.let {
+                            val header =
+                                LogEntry(
+                                    turn = 0,
+                                    tile = 0,
+                                    move = 0,
+                                    tags = listOf("Info"),
+                                    content = "Iteration ${result.request.index + 1}",
+                                )
+                            listOf(header) + it
+                          },
+                      runtime = (window.performance.now() - startTime) / 1_000.0,
+                      complete = true,
+                  )
+              finish()
+            } else {
+              results.forEach { result ->
+                if (firstApplicableIteration == null ||
+                    firstApplicableIteration!!.resultPriority < result.resultPriority ||
+                    (firstApplicableIteration!!.resultPriority == result.resultPriority &&
+                        result.request.index < firstApplicableIteration!!.request.index)) {
+                  firstApplicableIteration = result
                 }
+                val stageResult = result.toStageResult()
+                if (stageResult is MarginStageResult) {
+                  marginResults
+                      .getOrPut(stageResult.metadata.groupName) { mutableListOf() }
+                      .add(stageResult)
+                }
+                resultCount++
+                resultCounts[result.tags to result.result] =
+                    (resultCounts[result.tags to result.result] ?: 0) + 1
+                resultEntries +=
+                    ResultEntry(
+                        index = result.request.index,
+                        seed = result.request.seed,
+                        type = result.result,
+                        damage = result.damage,
+                    )
               }
-              worker.postMessage(json.encodeToString(parameters))
+              updateResults()
               val batchSize = (parameters.maxIterations - requestCount).coerceAtMost(maxBatchSize)
               if (batchSize > 0) {
                 worker.postMessage(
@@ -257,8 +243,27 @@ class JsSimulation(val scriptBlob: Blob, val parameters: SimulationParameters) :
                           )
                         }))
               }
+              if (resultCount == parameters.maxIterations) {
+                worker.postMessage(
+                    json.encodeToString(
+                        listOf(firstApplicableIteration!!.request.copy(log = true))))
+              }
             }
           }
+          worker.postMessage(json.encodeToString(parameters))
+          val batchSize = (parameters.maxIterations - requestCount).coerceAtMost(maxBatchSize)
+          if (batchSize > 0) {
+            worker.postMessage(
+                json.encodeToString(
+                    List(batchSize) {
+                      IterationRequest(
+                          requestCount++,
+                          seedProducer.nextInt(),
+                      )
+                    }))
+          }
+        }
+      }
 
   override suspend fun pollResult() = overallResult
 
@@ -301,8 +306,7 @@ class JsInteractiveSimulation(val parameters: SimulationParameters) : Interactiv
             InteractiveLogData(
                 listOf(LogEntry(tags = listOf("Error"), content = error!!)),
                 error = error,
-            )
-        )
+            ))
   }
 
   override suspend fun sendCommand(text: String) {
@@ -321,14 +325,14 @@ data class IterationRequest(
 
 @Serializable
 data class IterationResult(
-  val request: IterationRequest,
-  val result: SimulationResultType,
-  val groupName: String,
-  val tags: List<String> = emptyList(),
-  val margin: Double? = 0.0,
-  val damage: Double? = 0.0,
-  val log: List<LogEntry>? = null,
-  val error: String? = null,
+    val request: IterationRequest,
+    val result: SimulationResultType,
+    val groupName: String,
+    val tags: List<String> = emptyList(),
+    val margin: Double? = 0.0,
+    val damage: Double? = 0.0,
+    val log: List<LogEntry>? = null,
+    val error: String? = null,
 ) {
   fun toStageResult() =
       when (result) {
