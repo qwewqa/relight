@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.target
 
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
+import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.Character
 import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
@@ -12,6 +13,9 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.normalDefense
 import xyz.qwewqa.relive.simulator.core.stage.modifier.specialDefense
 
 object SkillTargets : ImplementationRegistry<SkillTarget>() {
+  private val Actor.teamIndex
+    get() = context.team.active.indexOf(this)
+
   val allyPlayer = +getSkillTargetData(1000).makeAllyTarget { emptyList() }
   val self = +getSkillTargetData(1001).makeAllyTarget { listOfNotNull(self) }
   val allAllies = +getSkillTargetData(1002).makeAllyTarget { team.active.toList() }
@@ -28,17 +32,17 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
         active.filter { it.dress.position != group }
       }
 
-  val front1stAlly = +getSkillTargetData(1011).makeAllyTargetSingleNthHighest(1) { 0 }
-  val front2ndAlly = +getSkillTargetData(1012).makeAllyTargetSingleNthHighest(2) { 0 }
-  val front3rdAlly = +getSkillTargetData(1013).makeAllyTargetSingleNthHighest(3) { 0 }
-  val front4thAlly = +getSkillTargetData(1014).makeAllyTargetSingleNthHighest(4) { 0 }
-  val front5thAlly = +getSkillTargetData(1015).makeAllyTargetSingleNthHighest(5) { 0 }
+  val front1stAlly = +getSkillTargetData(1011).makeAllyTargetSingleNthLowest(1) { it.teamIndex }
+  val front2ndAlly = +getSkillTargetData(1012).makeAllyTargetSingleNthLowest(2) { it.teamIndex }
+  val front3rdAlly = +getSkillTargetData(1013).makeAllyTargetSingleNthLowest(3) { it.teamIndex }
+  val front4thAlly = +getSkillTargetData(1014).makeAllyTargetSingleNthLowest(4) { it.teamIndex }
+  val front5thAlly = +getSkillTargetData(1015).makeAllyTargetSingleNthLowest(5) { it.teamIndex }
 
-  val rear1stAlly = +getSkillTargetData(1021).makeAllyTargetSingleNthLowest(1) { 0 }
-  val rear2ndAlly = +getSkillTargetData(1022).makeAllyTargetSingleNthLowest(2) { 0 }
-  val rear3rdAlly = +getSkillTargetData(1023).makeAllyTargetSingleNthLowest(3) { 0 }
-  val rear4thAlly = +getSkillTargetData(1024).makeAllyTargetSingleNthLowest(4) { 0 }
-  val rear5thAlly = +getSkillTargetData(1025).makeAllyTargetSingleNthLowest(5) { 0 }
+  val rear1stAlly = +getSkillTargetData(1021).makeAllyTargetSingleNthHighest(1) { it.teamIndex }
+  val rear2ndAlly = +getSkillTargetData(1022).makeAllyTargetSingleNthHighest(2) { it.teamIndex }
+  val rear3rdAlly = +getSkillTargetData(1023).makeAllyTargetSingleNthHighest(3) { it.teamIndex }
+  val rear4thAlly = +getSkillTargetData(1024).makeAllyTargetSingleNthHighest(4) { it.teamIndex }
+  val rear5thAlly = +getSkillTargetData(1025).makeAllyTargetSingleNthHighest(5) { it.teamIndex }
 
   val allyHighestHp = +getSkillTargetData(1031).makeAllyTargetSingleNthHighest(1) { it.hp }
   val ally2ndHighestHp = +getSkillTargetData(1032).makeAllyTargetSingleNthHighest(2) { it.hp }
@@ -142,17 +146,17 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
   val allies5HighestActPower =
       +getSkillTargetData(1130).makeAllyTargetAllNHighest(5) { it.mod { +actPower } }
 
-  val alliesFront = +getSkillTargetData(1131).makeAllyTargetAllNHighest(1) { 0 }
-  val allies2Front = +getSkillTargetData(1132).makeAllyTargetAllNHighest(2) { 0 }
-  val allies3Front = +getSkillTargetData(1133).makeAllyTargetAllNHighest(3) { 0 }
-  val allies4Front = +getSkillTargetData(1134).makeAllyTargetAllNHighest(4) { 0 }
-  val allies5Front = +getSkillTargetData(1135).makeAllyTargetAllNHighest(5) { 0 }
+  val alliesFront = +getSkillTargetData(1131).makeAllyTargetAllNLowest(1) { it.teamIndex }
+  val allies2Front = +getSkillTargetData(1132).makeAllyTargetAllNLowest(2) { it.teamIndex }
+  val allies3Front = +getSkillTargetData(1133).makeAllyTargetAllNLowest(3) { it.teamIndex }
+  val allies4Front = +getSkillTargetData(1134).makeAllyTargetAllNLowest(4) { it.teamIndex }
+  val allies5Front = +getSkillTargetData(1135).makeAllyTargetAllNLowest(5) { it.teamIndex }
 
-  val alliesRear = +getSkillTargetData(1141).makeAllyTargetAllNLowest(1) { 0 }
-  val allies2Rear = +getSkillTargetData(1142).makeAllyTargetAllNLowest(2) { 0 }
-  val allies3Rear = +getSkillTargetData(1143).makeAllyTargetAllNLowest(3) { 0 }
-  val allies4Rear = +getSkillTargetData(1144).makeAllyTargetAllNLowest(4) { 0 }
-  val allies5Rear = +getSkillTargetData(1145).makeAllyTargetAllNLowest(5) { 0 }
+  val alliesRear = +getSkillTargetData(1141).makeAllyTargetAllNHighest(1) { it.teamIndex }
+  val allies2Rear = +getSkillTargetData(1142).makeAllyTargetAllNHighest(2) { it.teamIndex }
+  val allies3Rear = +getSkillTargetData(1143).makeAllyTargetAllNHighest(3) { it.teamIndex }
+  val allies4Rear = +getSkillTargetData(1144).makeAllyTargetAllNHighest(4) { it.teamIndex }
+  val allies5Rear = +getSkillTargetData(1145).makeAllyTargetAllNHighest(5) { it.teamIndex }
 
   val allies10PercentHpOrMore = +getSkillTargetData(1181).makeAllyTargetAoe { it.hpFraction >= 0.1 }
   val allies20PercentHpOrMore = +getSkillTargetData(1182).makeAllyTargetAoe { it.hpFraction >= 0.2 }
@@ -230,17 +234,17 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
         active.filter { it.dress.position != group }
       }
 
-  val front1stEnemy = +getSkillTargetData(2011).makeEnemyTargetSingleNthHighest(1) { 0 }
-  val front2ndEnemy = +getSkillTargetData(2012).makeEnemyTargetSingleNthHighest(2) { 0 }
-  val front3rdEnemy = +getSkillTargetData(2013).makeEnemyTargetSingleNthHighest(3) { 0 }
-  val front4thEnemy = +getSkillTargetData(2014).makeEnemyTargetSingleNthHighest(4) { 0 }
-  val front5thEnemy = +getSkillTargetData(2015).makeEnemyTargetSingleNthHighest(5) { 0 }
+  val front1stEnemy = +getSkillTargetData(2011).makeEnemyTargetSingleNthLowest(1) { it.teamIndex }
+  val front2ndEnemy = +getSkillTargetData(2012).makeEnemyTargetSingleNthLowest(2) { it.teamIndex }
+  val front3rdEnemy = +getSkillTargetData(2013).makeEnemyTargetSingleNthLowest(3) { it.teamIndex }
+  val front4thEnemy = +getSkillTargetData(2014).makeEnemyTargetSingleNthLowest(4) { it.teamIndex }
+  val front5thEnemy = +getSkillTargetData(2015).makeEnemyTargetSingleNthLowest(5) { it.teamIndex }
 
-  val rear1stEnemy = +getSkillTargetData(2021).makeEnemyTargetSingleNthLowest(1) { 0 }
-  val rear2ndEnemy = +getSkillTargetData(2022).makeEnemyTargetSingleNthLowest(2) { 0 }
-  val rear3rdEnemy = +getSkillTargetData(2023).makeEnemyTargetSingleNthLowest(3) { 0 }
-  val rear4thEnemy = +getSkillTargetData(2024).makeEnemyTargetSingleNthLowest(4) { 0 }
-  val rear5thEnemy = +getSkillTargetData(2025).makeEnemyTargetSingleNthLowest(5) { 0 }
+  val rear1stEnemy = +getSkillTargetData(2021).makeEnemyTargetSingleNthHighest(1) { it.teamIndex }
+  val rear2ndEnemy = +getSkillTargetData(2022).makeEnemyTargetSingleNthHighest(2) { it.teamIndex }
+  val rear3rdEnemy = +getSkillTargetData(2023).makeEnemyTargetSingleNthHighest(3) { it.teamIndex }
+  val rear4thEnemy = +getSkillTargetData(2024).makeEnemyTargetSingleNthHighest(4) { it.teamIndex }
+  val rear5thEnemy = +getSkillTargetData(2025).makeEnemyTargetSingleNthHighest(5) { it.teamIndex }
 
   val enemyHighestHp = +getSkillTargetData(2031).makeEnemyTargetSingleNthHighest(1) { it.hp }
   val enemy2ndHighestHp = +getSkillTargetData(2032).makeEnemyTargetSingleNthHighest(2) { it.hp }
@@ -320,17 +324,17 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
   val enemy5thLowestSpecialDefense =
       +getSkillTargetData(2105).makeEnemyTargetSingleNthLowest(5) { it.mod { +specialDefense } }
 
-  val enemiesFront = +getSkillTargetData(2111).makeEnemyTargetAllNHighest(1) { 0 }
-  val enemies2Front = +getSkillTargetData(2112).makeEnemyTargetAllNHighest(2) { 0 }
-  val enemies3Front = +getSkillTargetData(2113).makeEnemyTargetAllNHighest(3) { 0 }
-  val enemies4Front = +getSkillTargetData(2114).makeEnemyTargetAllNHighest(4) { 0 }
-  val enemies5Front = +getSkillTargetData(2115).makeEnemyTargetAllNHighest(5) { 0 }
+  val enemiesFront = +getSkillTargetData(2111).makeEnemyTargetAllNLowest(1) { it.teamIndex }
+  val enemies2Front = +getSkillTargetData(2112).makeEnemyTargetAllNLowest(2) { it.teamIndex }
+  val enemies3Front = +getSkillTargetData(2113).makeEnemyTargetAllNLowest(3) { it.teamIndex }
+  val enemies4Front = +getSkillTargetData(2114).makeEnemyTargetAllNLowest(4) { it.teamIndex }
+  val enemies5Front = +getSkillTargetData(2115).makeEnemyTargetAllNLowest(5) { it.teamIndex }
 
-  val enemiesRear = +getSkillTargetData(2121).makeEnemyTargetAllNLowest(1) { 0 }
-  val enemies2Rear = +getSkillTargetData(2122).makeEnemyTargetAllNLowest(2) { 0 }
-  val enemies3Rear = +getSkillTargetData(2123).makeEnemyTargetAllNLowest(3) { 0 }
-  val enemies4Rear = +getSkillTargetData(2124).makeEnemyTargetAllNLowest(4) { 0 }
-  val enemies5Rear = +getSkillTargetData(2125).makeEnemyTargetAllNLowest(5) { 0 }
+  val enemiesRear = +getSkillTargetData(2121).makeEnemyTargetAllNHighest(1) { it.teamIndex }
+  val enemies2Rear = +getSkillTargetData(2122).makeEnemyTargetAllNHighest(2) { it.teamIndex }
+  val enemies3Rear = +getSkillTargetData(2123).makeEnemyTargetAllNHighest(3) { it.teamIndex }
+  val enemies4Rear = +getSkillTargetData(2124).makeEnemyTargetAllNHighest(4) { it.teamIndex }
+  val enemies5Rear = +getSkillTargetData(2125).makeEnemyTargetAllNHighest(5) { it.teamIndex }
 
   val enemiesHighestHp = +getSkillTargetData(2131).makeEnemyTargetAllNHighest(1) { it.hp }
   val enemies2HighestHp = +getSkillTargetData(2132).makeEnemyTargetAllNHighest(2) { it.hp }
