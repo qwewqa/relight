@@ -937,3 +937,7 @@
 
 # v1.0.7
 - Fixed birthday memoir targets
+
+# v1.0.8
+- Fixed rear targeting
+- Performance and stability adjustments
