@@ -3,15 +3,15 @@ package xyz.qwewqa.relive.simulator.core.stage.actor
 import kotlin.jvm.JvmName
 import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenSkill
-import xyz.qwewqa.relive.simulator.core.stage.skilloption.ActiveSkillOption
-import xyz.qwewqa.relive.simulator.core.stage.skilloption.SkillOptions
-import xyz.qwewqa.relive.simulator.core.stage.skilloption.executeActiveSkillOption
 import xyz.qwewqa.relive.simulator.core.stage.Act
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 import xyz.qwewqa.relive.simulator.core.stage.dress.ActBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.dress.attributeFromId
+import xyz.qwewqa.relive.simulator.core.stage.skilloption.ActiveSkillOption
+import xyz.qwewqa.relive.simulator.core.stage.skilloption.SkillOptions
+import xyz.qwewqa.relive.simulator.core.stage.skilloption.executeActiveSkillOption
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.SkillFieldEffect
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.SkillFieldEffects
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTarget
@@ -99,75 +99,30 @@ object Skills : ImplementationRegistry<SkillBlueprint>() {
       val attribute =
           attributeFromId(skill.attribute_id)
               ?: error("Invalid attribute id ${skill.attribute_id} for skill $id")
-      +SkillBlueprint(
-          id = id,
-          name = skill.name.getLocalizedString(),
-          cost = skill.cost,
-          iconId = skill.icon_id,
-          isMultipleCa = skill.is_multiple_command_unique_skill != 0,
-          parts =
-              listOfNotNull(
-                  if (skill.skill_option1_id != 0) {
-                    SkillPartBlueprint(
-                        option = SkillOptions[skill.skill_option1_id] as? ActiveSkillOption
-                                ?: continue,
-                        attribute = attribute,
-                        target = SkillTargets[skill.skill_option1_target_id] ?: continue,
-                        values = skill.skill_option1_values,
-                        times = skill.skill_option1_times,
-                        chance = skill.skill_option1_hit_rate,
-                    )
-                  } else null,
-                  if (skill.skill_option2_id != 0) {
-                    SkillPartBlueprint(
-                        option = SkillOptions[skill.skill_option2_id] as? ActiveSkillOption
-                                ?: continue,
-                        attribute = attribute,
-                        target = SkillTargets[skill.skill_option2_target_id] ?: continue,
-                        values = skill.skill_option2_values,
-                        times = skill.skill_option2_times,
-                        chance = skill.skill_option2_hit_rate,
-                    )
-                  } else null,
-                  if (skill.skill_option3_id != 0) {
-                    SkillPartBlueprint(
-                        option = SkillOptions[skill.skill_option3_id] as? ActiveSkillOption
-                                ?: continue,
-                        attribute = attribute,
-                        target = SkillTargets[skill.skill_option3_target_id] ?: continue,
-                        values = skill.skill_option3_values,
-                        times = skill.skill_option3_times,
-                        chance = skill.skill_option3_hit_rate,
-                    )
-                  } else null,
-                  if (skill.skill_option4_id != 0) {
-                    SkillPartBlueprint(
-                        option = SkillOptions[skill.skill_option4_id] as? ActiveSkillOption
-                                ?: continue,
-                        attribute = attribute,
-                        target = SkillTargets[skill.skill_option4_target_id] ?: continue,
-                        values = skill.skill_option4_values,
-                        times = skill.skill_option4_times,
-                        chance = skill.skill_option4_hit_rate,
-                    )
-                  } else null,
-                  if (skill.skill_option5_id != 0) {
-                    SkillPartBlueprint(
-                        option = SkillOptions[skill.skill_option5_id] as? ActiveSkillOption
-                                ?: continue,
-                        attribute = attribute,
-                        target = SkillTargets[skill.skill_option5_target_id] ?: continue,
-                        values = skill.skill_option5_values,
-                        times = skill.skill_option5_times,
-                        chance = skill.skill_option5_hit_rate,
-                    )
-                  } else null,
-              ),
-          stageEffect =
-              if (skill.skill_field_effect_id != 0) {
-                SkillFieldEffects[skill.skill_field_effect_id] ?: continue
-              } else null,
-      )
+      run {
+        +SkillBlueprint(
+            id = id,
+            name = skill.name.getLocalizedString(),
+            cost = skill.cost,
+            iconId = skill.icon_id,
+            isMultipleCa = skill.is_multiple_command_unique_skill != 0,
+            parts =
+                skill.skill_options.map { option ->
+                  SkillPartBlueprint(
+                      option = SkillOptions[option.id] as? ActiveSkillOption ?: return@run,
+                      attribute = attribute,
+                      target = SkillTargets[option.target_id] ?: return@run,
+                      values = option.values,
+                      times = option.times,
+                      chance = option.hit_rate,
+                  )
+                },
+            stageEffect =
+                if (skill.skill_field_effect_id != 0) {
+                  SkillFieldEffects[skill.skill_field_effect_id] ?: return@run
+                } else null,
+        )
+      }
     }
   }
 }
