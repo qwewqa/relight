@@ -111,15 +111,15 @@ class JsSimulator : Simulator {
 }
 
 const val TARGET_BATCH_SIZE = 500
-const val ADD_THREAD_ITERATION_THRESHOLD = 10000
+const val ADD_THREAD_ITERATION_THRESHOLD = 5000
 
 infix fun Int.ceilDiv(divisor: Int): Int = (this + divisor - 1) / divisor
 
-fun calcBatchSize(iterations: Int, maxThreads: Int): Int {
-  if (iterations <= ADD_THREAD_ITERATION_THRESHOLD * maxThreads) {
-    return iterations ceilDiv ADD_THREAD_ITERATION_THRESHOLD
-  }
-  val iterationsPerThread = iterations ceilDiv maxThreads
+fun calcThreadCount(iterations: Int, maxThreads: Int): Int =
+    (iterations ceilDiv ADD_THREAD_ITERATION_THRESHOLD).coerceIn(1, maxThreads)
+
+fun calcBatchSize(iterations: Int, threads: Int): Int {
+  val iterationsPerThread = iterations ceilDiv threads
   val batchesPerThread = iterationsPerThread ceilDiv TARGET_BATCH_SIZE
   return iterationsPerThread ceilDiv batchesPerThread
 }
@@ -168,14 +168,10 @@ class JsSimulation(val scriptBlob: Blob, val parameters: SimulationParameters) :
         )
   }
 
-  val maxBatchSize =
-      calcBatchSize(parameters.maxIterations, window.navigator.hardwareConcurrency.toInt())
-
   val workerCount =
-      window.navigator.hardwareConcurrency
-          .toInt()
-          .coerceAtMost(parameters.maxIterations / maxBatchSize)
-          .coerceAtLeast(1)
+      calcThreadCount(parameters.maxIterations, window.navigator.hardwareConcurrency.toInt())
+
+  val maxBatchSize = calcBatchSize(parameters.maxIterations, workerCount)
 
   val workers =
       List(workerCount) {
