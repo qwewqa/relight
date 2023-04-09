@@ -1584,9 +1584,10 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
       +getSkillTargetData(4153).makeAllyTargetAoe { it.dress.id in DressCategory.MilkyHolmes }
 
   // Handled specially
-  val randomAllyPerHIt = +getSkillTargetData(5001).makeAllyTargetAoe()
+  val randomAllyPerHit = +getSkillTargetData(5001).makeAllyTargetAoe()
   val randomEnemyPerHit = +getSkillTargetData(6001).makeEnemyTargetAoe()
   val randomEnemyPerHit2 = +getSkillTargetData(6010).makeEnemyTargetAoe()
+  val randomEnemyPerHit3 = +getSkillTargetData(6020).makeEnemyTargetAoe()
 
   val selfAndKaren =
       +getSkillTargetData(7101).makeAllyTarget {
