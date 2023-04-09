@@ -192,6 +192,8 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val frostbiteDamage = modifier("frostbiteDamage")
   val nightmareDamage = modifier("nightmareDamage")
 
+  val weaken = modifier("weaken")
+
   val ActPowerUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(1)
           .makeModifierContinuousBuffEffect(
@@ -1512,6 +1514,21 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val LockedCutinCustReductionBuff = +buffData(310).makeLockedVariantOf(CutinCustReductionBuff)
 
   val ActBoostDazeBuff = +buffData(311).makeCountableBuffEffect(BuffCategory.Positive)
+
+  // TODO: Implement this if needed
+  val ReflectStageEffectSelfTrappingBuff =
+      +buffData(312).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+  val ReflectStageEffectCaptivatingPupilsBuff =
+      +buffData(313).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+
+  val WeakenBuff = +buffData(314).makeModifierContinuousBuffEffect(
+      modifier = weaken,
+      category = BuffCategory.Negative,
+  )
+
+  // TODO: Implement
+  val StageEffectSealResistanceRegenBuff =
+      +buffData(315).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
   val abnormalBuffs =
       platformSetOf(

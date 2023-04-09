@@ -1424,4 +1424,10 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             chance = 33,
         )
       }
+
+  val Weaken = +skillOptionData(588).applyEffect()
+
+  val StageEffectSealResistanceRegen = +skillOptionData(589).applyEffect()
+
+  val InvincibleRebirthReduction = +skillOptionData(590).reduceCountable()
 }

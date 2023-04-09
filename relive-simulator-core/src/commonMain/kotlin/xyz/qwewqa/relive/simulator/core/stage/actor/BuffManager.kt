@@ -15,6 +15,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.abnormalBuffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.burnDamage
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.nightmareDamage
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.poisonDamage
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.weaken
 import xyz.qwewqa.relive.simulator.core.stage.buff.ContinuousBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.buff.CountableBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.buff.activateBlessings
@@ -484,6 +485,12 @@ class BuffManager(val actor: Actor) {
         //        if (TurnDispelCountablePositiveEffectsBuff in buffs) {
         //          removeCountable(BuffCategory.Positive)
         //        }
+
+        val weakenCoef = mod { +weaken }
+        if (weakenCoef > 0) {
+          context.log("Weaken") { "Weaken tick." }
+          damage((maxHp ptmul weakenCoef).toInt(), additionalEffects = false)
+        }
 
         val turnReduceCountablePositiveEffects = mod { +turnReduceCountablePositiveEffects }
         if (turnReduceCountablePositiveEffects > 0) {
