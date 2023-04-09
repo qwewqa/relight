@@ -146,7 +146,7 @@ class Actor(
         context.log("Act", category = LogCategory.EMPHASIS) { "Actor has already exited." }
         return
       }
-      if (OverwhelmBuff in buffs) {
+      if (buffs.tryRemove(OverwhelmBuff)) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by overwhelm." }
         return
       }
