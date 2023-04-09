@@ -941,3 +941,10 @@
 # v1.0.8
 - Fixed rear targeting
 - Performance and stability adjustments
+
+# v1.0.9
+- TR29 bosses added by Mikayla
+- TR29 bosses have 50% damage taken reduction
+- Accessories now default to lv50 ub0
+- Added new dresses and memoirs
+- Fixed cheer damage calculation (negligible impact)
