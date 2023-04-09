@@ -948,3 +948,7 @@
 - Accessories now default to lv50 ub0
 - Added new dresses and memoirs
 - Fixed cheer damage calculation (negligible impact)
+
+# v1.0.10
+- Added Encore Klaus Akira
+- Fixed overwhelm not being consumed
