@@ -2,9 +2,20 @@ package xyz.qwewqa.relive.simulator.worker
 
 import kotlin.random.Random
 import org.w3c.dom.DedicatedWorkerGlobalScope
-import xyz.qwewqa.relive.simulator.common.*
-import xyz.qwewqa.relive.simulator.core.stage.*
+import xyz.qwewqa.relive.simulator.common.LogEntry
+import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
+import xyz.qwewqa.relive.simulator.common.SimulationParameters
+import xyz.qwewqa.relive.simulator.common.SimulationResultType
+import xyz.qwewqa.relive.simulator.common.SongEffectParameter
+import xyz.qwewqa.relive.simulator.common.SongParameters
+import xyz.qwewqa.relive.simulator.common.StrategyParameter
+import xyz.qwewqa.relive.simulator.core.stage.MarginStageResult
+import xyz.qwewqa.relive.simulator.core.stage.PlayError
+import xyz.qwewqa.relive.simulator.core.stage.PlayInfo
+import xyz.qwewqa.relive.simulator.core.stage.StageConfiguration
+import xyz.qwewqa.relive.simulator.core.stage.createStageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
+import xyz.qwewqa.relive.simulator.core.stage.toSimulationResult
 
 external val self: DedicatedWorkerGlobalScope
 
@@ -15,69 +26,77 @@ fun main() {
   var initializationError: String? = null
   var parameters: SimulationParameters? = null
   self.onmessage = { ev ->
-    if (!initialized) {
-      try {
-        val rawParameters: RawSimulationParameters = JSON.parse(ev.data as String)
-        parameters = rawParameters.parse()
-        loadout = parameters!!.createStageLoadout()
-        turns = parameters!!.maxTurns
-      } catch (e: Exception) {
-        initializationError = e.stackTraceToString()
+    when {
+      // RESET[key] is a message sent by the main thread to reset the worker.
+      ev.data is String && "RESET:.+".toRegex().matches(ev.data as String) -> {
+        initialized = false
+        self.postMessage(ev.data)
       }
-      initialized = true
-    } else {
-      val requests: Array<IterationRequest> = JSON.parse(ev.data as String)
-      val ld = loadout
-      if (ld != null) {
-        self.postMessage(
-            JSON.stringify(
-                requests.amap { request ->
-                  if (request.log) {
-                    val stage =
-                        ld.create(
-                            random = Random(request.seed),
-                            configuration = StageConfiguration(logging = true))
-                    val result =
-                        stage.play(PlayInfo(turns, request.index, parameters!!.maxIterations))
-                    iterationResult(
-                        request,
-                        result.toSimulationResult(),
-                        result.metadata.groupName,
-                        result.metadata.tags,
-                        (result as? MarginStageResult)?.margin,
-                        (result as? MarginStageResult)?.damage,
-                        error = (result as? PlayError)?.exception?.stackTraceToString(),
-                        log = stage.logger.get(),
-                    )
-                  } else {
-                    val result =
-                        ld.create(random = Random(request.seed))
-                            .play(PlayInfo(turns, request.index, parameters!!.maxIterations))
-                    iterationResult(
-                        request,
-                        result.toSimulationResult(),
-                        result.metadata.groupName,
-                        result.metadata.tags,
-                        (result as? MarginStageResult)?.margin,
-                        (result as? MarginStageResult)?.damage,
-                    )
-                  }
-                }))
-      } else {
-        self.postMessage(
-            JSON.stringify(
-                requests.amap { request ->
-                  if (request.log) {
-                    iterationResult(
-                        request,
-                        SimulationResultType.Error,
-                        "Default",
-                        error = initializationError,
-                    )
-                  } else {
-                    iterationResult(request, SimulationResultType.Error, "Default")
-                  }
-                }))
+      !initialized -> {
+        try {
+          val rawParameters: RawSimulationParameters = JSON.parse(ev.data as String)
+          parameters = rawParameters.parse()
+          loadout = parameters!!.createStageLoadout()
+          turns = parameters!!.maxTurns
+        } catch (e: Exception) {
+          initializationError = e.stackTraceToString()
+        }
+        initialized = true
+      }
+      else -> {
+        val requests: Array<IterationRequest> = JSON.parse(ev.data as String)
+        val ld = loadout
+        if (ld != null) {
+          self.postMessage(
+              JSON.stringify(
+                  requests.amap { request ->
+                    if (request.log) {
+                      val stage =
+                          ld.create(
+                              random = Random(request.seed),
+                              configuration = StageConfiguration(logging = true))
+                      val result =
+                          stage.play(PlayInfo(turns, request.index, parameters!!.maxIterations))
+                      iterationResult(
+                          request,
+                          result.toSimulationResult(),
+                          result.metadata.groupName,
+                          result.metadata.tags,
+                          (result as? MarginStageResult)?.margin,
+                          (result as? MarginStageResult)?.damage,
+                          error = (result as? PlayError)?.exception?.stackTraceToString(),
+                          log = stage.logger.get(),
+                      )
+                    } else {
+                      val result =
+                          ld.create(random = Random(request.seed))
+                              .play(PlayInfo(turns, request.index, parameters!!.maxIterations))
+                      iterationResult(
+                          request,
+                          result.toSimulationResult(),
+                          result.metadata.groupName,
+                          result.metadata.tags,
+                          (result as? MarginStageResult)?.margin,
+                          (result as? MarginStageResult)?.damage,
+                      )
+                    }
+                  }))
+        } else {
+          self.postMessage(
+              JSON.stringify(
+                  requests.amap { request ->
+                    if (request.log) {
+                      iterationResult(
+                          request,
+                          SimulationResultType.Error,
+                          "Default",
+                          error = initializationError,
+                      )
+                    } else {
+                      iterationResult(request, SimulationResultType.Error, "Default")
+                    }
+                  }))
+        }
       }
     }
   }
