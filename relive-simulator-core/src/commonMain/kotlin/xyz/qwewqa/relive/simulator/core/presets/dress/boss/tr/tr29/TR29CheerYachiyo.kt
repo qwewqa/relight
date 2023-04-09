@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr29
 
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.TrDamageReductionPassive
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -302,6 +303,7 @@ val tr29CheerYachiyoDiff4 =
             listOf(
                 trEventBonusPassive2023(2010021),
                 AbnormalGuardPassive.new(),
+                TrDamageReductionPassive.new(50),
             ),
         ),
     )

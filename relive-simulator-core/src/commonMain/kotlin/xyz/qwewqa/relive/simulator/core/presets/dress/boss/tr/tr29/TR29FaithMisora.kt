@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr29
 
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.TrDamageReductionPassive
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -382,6 +383,7 @@ val tr29FaithMisoraDiff4 =
                 trEventBonusPassive2023(2010021),
                 AbnormalResistPassiveA.new(100),
                 BossElementResistPassive.new(50),
+                TrDamageReductionPassive.new(50),
             ),
         ),
     )

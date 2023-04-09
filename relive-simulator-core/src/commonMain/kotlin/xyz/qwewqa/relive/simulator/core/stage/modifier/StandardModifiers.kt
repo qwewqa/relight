@@ -193,8 +193,8 @@ val damageReceivedDown = modifier("damageReceivedDown")
 val damageReceivedUp = modifier("damageReceivedUp")
 
 fun Modifiers.damageReceivedModifier(attacker: Actor) =
-    (damageReceivedUp - (+damageReceivedDown).coerceAtMost(50) +
-        (actor.fromCharacterDamageReceivedUp[attacker.dress.character] ?: 0.i54))
+    ((damageReceivedUp - (+damageReceivedDown).coerceAtMost(100)) +
+            (actor.fromCharacterDamageReceivedUp[attacker.dress.character] ?: 0.i54))
 
 val brillianceRegen = modifier("brillianceRegen")
 val brillianceRegenTurnScaling = modifier("brillianceRegenTurnScaling")
