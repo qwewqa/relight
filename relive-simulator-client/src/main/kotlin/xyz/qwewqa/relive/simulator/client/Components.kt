@@ -509,9 +509,15 @@ class ActorOptions(
       memoirLevel.value = param.memoirLevel
       memoirUnbind.value = param.memoirLimitBreak.toString()
       if (validAccessories.size > 1) {
-        accessory.value = param.accessory.takeIf { it in validAccessories } ?: "None"
-        accessoryLevel.value = param.accessoryLevel
-        accessoryUnbind.value = param.accessoryLimitBreak.toString()
+        if (param.accessory in validAccessories) {
+          accessory.value = param.accessory ?: "0"
+          accessoryLevel.value = param.accessoryLevel
+          accessoryUnbind.value = param.accessoryLimitBreak.toString()
+        } else {
+          accessory.value = "0"
+          accessoryLevel.value = 50
+          accessoryUnbind.value = "0"
+        }
       }
       unitSkillLevel.value = param.unitSkillLevel
       level.value = param.level

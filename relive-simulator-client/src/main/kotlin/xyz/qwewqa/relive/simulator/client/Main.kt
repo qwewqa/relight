@@ -997,7 +997,7 @@ class SimulatorClient(val simulator: Simulator) {
                 }
                 img(classes = "actor-accessory-unbind-image d-none") {
                   style = "position: absolute; right: 2%; top: 2%; width: 38%;"
-                  src = getAccessoryUnbindImagePath(10)
+                  src = getAccessoryUnbindImagePath(0)
                 }
                 img(classes = "actor-remake-level-image") {
                   style =
@@ -1041,7 +1041,7 @@ class SimulatorClient(val simulator: Simulator) {
                           "text-shadow: #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px, #fff 0 0 4px;"
                   div("actor-accessory-level") {
                     style = "color: darkgoldenrod; font-size: 0.85em;"
-                    +"100"
+                    +"50"
                   }
                 }
               }
@@ -1637,7 +1637,7 @@ class SimulatorClient(val simulator: Simulator) {
                             option {
                               value = it.toString()
                               +it.toString()
-                              selected = it == 10
+                              selected = it == 0
                             }
                           }
                           onChangeFunction = {
@@ -1668,7 +1668,7 @@ class SimulatorClient(val simulator: Simulator) {
                         }
                         input(InputType.number, classes = "form-control actor-accessory-level") {
                           id = inputId
-                          placeholder = "100"
+                          placeholder = "50"
                           onChangeFunction = { ActorOptions(options, actorId).update() }
                         }
                       }
