@@ -191,7 +191,8 @@ open class RandomDamageCalculator : DamageCalculator {
     } else {
       var atk = attacker.mod { actPower }
       if (attacker.inCX) atk = atk * 110 / 100
-      val modifier = hitAttribute.modifier
+      val cheerCoef = 100 + (attacker.buffs.getNext(Buffs.CheerBuff) ?: 0.i54)
+      val modifier = hitAttribute.modifier.toI54() ptmul cheerCoef
       atk = atk * 2 * modifier / 100
 
       val def =
@@ -254,9 +255,6 @@ open class RandomDamageCalculator : DamageCalculator {
           100.i54
         }
 
-    // TODO: Figure out if this is in the right place in the formula order
-    val cheerCoef = 100 + (attacker.buffs.getNext(Buffs.CheerBuff) ?: 0.i54)
-
     val eventBonusCoef = 100 + attacker.eventBonus
     val eventMultiplier = attacker.eventMultiplier
 
@@ -273,7 +271,6 @@ open class RandomDamageCalculator : DamageCalculator {
     dmg = dmg ptmul dmgDealtDownCoef
     dmg = dmg ptmul dmgTakenCoef
     dmg = dmg ptmul dmgDealtUpCoef
-    dmg = dmg ptmul cheerCoef
     dmg = dmg ptmul eventMultiplier // tentative
 
     var criticalDmg = base
@@ -290,7 +287,6 @@ open class RandomDamageCalculator : DamageCalculator {
     criticalDmg = criticalDmg ptmul dmgDealtDownCoef
     criticalDmg = criticalDmg ptmul dmgTakenCoef
     criticalDmg = criticalDmg ptmul dmgDealtUpCoef
-    criticalDmg = criticalDmg ptmul cheerCoef
     criticalDmg = criticalDmg ptmul eventMultiplier
 
     return DamageResult(
