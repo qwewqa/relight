@@ -359,15 +359,30 @@
                     <label class="form-label text-boss" for="boss-select">Boss</label>
                     <select class="selectpicker form-control" data-live-search="true" id="boss-select"></select>
                 </div>
-                <div class="col-md-4 col-12">
-                    <label class="form-label text-boss-hp" for="boss-hp-input">Boss HP Override</label>
+                <div class="col-lg-3 col-6">
+                    <label class="form-label text-boss-hp" for="boss-hp-input">HP Override</label>
                     <input class="form-control" id="boss-hp-input" placeholder="" type="text">
                 </div>
-                <div class="col-md-4 col-6">
+                <div class="col-lg-3 col-6">
+                    <label class="form-label text-boss-attribute" for="boss-attribute-select">Attribute Override</label>
+                    <select class="form-select" id="boss-attribute-select">
+                        <option selected="selected" value="None">None</option>
+                        <option value="Flower">Flower</option>
+                        <option value="Wind">Wind</option>
+                        <option value="Snow">Snow</option>
+                        <option value="Moon">Moon</option>
+                        <option value="Space">Space</option>
+                        <option value="Cloud">Cloud</option>
+                        <option value="Dream">Dream</option>
+                        <option value="Sun">Sun</option>
+                        <option value="Star">Star</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-6">
                     <label class="form-label text-event-bonus" for="event-bonus-input">Extra Event Bonus</label>
                     <input class="form-control" id="event-bonus-input" placeholder="0" type="number">
                 </div>
-                <div class="col-md-4 col-6">
+                <div class="col-lg-3 col-6">
                     <label class="form-label text-event-multiplier" for="event-multiplier-input">Event
                         Multiplier</label>
                     <input class="form-control" id="event-multiplier-input" placeholder="100" type="number">

@@ -63,6 +63,7 @@ class SimulationParameters(BaseModel):
     bossStrategy: Optional[StrategyParameter] = None
     boss: constr(max_length=100)
     bossHp: Optional[int] = None
+    bossAttribute: Optional[constr(max_length=100)] = None
     additionalEventBonus: int = 0
     eventMultiplier: int = 100
     seed: int = 0

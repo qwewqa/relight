@@ -1,8 +1,8 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
-import xyz.qwewqa.relive.simulator.core.i54.I54
-import xyz.qwewqa.relive.simulator.core.i54.toI54
+import kotlinx.serialization.Serializable
 
+@Serializable
 enum class Attribute(val id: Int? = null) {
   Neutral,
   Flower(1),
@@ -32,15 +32,27 @@ val Attribute.advantagedAgainst
 
 val Attribute.disadvantagedAgainst
   get() =
-      when (this) {
-        Attribute.Flower -> listOf(Attribute.Snow, Attribute.Sun)
-        Attribute.Wind -> listOf(Attribute.Flower, Attribute.Sun)
-        Attribute.Snow -> listOf(Attribute.Wind, Attribute.Sun)
-        Attribute.Moon -> listOf(Attribute.Cloud, Attribute.Star)
-        Attribute.Space -> listOf(Attribute.Moon, Attribute.Star)
-        Attribute.Cloud -> listOf(Attribute.Space, Attribute.Star)
-        else -> null
-      }
+    when (this) {
+      Attribute.Flower -> listOf(Attribute.Snow, Attribute.Sun)
+      Attribute.Wind -> listOf(Attribute.Flower, Attribute.Sun)
+      Attribute.Snow -> listOf(Attribute.Wind, Attribute.Sun)
+      Attribute.Moon -> listOf(Attribute.Cloud, Attribute.Star)
+      Attribute.Space -> listOf(Attribute.Moon, Attribute.Star)
+      Attribute.Cloud -> listOf(Attribute.Space, Attribute.Star)
+      Attribute.Dream -> listOf(
+          Attribute.Flower,
+          Attribute.Wind,
+          Attribute.Snow,
+          Attribute.Moon,
+          Attribute.Space,
+          Attribute.Cloud,
+          Attribute.Sun,
+          Attribute.Star
+      )
+      Attribute.Sun -> listOf(Attribute.Star)
+      Attribute.Star -> listOf(Attribute.Sun)
+      Attribute.Neutral -> emptyList()
+    }
 
 fun getEffectiveCoef(attacker: Attribute, defender: Attribute) =
     effectiveCoefs[attacker.ordinal * attributeCount + defender.ordinal]

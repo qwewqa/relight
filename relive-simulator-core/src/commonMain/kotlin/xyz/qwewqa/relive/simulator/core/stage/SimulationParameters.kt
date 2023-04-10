@@ -110,6 +110,7 @@ fun SimulationParameters.createStageLoadout(): StageLoadout {
                     dress =
                         loadout.dress.let { dress ->
                           dress.copy(
+                              attribute = bossAttribute ?: dress.attribute,
                               stats =
                                   dress.stats.let { stats ->
                                     stats.copy(hp = bossHp?.toI54() ?: stats.hp)

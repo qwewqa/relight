@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.common
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 
 @Serializable
 data class SimulationParameters(
@@ -14,6 +15,7 @@ data class SimulationParameters(
     val bossStrategy: StrategyParameter? = null,
     val boss: String,
     val bossHp: Double? = null,
+    val bossAttribute: Attribute? = null,
     val additionalEventBonus: Int = 0,
     val eventMultiplier: Int = 100,
     val seed: Int = 0,

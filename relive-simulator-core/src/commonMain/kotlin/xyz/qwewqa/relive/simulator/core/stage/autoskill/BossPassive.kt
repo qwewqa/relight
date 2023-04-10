@@ -67,18 +67,21 @@ object AbnormalResistPassiveA : PassiveEffect {
 object BossElementResistPassive : PassiveEffect {
   override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
       context.run {
+        if (self.dress.attribute == Attribute.Neutral || self.dress.attribute == Attribute.Dream) {
+          return@run
+        }
         Attribute.values().forEach {
           self.againstAttributeDamageDealtUp[it] = value.toI54()
           self.againstAttributeDamageReceivedDown[it] = value.toI54()
         }
-        (self.dress.attribute.disadvantagedAgainst
-                ?: error("Expected a non-neutral or dream attribute."))
-            .forEach {
-              self.againstAttributeDamageDealtUp[it] = 0.i54
-              self.againstAttributeDamageReceivedDown[it] = 0.i54
-            }
+        self.dress.attribute.disadvantagedAgainst.forEach {
+          self.againstAttributeDamageDealtUp[it] = 0.i54
+          self.againstAttributeDamageReceivedDown[it] = 0.i54
+        }
         self.againstAttributeDamageDealtUp[Attribute.Dream] = 0.i54
         self.againstAttributeDamageReceivedDown[Attribute.Dream] = 0.i54
+        self.againstAttributeDamageDealtUp[Attribute.Neutral] = 0.i54
+        self.againstAttributeDamageReceivedDown[Attribute.Neutral] = 0.i54
       }
 }
 

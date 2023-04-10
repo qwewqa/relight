@@ -89,6 +89,7 @@ import xyz.qwewqa.relive.simulator.common.SimulatorVersion
 import xyz.qwewqa.relive.simulator.common.SongParameters
 import xyz.qwewqa.relive.simulator.common.StatisticsSummary
 import xyz.qwewqa.relive.simulator.common.StrategyParameter
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dresses
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoirs
 
@@ -147,6 +148,7 @@ class SimulatorClient(val simulator: Simulator) {
   val eventBonusInput = document.getElementById("event-bonus-input").integerInput(0)
   val eventMultiplierInput = document.getElementById("event-multiplier-input").integerInput(100)
   val bossHpInput = document.getElementById("boss-hp-input").shorthandDoubleInput()
+  val bossAttributeSelect = document.getElementById("boss-attribute-select").singleSelect(false)
   val turnsInput = document.getElementById("turns-input").integerInput(3)
   val iterationsInput = document.getElementById("iterations-input").integerInput(100000)
   val strategyEditor = EditorView(codeMirrorConfig(strategyContainer))
@@ -1773,6 +1775,8 @@ class SimulatorClient(val simulator: Simulator) {
                 .takeIf { bossStrategyCollapse.show },
         boss = bossSelect.value,
         bossHp = bossHpInput.value?.takeIf { it > 0.0 },
+        bossAttribute =
+            bossAttributeSelect.value.takeIf { it != "None" }?.let { Attribute.valueOf(it) },
         additionalEventBonus = eventBonusInput.value,
         eventMultiplier = eventMultiplierInput.value,
         seed = seedInput.value,

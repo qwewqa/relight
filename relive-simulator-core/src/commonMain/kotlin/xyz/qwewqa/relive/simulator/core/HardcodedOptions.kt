@@ -179,8 +179,13 @@ val commonText =
             ),
         ".text-boss-hp" to
             mapOf(
-                "en" to "Boss HP Override",
+                "en" to "HP Override",
                 "zh_hant" to "自訂敵人血量",
+            ),
+        ".text-boss-attribute" to
+            mapOf(
+                "en" to "Attribute Override",
+                "zh_hant" to "自訂敵人屬性",
             ),
         ".text-event-multiplier" to
             mapOf(
