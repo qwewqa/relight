@@ -250,6 +250,7 @@ object DressCategory {
           1090026,
           5010008,
           2020019,
+          3030020,
       )
 
   val Movie =
@@ -278,6 +279,7 @@ object DressCategory {
           1090019,
           1010022,
           1070021,
+          1050020,
       )
 
   val MilkyHolmes =
