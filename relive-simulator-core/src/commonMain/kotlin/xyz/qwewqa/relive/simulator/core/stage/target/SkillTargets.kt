@@ -1583,6 +1583,28 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
   val milkyHolmesSeries =
       +getSkillTargetData(4153).makeAllyTargetAoe { it.dress.id in DressCategory.MilkyHolmes }
 
+  val allySun =
+      +getSkillTargetData(4154).makeAllyTargetAoe { it.dress.attribute == Attribute.Sun }
+
+  val allyStar =
+      +getSkillTargetData(4155).makeAllyTargetAoe { it.dress.attribute == Attribute.Star }
+
+  val allyFlowerWindSnowSun =
+      +getSkillTargetData(4156).makeAllyTargetAoe {
+        it.dress.attribute == Attribute.Flower ||
+            it.dress.attribute == Attribute.Wind ||
+            it.dress.attribute == Attribute.Snow ||
+            it.dress.attribute == Attribute.Sun
+      }
+
+  val allyMoonSpaceCloudStar =
+      +getSkillTargetData(4157).makeAllyTargetAoe {
+        it.dress.attribute == Attribute.Moon ||
+            it.dress.attribute == Attribute.Space ||
+            it.dress.attribute == Attribute.Cloud ||
+            it.dress.attribute == Attribute.Star
+      }
+
   // Handled specially
   val randomAllyPerHit = +getSkillTargetData(5001).makeAllyTargetAoe()
   val randomEnemyPerHit = +getSkillTargetData(6001).makeEnemyTargetAoe()
