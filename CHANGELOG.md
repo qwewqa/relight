@@ -952,3 +952,7 @@
 # v1.0.10
 - Added Encore Klaus Akira
 - Fixed overwhelm not being consumed
+
+# v1.1.0
+- Improved performance of subsequent simulations
+- Added boss element override
