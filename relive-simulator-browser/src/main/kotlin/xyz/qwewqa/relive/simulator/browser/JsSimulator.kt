@@ -169,8 +169,8 @@ class WorkerPool(private val script: Blob, val capacity: Int = 4) {
       }
 }
 
-const val TARGET_BATCH_SIZE = 500
-const val ADD_THREAD_ITERATION_THRESHOLD = 5000
+const val TARGET_BATCH_SIZE = 250
+const val ADD_THREAD_ITERATION_THRESHOLD = 2500
 
 infix fun Int.ceilDiv(divisor: Int): Int = (this + divisor - 1) / divisor
 
