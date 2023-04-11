@@ -204,6 +204,9 @@ sealed class Select(val element: HTMLSelectElement, val selectpicker: Boolean) {
       element.add(
           document.create.option {
             value = id
+            option.imagePath?.let { imagePath ->
+              attributes["data-img"] = imagePath
+            }
             attributes["data-subtext"] = option.subtextHtml(locale)
             attributes["data-tokens"] = option.tags?.get(locale)?.joinToString(" ") ?: ""
             +option[locale]

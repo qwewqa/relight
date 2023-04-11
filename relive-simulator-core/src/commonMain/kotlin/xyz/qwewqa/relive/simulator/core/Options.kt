@@ -130,6 +130,7 @@ fun getSimulationOptions(): SimulationOptions {
                         dress.position.id?.let { "img/icon_colored/54x54_position$it.png" },
                     ),
                 description = mapOf("en" to "hp${boss.maxHp}"),
+                imagePath = v.info?.iconId?.let { "img/enemy/$it.png" },
                 data = BossData.fromDress(dress),
             )
           },
