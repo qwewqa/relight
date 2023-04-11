@@ -809,7 +809,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
     }
 
     private val BoundCutin.currentCost
-      get() = (data.cost - actor.cutinCostReduction.toInt()).coerceAtLeast(0)
+      get() = (data.cost - actor.cutinCostReduction.toInt()).coerceAtLeast(1)
 
     private val BoundCutin.currentCooldownValue
       get() =

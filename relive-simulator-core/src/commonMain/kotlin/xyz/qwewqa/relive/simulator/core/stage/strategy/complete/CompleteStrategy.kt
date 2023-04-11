@@ -438,7 +438,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
           stage.turn - cutinLastUseTurns.getValue(cutin) > cutin.currentCooldownValue
 
   private val BoundCutin.currentCost
-    get() = (data.cost - actor.cutinCostReduction.toInt()).coerceAtLeast(0)
+    get() = (data.cost - actor.cutinCostReduction.toInt()).coerceAtLeast(1)
 
   private val BoundCutin.currentCooldownValue
     get() =
