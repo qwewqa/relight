@@ -40,16 +40,15 @@ external class RawJsIterator {
   fun next(): Result
 }
 
-val RawJsMap.iterator: () -> RawJsIterator
-  get() {
-    @Suppress("UNUSED_VARIABLE") val value = this
-    return js("value[Symbol.iterator]")
-  }
-val RawJsSet.iterator: () -> RawJsIterator
-  get() {
-    @Suppress("UNUSED_VARIABLE") val value = this
-    return js("value[Symbol.iterator]")
-  }
+fun RawJsMap.iterator(): RawJsIterator {
+  @Suppress("UNUSED_VARIABLE") val value = this
+  return js("value[Symbol.iterator]()")
+}
+
+fun RawJsSet.iterator(): RawJsIterator {
+  @Suppress("UNUSED_VARIABLE") val value = this
+  return js("value[Symbol.iterator]()")
+}
 
 fun RawJsIterator.forEach(action: (Any?) -> Unit) {
   while (true) {

@@ -94,8 +94,12 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.Dresses
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoirs
 
 suspend fun main() {
-  SimulatorClient(RemoteSimulator(URL("${window.location.protocol}//${window.location.host}")))
-      .start()
+  try {
+    SimulatorClient(RemoteSimulator(URL("${window.location.protocol}//${window.location.host}")))
+        .start()
+  } catch (e: Throwable) {
+    console.error(e)
+  }
 }
 
 @OptIn(DelicateCoroutinesApi::class, kotlinx.serialization.ExperimentalSerializationApi::class)
@@ -129,6 +133,7 @@ class SimulatorClient(val simulator: Simulator) {
       document.getElementById("add-actor-from-preset-button") as HTMLButtonElement
   val sortByPositionButton = document.getElementById("sort-by-position-button") as HTMLButtonElement
   val autoNameButton = document.getElementById("auto-name-button") as HTMLButtonElement
+  val eventBonusDisplay = document.getElementById("event-bonus-display") as HTMLSpanElement
   val costDisplay = document.getElementById("cost-display") as HTMLSpanElement
   val teamImageButton = document.getElementById("team-image-button") as HTMLButtonElement
   val teamImageModal = document.getElementById("team-image-modal") as HTMLDivElement
@@ -304,6 +309,7 @@ class SimulatorClient(val simulator: Simulator) {
 
   private fun teamUpdate() {
     val setup = getSetup()
+
     val cost =
         setup.team.sumOf { params ->
           val dressCost = options.dressesById[params.dress]?.data?.cost ?: 0
@@ -316,6 +322,11 @@ class SimulatorClient(val simulator: Simulator) {
     } else {
       costDisplay.removeClass("text-danger")
     }
+
+    val boss = options.bossesById[setup.boss]
+    val dresses = setup.team.map { options.dressesById[it.dress] }
+    val eventBonus = boss?.data?.getBonuses(dresses.mapNotNull { it?.data })
+    eventBonusDisplay.textContent = eventBonus?.toString() ?: "?"
 
     updateGuestStyling()
   }
@@ -2200,6 +2211,8 @@ class SimulatorClient(val simulator: Simulator) {
         })
 
     seedRandomizeButton.addEventListener("click", { seedInput.value = Random.nextInt() })
+
+    bossSelect.element.addEventListener("change", { teamUpdate() })
 
     addActorButton.addEventListener("click", { addActor() })
 

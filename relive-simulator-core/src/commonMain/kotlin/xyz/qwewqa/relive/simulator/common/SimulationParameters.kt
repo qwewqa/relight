@@ -3,6 +3,10 @@ package xyz.qwewqa.relive.simulator.common
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.Character
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.EventBonusPassive
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveAutoSkill
+import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 
 @Serializable
 data class SimulationParameters(
@@ -154,7 +158,7 @@ data class SimulationOptions(
     val memoirs: List<DataSimulationOption<MemoirData>>,
     val songEffects: List<SimulationOption>,
     val conditions: List<SimulationOption>,
-    val bosses: List<SimulationOption>,
+    val bosses: List<DataSimulationOption<BossData>>,
     val strategyTypes: List<SimulationOption>,
     val bossStrategyTypes: List<SimulationOption>,
     val remakeSkills: List<DataSimulationOption<RemakeSkillData>>,
@@ -197,6 +201,35 @@ data class DataSimulationOption<T>(
 }
 
 @Serializable
+data class BossData(
+    val bonusDresses: Map<Int, Int>,
+    val bonusCharacters: Map<Character, Int>,
+) {
+  fun getBonus(dress: DressData): Int =
+      bonusDresses[dress.id] ?: bonusCharacters[dress.character] ?: 0
+  fun getBonuses(dresses: Iterable<DressData>): Int = dresses.sumOf { getBonus(it) }
+
+  companion object {
+    fun fromDress(dress: Dress): BossData {
+      val bonusPassive =
+          dress.autoSkills
+              .mapNotNull { (it as? PassiveAutoSkill)?.effect }
+              .filterIsInstance<EventBonusPassive>()
+              .singleOrNull()
+              ?: return BossData(emptyMap(), emptyMap())
+      val bonusDresses = mutableMapOf<Int, Int>()
+      val bonusCharacters = mutableMapOf<Character, Int>()
+      bonusPassive.categories.forEach { (dresses, value) ->
+        dresses.forEach { dressId -> bonusDresses[dressId] = value }
+      }
+      bonusPassive.characters.forEach { (character, value) -> bonusCharacters[character] = value }
+      bonusPassive.dresses.forEach { (dressId, value) -> bonusDresses[dressId] = value }
+      return BossData(bonusDresses, bonusCharacters)
+    }
+  }
+}
+
+@Serializable
 data class DressData(
     val id: Int,
     val attribute: Int,
@@ -204,6 +237,7 @@ data class DressData(
     val positionValue: Int,
     val positionName: String,
     val characterName: String = "",
+    val character: Character,
     val releaseTime: Int?,
     val cost: Int,
 ) : Comparable<DressData> {

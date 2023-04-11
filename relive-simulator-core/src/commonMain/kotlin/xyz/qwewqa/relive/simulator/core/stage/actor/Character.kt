@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
+import kotlinx.serialization.Serializable
 import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenChara
 import xyz.qwewqa.relive.simulator.core.stage.actor.School.Frontier
@@ -8,6 +9,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.School.Seiran
 import xyz.qwewqa.relive.simulator.core.stage.actor.School.Seisho
 import xyz.qwewqa.relive.simulator.core.stage.actor.School.Siegfeld
 
+@Serializable
 enum class Character(val id: Int? = null, val school: School) {
   None(school = School.None),
   Unknown(school = School.None),

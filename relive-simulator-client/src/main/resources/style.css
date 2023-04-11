@@ -1050,3 +1050,18 @@ pwa-update::part(offlineToast) {
     --bs-btn-padding-y: 0.1rem;
     --bs-btn-padding-x: 0.3rem;
 }
+
+.team-info-display-container {
+    padding: 0.1em 0.4em;
+    border-radius: 0.2em;
+}
+
+.team-info-display-container-cost {
+    background: ghostwhite;
+    filter: drop-shadow(0 0 2px gray);
+}
+
+.team-info-display-container-bonus {
+    background: azure;
+    filter: drop-shadow(0 0 2px lightseagreen);
+}

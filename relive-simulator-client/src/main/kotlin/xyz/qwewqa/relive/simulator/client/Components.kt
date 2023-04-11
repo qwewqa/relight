@@ -199,7 +199,7 @@ sealed class Select(val element: HTMLSelectElement, val selectpicker: Boolean) {
     }
   }
 
-  fun populate(mapping: Map<String, SimulationOption>, locale: String) {
+  fun populate(mapping: Map<String, DataSimulationOption<*>>, locale: String) {
     mapping.forEach { (id, option) ->
       element.add(
           document.create.option {

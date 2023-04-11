@@ -18,21 +18,27 @@ interface PassiveEffect {
   fun activate(context: ActionContext, value: Int, time: Int, condition: Condition)
 }
 
+// This is to tide over the older system still used for bosses over to the new system.
+class PassiveAutoSkill(
+    val effect: PassiveEffect,
+    val value: Int = 0,
+    val time: Int = 0,
+) : AutoSkill {
+  override val iconId = null
+  override val descriptions = null
+
+  override val type
+    get() = AutoSkillType.Passive
+
+  override fun execute(context: ActionContext) {
+    effect.activate(context, value, time, { true })
+  }
+}
+
 fun PassiveEffect.new(
     value: Int = 0,
     time: Int = 0,
-) =
-    object : AutoSkill {
-      override val iconId = null
-      override val descriptions = null
-
-      override val type
-        get() = AutoSkillType.Passive
-
-      override fun execute(context: ActionContext) {
-        activate(context, value, time, { true })
-      }
-    }
+) = PassiveAutoSkill(this, value, time)
 
 object AbnormalGuardPassive : PassiveEffect {
   override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =

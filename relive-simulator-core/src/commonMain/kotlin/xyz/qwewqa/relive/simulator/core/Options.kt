@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.core
 
 import Accessories
 import xyz.qwewqa.relive.simulator.common.AccessoryData
+import xyz.qwewqa.relive.simulator.common.BossData
 import xyz.qwewqa.relive.simulator.common.DataSimulationOption
 import xyz.qwewqa.relive.simulator.common.DressData
 import xyz.qwewqa.relive.simulator.common.MemoirData
@@ -63,6 +64,7 @@ fun getSimulationOptions(): SimulationOptions {
                             positionValue = dress.positionValue,
                             positionName = dress.position.name.lowercase(),
                             characterName = dress.character.displayName,
+                            character = dress.character,
                             releaseTime = dress.releaseTime,
                             cost = dress.cost,
                         ),
@@ -117,7 +119,7 @@ fun getSimulationOptions(): SimulationOptions {
           bossLoadouts.map { (k, v) ->
             val boss = v.loadout.create()
             val dress = boss.dress
-            SimulationOption(
+            DataSimulationOption(
                 id = k,
                 name = mapOf("en" to k),
                 descriptionIcons =
@@ -127,7 +129,9 @@ fun getSimulationOptions(): SimulationOptions {
                         dress.damageType.id?.let { "img/icon_colored/54x54_attack_type$it.png" },
                         dress.position.id?.let { "img/icon_colored/54x54_position$it.png" },
                     ),
-                description = mapOf("en" to "${boss.maxHp}hp"))
+                description = mapOf("en" to "hp${boss.maxHp}"),
+                data = BossData.fromDress(dress),
+            )
           },
       strategyTypes = strategyParsers.map { (k, _) -> SimulationOption(k, mapOf("en" to k)) },
       bossStrategyTypes =
