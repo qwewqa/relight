@@ -963,3 +963,6 @@
 - Added event bonus display
 - Visual adjustments
 - Hid options by default
+
+# v1.1.2
+- Added new dresses and memoirs
