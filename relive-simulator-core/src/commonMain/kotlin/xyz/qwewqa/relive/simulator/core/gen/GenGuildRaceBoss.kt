@@ -6,11 +6,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GenGuildRaceBoss(
-    val description: Map<String, String>,
     val enemy_id: Int,
     val episode_id: Int,
     val guild_race_id: Int,
     val hp: Int,
+    val icon_id: Int,
     val name: Map<String, String>,
     val number: Int,
     val phase: Int,

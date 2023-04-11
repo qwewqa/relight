@@ -90,7 +90,11 @@ tasks.register<Copy>("copyServiceWorker") {
           .map { file ->
             file.relativeTo(resourcesDir).path.replace("\\", "/") to hash(file.readBytes())
           }
-          .filter { !it.first.startsWith("img/acts") }
+          .filter {
+            !it.first.run {
+              startsWith("img/acts") || startsWith("img/large_icon") || startsWith("img/enemy")
+            }
+          }
   val timestamp = System.currentTimeMillis()
   filter { line ->
     line.replace(
