@@ -193,6 +193,7 @@ pwa-update::part(offlineToast) {
 
 :root {
     --container-max-width: 100vw;
+    --bs-border-width: 2px;
 }
 
 @media (min-width: 576px) {
