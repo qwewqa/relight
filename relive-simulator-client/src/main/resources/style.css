@@ -1052,16 +1052,17 @@ pwa-update::part(offlineToast) {
 }
 
 .team-info-display-container {
+    display: inline-block;
     padding: 0.1em 0.4em;
-    border-radius: 0.2em;
+    border-radius: 6px;
 }
 
 .team-info-display-container-cost {
-    background: ghostwhite;
-    filter: drop-shadow(0 0 2px gray);
+    background: lightyellow;
+    border: var(--bs-border-width) solid sandybrown;
 }
 
 .team-info-display-container-bonus {
     background: azure;
-    filter: drop-shadow(0 0 2px lightseagreen);
+    border: var(--bs-border-width) solid lightseagreen;
 }
