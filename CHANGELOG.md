@@ -956,3 +956,10 @@
 # v1.1.0
 - Improved performance of subsequent simulations
 - Added boss element override
+
+# v1.1.1
+- Added missing bonus to Thumbelina Lalafin
+- Added Baumkuchen Maya
+- Added event bonus display
+- Visual adjustments
+- Hid options by default
