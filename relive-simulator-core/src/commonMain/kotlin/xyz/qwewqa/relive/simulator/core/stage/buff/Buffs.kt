@@ -26,6 +26,7 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.buffCritical
 import xyz.qwewqa.relive.simulator.core.stage.modifier.buffDexterity
 import xyz.qwewqa.relive.simulator.core.stage.modifier.climaxDamageDown
 import xyz.qwewqa.relive.simulator.core.stage.modifier.climaxDamageUp
+import xyz.qwewqa.relive.simulator.core.stage.modifier.continuousPositiveTurnReductionRegen
 import xyz.qwewqa.relive.simulator.core.stage.modifier.counterHealFixed
 import xyz.qwewqa.relive.simulator.core.stage.modifier.counterHealPercent
 import xyz.qwewqa.relive.simulator.core.stage.modifier.criticalDamageReceivedDown
@@ -1529,6 +1530,16 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   // TODO: Implement
   val StageEffectSealResistanceRegenBuff =
       +buffData(315).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+
+  val ContinuousPositiveTurnReductionRegenBuff =
+      +buffData(316)
+          .makeModifierContinuousBuffEffect(
+              modifier = continuousPositiveTurnReductionRegen,
+              category = BuffCategory.Negative,
+          )
+
+  val LockedContinuousPositiveTurnReductionRegenBuff =
+      +buffData(317).makeLockedVariantOf(ContinuousPositiveTurnReductionRegenBuff)
 
   val abnormalBuffs =
       platformSetOf(

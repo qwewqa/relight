@@ -203,6 +203,7 @@ val hpFixedRegen = modifier("hpRegen")
 val hpPercentRegen = modifier("hpPercentRegen")
 val reviveRegen = modifier("reviveRegen")
 val superStrengthRegen = modifier("superStrengthRegen")
+val continuousPositiveTurnReductionRegen = modifier("continuousPositiveTurnReductionRegen")
 
 val counterHealFixed = modifier("counterHealFixed")
 val counterHealPercent = modifier("counterHealPercent")

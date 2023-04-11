@@ -24,6 +24,7 @@ import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceRegen
 import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceRegenTurnScaling
 import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceSap
+import xyz.qwewqa.relive.simulator.core.stage.modifier.continuousPositiveTurnReductionRegen
 import xyz.qwewqa.relive.simulator.core.stage.modifier.hpFixedRegen
 import xyz.qwewqa.relive.simulator.core.stage.modifier.hpPercentRegen
 import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHp
@@ -495,6 +496,14 @@ class BuffManager(val actor: Actor) {
         val turnReduceCountablePositiveEffects = mod { +turnReduceCountablePositiveEffects }
         if (turnReduceCountablePositiveEffects > 0) {
           removeCountable(BuffCategory.Positive, count = turnReduceCountablePositiveEffects.toInt())
+        }
+
+        val continuousPositiveTurnReductionRegenTurns = mod {
+          +continuousPositiveTurnReductionRegen
+        }
+        if (continuousPositiveTurnReductionRegenTurns > 0) {
+          buffs.adjustContinuousTurns(
+              BuffCategory.Positive, -continuousPositiveTurnReductionRegenTurns.toInt())
         }
 
         negativeBuffs.tick()

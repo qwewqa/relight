@@ -1430,4 +1430,21 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val StageEffectSealResistanceRegen = +skillOptionData(589).applyEffect()
 
   val InvincibleRebirthReduction = +skillOptionData(590).reduceCountable()
+
+  val TurnReduceCountableNegativeEffectsBuff = +skillOptionData(591).applyEffect()
+  val LockedTurnReduceCountableNegativeEffectsBuff = +skillOptionData(592).applyEffect()
+
+  val ScalingActPowerUp80FlowerWindSnow =
+      +skillOptionData(593).scalingActPowerUp(80) {
+        it.dress.attribute.let { attr ->
+          attr == Attribute.Flower || attr == Attribute.Wind || attr == Attribute.Snow
+        }
+      }
+
+  val ScalingActPowerUp80MoonSpaceCloud =
+      +skillOptionData(594).scalingActPowerUp(80) {
+        it.dress.attribute.let { attr ->
+          attr == Attribute.Moon || attr == Attribute.Space || attr == Attribute.Cloud
+        }
+      }
 }
