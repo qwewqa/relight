@@ -966,3 +966,9 @@
 
 # v1.1.2
 - Added new dresses and memoirs
+
+# v1.1.3
+- Fixed cutin cost going to zero after reduction when it should not
+- Added icons to the boss select
+- Removed dresses with cost below 15 and rarity 2 memoirs
+- Performance improvements
