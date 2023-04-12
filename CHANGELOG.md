@@ -972,3 +972,8 @@
 - Added icons to the boss select
 - Removed dresses with cost below 15 and rarity 2 memoirs
 - Performance improvements
+
+# v1.1.4
+- Made blessings consumed in order of application
+- Minor performance improvements
+- Improved appearance of support radio buttons
