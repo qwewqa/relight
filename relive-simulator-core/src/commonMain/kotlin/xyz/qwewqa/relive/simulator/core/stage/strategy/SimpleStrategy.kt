@@ -1,6 +1,14 @@
 package xyz.qwewqa.relive.simulator.core.stage.strategy
 
-import com.github.h0tk3y.betterParse.combinators.*
+import com.github.h0tk3y.betterParse.combinators.asJust
+import com.github.h0tk3y.betterParse.combinators.map
+import com.github.h0tk3y.betterParse.combinators.oneOrMore
+import com.github.h0tk3y.betterParse.combinators.optional
+import com.github.h0tk3y.betterParse.combinators.or
+import com.github.h0tk3y.betterParse.combinators.separatedTerms
+import com.github.h0tk3y.betterParse.combinators.times
+import com.github.h0tk3y.betterParse.combinators.unaryMinus
+import com.github.h0tk3y.betterParse.combinators.use
 import com.github.h0tk3y.betterParse.grammar.Grammar
 import com.github.h0tk3y.betterParse.lexer.literalToken
 import com.github.h0tk3y.betterParse.lexer.regexToken

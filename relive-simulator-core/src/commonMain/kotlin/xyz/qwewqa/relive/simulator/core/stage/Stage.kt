@@ -1,9 +1,5 @@
 package xyz.qwewqa.relive.simulator.core.stage
 
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
-import kotlin.random.Random
 import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.i54.sumOfI54
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -15,6 +11,10 @@ import xyz.qwewqa.relive.simulator.core.stage.strategy.ActionTile
 import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
 import xyz.qwewqa.relive.simulator.core.stage.strategy.IdleTile
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
+import kotlin.random.Random
 
 data class PlayInfo(
     val maxTurns: Int,

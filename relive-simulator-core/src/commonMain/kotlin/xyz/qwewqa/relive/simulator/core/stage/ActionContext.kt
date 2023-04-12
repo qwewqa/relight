@@ -1,18 +1,23 @@
 package xyz.qwewqa.relive.simulator.core.stage
 
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
 import xyz.qwewqa.relive.simulator.common.LogCategory
-import xyz.qwewqa.relive.simulator.core.i54.*
+import xyz.qwewqa.relive.simulator.core.i54.I54
+import xyz.qwewqa.relive.simulator.core.i54.i54
+import xyz.qwewqa.relive.simulator.core.i54.minus
+import xyz.qwewqa.relive.simulator.core.i54.times
+import xyz.qwewqa.relive.simulator.core.i54.toI54
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
 import xyz.qwewqa.relive.simulator.core.stage.actor.consumeOnAttackCountableBuffs
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ContractionBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ReviveBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.WeakSpotBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.ContinuousBuffEffect
+import xyz.qwewqa.relive.simulator.core.stage.buff.CountableBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHp
 import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistance
@@ -20,6 +25,9 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.positiveEffectResistance
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.StageEffect
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTarget
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 
 data class ActionLog(
     var successfulHits: Int = 0,

@@ -1,6 +1,5 @@
 package xyz.qwewqa.relive.simulator.core.stage.strategy.interactive
 
-import kotlin.random.Random
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import xyz.qwewqa.relive.simulator.common.ActCardStatus
@@ -29,20 +28,20 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.hasMultipleCA
 import xyz.qwewqa.relive.simulator.core.stage.hierarchicalString
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.log
+import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifier
 import xyz.qwewqa.relive.simulator.core.stage.modifier.accuracy
 import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.modifier.agility
-import xyz.qwewqa.relive.simulator.core.stage.modifier.baseMaxHp
 import xyz.qwewqa.relive.simulator.core.stage.modifier.critical
 import xyz.qwewqa.relive.simulator.core.stage.modifier.dexterity
 import xyz.qwewqa.relive.simulator.core.stage.modifier.evasion
 import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHpUp
 import xyz.qwewqa.relive.simulator.core.stage.modifier.normalDefense
 import xyz.qwewqa.relive.simulator.core.stage.modifier.specialDefense
 import xyz.qwewqa.relive.simulator.core.stage.strategy.*
 import xyz.qwewqa.relive.simulator.core.stage.strategy.complete.qsort
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
+import kotlin.random.Random
 
 private const val INDENT = "  "
 
@@ -869,8 +868,8 @@ ${formattedHand()}
           stage.enemy.active.forEach {
             it.mod {
               // Reset hp to a high value to prevent early kills
-              baseMaxHp setTo 1_000_000_000
-              maxHpUp setTo 0
+              Modifier.BaseMaxHp setTo 1_000_000_000
+              Modifier.BuffMaxHp setTo 0
               it.adjustHp(it.maxHp)
             }
           }

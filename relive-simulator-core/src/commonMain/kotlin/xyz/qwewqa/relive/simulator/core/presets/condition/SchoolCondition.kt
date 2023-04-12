@@ -1,7 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.condition
 
-import xyz.qwewqa.relive.simulator.core.stage.condition.NamedCondition
 import xyz.qwewqa.relive.simulator.core.stage.actor.School
+import xyz.qwewqa.relive.simulator.core.stage.condition.NamedCondition
 
 val SeishoOnlyCondition = schoolCondition(School.Seisho)
 val RinmeikanOnlyCondition = schoolCondition(School.Rinmeikan)

@@ -372,10 +372,7 @@ class CompleteStrategy(val script: CsScriptNode) : Strategy {
           team.active
               .filter { it.brilliance >= 100 }
               .map { it.acts[ActType.ClimaxAct]!!.asCsAct(it) }
-              .filter {
-                it !in usedClimaxActs ||
-                    it.actor.hasMultipleCA
-              }
+              .filter { it !in usedClimaxActs || it.actor.hasMultipleCA }
     }
     if (hand.size < 5) hand += drawCard(5 - hand.size)
     internalHand += hand

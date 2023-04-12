@@ -9,5 +9,4 @@ fun substituteString(string: String, values: List<Pair<String, String>>): String
 fun String.substitute(vararg values: Pair<String, String>): String =
     substituteString(this, values.toList())
 
-fun String.substitute(values: List<Pair<String, String>>): String =
-    substituteString(this, values)
+fun String.substitute(values: List<Pair<String, String>>): String = substituteString(this, values)

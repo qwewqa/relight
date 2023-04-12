@@ -10,7 +10,10 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
 import xyz.qwewqa.relive.simulator.core.stage.actor.School
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkillType
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
+import xyz.qwewqa.relive.simulator.core.stage.buff.ContinuousBuffEffect
+import xyz.qwewqa.relive.simulator.core.stage.buff.CountableBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 
 object SkillOptions : ImplementationRegistry<SkillOption>() {
@@ -38,7 +41,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             },
             passiveAction = { value ->
               targets.forEach { target ->
-                target.buffs.activatePsuedoBuff(effect as ContinuousBuffEffect<Unit>, value = value.toI54())
+                target.buffs.activatePsuedoBuff(
+                    effect as ContinuousBuffEffect<Unit>, value = value.toI54())
               }
             })
       }

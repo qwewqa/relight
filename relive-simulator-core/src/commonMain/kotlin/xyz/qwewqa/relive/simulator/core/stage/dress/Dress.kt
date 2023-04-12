@@ -3,11 +3,11 @@ package xyz.qwewqa.relive.simulator.core.stage.dress
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActData
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
-import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkill
 import xyz.qwewqa.relive.simulator.core.stage.actor.Character
 import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Position
+import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkill
 
 data class Dress(
     val id: Int = -1,

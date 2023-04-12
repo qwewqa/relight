@@ -10,62 +10,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.School
 import xyz.qwewqa.relive.simulator.core.stage.actor.abnormalCountableBuffs
 import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifier
 import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifiers
-import xyz.qwewqa.relive.simulator.core.stage.modifier.absorb
-import xyz.qwewqa.relive.simulator.core.stage.modifier.accuracyDown
-import xyz.qwewqa.relive.simulator.core.stage.modifier.accuracyUp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.actPowerDown
-import xyz.qwewqa.relive.simulator.core.stage.modifier.actPowerUp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.agilityDown
-import xyz.qwewqa.relive.simulator.core.stage.modifier.agilityUp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceGainDown
-import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceGainUp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceRegen
-import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceRegenTurnScaling
-import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceSap
-import xyz.qwewqa.relive.simulator.core.stage.modifier.buffCritical
-import xyz.qwewqa.relive.simulator.core.stage.modifier.buffDexterity
-import xyz.qwewqa.relive.simulator.core.stage.modifier.climaxDamageDown
-import xyz.qwewqa.relive.simulator.core.stage.modifier.climaxDamageUp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.continuousPositiveTurnReductionRegen
-import xyz.qwewqa.relive.simulator.core.stage.modifier.counterHealFixed
-import xyz.qwewqa.relive.simulator.core.stage.modifier.counterHealPercent
-import xyz.qwewqa.relive.simulator.core.stage.modifier.criticalDamageReceivedDown
-import xyz.qwewqa.relive.simulator.core.stage.modifier.damageDealtDown
-import xyz.qwewqa.relive.simulator.core.stage.modifier.damageDealtUp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.damageReceivedDown
-import xyz.qwewqa.relive.simulator.core.stage.modifier.damageReceivedUp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.debuffCritical
-import xyz.qwewqa.relive.simulator.core.stage.modifier.debuffDexterity
-import xyz.qwewqa.relive.simulator.core.stage.modifier.effectiveDamageUp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.evasionDown
-import xyz.qwewqa.relive.simulator.core.stage.modifier.evasionUp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.fixedActPower
-import xyz.qwewqa.relive.simulator.core.stage.modifier.fixedAgility
-import xyz.qwewqa.relive.simulator.core.stage.modifier.fixedMaxHp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.fixedNormalDefense
-import xyz.qwewqa.relive.simulator.core.stage.modifier.fixedSpecialDefense
-import xyz.qwewqa.relive.simulator.core.stage.modifier.hpFixedRegen
-import xyz.qwewqa.relive.simulator.core.stage.modifier.hpPercentRegen
-import xyz.qwewqa.relive.simulator.core.stage.modifier.hpRecoveryDown
 import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHpDown
-import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHpUp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.modifier
-import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeCountableEffectResistanceUp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistanceDown
-import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistanceUp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.normalDefenseDown
-import xyz.qwewqa.relive.simulator.core.stage.modifier.normalDefenseUp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.normalReflect
-import xyz.qwewqa.relive.simulator.core.stage.modifier.positiveCountableEffectResistanceUp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.positiveEffectResistanceUp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.reviveRegen
-import xyz.qwewqa.relive.simulator.core.stage.modifier.specialDefenseDown
-import xyz.qwewqa.relive.simulator.core.stage.modifier.specialDefenseUp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.specialReflect
-import xyz.qwewqa.relive.simulator.core.stage.modifier.staminaActPowerUp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.superStrengthRegen
-import xyz.qwewqa.relive.simulator.core.stage.modifier.turnReduceCountableNegativeEffects
 import xyz.qwewqa.relive.simulator.core.stage.platformSetOf
 
 object Buffs : ImplementationRegistry<BuffEffect>() {
@@ -188,114 +133,115 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
                 self.attributeDamageDealtUp[attribute]!! + value
           })
 
-  val poisonDamage = modifier("poisonDamage")
-  val burnDamage = modifier("burnDamage")
-  val frostbiteDamage = modifier("frostbiteDamage")
-  val nightmareDamage = modifier("nightmareDamage")
-
-  val weaken = modifier("weaken")
-
   val ActPowerUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(1)
           .makeModifierContinuousBuffEffect(
-              modifier = actPowerUp,
+              modifier = Modifier.ActPowerUp,
               category = BuffCategory.Positive,
               flipped = { ActPowerDownBuff })
 
   val ActPowerDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(2)
           .makeModifierContinuousBuffEffect(
-              modifier = actPowerDown,
+              modifier = Modifier.ActPowerDown,
               category = BuffCategory.Negative,
               flipped = { ActPowerUpBuff })
 
   val NormalDefenseUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(3)
           .makeModifierContinuousBuffEffect(
-              modifier = normalDefenseUp,
+              modifier = Modifier.NormalDefenseUp,
               category = BuffCategory.Positive,
               flipped = { NormalDefenseDownBuff })
 
   val NormalDefenseDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(4)
           .makeModifierContinuousBuffEffect(
-              modifier = normalDefenseDown,
+              modifier = Modifier.NormalDefenseDown,
               category = BuffCategory.Negative,
               flipped = { NormalDefenseUpBuff })
 
   val SpecialDefenseUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(5)
           .makeModifierContinuousBuffEffect(
-              modifier = specialDefenseUp,
+              modifier = Modifier.SpecialDefenseUp,
               category = BuffCategory.Positive,
               flipped = { SpecialDefenseDownBuff })
 
   val SpecialDefenseDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(6)
           .makeModifierContinuousBuffEffect(
-              modifier = specialDefenseDown,
+              modifier = Modifier.SpecialDefenseDown,
               category = BuffCategory.Negative,
               flipped = { SpecialDefenseUpBuff })
 
   val AgilityUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(7)
           .makeModifierContinuousBuffEffect(
-              modifier = agilityUp, category = BuffCategory.Positive, flipped = { AgilityDownBuff })
+              modifier = Modifier.AgilityUp,
+              category = BuffCategory.Positive,
+              flipped = { AgilityDownBuff })
 
   val AgilityDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(8)
           .makeModifierContinuousBuffEffect(
-              modifier = agilityDown, category = BuffCategory.Negative, flipped = { AgilityUpBuff })
+              modifier = Modifier.AgilityDown,
+              category = BuffCategory.Negative,
+              flipped = { AgilityUpBuff })
 
   val AccuracyUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(9)
           .makeModifierContinuousBuffEffect(
-              modifier = accuracyUp,
+              modifier = Modifier.BuffAccuracy,
               category = BuffCategory.Positive,
               flipped = { AccuracyDownBuff })
 
   val AccuracyDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(10)
           .makeModifierContinuousBuffEffect(
-              modifier = accuracyDown,
+              modifier = Modifier.DebuffAccuracy,
               category = BuffCategory.Negative,
               flipped = { AccuracyUpBuff })
 
   val EvasionUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(11)
           .makeModifierContinuousBuffEffect(
-              modifier = evasionUp, category = BuffCategory.Positive, flipped = { EvasionDownBuff })
+              modifier = Modifier.BuffEvasion,
+              category = BuffCategory.Positive,
+              flipped = { EvasionDownBuff })
 
   val EvasionDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(12)
           .makeModifierContinuousBuffEffect(
-              modifier = evasionDown, category = BuffCategory.Negative, flipped = { EvasionUpBuff })
+              modifier = Modifier.DebuffEvasion,
+              category = BuffCategory.Negative,
+              flipped = { EvasionUpBuff })
 
   val DexterityUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(13)
           .makeModifierContinuousBuffEffect(
-              modifier = buffDexterity,
+              modifier = Modifier.BuffDexterity,
               category = BuffCategory.Positive,
               flipped = { DexterityDownBuff })
 
   val DexterityDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(14)
           .makeModifierContinuousBuffEffect(
-              modifier = debuffDexterity,
+              modifier = Modifier.DebuffDexterity,
               category = BuffCategory.Negative,
               flipped = { DexterityUpBuff })
 
   val CriticalUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(15)
           .makeModifierContinuousBuffEffect(
-              modifier = buffCritical,
+              modifier = Modifier.BuffCritical,
               category = BuffCategory.Positive,
               flipped = { CriticalDownBuff })
 
   val CriticalDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(16)
           .makeModifierContinuousBuffEffect(
-              modifier = debuffCritical,
+              modifier = Modifier.DebuffCritical,
               category = BuffCategory.Negative,
               flipped = { CriticalUpBuff })
 
@@ -303,28 +249,28 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val MaxHpUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(17)
           .makeModifierContinuousBuffEffect(
-              modifier = maxHpUp,
+              modifier = Modifier.BuffMaxHp,
               category = BuffCategory.Positive,
           )
 
   val MaxHpDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(18)
           .makeModifierContinuousBuffEffect(
-              modifier = maxHpDown,
+              modifier = Modifier.DebuffMaxHp,
               category = BuffCategory.Negative,
           )
 
   val ContinuousNegativeEffectResistanceUpBuff =
       +buffData(19)
           .makeModifierContinuousBuffEffect(
-              modifier = negativeEffectResistanceUp,
+              modifier = Modifier.NegativeEffectResistanceUp,
               category = BuffCategory.Positive,
           )
 
   val ContinuousNegativeEffectResistanceDownBuff =
       +buffData(20)
           .makeModifierContinuousBuffEffect(
-              modifier = negativeEffectResistanceDown,
+              modifier = Modifier.NegativeEffectResistanceDown,
               category = BuffCategory.Negative,
           )
 
@@ -334,16 +280,16 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               category = BuffCategory.Positive,
               onStart = { value ->
                 if (value <= 100) {
-                  self.mod { hpPercentRegen += value }
+                  self.mod { Modifier.HpPercentRegen += value }
                 } else {
-                  self.mod { hpFixedRegen += value }
+                  self.mod { Modifier.HpRegen += value }
                 }
               },
               onEnd = { value ->
                 if (value <= 100) {
-                  self.mod { hpPercentRegen -= value }
+                  self.mod { Modifier.HpPercentRegen -= value }
                 } else {
-                  self.mod { hpFixedRegen -= value }
+                  self.mod { Modifier.HpRegen -= value }
                 }
               },
           )
@@ -351,7 +297,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val BrillianceRegenBuff =
       +buffData(22)
           .makeModifierContinuousBuffEffect(
-              modifier = brillianceRegen,
+              modifier = Modifier.BrillianceRegen,
               category = BuffCategory.Positive,
           )
   val NormalBarrierBuff =
@@ -369,14 +315,14 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val NormalReflectBuff =
       +buffData(25)
           .makeModifierContinuousBuffEffect(
-              modifier = normalReflect,
+              modifier = Modifier.NormalReflect,
               category = BuffCategory.Positive,
           )
 
   val SpecialReflectBuff =
       +buffData(26)
           .makeModifierContinuousBuffEffect(
-              modifier = specialReflect,
+              modifier = Modifier.SpecialReflect,
               category = BuffCategory.Positive,
           )
 
@@ -394,28 +340,28 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val FixedNormalDefenseBoostBuff =
       +buffData(30)
           .makeModifierContinuousBuffEffect(
-              modifier = fixedNormalDefense,
+              modifier = Modifier.FixedNormalDefense,
               category = BuffCategory.Positive,
           )
 
   val FixedSpecialDefenseBoostBuff =
       +buffData(31)
           .makeModifierContinuousBuffEffect(
-              modifier = fixedSpecialDefense,
+              modifier = Modifier.FixedSpecialDefense,
               category = BuffCategory.Positive,
           )
 
   val EffectiveDamageDealtUpBuff =
       +buffData(32)
           .makeModifierContinuousBuffEffect(
-              modifier = effectiveDamageUp,
+              modifier = Modifier.EffectiveDamageUp,
               category = BuffCategory.Positive,
           )
 
   val ClimaxDamageUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(33)
           .makeModifierContinuousBuffEffect(
-              modifier = climaxDamageUp,
+              modifier = Modifier.ClimaxDamageUp,
               category = BuffCategory.Positive,
               exclusive = true,
               flipped = { ClimaxDamageDownBuff })
@@ -423,21 +369,21 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val CriticalDamageReceivedDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(34)
           .makeModifierContinuousBuffEffect(
-              modifier = criticalDamageReceivedDown,
+              modifier = Modifier.CriticalDamageReceivedDown,
               category = BuffCategory.Positive,
           )
 
   val FixedActPowerBoostBuff =
       +buffData(35)
           .makeModifierContinuousBuffEffect(
-              modifier = fixedActPower,
+              modifier = Modifier.FixedActPower,
               category = BuffCategory.Positive,
           )
 
   val AbsorbBuff =
       +buffData(37)
           .makeModifierContinuousBuffEffect(
-              modifier = absorb,
+              modifier = Modifier.Absorb,
               category = BuffCategory.Positive,
           )
 
@@ -447,16 +393,16 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               category = BuffCategory.Positive,
               onStart = { value, _ ->
                 if (value <= 100) {
-                  self.mod { counterHealPercent += value }
+                  self.mod { Modifier.CounterHealPercent += value }
                 } else {
-                  self.mod { counterHealFixed += value }
+                  self.mod { Modifier.CounterHealFixed += value }
                 }
               },
               onEnd = { value, _, _ ->
                 if (value <= 100) {
-                  self.mod { counterHealPercent -= value }
+                  self.mod { Modifier.CounterHealPercent -= value }
                 } else {
-                  self.mod { counterHealFixed -= value }
+                  self.mod { Modifier.CounterHealFixed -= value }
                 }
               },
           )
@@ -477,9 +423,9 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   // TODO: Do something with this I guess
   val BonusDamageVsBossesBuff = +buffData(46).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
-  val PoisonBuff = +buffData(47).makeDamageOverTimeBuffEffect(poisonDamage)
+  val PoisonBuff = +buffData(47).makeDamageOverTimeBuffEffect(Modifier.PoisonDamage)
 
-  val BurnBuff = +buffData(48).makeDamageOverTimeBuffEffect(burnDamage)
+  val BurnBuff = +buffData(48).makeDamageOverTimeBuffEffect(Modifier.BurnDamage)
 
   val ProvokeBuff =
       +buffData(49)
@@ -538,7 +484,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val HpRecoveryDownBuff =
       +buffData(58)
           .makeModifierContinuousBuffEffect(
-              modifier = hpRecoveryDown,
+              modifier = Modifier.HpRecoveryDown,
               category = BuffCategory.Negative,
           )
 
@@ -617,28 +563,28 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val DamageDealtUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(95)
           .makeModifierContinuousBuffEffect(
-              modifier = damageDealtUp,
+              modifier = Modifier.DamageDealtUp,
               category = BuffCategory.Positive,
               flipped = { DamageDealtDownBuff })
 
   val DamageDealtDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(96)
           .makeModifierContinuousBuffEffect(
-              modifier = damageDealtDown,
+              modifier = Modifier.DamageDealtDown,
               category = BuffCategory.Negative,
               flipped = { DamageDealtUpBuff })
 
   val DamageReceivedUpBuff: ContinuousBuffEffect<Unit> =
       +buffData(97)
           .makeModifierContinuousBuffEffect(
-              modifier = damageReceivedUp,
+              modifier = Modifier.DamageReceivedUp,
               category = BuffCategory.Negative,
               flipped = { DamageReceivedDownBuff })
 
   val DamageReceivedDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(98)
           .makeModifierContinuousBuffEffect(
-              modifier = damageReceivedDown,
+              modifier = Modifier.DamageReceivedDown,
               category = BuffCategory.Positive,
               flipped = { DamageReceivedUpBuff })
 
@@ -648,8 +594,8 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               category = BuffCategory.Negative,
               exclusive = true,
               flipped = { FlippedMarkBuff },
-              onStart = { self.mod { damageReceivedUp += 30 } },
-              onEnd = { self.mod { damageReceivedUp -= 30 } },
+              onStart = { self.mod { Modifier.DamageReceivedUp += 30 } },
+              onEnd = { self.mod { Modifier.DamageReceivedUp -= 30 } },
           )
 
   val FlippedMarkBuff: ContinuousBuffEffect<Unit> =
@@ -658,8 +604,8 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               category = BuffCategory.Positive,
               exclusive = true,
               flipped = { MarkBuff },
-              onStart = { self.mod { damageReceivedDown += 30 } },
-              onEnd = { self.mod { damageReceivedDown -= 30 } },
+              onStart = { self.mod { Modifier.DamageReceivedDown += 30 } },
+              onEnd = { self.mod { Modifier.DamageReceivedDown -= 30 } },
           )
 
   val AggroBuff =
@@ -726,18 +672,18 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               locked = true,
               onStart = { value, _ ->
                 self.mod {
-                  positiveEffectResistanceUp += value
-                  positiveCountableEffectResistanceUp += value
-                  negativeEffectResistanceUp += value
-                  negativeCountableEffectResistanceUp += value
+                  Modifier.PositiveEffectResistanceUp += value
+                  Modifier.PositiveCountableEffectResistanceUp += value
+                  Modifier.NegativeEffectResistanceUp += value
+                  Modifier.NegativeCountableEffectResistanceUp += value
                 }
               },
               onEnd = { value, _, _ ->
                 self.mod {
-                  positiveEffectResistanceUp -= value
-                  positiveCountableEffectResistanceUp += value
-                  negativeEffectResistanceUp -= value
-                  negativeCountableEffectResistanceUp -= value
+                  Modifier.PositiveEffectResistanceUp -= value
+                  Modifier.PositiveCountableEffectResistanceUp += value
+                  Modifier.NegativeEffectResistanceUp -= value
+                  Modifier.NegativeCountableEffectResistanceUp -= value
                 }
               },
           )
@@ -758,7 +704,8 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val SealAct3ResistanceUpBuff = +buffData(125).makeSpecificResistanceUpBuff(SealAct3Buff)
 
   val BrillianceGainDownBuff =
-      +buffData(126).makeModifierContinuousBuffEffect(brillianceGainDown, BuffCategory.Negative)
+      +buffData(126)
+          .makeModifierContinuousBuffEffect(Modifier.BrillianceGainDown, BuffCategory.Negative)
 
   val BrillianceGainDownResistanceBuff =
       +buffData(127).makeSpecificResistanceUpBuff(BrillianceGainDownBuff)
@@ -823,7 +770,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val ClimaxDamageDownBuff: ContinuousBuffEffect<Unit> =
       +buffData(161)
           .makeModifierContinuousBuffEffect(
-              modifier = climaxDamageDown,
+              modifier = Modifier.ClimaxDamageDown,
               category = BuffCategory.Negative,
               flipped = { ClimaxDamageUpBuff })
 
@@ -865,12 +812,13 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val ReviveBuff = +buffData(173).makeCountableBuffEffect(BuffCategory.Positive)
 
-  val NightmareBuff = +buffData(174).makeDamageOverTimeBuffEffect(nightmareDamage, exclusive = true)
+  val NightmareBuff =
+      +buffData(174).makeDamageOverTimeBuffEffect(Modifier.NightmareDamage, exclusive = true)
 
   val ContinuousPositiveEffectResistanceUpBuff =
       +buffData(175)
           .makeModifierContinuousBuffEffect(
-              modifier = positiveEffectResistanceUp, category = BuffCategory.Negative)
+              modifier = Modifier.PositiveEffectResistanceUp, category = BuffCategory.Negative)
 
   val LockedContinuousPositiveEffectResistanceUpBuff =
       +buffData(176).makeLockedVariantOf(ContinuousPositiveEffectResistanceUpBuff)
@@ -882,14 +830,14 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               locked = true,
               onStart = { value, _ ->
                 self.mod {
-                  positiveEffectResistanceUp += value
-                  positiveCountableEffectResistanceUp += value
+                  Modifier.PositiveEffectResistanceUp += value
+                  Modifier.PositiveCountableEffectResistanceUp += value
                 }
               },
               onEnd = { value, _, _ ->
                 self.mod {
-                  positiveEffectResistanceUp -= value
-                  positiveCountableEffectResistanceUp += value
+                  Modifier.PositiveEffectResistanceUp -= value
+                  Modifier.PositiveCountableEffectResistanceUp += value
                 }
               },
           )
@@ -908,18 +856,19 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val FixedAgilityBoost =
       +buffData(183)
           .makeModifierContinuousBuffEffect(
-              modifier = fixedAgility,
+              modifier = Modifier.FixedAgility,
               category = BuffCategory.Positive,
           )
 
   val FixedMaxHpBoost =
       +buffData(184)
           .makeModifierContinuousBuffEffect(
-              modifier = fixedMaxHp,
+              modifier = Modifier.FixedMaxHp,
               category = BuffCategory.Positive,
           )
 
-  val FrostbiteBuff = +buffData(185).makeDamageOverTimeBuffEffect(frostbiteDamage, exclusive = true)
+  val FrostbiteBuff =
+      +buffData(185).makeDamageOverTimeBuffEffect(Modifier.FrostbiteDamage, exclusive = true)
 
   val DamageToSeishoUpBuff =
       +buffData(186)
@@ -1182,8 +1131,8 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
           .makeIdempotentContinuousBuffEffect(
               category = BuffCategory.Negative,
               exclusive = true,
-              onStart = { self.mod { damageReceivedUp += 30 } },
-              onEnd = { self.mod { damageReceivedUp -= 30 } },
+              onStart = { self.mod { Modifier.DamageReceivedUp += 30 } },
+              onEnd = { self.mod { Modifier.DamageReceivedUp -= 30 } },
           )
 
   val LockedAggroBuff = +buffData(219).makeLockedVariantOf(AggroBuff)
@@ -1201,9 +1150,9 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
           .makeContinuousBuffEffect(
               BuffCategory.Positive,
               related = ResilienceBuff,
-              onStart = { _, _ -> self.mod { negativeEffectResistanceUp += 100 } },
+              onStart = { _, _ -> self.mod { Modifier.NegativeEffectResistanceUp += 100 } },
               onEnd = { _, _, _ ->
-                self.mod { negativeEffectResistanceUp -= 100 }
+                self.mod { Modifier.NegativeEffectResistanceUp -= 100 }
                 self.exit()
               },
           )
@@ -1223,7 +1172,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val NegativeCountableEffectResistanceUpBuff =
       +buffData(231)
           .makeModifierContinuousBuffEffect(
-              modifier = negativeCountableEffectResistanceUp,
+              modifier = Modifier.NegativeCountableEffectResistanceUp,
               category = BuffCategory.Positive,
           )
 
@@ -1233,7 +1182,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val BrillianceGainUpBuff =
       +buffData(233)
           .makeModifierContinuousBuffEffect(
-              modifier = brillianceGainUp,
+              modifier = Modifier.BrillianceGainUp,
               category = BuffCategory.Positive,
           )
 
@@ -1274,7 +1223,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val CounterHealBuff2 =
       +buffData(240)
           .makeModifierContinuousBuffEffect(
-              modifier = counterHealFixed,
+              modifier = Modifier.CounterHealFixed,
               category = BuffCategory.Positive,
           )
 
@@ -1357,16 +1306,16 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               category = BuffCategory.Positive,
               onStart = { value ->
                 if (value <= 100) {
-                  self.mod { hpPercentRegen += value }
+                  self.mod { Modifier.HpPercentRegen += value }
                 } else {
-                  self.mod { hpFixedRegen += value }
+                  self.mod { Modifier.HpRegen += value }
                 }
               },
               onEnd = { value ->
                 if (value <= 100) {
-                  self.mod { hpPercentRegen -= value }
+                  self.mod { Modifier.HpPercentRegen -= value }
                 } else {
-                  self.mod { hpFixedRegen -= value }
+                  self.mod { Modifier.HpRegen -= value }
                 }
               },
           )
@@ -1379,7 +1328,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val CountablePositiveEffectResistanceUpBuff =
       +buffData(271)
           .makeModifierContinuousBuffEffect(
-              modifier = positiveCountableEffectResistanceUp,
+              modifier = Modifier.PositiveCountableEffectResistanceUp,
               category = BuffCategory.Negative,
           )
 
@@ -1391,7 +1340,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val StaminaActPowerUpBuff =
       +buffData(274)
           .makeModifierContinuousBuffEffect(
-              modifier = staminaActPowerUp,
+              modifier = Modifier.StaminaActPowerUp,
               category = BuffCategory.Positive,
           )
 
@@ -1407,7 +1356,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val BrillianceSapBuff =
       +buffData(277)
           .makeModifierContinuousBuffEffect(
-              modifier = brillianceSap,
+              modifier = Modifier.BrillianceSap,
               category = BuffCategory.Negative,
           )
 
@@ -1419,7 +1368,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val ReviveRegenBuff =
       +buffData(280)
           .makeModifierContinuousBuffEffect(
-              modifier = reviveRegen,
+              modifier = Modifier.ReviveRegen,
               category = BuffCategory.Positive,
           )
 
@@ -1460,7 +1409,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val SuperStrengthRegenBuff =
       +buffData(292)
           .makeModifierContinuousBuffEffect(
-              modifier = superStrengthRegen,
+              modifier = Modifier.SuperStrengthRegen,
               category = BuffCategory.Positive,
           )
 
@@ -1471,7 +1420,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val TurnReduceCountableNegativeEffectsBuff =
       +buffData(297)
           .makeModifierContinuousBuffEffect(
-              modifier = turnReduceCountableNegativeEffects,
+              modifier = Modifier.TurnReduceCountableNegativeEffects,
               category = BuffCategory.Positive,
           )
 
@@ -1481,7 +1430,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val BrillianceRegenTurnScalingBuff =
       +buffData(299)
           .makeModifierContinuousBuffEffect(
-              modifier = brillianceRegenTurnScaling,
+              modifier = Modifier.BrillianceRegenTurnScaling,
               category = BuffCategory.Positive,
           )
 
@@ -1522,10 +1471,12 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val ReflectStageEffectCaptivatingPupilsBuff =
       +buffData(313).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
-  val WeakenBuff = +buffData(314).makeModifierContinuousBuffEffect(
-      modifier = weaken,
-      category = BuffCategory.Negative,
-  )
+  val WeakenBuff =
+      +buffData(314)
+          .makeModifierContinuousBuffEffect(
+              modifier = Modifier.Weaken,
+              category = BuffCategory.Negative,
+          )
 
   // TODO: Implement
   val StageEffectSealResistanceRegenBuff =
@@ -1534,7 +1485,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val ContinuousPositiveTurnReductionRegenBuff =
       +buffData(316)
           .makeModifierContinuousBuffEffect(
-              modifier = continuousPositiveTurnReductionRegen,
+              modifier = Modifier.ContinuousPositiveTurnReductionRegen,
               category = BuffCategory.Negative,
           )
 

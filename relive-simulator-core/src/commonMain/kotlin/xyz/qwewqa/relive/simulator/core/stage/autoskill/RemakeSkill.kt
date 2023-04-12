@@ -7,10 +7,10 @@ import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.TargetContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.Character
-import xyz.qwewqa.relive.simulator.core.stage.buff.*
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.againstAttributeDamageReceivedDownBuff
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
-import xyz.qwewqa.relive.simulator.core.stage.modifier.*
+import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifier
 
 // TODO: Generate this from datamines
 
@@ -71,7 +71,7 @@ val passiveEffects = buildMap {
           valueSuffix = "%",
           timeSuffix = null,
       ) { value, time ->
-        targets.forEach { it.mod { damageDealtUp += value } }
+        targets.forEach { it.mod { Modifier.DamageDealtUp += value } }
       }
   this[39] =
       Effect(
@@ -80,7 +80,7 @@ val passiveEffects = buildMap {
           valueSuffix = "%",
           timeSuffix = null,
       ) { value, time ->
-        targets.forEach { it.mod { effectiveDamageUp += value } }
+        targets.forEach { it.mod { Modifier.EffectiveDamageUp += value } }
       }
   this[126] =
       Effect(
@@ -89,7 +89,7 @@ val passiveEffects = buildMap {
           valueSuffix = "%",
           timeSuffix = null,
       ) { value, time ->
-        targets.forEach { it.mod { damageReceivedDown += value } }
+        targets.forEach { it.mod { Modifier.DamageReceivedDown += value } }
       }
   this[8] =
       Effect(
@@ -98,7 +98,7 @@ val passiveEffects = buildMap {
           valueSuffix = "%",
           timeSuffix = null,
       ) { value, time ->
-        targets.forEach { it.mod { actPowerUp += value } }
+        targets.forEach { it.mod { Modifier.ActPowerUp += value } }
       }
   this[10] =
       Effect(
@@ -107,7 +107,7 @@ val passiveEffects = buildMap {
           valueSuffix = "%",
           timeSuffix = null,
       ) { value, time ->
-        targets.forEach { it.mod { normalDefenseUp += value } }
+        targets.forEach { it.mod { Modifier.NormalDefenseUp += value } }
       }
   this[12] =
       Effect(
@@ -116,7 +116,7 @@ val passiveEffects = buildMap {
           valueSuffix = "%",
           timeSuffix = null,
       ) { value, time ->
-        targets.forEach { it.mod { specialDefenseUp += value } }
+        targets.forEach { it.mod { Modifier.SpecialDefenseUp += value } }
       }
   this[14] =
       Effect(
@@ -125,7 +125,7 @@ val passiveEffects = buildMap {
           valueSuffix = "%",
           timeSuffix = null,
       ) { value, time ->
-        targets.forEach { it.mod { agilityUp += value } }
+        targets.forEach { it.mod { Modifier.AgilityUp += value } }
       }
   this[18] =
       Effect(
@@ -134,7 +134,7 @@ val passiveEffects = buildMap {
           valueSuffix = "%",
           timeSuffix = null,
       ) { value, time ->
-        targets.forEach { it.mod { evasionUp += value } }
+        targets.forEach { it.mod { Modifier.BuffEvasion += value } }
       }
   this[20] =
       Effect(
@@ -143,7 +143,7 @@ val passiveEffects = buildMap {
           valueSuffix = "%",
           timeSuffix = null,
       ) { value, time ->
-        targets.forEach { it.mod { buffDexterity += value } }
+        targets.forEach { it.mod { Modifier.BuffDexterity += value } }
       }
   this[22] =
       Effect(
@@ -152,7 +152,7 @@ val passiveEffects = buildMap {
           valueSuffix = "%",
           timeSuffix = null,
       ) { value, time ->
-        targets.forEach { it.mod { buffCritical += value } }
+        targets.forEach { it.mod { Modifier.BuffCritical += value } }
       }
   this[24] =
       Effect(
@@ -161,7 +161,7 @@ val passiveEffects = buildMap {
           valueSuffix = "%",
           timeSuffix = null,
       ) { value, time ->
-        targets.forEach { it.mod { maxHpUp += value } }
+        targets.forEach { it.mod { Modifier.BuffMaxHp += value } }
       }
   this[26] =
       Effect(
@@ -170,7 +170,7 @@ val passiveEffects = buildMap {
           valueSuffix = "%",
           timeSuffix = null,
       ) { value, time ->
-        targets.forEach { it.mod { negativeEffectResistanceUp += value } }
+        targets.forEach { it.mod { Modifier.NegativeEffectResistanceUp += value } }
       }
   this[40] =
       Effect(
@@ -179,7 +179,7 @@ val passiveEffects = buildMap {
           valueSuffix = "%",
           timeSuffix = null,
       ) { value, time ->
-        targets.forEach { it.mod { climaxDamageUp += value } }
+        targets.forEach { it.mod { Modifier.ClimaxDamageUp += value } }
       }
   this[244] =
       Effect(
@@ -191,9 +191,9 @@ val passiveEffects = buildMap {
         targets.forEach {
           it.mod {
             if (value <= 100) {
-              hpPercentRegen += value
+              Modifier.HpPercentRegen += value
             } else {
-              hpFixedRegen += value
+              Modifier.HpRegen += value
             }
           }
         }
@@ -205,7 +205,7 @@ val passiveEffects = buildMap {
           valueSuffix = "/t",
           timeSuffix = null,
       ) { value, time ->
-        targets.forEach { it.mod { brillianceRegen += value } }
+        targets.forEach { it.mod { Modifier.BrillianceRegen += value } }
       }
   listOf(
           Buffs.PoisonBuff,

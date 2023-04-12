@@ -6,7 +6,7 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffect
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
-import xyz.qwewqa.relive.simulator.core.stage.modifier.damageReceivedDown
+import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifier
 
 fun trEventBonusPassive(dressId: Int) =
     EventBonusPassive(
@@ -36,5 +36,5 @@ fun trEventBonusPassive2023(dressId: Int) =
 
 object TrDamageReductionPassive : PassiveEffect {
   override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
-      context.run { self.mod { damageReceivedDown += value } }
+      context.run { self.mod { Modifier.DamageReceivedDown += value } }
 }

@@ -1,13 +1,13 @@
 package xyz.qwewqa.relive.simulator.core.stage.utils
 
-import kotlin.math.ceil
-import kotlin.math.floor
-import kotlin.math.pow
 import xyz.qwewqa.relive.simulator.common.MarginResult
 import xyz.qwewqa.relive.simulator.common.SimulationMarginResultType
 import xyz.qwewqa.relive.simulator.common.StatisticsSummary
 import xyz.qwewqa.relive.simulator.core.stage.MarginStageResult
 import xyz.qwewqa.relive.simulator.core.stage.marginResultType
+import kotlin.math.ceil
+import kotlin.math.floor
+import kotlin.math.pow
 
 fun List<Double>.statistics() =
     if (isEmpty()) {

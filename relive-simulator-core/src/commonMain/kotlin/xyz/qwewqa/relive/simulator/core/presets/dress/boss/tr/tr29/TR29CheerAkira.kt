@@ -5,6 +5,9 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassiv
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.Character
+import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Position
 import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
 import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalGuardPassive
@@ -13,9 +16,6 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
-import xyz.qwewqa.relive.simulator.core.stage.actor.Character
-import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
-import xyz.qwewqa.relive.simulator.core.stage.actor.Position
 
 val tr29CheerAkira =
     ActorLoadout(
@@ -27,114 +27,114 @@ val tr29CheerAkira =
             damageType = DamageType.Normal,
             position = Position.None,
             stats =
-            defaultDressStats.copy(
-                hp = 7_500_000,
-                actPower = 2300,
-                normalDefense = 650,
-                specialDefense = 650,
-                agility = 1,
-            ),
+                defaultDressStats.copy(
+                    hp = 7_500_000,
+                    actPower = 2300,
+                    normalDefense = 650,
+                    specialDefense = 650,
+                    agility = 1,
+                ),
             acts =
-            actsOf(
-                ActType.Act1("Slash", 2) {
-                  targetFront().act {
-                    attack(
-                        modifier = 100,
-                        hitCount = 1,
-                    )
-                  }
-                },
-                ActType.Act2("Strong Slash", 2) {
-                  targetFront().act {
-                    attack(
-                        modifier = 200,
-                        hitCount = 1,
-                    )
-                  }
-                },
-                ActType.Act3("Triple Slash", 2) {
-                  targetFront(3).act {
-                    attack(
-                        modifier = 80,
-                        hitCount = 3,
-                    )
-                  }
-                },
-                ActType.Act4("Strong Triple Slash", 2) {
-                  targetFront(3).act {
-                    attack(
-                        modifier = 120,
-                        hitCount = 3,
-                    )
-                  }
-                },
-                ActType.Act5("Counter Concerto", 2) {
-                  targetAoe().act {
-                    attack(
-                        modifier = 150,
-                        hitCount = 3,
-                    )
-                  }
-                },
-                ActType.Act6("Poisonous Flower Dance", 2) {
-                  targetAoe().act {
-                    attack(
-                        modifier = 150,
-                        hitCount = 3,
-                    )
-                    applyContinuousBuff(
-                        effect = Buffs.PoisonBuff,
-                        value = 10000,
-                        turns = 3,
-                    )
-                  }
-                },
-                ActType.Act7("Inspiring Concerto", 2) {
-                  targetSelf().act {
-                    applyContinuousBuff(
-                        effect = Buffs.ActPowerUpBuff,
-                        value = 50,
-                        turns = 3,
-                    )
-                    applyContinuousBuff(
-                        effect = Buffs.NormalDefenseUpBuff,
-                        value = 50,
-                        turns = 3,
-                    )
-                    applyContinuousBuff(
-                        effect = Buffs.SpecialDefenseUpBuff,
-                        value = 50,
-                        turns = 3,
-                    )
-                  }
-                },
-                ActType.ClimaxAct("Glorious Dream! NEO", 2) {
-                  targetAoe().act {
-                    attack(
-                        modifier = 200,
-                        hitCount = 4,
-                    )
-                    applyContinuousBuff(
-                        effect = Buffs.PoisonBuff,
-                        value = 10000,
-                        turns = 3,
-                    )
-                  }
-                },
-                ActType.ConfusionAct("Slash", 2) {
-                  targetAllyRandom().act {
-                    attack(
-                        modifier = 105,
-                        hitCount = 1,
-                    )
-                  }
-                },
-            ),
+                actsOf(
+                    ActType.Act1("Slash", 2) {
+                      targetFront().act {
+                        attack(
+                            modifier = 100,
+                            hitCount = 1,
+                        )
+                      }
+                    },
+                    ActType.Act2("Strong Slash", 2) {
+                      targetFront().act {
+                        attack(
+                            modifier = 200,
+                            hitCount = 1,
+                        )
+                      }
+                    },
+                    ActType.Act3("Triple Slash", 2) {
+                      targetFront(3).act {
+                        attack(
+                            modifier = 80,
+                            hitCount = 3,
+                        )
+                      }
+                    },
+                    ActType.Act4("Strong Triple Slash", 2) {
+                      targetFront(3).act {
+                        attack(
+                            modifier = 120,
+                            hitCount = 3,
+                        )
+                      }
+                    },
+                    ActType.Act5("Counter Concerto", 2) {
+                      targetAoe().act {
+                        attack(
+                            modifier = 150,
+                            hitCount = 3,
+                        )
+                      }
+                    },
+                    ActType.Act6("Poisonous Flower Dance", 2) {
+                      targetAoe().act {
+                        attack(
+                            modifier = 150,
+                            hitCount = 3,
+                        )
+                        applyContinuousBuff(
+                            effect = Buffs.PoisonBuff,
+                            value = 10000,
+                            turns = 3,
+                        )
+                      }
+                    },
+                    ActType.Act7("Inspiring Concerto", 2) {
+                      targetSelf().act {
+                        applyContinuousBuff(
+                            effect = Buffs.ActPowerUpBuff,
+                            value = 50,
+                            turns = 3,
+                        )
+                        applyContinuousBuff(
+                            effect = Buffs.NormalDefenseUpBuff,
+                            value = 50,
+                            turns = 3,
+                        )
+                        applyContinuousBuff(
+                            effect = Buffs.SpecialDefenseUpBuff,
+                            value = 50,
+                            turns = 3,
+                        )
+                      }
+                    },
+                    ActType.ClimaxAct("Glorious Dream! NEO", 2) {
+                      targetAoe().act {
+                        attack(
+                            modifier = 200,
+                            hitCount = 4,
+                        )
+                        applyContinuousBuff(
+                            effect = Buffs.PoisonBuff,
+                            value = 10000,
+                            turns = 3,
+                        )
+                      }
+                    },
+                    ActType.ConfusionAct("Slash", 2) {
+                      targetAllyRandom().act {
+                        attack(
+                            modifier = 105,
+                            hitCount = 1,
+                        )
+                      }
+                    },
+                ),
             autoSkills =
-            listOf(
-                trEventBonusPassive2023(2010021),
-                AbnormalGuardPassive.new(),
-            ),
+                listOf(
+                    trEventBonusPassive2023(2010021),
+                    AbnormalGuardPassive.new(),
+                ),
         ),
     )
 
@@ -186,117 +186,117 @@ val tr29CheerAkiraDiff4 =
             damageType = DamageType.Normal,
             position = Position.None,
             stats =
-            defaultDressStats.copy(
-                hp = 1_080_000_000,
-                actPower = 10000,
-                normalDefense = 650,
-                specialDefense = 650,
-                agility = 1,
-            ),
+                defaultDressStats.copy(
+                    hp = 1_080_000_000,
+                    actPower = 10000,
+                    normalDefense = 650,
+                    specialDefense = 650,
+                    agility = 1,
+                ),
             acts =
-            actsOf(
-                ActType.Act1("Slash", 2) {
-                  targetFront().act {
-                    attack(
-                        modifier = 100,
-                        hitCount = 1,
-                    )
-                  }
-                },
-                ActType.Act2("Strong Slash", 2) {
-                  targetFront().act {
-                    attack(
-                        modifier = 200,
-                        hitCount = 1,
-                    )
-                  }
-                },
-                ActType.Act3("Triple Slash", 2) {
-                  targetFront(3).act {
-                    attack(
-                        modifier = 80,
-                        hitCount = 3,
-                    )
-                  }
-                },
-                ActType.Act4("Strong Triple Slash", 2) {
-                  targetFront(3).act {
-                    attack(
-                        modifier = 120,
-                        hitCount = 3,
-                    )
-                  }
-                },
-                ActType.Act5("Counter Concerto", 2) {
-                  targetAoe().act {
-                    attack(
-                        modifier = 150,
-                        hitCount = 3,
-                    )
-                  }
-                },
-                ActType.Act6("Poisonous Flower Dance", 2) {
-                  targetAoe().act {
-                    attack(
-                        modifier = 99999,
-                        hitCount = 3,
-                        mode = HitMode.FIXED,
-                    )
-                    applyContinuousBuff(
-                        effect = Buffs.PoisonBuff,
-                        value = 99999,
-                        turns = 3,
-                    )
-                  }
-                },
-                ActType.Act7("Inspiring Concerto", 2) {
-                  targetSelf().act {
-                    applyContinuousBuff(
-                        effect = Buffs.ActPowerUpBuff,
-                        value = 50,
-                        turns = 3,
-                    )
-                    applyContinuousBuff(
-                        effect = Buffs.NormalDefenseUpBuff,
-                        value = 50,
-                        turns = 3,
-                    )
-                    applyContinuousBuff(
-                        effect = Buffs.SpecialDefenseUpBuff,
-                        value = 50,
-                        turns = 3,
-                    )
-                  }
-                },
-                ActType.ClimaxAct("Glorious Dream! NEO", 2) {
-                  targetAoe().act {
-                    attack(
-                        modifier = 99999,
-                        hitCount = 4,
-                        mode = HitMode.FIXED,
-                    )
-                    applyContinuousBuff(
-                        effect = Buffs.PoisonBuff,
-                        value = 99999,
-                        turns = 3,
-                    )
-                  }
-                },
-                ActType.ConfusionAct("Slash", 2) {
-                  targetAllyRandom().act {
-                    attack(
-                        modifier = 105,
-                        hitCount = 1,
-                    )
-                  }
-                },
-            ),
+                actsOf(
+                    ActType.Act1("Slash", 2) {
+                      targetFront().act {
+                        attack(
+                            modifier = 100,
+                            hitCount = 1,
+                        )
+                      }
+                    },
+                    ActType.Act2("Strong Slash", 2) {
+                      targetFront().act {
+                        attack(
+                            modifier = 200,
+                            hitCount = 1,
+                        )
+                      }
+                    },
+                    ActType.Act3("Triple Slash", 2) {
+                      targetFront(3).act {
+                        attack(
+                            modifier = 80,
+                            hitCount = 3,
+                        )
+                      }
+                    },
+                    ActType.Act4("Strong Triple Slash", 2) {
+                      targetFront(3).act {
+                        attack(
+                            modifier = 120,
+                            hitCount = 3,
+                        )
+                      }
+                    },
+                    ActType.Act5("Counter Concerto", 2) {
+                      targetAoe().act {
+                        attack(
+                            modifier = 150,
+                            hitCount = 3,
+                        )
+                      }
+                    },
+                    ActType.Act6("Poisonous Flower Dance", 2) {
+                      targetAoe().act {
+                        attack(
+                            modifier = 99999,
+                            hitCount = 3,
+                            mode = HitMode.FIXED,
+                        )
+                        applyContinuousBuff(
+                            effect = Buffs.PoisonBuff,
+                            value = 99999,
+                            turns = 3,
+                        )
+                      }
+                    },
+                    ActType.Act7("Inspiring Concerto", 2) {
+                      targetSelf().act {
+                        applyContinuousBuff(
+                            effect = Buffs.ActPowerUpBuff,
+                            value = 50,
+                            turns = 3,
+                        )
+                        applyContinuousBuff(
+                            effect = Buffs.NormalDefenseUpBuff,
+                            value = 50,
+                            turns = 3,
+                        )
+                        applyContinuousBuff(
+                            effect = Buffs.SpecialDefenseUpBuff,
+                            value = 50,
+                            turns = 3,
+                        )
+                      }
+                    },
+                    ActType.ClimaxAct("Glorious Dream! NEO", 2) {
+                      targetAoe().act {
+                        attack(
+                            modifier = 99999,
+                            hitCount = 4,
+                            mode = HitMode.FIXED,
+                        )
+                        applyContinuousBuff(
+                            effect = Buffs.PoisonBuff,
+                            value = 99999,
+                            turns = 3,
+                        )
+                      }
+                    },
+                    ActType.ConfusionAct("Slash", 2) {
+                      targetAllyRandom().act {
+                        attack(
+                            modifier = 105,
+                            hitCount = 1,
+                        )
+                      }
+                    },
+                ),
             autoSkills =
-            listOf(
-                trEventBonusPassive2023(2010021),
-                AbnormalGuardPassive.new(),
-                TrDamageReductionPassive.new(50),
-            ),
+                listOf(
+                    trEventBonusPassive2023(2010021),
+                    AbnormalGuardPassive.new(),
+                    TrDamageReductionPassive.new(50),
+                ),
         ),
     )
 

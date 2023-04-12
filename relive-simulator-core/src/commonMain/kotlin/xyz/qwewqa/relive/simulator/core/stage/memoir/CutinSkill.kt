@@ -1,13 +1,13 @@
 package xyz.qwewqa.relive.simulator.core.stage.memoir
 
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenEquipActiveSkill
-import xyz.qwewqa.relive.simulator.core.stage.skilloption.ActiveSkillOption
-import xyz.qwewqa.relive.simulator.core.stage.skilloption.SkillOptions
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 import xyz.qwewqa.relive.simulator.core.stage.actor.Skill
 import xyz.qwewqa.relive.simulator.core.stage.actor.SkillPartBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.dress.attributeFromId
+import xyz.qwewqa.relive.simulator.core.stage.skilloption.ActiveSkillOption
+import xyz.qwewqa.relive.simulator.core.stage.skilloption.SkillOptions
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTargets
 
 class CutinSkillBlueprint(

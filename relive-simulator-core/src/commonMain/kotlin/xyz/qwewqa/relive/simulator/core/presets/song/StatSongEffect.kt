@@ -5,50 +5,47 @@ import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.condition.applyIfTrue
-import xyz.qwewqa.relive.simulator.core.stage.modifier.buffCritical
-import xyz.qwewqa.relive.simulator.core.stage.modifier.buffDexterity
-import xyz.qwewqa.relive.simulator.core.stage.modifier.damageDealtUp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.fixedActPower
+import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifier
 import xyz.qwewqa.relive.simulator.core.stage.song.SongEffect
 
 object ActPowerUpSongEffect : SongEffect {
   override val displayName = "Act Power Up"
 
   override fun start(context: ActionContext, value: Int, condition: Condition) =
-      context.run { condition.applyIfTrue(self) { mod { fixedActPower += value } } }
+      context.run { condition.applyIfTrue(self) { mod { Modifier.FixedActPower += value } } }
 
   override fun end(context: ActionContext, value: Int, condition: Condition) =
-      context.run { condition.applyIfTrue(self) { mod { fixedActPower -= value } } }
+      context.run { condition.applyIfTrue(self) { mod { Modifier.FixedActPower -= value } } }
 }
 
 object DexterityUpSongEffect : SongEffect {
   override val displayName = "Dexterity Up"
 
   override fun start(context: ActionContext, value: Int, condition: Condition) =
-      context.run { condition.applyIfTrue(self) { mod { buffDexterity += value } } }
+      context.run { condition.applyIfTrue(self) { mod { Modifier.BuffDexterity += value } } }
 
   override fun end(context: ActionContext, value: Int, condition: Condition) =
-      context.run { condition.applyIfTrue(self) { mod { buffDexterity -= value } } }
+      context.run { condition.applyIfTrue(self) { mod { Modifier.BuffDexterity -= value } } }
 }
 
 object CriticalUpSongEffect : SongEffect {
   override val displayName = "Critical Up"
 
   override fun start(context: ActionContext, value: Int, condition: Condition) =
-      context.run { condition.applyIfTrue(self) { mod { buffCritical += value } } }
+      context.run { condition.applyIfTrue(self) { mod { Modifier.BuffCritical += value } } }
 
   override fun end(context: ActionContext, value: Int, condition: Condition) =
-      context.run { condition.applyIfTrue(self) { mod { buffCritical -= value } } }
+      context.run { condition.applyIfTrue(self) { mod { Modifier.BuffCritical -= value } } }
 }
 
 object DamageDealtUpSongEffect : SongEffect {
   override val displayName = "Damage Dealt Up"
 
   override fun start(context: ActionContext, value: Int, condition: Condition) =
-      context.run { condition.applyIfTrue(self) { mod { damageDealtUp += value } } }
+      context.run { condition.applyIfTrue(self) { mod { Modifier.DamageDealtUp += value } } }
 
   override fun end(context: ActionContext, value: Int, condition: Condition) =
-      context.run { condition.applyIfTrue(self) { mod { damageDealtUp -= value } } }
+      context.run { condition.applyIfTrue(self) { mod { Modifier.DamageDealtUp -= value } } }
 }
 
 private data class DamageAgainstAttributeUpSongEffect(val attribute: Attribute) : SongEffect {

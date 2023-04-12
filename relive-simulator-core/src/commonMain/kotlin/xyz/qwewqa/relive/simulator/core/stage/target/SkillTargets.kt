@@ -1583,8 +1583,7 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
   val milkyHolmesSeries =
       +getSkillTargetData(4153).makeAllyTargetAoe { it.dress.id in DressCategory.MilkyHolmes }
 
-  val allySun =
-      +getSkillTargetData(4154).makeAllyTargetAoe { it.dress.attribute == Attribute.Sun }
+  val allySun = +getSkillTargetData(4154).makeAllyTargetAoe { it.dress.attribute == Attribute.Sun }
 
   val allyStar =
       +getSkillTargetData(4155).makeAllyTargetAoe { it.dress.attribute == Attribute.Star }

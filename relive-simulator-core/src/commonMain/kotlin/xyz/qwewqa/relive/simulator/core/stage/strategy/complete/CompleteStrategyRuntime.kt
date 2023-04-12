@@ -7,8 +7,8 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.BuffManager
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.MarkBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
+import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifier
 import xyz.qwewqa.relive.simulator.core.stage.modifier.dexterity
-import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistanceUp
 import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
 
 data class CsContext(
@@ -77,6 +77,7 @@ object CsNil : CsObject {
 }
 
 fun Number.asCsNumber() = CsNumber(toDouble())
+
 fun I54.asCsNumber() = CsNumber(toDouble())
 
 fun Boolean.asCsBoolean() = if (this) CsBoolean.TRUE else CsBoolean.FALSE
@@ -136,7 +137,7 @@ class CsActor(val actor: Actor) : CsObject {
           "dex",
           "dexterity" -> actor.mod { +dexterity }
           "hasApDown" -> (actor.mod { apChange } < 0)
-          "hasNer" -> (actor.mod { +negativeEffectResistanceUp } >= 100)
+          "hasNer" -> (actor.mod { +Modifier.NegativeEffectResistanceUp } >= 100)
           "marked" -> MarkBuff in actor.buffs
           "buffs" ->
               CsFunction { args ->

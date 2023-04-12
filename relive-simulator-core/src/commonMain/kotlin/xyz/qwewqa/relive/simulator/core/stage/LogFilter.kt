@@ -1,11 +1,11 @@
 package xyz.qwewqa.relive.simulator.core.stage
 
-import kotlin.random.Random
 import xyz.qwewqa.relive.simulator.common.FilterLogRequest
 import xyz.qwewqa.relive.simulator.common.FilterLogResponse
 import xyz.qwewqa.relive.simulator.common.LogEntry
 import xyz.qwewqa.relive.simulator.common.SimulationResultType
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
+import kotlin.random.Random
 
 class LogFilter(
     private val loadout: StageLoadout,

@@ -30,7 +30,8 @@ data class MemoirBlueprint(
     val cutinData: CutinBlueprint? = null,
     val releaseTime: Int? = null,
 ) : FeatureImplementation {
-  val name get() = names.getLocalizedString()
+  val name
+    get() = names.getLocalizedString()
 
   fun maxLevel(limitBreak: Int) = (rarity + 2) * 10 + limitBreak * 5
 

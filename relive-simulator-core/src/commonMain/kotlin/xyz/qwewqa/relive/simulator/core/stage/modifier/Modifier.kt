@@ -1,48 +1,99 @@
 package xyz.qwewqa.relive.simulator.core.stage.modifier
 
-import kotlin.jvm.JvmInline
-import xyz.qwewqa.relive.simulator.core.i54.*
+import xyz.qwewqa.relive.simulator.core.i54.I54
+import xyz.qwewqa.relive.simulator.core.i54.i54
+import xyz.qwewqa.relive.simulator.core.i54.plus
+import xyz.qwewqa.relive.simulator.core.i54.times
+import xyz.qwewqa.relive.simulator.core.i54.toI54
+import xyz.qwewqa.relive.simulator.core.i54.toI54Unchecked
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 
-private var nextId = 0
-private val modifiers = mutableListOf<Modifier>()
-private val modifierData = mutableMapOf<Modifier, ModifierData>()
-
-private data class ModifierData(val name: String)
-
-const val MAX_MODIFIER_COUNT = 200
-
-@JvmInline
-value class Modifier private constructor(val id: Int) {
-  companion object {
-    fun new(name: String): Modifier {
-      require(nextId < MAX_MODIFIER_COUNT) { "Too many modifiers" }
-      return Modifier(nextId++).also {
-        modifiers += it
-        modifierData[it] = ModifierData(name)
-      }
-    }
-  }
-
-  val name
-    get() = modifierData[this]!!.name
-
-  override fun toString() = "Modifier($name, $id)"
+enum class Modifier {
+  BaseMaxHp,
+  BuffMaxHp,
+  DebuffMaxHp,
+  FixedMaxHp,
+  BaseActPower,
+  ActPowerUp,
+  ActPowerDown,
+  FixedActPower,
+  StaminaActPowerUp,
+  BaseNormalDefense,
+  NormalDefenseUp,
+  NormalDefenseDown,
+  FixedNormalDefense,
+  BaseSpecialDefense,
+  SpecialDefenseUp,
+  SpecialDefenseDown,
+  FixedSpecialDefense,
+  BaseAgility,
+  AgilityUp,
+  AgilityDown,
+  FixedAgility,
+  BaseDexterity,
+  BuffDexterity,
+  DebuffDexterity,
+  BaseCritical,
+  BuffCritical,
+  DebuffCritical,
+  CriticalDamageReceivedDown,
+  BaseAccuracy,
+  BuffAccuracy,
+  DebuffAccuracy,
+  BaseEvasion,
+  BuffEvasion,
+  DebuffEvasion,
+  EffectiveDamageUp,
+  NormalReflect,
+  SpecialReflect,
+  BrillianceGainUp,
+  BrillianceGainDown,
+  HpRecoveryUp,
+  HpRecoveryDown,
+  Absorb,
+  NegativeEffectResistanceUp,
+  NegativeEffectResistanceDown,
+  NegativeCountableEffectResistanceUp,
+  NegativeCountableEffectResistanceDown,
+  PositiveEffectResistanceUp,
+  PositiveCountableEffectResistanceUp,
+  ClimaxDamageUp,
+  ClimaxDamageDown,
+  DamageDealtUp,
+  DamageDealtDown,
+  DamageReceivedDown,
+  DamageReceivedUp,
+  BrillianceRegen,
+  BrillianceRegenTurnScaling,
+  BrillianceSap,
+  HpRegen,
+  HpPercentRegen,
+  ReviveRegen,
+  SuperStrengthRegen,
+  ContinuousPositiveTurnReductionRegen,
+  CounterHealFixed,
+  CounterHealPercent,
+  TurnReduceCountablePositiveEffects,
+  TurnReduceCountableNegativeEffects,
+  PoisonDamage,
+  BurnDamage,
+  FrostbiteDamage,
+  NightmareDamage,
+  Weaken,
 }
 
-fun modifier(name: String) = Modifier.new(name)
+private val modifierCount = Modifier.values().size
 
 // actor is included so that it may be accessed from extension methods,
 // since context receivers are not stable yet.
 @Suppress("NOTHING_TO_INLINE")
-abstract class Modifiers(val actor: Actor) {
-  abstract fun _get(modifier: Modifier): Double
-  abstract fun _set(modifier: Modifier, value: Double)
+class Modifiers(val actor: Actor) {
+  val values = DoubleArray(modifierCount)
 
-  inline fun get(modifier: Modifier) = _get(modifier).toI54Unchecked()
+  inline fun get(modifier: Modifier) = values[modifier.ordinal].toI54Unchecked()
 
   inline fun set(modifier: Modifier, value: I54) {
-    _set(modifier, value.toDouble())
+    values[modifier.ordinal] = value.toDouble()
   }
 
   inline operator fun Modifier.invoke() = get(this)
@@ -92,7 +143,6 @@ abstract class Modifiers(val actor: Actor) {
   inline operator fun Modifier.div(other: Modifier) = get(this) / get(other)
   inline operator fun Modifier.rem(other: Modifier) = get(this) % get(other)
   inline operator fun Modifier.rangeTo(other: Modifier) = get(this)..get(other)
-  inline operator fun Modifier.compareTo(other: Modifier) = get(this).compareTo(get(other))
 
   inline operator fun I54.plus(other: Modifier) = this + get(other)
   inline operator fun I54.minus(other: Modifier) = this - get(other)
@@ -158,8 +208,6 @@ abstract class Modifiers(val actor: Actor) {
     set(this, get(this) % get(other))
   }
 
-  inline infix fun I54.ptmul(other: I54) = (this.toDouble() * other / 100).toI54()
-  inline infix fun I54.ptmul(other: Int) = (this.toDouble() * other / 100).toI54()
   inline infix fun I54.ptmul(other: Modifier) = (this.toDouble() * get(other) / 100).toI54()
 
   inline infix fun Int.ptmul(other: I54) = (this.toDouble() * other / 100).toI54()
@@ -171,8 +219,6 @@ abstract class Modifiers(val actor: Actor) {
   inline infix fun Modifier.ptmul(other: Modifier) =
       (get(this).toDouble() * get(other) / 100).toI54()
 
-  inline infix fun I54.ptmod(other: I54) = this ptmul (100 + other)
-  inline infix fun I54.ptmod(other: Int) = this ptmul (100 + other)
   inline infix fun I54.ptmod(other: Modifier) = this ptmul (100 + get(other))
 
   inline infix fun Int.ptmod(other: I54) = this ptmul (100 + other)
@@ -190,12 +236,3 @@ abstract class Modifiers(val actor: Actor) {
 
   inline operator fun <T> invoke(block: Modifiers.() -> T) = block()
 }
-
-expect class ModifiersImpl(actor: Actor) : Modifiers {
-  override fun _get(modifier: Modifier): Double
-  override fun _set(modifier: Modifier, value: Double)
-}
-
-fun _Modifiers(actor: Actor) = ModifiersImpl(actor)
-
-fun Modifiers.getValues() = modifiers.map { it to get(it) }

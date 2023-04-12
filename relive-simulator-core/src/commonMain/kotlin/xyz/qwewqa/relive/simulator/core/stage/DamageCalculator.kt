@@ -25,22 +25,17 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.PerfectAimBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.SpecialBarrierBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.SpecialSuperReflectBuff
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
-import xyz.qwewqa.relive.simulator.core.stage.modifier.absorb
+import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifier
 import xyz.qwewqa.relive.simulator.core.stage.modifier.accuracy
 import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.modifier.climaxDamageAdjustment
 import xyz.qwewqa.relive.simulator.core.stage.modifier.critical
-import xyz.qwewqa.relive.simulator.core.stage.modifier.criticalDamageReceivedDown
-import xyz.qwewqa.relive.simulator.core.stage.modifier.damageDealtDown
 import xyz.qwewqa.relive.simulator.core.stage.modifier.damageDealtUpModifier
 import xyz.qwewqa.relive.simulator.core.stage.modifier.damageReceivedModifier
 import xyz.qwewqa.relive.simulator.core.stage.modifier.dexterity
-import xyz.qwewqa.relive.simulator.core.stage.modifier.effectiveDamageUp
 import xyz.qwewqa.relive.simulator.core.stage.modifier.evasion
 import xyz.qwewqa.relive.simulator.core.stage.modifier.normalDefense
-import xyz.qwewqa.relive.simulator.core.stage.modifier.normalReflect
 import xyz.qwewqa.relive.simulator.core.stage.modifier.specialDefense
-import xyz.qwewqa.relive.simulator.core.stage.modifier.specialReflect
 
 interface DamageCalculator {
   fun damage(attacker: Actor, target: Actor, hitAttribute: HitAttribute)
@@ -97,8 +92,8 @@ open class RandomDamageCalculator : DamageCalculator {
               if (superReflect) 100.i54
               else
                   when (hitAttribute.damageType) {
-                    DamageType.Normal -> target.mod { +normalReflect }
-                    DamageType.Special -> target.mod { +specialReflect }
+                    DamageType.Normal -> target.mod { +Modifier.NormalReflect }
+                    DamageType.Special -> target.mod { +Modifier.SpecialReflect }
                     DamageType.Neutral -> 0.i54
                   }.coerceIn(0, 100)
           val superReflectModifier = if (superReflect) 2 else 1
@@ -154,8 +149,8 @@ open class RandomDamageCalculator : DamageCalculator {
           if (reflected > 0) {
             self.damage(reflected, additionalEffects = false)
           }
-          if (self.mod { +absorb } > 0) {
-            self.heal(afterBarrier * self.mod { +absorb } / 100)
+          if (self.mod { +Modifier.Absorb } > 0) {
+            self.heal(afterBarrier * self.mod { +Modifier.Absorb } / 100)
           }
           actionLog.successfulHits++
         } else {
@@ -216,19 +211,19 @@ open class RandomDamageCalculator : DamageCalculator {
     val eleCoef = getEffectiveCoef(attribute, target.dress.attribute)
     val effEleCoef =
         if (eleCoef > 100) {
-          100 + attacker.mod { +effectiveDamageUp }
+          100 + attacker.mod { +Modifier.EffectiveDamageUp }
         } else {
           100.i54
         }
 
     val critCoef =
         100 +
-            (attacker.mod { +critical } - target.mod { +criticalDamageReceivedDown }).coerceAtLeast(
-                0)
+            (attacker.mod { +critical } - target.mod { +Modifier.CriticalDamageReceivedDown })
+                .coerceAtLeast(0)
     val dex = attacker.mod { +dexterity }
 
     val dmgDealtUpCoef = 100 + attacker.mod { +damageDealtUpModifier(target) }
-    val dmgDealtDownCoef = 100 - attacker.mod { +damageDealtDown }
+    val dmgDealtDownCoef = 100 - attacker.mod { +Modifier.DamageDealtDown }
 
     // tentative
     var dmgTakenCoef = 100 + target.mod { +damageReceivedModifier(attacker) }
@@ -344,8 +339,8 @@ class MeanDamageCalculator : RandomDamageCalculator() {
         val damage = (hitChance * hitDamage).toI54()
         val reflect =
             when (hitAttribute.damageType) {
-              DamageType.Normal -> target.mod { +normalReflect }
-              DamageType.Special -> target.mod { +specialReflect }
+              DamageType.Normal -> target.mod { +Modifier.NormalReflect }
+              DamageType.Special -> target.mod { +Modifier.SpecialReflect }
               DamageType.Neutral -> 0.i54
             }
         attacker.context.log("Hit", category = LogCategory.DAMAGE) {
@@ -394,8 +389,8 @@ class MeanDamageCalculator : RandomDamageCalculator() {
         if (reflected > 0) {
           self.damage(reflected, additionalEffects = false)
         }
-        if (self.mod { +absorb } > 0) {
-          self.heal(afterBarrier * self.mod { +absorb } / 100)
+        if (self.mod { +Modifier.Absorb } > 0) {
+          self.heal(afterBarrier * self.mod { +Modifier.Absorb } / 100)
         }
         actionLog.successfulHits++
       }

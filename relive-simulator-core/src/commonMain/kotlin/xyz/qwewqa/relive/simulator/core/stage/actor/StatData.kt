@@ -3,15 +3,7 @@ package xyz.qwewqa.relive.simulator.core.stage.actor
 import xyz.qwewqa.relive.simulator.core.i54.I54
 import xyz.qwewqa.relive.simulator.core.i54.i54
 import xyz.qwewqa.relive.simulator.core.i54.toI54
-import xyz.qwewqa.relive.simulator.core.stage.modifier.baseAccuracy
-import xyz.qwewqa.relive.simulator.core.stage.modifier.baseActPower
-import xyz.qwewqa.relive.simulator.core.stage.modifier.baseAgility
-import xyz.qwewqa.relive.simulator.core.stage.modifier.baseCritical
-import xyz.qwewqa.relive.simulator.core.stage.modifier.baseDexterity
-import xyz.qwewqa.relive.simulator.core.stage.modifier.baseEvasion
-import xyz.qwewqa.relive.simulator.core.stage.modifier.baseMaxHp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.baseNormalDefense
-import xyz.qwewqa.relive.simulator.core.stage.modifier.baseSpecialDefense
+import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifier
 
 data class StatData(
     val hp: I54 = 0.i54,
@@ -107,15 +99,15 @@ data class StatData(
 
   fun addToActor(actor: Actor) {
     actor.mod {
-      baseMaxHp += this@StatData.hp
-      baseActPower += this@StatData.actPower
-      baseNormalDefense += this@StatData.normalDefense
-      baseSpecialDefense += this@StatData.specialDefense
-      baseAgility += this@StatData.agility
-      baseDexterity += this@StatData.dexterity
-      baseCritical += this@StatData.critical
-      baseAccuracy += this@StatData.accuracy
-      baseEvasion += this@StatData.evasion
+      Modifier.BaseMaxHp += this@StatData.hp
+      Modifier.BaseActPower += this@StatData.actPower
+      Modifier.BaseNormalDefense += this@StatData.normalDefense
+      Modifier.BaseSpecialDefense += this@StatData.specialDefense
+      Modifier.BaseAgility += this@StatData.agility
+      Modifier.BaseDexterity += this@StatData.dexterity
+      Modifier.BaseCritical += this@StatData.critical
+      Modifier.BaseAccuracy += this@StatData.accuracy
+      Modifier.BaseEvasion += this@StatData.evasion
     }
   }
 

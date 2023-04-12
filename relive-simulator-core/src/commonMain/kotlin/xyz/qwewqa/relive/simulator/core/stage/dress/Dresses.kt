@@ -9,14 +9,14 @@ import xyz.qwewqa.relive.simulator.core.gen.valuesGenGrowthPanel
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
+import xyz.qwewqa.relive.simulator.core.stage.actor.Character
+import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
+import xyz.qwewqa.relive.simulator.core.stage.actor.Position
 import xyz.qwewqa.relive.simulator.core.stage.actor.Skills
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveSkillGroups
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.StartSkillGroups
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.UnitSkills
-import xyz.qwewqa.relive.simulator.core.stage.actor.Character
-import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
-import xyz.qwewqa.relive.simulator.core.stage.actor.Position
 
 const val DRESS_AUTO_SKILL_LEVEL = 1
 

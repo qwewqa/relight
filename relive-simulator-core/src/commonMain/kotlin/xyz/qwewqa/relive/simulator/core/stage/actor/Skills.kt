@@ -1,6 +1,5 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
-import kotlin.jvm.JvmName
 import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenSkill
 import xyz.qwewqa.relive.simulator.core.stage.Act
@@ -16,6 +15,7 @@ import xyz.qwewqa.relive.simulator.core.stage.stageeffect.SkillFieldEffect
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.SkillFieldEffects
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTarget
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTargets
+import kotlin.jvm.JvmName
 
 class SkillPart(
     val option: ActiveSkillOption,

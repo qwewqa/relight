@@ -2,12 +2,12 @@ package xyz.qwewqa.relive.simulator.core.stage.autoskill
 
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenPartySkill
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenPassiveSkill
-import xyz.qwewqa.relive.simulator.core.stage.skilloption.PassiveSkillOption
-import xyz.qwewqa.relive.simulator.core.stage.skilloption.SkillOptions
-import xyz.qwewqa.relive.simulator.core.stage.skilloption.executePassiveSkillOption
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
+import xyz.qwewqa.relive.simulator.core.stage.skilloption.PassiveSkillOption
+import xyz.qwewqa.relive.simulator.core.stage.skilloption.SkillOptions
+import xyz.qwewqa.relive.simulator.core.stage.skilloption.executePassiveSkillOption
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTarget
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTargets
 

@@ -128,9 +128,7 @@ object Accessories : ImplementationRegistry<AccessoryBlueprint>() {
       mutableMapOf<String, AccessoryBlueprint>().also { map ->
         values.forEach { accessory ->
           map["${accessory.id}"] = accessory
-          accessory.names.values.forEach { name ->
-            map[name] = accessory
-          }
+          accessory.names.values.forEach { name -> map[name] = accessory }
         }
       }
 }

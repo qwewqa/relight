@@ -150,7 +150,13 @@ val skillIcons =
         197 to listOf("revive", "revival"),
         198 to listOf("attack", "atk", "hit", "slap"),
         220 to
-            listOf("cx down", "cx dmg down", "ca down", "ca damage down", "climax down", "climax damage down"),
+            listOf(
+                "cx down",
+                "cx dmg down",
+                "ca down",
+                "ca damage down",
+                "climax down",
+                "climax damage down"),
         221 to listOf("lovesickness", "love sickness", "love sick", "love sick"),
         222 to listOf("kira drain", "brilliance drain"),
         223 to listOf("max hp up", "max health up"),
@@ -165,7 +171,13 @@ val skillIcons =
         240 to listOf("weak spot"),
         241 to listOf("frostbite", "frost bite", "frostbitten", "frost bitten"),
         242 to listOf("agony", "agonized"),
-        243 to listOf("multiple cafication", "multiple ca fication", "multica", "multicx", "multi ca", "multi cx"),
+        243 to
+            listOf(
+                "multiple cafication",
+                "multiple ca fication",
+                "multica",
+                "multicx",
+                "multi ca",
+                "multi cx"),
         244 to listOf("ap up resistance"),
-
     )

@@ -35,10 +35,9 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.execute
 import xyz.qwewqa.relive.simulator.core.stage.log
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoir
-import xyz.qwewqa.relive.simulator.core.stage.modifier._Modifiers
+import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifier
+import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifiers
 import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceGainAdjustment
-import xyz.qwewqa.relive.simulator.core.stage.modifier.counterHealFixed
-import xyz.qwewqa.relive.simulator.core.stage.modifier.counterHealPercent
 import xyz.qwewqa.relive.simulator.core.stage.modifier.hpRecoveryAdjustment
 import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHp
 import xyz.qwewqa.relive.simulator.core.stage.platformMapOf
@@ -63,7 +62,7 @@ class Actor(
   var brilliance = 0.i54
     private set
   val buffs = BuffManager(this)
-  val mod = _Modifiers(this)
+  val mod = Modifiers(this)
 
   val hpFraction
     get() = hp.toDouble() / maxHp
@@ -314,8 +313,10 @@ class Actor(
           if (NightmareBuff in self.buffs && stage.random.nextDouble() > 0.2) {
             self.buffs.removeAll(NightmareBuff)
           }
-          if (self.mod { +counterHealFixed } > 0 || self.mod { +counterHealPercent } > 0) {
-            self.heal(self.mod { counterHealFixed + counterHealPercent * maxHp / 100 })
+          if (self.mod { +Modifier.CounterHealFixed } > 0 ||
+              self.mod { +Modifier.CounterHealPercent } > 0) {
+            self.heal(
+                self.mod { Modifier.CounterHealFixed + Modifier.CounterHealPercent * maxHp / 100 })
           }
         }
       }

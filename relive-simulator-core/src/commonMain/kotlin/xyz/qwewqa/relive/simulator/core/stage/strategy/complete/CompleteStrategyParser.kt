@@ -1,9 +1,24 @@
 package xyz.qwewqa.relive.simulator.core.stage.strategy.complete
 
-import com.github.h0tk3y.betterParse.combinators.*
+import com.github.h0tk3y.betterParse.combinators.leftAssociative
+import com.github.h0tk3y.betterParse.combinators.map
+import com.github.h0tk3y.betterParse.combinators.optional
+import com.github.h0tk3y.betterParse.combinators.or
+import com.github.h0tk3y.betterParse.combinators.separatedTerms
+import com.github.h0tk3y.betterParse.combinators.times
+import com.github.h0tk3y.betterParse.combinators.unaryMinus
+import com.github.h0tk3y.betterParse.combinators.use
+import com.github.h0tk3y.betterParse.combinators.zeroOrMore
 import com.github.h0tk3y.betterParse.grammar.Grammar
 import com.github.h0tk3y.betterParse.grammar.parser
-import com.github.h0tk3y.betterParse.lexer.*
+import com.github.h0tk3y.betterParse.lexer.Token
+import com.github.h0tk3y.betterParse.lexer.TokenMatch
+import com.github.h0tk3y.betterParse.lexer.TokenMatchesSequence
+import com.github.h0tk3y.betterParse.lexer.TokenProducer
+import com.github.h0tk3y.betterParse.lexer.Tokenizer
+import com.github.h0tk3y.betterParse.lexer.literalToken
+import com.github.h0tk3y.betterParse.lexer.noneMatched
+import com.github.h0tk3y.betterParse.lexer.regexToken
 import com.github.h0tk3y.betterParse.parser.ParseResult
 import com.github.h0tk3y.betterParse.parser.Parsed
 import com.github.h0tk3y.betterParse.parser.Parser

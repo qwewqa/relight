@@ -1,6 +1,5 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
-import kotlin.math.min
 import xyz.qwewqa.relive.simulator.common.DisplayBuffData
 import xyz.qwewqa.relive.simulator.core.i54.I54
 import xyz.qwewqa.relive.simulator.core.i54.i54
@@ -12,29 +11,17 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.OverwhelmBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.TurnRemoveContinuousNegativeEffectsBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.TurnRemoveCountableNegativeEffectsBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.abnormalBuffs
-import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.burnDamage
-import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.nightmareDamage
-import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.poisonDamage
-import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.weaken
 import xyz.qwewqa.relive.simulator.core.stage.buff.ContinuousBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.buff.CountableBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.buff.activateBlessings
 import xyz.qwewqa.relive.simulator.core.stage.buff.displayPriority
 import xyz.qwewqa.relive.simulator.core.stage.log
-import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceRegen
-import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceRegenTurnScaling
-import xyz.qwewqa.relive.simulator.core.stage.modifier.brillianceSap
-import xyz.qwewqa.relive.simulator.core.stage.modifier.continuousPositiveTurnReductionRegen
-import xyz.qwewqa.relive.simulator.core.stage.modifier.hpFixedRegen
-import xyz.qwewqa.relive.simulator.core.stage.modifier.hpPercentRegen
+import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifier
 import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHp
-import xyz.qwewqa.relive.simulator.core.stage.modifier.reviveRegen
-import xyz.qwewqa.relive.simulator.core.stage.modifier.superStrengthRegen
-import xyz.qwewqa.relive.simulator.core.stage.modifier.turnReduceCountableNegativeEffects
-import xyz.qwewqa.relive.simulator.core.stage.modifier.turnReduceCountablePositiveEffects
 import xyz.qwewqa.relive.simulator.core.stage.platformMapOf
 import xyz.qwewqa.relive.simulator.core.stage.platformSetOf
 import xyz.qwewqa.relive.simulator.core.stage.toPlatformMap
+import kotlin.math.min
 
 class BuffManager(val actor: Actor) {
   private val positiveBuffs = platformSetOf<ContinuousBuffImpl<*>>()
@@ -417,33 +404,33 @@ class BuffManager(val actor: Actor) {
           buffs.removeLast(OverwhelmBuff)
         }
 
-        val hpRegenValue = mod { +hpFixedRegen } + mod { maxHp ptmul hpPercentRegen }
+        val hpRegenValue = mod { +Modifier.HpRegen } + mod { maxHp ptmul Modifier.HpPercentRegen }
         if (hpRegenValue > 0) {
           context.log("HP Regen") { "HP Regen tick." }
           heal(hpRegenValue)
         }
 
         val brillianceRegenValue = mod {
-          brillianceRegen + context.stage.turn * brillianceRegenTurnScaling
+          Modifier.BrillianceRegen + context.stage.turn * Modifier.BrillianceRegenTurnScaling
         }
         if (brillianceRegenValue > 0) {
           context.log("Brilliance Regen") { "Brilliance Regen tick." }
           addBrilliance(brillianceRegenValue)
         }
 
-        val brillianceSapValue = mod { +brillianceSap }
+        val brillianceSapValue = mod { +Modifier.BrillianceSap }
         if (brillianceSapValue > 0) {
           context.log("Brilliance Sap") { "Brilliance Sap tick." }
           addBrilliance(-brillianceSapValue)
         }
 
-        val reviveRegenValue = mod { +reviveRegen }
+        val reviveRegenValue = mod { +Modifier.ReviveRegen }
         if (reviveRegenValue > 0) {
           context.log("Revive Regen") { "Revive Regen tick." }
           addCountable(Buffs.ReviveBuff, count = reviveRegenValue.toInt())
         }
 
-        val superStrengthRegenValue = mod { +superStrengthRegen }
+        val superStrengthRegenValue = mod { +Modifier.SuperStrengthRegen }
         if (superStrengthRegenValue > 0) {
           context.log("Super Strength Regen") { "Super Strength Regen tick." }
           addCountable(Buffs.SuperStrengthBuff, count = superStrengthRegenValue.toInt())
@@ -457,26 +444,28 @@ class BuffManager(val actor: Actor) {
           removeCountable(BuffCategory.Negative)
         }
 
-        val turnReduceCountableNegativeEffects = mod { +turnReduceCountableNegativeEffects }
+        val turnReduceCountableNegativeEffects = mod {
+          +Modifier.TurnReduceCountableNegativeEffects
+        }
         if (turnReduceCountableNegativeEffects > 0) {
           removeCountable(BuffCategory.Negative, count = turnReduceCountableNegativeEffects.toInt())
         }
 
         positiveBuffs.tick()
 
-        val burn = mod { +burnDamage }
+        val burn = mod { +Modifier.BurnDamage }
         if (burn > 0) {
           context.log("Burn") { "Burn tick." }
           damage(burn, additionalEffects = false)
         }
 
-        val poison = mod { +poisonDamage }
+        val poison = mod { +Modifier.PoisonDamage }
         if (poison > 0) {
           context.log("Poison") { "Poison tick." }
           damage(poison, additionalEffects = false)
         }
 
-        val nightmare = mod { +nightmareDamage }
+        val nightmare = mod { +Modifier.NightmareDamage }
         if (nightmare > 0) {
           context.log("Nightmare") { "Nightmare tick." }
           damage(nightmare, additionalEffects = false)
@@ -486,19 +475,21 @@ class BuffManager(val actor: Actor) {
         //          removeCountable(BuffCategory.Positive)
         //        }
 
-        val weakenCoef = mod { +weaken }
+        val weakenCoef = mod { +Modifier.Weaken }
         if (weakenCoef > 0) {
           context.log("Weaken") { "Weaken tick." }
           damage((maxHp ptmul weakenCoef).toInt(), additionalEffects = false)
         }
 
-        val turnReduceCountablePositiveEffects = mod { +turnReduceCountablePositiveEffects }
+        val turnReduceCountablePositiveEffects = mod {
+          +Modifier.TurnReduceCountablePositiveEffects
+        }
         if (turnReduceCountablePositiveEffects > 0) {
           removeCountable(BuffCategory.Positive, count = turnReduceCountablePositiveEffects.toInt())
         }
 
         val continuousPositiveTurnReductionRegenTurns = mod {
-          +continuousPositiveTurnReductionRegen
+          +Modifier.ContinuousPositiveTurnReductionRegen
         }
         if (continuousPositiveTurnReductionRegenTurns > 0) {
           buffs.adjustContinuousTurns(
