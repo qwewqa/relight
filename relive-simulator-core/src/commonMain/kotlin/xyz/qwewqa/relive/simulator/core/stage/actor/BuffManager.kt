@@ -180,7 +180,7 @@ class BuffManager(val actor: Actor) {
     }
   }
 
-  fun remove(buff: CountableBuffEffect): I54 {
+  fun removeLast(buff: CountableBuffEffect): I54 {
     val categoryStacks =
         when (buff.category) {
           BuffCategory.Positive -> positiveCountableBuffStacks
@@ -203,7 +203,7 @@ class BuffManager(val actor: Actor) {
     return value
   }
 
-  fun removeHighest(buff: CountableBuffEffect): I54 {
+  fun removeFirst(buff: CountableBuffEffect): I54 {
     val categoryStacks =
         when (buff.category) {
           BuffCategory.Positive -> positiveCountableBuffStacks
@@ -217,8 +217,7 @@ class BuffManager(val actor: Actor) {
     if (stacks == null || stacks.size == 0)
         error("Cannot remove countable buff $buff which is already at zero stacks.")
     val prevCount = stacks.size
-    val stack = stacks.maxBy { it.value }
-    stacks.remove(stack)
+    val stack = stacks.removeFirst()
     categoryStacks.remove(stack)
     val value = stack.value
     actor.context.log("Buff") {
@@ -240,7 +239,7 @@ class BuffManager(val actor: Actor) {
     if (count(buff) == 0) {
       return false
     }
-    action(removeHighest(buff))
+    action(removeFirst(buff))
     return true
   }
 
@@ -249,7 +248,7 @@ class BuffManager(val actor: Actor) {
     if (count == 0) {
       return false
     }
-    repeat(count) { action(removeHighest(buff)) }
+    repeat(count) { action(removeFirst(buff)) }
     return true
   }
 
@@ -258,13 +257,13 @@ class BuffManager(val actor: Actor) {
     if (count == 0) {
       return false
     }
-    repeat(count.coerceAtMost(max)) { action(removeHighest(buff)) }
+    repeat(count.coerceAtMost(max)) { action(removeFirst(buff)) }
     return true
   }
 
   fun tryRemove(buff: CountableBuffEffect) =
       if (count(buff) > 0) {
-        remove(buff)
+        removeLast(buff)
         true
       } else {
         false
@@ -415,7 +414,7 @@ class BuffManager(val actor: Actor) {
   fun tick() =
       actor.run {
         while (OverwhelmBuff in buffs) {
-          buffs.remove(OverwhelmBuff)
+          buffs.removeLast(OverwhelmBuff)
         }
 
         val hpRegenValue = mod { +hpFixedRegen } + mod { maxHp ptmul hpPercentRegen }
