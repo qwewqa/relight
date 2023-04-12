@@ -1202,8 +1202,8 @@ class SimulatorClient(val simulator: Simulator) {
                       }
                     }
                   }
-                  div("row mx-2 mb-2") {
-                    div("col-8 col-sm-9 col-md-10 col-xxl-11 my-1") {
+                  div("row mx-2 mb-2 mt-1") {
+                    div("col") {
                       val inputId = "actor-name-$actorId"
                       label("form-label text-actor-name") {
                         htmlFor = inputId
@@ -1214,11 +1214,11 @@ class SimulatorClient(val simulator: Simulator) {
                         onChangeFunction = { ActorOptions(options, actorId).update() }
                       }
                     }
-                    div("col-4 col-sm-3 col-md-2 col-xxl-1 my-1") {
+                    div("col-auto") {
                       label("form-label text-support-toggle") {
                         +localized(".text-support-toggle", "Support")
                       }
-                      div("btn-group w-100 actor-support-toggle") {
+                      div("btn-group w-100 actor-support-toggle d-block") {
                         role = "group"
                         attributes["data-prev-value"] = "10"
                         listOf(false, true).forEach { enable ->
