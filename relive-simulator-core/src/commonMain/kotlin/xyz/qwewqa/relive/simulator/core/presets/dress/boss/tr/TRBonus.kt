@@ -34,6 +34,16 @@ fun trEventBonusPassive2023(dressId: Int) =
                 ))
         .new()
 
+fun trEventBonusPassive2023V2(dressId: Int) =
+    EventBonusPassive(
+        dresses = mapOf(dressId to 200),
+        categories =
+        mapOf(
+            DressCategory.Birthday2023 to 40,
+            DressCategory.Sweets to 40,
+        ))
+        .new()
+
 object TrDamageReductionPassive : PassiveEffect {
   override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
       context.run { self.mod { Modifier.DamageReceivedDown += value } }
