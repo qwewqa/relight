@@ -283,6 +283,22 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr29.tr29FaithMiso
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr29.tr29FaithMisoraDiff4
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr29.tr29FaithMisoraDiff4Strategy
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr29.tr29FaithMisoraStrategy
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30.tr30AliceAruru
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30.tr30AliceAruruDiff4
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30.tr30AliceAruruDiff4Strategy
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30.tr30AliceAruruStrategy
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30.tr30QueenOfHeartsShizuha
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30.tr30QueenOfHeartsShizuhaDiff4
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30.tr30QueenOfHeartsShizuhaDiff4Strategy
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30.tr30QueenOfHeartsShizuhaStrategy
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30.tr30WhiteRabbitMisora
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30.tr30WhiteRabbitMisoraDiff4
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30.tr30WhiteRabbitMisoraDiff4Strategy
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30.tr30WhiteRabbitMisoraStrategy
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30.tr30FaithMisora
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30.tr30FaithMisoraDiff4
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30.tr30FaithMisoraDiff4Strategy
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30.tr30FaithMisoraStrategy
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.Strategy
 
@@ -312,6 +328,14 @@ private fun BossLoadout.applyGuildRaceData(race: Int, phase: Int, number: Int) =
 
 val bossLoadouts =
     listOf(
+            BossLoadout(tr30WhiteRabbitMisora, tr30WhiteRabbitMisoraStrategy).applyGuildRaceData(30, 3, 1),
+            BossLoadout(tr30WhiteRabbitMisoraDiff4, tr30WhiteRabbitMisoraDiff4Strategy).applyGuildRaceData(30, 4, 1),
+            BossLoadout(tr30AliceAruru, tr30AliceAruruStrategy).applyGuildRaceData(30, 3, 2),
+            BossLoadout(tr30AliceAruruDiff4, tr30AliceAruruDiff4Strategy).applyGuildRaceData(30, 4, 2),
+            BossLoadout(tr30QueenOfHeartsShizuha, tr30QueenOfHeartsShizuhaStrategy).applyGuildRaceData(30, 3, 3),
+            BossLoadout(tr30QueenOfHeartsShizuhaDiff4, tr30QueenOfHeartsShizuhaDiff4Strategy).applyGuildRaceData(30, 4, 3),
+            BossLoadout(tr30FaithMisora, tr30FaithMisoraStrategy).applyGuildRaceData(30, 3, 4),
+            BossLoadout(tr30FaithMisoraDiff4, tr30FaithMisoraDiff4Strategy).applyGuildRaceData(30, 4, 4),
             BossLoadout(tr29CheerAkira, tr29CheerAkiraStrategy).applyGuildRaceData(29, 3, 1),
             BossLoadout(tr29CheerAkiraDiff4, tr29CheerAkiraDiff4Strategy)
                 .applyGuildRaceData(29, 4, 1),
