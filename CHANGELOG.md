@@ -977,3 +977,6 @@
 - Made blessings consumed in order of application
 - Minor performance improvements
 - Improved appearance of support radio buttons
+
+# v1.1.5
+- TR30 bosses added by Chihiro
