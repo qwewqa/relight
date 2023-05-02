@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30
 
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.FullNegativeEffectResistancePassive
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.TrDamageReductionPassive
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023V2
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
@@ -325,7 +326,7 @@ val tr30QueenOfHeartsShizuhaDiff4 =
             autoSkills =
                 listOf(
                     trEventBonusPassive2023V2(4040012),
-                    // TODO: 100% passive NER and CNER
+                    FullNegativeEffectResistancePassive.new(100),
                     BossElementResistPassive.new(50),
                     TrDamageReductionPassive.new(90),
                 ),
