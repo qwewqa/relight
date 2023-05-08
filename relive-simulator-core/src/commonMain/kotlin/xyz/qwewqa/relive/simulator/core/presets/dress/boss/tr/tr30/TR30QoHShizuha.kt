@@ -204,7 +204,7 @@ val tr30QueenOfHeartsShizuhaDiff4 =
             position = Position.None,
             stats =
                 defaultDressStats.copy(
-                    hp = 1_500_000_000,
+                    hp = 1_800_000_000,
                     actPower = 10000,
                     normalDefense = 10000,
                     specialDefense = 10000,
