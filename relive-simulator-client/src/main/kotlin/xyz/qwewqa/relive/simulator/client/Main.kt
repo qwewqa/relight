@@ -38,8 +38,6 @@ import kotlinx.html.option
 import kotlinx.html.p
 import kotlinx.html.role
 import kotlinx.html.select
-import kotlinx.html.span
-import kotlinx.html.stream.createHTML
 import kotlinx.html.style
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -1259,7 +1257,7 @@ class SimulatorClient(val simulator: Simulator) {
                                   attributes["data-img"] = it.imagePath ?: ""
                                   value = it.id
                                   +it[locale]
-                                  attributes["data-subtext"] = it.subtextHtml(locale)
+                                  attributes["data-subtext"] = it.subtext(locale)
                                   attributes["data-tokens"] =
                                       it.tags?.get(locale)?.joinToString(" ") ?: ""
                                 }
@@ -1516,7 +1514,7 @@ class SimulatorClient(val simulator: Simulator) {
                                 option {
                                   val name = it[locale]
                                   attributes["data-img"] = it.imagePath ?: ""
-                                  attributes["data-subtext"] = it.subtextHtml(locale)
+                                  attributes["data-subtext"] = it.subtext(locale)
                                   value = it.id
                                   +name
                                   attributes["data-tokens"] =
@@ -1620,7 +1618,7 @@ class SimulatorClient(val simulator: Simulator) {
                                     option {
                                       val name = it[locale]
                                       attributes["data-img"] = it.imagePath ?: ""
-                                      attributes["data-subtext"] = it.subtextHtml(locale)
+                                      attributes["data-subtext"] = it.subtext(locale)
                                       attributes["data-hidden"] =
                                           if (it in activeAccessories) "false" else "true"
                                       value = it.id
@@ -3422,23 +3420,11 @@ class ResultEntry(
       }
 }
 
-fun DataSimulationOption<*>.subtextHtml(locale: String) =
+fun DataSimulationOption<*>.subtext(locale: String) =
     if (descriptionIcons?.isEmpty() != false && description == null) {
       ""
     } else {
-      createHTML().span {
-        style = "display: inline-flex; align-items: center;"
-        descriptionIcons?.forEach { iconUrl ->
-          img {
-            style = "height: 1.8em; margin: 0.1em; padding-top: 0.2em;"
-            src = iconUrl
-          }
-        }
-        span {
-          style = "margin-left: 0.4em;"
-          +(description?.get(locale) ?: "")
-        }
-      }
+      "${(descriptionIcons ?: emptyList()).joinToString("%%%")}%%%${description?.get(locale) ?: ""}"
     }
 
 fun List<String>.indented() = map { "    $it" }

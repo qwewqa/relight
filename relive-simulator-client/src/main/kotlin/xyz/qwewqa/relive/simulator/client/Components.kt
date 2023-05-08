@@ -207,7 +207,7 @@ sealed class Select(val element: HTMLSelectElement, val selectpicker: Boolean) {
             option.imagePath?.let { imagePath ->
               attributes["data-img"] = imagePath
             }
-            attributes["data-subtext"] = option.subtextHtml(locale)
+            attributes["data-subtext"] = option.subtext(locale)
             attributes["data-tokens"] = option.tags?.get(locale)?.joinToString(" ") ?: ""
             +option[locale]
           } as UnionHTMLOptGroupElementOrHTMLOptionElement)
@@ -234,7 +234,7 @@ sealed class Select(val element: HTMLSelectElement, val selectpicker: Boolean) {
           setAttribute("data-img", option?.imagePath ?: "")
         }
         if (getAttribute("data-subtext") != null) {
-          setAttribute("data-subtext", option?.subtextHtml(locale) ?: "")
+          setAttribute("data-subtext", option?.subtext(locale) ?: "")
         }
         setAttribute("data-tokens", option?.tags?.get(locale)?.joinToString(" ") ?: "")
         text = name

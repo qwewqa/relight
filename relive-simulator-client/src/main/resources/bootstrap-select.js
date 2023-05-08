@@ -756,8 +756,24 @@
 
                 if (options.subtext) {
                     subtextElement = elementTemplates.subtext.cloneNode(false);
-                    subtextElement.innerHTML = options.subtext;
+                    const container = elementTemplates.div.cloneNode(false);
+                    container.style = "display: inline-flex; align-items: center;";
+                    const subtextParts = options.subtext.split('%%%');
+                    for (let i = 0; i < subtextParts.length; i++) {
+                        if (i !== subtextParts.length - 1) {
+                            const imgElement = elementTemplates.img.cloneNode(false);
+                            imgElement.style = "height: 1.8em; margin: 0.1em; padding-top: 0.2em;"
+                            imgElement.setAttribute('src', subtextParts[i]);
+                            container.appendChild(imgElement);
+                        } else {
+                            const spanElement = elementTemplates.span.cloneNode(false);
+                            spanElement.style = "margin-left: 0.4em;";
+                            spanElement.textContent = subtextParts[i];
+                            container.appendChild(spanElement);
+                        }
+                    }
                     subtextElement.className = "select-option-subtext"
+                    subtextElement.appendChild(container);
                     textElement.appendChild(subtextElement);
                 }
             }
