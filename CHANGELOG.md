@@ -980,3 +980,7 @@
 
 # v1.1.5
 - TR30 bosses added by Chihiro
+
+# v1.1.6
+- Fixed TR30 Shizuha difficulty 4 HP
+- Improve dropdown load performance
