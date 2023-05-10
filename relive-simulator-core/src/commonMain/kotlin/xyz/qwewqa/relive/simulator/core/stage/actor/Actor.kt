@@ -264,12 +264,12 @@ class Actor(
           context.log("Damage", category = LogCategory.DAMAGE, debug = true) { "Already exited." }
           return
         }
+        statistics.damageTaken += amount
         val newHp = if (!forceInvulnerable) (self.hp - amount).coerceAtLeast(0) else self.hp
         context.log("Damage", category = LogCategory.DAMAGE) {
           if (!forceInvulnerable) "Taken damage $amount (prevHp: ${self.hp}, newHp: $newHp)"
           else "Force invulnerable."
         }
-        statistics.damageTaken += self.hp - newHp
         self.hp = newHp
         if (newHp == 0.i54) {
           if (undying) {
