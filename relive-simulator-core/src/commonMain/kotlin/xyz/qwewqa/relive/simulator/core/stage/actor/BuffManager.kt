@@ -478,7 +478,7 @@ class BuffManager(val actor: Actor) {
         val weakenCoef = mod { +Modifier.Weaken }
         if (weakenCoef > 0) {
           context.log("Weaken") { "Weaken tick." }
-          damage((maxHp ptmul weakenCoef).toInt(), additionalEffects = false)
+          damage((maxHp ptmul weakenCoef).toI54(), additionalEffects = false)
         }
 
         val turnReduceCountablePositiveEffects = mod {
