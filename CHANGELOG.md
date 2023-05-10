@@ -988,3 +988,6 @@
 # v1.2.0
 - Added live updating damage estimate to interactive
 - Fixed missing 10% damage received up effect for weaken
+
+# v1.2.1
+- Fix live damage estimates for weaken
