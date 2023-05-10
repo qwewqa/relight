@@ -14,6 +14,7 @@ import kotlin.coroutines.suspendCoroutine
 import kotlin.js.Date
 import kotlin.random.Random
 import kotlinx.browser.window
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.Serializable
@@ -387,7 +388,9 @@ class JsInteractiveSimulation(val parameters: SimulationParameters) : Interactiv
     controller?.sendCommand(text)
   }
 
-  override suspend fun end() {}
+  override suspend fun end() {
+    controller?.cancel()
+  }
 }
 
 @Serializable

@@ -329,8 +329,23 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
   }
 }
 
+fun HTMLElement.updateDamageEstimate(value: Double?) {
+  val containerElement = document.getElementById("damage-estimate-container") ?: return
+  val damageElement = document.getElementById("damage-estimate") ?: return
+
+  if (value == null) {
+    containerElement.classList.add("d-none")
+  } else {
+    containerElement.classList.remove("d-none")
+    damageElement.textContent = value.formatShort()
+  }
+}
+
 private fun Double.formatShort(): String {
   return when {
+    this >= 1_000_000_000_000_000_000_000_000.0 -> "${(this / 1_000_000_000_000_000_000_000_000.0).toFixed(2)}Sx"
+    this >= 1_000_000_000_000_000_000_000.0 -> "${(this / 1_000_000_000_000_000_000_000.0).toFixed(2)}Qt"
+    this >= 1_000_000_000_000_000 -> "${(this / 1_000_000_000_000_000).toFixed(2)}Qd"
     this >= 1_000_000_000_000 -> "${(this / 1_000_000_000_000).toFixed(2)}T"
     this >= 1_000_000_000 -> "${(this / 1_000_000_000).toFixed(2)}B"
     this >= 1_000_000 -> "${(this / 1_000_000).toFixed(2)}M"

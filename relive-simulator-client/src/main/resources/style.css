@@ -240,6 +240,15 @@ pwa-update::part(offlineToast) {
     gap: 0.2em;
 }
 
+#damage-estimate-container {
+    font-size: 1.4em;
+    line-height: 0;
+    font-weight: bold;
+    color: black;
+    display: flex;
+    align-items: center;
+}
+
 #interactive-turn-text-container {
     width: var(--size-ref);
     margin: calc(var(--size-ref) / 96) auto;

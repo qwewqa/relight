@@ -1,7 +1,13 @@
 package xyz.qwewqa.relive.simulator.core.stage.strategy.interactive
 
+import kotlin.random.Random
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.yield
 import xyz.qwewqa.relive.simulator.common.ActCardStatus
 import xyz.qwewqa.relive.simulator.common.ActionStatus
 import xyz.qwewqa.relive.simulator.common.ActorStatus
@@ -16,6 +22,7 @@ import xyz.qwewqa.relive.simulator.core.i54.I54
 import xyz.qwewqa.relive.simulator.core.i54.i54
 import xyz.qwewqa.relive.simulator.core.i54.sumOfI54
 import xyz.qwewqa.relive.simulator.core.i54.times
+import xyz.qwewqa.relive.simulator.core.i54.toI54
 import xyz.qwewqa.relive.simulator.core.stage.PlayInfo
 import xyz.qwewqa.relive.simulator.core.stage.Stage
 import xyz.qwewqa.relive.simulator.core.stage.StageConfiguration
@@ -41,11 +48,13 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.specialDefense
 import xyz.qwewqa.relive.simulator.core.stage.strategy.*
 import xyz.qwewqa.relive.simulator.core.stage.strategy.complete.qsort
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
-import kotlin.random.Random
 
 private const val INDENT = "  "
 
-class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val loadout: StageLoadout) {
+private val QUEUE_TEST_HP_OVERRIDE = 1_000_000_000_000.0.toI54()
+
+class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val loadout: StageLoadout) :
+    CoroutineScope by CoroutineScope(Dispatchers.Default) {
   private val mutex = Mutex()
 
   private val fullHistory = mutableListOf<String>()
@@ -58,17 +67,28 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
   private var resultLog = emptyList<LogEntry>() // Has transient entries compared to status.entries
   private var status = CacheableStatus()
 
-  private class CacheableStatus {
+  private inner class CacheableStatus {
     var initialized = false
       private set
 
     private var index = -1
+      set(value) {
+        field = value
+        if (initialized) {
+          startDamageEstimates()
+        }
+      }
     private val playHistory = mutableListOf<ParsedCommand>()
     private val stageLog = mutableListOf<LogEntry>()
     private val queueStatusHistory = mutableListOf<InteractiveQueueStatus>()
     private val lengths = mutableListOf<Int>()
     private val enemyStatuses = mutableListOf<List<ActorStatus>>()
     private val playerStatuses = mutableListOf<List<ActorStatus>>()
+
+    var damageEstimate: I54? = null
+      private set
+    private val damageEstimates = mutableListOf<I54>()
+    private var damageEstimatorJob: Job? = null
 
     // First entry is just a placeholder
     val history: List<ParsedCommand>
@@ -105,13 +125,34 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
       if (canRedo) {
         truncate()
       }
-      index++
       playHistory += command
       stageLog += entries.asSequence().drop(stageLog.size)
       lengths += entries.size
       queueStatusHistory += queueStatus
       enemyStatuses += enemyStatus
       playerStatuses += playerStatus
+      index++
+    }
+
+    private fun startDamageEstimates() {
+      damageEstimatorJob?.cancel()
+      damageEstimates.clear()
+      damageEstimate = null
+
+      if (queueStatus?.runState != InteractiveRunState.QUEUE) {
+        return
+      }
+
+      val maxEstimates = 1000
+      damageEstimatorJob = launch {
+        val random = Random(seed)
+        repeat(maxEstimates) {
+          val damage = playStageTest(emptyList(), random)
+          damageEstimates += damage
+          damageEstimate = damageEstimates.map { it.toDouble() }.average().toI54()
+          yield()
+        }
+      }
     }
 
     fun init(
@@ -299,8 +340,11 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
     resultLog = stage.logger.get()
   }
 
-  private fun playStageTest(testActs: List<Int>): I54 {
-    val managedRandom = ManagedRandom(Random(Random(seed).nextInt()))
+  private fun playStageTest(testActs: List<Int>): I54 =
+      playStageTest(testActs, Random(Random(seed).nextInt()))
+
+  private fun playStageTest(testActs: List<Int>, random: Random): I54 {
+    val managedRandom = ManagedRandom(random)
     val strategy = InteractiveStrategy(managedRandom, status.history, testActs = testActs)
     val stage =
         loadout
@@ -315,7 +359,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
       stage.play(PlayInfo(maxTurns = maxTurns, null, null))
     } catch (_: UserInput) {}
 
-    return stage.enemy.actors.values.sumOfI54 { it.hp }
+    return stage.enemy.actors.values.sumOfI54 { QUEUE_TEST_HP_OVERRIDE - it.hp }
   }
 
   init {
@@ -328,9 +372,10 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
           InteractiveLog(
               InteractiveLogData(
                   resultLog, null, status.queueStatus, status.enemyStatus, status.playerStatus),
+              status.damageEstimate?.toDouble(),
               this.rev)
         } else {
-          InteractiveLog(null, this.rev)
+          InteractiveLog(null, status.damageEstimate?.toDouble(), this.rev)
         }
       }
 
@@ -372,7 +417,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
               }
               return@withLock
             }
-            val bestQueue = candidates.minBy { playStageTest(it) }
+            val bestQueue = candidates.maxBy { playStageTest(it) }
             if (bestQueue.isEmpty()) {
               playStage(null) {
                 log("Command", category = LogCategory.COMMAND) { "Error: Cannot auto-queue." }
@@ -868,7 +913,7 @@ ${formattedHand()}
           stage.enemy.active.forEach {
             it.mod {
               // Reset hp to a high value to prevent early kills
-              Modifier.BaseMaxHp setTo 1_000_000_000
+              Modifier.BaseMaxHp setTo QUEUE_TEST_HP_OVERRIDE
               Modifier.BuffMaxHp setTo 0
               it.adjustHp(it.maxHp)
             }

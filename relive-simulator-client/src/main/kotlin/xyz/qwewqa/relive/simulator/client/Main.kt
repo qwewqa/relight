@@ -72,6 +72,7 @@ import xyz.qwewqa.relive.simulator.client.codemirror.saveActorToClipboard
 import xyz.qwewqa.relive.simulator.client.codemirror.unfoldAll
 import xyz.qwewqa.relive.simulator.client.codemirror.value
 import xyz.qwewqa.relive.simulator.common.DataSimulationOption
+import xyz.qwewqa.relive.simulator.common.InteractiveLog
 import xyz.qwewqa.relive.simulator.common.InteractiveLogData
 import xyz.qwewqa.relive.simulator.common.MarginResult
 import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
@@ -3103,7 +3104,7 @@ class SimulatorClient(val simulator: Simulator) {
     toast("Ready", "Initialization complete.", "green")
 
     GlobalScope.launch {
-      var prev: InteractiveLogData? = null
+      var prev: InteractiveLog? = null
       while (true) {
         try {
           delay(50)
@@ -3118,7 +3119,7 @@ class SimulatorClient(val simulator: Simulator) {
               this@SimulatorClient.interactiveLog.displayLog(
                   data.entries,
                   interactive = true,
-                  prev = prev?.entries ?: emptyList(),
+                  prev = prev?.data?.entries ?: emptyList(),
               )
 
               if (isScrolledDown) {
@@ -3128,7 +3129,12 @@ class SimulatorClient(val simulator: Simulator) {
               }
               interactiveStatusContainer.displayStatus(data)
               updateInteractiveUi(sim, data.queueStatus, data.error)
-              prev = data
+            }
+            interactiveStatusContainer.updateDamageEstimate(log?.queueDamageEstimate)
+            if (data != null) {
+              prev = log
+            } else {
+              prev = prev?.copy(queueDamageEstimate = log?.queueDamageEstimate)
             }
           }
         } catch (e: Throwable) {

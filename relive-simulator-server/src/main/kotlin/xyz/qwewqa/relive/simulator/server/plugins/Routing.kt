@@ -8,6 +8,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
@@ -111,6 +112,7 @@ fun Application.configureRouting() {
     }
     get("/interactive/{token}/end") {
       val token = call.parameters["token"]!!
+      interactiveSimulations[token]?.cancel()
       if (interactiveSimulations.remove(token) != null ||
           interactiveSimulationErrors.remove(token) != null) {
         call.respond(HttpStatusCode.NoContent)
