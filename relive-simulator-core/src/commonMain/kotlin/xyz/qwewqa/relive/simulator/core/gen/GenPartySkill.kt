@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GenPartySkill(
-    val description: Map<String, String>,
+    val description: Map<String, String> = emptyMap(),
     val icon_id: Int,
     val skill_option1_id: Int,
     val skill_option1_target_id: Int,

@@ -7,10 +7,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class GenEquipActiveSkill(
     val attribute_id: Int,
-    val description: Map<String, String>,
+    val description: Map<String, String> = emptyMap(),
     val execute_limit_counts: List<Int>,
     val first_executable_turns: List<Int>,
-    val icon_id: Int,
     val recast_turns: List<Int>,
     val skill_cost_values: List<Int>,
     val skill_execute_timing_id: Int,
