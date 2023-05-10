@@ -1,13 +1,12 @@
 package xyz.qwewqa.relive.simulator.core.stage.strategy.interactive
 
-import kotlin.random.Random
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.yield
 import xyz.qwewqa.relive.simulator.common.ActCardStatus
 import xyz.qwewqa.relive.simulator.common.ActionStatus
 import xyz.qwewqa.relive.simulator.common.ActorStatus
@@ -48,6 +47,7 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.specialDefense
 import xyz.qwewqa.relive.simulator.core.stage.strategy.*
 import xyz.qwewqa.relive.simulator.core.stage.strategy.complete.qsort
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
+import kotlin.random.Random
 
 private const val INDENT = "  "
 
@@ -150,7 +150,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
           val damage = playStageTest(emptyList(), random)
           damageEstimates += damage
           damageEstimate = damageEstimates.map { it.toDouble() }.average().toI54()
-          yield()
+          delay(10)
         }
       }
     }
