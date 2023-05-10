@@ -369,7 +369,7 @@ class Actor(
           if (!isAlive) {
             revive()
           }
-          hp = amount.coerceAtMost(maxHp)
+          hp = amount
           context.log("Hp") { "Set Hp to $hp." }
         }
       }

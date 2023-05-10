@@ -918,9 +918,7 @@ ${formattedHand()}
           stage.enemy.active.forEach {
             it.mod {
               // Reset hp to a high value to prevent early kills
-              Modifier.BaseMaxHp setTo QUEUE_TEST_HP_OVERRIDE
-              Modifier.BuffMaxHp setTo 0
-              it.adjustHp(it.maxHp)
+              it.adjustHp(QUEUE_TEST_HP_OVERRIDE)
             }
           }
           break
