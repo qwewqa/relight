@@ -984,3 +984,7 @@
 # v1.1.6
 - Fixed TR30 Shizuha difficulty 4 HP
 - Improve dropdown load performance
+
+# v1.2.0
+- Added live updating damage estimate to interactive
+- Fixed missing 10% damage received up effect for weaken
