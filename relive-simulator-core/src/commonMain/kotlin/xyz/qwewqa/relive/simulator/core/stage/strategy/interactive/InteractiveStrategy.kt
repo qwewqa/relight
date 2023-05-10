@@ -51,8 +51,6 @@ import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
 private const val INDENT = "  "
 
-private val QUEUE_TEST_HP_OVERRIDE = 1_000_000_000_000.0.toI54()
-
 class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val loadout: StageLoadout) :
     CoroutineScope by CoroutineScope(Dispatchers.Default) {
   private val mutex = Mutex()
@@ -364,7 +362,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
       stage.play(PlayInfo(maxTurns = maxTurns, null, null))
     } catch (_: UserInput) {}
 
-    return stage.enemy.actors.values.sumOfI54 { QUEUE_TEST_HP_OVERRIDE - it.hp }
+    return stage.enemy.actors.values.sumOfI54 { it.statistics.damageTaken }
   }
 
   init {
@@ -916,10 +914,8 @@ ${formattedHand()}
           (stage.damageCalculator as SwitchableDamageCalculator).isRandom = false
           ranTestQueue = true
           stage.enemy.active.forEach {
-            it.mod {
-              // Reset hp to a high value to prevent early kills
-              it.adjustHp(QUEUE_TEST_HP_OVERRIDE)
-            }
+            it.undying = true
+            it.statistics.damageTaken = 0.i54
           }
           break
         }

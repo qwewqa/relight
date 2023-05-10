@@ -43,6 +43,10 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.maxHp
 import xyz.qwewqa.relive.simulator.core.stage.platformMapOf
 import xyz.qwewqa.relive.simulator.core.stage.strategy.BoundCutin
 
+data class ActorStatistics(
+    var damageTaken: I54 = 0.i54,
+)
+
 class Actor(
     val name: String,
     val dress: Dress,
@@ -56,6 +60,10 @@ class Actor(
           (memoir?.autoskills ?: emptyList()) +
           (accessory?.autoskills ?: emptyList())
   val acts = dress.acts.toMutableMap()
+
+  val statistics = ActorStatistics()
+
+  var undying = false
 
   var hp = 1.i54
     private set
@@ -261,8 +269,13 @@ class Actor(
           if (!forceInvulnerable) "Taken damage $amount (prevHp: ${self.hp}, newHp: $newHp)"
           else "Force invulnerable."
         }
+        statistics.damageTaken += self.hp - newHp
         self.hp = newHp
         if (newHp == 0.i54) {
+          if (undying) {
+            self.hp = 1.i54
+            return@run
+          }
           if (self.buffs.count(ResilienceBuff) > 0) {
             self.hp = 1.i54
             context.log("Damage", category = LogCategory.DAMAGE) {
