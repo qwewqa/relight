@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.stage.strategy.interactive
 
+import kotlin.random.Random
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -47,7 +48,6 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.specialDefense
 import xyz.qwewqa.relive.simulator.core.stage.strategy.*
 import xyz.qwewqa.relive.simulator.core.stage.strategy.complete.qsort
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
-import kotlin.random.Random
 
 private const val INDENT = "  "
 
@@ -147,7 +147,12 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
       damageEstimatorJob = launch {
         val random = Random(seed)
         repeat(maxEstimates) {
-          val damage = playStageTest(emptyList(), random)
+          val newSeed = random.nextInt()
+          val damage =
+              playStageTest(
+                  emptyList(),
+                  status.history +
+                      ParsedCommand(InteractiveCommandType.SEED, "$newSeed", "seed $newSeed"))
           damageEstimates += damage
           damageEstimate = damageEstimates.map { it.toDouble() }.average().toI54()
           delay(10)
@@ -340,12 +345,12 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
     resultLog = stage.logger.get()
   }
 
-  private fun playStageTest(testActs: List<Int>): I54 =
-      playStageTest(testActs, Random(Random(seed).nextInt()))
-
-  private fun playStageTest(testActs: List<Int>, random: Random): I54 {
-    val managedRandom = ManagedRandom(random)
-    val strategy = InteractiveStrategy(managedRandom, status.history, testActs = testActs)
+  private fun playStageTest(
+      testActs: List<Int>,
+      history: List<ParsedCommand> = status.history
+  ): I54 {
+    val managedRandom = ManagedRandom(Random(Random(seed).nextInt()))
+    val strategy = InteractiveStrategy(managedRandom, history, testActs = testActs)
     val stage =
         loadout
             .copy(
