@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 val project_version: String by project
 val api_version: String by project
 
@@ -21,6 +23,11 @@ gversion {
 repositories { mavenCentral() }
 
 kotlin {
+  sourceSets.all {
+    languageSettings {
+      languageVersion = "1.9"
+    }
+  }
   jvm { testRuns["test"].executionTask.configure { useJUnitPlatform() } }
   js(IR) {
     browser()

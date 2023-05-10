@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalStdlibApi::class)
+
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
 import kotlinx.serialization.Serializable
@@ -16,7 +18,7 @@ enum class Attribute(val id: Int? = null) {
   Star(9),
 }
 
-val nonNeutralAttributes = Attribute.values().filter { it != Attribute.Neutral }
+val nonNeutralAttributes = Attribute.entries.filter { it != Attribute.Neutral }
 
 val Attribute.advantagedAgainst
   get() =
@@ -57,11 +59,11 @@ val Attribute.disadvantagedAgainst
 fun getEffectiveCoef(attacker: Attribute, defender: Attribute) =
     effectiveCoefs[attacker.ordinal * attributeCount + defender.ordinal]
 
-private val attributeCount = Attribute.values().size
+private val attributeCount = Attribute.entries.size
 private val effectiveCoefs =
     IntArray(attributeCount * attributeCount) { i ->
-      val attacker = Attribute.values()[i / attributeCount]
-      val defender = Attribute.values()[i % attributeCount]
+      val attacker = Attribute.entries[i / attributeCount]
+      val defender = Attribute.entries[i % attributeCount]
       effectiveCoef(attacker, defender)
     }
 

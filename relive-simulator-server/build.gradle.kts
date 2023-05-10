@@ -17,6 +17,14 @@ application { mainClass.set("xyz.qwewqa.relive.simulator.server.ApplicationKt") 
 
 repositories { mavenCentral() }
 
+kotlin {
+  sourceSets.all {
+    languageSettings {
+      languageVersion = "1.9"
+    }
+  }
+}
+
 dependencies {
   implementation(project(":relive-simulator-core"))
   implementation(kotlin("stdlib"))

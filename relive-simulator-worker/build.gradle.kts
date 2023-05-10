@@ -21,6 +21,11 @@ dependencies {
 }
 
 kotlin {
+  sourceSets.all {
+    languageSettings {
+      languageVersion = "1.9"
+    }
+  }
   js(IR) {
     browser {
       distribution {

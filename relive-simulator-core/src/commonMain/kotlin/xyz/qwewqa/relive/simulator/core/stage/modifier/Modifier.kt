@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalStdlibApi::class)
+
 package xyz.qwewqa.relive.simulator.core.stage.modifier
 
 import xyz.qwewqa.relive.simulator.core.i54.I54
@@ -82,7 +84,7 @@ enum class Modifier {
   Weaken,
 }
 
-private val modifierCount = Modifier.values().size
+private val modifierCount = Modifier.entries.size
 
 // actor is included so that it may be accessed from extension methods,
 // since context receivers are not stable yet.
