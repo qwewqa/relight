@@ -11,6 +11,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.BurnBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.HopeBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.WeakenBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.CountableBuffEffect
 
 val Modifiers.maxHp: I54
@@ -137,4 +138,5 @@ fun Modifiers.damageDealtUpModifier(target: Actor): I54 {
 
 fun Modifiers.damageReceivedModifier(attacker: Actor) =
     ((Modifier.DamageReceivedUp - (+Modifier.DamageReceivedDown).coerceAtMost(100)) +
-        (actor.fromCharacterDamageReceivedUp[attacker.dress.character] ?: 0.i54))
+        (actor.fromCharacterDamageReceivedUp[attacker.dress.character] ?: 0.i54) +
+        (if (WeakenBuff in actor.buffs) 10.i54 else 0.i54))
