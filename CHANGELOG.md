@@ -991,3 +991,7 @@
 
 # v1.2.1
 - Fix live damage estimates for weaken
+
+# v1.2.2
+- Added new dresses and memoirs
+- Limited live damage estimate update frequency
