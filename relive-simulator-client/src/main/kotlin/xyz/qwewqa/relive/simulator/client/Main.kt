@@ -3105,9 +3105,12 @@ class SimulatorClient(val simulator: Simulator) {
 
     GlobalScope.launch {
       var prev: InteractiveLog? = null
+      var lastEstimateUpdateTime = 0.0
+      val estimateUpdateInterval = 2000.0
       while (true) {
         try {
           delay(50)
+          val time = window.performance.now()
           interactiveSimulation?.let { sim ->
             val log = sim.getLog()
             val data = log?.data
@@ -3128,9 +3131,14 @@ class SimulatorClient(val simulator: Simulator) {
                 }
               }
               interactiveStatusContainer.displayStatus(data)
+              interactiveStatusContainer.updateDamageEstimate(log.queueDamageEstimate)
+              lastEstimateUpdateTime = time
               updateInteractiveUi(sim, data.queueStatus, data.error)
             }
-            interactiveStatusContainer.updateDamageEstimate(log?.queueDamageEstimate)
+            if (time - lastEstimateUpdateTime >= estimateUpdateInterval) {
+              interactiveStatusContainer.updateDamageEstimate(log?.queueDamageEstimate)
+              lastEstimateUpdateTime = time
+            }
             if (data != null) {
               prev = log
             } else {
