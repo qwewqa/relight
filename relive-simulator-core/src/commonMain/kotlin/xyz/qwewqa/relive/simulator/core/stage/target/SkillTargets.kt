@@ -1604,6 +1604,104 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
             it.dress.attribute == Attribute.Star
       }
 
+  val allyStellaShiroRyokoMinkuKuina =
+      +getSkillTargetData(4158).makeAllyTargetAoe {
+        it.dress.character == Character.Stella ||
+            it.dress.character == Character.Shiro ||
+            it.dress.character == Character.Ryoko ||
+            it.dress.character == Character.Minku ||
+            it.dress.character == Character.Kuina
+      }
+
+  val allyJunnaKaorukoRuiYuyuko2 =
+      +getSkillTargetData(4159).makeAllyTargetAoe {
+        it.dress.character == Character.Junna ||
+            it.dress.character == Character.Kaoruko ||
+            it.dress.character == Character.Rui ||
+            it.dress.character == Character.Yuyuko
+      }
+
+  val allyFutabaMichiruShiori =
+      +getSkillTargetData(4160).makeAllyTargetAoe {
+        it.dress.character == Character.Futaba ||
+            it.dress.character == Character.Michiru ||
+            it.dress.character == Character.Shiori
+      }
+
+  val allyIchieFumiMahiruNana =
+      +getSkillTargetData(4161).makeAllyTargetAoe {
+        it.dress.character == Character.Ichie ||
+            it.dress.character == Character.Fumi ||
+            it.dress.character == Character.Mahiru ||
+            it.dress.character == Character.Nana
+      }
+
+  val allyMisoraLalafinTsukasaShizuha =
+      +getSkillTargetData(4162).makeAllyTargetAoe {
+        it.dress.character == Character.Misora ||
+            it.dress.character == Character.Lalafin ||
+            it.dress.character == Character.Tsukasa ||
+            it.dress.character == Character.Shizuha
+      }
+
+  val allyHikariClaudineTamaoAkiraMeiFan2 =
+      +getSkillTargetData(4163).makeAllyTargetAoe {
+        it.dress.character == Character.Hikari ||
+            it.dress.character == Character.Claudine ||
+            it.dress.character == Character.Tamao ||
+            it.dress.character == Character.Akira ||
+            it.dress.character == Character.MeiFan
+      }
+
+  val allyKarenMayaYachiyo =
+      +getSkillTargetData(4164).makeAllyTargetAoe {
+        it.dress.character == Character.Karen ||
+            it.dress.character == Character.Maya ||
+            it.dress.character == Character.Yachiyo
+      }
+
+  val allyFlowerDreamSun =
+      +getSkillTargetData(4165).makeAllyTargetAoe {
+        it.dress.attribute == Attribute.Flower ||
+            it.dress.attribute == Attribute.Dream ||
+            it.dress.attribute == Attribute.Sun
+      }
+
+  val allyWindDreamSun =
+      +getSkillTargetData(4166).makeAllyTargetAoe {
+        it.dress.attribute == Attribute.Wind ||
+            it.dress.attribute == Attribute.Dream ||
+            it.dress.attribute == Attribute.Sun
+      }
+
+  val allySnowDreamSun =
+      +getSkillTargetData(4167).makeAllyTargetAoe {
+        it.dress.attribute == Attribute.Snow ||
+            it.dress.attribute == Attribute.Dream ||
+            it.dress.attribute == Attribute.Sun
+      }
+
+  val allyMoonDreamStar =
+      +getSkillTargetData(4168).makeAllyTargetAoe {
+        it.dress.attribute == Attribute.Moon ||
+            it.dress.attribute == Attribute.Dream ||
+            it.dress.attribute == Attribute.Star
+      }
+
+  val allySpaceDreamStar =
+      +getSkillTargetData(4169).makeAllyTargetAoe {
+        it.dress.attribute == Attribute.Space ||
+            it.dress.attribute == Attribute.Dream ||
+            it.dress.attribute == Attribute.Star
+      }
+
+  val allyCloudDreamStar =
+      +getSkillTargetData(4170).makeAllyTargetAoe {
+        it.dress.attribute == Attribute.Cloud ||
+            it.dress.attribute == Attribute.Dream ||
+            it.dress.attribute == Attribute.Star
+      }
+
   // Handled specially
   val randomAllyPerHit = +getSkillTargetData(5001).makeAllyTargetAoe()
   val randomEnemyPerHit = +getSkillTargetData(6001).makeEnemyTargetAoe()

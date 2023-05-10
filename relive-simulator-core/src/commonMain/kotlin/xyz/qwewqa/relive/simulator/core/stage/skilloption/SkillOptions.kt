@@ -1451,4 +1451,14 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
           attr == Attribute.Moon || attr == Attribute.Space || attr == Attribute.Cloud
         }
       }
+
+  val StealContinuousPositiveEffects =
+      +skillOptionData(595).makeSkillOption { value ->
+        // TODO
+      }
+
+  val StealCountablePositiveEffects =
+      +skillOptionData(596).makeSkillOption { value ->
+        // TODO
+      }
 }

@@ -17,7 +17,7 @@ data class GenSkillOptionInfo(
 data class GenSkill(
     val attribute_id: Int,
     val cost: Int,
-    val description: Map<String, String>,
+    val description: Map<String, String> = emptyMap(),
     val icon_id: Int,
     val is_multiple_command_unique_skill: Int,
     val name: Map<String, String>,

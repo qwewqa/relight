@@ -23,6 +23,17 @@ import xyz.qwewqa.relive.simulator.core.stage.platformSetOf
 import xyz.qwewqa.relive.simulator.core.stage.toPlatformMap
 import kotlin.math.min
 
+data class ContinuousBuffDetails(
+    val effect: ContinuousBuffEffect<*>,
+    val value: I54,
+    val turns: Int,
+)
+
+data class CountableBuffDetails(
+    val effect: CountableBuffEffect,
+    val value: I54,
+)
+
 class BuffManager(val actor: Actor) {
   private val positiveBuffs = platformSetOf<ContinuousBuffImpl<*>>()
   private val negativeBuffs = platformSetOf<ContinuousBuffImpl<*>>()

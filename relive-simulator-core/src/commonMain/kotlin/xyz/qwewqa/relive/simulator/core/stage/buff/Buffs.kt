@@ -1492,6 +1492,15 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val LockedContinuousPositiveTurnReductionRegenBuff =
       +buffData(317).makeLockedVariantOf(ContinuousPositiveTurnReductionRegenBuff)
 
+  val ReflectStageEffectHesitationBuffEffect =
+      +buffData(318).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+
+  val ReflectStageEffectPlanOfTheAbyssBuffEffect =
+      +buffData(319).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+
+  val ReflectStageEffectSugaryCorruptionBuffEffect =
+      +buffData(320).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+
   val abnormalBuffs =
       platformSetOf(
           StopBuff,
