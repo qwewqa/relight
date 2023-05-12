@@ -2297,7 +2297,8 @@
             this.$menuInner.css({
                 'max-height': menuInnerHeight + 'px',
                 'overflow-y': 'auto',
-                'min-height': menuInnerMinHeight + 'px'
+                'min-height': menuInnerMinHeight + 'px',
+                'overscroll-behavior': 'contain'
             });
 
             // ensure menuInnerHeight is always a positive number to prevent issues calculating chunkSize in createView
