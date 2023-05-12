@@ -995,3 +995,8 @@
 # v1.2.2
 - Added new dresses and memoirs
 - Limited live damage estimate update frequency
+
+# v1.3.0
+- New tabbed layout
+- Overscroll in selects is now contained
+- Improved select performance
