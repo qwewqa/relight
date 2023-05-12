@@ -1464,6 +1464,8 @@
 
                         menuInner.firstChild.appendChild(menuFragment);
 
+                        menuInner.scrollTop = scrollTop;
+
                         // if an option is encountered that is wider than the current menu width, update the menu width accordingly
                         // switch to ResizeObserver with increased browser support
                         if (isVirtual === true && that.sizeInfo.hasScrollBar) {
