@@ -1000,3 +1000,7 @@
 - New tabbed layout
 - Overscroll in selects is now contained
 - Improved select performance
+
+# v1.3.1
+- Moved strategy options into simulate tab
+- Changed default iteration count to 10000
