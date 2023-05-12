@@ -995,7 +995,7 @@
         selectOnTab: false,
         dropdownAlignRight: false,
         windowPadding: 0,
-        virtualScroll: false,
+        virtualScroll: true,
         display: false,
         sanitize: true,
         sanitizeFn: null,
@@ -1357,7 +1357,8 @@
 
                     if (!size) break;
 
-                    if (currentChunk === undefined && scrollTop - 1 <= that.selectpicker.current.data[endOfChunk - 1].position - that.sizeInfo.menuInnerHeight) {
+                    if (currentChunk === undefined && ((scrollTop - 1 <= that.selectpicker.current.data[endOfChunk - 1].position - that.sizeInfo.menuInnerHeight) ||
+                        (i === chunkCount - 1))) {
                         currentChunk = i;
                     }
                 }
