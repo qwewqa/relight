@@ -11,7 +11,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 @Serializable
 data class SimulationParameters(
     val maxTurns: Int = 3,
-    val maxIterations: Int = 100000,
+    val maxIterations: Int = 10000,
     val team: List<PlayerLoadoutParameters>,
     val guest: PlayerLoadoutParameters? = null,
     val song: SongParameters = SongParameters(),
