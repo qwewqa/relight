@@ -686,55 +686,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row my-2 gy-2">
-                        <div class="col-12">
-                            <div class="d-flex">
-                                <h4 class="text-strategy">Strategy</h4>
-                                <button class="btn btn-sm ms-auto btn-outline-secondary to-interactive-button" type="button">
-                                <span class="text-interactive">Interactive
-                                </span>
-                                    <i class="bi bi-box-arrow-up-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label text-strategy-type" for="strategy-type-select">Type</label>
-                            <select class="selectpicker form-control" data-live-search="true"
-                                    id="strategy-type-select"></select>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label text-strategy-value">Value</label>
-                            <div class="d-flex gap-1 mb-1 border-1">
-                                <button class="btn btn-sm btn-outline-secondary text-collapse-all"
-                                        id="strategy-collapse-all-button"
-                                        type="button">
-                                    Collapse All
-                                </button>
-                                <button class="btn btn-sm btn-outline-secondary text-expand-all" id="strategy-expand-all-button"
-                                        type="button">
-                                    Expand All
-                                </button>
-                            </div>
-                            <div id="strategy-container"></div>
-                        </div>
-                        <div class="col-12">
-                            <button class="btn btn-secondary mt-2 text-boss-strategy" data-bs-target="#boss-strategy-collapse" data-bs-toggle="collapse"
-                                    id="boss-strategy-button" type="button">
-                                Boss Strategy Override
-                            </button>
-                        </div>
-                        <div class="collapse" id="boss-strategy-collapse">
-                            <div class="col-12">
-                                <label class="form-label text-strategy-type" for="boss-strategy-type-select">Type</label>
-                                <select class="selectpicker form-control" data-live-search="true"
-                                        id="boss-strategy-type-select"></select>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label text-strategy-value">Value</label>
-                                <div id="boss-strategy-container"></div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="row justify-content-end mt-3 mb-2">
                         <div class="col-12 d-flex gap-1">
                             <div class="m-auto d-none d-sm-block"></div>
@@ -1629,13 +1580,62 @@
             </div>
 
             <div class="tab-pane" id="simulate-tab-pane">
-                <div class="my-2 d-flex gap-1">
-                    <button class="btn btn-success text-simulate flex-grow-1 flex-sm-grow-0" id="simulate-button" type="button">
-                        Simulate
-                    </button>
-                    <button class="btn btn-danger text-cancel-simulation flex-grow-1 flex-sm-grow-0" disabled id="cancel-button" type="button">
-                        Cancel
-                    </button>
+                <div class="row my-2 gy-2">
+                    <div class="col-12">
+                        <div class="d-flex">
+                            <h4 class="text-strategy">Strategy</h4>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label text-strategy-type" for="strategy-type-select">Type</label>
+                        <select class="selectpicker form-control" data-live-search="true"
+                                id="strategy-type-select"></select>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label text-strategy-value">Value</label>
+                        <div class="d-flex gap-1 mb-1 border-1">
+                            <button class="btn btn-sm btn-outline-secondary text-collapse-all"
+                                    id="strategy-collapse-all-button"
+                                    type="button">
+                                Collapse All
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary text-expand-all" id="strategy-expand-all-button"
+                                    type="button">
+                                Expand All
+                            </button>
+                        </div>
+                        <div id="strategy-container"></div>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-secondary mt-2 text-boss-strategy" data-bs-target="#boss-strategy-collapse" data-bs-toggle="collapse"
+                                id="boss-strategy-button" type="button">
+                            Boss Strategy Override
+                        </button>
+                    </div>
+                    <div class="collapse" id="boss-strategy-collapse">
+                        <div class="col-12">
+                            <label class="form-label text-strategy-type" for="boss-strategy-type-select">Type</label>
+                            <select class="selectpicker form-control" data-live-search="true"
+                                    id="boss-strategy-type-select"></select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label text-strategy-value">Value</label>
+                            <div id="boss-strategy-container"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="me-auto d-none d-sm-block">
+                        &nbsp;
+                    </div>
+                    <div class="my-2 d-flex gap-1 flex-sm-row-reverse flex-grow-1">
+                        <button class="btn btn-success text-simulate flex-grow-1 flex-sm-grow-0" id="simulate-button" type="button">
+                            Simulate
+                        </button>
+                        <button class="btn btn-danger text-cancel-simulation flex-grow-1 flex-sm-grow-0" disabled id="cancel-button" type="button">
+                            Cancel
+                        </button>
+                    </div>
                 </div>
                 <div id="results-container">
                     <div id="results">
