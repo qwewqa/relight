@@ -111,8 +111,8 @@
     font-size: 0.7em;
 }
 
-#results-container {
-    min-height: 800px;
+#interactive-container {
+    min-height: calc(100vh - 1rem);
 }
 
 @media (min-width: 576px) {
@@ -126,7 +126,7 @@
         font-size: 0.875em;
     }
 
-    #results-container {
+    #interactive-container {
         min-height: 0;
     }
 
@@ -196,6 +196,15 @@ pwa-update::part(offlineToast) {
     --bs-border-width: 2px;
 }
 
+.interactive-status-buffs-container {
+    min-height: 15px;
+}
+
+.interactive-status-buffs-container:empty::after {
+    content: '\feff';
+    line-height: 0;
+}
+
 @media (min-width: 576px) {
     :root {
         --container-max-width: 540px;
@@ -236,7 +245,7 @@ pwa-update::part(offlineToast) {
     width: var(--size-ref);
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 0.6em;
+    margin-bottom: 0.2em;
     gap: 0.2em;
 }
 

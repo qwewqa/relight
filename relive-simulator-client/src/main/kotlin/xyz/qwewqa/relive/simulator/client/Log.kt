@@ -45,7 +45,12 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
 
   fun TagConsumer<HTMLElement>.buffElements(status: ActorStatus) {
     val buffs = status.displayBuffs
-    val groups = buffs.chunked(MAX_SIMULTANEOUS_BUFFS_DISPLAYED)
+    val groups =
+        if (buffs.isNotEmpty()) {
+          buffs.chunked(MAX_SIMULTANEOUS_BUFFS_DISPLAYED)
+        } else {
+          listOf(emptyList())
+        }
     div {
       style = "position: relative;"
       groups.forEachIndexed { i, group ->
@@ -343,8 +348,10 @@ fun HTMLElement.updateDamageEstimate(value: Double?) {
 
 private fun Double.formatShort(): String {
   return when {
-    this >= 1_000_000_000_000_000_000_000_000.0 -> "${(this / 1_000_000_000_000_000_000_000_000.0).toFixed(2)}Sx"
-    this >= 1_000_000_000_000_000_000_000.0 -> "${(this / 1_000_000_000_000_000_000_000.0).toFixed(2)}Qt"
+    this >= 1_000_000_000_000_000_000_000_000.0 ->
+        "${(this / 1_000_000_000_000_000_000_000_000.0).toFixed(2)}Sx"
+    this >= 1_000_000_000_000_000_000_000.0 ->
+        "${(this / 1_000_000_000_000_000_000_000.0).toFixed(2)}Qt"
     this >= 1_000_000_000_000_000 -> "${(this / 1_000_000_000_000_000).toFixed(2)}Qd"
     this >= 1_000_000_000_000 -> "${(this / 1_000_000_000_000).toFixed(2)}T"
     this >= 1_000_000_000 -> "${(this / 1_000_000_000).toFixed(2)}B"

@@ -73,7 +73,6 @@ import xyz.qwewqa.relive.simulator.client.codemirror.unfoldAll
 import xyz.qwewqa.relive.simulator.client.codemirror.value
 import xyz.qwewqa.relive.simulator.common.DataSimulationOption
 import xyz.qwewqa.relive.simulator.common.InteractiveLog
-import xyz.qwewqa.relive.simulator.common.InteractiveLogData
 import xyz.qwewqa.relive.simulator.common.MarginResult
 import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
 import xyz.qwewqa.relive.simulator.common.SimulationMarginResultType
@@ -148,7 +147,6 @@ class SimulatorClient(val simulator: Simulator) {
   val bossStrategyContainer = document.getElementById("boss-strategy-container") as HTMLDivElement
   val simulateButton = document.getElementById("simulate-button") as HTMLButtonElement
   val cancelButton = document.getElementById("cancel-button") as HTMLButtonElement
-  val interactiveButton = document.getElementById("interactive-button") as HTMLButtonElement
   val eventBonusInput = document.getElementById("event-bonus-input").integerInput(0)
   val eventMultiplierInput = document.getElementById("event-multiplier-input").integerInput(100)
   val bossHpInput = document.getElementById("boss-hp-input").shorthandDoubleInput()
@@ -239,6 +237,13 @@ class SimulatorClient(val simulator: Simulator) {
   val syncButton = document.getElementById("sync-button") as HTMLButtonElement
   val profile = document.getElementById("profile") as HTMLDivElement
 
+  val optionsTab = document.getElementById("options-tab") as HTMLButtonElement
+  val interactiveTab = document.getElementById("interactive-tab") as HTMLButtonElement
+  val simulateTab = document.getElementById("simulate-tab") as HTMLButtonElement
+
+  val toInteractiveButtons = document.getElementsByClassName("to-interactive-button")
+  val toSimulateButtons = document.getElementsByClassName("to-simulate-button")
+
   val interactiveLogStartButton =
       document.getElementById("interactive-log-start-button") as HTMLButtonElement
   val interactiveLogUpButton =
@@ -248,6 +253,8 @@ class SimulatorClient(val simulator: Simulator) {
   val interactiveLogEndButton =
       document.getElementById("interactive-log-end-button") as HTMLButtonElement
 
+  val interactiveRestartButton =
+      document.getElementById("interactive-ui-restart-button") as HTMLButtonElement
   val interactiveExportButton =
       document.getElementById("interactive-ui-export-button") as HTMLButtonElement
   val interactiveRewindButton =
@@ -2443,28 +2450,53 @@ class SimulatorClient(val simulator: Simulator) {
             cancelButton.disabled = true
           }
         })
-    interactiveButton.addEventListener(
+
+    fun startNewInteractiveSimulation() {
+      GlobalScope.launch {
+        updateVersionString()
+        try {
+          val setup = getSetup().inferSupports()
+          interactiveSimulation?.end()
+          interactiveSimulation = simulator.simulateInteractive(setup)
+          interactiveContainer.removeClass("d-none")
+          updateUrlForSetup(setup)
+        } catch (e: Throwable) {
+          return@launch
+        }
+        window.onbeforeunload = {
+          it.preventDefault()
+          it.returnValue = ""
+          ""
+        }
+      }
+    }
+
+    toInteractiveButtons.multiple<HTMLButtonElement>().forEach {
+      it.addEventListener("click", {
+        window.scrollTo(0.0, 0.0)
+        interactiveTab.click()
+      })
+    }
+
+    toSimulateButtons.multiple<HTMLButtonElement>().forEach {
+      it.addEventListener("click", {
+        window.scrollTo(0.0, 0.0)
+        simulateTab.click()
+      })
+    }
+
+    interactiveTab.addEventListener(
         "click",
         {
-          interactiveContainer.removeClass("d-none")
-          interactiveContainer.scrollIntoView()
-          GlobalScope.launch {
-            updateVersionString()
-            try {
-              val setup = getSetup().inferSupports()
-              interactiveSimulation = simulator.simulateInteractive(setup)
-              updateUrlForSetup(setup)
-            } catch (e: Throwable) {
-              toast("Simulate", "Interactive simulation failed to start.", "red")
-              return@launch
-            }
-            window.onbeforeunload = {
-              it.preventDefault()
-              it.returnValue = ""
-              ""
-            }
-            toast("Simulate", "Interactive simulation started.", "green")
+          if (interactiveSimulation == null) {
+            startNewInteractiveSimulation()
           }
+        })
+
+    interactiveRestartButton.addEventListener(
+        "click",
+        {
+            startNewInteractiveSimulation()
         })
 
     suspend fun sendInteractiveCommand(command: String) {
