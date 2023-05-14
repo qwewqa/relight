@@ -1159,28 +1159,6 @@ class SimulatorClient(val simulator: Simulator) {
                         }
                         i("bi-caret-right-fill")
                       }
-                      +" "
-                      button(
-                          type = ButtonType.button,
-                          classes = "btn btn-outline-secondary text-save-preset-short") {
-                            id = "actor-save-preset-$actorId"
-                            +localized(".text-save-preset-short", "Save")
-                            onClickFunction = {
-                              activeActorOptions = ActorOptions(options, actorId)
-                              openPresetsModal(save = true, delete = true, new = true)
-                            }
-                          }
-                      +" "
-                      button(
-                          type = ButtonType.button,
-                          classes = "btn btn-outline-secondary text-load-preset-short") {
-                            id = "actor-load-preset-$actorId"
-                            +localized(".text-load-preset-short", "Load")
-                            onClickFunction = {
-                              activeActorOptions = ActorOptions(options, actorId)
-                              openPresetsModal(load = true)
-                            }
-                          }
                     }
                     div("col-auto") {
                       button(type = ButtonType.button, classes = "btn btn-danger") {
@@ -1704,7 +1682,7 @@ class SimulatorClient(val simulator: Simulator) {
                             onChangeFunction = { ActorOptions(options, actorId).update() }
                           }
                         }
-                    div("col-12 my-1") {
+                    div("col-12 my-1 d-flex gap-1") {
                       button(
                           type = ButtonType.button,
                           classes = "btn btn-outline-secondary text-actor-preset-min") {
@@ -1724,10 +1702,9 @@ class SimulatorClient(val simulator: Simulator) {
                                   )
                             }
                           }
-                      +" "
                       button(
                           type = ButtonType.button,
-                          classes = "btn btn-outline-secondary text-actor-preset-max") {
+                          classes = "btn btn-outline-secondary text-actor-preset-max me-auto") {
                             id = "actor-preset-max-$actorId"
                             +"Max"
                             onClickFunction = {
@@ -1744,6 +1721,26 @@ class SimulatorClient(val simulator: Simulator) {
                                   )
                             }
                           }
+                      button(
+                          type = ButtonType.button,
+                          classes = "btn btn-outline-secondary text-save-preset-short") {
+                        id = "actor-save-preset-$actorId"
+                        +localized(".text-save-preset-short", "Save")
+                        onClickFunction = {
+                          activeActorOptions = ActorOptions(options, actorId)
+                          openPresetsModal(save = true, delete = true, new = true)
+                        }
+                      }
+                      button(
+                          type = ButtonType.button,
+                          classes = "btn btn-outline-secondary text-load-preset-short") {
+                        id = "actor-load-preset-$actorId"
+                        +localized(".text-load-preset-short", "Load")
+                        onClickFunction = {
+                          activeActorOptions = ActorOptions(options, actorId)
+                          openPresetsModal(load = true)
+                        }
+                      }
                     }
                   }
                 }
