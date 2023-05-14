@@ -2472,32 +2472,35 @@ class SimulatorClient(val simulator: Simulator) {
     }
 
     toInteractiveButtons.multiple<HTMLButtonElement>().forEach {
-      it.addEventListener("click", {
-        window.scrollTo(0.0, 0.0)
-        interactiveTab.click()
-      })
+      it.addEventListener(
+          "click",
+          {
+            window.scrollTo(0.0, 0.0)
+            interactiveTab.click()
+          })
     }
 
     toSimulateButtons.multiple<HTMLButtonElement>().forEach {
-      it.addEventListener("click", {
-        window.scrollTo(0.0, 0.0)
-        simulateTab.click()
-      })
+      it.addEventListener(
+          "click",
+          {
+            window.scrollTo(0.0, 0.0)
+            simulateTab.click()
+          })
     }
 
     interactiveTab.addEventListener(
         "click",
         {
-          if (interactiveSimulation == null) {
-            startNewInteractiveSimulation()
+          GlobalScope.launch {
+            if (interactiveSimulation == null ||
+                interactiveSimulation?.getLog()?.data?.error != null) {
+              startNewInteractiveSimulation()
+            }
           }
         })
 
-    interactiveRestartButton.addEventListener(
-        "click",
-        {
-            startNewInteractiveSimulation()
-        })
+    interactiveRestartButton.addEventListener("click", { startNewInteractiveSimulation() })
 
     suspend fun sendInteractiveCommand(command: String) {
       when (command) {
