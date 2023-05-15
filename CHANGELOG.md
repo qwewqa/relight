@@ -1004,3 +1004,9 @@
 # v1.3.1
 - Moved strategy options into simulate tab
 - Changed default iteration count to 10000
+
+# v1.3.2
+- Added favicon
+- Added Encore Fu MeiFan
+- Moved actor save and load buttons to bottom right
+- Interactive now automatically reloads if it failed to start previously
