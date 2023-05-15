@@ -110,8 +110,6 @@ class SimulatorClient(val simulator: Simulator) {
 
   var interactiveSimulation: InteractiveSimulation? = null
 
-  init {}
-
   val versionLink = document.getElementById("version-link") as HTMLAnchorElement
   val languageSelect = document.getElementById("language-select").singleSelect(false)
   val shutdownContainer = document.getElementById("shutdown-container") as HTMLDivElement

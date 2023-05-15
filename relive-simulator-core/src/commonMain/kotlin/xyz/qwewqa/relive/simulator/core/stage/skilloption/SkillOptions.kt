@@ -741,7 +741,53 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Seiran })
       }
-  // TODO: other boosts
+
+
+  val AttackSeishoBoost200 =
+      +skillOptionData(366).makeSkillOption { value, time, _, attribute ->
+        attack(
+            modifier = value,
+            hitCount = time,
+            attribute = attribute,
+            bonusMultiplier = 200,
+            bonusCondition = { it.dress.character.school == School.Seisho })
+      }
+  val AttackRinmeikanBoost200 =
+      +skillOptionData(367).makeSkillOption { value, time, _, attribute ->
+        attack(
+            modifier = value,
+            hitCount = time,
+            attribute = attribute,
+            bonusMultiplier = 200,
+            bonusCondition = { it.dress.character.school == School.Rinmeikan })
+      }
+  val AttackFrontierBoost200 =
+      +skillOptionData(368).makeSkillOption { value, time, _, attribute ->
+        attack(
+            modifier = value,
+            hitCount = time,
+            attribute = attribute,
+            bonusMultiplier = 200,
+            bonusCondition = { it.dress.character.school == School.Frontier })
+      }
+  val AttackSiegfeldBoost200 =
+      +skillOptionData(369).makeSkillOption { value, time, _, attribute ->
+        attack(
+            modifier = value,
+            hitCount = time,
+            attribute = attribute,
+            bonusMultiplier = 200,
+            bonusCondition = { it.dress.character.school == School.Siegfeld })
+      }
+  val AttackSeiranBoost200 =
+      +skillOptionData(370).makeSkillOption { value, time, _, attribute ->
+        attack(
+            modifier = value,
+            hitCount = time,
+            attribute = attribute,
+            bonusMultiplier = 200,
+            bonusCondition = { it.dress.character.school == School.Seiran })
+      }
 
   val HitRandom33Stop1t =
       +skillOptionData(371).makeSkillOption { value, time, _, attribute ->
