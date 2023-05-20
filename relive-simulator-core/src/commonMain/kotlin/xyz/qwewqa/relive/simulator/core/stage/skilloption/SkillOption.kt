@@ -48,7 +48,12 @@ interface PassiveSkillOption : SkillOption {
   fun executePassive(context: TargetContext, value: Int)
 }
 
+interface ReversiblePassiveSkillOption : PassiveSkillOption {
+  fun reversePassive(context: TargetContext, value: Int)
+}
+
 interface DualSkillOption : ActiveSkillOption, PassiveSkillOption
+interface DualReversibleSkillOption : DualSkillOption, ReversiblePassiveSkillOption
 
 fun ActionContext.executeActiveSkillOption(
     option: ActiveSkillOption,

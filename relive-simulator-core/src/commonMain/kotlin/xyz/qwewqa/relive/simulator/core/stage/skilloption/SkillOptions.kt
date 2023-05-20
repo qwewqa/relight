@@ -34,7 +34,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   ): SkillOption {
     return when (val effect = Buffs[params[0]] ?: error("No buff effect for ${params[0]}")) {
       is ContinuousBuffEffect<*> -> {
-        makeDualSkillOption(
+        makeDualReversibleSkillOption(
             activeType = activeType,
             activeAction = { value, time, chance ->
               applyContinuousBuff(effect = effect, value = value, turns = time, chance = chance)
@@ -42,6 +42,12 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             passiveAction = { value ->
               targets.forEach { target ->
                 target.buffs.activatePsuedoBuff(
+                    effect as ContinuousBuffEffect<Unit>, value = value.toI54())
+              }
+            },
+            reversePassiveAction = { value ->
+              targets.forEach { target ->
+                target.buffs.removePseudoBuff(
                     effect as ContinuousBuffEffect<Unit>, value = value.toI54())
               }
             })
@@ -741,7 +747,6 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             bonusMultiplier = 150,
             bonusCondition = { it.dress.character.school == School.Seiran })
       }
-
 
   val AttackSeishoBoost200 =
       +skillOptionData(366).makeSkillOption { value, time, _, attribute ->

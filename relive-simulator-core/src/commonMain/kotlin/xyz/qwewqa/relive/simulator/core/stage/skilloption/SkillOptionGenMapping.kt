@@ -110,6 +110,44 @@ data class SkillOptionData(
           context.passiveAction(value)
         }
       }
+
+  inline fun makeDualReversibleSkillOption(
+      activeType: AutoSkillType = AutoSkillType.TurnStartB,
+      crossinline activeAction: TargetContext.(value: Int, time: Int, chance: Int) -> Unit,
+      crossinline passiveAction: TargetContext.(value: Int) -> Unit,
+      crossinline reversePassiveAction: TargetContext.(value: Int) -> Unit,
+  ) =
+      object : DualReversibleSkillOption {
+        override val id = this@SkillOptionData.id
+        override val descriptions = this@SkillOptionData.descriptions
+        override val extraDescriptions = this@SkillOptionData.extraDescriptions
+        override val iconId = this@SkillOptionData.iconId
+        override val params = this@SkillOptionData.params
+        override val timeOverride = this@SkillOptionData.timeOverride
+        override val timeUnit = this@SkillOptionData.timeUnit
+        override val valueOverride = this@SkillOptionData.valueOverride
+        override val valueUnit = this@SkillOptionData.valueUnit
+        override val type = this@SkillOptionData.type
+        override val activeType = activeType
+
+        override fun executeActive(
+            context: TargetContext,
+            value: Int,
+            time: Int,
+            chance: Int,
+            attribute: Attribute,
+        ) {
+          context.activeAction(value, time, chance)
+        }
+
+        override fun executePassive(context: TargetContext, value: Int) {
+          context.passiveAction(value)
+        }
+
+        override fun reversePassive(context: TargetContext, value: Int) {
+          context.reversePassiveAction(value)
+        }
+      }
 }
 
 fun GenSkillOption.toSkillOptionData() =
