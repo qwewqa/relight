@@ -1010,3 +1010,8 @@
 - Added Encore Fu MeiFan
 - Moved actor save and load buttons to bottom right
 - Interactive now automatically reloads if it failed to start previously
+
+# v1.4.0
+- New song ui
+- Added support for song awakening
+- Added new dresses and memoirs
