@@ -1019,3 +1019,7 @@
 # v1.4.1
 - Added placeholder icons for songs and song effects
 - Fixed some localization issues with the song ui
+
+# v1.4.2
+- Updated empty remake skill icon
+- Made fixed value passive song effects distinguishable from percentage based ones
