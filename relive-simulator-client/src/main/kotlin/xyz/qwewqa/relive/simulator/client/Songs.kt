@@ -33,6 +33,12 @@ fun initSongs(options: SimulationOptions, locale: String) {
   songEffect1Type.populate(options.songEffectsById, locale)
   songEffect2Type.populate(options.songEffectsById, locale)
   songPassiveEffectType.populate(options.passiveSongEffectsById, locale)
+  songPassiveEffectType.element.onchange = {
+    val songId = options.passiveSongEffectsById[songPassiveEffectType.value]?.data?.songId
+    if (songId != null && songId > 0 && songSelect.value != "$songId") {
+      updateSelectedSong(options, "$songId", locale)
+    }
+  }
   songSelect.element.onchange = { updateSelectedSong(options, songSelect.value, locale) }
   awakenedSongsSelect.populate(options.awakeningSongsById, locale)
   updateSelectedSong(options, "0", locale)
@@ -107,10 +113,6 @@ fun updateSelectedSong(options: SimulationOptions, id: String, locale: String) {
           .toSet()
 
   songSelect.value = id
-
-  songPassiveEffectType.element.children.multiple<HTMLOptionElement>().forEach { opt ->
-    opt.setAttribute("data-hidden", if (opt.value in songPassives) "false" else "true")
-  }
 
   if (currentPassiveType !in songPassives) {
     songPassiveEffectType.value = options.passiveSongEffects.first().id
