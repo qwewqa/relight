@@ -142,14 +142,20 @@ external class RawSimulationParameters {
 }
 
 external class RawSongEffectParameter {
-  val name: String
+  val id: String
   val value: Int
-  val conditions: Array<Array<String>>
 }
 
 external class RawSongParameters {
-  val activeEffects: Array<RawSongEffectParameter>?
+  val id: String
+  val activeEffect1: RawSongEffectParameter?
+  val activeEffect2: RawSongEffectParameter?
   val passiveEffect: RawSongEffectParameter?
+  val awakenSkill1Value: Int
+  val awakenSkill2Value: Int
+  val awakenSkill3Value: Int
+  val awakenSkill4Value: Int
+  val awakenExtraSkillSongs: Array<String>
 }
 
 external class RawStrategyParameter {
@@ -178,15 +184,21 @@ external class RawPlayerLoadoutParameters {
 
 fun RawSongEffectParameter.parse() =
     SongEffectParameter(
-        name = name,
+        id = id,
         value = value,
-        conditions = conditions.map { it.toList() },
     )
 
 fun RawSongParameters.parse() =
     SongParameters(
-        activeEffects = activeEffects?.map { it.parse() } ?: emptyList(),
+        id = id,
+        activeEffect1 = activeEffect1?.parse(),
+        activeEffect2 = activeEffect2?.parse(),
         passiveEffect = passiveEffect?.parse(),
+        awakenSkill1Value = awakenSkill1Value,
+        awakenSkill2Value = awakenSkill2Value,
+        awakenSkill3Value = awakenSkill3Value,
+        awakenSkill4Value = awakenSkill4Value,
+        awakenExtraSkillSongs = awakenExtraSkillSongs.toList(),
     )
 
 fun RawStrategyParameter.parse() =
