@@ -2,13 +2,18 @@ package xyz.qwewqa.relive.simulator.core
 
 import Accessories
 import xyz.qwewqa.relive.simulator.common.AccessoryData
+import xyz.qwewqa.relive.simulator.common.AwakeningSongEffectData
 import xyz.qwewqa.relive.simulator.common.BossData
 import xyz.qwewqa.relive.simulator.common.DataSimulationOption
 import xyz.qwewqa.relive.simulator.common.DressData
 import xyz.qwewqa.relive.simulator.common.MemoirData
+import xyz.qwewqa.relive.simulator.common.PassiveSongEffectData
 import xyz.qwewqa.relive.simulator.common.RemakeSkillData
 import xyz.qwewqa.relive.simulator.common.SimulationOption
 import xyz.qwewqa.relive.simulator.common.SimulationOptions
+import xyz.qwewqa.relive.simulator.common.SongAwakeningData
+import xyz.qwewqa.relive.simulator.common.SongData
+import xyz.qwewqa.relive.simulator.common.SongEffectData
 import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.gen.valuesGenRemakeSkill
 import xyz.qwewqa.relive.simulator.core.presets.dress.bossLoadouts
@@ -17,6 +22,10 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.remakeSkills
 import xyz.qwewqa.relive.simulator.core.stage.common.substitute
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dresses
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoirs
+import xyz.qwewqa.relive.simulator.core.stage.song.AwakeningSongEffects
+import xyz.qwewqa.relive.simulator.core.stage.song.BasicSongEffects
+import xyz.qwewqa.relive.simulator.core.stage.song.ExtraSongEffects
+import xyz.qwewqa.relive.simulator.core.stage.song.Songs
 import xyz.qwewqa.relive.simulator.core.stage.strategy.bossStrategyParsers
 import xyz.qwewqa.relive.simulator.core.stage.strategy.strategyParsers
 
@@ -113,8 +122,84 @@ fun getSimulationOptions(): SimulationOptions {
                         ))
               }
               .sortedByDescending { it.data.releaseTime ?: Int.MAX_VALUE },
-      songEffects = songEffectText.map { (k, v) -> SimulationOption(k, v) },
-      conditions = conditionText.map { (k, v) -> SimulationOption(k, v) },
+      songs =
+          Songs.map { (id, song) ->
+            DataSimulationOption(
+                id = "$id",
+                name = song.names,
+                description =
+                    localeIds.associateWith { locale ->
+                      song.characters.map { it.names.getLocalizedString(locale) }.joinToString(" ")
+                    },
+                imagePath = "img/music_coverart/27_$id.png".takeIf { id > 0 },
+                data =
+                    SongData(
+                        id = song.id,
+                        awakenSkill1Id = song.awakenSkill1?.id,
+                        awakenSkill2Id = song.awakenSkill2?.id,
+                        awakenSkill3Id = song.awakenSkill3?.id,
+                        awakenSkill4Id = song.awakenSkill4?.id,
+                    ),
+            )
+          },
+      awakeningSongs =
+          Songs.filter { (_, song) -> song.awakenExtraSkill != null }
+              .map { (id, song) ->
+                DataSimulationOption(
+                    id = "$id",
+                    name = song.names,
+                    description =
+                        song.awakenExtraSkill!!.let { skill ->
+                          skill.names.mapValues { (_, v) -> "$v ${skill.defaultValue}" }
+                        },
+                    imagePath = "img/music_coverart/27_$id.png",
+                    data = SongAwakeningData(id = id))
+              },
+      songEffects =
+      BasicSongEffects.map { (id, effect) ->
+        DataSimulationOption(
+            id = "$id",
+            name = effect.names,
+            imagePath =
+            "img/skill_icon/skill_icon_${effect.iconId}.png".takeIf {
+              effect.iconId != null
+            },
+            data =
+            SongEffectData(
+                id = id,
+            ),
+        )
+      },
+      awakeningSongEffects =
+      AwakeningSongEffects.map { (id, effect) ->
+        DataSimulationOption(
+            id = "$id",
+            name = effect.names,
+            imagePath =
+            "img/skill_icon/skill_icon_${effect.iconId}.png".takeIf {
+              effect.iconId != null
+            },
+            data =
+            AwakeningSongEffectData(
+                id = id,
+            ),
+        )
+      },
+      passiveSongEffects =
+      ExtraSongEffects.map { (id, effect) ->
+        DataSimulationOption(
+            id = "$id",
+            name = effect.names,
+            imagePath =
+            "img/skill_icon/skill_icon_${effect.iconId}.png".takeIf {
+              effect.iconId != null
+            },
+            data =
+            PassiveSongEffectData(
+                id = id,
+            ),
+        )
+      },
       bosses =
           bossLoadouts.map { (k, v) ->
             val boss = v.loadout.create()
@@ -137,7 +222,7 @@ fun getSimulationOptions(): SimulationOptions {
       strategyTypes = strategyParsers.map { (k, _) -> SimulationOption(k, mapOf("en" to k)) },
       bossStrategyTypes =
           bossStrategyParsers.map { (k, _) -> SimulationOption(k, mapOf("en" to k)) },
-      remakeSkills.values.map { skill ->
+      remakeSkills = remakeSkills.values.map { skill ->
         val effect = skill.effects.firstOrNull()
         val value = effect?.value ?: 0
         val valueSuffix = effect?.effect?.valueSuffix
@@ -168,7 +253,7 @@ fun getSimulationOptions(): SimulationOptions {
                     targeting = skill.effects.firstOrNull()?.targeting?.shortName ?: "None",
                 ))
       },
-      Accessories.map { (id, accessory) ->
+      accessories = Accessories.map { (id, accessory) ->
         DataSimulationOption(
             id = "$id",
             name = accessory.names,

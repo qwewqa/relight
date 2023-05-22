@@ -1,23 +1,40 @@
 package xyz.qwewqa.relive.simulator.core.stage.song
 
+import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
-import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
-import xyz.qwewqa.relive.simulator.core.stage.condition.NamedCondition
+import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 
-interface SongEffect {
+interface SongEffect : FeatureImplementation {
   /** Name for use in logs / debugging. */
   val name: String
-    get() = this::class.simpleName ?: "Unknown Song Effect"
+    get() = names.getLocalizedString()
+
+  val names: Map<String, String>
+    get() = mapOf("en" to (this::class.simpleName ?: "Unknown Song Effect"))
 
   /** User friendly name. */
   val displayName: String
     get() = name
 
-  fun start(context: ActionContext, value: Int, condition: Condition)
-  fun end(context: ActionContext, value: Int, condition: Condition)
-  fun formatName(value: Int, condition: Condition): String {
+  val defaultValue: Int?
+    get() = null
+
+  val iconId: Int?
+
+  fun start(context: ActionContext, value: Int)
+  fun end(context: ActionContext, value: Int)
+
+  fun formatName(value: Int): String {
     val formattedValue = if (value != 0) " $value" else ""
-    val formattedCondition = (condition as? NamedCondition)?.let { " [${it.displayName}]" } ?: ""
-    return "$name$formattedValue$formattedCondition"
+    return "$name$formattedValue"
   }
+}
+
+object NoneSongEffect : SongEffect {
+  override val id = 0
+  override val names = mapOf("en" to "None", "ja" to "なし", "zh_hant" to "無", "ko" to "없음")
+  override val iconId = null
+  override fun start(context: ActionContext, value: Int) {}
+  override fun end(context: ActionContext, value: Int) {}
+  override fun formatName(value: Int): String = name
 }

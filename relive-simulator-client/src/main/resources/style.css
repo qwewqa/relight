@@ -1085,3 +1085,24 @@ pwa-update::part(offlineToast) {
     background: azure;
     border: var(--bs-border-width) solid lightseagreen;
 }
+
+.input-group > .song-effect-type {
+    flex: 1 1 auto;
+}
+
+.input-group > .song-effect-value {
+    flex: 0 1 auto;
+    width: 4em;
+    z-index: 100;
+    text-align: right;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}

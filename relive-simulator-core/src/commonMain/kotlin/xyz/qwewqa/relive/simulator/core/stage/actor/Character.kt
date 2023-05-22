@@ -62,4 +62,9 @@ enum class Character(val id: Int? = null, val school: School) {
       names = valuesGenChara[id]!!.first_name
     }
   }
+
+  companion object {
+    private val byId = values().associateBy { it.id }
+    fun fromId(id: Int) = byId[id] ?: Unknown
+  }
 }

@@ -38,14 +38,20 @@ class CreatePresetsRequest(BaseModel):
 
 
 class SongEffectParameter(BaseModel):
-    name: constr(max_length=100)
+    id: constr(max_length=100)
     value: int
-    conditions: conlist(conlist(constr(max_length=50), max_items=20), max_items=2)
 
 
 class SongParameters(BaseModel):
-    activeEffects: conlist(SongEffectParameter) = Field(default_factory=lambda: [])
+    id: constr(max_length=100) = "0"
+    activeEffect1: Optional[SongEffectParameter] = None
+    activeEffect2: Optional[SongEffectParameter] = None
     passiveEffect: Optional[SongEffectParameter] = None
+    awakenSkill1Value: int = 0
+    awakenSkill2Value: int = 0
+    awakenSkill3Value: int = 0
+    awakenSkill4Value: int = 0
+    awakenExtraSkillSongs: conlist(constr(max_length=100), max_items=500) = Field(default_factory=list)
 
 
 class StrategyParameter(BaseModel):
@@ -55,10 +61,10 @@ class StrategyParameter(BaseModel):
 
 class SimulationParameters(BaseModel):
     maxTurns: int = 3
-    maxIterations: int = 100000
+    maxIterations: int = 10000
     team: conlist(PlayerLoadoutParameters, max_items=25)
     guest: Optional[PlayerLoadoutParameters] = None
-    song: SongParameters = None
+    song: SongParameters = Field(default_factory=SongParameters)
     strategy: StrategyParameter = Field(default_factor=lambda: StrategyParameter(type="Simple", value=""))
     bossStrategy: Optional[StrategyParameter] = None
     boss: constr(max_length=100)

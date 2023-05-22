@@ -492,199 +492,66 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row my-4">
+                    <div class="row my-4 gy-2">
                         <div class="col-12">
-                            <h4 class="text-song">Song</h4>
+                            <h4 class="text-songs">Songs</h4>
+                        </div>
+                        <div class="col-12 col-xl-6">
+                            <label class="form-label text-song" for="song-select">Song</label>
+                            <select class="selectpicker form-control" data-live-search="true" id="song-select"></select>
+                        </div>
+                        <div class="col-12 col-xl-6">
+                            <label class="form-label" for="song-effect-1"><span class="text-effect">Effect</span> 1</label>
+                            <div class="input-group" id="song-effect-1">
+                                <select class="selectpicker form-control song-effect-type" data-live-search="true" id="song-effect-1-type"></select>
+                                <input class="form-control song-effect-value" id="song-effect-1-value" type="number" placeholder="0">
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-6">
+                            <label class="form-label" for="song-effect-2"><span class="text-effect">Effect</span> 2</label>
+                            <div class="input-group" id="song-effect-2">
+                                <select class="selectpicker form-control song-effect-type" data-live-search="true" id="song-effect-2-type"></select>
+                                <input class="form-control song-effect-value" id="song-effect-2-value" type="number" placeholder="0">
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-6">
+                            <label class="form-label" for="song-effect-2"><span class="text-passive-effect">Passive Effect</span></label>
+                            <div class="input-group" id="song-passive-effect">
+                                <select class="selectpicker form-control song-effect-type" data-live-search="true" id="song-passive-effect-type"></select>
+                                <input class="form-control song-effect-value" id="song-passive-effect-value" type="number" placeholder="0">
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-6">
+                            <label class="form-label" for="song-awakening-effect-1"><span class="text-awakening-effect">Awakening Effect</span> 1</label>
+                            <div class="input-group" id="song-awakening-effect-1">
+                                <input class="form-control song-effect-type" id="song-awakening-effect-1-type" type="text" value="Awakening Effect 1" disabled>
+                                <input class="form-control song-effect-value" id="song-awakening-effect-1-value" type="number" placeholder="0">
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-6">
+                            <label class="form-label" for="song-awakening-effect-2"><span class="text-awakening-effect">Awakening Effect</span> 2</label>
+                            <div class="input-group" id="song-awakening-effect-2">
+                                <input class="form-control song-effect-type" id="song-awakening-effect-2-type" type="text" value="Awakening Effect 2" disabled>
+                                <input class="form-control song-effect-value" id="song-awakening-effect-2-value" type="number" placeholder="0">
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-6">
+                            <label class="form-label" for="song-awakening-effect-3"><span class="text-awakening-effect">Awakening Effect</span> 3</label>
+                            <div class="input-group" id="song-awakening-effect-3">
+                                <input class="form-control song-effect-type" id="song-awakening-effect-3-type" type="text" value="Awakening Effect 3" disabled>
+                                <input class="form-control song-effect-value" id="song-awakening-effect-3-value" type="number" placeholder="0">
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-6">
+                            <label class="form-label" for="song-awakening-effect-4"><span class="text-awakening-effect">Awakening Effect</span> 4</label>
+                            <div class="input-group" id="song-awakening-effect-4">
+                                <input class="form-control song-effect-type" id="song-awakening-effect-4-type" type="text" value="Awakening Effect 4" disabled>
+                                <input class="form-control song-effect-value" id="song-awakening-effect-4-value" type="number" placeholder="0">
+                            </div>
                         </div>
                         <div class="col-12">
-                            <div class="accordion" id="song-settings">
-                                <div class="accordion-item song-effect-item">
-                                    <div class="accordion-header">
-                                        <h5 class="accordion-header">
-                                            <button class="accordion-button collapsed" data-bs-target="#collapse-song-effect-1"
-                                                    data-bs-toggle="collapse"
-                                                    type="button">
-                                                <div class="d-block">
-                                                    <span class="text-song-effect-1">Effect 1</span>
-                                                    <small class="song-effect-description pt-1 d-block"></small>
-                                                </div>
-                                            </button>
-                                        </h5>
-                                    </div>
-                                    <div class="accordion-collapse collapse" data-bs-parent="#song-settings"
-                                         id="collapse-song-effect-1">
-                                        <div class="accordion-body song-effect-group">
-                                            <div class="row gy-3">
-                                                <div class="col-8">
-                                                    <label class="form-label text-song-effect-type" for="song-effect-1-type">Type</label>
-                                                    <select class="selectpicker form-control song-effect-type"
-                                                            data-live-search="true"
-                                                            id="song-effect-1-type"></select>
-                                                </div>
-                                                <div class="col-4">
-                                                    <label class="form-label text-song-effect-value" for="song-effect-1-value">Value</label>
-                                                    <input class="form-control song-effect-value" id="song-effect-1-value"
-                                                           placeholder="0" type="number">
-                                                </div>
-                                                <div class="col-12">
-                                                    <label class="form-label text-song-condition-1"
-                                                           for="song-effect-1-condition-1">
-                                                        Condition 1
-                                                    </label>
-                                                    <div class="input-group">
-                                                        <select class="selectpicker form-control song-effect-condition"
-                                                                data-live-search="true"
-                                                                id="song-effect-1-condition-1" multiple></select>
-                                                        <button class="btn btn-outline-secondary clear-select-button text-clear"
-                                                                type="button">
-                                                            Clear
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <label class="form-label text-song-condition-2"
-                                                           for="song-effect-1-condition-2">
-                                                        Condition 2
-                                                    </label>
-                                                    <div class="input-group">
-                                                        <select class="selectpicker form-control song-effect-condition"
-                                                                data-live-search="true"
-                                                                id="song-effect-1-condition-2" multiple></select>
-                                                        <button class="btn btn-outline-secondary clear-select-button text-clear"
-                                                                type="button">
-                                                            Clear
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="accordion-item song-effect-item">
-                                    <div class="accordion-header">
-                                        <h5 class="accordion-header">
-                                            <button class="accordion-button collapsed" data-bs-target="#collapse-song-effect-2"
-                                                    data-bs-toggle="collapse"
-                                                    type="button">
-                                                <div class="d-block">
-                                                    <span class="text-song-effect-2">Effect 2</span>
-                                                    <small class="song-effect-description pt-1 d-block"></small>
-                                                </div>
-                                            </button>
-                                        </h5>
-                                    </div>
-                                    <div class="accordion-collapse collapse" data-bs-parent="#song-settings"
-                                         id="collapse-song-effect-2">
-                                        <div class="accordion-body song-effect-group">
-                                            <div class="row gy-3">
-                                                <div class="col-8">
-                                                    <label class="form-label text-song-effect-type" for="song-effect-2-type">Type</label>
-                                                    <select class="selectpicker form-control song-effect-type"
-                                                            data-live-search="true"
-                                                            id="song-effect-2-type"></select>
-                                                </div>
-                                                <div class="col-4">
-                                                    <label class="form-label text-song-effect-value" for="song-effect-2-value">Value</label>
-                                                    <input class="form-control song-effect-value" id="song-effect-2-value"
-                                                           placeholder="0" type="number">
-                                                </div>
-                                                <div class="col-12">
-                                                    <label class="form-label text-song-condition-1"
-                                                           for="song-effect-2-condition-1">
-                                                        Condition 1
-                                                    </label>
-                                                    <div class="input-group">
-                                                        <select class="selectpicker form-control song-effect-condition"
-                                                                data-live-search="true"
-                                                                id="song-effect-2-condition-1" multiple></select>
-                                                        <button class="btn btn-outline-secondary clear-select-button text-clear"
-                                                                type="button">
-                                                            Clear
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <label class="form-label text-song-condition-2"
-                                                           for="song-effect-2-condition-2">
-                                                        Condition 2
-                                                    </label>
-                                                    <div class="input-group">
-                                                        <select class="selectpicker form-control song-effect-condition"
-                                                                data-live-search="true"
-                                                                id="song-effect-2-condition-2" multiple></select>
-                                                        <button class="btn btn-outline-secondary clear-select-button text-clear"
-                                                                type="button">
-                                                            Clear
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="accordion-item song-effect-item">
-                                    <div class="accordion-header">
-                                        <h5 class="accordion-header">
-                                            <button class="accordion-button collapsed" data-bs-target="#collapse-song-effect-3"
-                                                    data-bs-toggle="collapse"
-                                                    type="button">
-                                                <div class="d-block">
-                                                    <span class="text-song-effect-3">Effect 3 (Passive)</span>
-                                                    <small class="song-effect-description pt-1 d-block"></small>
-                                                </div>
-                                            </button>
-                                        </h5>
-                                    </div>
-                                    <div class="accordion-collapse collapse" data-bs-parent="#song-settings"
-                                         id="collapse-song-effect-3">
-                                        <div class="accordion-body song-effect-group">
-                                            <div class="row gy-3">
-                                                <div class="col-8">
-                                                    <label class="form-label text-song-effect-type" for="song-effect-3-type">Type</label>
-                                                    <select class="selectpicker form-control song-effect-type"
-                                                            data-live-search="true"
-                                                            id="song-effect-3-type"></select>
-                                                </div>
-                                                <div class="col-4">
-                                                    <label class="form-label text-song-effect-value" for="song-effect-3-value">Value</label>
-                                                    <input class="form-control song-effect-value" id="song-effect-3-value"
-                                                           placeholder="0" type="number">
-                                                </div>
-                                                <div class="col-12">
-                                                    <label class="form-label text-song-condition-1"
-                                                           for="song-effect-3-condition-1">
-                                                        Condition 1
-                                                    </label>
-                                                    <div class="input-group">
-                                                        <select class="selectpicker form-control song-effect-condition"
-                                                                data-live-search="true"
-                                                                id="song-effect-3-condition-1" multiple></select>
-                                                        <button class="btn btn-outline-secondary clear-select-button text-clear"
-                                                                type="button">
-                                                            Clear
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <label class="form-label text-song-condition-2"
-                                                           for="song-effect-3-condition-2">
-                                                        Condition 2
-                                                    </label>
-                                                    <div class="input-group">
-                                                        <select class="selectpicker form-control song-effect-condition"
-                                                                data-live-search="true"
-                                                                id="song-effect-3-condition-2" multiple></select>
-                                                        <button class="btn btn-outline-secondary clear-select-button text-clear"
-                                                                type="button">
-                                                            Clear
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <label class="form-label" for="awakened-songs-select"><span class="text-awakened-songs">Awakened Songs</span></label>
+                            <select class="selectpicker form-control" data-live-search="true" id="awakened-songs-select" multiple></select>
                         </div>
                     </div>
                     <div class="row justify-content-end mt-3 mb-2">

@@ -9,7 +9,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ContractionBuff
 
 data class SkillTargetData(
     val id: Int,
-    val description: String,
+    val descriptions: Map<String, String>,
 ) {
   inline fun makeAllyTarget(
       crossinline target: TargetSelectionContext.(provokeTarget: Actor?) -> List<Actor>
@@ -17,7 +17,8 @@ data class SkillTargetData(
       object : SkillTarget {
         override val id: Int = this@SkillTargetData.id
         override val isAffectedByAggro: Boolean = false
-        override val description: String = this@SkillTargetData.description
+        override val description: String = this@SkillTargetData.descriptions.getLocalizedString()
+        override val descriptions: Map<String, String> = this@SkillTargetData.descriptions
         override fun getTargets(context: TargetSelectionContext, provokeTarget: Actor?) =
             target(context, provokeTarget)
       }
@@ -55,7 +56,8 @@ data class SkillTargetData(
       object : SkillTarget {
         override val id: Int = this@SkillTargetData.id
         override val isAffectedByAggro: Boolean = !focus
-        override val description: String = this@SkillTargetData.description
+        override val description: String = this@SkillTargetData.descriptions.getLocalizedString()
+        override val descriptions: Map<String, String> = this@SkillTargetData.descriptions
         override fun getTargets(context: TargetSelectionContext, provokeTarget: Actor?) =
             context.target(provokeTarget)
       }
@@ -123,7 +125,7 @@ data class SkillTargetData(
 fun GenSkillTarget.toSkillTargetData() =
     SkillTargetData(
         id = _id_,
-        description.getLocalizedString(),
+        description,
     )
 
 val skillTargetData = valuesGenSkillTarget.mapValues { it.value.toSkillTargetData() }

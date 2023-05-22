@@ -22,6 +22,7 @@ data class GenBuff(
     val name: Map<String, String>,
     val priority: Int,
     val value_unit: Int,
+    val group: Int = 0,
     val _id_: Int
 )
 

@@ -7,6 +7,11 @@ val commonText =
                 "en" to "None",
                 "zh_hant" to "無",
             ),
+        "n/a" to
+            mapOf(
+                "en" to "N/A",
+                "zh_hant" to "N/A",
+            ),
         ".text-shutdown" to
             mapOf(
                 "en" to "Shutdown",
@@ -116,6 +121,31 @@ val commonText =
             mapOf(
                 "en" to "Song",
                 "zh_hant" to "歌曲",
+            ),
+        ".text-songs" to
+            mapOf(
+                "en" to "Songs",
+                "zh_hant" to "歌曲",
+            ),
+        ".text-effect" to
+            mapOf(
+                "en" to "Effect",
+                "zh_hant" to "效果",
+            ),
+        ".text-passive-effect" to
+            mapOf(
+                "en" to "Passive Effect",
+                "zh_hant" to "永續效果",
+            ),
+        ".text-awakening-effect" to
+            mapOf(
+                "en" to "Awakening Effect",
+                "zh_hant" to "覺醒效果",
+            ),
+        ".text-awakened-songs" to
+            mapOf(
+                "en" to "Awakened Songs",
+                "zh_hant" to "覺醒歌曲",
             ),
         ".text-song-effect-1" to
             mapOf(
@@ -655,345 +685,5 @@ val commonText =
         "school-none" to
             mapOf(
                 "en" to "",
-            ),
-    )
-
-val songEffectText =
-    mapOf(
-        "Critical Up" to
-            mapOf(
-                "en" to "Critical Up",
-                "zh_hant" to "提升爆擊傷害",
-            ),
-        "Dexterity Up" to
-            mapOf(
-                "en" to "Dexterity Up",
-                "zh_hant" to "提升爆擊率",
-            ),
-        "Flower Damage Dealt Up" to
-            mapOf(
-                "en" to "Flower Damage Dealt Up",
-                "zh_hant" to "提升花屬性傷害",
-            ),
-        "Wind Damage Dealt Up" to
-            mapOf(
-                "en" to "Wind Damage Dealt Up",
-                "zh_hant" to "提升風屬性傷害",
-            ),
-        "Snow Damage Dealt Up" to
-            mapOf(
-                "en" to "Snow Damage Dealt Up",
-                "zh_hant" to "提升雪屬性傷害",
-            ),
-        "Moon Damage Dealt Up" to
-            mapOf(
-                "en" to "Moon Damage Dealt Up",
-                "zh_hant" to "提升月屬性傷害",
-            ),
-        "Space Damage Dealt Up" to
-            mapOf(
-                "en" to "Space Damage Dealt Up",
-                "zh_hant" to "提升宙屬性傷害",
-            ),
-        "Cloud Damage Dealt Up" to
-            mapOf(
-                "en" to "Cloud Damage Dealt Up",
-                "zh_hant" to "提升雲屬性傷害",
-            ),
-        "Dream Damage Dealt Up" to
-            mapOf(
-                "en" to "Dream Damage Dealt Up",
-                "zh_hant" to "提升夢屬性傷害",
-            ),
-        "Against Flower Damage Dealt Up" to
-            mapOf(
-                "en" to "Against Flower Damage Dealt Up",
-                "zh_hant" to "提升對花屬性造成的傷害",
-            ),
-        "Against Wind Damage Dealt Up" to
-            mapOf(
-                "en" to "Against Wind Damage Dealt Up",
-                "zh_hant" to "提升對風屬性造成的傷害",
-            ),
-        "Against Snow Damage Dealt Up" to
-            mapOf(
-                "en" to "Against Snow Damage Dealt Up",
-                "zh_hant" to "提升對雪屬性造成的傷害",
-            ),
-        "Against Moon Damage Dealt Up" to
-            mapOf(
-                "en" to "Against Moon Damage Dealt Up",
-                "zh_hant" to "提升對月屬性造成的傷害",
-            ),
-        "Against Space Damage Dealt Up" to
-            mapOf(
-                "en" to "Against Space Damage Dealt Up",
-                "zh_hant" to "提升對宙屬性造成的傷害",
-            ),
-        "Against Cloud Damage Dealt Up" to
-            mapOf(
-                "en" to "Against Cloud Damage Dealt Up",
-                "zh_hant" to "提升對雲屬性造成的傷害",
-            ),
-        "Against Dream Damage Dealt Up" to
-            mapOf(
-                "en" to "Against Dream Damage Dealt Up",
-                "zh_hant" to "提升對夢屬性造成的傷害",
-            ),
-        "Act Power Up" to
-            mapOf(
-                "en" to "Act Power Up",
-                "zh_hant" to "提升ACT力量",
-            ),
-    )
-
-val conditionText =
-    mapOf(
-        "Flower" to
-            mapOf(
-                "en" to "Flower",
-                "zh_hant" to "花屬",
-            ),
-        "Wind" to
-            mapOf(
-                "en" to "Wind",
-                "zh_hant" to "風屬",
-            ),
-        "Snow" to
-            mapOf(
-                "en" to "Snow",
-                "zh_hant" to "雪屬",
-            ),
-        "Moon" to
-            mapOf(
-                "en" to "Moon",
-                "zh_hant" to "月屬",
-            ),
-        "Space" to
-            mapOf(
-                "en" to "Space",
-                "zh_hant" to "宙屬",
-            ),
-        "Cloud" to
-            mapOf(
-                "en" to "Cloud",
-                "zh_hant" to "雲屬",
-            ),
-        "Dream" to
-            mapOf(
-                "en" to "Dream",
-                "zh_hant" to "夢屬",
-            ),
-        "Normal Damage" to
-            mapOf(
-                "en" to "Normal Damage",
-                "zh_hant" to "ACT類型[普通]",
-            ),
-        "Special Damage" to
-            mapOf(
-                "en" to "Special Damage",
-                "zh_hant" to "ACT類型[特殊]",
-            ),
-        "Front" to
-            mapOf(
-                "en" to "Front",
-                "zh_hant" to "前排",
-            ),
-        "Middle" to
-            mapOf(
-                "en" to "Middle",
-                "zh_hant" to "中排",
-            ),
-        "Back" to
-            mapOf(
-                "en" to "Back",
-                "zh_hant" to "後排",
-            ),
-        "Seisho" to
-            mapOf(
-                "en" to "Seisho",
-                "zh_hant" to "聖翔音樂學院",
-            ),
-        "Rinmeikan" to
-            mapOf(
-                "en" to "Rinmeikan",
-                "zh_hant" to "凜明館女子學校",
-            ),
-        "Frontier" to
-            mapOf(
-                "en" to "Frontier",
-                "zh_hant" to "芙羅提亞藝術學校",
-            ),
-        "Siegfeld" to
-            mapOf(
-                "en" to "Siegfeld",
-                "zh_hant" to "席格菲特音樂學院",
-            ),
-        "Seiran" to
-            mapOf(
-                "en" to "Seiran",
-                "zh_hant" to "青嵐總合藝術學院",
-            ),
-        "Akira" to
-            mapOf(
-                "en" to "Akira",
-                "ko" to "아키라",
-                "zh_hant" to "晶",
-            ),
-        "Aruru" to
-            mapOf(
-                "en" to "Aruru",
-                "ko" to "아루루",
-                "zh_hant" to "艾露露",
-            ),
-        "Claudine" to
-            mapOf(
-                "en" to "Claudine",
-                "ko" to "클로딘",
-                "zh_hant" to "克洛迪娜",
-            ),
-        "Fumi" to
-            mapOf(
-                "en" to "Fumi",
-                "ko" to "후미",
-                "zh_hant" to "文",
-            ),
-        "Futaba" to
-            mapOf(
-                "en" to "Futaba",
-                "ko" to "후타바",
-                "zh_hant" to "雙葉",
-            ),
-        "Hikari" to
-            mapOf(
-                "en" to "Hikari",
-                "ko" to "히카리",
-                "zh_hant" to "光",
-            ),
-        "Hisame" to
-            mapOf(
-                "en" to "Hisame",
-                "ko" to "히사메",
-                "zh_hant" to "冰雨",
-            ),
-        "Ichie" to
-            mapOf(
-                "en" to "Ichie",
-                "ko" to "이치에",
-                "zh_hant" to "一愛",
-            ),
-        "Junna" to
-            mapOf(
-                "en" to "Junna",
-                "ko" to "준나",
-                "zh_hant" to "純那",
-            ),
-        "Kaoruko" to
-            mapOf(
-                "en" to "Kaoruko",
-                "ko" to "카오루코",
-                "zh_hant" to "香子",
-            ),
-        "Karen" to
-            mapOf(
-                "en" to "Karen",
-                "ko" to "카렌",
-                "zh_hant" to "華戀",
-            ),
-        "Koharu" to
-            mapOf(
-                "en" to "Koharu",
-                "ko" to "코하루",
-                "zh_hant" to "小春",
-            ),
-        "Lalafin" to
-            mapOf(
-                "en" to "Lalafin",
-                "ko" to "라라핀",
-                "zh_hant" to "菈樂菲",
-            ),
-        "Mahiru" to
-            mapOf(
-                "en" to "Mahiru",
-                "ko" to "마히루",
-                "zh_hant" to "真晝",
-            ),
-        "Maya" to
-            mapOf(
-                "en" to "Maya",
-                "ko" to "마야",
-                "zh_hant" to "真矢",
-            ),
-        "Mei Fan" to
-            mapOf(
-                "en" to "Mei Fan",
-                "ko" to "메이팡",
-                "zh_hant" to "美帆",
-            ),
-        "Michiru" to
-            mapOf(
-                "en" to "Michiru",
-                "ko" to "미치루",
-                "zh_hant" to "未知留",
-            ),
-        "Misora" to
-            mapOf(
-                "en" to "Misora",
-                "ko" to "미소라",
-                "zh_hant" to "美空",
-            ),
-        "Nana" to
-            mapOf(
-                "en" to "Nana",
-                "ko" to "나나",
-                "zh_hant" to "奈奈",
-            ),
-        "Rui" to
-            mapOf(
-                "en" to "Rui",
-                "ko" to "루이",
-                "zh_hant" to "壘",
-            ),
-        "Shiori" to
-            mapOf(
-                "en" to "Shiori",
-                "ko" to "시오리",
-                "zh_hant" to "栞",
-            ),
-        "Shizuha" to
-            mapOf(
-                "en" to "Shizuha",
-                "ko" to "시즈하",
-                "zh_hant" to "靜羽",
-            ),
-        "Suzu" to
-            mapOf(
-                "en" to "Suzu",
-                "ko" to "스즈",
-                "zh_hant" to "涼",
-            ),
-        "Tamao" to
-            mapOf(
-                "en" to "Tamao",
-                "ko" to "타마오",
-                "zh_hant" to "珠緒",
-            ),
-        "Tsukasa" to
-            mapOf(
-                "en" to "Tsukasa",
-                "ko" to "츠카사",
-                "zh_hant" to "司",
-            ),
-        "Yachiyo" to
-            mapOf(
-                "en" to "Yachiyo",
-                "ko" to "야치요",
-                "zh_hant" to "八千代",
-            ),
-        "Yuyuko" to
-            mapOf(
-                "en" to "Yuyuko",
-                "ko" to "유유코",
-                "zh_hant" to "悠悠子",
             ),
     )

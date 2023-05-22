@@ -1,7 +1,7 @@
 import zipfile
 from pathlib import Path
 
-# Run `pip install --platform=manylinux1_x86_64 --only-binary=:all: --python-version 3.9 -r requirements.txt -t ./deps`
+# Run `pip install --platform=manylinux1_x86_64 --only-binary=:all: --python-version 3.8 -r requirements.txt -t ./deps`
 DEPENDENCIES = "deps"
 
 EXCLUDED_PACKAGES = [

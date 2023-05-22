@@ -5,19 +5,18 @@ import xyz.qwewqa.relive.simulator.common.SimulationMarginResultType
 import xyz.qwewqa.relive.simulator.common.SimulationParameters
 import xyz.qwewqa.relive.simulator.common.SimulationResultType
 import xyz.qwewqa.relive.simulator.core.i54.toI54
-import xyz.qwewqa.relive.simulator.core.presets.condition.conditions
 import xyz.qwewqa.relive.simulator.core.presets.dress.bossLoadouts
-import xyz.qwewqa.relive.simulator.core.presets.song.songEffects
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.remakeSkills
-import xyz.qwewqa.relive.simulator.core.stage.condition.NamedCondition
-import xyz.qwewqa.relive.simulator.core.stage.condition.plus
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dresses
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.loadout.TeamLoadout
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoirs
-import xyz.qwewqa.relive.simulator.core.stage.song.Song
-import xyz.qwewqa.relive.simulator.core.stage.song.SongEffectData
+import xyz.qwewqa.relive.simulator.core.stage.song.BasicSongEffects
+import xyz.qwewqa.relive.simulator.core.stage.song.SongDetails
+import xyz.qwewqa.relive.simulator.core.stage.song.SongEffectInstance
+import xyz.qwewqa.relive.simulator.core.stage.song.ExtraSongEffects
+import xyz.qwewqa.relive.simulator.core.stage.song.Songs
 import xyz.qwewqa.relive.simulator.core.stage.strategy.bossStrategyParsers
 import xyz.qwewqa.relive.simulator.core.stage.strategy.strategyParsers
 
@@ -72,35 +71,29 @@ fun SimulationParameters.createStageLoadout(): StageLoadout {
                     it.accessoryLevel, it.accessoryLimitBreak),
             )
           },
-          Song(
-              song.activeEffects.map {
-                SongEffectData(
-                    songEffects[it.name]!!,
-                    it.value,
-                    it.conditions
-                        .map { group ->
-                          group
-                              .map { name -> conditions[name]!! }
-                              .reduce { acc, condition -> acc or condition }
-                        }
-                        .fold<NamedCondition?, NamedCondition?>(null) { acc, condition ->
-                          acc + condition
-                        })
-              },
-              song.passiveEffect?.let {
-                SongEffectData(
-                    songEffects[it.name]!!,
-                    it.value,
-                    it.conditions
-                        .map { group ->
-                          group
-                              .map { name -> conditions[name]!! }
-                              .reduce { acc, condition -> acc or condition }
-                        }
-                        .fold<NamedCondition?, NamedCondition?>(null) { acc, condition ->
-                          acc + condition
-                        })
-              }),
+          Songs.aliases[song.id]!!.run {
+            SongDetails(
+                listOfNotNull(
+                    song.activeEffect1?.let { (id, value) ->
+                      SongEffectInstance(BasicSongEffects.aliases[id]!!, value)
+                    },
+                    song.activeEffect2?.let { (id, value) ->
+                      SongEffectInstance(BasicSongEffects.aliases[id]!!, value)
+                    },
+                    awakenSkill1?.let { SongEffectInstance(it, song.awakenSkill1Value) },
+                    awakenSkill2?.let { SongEffectInstance(it, song.awakenSkill2Value) },
+                    awakenSkill3?.let { SongEffectInstance(it, song.awakenSkill3Value) },
+                    awakenSkill4?.let { SongEffectInstance(it, song.awakenSkill4Value) },
+                ) +
+                    song.awakenExtraSkillSongs.mapNotNull {
+                      Songs.aliases[it]!!.awakenExtraSkill?.let { effect ->
+                        SongEffectInstance(effect, effect.defaultValue ?: 0)
+                      }
+                    },
+                song.passiveEffect?.let { (id, value) ->
+                  SongEffectInstance(ExtraSongEffects.aliases[id]!!, value)
+                })
+          },
           strategyParsers[strategy.type]!!.parse(strategy.value),
       ),
       TeamLoadout(

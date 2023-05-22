@@ -157,24 +157,30 @@ data class SimulationOptions(
     val commonText: List<SimulationOption>,
     val dresses: List<DataSimulationOption<DressData>>,
     val memoirs: List<DataSimulationOption<MemoirData>>,
-    val songEffects: List<SimulationOption>,
-    val conditions: List<SimulationOption>,
     val bosses: List<DataSimulationOption<BossData>>,
     val strategyTypes: List<SimulationOption>,
     val bossStrategyTypes: List<SimulationOption>,
     val remakeSkills: List<DataSimulationOption<RemakeSkillData>>,
     val accessories: List<DataSimulationOption<AccessoryData>>,
+    val songs: List<DataSimulationOption<SongData>>,
+    val awakeningSongs: List<DataSimulationOption<SongAwakeningData>>,
+    val songEffects: List<DataSimulationOption<SongEffectData>>,
+    val awakeningSongEffects: List<DataSimulationOption<AwakeningSongEffectData>>,
+    val passiveSongEffects: List<DataSimulationOption<PassiveSongEffectData>>,
 ) {
   val commonTextById by lazy { commonText.associateBy { it.id } }
   val dressesById by lazy { dresses.associateBy { it.id } }
   val memoirsById by lazy { memoirs.associateBy { it.id } }
-  val songEffectsById by lazy { songEffects.associateBy { it.id } }
-  val conditionsById by lazy { conditions.associateBy { it.id } }
   val bossesById by lazy { bosses.associateBy { it.id } }
   val strategyTypesById by lazy { strategyTypes.associateBy { it.id } }
   val bossStrategyTypesById by lazy { bossStrategyTypes.associateBy { it.id } }
   val remakeSkillsById by lazy { remakeSkills.associateBy { it.id } }
   val accessoriesById by lazy { accessories.associateBy { it.id } }
+  val songsById by lazy { songs.associateBy { it.id } }
+  val awakeningSongsById by lazy { awakeningSongs.associateBy { it.id } }
+  val songEffectsById by lazy { songEffects.associateBy { it.id } }
+  val awakeningSongEffectsById by lazy { awakeningSongEffects.associateBy { it.id } }
+  val passiveSongEffectsById by lazy { passiveSongEffects.associateBy { it.id } }
 }
 
 typealias SimulationOption = DataSimulationOption<Unit>
@@ -280,16 +286,54 @@ data class RemakeSkillData(
 
 @Serializable
 data class SongParameters(
-    val activeEffects: List<SongEffectParameter> = emptyList(),
+    val id: String = "0",
+    val activeEffect1: SongEffectParameter? = null,
+    val activeEffect2: SongEffectParameter? = null,
     val passiveEffect: SongEffectParameter? = null,
+    val awakenSkill1Value: Int = 0,
+    val awakenSkill2Value: Int = 0,
+    val awakenSkill3Value: Int = 0,
+    val awakenSkill4Value: Int = 0,
+    val awakenExtraSkillSongs: List<String> = emptyList(),
 )
 
 @Serializable
 data class SongEffectParameter(
-    val name: String,
+    val id: String,
     val value: Int,
-    val conditions: List<List<String>>,
 )
+
+@Serializable
+data class SongData(
+    val id: Int,
+    val awakenSkill1Id: Int?,
+    val awakenSkill2Id: Int?,
+    val awakenSkill3Id: Int?,
+    val awakenSkill4Id: Int?,
+)
+
+@Serializable
+data class SongAwakeningData(
+    val id: Int,
+)
+
+@Serializable
+data class SongEffectData(
+    val id: Int,
+)
+
+@Serializable
+data class AwakeningSongEffectData(
+    val id: Int,
+)
+
+@Serializable
+data class PassiveSongEffectData(
+    val id: Int,
+) {
+  val songId
+    get() = id / 100
+}
 
 @Serializable
 data class PlayerLoadoutParameters(

@@ -2,7 +2,7 @@ package xyz.qwewqa.relive.simulator.core.stage.team
 
 import xyz.qwewqa.relive.simulator.core.i54.i54
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
-import xyz.qwewqa.relive.simulator.core.stage.song.Song
+import xyz.qwewqa.relive.simulator.core.stage.song.SongDetails
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.StageEffectManager
 import xyz.qwewqa.relive.simulator.core.stage.strategy.ActionTile
 import xyz.qwewqa.relive.simulator.core.stage.strategy.Strategy
@@ -10,7 +10,7 @@ import xyz.qwewqa.relive.simulator.core.stage.strategy.Strategy
 class Team(
     val actors: LinkedHashMap<String, Actor>,
     val guest: Actor? = null,
-    val song: Song,
+    val song: SongDetails,
     val strategy: Strategy,
 ) {
   var cxTurns: Int = 0

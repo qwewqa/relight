@@ -76,7 +76,6 @@ import xyz.qwewqa.relive.simulator.common.InteractiveLog
 import xyz.qwewqa.relive.simulator.common.MarginResult
 import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
 import xyz.qwewqa.relive.simulator.common.SimulationMarginResultType
-import xyz.qwewqa.relive.simulator.common.SimulationOption
 import xyz.qwewqa.relive.simulator.common.SimulationOptions
 import xyz.qwewqa.relive.simulator.common.SimulationParameters
 import xyz.qwewqa.relive.simulator.common.SimulationResult
@@ -84,7 +83,6 @@ import xyz.qwewqa.relive.simulator.common.SimulationResultType
 import xyz.qwewqa.relive.simulator.common.SimulationResultValue
 import xyz.qwewqa.relive.simulator.common.SimulatorFeatures
 import xyz.qwewqa.relive.simulator.common.SimulatorVersion
-import xyz.qwewqa.relive.simulator.common.SongParameters
 import xyz.qwewqa.relive.simulator.common.StatisticsSummary
 import xyz.qwewqa.relive.simulator.common.StrategyParameter
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
@@ -175,7 +173,6 @@ class SimulatorClient(val simulator: Simulator) {
   val interactiveInput = document.getElementById("interactive-input").textInput()
   val interactiveSendButton =
       document.getElementById("interactive-send-button") as HTMLButtonElement
-  val songSettings = document.getElementById("song-settings") as HTMLDivElement
 
   val copyActorButton = document.getElementById("copy-actor-button") as HTMLButtonElement
   val pasteActorButton = document.getElementById("paste-actor-button") as HTMLButtonElement
@@ -1722,23 +1719,23 @@ class SimulatorClient(val simulator: Simulator) {
                       button(
                           type = ButtonType.button,
                           classes = "btn btn-outline-secondary text-save-preset-short") {
-                        id = "actor-save-preset-$actorId"
-                        +localized(".text-save-preset-short", "Save")
-                        onClickFunction = {
-                          activeActorOptions = ActorOptions(options, actorId)
-                          openPresetsModal(save = true, delete = true, new = true)
-                        }
-                      }
+                            id = "actor-save-preset-$actorId"
+                            +localized(".text-save-preset-short", "Save")
+                            onClickFunction = {
+                              activeActorOptions = ActorOptions(options, actorId)
+                              openPresetsModal(save = true, delete = true, new = true)
+                            }
+                          }
                       button(
                           type = ButtonType.button,
                           classes = "btn btn-outline-secondary text-load-preset-short") {
-                        id = "actor-load-preset-$actorId"
-                        +localized(".text-load-preset-short", "Load")
-                        onClickFunction = {
-                          activeActorOptions = ActorOptions(options, actorId)
-                          openPresetsModal(load = true)
-                        }
-                      }
+                            id = "actor-load-preset-$actorId"
+                            +localized(".text-load-preset-short", "Load")
+                            onClickFunction = {
+                              activeActorOptions = ActorOptions(options, actorId)
+                              openPresetsModal(load = true)
+                            }
+                          }
                     }
                   }
                 }
@@ -1766,10 +1763,6 @@ class SimulatorClient(val simulator: Simulator) {
   }
 
   fun getSetup(): SimulationParameters {
-    val songSettings =
-        songSettings.getElementsByClassName("song-effect-item").asList().map { options ->
-          SongEffect(options).parameters
-        }
     val actors =
         actorTabsDiv.children
             .asList()
@@ -1783,11 +1776,7 @@ class SimulatorClient(val simulator: Simulator) {
         maxIterations = iterationsInput.value,
         team = if (guestCheckbox.checked) actors.dropLast(1) else actors,
         guest = if (guestCheckbox.checked) actors.lastOrNull() else null,
-        song =
-            SongParameters(
-                songSettings.dropLast(1).filterNotNull(),
-                songSettings.last(),
-            ),
+        song = getSongParameters(),
         strategy =
             StrategyParameter(
                 strategyTypeSelect.value,
@@ -1892,14 +1881,7 @@ class SimulatorClient(val simulator: Simulator) {
           ActorOptions(options, tab.attributes["data-actor-id"]!!.value.toInt()).parameters =
               parameters
         }
-        val effects =
-            song.activeEffects.take(2) +
-                List((2 - song.activeEffects.size).coerceAtLeast(0)) { null } +
-                listOf(song.passiveEffect)
-        songSettings.getElementsByClassName("song-effect-item").asList().zip(effects).forEach {
-            (options, parameters) ->
-          SongEffect(options).parameters = parameters
-        }
+        setSongParameters(options, song, locale)
         strategyTypeSelect.value = strategy.type
         strategyEditor.value = strategy.value
         if (bossStrategy != null) {
@@ -2116,10 +2098,6 @@ class SimulatorClient(val simulator: Simulator) {
     val bosses = options.bosses.associateBy { it.id }
     val strategies = options.strategyTypes.associateBy { it.id }
     val bossStrategies = options.bossStrategyTypes.associateBy { it.id }
-    val songEffects =
-        mapOf("none" to (commonText["none"] ?: SimulationOption("none", emptyMap()))) +
-            options.songEffects.associateBy { it.id }
-    val conditions = options.conditions.associateBy { it.id }
     val dresses = options.dresses.associateBy { it.id }
     val remakeSkills = options.remakeSkills.associateBy { it.id }
     val memoirs = options.memoirs.associateBy { it.id }
@@ -2403,16 +2381,7 @@ class SimulatorClient(val simulator: Simulator) {
     bossSelect.populate(bosses, locale)
     strategyTypeSelect.populate(strategies, locale)
     bossStrategyTypeSelect.populate(bossStrategies, locale)
-    document
-        .getElementsByClassName("song-effect-type")
-        .asList()
-        .filterIsInstance<HTMLSelectElement>()
-        .forEach { select -> SingleSelect(select, true).populate(songEffects, locale) }
-    document
-        .getElementsByClassName("song-effect-condition")
-        .asList()
-        .filterIsInstance<HTMLSelectElement>()
-        .forEach { select -> MultipleSelect(select, true).populate(conditions, locale) }
+    initSongs(options, locale)
 
     simulateButton.addEventListener(
         "click",
@@ -2746,16 +2715,6 @@ class SimulatorClient(val simulator: Simulator) {
           .filterIsInstance<HTMLSelectElement>()
           .forEach { select -> SingleSelect(select, false).localize(rankPanelOptions, locale) }
       document
-          .getElementsByClassName("song-effect-type")
-          .asList()
-          .filterIsInstance<HTMLSelectElement>()
-          .forEach { select -> SingleSelect(select, true).localize(songEffects, locale) }
-      document
-          .getElementsByClassName("song-effect-condition")
-          .asList()
-          .filterIsInstance<HTMLSelectElement>()
-          .forEach { select -> MultipleSelect(select, true).localize(conditions, locale) }
-      document
           .getElementsByClassName("actor-dress")
           .asList()
           .filterIsInstance<HTMLSelectElement>()
@@ -2779,9 +2738,7 @@ class SimulatorClient(val simulator: Simulator) {
           .asList()
           .filterIsInstance<HTMLSelectElement>()
           .forEach { select -> SingleSelect(select, true).localize(accessories, locale) }
-      songSettings.getElementsByClassName("song-effect-item").asList().forEach {
-        SongEffect(it).update()
-      }
+      updateSongLocale(options, locale)
       commonText
           .filter { (k, _) -> k[0] == '.' }
           .forEach { (k, v) ->
@@ -2797,10 +2754,6 @@ class SimulatorClient(val simulator: Simulator) {
           locale = languageSelect.value
           updateLocaleText()
         })
-
-    songSettings.getElementsByClassName("song-effect-item").asList().forEach {
-      SongEffect(it).registerListeners()
-    }
 
     data class PlotType(
         val title: String,

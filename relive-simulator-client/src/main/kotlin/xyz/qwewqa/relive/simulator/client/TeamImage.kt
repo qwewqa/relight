@@ -1,5 +1,10 @@
 package xyz.qwewqa.relive.simulator.client
 
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 import kotlinx.browser.document
 import org.khronos.webgl.get
 import org.w3c.dom.*
@@ -7,11 +12,7 @@ import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
 import xyz.qwewqa.relive.simulator.common.SimulationOptions
 import xyz.qwewqa.relive.simulator.common.SimulationParameters
 import xyz.qwewqa.relive.simulator.common.SongEffectParameter
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
+import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
 
 const val DRESS_WIDTH = 144.0
 const val DRESS_HEIGHT = 160.0
@@ -110,8 +111,8 @@ class TeamImage(
       ctx.fillText("Song:", 20.0, 416.0)
       withState {
         ctx.font = "32px $FONT"
-        val effect1 = parameters.song.activeEffects.getOrElse(0) { null }
-        val effect2 = parameters.song.activeEffects.getOrElse(1) { null }
+        val effect1 = parameters.song.activeEffect1
+        val effect2 = parameters.song.activeEffect2
         val effect3 = parameters.song.passiveEffect
         ctx.fillText("Effect 1: ", 20.0, 462.0, 1200.0 - 40.0)
         val effect1Offset = measureText("Effect 1: ").width
@@ -155,12 +156,16 @@ class TeamImage(
   val height: Int
     get() = canvas.height
 
-  private fun SongEffectParameter?.format() =
-      if (this == null) {
-        "None"
-      } else {
-        "$name $value ${conditions.joinToString(" ") { cs -> "[${cs.joinToString(" | ")}]" }}"
-      }
+  private fun SongEffectParameter?.format(): String {
+    if (this == null || value == 0) {
+      return "N/A"
+    } else {
+      val effect =
+          options.songEffectsById[id]?.name
+              ?: options.passiveSongEffectsById[id]?.name ?: return "N/A"
+      return "${effect.getLocalizedString()} $value"
+    }
+  }
 
   private val PlayerLoadoutParameters.hasAccessory
     get() = accessory != null && accessory != "0"
