@@ -4,7 +4,7 @@ val remakeSkill0 =
     RemakeSkill(
         id = 0,
         effects = listOf(),
-        icon = 1,
+        icon = 0,
     )
 val remakeSkill1 =
     RemakeSkill(
