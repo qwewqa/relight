@@ -219,8 +219,8 @@ val commonText =
             ),
         ".text-event-multiplier" to
             mapOf(
-                "en" to "Event Multiplier (RP)",
-                "zh_hant" to "活動乘数 [爬塔RP]",
+                "en" to "Damage Multiplier",
+                "zh_hant" to "傷害倍率",
             ),
         ".text-first-is-guest" to
             mapOf(
