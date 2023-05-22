@@ -42,6 +42,8 @@ fun updateSongLocale(options: SimulationOptions, locale: String) {
   songSelect.localize(options.songsById, locale)
   songEffect1Type.localize(options.songEffectsById, locale)
   songEffect2Type.localize(options.songEffectsById, locale)
+  songPassiveEffectType.localize(options.passiveSongEffectsById, locale)
+  songSelect.element.onchange = { updateSelectedSong(options, songSelect.value, locale) }
   updateSelectedSong(options, songSelect.value, locale)
   awakenedSongsSelect.localize(options.awakeningSongsById, locale)
 }
