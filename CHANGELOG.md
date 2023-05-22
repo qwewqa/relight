@@ -1034,3 +1034,7 @@
 - Changed song descriptions to use icons for awakening skills
 - Updated the appearance of song awakening skills
 - Updated the appearance of dropdown toggles
+
+# v1.4.5
+- Added song name to share images
+- Made song awakening effect values dropdowns
