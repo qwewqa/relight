@@ -1038,3 +1038,9 @@
 # v1.4.5
 - Added song name to share images
 - Made song awakening effect values dropdowns
+
+# v1.4.6
+- Removed presets button from actor top bar
+- Minor visual adjustments
+- Fixed awakening effect values not being cleared when song changes
+- Made bosses searchable by school, attribute, and damage type
