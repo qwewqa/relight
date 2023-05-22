@@ -108,7 +108,15 @@ class TeamImage(
         ctx.font = "36px $FONT"
         ctx.fillText(parameters.boss, 20.0 + offset, 22.0)
       }
-      ctx.fillText("Song:", 20.0, 416.0)
+      ctx.fillText("Song: ", 20.0, 416.0)
+      withState {
+        val offset = ctx.measureText("Song: ").width
+        ctx.font = "36px $FONT"
+        ctx.fillText(
+            options.songsById[parameters.song.id]?.name?.getLocalizedString() ?: "",
+            20.0 + offset,
+            416.0)
+      }
       withState {
         ctx.font = "32px $FONT"
         val effect1 = parameters.song.activeEffect1
@@ -121,8 +129,8 @@ class TeamImage(
         val effect2Offset = measureText("Effect 2: ").width
         ctx.fillText(
             effect2.format(), 20.0 + effect2Offset, 462.0 + 42.0, 1200.0 - 40.0 - effect2Offset)
-        ctx.fillText("Effect 3: ", 20.0, 462.0 + 84.0, 1200.0 - 40.0)
-        val effect3Offset = measureText("Effect 3: ").width
+        ctx.fillText("Passive Effect: ", 20.0, 462.0 + 84.0, 1200.0 - 40.0)
+        val effect3Offset = measureText("Passive Effect: ").width
         ctx.fillText(
             effect3.format(), 20.0 + effect3Offset, 462.0 + 84.0, 1200.0 - 40.0 - effect3Offset)
       }
