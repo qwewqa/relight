@@ -123,8 +123,6 @@ class SimulatorClient(val simulator: Simulator) {
   val actorTabsDiv = document.getElementById("actor-tabs") as HTMLDivElement
   val actorSettingsDiv = document.getElementById("actor-settings") as HTMLDivElement
   val addActorButton = document.getElementById("add-actor-button") as HTMLButtonElement
-  val addActorFromPresetButton =
-      document.getElementById("add-actor-from-preset-button") as HTMLButtonElement
   val sortByPositionButton = document.getElementById("sort-by-position-button") as HTMLButtonElement
   val autoNameButton = document.getElementById("auto-name-button") as HTMLButtonElement
   val eventBonusDisplay = document.getElementById("event-bonus-display") as HTMLSpanElement
@@ -2208,13 +2206,6 @@ class SimulatorClient(val simulator: Simulator) {
     bossSelect.element.addEventListener("change", { teamUpdate() })
 
     addActorButton.addEventListener("click", { addActor() })
-
-    addActorFromPresetButton.addEventListener(
-        "click",
-        {
-          activeActorOptions = null
-          openPresetsModal(load = true, delete = true)
-        })
 
     copyActorButton.addEventListener(
         "click",
