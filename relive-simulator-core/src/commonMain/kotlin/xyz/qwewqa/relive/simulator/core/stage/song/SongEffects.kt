@@ -6,6 +6,7 @@ import xyz.qwewqa.relive.simulator.core.gen.valuesGenMusicSkill
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 import xyz.qwewqa.relive.simulator.core.stage.TargetContext
+import xyz.qwewqa.relive.simulator.core.stage.common.DescriptionUnit
 import xyz.qwewqa.relive.simulator.core.stage.skilloption.ReversiblePassiveSkillOption
 import xyz.qwewqa.relive.simulator.core.stage.skilloption.SkillOptions
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTarget
@@ -73,12 +74,21 @@ object ExtraSongEffects : ImplementationRegistry<SongEffect>() {
   init {
     +NoneSongEffect
     valuesGenMusicExtraSkill.values.forEach { effect ->
+      val skillOption =
+          (SkillOptions[effect.skill_option1_id] as? ReversiblePassiveSkillOption)
+              ?: error(
+                  "Skill option ${effect.skill_option1_id} is not reversible, got ${SkillOptions[effect.skill_option1_id]}")
       +CommonSongEffect(
           id = effect._id_,
-          names = effect.name,
-          skillOption = (SkillOptions[effect.skill_option1_id] as? ReversiblePassiveSkillOption)
-                  ?: error(
-                      "Skill option ${effect.skill_option1_id} is not reversible, got ${SkillOptions[effect.skill_option1_id]}"),
+          names =
+              effect.name.mapValues { (_, v) ->
+                if (skillOption.valueUnit == DescriptionUnit.None) {
+                  "$v #"
+                } else {
+                  v
+                }
+              },
+          skillOption = skillOption,
           target =
               if (effect.skill_option1_target_id != 0) {
                 SkillTargets[effect.skill_option1_target_id]
