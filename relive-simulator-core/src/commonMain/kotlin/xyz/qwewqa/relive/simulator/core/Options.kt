@@ -126,12 +126,12 @@ fun getSimulationOptions(): SimulationOptions {
               .sortedByDescending { it.data.releaseTime ?: Int.MAX_VALUE },
       songs =
           Songs.map { (id, song) ->
+            val awakenSkills = song.awakenSkills
             DataSimulationOption(
                 id = "$id",
                 name = song.names,
                 description =
                     localeIds.associateWith { locale ->
-                      val awakenSkills = song.awakenSkills
                       if (awakenSkills.isEmpty()) {
                         "∅"
                       } else {
@@ -141,15 +141,19 @@ fun getSimulationOptions(): SimulationOptions {
                                 .toSet()
                                 .singleOrNull()
                         if (target != null) {
-                          "[${target.descriptions.getLocalizedString(locale)}] ${
-                            awakenSkills.joinToString(", ") { 
-                              (it as AwakeningSongEffect).shortNames.getLocalizedString(locale) 
-                            }
-                          }"
+                          target.descriptions.getLocalizedString(locale)
                         } else {
-                          awakenSkills.joinToString(", ") { it.names.getLocalizedString(locale) }
+                          ""
                         }
                       }
+                    },
+                descriptionIcons =
+                    awakenSkills
+                        .filter { it.iconId != null }
+                        .map { "img/skill_icon/skill_icon_${it.iconId}.png" },
+                tags =
+                    localeIds.associateWith { locale ->
+                      awakenSkills.map { it.names.getLocalizedString(locale) }
                     },
                 imagePath = "img/music_coverart/27_$id.png".takeIf { id >= 0 },
                 data =
@@ -165,13 +169,12 @@ fun getSimulationOptions(): SimulationOptions {
       awakeningSongs =
           Songs.filter { (_, song) -> song.awakenExtraSkill != null }
               .map { (id, song) ->
+                val skill = song.awakenExtraSkill!!
                 DataSimulationOption(
                     id = "$id",
                     name = song.names,
-                    description =
-                        song.awakenExtraSkill!!.let { skill ->
-                          skill.names.mapValues { (_, v) -> "$v ${skill.defaultValue}" }
-                        },
+                    description = skill.names.mapValues { (_, v) -> "$v ${skill.defaultValue}" },
+                    descriptionIcons = listOf("img/skill_icon/skill_icon_${skill.iconId}.png"),
                     imagePath = "img/music_coverart/27_$id.png",
                     data = SongAwakeningData(id = id))
               },
