@@ -75,8 +75,8 @@
     content: '\feff';
 }
 
-.actor-options .form-label {
-    margin-bottom: 0.1rem;
+form .form-label {
+    margin-bottom: 0.25rem;
 }
 
 .result-pdf-plot {
