@@ -1029,3 +1029,8 @@
 - Changed song descriptions to show awakening skills
 - Song passives are no longer filtered by the selected song
 - Selecting a song passive now updates the song
+
+# v1.4.4
+- Changed song descriptions to use icons for awakening skills
+- Updated the appearance of song awakening skills
+- Updated the appearance of dropdown toggles
