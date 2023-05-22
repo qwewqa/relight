@@ -136,7 +136,10 @@ fun getSimulationOptions(): SimulationOptions {
                         "∅"
                       } else {
                         val target =
-                            awakenSkills.map { (it as? AwakeningSongEffect)?.target }.toSet().singleOrNull()
+                            awakenSkills
+                                .map { (it as? AwakeningSongEffect)?.target }
+                                .toSet()
+                                .singleOrNull()
                         if (target != null) {
                           "[${target.descriptions.getLocalizedString(locale)}] ${
                             awakenSkills.joinToString(", ") { 
@@ -207,6 +210,7 @@ fun getSimulationOptions(): SimulationOptions {
             DataSimulationOption(
                 id = "$id",
                 name = effect.names,
+                description = Songs[id / 100]?.let { song -> song.names },
                 imagePath =
                     "img/skill_icon/skill_icon_${effect.iconId}.png".takeIf {
                       effect.iconId != null
