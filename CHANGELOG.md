@@ -1015,3 +1015,7 @@
 - New song ui
 - Added support for song awakening
 - Added new dresses and memoirs
+
+# v1.4.1
+- Added placeholder icons for songs and song effects
+- Fixed some localization issues with the song ui
