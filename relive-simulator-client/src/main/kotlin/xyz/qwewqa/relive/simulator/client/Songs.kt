@@ -57,6 +57,7 @@ fun initSongs(options: SimulationOptions, locale: String) {
 }
 
 fun updateSongLocale(options: SimulationOptions, locale: String) {
+  val parameters = getSongParameters()
   songSelect.localize(options.songsById, locale)
   songEffect1Type.localize(options.songEffectsById, locale)
   songEffect2Type.localize(options.songEffectsById, locale)
@@ -64,6 +65,7 @@ fun updateSongLocale(options: SimulationOptions, locale: String) {
   songSelect.element.onchange = { updateSelectedSong(options, songSelect.value, locale) }
   updateSelectedSong(options, songSelect.value, locale)
   awakenedSongsSelect.localize(options.awakeningSongsById, locale)
+  setSongParameters(options, parameters, locale)
 }
 
 fun getSongParameters() =
@@ -133,7 +135,6 @@ fun updateSelectedSong(options: SimulationOptions, id: String, locale: String) {
           .map { it.id }
           .toSet()
 
-  val changedSong = id != songSelect.value
   songSelect.value = id
 
   if (currentPassiveType !in songPassives) {
@@ -147,29 +148,25 @@ fun updateSelectedSong(options: SimulationOptions, id: String, locale: String) {
       song.data.awakenSkill1Id,
       songAwakeningEffect1Type,
       songAwakeningEffect1Value.element,
-      locale,
-      !changedSong)
+      locale)
   updateSongAwakeningEffect(
       options,
       song.data.awakenSkill2Id,
       songAwakeningEffect2Type,
       songAwakeningEffect2Value.element,
-      locale,
-      !changedSong)
+      locale)
   updateSongAwakeningEffect(
       options,
       song.data.awakenSkill3Id,
       songAwakeningEffect3Type,
       songAwakeningEffect3Value.element,
-      locale,
-      !changedSong)
+      locale)
   updateSongAwakeningEffect(
       options,
       song.data.awakenSkill4Id,
       songAwakeningEffect4Type,
       songAwakeningEffect4Value.element,
-      locale,
-      !changedSong)
+      locale)
 }
 
 private fun updateSongAwakeningEffect(
@@ -178,7 +175,6 @@ private fun updateSongAwakeningEffect(
     typeElement: HTMLElement,
     valueElement: HTMLSelectElement,
     locale: String,
-    preserveValue: Boolean,
 ) {
   typeElement.clear()
   val skill = options.awakeningSongEffectsById["$skillId"] ?: options.songEffectsById["0"] ?: return
@@ -203,8 +199,6 @@ private fun updateSongAwakeningEffect(
         }
       }
 
-  val initialValue = if (preserveValue) valueElement.value.toIntOrNull() else null
-
   valueElement.clear()
   valueElement.append {
     values.forEachIndexed { i, v ->
@@ -214,9 +208,5 @@ private fun updateSongAwakeningEffect(
         selected = i == 0
       }
     }
-  }
-
-  if (initialValue != null && initialValue in values) {
-    valueElement.value = "$initialValue"
   }
 }
