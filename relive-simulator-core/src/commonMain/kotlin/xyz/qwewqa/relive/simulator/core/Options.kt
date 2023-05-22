@@ -131,7 +131,7 @@ fun getSimulationOptions(): SimulationOptions {
                     localeIds.associateWith { locale ->
                       song.characters.map { it.names.getLocalizedString(locale) }.joinToString(" ")
                     },
-                imagePath = "img/music_coverart/27_$id.png".takeIf { id > 0 },
+                imagePath = "img/music_coverart/27_$id.png".takeIf { id >= 0 },
                 data =
                     SongData(
                         id = song.id,

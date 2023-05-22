@@ -33,7 +33,7 @@ interface SongEffect : FeatureImplementation {
 object NoneSongEffect : SongEffect {
   override val id = 0
   override val names = mapOf("en" to "None", "ja" to "なし", "zh_hant" to "無", "ko" to "없음")
-  override val iconId = null
+  override val iconId = 0
   override fun start(context: ActionContext, value: Int) {}
   override fun end(context: ActionContext, value: Int) {}
   override fun formatName(value: Int): String = name
