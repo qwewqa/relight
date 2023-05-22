@@ -22,10 +22,12 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.remakeSkills
 import xyz.qwewqa.relive.simulator.core.stage.common.substitute
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dresses
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoirs
+import xyz.qwewqa.relive.simulator.core.stage.song.AwakeningSongEffect
 import xyz.qwewqa.relive.simulator.core.stage.song.AwakeningSongEffects
 import xyz.qwewqa.relive.simulator.core.stage.song.BasicSongEffects
 import xyz.qwewqa.relive.simulator.core.stage.song.ExtraSongEffects
 import xyz.qwewqa.relive.simulator.core.stage.song.Songs
+import xyz.qwewqa.relive.simulator.core.stage.song.awakenSkills
 import xyz.qwewqa.relive.simulator.core.stage.strategy.bossStrategyParsers
 import xyz.qwewqa.relive.simulator.core.stage.strategy.strategyParsers
 
@@ -129,7 +131,22 @@ fun getSimulationOptions(): SimulationOptions {
                 name = song.names,
                 description =
                     localeIds.associateWith { locale ->
-                      song.characters.map { it.names.getLocalizedString(locale) }.joinToString(" ")
+                      val awakenSkills = song.awakenSkills
+                      if (awakenSkills.isEmpty()) {
+                        "∅"
+                      } else {
+                        val target =
+                            awakenSkills.map { (it as? AwakeningSongEffect)?.target }.toSet().singleOrNull()
+                        if (target != null) {
+                          "[${target.descriptions.getLocalizedString(locale)}] ${
+                            awakenSkills.joinToString(", ") { 
+                              (it as AwakeningSongEffect).shortNames.getLocalizedString(locale) 
+                            }
+                          }"
+                        } else {
+                          awakenSkills.joinToString(", ") { it.names.getLocalizedString(locale) }
+                        }
+                      }
                     },
                 imagePath = "img/music_coverart/27_$id.png".takeIf { id >= 0 },
                 data =
@@ -156,50 +173,50 @@ fun getSimulationOptions(): SimulationOptions {
                     data = SongAwakeningData(id = id))
               },
       songEffects =
-      BasicSongEffects.map { (id, effect) ->
-        DataSimulationOption(
-            id = "$id",
-            name = effect.names,
-            imagePath =
-            "img/skill_icon/skill_icon_${effect.iconId}.png".takeIf {
-              effect.iconId != null
-            },
-            data =
-            SongEffectData(
-                id = id,
-            ),
-        )
-      },
+          BasicSongEffects.map { (id, effect) ->
+            DataSimulationOption(
+                id = "$id",
+                name = effect.names,
+                imagePath =
+                    "img/skill_icon/skill_icon_${effect.iconId}.png".takeIf {
+                      effect.iconId != null
+                    },
+                data =
+                    SongEffectData(
+                        id = id,
+                    ),
+            )
+          },
       awakeningSongEffects =
-      AwakeningSongEffects.map { (id, effect) ->
-        DataSimulationOption(
-            id = "$id",
-            name = effect.names,
-            imagePath =
-            "img/skill_icon/skill_icon_${effect.iconId}.png".takeIf {
-              effect.iconId != null
-            },
-            data =
-            AwakeningSongEffectData(
-                id = id,
-            ),
-        )
-      },
+          AwakeningSongEffects.map { (id, effect) ->
+            DataSimulationOption(
+                id = "$id",
+                name = effect.names,
+                imagePath =
+                    "img/skill_icon/skill_icon_${effect.iconId}.png".takeIf {
+                      effect.iconId != null
+                    },
+                data =
+                    AwakeningSongEffectData(
+                        id = id,
+                    ),
+            )
+          },
       passiveSongEffects =
-      ExtraSongEffects.map { (id, effect) ->
-        DataSimulationOption(
-            id = "$id",
-            name = effect.names,
-            imagePath =
-            "img/skill_icon/skill_icon_${effect.iconId}.png".takeIf {
-              effect.iconId != null
-            },
-            data =
-            PassiveSongEffectData(
-                id = id,
-            ),
-        )
-      },
+          ExtraSongEffects.map { (id, effect) ->
+            DataSimulationOption(
+                id = "$id",
+                name = effect.names,
+                imagePath =
+                    "img/skill_icon/skill_icon_${effect.iconId}.png".takeIf {
+                      effect.iconId != null
+                    },
+                data =
+                    PassiveSongEffectData(
+                        id = id,
+                    ),
+            )
+          },
       bosses =
           bossLoadouts.map { (k, v) ->
             val boss = v.loadout.create()
@@ -222,52 +239,54 @@ fun getSimulationOptions(): SimulationOptions {
       strategyTypes = strategyParsers.map { (k, _) -> SimulationOption(k, mapOf("en" to k)) },
       bossStrategyTypes =
           bossStrategyParsers.map { (k, _) -> SimulationOption(k, mapOf("en" to k)) },
-      remakeSkills = remakeSkills.values.map { skill ->
-        val effect = skill.effects.firstOrNull()
-        val value = effect?.value ?: 0
-        val valueSuffix = effect?.effect?.valueSuffix
-        val time = effect?.time ?: 0
-        val timeSuffix = effect?.effect?.timeSuffix
-        val data = valuesGenRemakeSkill[skill.id]
-        DataSimulationOption(
-            id = skill.name,
-            name =
-                if (skill.id == 0)
-                    mapOf(
-                        "en" to "None",
-                        "ko" to "없음",
-                        "zh_hant" to "無",
-                    )
-                else
-                    data!!.description.mapValues { (_, desc) ->
-                      desc.substitute(
-                          "opt1_value" to "$value",
-                          "opt1_time" to "$time",
-                      )
-                    },
-            imagePath = "img/skill_icon/skill_icon_${skill.icon}.png",
-            data =
-                RemakeSkillData(
-                    value = "$value$valueSuffix".takeIf { valueSuffix != null },
-                    time = "$time$timeSuffix".takeIf { timeSuffix != null },
-                    targeting = skill.effects.firstOrNull()?.targeting?.shortName ?: "None",
-                ))
-      },
-      accessories = Accessories.map { (id, accessory) ->
-        DataSimulationOption(
-            id = "$id",
-            name = accessory.names,
-            description = null,
-            tags = mapOf("en" to listOf(), "ja" to listOf()),
-            imagePath =
-                if (accessory.iconId == 0) "img/common/plate_unselected_6.png"
-                else "img/medium_icon/38_${accessory.iconId}.png",
-            data =
-                AccessoryData(
-                    id = accessory.id,
-                    dressIds = accessory.dressIds,
-                    attributeId = accessory.attribute?.ordinal,
-                    autoSkillLimitBreak = accessory.autoskills.map { it.first }.sorted()),
-        )
-      })
+      remakeSkills =
+          remakeSkills.values.map { skill ->
+            val effect = skill.effects.firstOrNull()
+            val value = effect?.value ?: 0
+            val valueSuffix = effect?.effect?.valueSuffix
+            val time = effect?.time ?: 0
+            val timeSuffix = effect?.effect?.timeSuffix
+            val data = valuesGenRemakeSkill[skill.id]
+            DataSimulationOption(
+                id = skill.name,
+                name =
+                    if (skill.id == 0)
+                        mapOf(
+                            "en" to "None",
+                            "ko" to "없음",
+                            "zh_hant" to "無",
+                        )
+                    else
+                        data!!.description.mapValues { (_, desc) ->
+                          desc.substitute(
+                              "opt1_value" to "$value",
+                              "opt1_time" to "$time",
+                          )
+                        },
+                imagePath = "img/skill_icon/skill_icon_${skill.icon}.png",
+                data =
+                    RemakeSkillData(
+                        value = "$value$valueSuffix".takeIf { valueSuffix != null },
+                        time = "$time$timeSuffix".takeIf { timeSuffix != null },
+                        targeting = skill.effects.firstOrNull()?.targeting?.shortName ?: "None",
+                    ))
+          },
+      accessories =
+          Accessories.map { (id, accessory) ->
+            DataSimulationOption(
+                id = "$id",
+                name = accessory.names,
+                description = null,
+                tags = mapOf("en" to listOf(), "ja" to listOf()),
+                imagePath =
+                    if (accessory.iconId == 0) "img/common/plate_unselected_6.png"
+                    else "img/medium_icon/38_${accessory.iconId}.png",
+                data =
+                    AccessoryData(
+                        id = accessory.id,
+                        dressIds = accessory.dressIds,
+                        attributeId = accessory.attribute?.ordinal,
+                        autoSkillLimitBreak = accessory.autoskills.map { it.first }.sorted()),
+            )
+          })
 }

@@ -14,6 +14,9 @@ interface Song : FeatureImplementation {
   val characters: List<Character>
 }
 
+val Song.awakenSkills
+  get() = listOfNotNull(awakenSkill1, awakenSkill2, awakenSkill3, awakenSkill4)
+
 object GenericSong : Song {
   override val id = 0
   override val names = mapOf("en" to "N/A")

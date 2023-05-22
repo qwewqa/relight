@@ -12,7 +12,7 @@ import xyz.qwewqa.relive.simulator.core.stage.skilloption.SkillOptions
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTarget
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTargets
 
-class CommonSongEffect(
+open class CommonSongEffect(
     override val id: Int,
     override val names: Map<String, String>,
     val skillOption: ReversiblePassiveSkillOption,
@@ -35,6 +35,15 @@ class CommonSongEffect(
         }
       }
 }
+
+class AwakeningSongEffect(
+    id: Int,
+    names: Map<String, String>,
+    val shortNames: Map<String, String>,
+    skillOption: ReversiblePassiveSkillOption,
+    target: SkillTarget,
+    defaultValue: Int?,
+) : CommonSongEffect(id, names, skillOption, target, defaultValue)
 
 object BasicSongEffects : ImplementationRegistry<SongEffect>() {
   init {
@@ -107,7 +116,7 @@ object ExtraSongEffects : ImplementationRegistry<SongEffect>() {
       }
 }
 
-object AwakeningSongEffects : ImplementationRegistry<SongEffect>() {
+object AwakeningSongEffects : ImplementationRegistry<AwakeningSongEffect>() {
   init {
     valuesGenMusicSkill
         .filterKeys { it >= 1000 }
@@ -116,12 +125,13 @@ object AwakeningSongEffects : ImplementationRegistry<SongEffect>() {
           val target =
               SkillTargets[it.skill_option1_target_id]
                   ?: error("Target ${it.skill_option1_target_id} not found.")
-          +CommonSongEffect(
+          +AwakeningSongEffect(
               id = it._id_,
               names =
                   it.name.mapValues { (k, v) ->
                     "$v [${target.descriptions.getLocalizedString(k)}]"
                   },
+              shortNames = it.name,
               skillOption = (SkillOptions[it.skill_option1_id] as? ReversiblePassiveSkillOption)
                       ?: error(
                           "Skill option ${it.skill_option1_id} is not reversible, got ${SkillOptions[it.skill_option1_id]}"),
