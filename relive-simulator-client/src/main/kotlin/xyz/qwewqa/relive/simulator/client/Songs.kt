@@ -1,7 +1,11 @@
 package xyz.qwewqa.relive.simulator.client
 
 import kotlinx.browser.document
-import org.w3c.dom.HTMLOptionElement
+import kotlinx.dom.clear
+import kotlinx.html.dom.append
+import kotlinx.html.js.img
+import kotlinx.html.js.span
+import org.w3c.dom.HTMLElement
 import xyz.qwewqa.relive.simulator.common.SimulationOptions
 import xyz.qwewqa.relive.simulator.common.SongEffectParameter
 import xyz.qwewqa.relive.simulator.common.SongParameters
@@ -14,16 +18,20 @@ val songEffect2Type = document.getElementById("song-effect-2-type").singleSelect
 val songEffect2Value = document.getElementById("song-effect-2-value").integerInput(0)
 val songPassiveEffectType = document.getElementById("song-passive-effect-type").singleSelect(true)
 val songPassiveEffectValue = document.getElementById("song-passive-effect-value").integerInput(0)
-val songAwakeningEffect1Type = document.getElementById("song-awakening-effect-1-type").textInput()
+val songAwakeningEffect1Type =
+    document.getElementById("song-awakening-effect-1-type") as HTMLElement
 val songAwakeningEffect1Value =
     document.getElementById("song-awakening-effect-1-value").integerInput(0)
-val songAwakeningEffect2Type = document.getElementById("song-awakening-effect-2-type").textInput()
+val songAwakeningEffect2Type =
+    document.getElementById("song-awakening-effect-2-type") as HTMLElement
 val songAwakeningEffect2Value =
     document.getElementById("song-awakening-effect-2-value").integerInput(0)
-val songAwakeningEffect3Type = document.getElementById("song-awakening-effect-3-type").textInput()
+val songAwakeningEffect3Type =
+    document.getElementById("song-awakening-effect-3-type") as HTMLElement
 val songAwakeningEffect3Value =
     document.getElementById("song-awakening-effect-3-value").integerInput(0)
-val songAwakeningEffect4Type = document.getElementById("song-awakening-effect-4-type").textInput()
+val songAwakeningEffect4Type =
+    document.getElementById("song-awakening-effect-4-type") as HTMLElement
 val songAwakeningEffect4Value =
     document.getElementById("song-awakening-effect-4-value").integerInput(0)
 val awakenedSongsSelect = document.getElementById("awakened-songs-select").multipleSelect(true)
@@ -129,13 +137,18 @@ fun updateSelectedSong(options: SimulationOptions, id: String, locale: String) {
 private fun updateSongAwakeningEffect(
     options: SimulationOptions,
     skillId: Int?,
-    input: TextInput,
+    element: HTMLElement,
     locale: String
 ) {
-  if (skillId == null) {
-    input.value = options.commonTextById["n/a"]?.get(locale) ?: ""
-    return
+  element.clear()
+  val skill =
+      options.awakeningSongEffectsById["$skillId"]
+          ?: options.songEffectsById["0"] ?: return
+  element.append {
+    img(classes = "select-option-img") { src = skill.imagePath!! }
+    span {
+      +" "
+      +skill.name.getLocalizedString(locale)
+    }
   }
-  val skill = options.awakeningSongEffectsById["$skillId"] ?: return
-  input.value = skill.name.getLocalizedString(locale)
 }

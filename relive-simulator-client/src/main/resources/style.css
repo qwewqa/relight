@@ -1087,7 +1087,13 @@ pwa-update::part(offlineToast) {
 }
 
 .input-group > .song-effect-type {
-    flex: 1 1 auto;
+    flex: 1 1 0;
+}
+
+.song-effect-awaken-skill-type {
+    overflow-x: auto;
+    display: block;
+    text-align: left;
 }
 
 .input-group > .song-effect-value {
