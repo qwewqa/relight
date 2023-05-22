@@ -244,7 +244,7 @@ val commonText =
             ),
         ".text-actor-remake" to
             mapOf(
-                "en" to "Remake",
+                "en" to "Rebirth",
                 "zh_hant" to "再生產等級",
             ),
         ".text-actor-friendship" to
@@ -379,7 +379,7 @@ val commonText =
             ),
         ".text-remake-skill" to
             mapOf(
-                "en" to "Remake Skill",
+                "en" to "Rebirth Skill",
             ),
         ".text-presets" to
             mapOf(
