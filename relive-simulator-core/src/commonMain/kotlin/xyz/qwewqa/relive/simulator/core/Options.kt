@@ -240,6 +240,14 @@ fun getSimulationOptions(): SimulationOptions {
                         dress.position.id?.let { "img/icon_colored/54x54_position$it.png" },
                     ),
                 description = mapOf("en" to "hp${boss.maxHp}"),
+                tags =
+                    localeIds.associateWith { locale ->
+                      listOfNotNull(
+                          dress.character.school.name.lowercase(),
+                          dress.attribute.name.lowercase(),
+                          dress.damageType.name.lowercase(),
+                      )
+                    },
                 imagePath = v.info?.iconId?.let { "img/enemy/$it.png" },
                 data = BossData.fromDress(dress),
             )
