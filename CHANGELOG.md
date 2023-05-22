@@ -1023,3 +1023,9 @@
 # v1.4.2
 - Updated empty remake skill icon
 - Made fixed value passive song effects distinguishable from percentage based ones
+
+# v1.4.3
+- Updated some label text
+- Changed song descriptions to show awakening skills
+- Song passives are no longer filtered by the selected song
+- Selecting a song passive now updates the song
