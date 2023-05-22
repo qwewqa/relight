@@ -205,6 +205,7 @@ fun getSimulationOptions(): SimulationOptions {
                 data =
                     AwakeningSongEffectData(
                         id = id,
+                        values = effect.values,
                     ),
             )
           },

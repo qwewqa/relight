@@ -43,6 +43,7 @@ class AwakeningSongEffect(
     skillOption: ReversiblePassiveSkillOption,
     target: SkillTarget,
     defaultValue: Int?,
+    val values: List<Int>,
 ) : CommonSongEffect(id, names, skillOption, target, defaultValue)
 
 object BasicSongEffects : ImplementationRegistry<SongEffect>() {
@@ -137,6 +138,7 @@ object AwakeningSongEffects : ImplementationRegistry<AwakeningSongEffect>() {
                           "Skill option ${it.skill_option1_id} is not reversible, got ${SkillOptions[it.skill_option1_id]}"),
               target = target,
               defaultValue = it.skill_option1_values.firstOrNull(),
+              values = it.skill_option1_values,
           )
         }
   }

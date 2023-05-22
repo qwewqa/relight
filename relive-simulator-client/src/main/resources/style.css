@@ -1098,7 +1098,7 @@ pwa-update::part(offlineToast) {
 
 .input-group > .song-effect-value {
     flex: 0 1 auto;
-    width: 4em;
+    width: 5em;
     z-index: 100;
     text-align: right;
 }

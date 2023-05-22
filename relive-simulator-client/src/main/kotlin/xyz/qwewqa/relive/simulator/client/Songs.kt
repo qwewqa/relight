@@ -4,8 +4,12 @@ import kotlinx.browser.document
 import kotlinx.dom.clear
 import kotlinx.html.dom.append
 import kotlinx.html.js.img
+import kotlinx.html.js.option
 import kotlinx.html.js.span
 import org.w3c.dom.HTMLElement
+import org.w3c.dom.HTMLOptionElement
+import org.w3c.dom.HTMLSelectElement
+import xyz.qwewqa.relive.simulator.common.AwakeningSongEffectData
 import xyz.qwewqa.relive.simulator.common.SimulationOptions
 import xyz.qwewqa.relive.simulator.common.SongEffectParameter
 import xyz.qwewqa.relive.simulator.common.SongParameters
@@ -21,19 +25,19 @@ val songPassiveEffectValue = document.getElementById("song-passive-effect-value"
 val songAwakeningEffect1Type =
     document.getElementById("song-awakening-effect-1-type") as HTMLElement
 val songAwakeningEffect1Value =
-    document.getElementById("song-awakening-effect-1-value").integerInput(0)
+    document.getElementById("song-awakening-effect-1-value").singleSelect(false)
 val songAwakeningEffect2Type =
     document.getElementById("song-awakening-effect-2-type") as HTMLElement
 val songAwakeningEffect2Value =
-    document.getElementById("song-awakening-effect-2-value").integerInput(0)
+    document.getElementById("song-awakening-effect-2-value").singleSelect(false)
 val songAwakeningEffect3Type =
     document.getElementById("song-awakening-effect-3-type") as HTMLElement
 val songAwakeningEffect3Value =
-    document.getElementById("song-awakening-effect-3-value").integerInput(0)
+    document.getElementById("song-awakening-effect-3-value").singleSelect(false)
 val songAwakeningEffect4Type =
     document.getElementById("song-awakening-effect-4-type") as HTMLElement
 val songAwakeningEffect4Value =
-    document.getElementById("song-awakening-effect-4-value").integerInput(0)
+    document.getElementById("song-awakening-effect-4-value").singleSelect(false)
 val awakenedSongsSelect = document.getElementById("awakened-songs-select").multipleSelect(true)
 
 fun initSongs(options: SimulationOptions, locale: String) {
@@ -80,10 +84,10 @@ fun getSongParameters() =
                 songPassiveEffectType.value,
                 songPassiveEffectValue.value,
             ),
-        awakenSkill1Value = songAwakeningEffect1Value.value,
-        awakenSkill2Value = songAwakeningEffect2Value.value,
-        awakenSkill3Value = songAwakeningEffect3Value.value,
-        awakenSkill4Value = songAwakeningEffect4Value.value,
+        awakenSkill1Value = songAwakeningEffect1Value.value.toIntOrNull() ?: 0,
+        awakenSkill2Value = songAwakeningEffect2Value.value.toIntOrNull() ?: 0,
+        awakenSkill3Value = songAwakeningEffect3Value.value.toIntOrNull() ?: 0,
+        awakenSkill4Value = songAwakeningEffect4Value.value.toIntOrNull() ?: 0,
         awakenExtraSkillSongs = awakenedSongsSelect.value,
     )
 
@@ -96,11 +100,20 @@ fun setSongParameters(options: SimulationOptions, value: SongParameters, locale:
   songEffect2Value.value = value.activeEffect2?.value ?: 0
   songPassiveEffectType.value = value.passiveEffect?.id ?: "0"
   songPassiveEffectValue.value = value.passiveEffect?.value ?: 0
-  songAwakeningEffect1Value.value = value.awakenSkill1Value
-  songAwakeningEffect2Value.value = value.awakenSkill2Value
-  songAwakeningEffect3Value.value = value.awakenSkill3Value
-  songAwakeningEffect4Value.value = value.awakenSkill4Value
+  updateSelectValueOrSelectFirst(songAwakeningEffect1Value, "${value.awakenSkill1Value}")
+  updateSelectValueOrSelectFirst(songAwakeningEffect2Value, "${value.awakenSkill2Value}")
+  updateSelectValueOrSelectFirst(songAwakeningEffect3Value, "${value.awakenSkill3Value}")
+  updateSelectValueOrSelectFirst(songAwakeningEffect4Value, "${value.awakenSkill4Value}")
   awakenedSongsSelect.value = value.awakenExtraSkillSongs
+}
+
+private fun updateSelectValueOrSelectFirst(select: SingleSelect, value: String) {
+  val values = select.element.options.multiple<HTMLOptionElement>().map { it.value }
+  when {
+    value in values -> select.value = value
+    values.isNotEmpty() -> select.value = values.first()
+    else -> {}
+  }
 }
 
 fun updateSelectedSong(options: SimulationOptions, id: String, locale: String) {
@@ -120,6 +133,7 @@ fun updateSelectedSong(options: SimulationOptions, id: String, locale: String) {
           .map { it.id }
           .toSet()
 
+  val changedSong = id != songSelect.value
   songSelect.value = id
 
   if (currentPassiveType !in songPassives) {
@@ -128,27 +142,81 @@ fun updateSelectedSong(options: SimulationOptions, id: String, locale: String) {
 
   songPassiveEffectType.refreshSelectPicker()
 
-  updateSongAwakeningEffect(options, song.data.awakenSkill1Id, songAwakeningEffect1Type, locale)
-  updateSongAwakeningEffect(options, song.data.awakenSkill2Id, songAwakeningEffect2Type, locale)
-  updateSongAwakeningEffect(options, song.data.awakenSkill3Id, songAwakeningEffect3Type, locale)
-  updateSongAwakeningEffect(options, song.data.awakenSkill4Id, songAwakeningEffect4Type, locale)
+  updateSongAwakeningEffect(
+      options,
+      song.data.awakenSkill1Id,
+      songAwakeningEffect1Type,
+      songAwakeningEffect1Value.element,
+      locale,
+      !changedSong)
+  updateSongAwakeningEffect(
+      options,
+      song.data.awakenSkill2Id,
+      songAwakeningEffect2Type,
+      songAwakeningEffect2Value.element,
+      locale,
+      !changedSong)
+  updateSongAwakeningEffect(
+      options,
+      song.data.awakenSkill3Id,
+      songAwakeningEffect3Type,
+      songAwakeningEffect3Value.element,
+      locale,
+      !changedSong)
+  updateSongAwakeningEffect(
+      options,
+      song.data.awakenSkill4Id,
+      songAwakeningEffect4Type,
+      songAwakeningEffect4Value.element,
+      locale,
+      !changedSong)
 }
 
 private fun updateSongAwakeningEffect(
     options: SimulationOptions,
     skillId: Int?,
-    element: HTMLElement,
-    locale: String
+    typeElement: HTMLElement,
+    valueElement: HTMLSelectElement,
+    locale: String,
+    preserveValue: Boolean,
 ) {
-  element.clear()
-  val skill =
-      options.awakeningSongEffectsById["$skillId"]
-          ?: options.songEffectsById["0"] ?: return
-  element.append {
+  typeElement.clear()
+  val skill = options.awakeningSongEffectsById["$skillId"] ?: options.songEffectsById["0"] ?: return
+  typeElement.append {
     img(classes = "select-option-img") { src = skill.imagePath!! }
     span {
       +" "
       +skill.name.getLocalizedString(locale)
     }
+  }
+
+  val skillData = skill.data
+  val values =
+      when (skillData) {
+        is AwakeningSongEffectData -> skillData.values
+        else -> emptyList()
+      }.let {
+        if (0 !in it) {
+          listOf(0) + it
+        } else {
+          it
+        }
+      }
+
+  val initialValue = if (preserveValue) valueElement.value.toIntOrNull() else null
+
+  valueElement.clear()
+  valueElement.append {
+    values.forEachIndexed { i, v ->
+      option {
+        value = "$v"
+        +v.toString()
+        selected = i == 0
+      }
+    }
+  }
+
+  if (initialValue != null && initialValue in values) {
+    valueElement.value = "$initialValue"
   }
 }
