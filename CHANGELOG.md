@@ -1047,3 +1047,8 @@
 
 # v1.4.7
 - Added tr31 bosses
+
+# v1.4.8
+- Adjusted passive song skill names
+- Added units to awakening song effect descriptions
+- Added clear button to awakened song select
