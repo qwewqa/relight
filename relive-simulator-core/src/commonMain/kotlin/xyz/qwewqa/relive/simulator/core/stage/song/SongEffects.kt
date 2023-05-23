@@ -82,6 +82,11 @@ object BasicSongEffects : ImplementationRegistry<SongEffect>() {
 
 object ExtraSongEffects : ImplementationRegistry<SongEffect>() {
   init {
+    val showPercentSkills =
+        setOf(
+            SkillOptions.NormalDefenseUp,
+            SkillOptions.SpecialDefenseUp,
+        )
     +NoneSongEffect
     valuesGenMusicExtraSkill.values.forEach { effect ->
       val skillOption =
@@ -92,8 +97,9 @@ object ExtraSongEffects : ImplementationRegistry<SongEffect>() {
           id = effect._id_,
           names =
               effect.name.mapValues { (_, v) ->
-                if (skillOption.valueUnit == DescriptionUnit.None) {
-                  "$v #"
+                if (skillOption.valueUnit == DescriptionUnit.Percent &&
+                    skillOption in showPercentSkills) {
+                  "$v %"
                 } else {
                   v
                 }
