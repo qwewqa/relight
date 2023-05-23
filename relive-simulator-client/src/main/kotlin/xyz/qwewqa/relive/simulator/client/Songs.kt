@@ -6,6 +6,7 @@ import kotlinx.html.dom.append
 import kotlinx.html.js.img
 import kotlinx.html.js.option
 import kotlinx.html.js.span
+import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLOptionElement
 import org.w3c.dom.HTMLSelectElement
@@ -39,6 +40,8 @@ val songAwakeningEffect4Type =
 val songAwakeningEffect4Value =
     document.getElementById("song-awakening-effect-4-value").singleSelect(false)
 val awakenedSongsSelect = document.getElementById("awakened-songs-select").multipleSelect(true)
+val awakenedSongsClearButton =
+    document.getElementById("awakened-songs-clear-button") as HTMLButtonElement
 
 fun initSongs(options: SimulationOptions, locale: String) {
   songSelect.populate(options.songsById, locale)
@@ -54,6 +57,10 @@ fun initSongs(options: SimulationOptions, locale: String) {
   songSelect.element.onchange = { updateSelectedSong(options, songSelect.value, locale) }
   awakenedSongsSelect.populate(options.awakeningSongsById, locale)
   updateSelectedSong(options, "0", locale)
+  awakenedSongsClearButton.onclick = { ev ->
+    awakenedSongsSelect.value = emptyList()
+    ev.preventDefault()
+  }
 }
 
 fun updateSongLocale(options: SimulationOptions, locale: String) {
