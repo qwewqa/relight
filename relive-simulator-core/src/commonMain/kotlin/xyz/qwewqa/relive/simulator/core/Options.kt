@@ -170,10 +170,14 @@ fun getSimulationOptions(): SimulationOptions {
           Songs.filter { (_, song) -> song.awakenExtraSkill != null }
               .map { (id, song) ->
                 val skill = song.awakenExtraSkill!!
+                val value = skill.defaultValue ?: 0
+                val valueText =
+                    (skill as? AwakeningSongEffect)?.skillOption?.valueUnit?.format?.invoke(value)
+                        ?: "$value"
                 DataSimulationOption(
                     id = "$id",
                     name = song.names,
-                    description = skill.names.mapValues { (_, v) -> "$v ${skill.defaultValue}" },
+                    description = skill.names.mapValues { (_, v) -> "$v $valueText" },
                     descriptionIcons = listOf("img/skill_icon/skill_icon_${skill.iconId}.png"),
                     imagePath = "img/music_coverart/27_$id.png",
                     data = SongAwakeningData(id = id))
