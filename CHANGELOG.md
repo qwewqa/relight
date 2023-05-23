@@ -1044,3 +1044,6 @@
 - Minor visual adjustments
 - Fixed awakening effect values not being cleared when song changes
 - Made bosses searchable by school, attribute, and damage type
+
+# v1.4.7
+- Added tr31 bosses
