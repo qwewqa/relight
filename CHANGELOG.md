@@ -1063,3 +1063,7 @@
 
 # v1.4.11
 - Made tooltips show in non-interactive plots
+
+# v1.4.12
+- Added new dresses and memoirs
+- Set a maximum height for dropdown menus
