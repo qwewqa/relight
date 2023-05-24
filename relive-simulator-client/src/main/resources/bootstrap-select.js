@@ -734,6 +734,7 @@
                 if (options.img) {
                     var imgElement = elementTemplates.img.cloneNode(false);
                     imgElement.className = 'select-option-img';
+                    imgElement.setAttribute('loading', 'lazy')
                     imgElement.setAttribute('src', options.img);
 
                     textElement.appendChild(imgElement);
@@ -763,6 +764,7 @@
                         if (i !== subtextParts.length - 1) {
                             const imgElement = elementTemplates.img.cloneNode(false);
                             imgElement.style = "height: 1.8em; margin: 0.1em; padding-top: 0.2em;"
+                            imgElement.setAttribute('loading', 'lazy')
                             imgElement.setAttribute('src', subtextParts[i]);
                             container.appendChild(imgElement);
                         } else {
