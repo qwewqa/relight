@@ -44,7 +44,7 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
   ({event}) => event.request.destination === 'image',
-  new workbox.strategies.StaleWhileRevalidate({
+  new workbox.strategies.CacheFirst({
     cacheName: IMAGE_CACHE,
     plugins: [],
   })
