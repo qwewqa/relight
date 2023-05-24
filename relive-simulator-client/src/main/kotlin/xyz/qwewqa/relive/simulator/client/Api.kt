@@ -22,7 +22,7 @@ import xyz.qwewqa.relive.simulator.common.SimulationOptions
 import xyz.qwewqa.relive.simulator.common.SimulationParameters
 import kotlin.js.Date
 
-const val BASE_API_URL = "https://api-legacy.relight.qwewqa.xyz"
+const val BASE_API_URL = "https://api.relight.qwewqa.xyz"
 
 class RelightApi(val simulator: SimulatorClient) {
   private val client = HttpClient {
