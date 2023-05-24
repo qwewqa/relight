@@ -272,6 +272,8 @@ class SimulatorClient(val simulator: Simulator) {
   val logRow = document.getElementById("results-log-row") as HTMLDivElement
   val errorText = document.getElementById("error-text") as HTMLPreElement
   val logText = document.getElementById("log-text") as HTMLDivElement
+  val interactivePlotsCheckbox =
+      document.getElementById("interactive-plots-checkbox") as HTMLInputElement
   val resultsPlot = document.getElementById("results-plot")!!
   val endPlotDamage = document.getElementById("end-plot-damage")!!
   val endPlotDamageBox = document.getElementById("end-plot-damage-box")!!
@@ -2858,7 +2860,12 @@ class SimulatorClient(val simulator: Simulator) {
                   }
                 }
                     as Any,
-            config = jsObject { responsive = true } as Any,
+            config =
+                jsObject {
+                  responsive = true
+                  staticPlot = !interactivePlotsCheckbox.checked
+                }
+                    as Any,
         )
         react(
             graphDiv = boxElement,
@@ -2875,7 +2882,12 @@ class SimulatorClient(val simulator: Simulator) {
                   yaxis = jsObject { autorange = "reversed" }
                 }
                     as Any,
-            config = jsObject { responsive = true } as Any,
+            config =
+                jsObject {
+                  responsive = true
+                  staticPlot = !interactivePlotsCheckbox.checked
+                }
+                    as Any,
         )
         element.addClass("d-none")
         boxElement.addClass("d-none")
@@ -3245,7 +3257,12 @@ class SimulatorClient(val simulator: Simulator) {
                           }
                         }
                             as Any,
-                    config = jsObject { responsive = true } as Any,
+                    config =
+                        jsObject {
+                          responsive = true
+                          staticPlot = !interactivePlotsCheckbox.checked
+                        }
+                            as Any,
                 )
                 react(
                     graphDiv = boxElement,
@@ -3283,7 +3300,12 @@ class SimulatorClient(val simulator: Simulator) {
                           yaxis = jsObject { autorange = "reversed" }
                         }
                             as Any,
-                    config = jsObject { responsive = true } as Any,
+                    config =
+                        jsObject {
+                          responsive = true
+                          staticPlot = !interactivePlotsCheckbox.checked
+                        }
+                            as Any,
                 )
                 if (data.values.all { it.accessor().isEmpty() }) {
                   element.addClass("d-none")

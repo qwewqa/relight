@@ -10,7 +10,7 @@ external object Plotly {
 
   fun react(
       graphDiv: Any,
-      data: Array<Any>,
+      data: Array<Any> = definedExternally,
       layout: Any = definedExternally,
       config: Any = definedExternally,
   )

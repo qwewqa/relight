@@ -475,6 +475,11 @@ val commonText =
             mapOf(
                 "en" to "Account",
             ),
+        "text-interactive-plots" to
+            mapOf(
+                "en" to "Interactive Plots",
+                "zh_hant" to "互動劇情",
+            ),
         "attribute-neutral" to
             mapOf(
                 "en" to "Neutral",
