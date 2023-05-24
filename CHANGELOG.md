@@ -1060,3 +1060,6 @@
 # v1.4.10
 - Share modal now opens immediately and displays a loading indicator
 - Made result plots non-interactive by default
+
+# v1.4.11
+- Made tooltips show in non-interactive plots
