@@ -1512,4 +1512,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
       +skillOptionData(596).makeSkillOption { value ->
         // TODO
       }
+
+  val AgonyResistanceUp = +skillOptionData(597).applyEffect()
+  val LockedAgonyResistanceUp = +skillOptionData(598).applyEffect()
 }

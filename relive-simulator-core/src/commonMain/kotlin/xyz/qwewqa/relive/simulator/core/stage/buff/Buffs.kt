@@ -1501,6 +1501,10 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val ReflectStageEffectSugaryCorruptionBuffEffect =
       +buffData(320).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
+  val AgonyResistanceUpBuff = +buffData(321).makeSpecificResistanceUpBuff(AgonyBuff)
+
+  val LockedAgonyResistanceUpBuff = +buffData(322).makeLockedVariantOf(AgonyResistanceUpBuff)
+
   val abnormalBuffs =
       platformSetOf(
           StopBuff,
