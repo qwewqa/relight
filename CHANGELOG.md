@@ -1052,3 +1052,7 @@
 - Adjusted passive song skill names
 - Added units to awakening song effect descriptions
 - Added clear button to awakened song select
+
+# v1.4.9
+- Improved load performance
+- Improved api performance
