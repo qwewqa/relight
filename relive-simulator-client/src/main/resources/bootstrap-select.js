@@ -2279,6 +2279,8 @@
                     menuHeight = this.sizeInfo.selectOffsetTop - this.sizeInfo.menuExtras.vert;
                 }
 
+                menuHeight = Math.min(menuHeight, $(window).height() * 0.8);
+
                 maxHeight = menuHeight;
                 menuInnerHeight = menuHeight - headerHeight - searchHeight - actionsHeight - doneButtonHeight - menuPadding.vert;
             } else if (this.options.size && this.options.size != 'auto' && this.selectpicker.current.elements.length > this.options.size) {
