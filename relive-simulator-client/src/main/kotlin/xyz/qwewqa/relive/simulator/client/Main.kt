@@ -2350,13 +2350,14 @@ class SimulatorClient(val simulator: Simulator) {
       GlobalScope.launch {
         try {
           toast("Share", "Sharing setup...", "yellow")
+          shareSetupModalBs.show()
+          shareSetupText.value = localized("loading...", locale)
           val setup = getSetup()
-          val imageData = TeamImage(setup, options).drawOpenGraphImage()
           shareSetupImageContainer.clear()
+          val imageData = TeamImage(setup, options).drawOpenGraphImage()
           shareSetupImageContainer.append { img(src = imageData.toDataURL()) { width = "100%" } }
           val url = api.shareSetup(setup, options)
           shareSetupText.value = url
-          shareSetupModalBs.show()
         } catch (e: Throwable) {
           toast("Share", "An error occurred when attempting to share setup.", "red")
         } finally {
