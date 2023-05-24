@@ -1056,3 +1056,7 @@
 # v1.4.9
 - Improved load performance
 - Improved api performance
+
+# v1.4.10
+- Share modal now opens immediately and displays a loading indicator
+- Made result plots non-interactive by default
