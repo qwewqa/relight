@@ -545,7 +545,7 @@ pwa-update::part(offlineToast) {
 }
 
 .interactive-act-button-climax:disabled {
-    border: indigo 1px solid;
+    border: var(--bs-btn-border-width) solid indigo;
     background: indigo;
 }
 
