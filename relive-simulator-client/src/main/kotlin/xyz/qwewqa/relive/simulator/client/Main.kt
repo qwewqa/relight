@@ -2863,7 +2863,7 @@ class SimulatorClient(val simulator: Simulator) {
             config =
                 jsObject {
                   responsive = true
-                  staticPlot = !interactivePlotsCheckbox.checked
+                  displayModeBar = interactivePlotsCheckbox.checked
                 }
                     as Any,
         )
@@ -2885,7 +2885,7 @@ class SimulatorClient(val simulator: Simulator) {
             config =
                 jsObject {
                   responsive = true
-                  staticPlot = !interactivePlotsCheckbox.checked
+                  displayModeBar = interactivePlotsCheckbox.checked
                 }
                     as Any,
         )
@@ -3255,12 +3255,18 @@ class SimulatorClient(val simulator: Simulator) {
                             b = 60
                             t = 60
                           }
+                          xaxis = jsObject {
+                            fixedrange = !interactivePlotsCheckbox.checked
+                          }
+                          yaxis = jsObject {
+                            fixedrange = !interactivePlotsCheckbox.checked
+                          }
                         }
                             as Any,
                     config =
                         jsObject {
                           responsive = true
-                          staticPlot = !interactivePlotsCheckbox.checked
+                          displayModeBar = interactivePlotsCheckbox.checked
                         }
                             as Any,
                 )
@@ -3297,13 +3303,19 @@ class SimulatorClient(val simulator: Simulator) {
                             b = 60
                             t = 60
                           }
-                          yaxis = jsObject { autorange = "reversed" }
+                          xaxis = jsObject {
+                            fixedrange = !interactivePlotsCheckbox.checked
+                          }
+                          yaxis = jsObject {
+                            autorange = "reversed"
+                            fixedrange = !interactivePlotsCheckbox.checked
+                          }
                         }
                             as Any,
                     config =
                         jsObject {
                           responsive = true
-                          staticPlot = !interactivePlotsCheckbox.checked
+                          displayModeBar = interactivePlotsCheckbox.checked
                         }
                             as Any,
                 )
