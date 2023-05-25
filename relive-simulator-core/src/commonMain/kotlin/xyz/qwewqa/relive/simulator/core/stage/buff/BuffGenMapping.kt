@@ -12,6 +12,7 @@ data class BuffData(
     val id: Int,
     val name: String,
     val iconId: Int,
+    val groupId: Int,
     val locked: Boolean,
 ) {
   // change this to use an object declaration instead of SimpleContinuousBuffEffect
@@ -28,6 +29,7 @@ data class BuffData(
         override val id: Int = this@BuffData.id
         override val name: String = this@BuffData.name
         override val iconId: Int = this@BuffData.iconId
+        override val groupId: Int = this@BuffData.groupId
         override val category: BuffCategory = category
         override val isLocked: Boolean = locked
         override val exclusive: Boolean = exclusive
@@ -59,6 +61,7 @@ data class BuffData(
         override val id: Int = this@BuffData.id
         override val name: String = this@BuffData.name
         override val iconId: Int = this@BuffData.iconId
+        override val groupId: Int = this@BuffData.groupId
         override val category: BuffCategory = category
         override val isLocked: Boolean = locked
         override val exclusive: Boolean = exclusive
@@ -135,6 +138,7 @@ data class BuffData(
           id = id,
           name = name,
           iconId = iconId,
+          groupId = groupId,
           category = category,
           isLocked = isLocked,
       )
@@ -145,6 +149,7 @@ fun GenBuff.toBuffData() =
         id = _id_,
         name = name.getLocalizedString(),
         iconId = icon_id,
+        groupId = group,
         locked = is_lock != 0,
     )
 

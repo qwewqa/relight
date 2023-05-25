@@ -69,6 +69,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.StunBuff
 sealed interface BuffEffect : FeatureImplementation {
   val name: String
   val iconId: Int
+  val groupId: Int
   val category: BuffCategory
   val isLocked: Boolean
     get() = false
@@ -85,84 +86,7 @@ enum class BuffCategory {
 // Not meant for sort order in comprehensive lists.
 // This is for highlighting the most important buffs, but not necessarily grouping them by type of
 // effect.
-private val buffDisplayPriorityList: List<BuffEffect> =
-    listOf(
-        Buffs.DazeBuff,
-        Buffs.ImpudenceBuff,
-        Buffs.EvasionBuff,
-        Buffs.InvincibleRebirthBuff,
-        Buffs.FortitudeBuff,
-        Buffs.ReviveBuff,
-        ActionRestrictionResistanceUpBuff,
-        StopBuff,
-        SleepBuff,
-        NightmareBuff,
-        ConfusionBuff,
-        LockedConfusionBuff,
-        StunBuff,
-        LockedStunBuff,
-        BlindnessBuff,
-        LockedStunBuff,
-        ElectricShockBuff,
-        LockedElectricShockBuff,
-        LovesicknessBuff,
-        LockedLovesicknessBuff,
-        AgonyBuff,
-        BurnBuff,
-        LockedBurnBuff,
-        PoisonBuff,
-        LockedPoisonBuff,
-        ContinuousNegativeEffectResistanceUpBuff,
-        LockedContinuousNegativeEffectResistanceUpBuff,
-        PositiveEffectResistanceUpBuff,
-        NegativeCountableEffectResistanceUpBuff,
-        Buffs.HopeBuff,
-        Buffs.CheerBuff,
-        ResilienceBuff,
-        InvincibilityBuff,
-        AbsorbBuff,
-        CounterHealBuff,
-        AggroBuff,
-        LockedAggroBuff,
-        ProvokeBuff,
-        MarkBuff,
-        FlippedMarkBuff,
-        Buffs.WeakSpotBuff,
-        ApDownBuff,
-        LockedApDownBuff,
-        ApDown2Buff,
-        ApUpBuff,
-        LockedApUpBuff,
-        ActPowerDownBuff,
-        DexterityDownBuff,
-        CriticalDownBuff,
-        EvasionDownBuff,
-        AccuracyDownBuff,
-        AgilityDownBuff,
-        NormalDefenseDownBuff,
-        SpecialDefenseDownBuff,
-        DamageReceivedUpBuff,
-        BrillianceGainDownBuff,
-        ClimaxDamageDownBuff,
-        ActPowerUpBuff,
-        DexterityUpBuff,
-        CriticalUpBuff,
-        EffectiveDamageDealtUpBuff,
-        DamageDealtUpBuff,
-        EvasionUpBuff,
-        ActPowerUpBuff,
-        AgilityUpBuff,
-        NormalDefenseUpBuff,
-        SpecialDefenseUpBuff,
-        BrillianceGainUpBuff,
-        ClimaxDamageUpBuff,
-        DamageReceivedDownBuff,
-        PerfectAimBuff,
-        NormalReflectBuff,
-        SpecialReflectBuff,
-        NormalBarrierBuff,
-        SpecialBarrierBuff,
-    )
+private val buffDisplayPriorityList: List<BuffEffect> = Buffs.values.sortedBy { it.groupId }
 
 private val buffDisplayPriorityMap: Map<BuffEffect, Int> =
     buffDisplayPriorityList
