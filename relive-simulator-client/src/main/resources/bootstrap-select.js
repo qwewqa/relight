@@ -733,9 +733,9 @@
             } else {
                 if (options.img) {
                     var imgElement = elementTemplates.img.cloneNode(false);
-                    imgElement.className = 'select-option-img';
-                    imgElement.setAttribute('loading', 'lazy')
-                    imgElement.setAttribute('src', options.img);
+                    imgElement.className = "select-option-img";
+                    imgElement.loading = "lazy";
+                    imgElement.src = options.img;
 
                     textElement.appendChild(imgElement);
                     textElement.appendChild(document.createTextNode(` ${options.text}`));
@@ -758,18 +758,18 @@
                 if (options.subtext) {
                     subtextElement = elementTemplates.subtext.cloneNode(false);
                     const container = elementTemplates.div.cloneNode(false);
-                    container.style = "display: inline-flex; align-items: center;";
+                    container.className = "select-option-subtext-container";
                     const subtextParts = options.subtext.split('%%%');
                     for (let i = 0; i < subtextParts.length; i++) {
                         if (i !== subtextParts.length - 1) {
                             const imgElement = elementTemplates.img.cloneNode(false);
-                            imgElement.style = "height: 1.8em; margin: 0.1em; padding-top: 0.2em;"
-                            imgElement.setAttribute('loading', 'lazy')
-                            imgElement.setAttribute('src', subtextParts[i]);
+                            imgElement.className = "select-option-subtext-img";
+                            imgElement.loading = "lazy";
+                            imgElement.src = subtextParts[i];
                             container.appendChild(imgElement);
                         } else {
                             const spanElement = elementTemplates.span.cloneNode(false);
-                            spanElement.style = "margin-left: 0.4em;";
+                            spanElement.classList = "select-option-subtext-img-text";
                             spanElement.textContent = subtextParts[i];
                             container.appendChild(spanElement);
                         }

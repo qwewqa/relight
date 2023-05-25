@@ -167,6 +167,21 @@ form .form-label {
     height: 1.5em;
 }
 
+.select-option-subtext-img {
+    height: 1.8em;
+    margin: 0.1em;
+    padding-top: 0.2em;
+}
+
+.select-option-subtext-img-text {
+    margin-left: 0.4em;
+}
+
+.select-option-subtext-container {
+    display: inline-flex;
+    align-items: center;
+}
+
 pwa-update::part(updateToast) {
     z-index: 999;
 }
