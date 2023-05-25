@@ -182,7 +182,6 @@ class SimulatorClient(val simulator: Simulator) {
       document.getElementById("share-setup-image-container") as HTMLDivElement
   val shareSetupText = document.getElementById("share-setup-text") as HTMLTextAreaElement
   val shareSetupButton = document.getElementById("share-setup-button") as HTMLButtonElement
-  val shareSetupButtonAlt = document.getElementById("share-setup-button-alt") as HTMLButtonElement
 
   val optionsModal = document.getElementById("options-modal") as HTMLDivElement
   val optionsModalBs = Bootstrap.Modal(optionsModal)
@@ -2369,7 +2368,6 @@ class SimulatorClient(val simulator: Simulator) {
     }
 
     shareSetupButton.addEventListener("click", { shareSetup() })
-    shareSetupButtonAlt.addEventListener("click", { shareSetup() })
 
     languageSelect.populate(options.locales)
     bossSelect.populate(bosses, locale)
