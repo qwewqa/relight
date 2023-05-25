@@ -1677,7 +1677,7 @@ class SimulatorClient(val simulator: Simulator) {
                             onChangeFunction = { ActorOptions(options, actorId).update() }
                           }
                         }
-                    div("col-12 my-1 d-flex gap-1") {
+                    div("col-12 mt-2 mb-1 d-flex gap-1") {
                       button(
                           type = ButtonType.button,
                           classes = "btn btn-outline-secondary text-actor-preset-min") {
