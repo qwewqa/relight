@@ -1067,3 +1067,9 @@
 # v1.4.12
 - Added new dresses and memoirs
 - Set a maximum height for dropdown menus
+
+# v1.4.13
+- Load time improvements
+- Adjusted interactive buff display order
+- Clicking on an actor in the status section in interactive now opens the respective Karth page
+- Fixed some missing text
