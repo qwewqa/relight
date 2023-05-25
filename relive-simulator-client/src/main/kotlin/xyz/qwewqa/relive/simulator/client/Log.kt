@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.client
 
 import kotlinx.browser.document
+import kotlinx.browser.window
 import kotlinx.dom.addClass
 import kotlinx.dom.clear
 import kotlinx.dom.removeClass
@@ -168,6 +169,11 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
       statusImageContainer.run {
         clear()
         append {
+          onclick = {
+            if (status.dressId > 0) {
+              window.open("https://karth.top/dress/${status.dressId}?global=1", "_blank")
+            }
+          }
           img(classes = "interactive-status-actor-img") {
             src = "img/large_icon/1_${status.dressId}.png"
           }
@@ -246,6 +252,11 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
         val totalDamage = data.playerStatus?.sumOf { it.damageContribution } ?: 0.0
         data.playerStatus?.reversed()?.forEachIndexed { i, status ->
           div(classes = "$playerWidth interactive-status-container") {
+            onclick = {
+              if (status.dressId > 0) {
+                window.open("https://karth.top/dress/${status.dressId}?global=1", "_blank")
+              }
+            }
             div(classes = "interactive-status-image-container") {
               id = "player-status-image-container-$i"
               img(classes = "interactive-status-actor-img") {
