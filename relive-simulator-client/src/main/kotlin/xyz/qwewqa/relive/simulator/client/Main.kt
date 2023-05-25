@@ -2858,6 +2858,11 @@ class SimulatorClient(val simulator: Simulator) {
                     b = 60
                     t = 60
                   }
+                  xaxis = jsObject { fixedrange = !interactivePlotsCheckbox.checked }
+                  yaxis = jsObject { fixedrange = !interactivePlotsCheckbox.checked }
+                  if (!interactivePlotsCheckbox.checked) {
+                    dragmode = false
+                  }
                 }
                     as Any,
             config =
@@ -2879,7 +2884,14 @@ class SimulatorClient(val simulator: Simulator) {
                     b = 60
                     t = 60
                   }
-                  yaxis = jsObject { autorange = "reversed" }
+                  xaxis = jsObject { fixedrange = !interactivePlotsCheckbox.checked }
+                  yaxis = jsObject {
+                    autorange = "reversed"
+                    fixedrange = !interactivePlotsCheckbox.checked
+                  }
+                  if (!interactivePlotsCheckbox.checked) {
+                    dragmode = false
+                  }
                 }
                     as Any,
             config =
@@ -3255,11 +3267,10 @@ class SimulatorClient(val simulator: Simulator) {
                             b = 60
                             t = 60
                           }
-                          xaxis = jsObject {
-                            fixedrange = !interactivePlotsCheckbox.checked
-                          }
-                          yaxis = jsObject {
-                            fixedrange = !interactivePlotsCheckbox.checked
+                          xaxis = jsObject { fixedrange = !interactivePlotsCheckbox.checked }
+                          yaxis = jsObject { fixedrange = !interactivePlotsCheckbox.checked }
+                          if (!interactivePlotsCheckbox.checked) {
+                            dragmode = false
                           }
                         }
                             as Any,
@@ -3303,12 +3314,13 @@ class SimulatorClient(val simulator: Simulator) {
                             b = 60
                             t = 60
                           }
-                          xaxis = jsObject {
-                            fixedrange = !interactivePlotsCheckbox.checked
-                          }
+                          xaxis = jsObject { fixedrange = !interactivePlotsCheckbox.checked }
                           yaxis = jsObject {
                             autorange = "reversed"
                             fixedrange = !interactivePlotsCheckbox.checked
+                          }
+                          if (!interactivePlotsCheckbox.checked) {
+                            dragmode = false
                           }
                         }
                             as Any,
