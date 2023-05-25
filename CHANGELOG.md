@@ -1073,3 +1073,8 @@
 - Adjusted interactive buff display order
 - Clicking on an actor in the status section in interactive now opens the respective Karth page
 - Fixed some missing text
+
+# v1.4.14
+- Fixed issue with opening Karth pages via interactive
+- Updated data for WW
+- Improved scrolling over plots on mobile
