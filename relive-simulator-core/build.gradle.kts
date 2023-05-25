@@ -31,12 +31,6 @@ kotlin {
   jvm { testRuns["test"].executionTask.configure { useJUnitPlatform() } }
   js(IR) {
     browser()
-    compilations.all {
-      kotlinOptions {
-        freeCompilerArgs +=
-            listOf("-Xir-property-lazy-initialization", "-Xir-minimized-member-names=false")
-      }
-    }
   }
   sourceSets.all { languageSettings { optIn("kotlin.RequiresOptIn") } }
 }

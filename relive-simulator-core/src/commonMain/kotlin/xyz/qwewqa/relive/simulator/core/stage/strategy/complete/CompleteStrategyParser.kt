@@ -18,10 +18,10 @@ import com.github.h0tk3y.betterParse.lexer.TokenProducer
 import com.github.h0tk3y.betterParse.lexer.Tokenizer
 import com.github.h0tk3y.betterParse.lexer.literalToken
 import com.github.h0tk3y.betterParse.lexer.noneMatched
-import com.github.h0tk3y.betterParse.lexer.regexToken
 import com.github.h0tk3y.betterParse.parser.ParseResult
 import com.github.h0tk3y.betterParse.parser.Parsed
 import com.github.h0tk3y.betterParse.parser.Parser
+import xyz.qwewqa.relive.simulator.core.stage.strategy._regexToken
 
 enum class NumericalInfixOperator {
   PLUS,
@@ -46,7 +46,7 @@ enum class ComparisonOperator {
 }
 
 object CsParser : Grammar<CsScriptNode>() {
-  val comment by regexToken("""//.*""", ignore = true)
+  val comment by _regexToken("""//.*""", ignore = true)
 
   val lpar by literalToken("(")
   val rpar by literalToken(")")
@@ -89,11 +89,11 @@ object CsParser : Grammar<CsScriptNode>() {
   val pos by literalToken("+")
   val neg by literalToken("-")
 
-  val num by regexToken("""[0-9]+(\.[0-9]+)?""")
-  val ident by regexToken("""([^\W0-9]\w*)|(`[^`]+`)""")
-  val str by regexToken(""" "[^"\v]*" """.trim { it == ' ' }) // extra spaces for readability
-  val nl by regexToken("""\r?\n""", ignore = true)
-  val ws by regexToken("""[^\S\r\n]+""", ignore = true)
+  val num by _regexToken("""[0-9]+(\.[0-9]+)?""")
+  val ident by _regexToken("""([^\W0-9]\w*)|(`[^`]+`)""")
+  val str by _regexToken(""" "[^"\v]*" """.trim { it == ' ' }) // extra spaces for readability
+  val nl by _regexToken("""\r?\n""", ignore = true)
+  val ws by _regexToken("""[^\S\r\n]+""", ignore = true)
 
   val numericalInfixOperators =
       mapOf(

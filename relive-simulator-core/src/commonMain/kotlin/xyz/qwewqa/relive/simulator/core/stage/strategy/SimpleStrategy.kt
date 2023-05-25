@@ -11,7 +11,6 @@ import com.github.h0tk3y.betterParse.combinators.unaryMinus
 import com.github.h0tk3y.betterParse.combinators.use
 import com.github.h0tk3y.betterParse.grammar.Grammar
 import com.github.h0tk3y.betterParse.lexer.literalToken
-import com.github.h0tk3y.betterParse.lexer.regexToken
 import com.github.h0tk3y.betterParse.parser.Parser
 import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.stage.PlayInfo
@@ -82,18 +81,18 @@ val actNameMapping = ActType.values().associateBy { it.shortName }
 const val DEFAULT_MOVESET_WEIGHT = 100
 
 object SimpleStrategyGrammar : Grammar<List<SimpleStrategyMoveset>>() {
-  val comment by regexToken("""#.*""", ignore = true)
-  val num by regexToken("""\d+""")
-  val stringLit by regexToken(""""([^"\\]|\\.)*"""")
-  val quotIdent by regexToken("""`[^`]*`""")
-  val moveset by regexToken("""[Mm]oveset""")
-  val turn by regexToken("[Tt]urn")
+  val comment by _regexToken("""#.*""", ignore = true)
+  val num by _regexToken("""\d+""")
+  val stringLit by _regexToken(""""([^"\\]|\\.)*"""")
+  val quotIdent by _regexToken("""`[^`]*`""")
+  val moveset by _regexToken("""[Mm]oveset""")
+  val turn by _regexToken("[Tt]urn")
   val colon by literalToken(":")
   val climax by literalToken("climax")
   val assert by literalToken("assert")
-  val ident by regexToken("""\S+""")
-  val newlines by regexToken("""\s*[\r\n]+\s*""")
-  val ws by regexToken("""[^\S\r\n]+""", ignore = true)
+  val ident by _regexToken("""\S+""")
+  val newlines by _regexToken("""\s*[\r\n]+\s*""")
+  val ws by _regexToken("""[^\S\r\n]+""", ignore = true)
 
   val string: Parser<String> by stringLit use { text.substring(1, text.length - 1) }
   val identifier: Parser<String> by

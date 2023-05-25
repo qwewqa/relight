@@ -53,13 +53,6 @@ kotlin {
         }
       }
     }
-    compilations.all {
-      kotlinOptions {
-        freeCompilerArgs +=
-            listOf("-Xir-property-lazy-initialization", "-Xir-minimized-member-names=false")
-        freeCompilerArgs += listOf("-Xir-minimized-member-names=false")
-      }
-    }
     binaries.executable()
   }
   sourceSets.all { languageSettings { optIn("kotlin.RequiresOptIn") } }
