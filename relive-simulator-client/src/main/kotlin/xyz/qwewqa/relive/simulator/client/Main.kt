@@ -247,6 +247,8 @@ class SimulatorClient(val simulator: Simulator) {
 
   val interactiveRestartButton =
       document.getElementById("interactive-ui-restart-button") as HTMLButtonElement
+  val interactiveSharesButton =
+      document.getElementById("interactive-ui-shares-button") as HTMLButtonElement
   val interactiveExportButton =
       document.getElementById("interactive-ui-export-button") as HTMLButtonElement
   val interactiveRewindButton =
@@ -2458,6 +2460,14 @@ class SimulatorClient(val simulator: Simulator) {
 
     interactiveRestartButton.addEventListener("click", { startNewInteractiveSimulation() })
 
+    interactiveSharesButton.addEventListener("click", {
+      if (interactiveContainer.hasClass("show-damage-shares")) {
+        interactiveContainer.removeClass("show-damage-shares")
+      } else {
+        interactiveContainer.addClass("show-damage-shares")
+      }
+    })
+
     suspend fun sendInteractiveCommand(command: String) {
       when (command) {
         "bars" -> {
@@ -2465,11 +2475,6 @@ class SimulatorClient(val simulator: Simulator) {
             interactiveStatusContainer.removeClass("d-none")
           } else {
             interactiveStatusContainer.addClass("d-none")
-          }
-        }
-        "shares" -> {
-          document.getElementsByClassName("damage-shares").asList().forEach {
-            it.removeClass("d-none")
           }
         }
         "" -> interactiveSimulation?.sendCommand("go")

@@ -203,8 +203,8 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
         brillianceElement.textContent = ""
         brillianceLabelElement.textContent = ""
       }
-      damageElement.textContent = "${status.damageContribution}"
-      damageLabelElement.textContent = "${status.damageContribution}"
+      damageElement.textContent = status.damageContribution.formatShort()
+      damageLabelElement.textContent = status.damageContribution.formatShort()
       buffsElement.run {
         clear()
         append { buffElements(status) }
@@ -236,7 +236,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                   +"${status.hp}/${status.maxHp} (-${(status.maxHp - status.hp).formatShort()})"
                 }
               }
-              div {
+              div(classes = "progress-bar-label") {
                 id = "boss-hp-label-$i"
                 style =
                     "font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;"
@@ -282,12 +282,12 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                 div(classes = "progress-bar bg-success") {
                   id = "player-hp-$i"
                   style =
-                      "width: ${status.hp.toDouble() / status.maxHp * 100}%;font-weight: bold;z-index: 2;"
+                      "width: ${status.hp / status.maxHp * 100}%;font-weight: bold;z-index: 2;"
                   if (status.hp > 0) {
                     +"${status.hp}/${status.maxHp}"
                   }
                 }
-                div {
+                div(classes = "progress-bar-label") {
                   id = "player-hp-label-$i"
                   style =
                       "font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;"
@@ -305,7 +305,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                     +"${status.brilliance}"
                   }
                 }
-                div {
+                div(classes = "progress-bar-label") {
                   id = "player-brilliance-label-$i"
                   style =
                       "font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;"
@@ -314,22 +314,22 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                   }
                 }
               }
-              div(classes = "progress d-none damage-shares") {
+              div(classes = "progress damage-shares") {
                 style = "font-size: 0.7rem;height: 0.8rem;margin-top: 0.1rem;position: relative;"
-                div(classes = "progress-bar bg-info") {
+                div(classes = "progress-bar") {
                   id = "player-damage-$i"
                   style =
                       "width: ${status.damageContribution / totalDamage.coerceAtLeast(1.0) * 100}%;color: black;font-weight: bold;z-index: 2;"
                   if (status.damageContribution > 0) {
-                    +"${status.damageContribution}"
+                    +status.damageContribution.formatShort()
                   }
                 }
-                div {
+                div(classes = "progress-bar-label") {
                   id = "player-damage-label-$i"
                   style =
                       "font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;"
                   if (status.damageContribution > 0) {
-                    +"${status.damageContribution}"
+                    +status.damageContribution.formatShort()
                   }
                 }
               }

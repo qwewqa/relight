@@ -1137,3 +1137,20 @@ input[type=number] {
     resize: none;
     overflow: hidden;
 }
+
+.damage-shares > .progress-bar {
+    background: skyblue;
+}
+
+.damage-shares {
+    display: none;
+}
+
+.show-damage-shares .damage-shares {
+    display: flex;
+}
+
+#interactive-status-container .progress-bar,
+#interactive-status-container .progress-bar-label {
+    text-indent: 0.2rem;
+}
