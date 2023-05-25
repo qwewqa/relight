@@ -2328,7 +2328,7 @@ class SimulatorClient(val simulator: Simulator) {
           actIconsContainer.clear()
           actIconsContainer.append {
             div("mx-auto") {
-              listOf("A1", "A2", "A3").forEach { actName ->
+              listOf("A1", "A2", "A3", "CA").forEach { actName ->
                 div {
                   teamDresses.map { (isSupport, dressId) ->
                     img(
