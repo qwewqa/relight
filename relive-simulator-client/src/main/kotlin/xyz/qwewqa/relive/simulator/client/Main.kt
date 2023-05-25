@@ -3447,7 +3447,7 @@ fun DataSimulationOption<*>.subtext(locale: String) =
     if (descriptionIcons?.isEmpty() != false && description == null) {
       ""
     } else {
-      "${(descriptionIcons ?: emptyList()).joinToString("%%%")}%%%${description?.get(locale) ?: ""}"
+      "${(descriptionIcons ?: emptyList()).joinToString("%%%")}%%%${description?.getLocalized(locale) ?: ""}"
     }
 
 fun List<String>.indented() = map { "    $it" }

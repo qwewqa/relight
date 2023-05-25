@@ -144,6 +144,8 @@ class Collapse(val element: HTMLDivElement) {
     }
 }
 
+fun <T> Map<String, T>.getLocalized(locale: String) = this[locale] ?: this["en"] ?: this["ja"] ?: this.values.firstOrNull()
+
 @Suppress("UNCHECKED_CAST_TO_EXTERNAL_INTERFACE")
 sealed class Select(val element: HTMLSelectElement, val selectpicker: Boolean) {
   fun HTMLSelectElement.getSelected() =
@@ -208,7 +210,7 @@ sealed class Select(val element: HTMLSelectElement, val selectpicker: Boolean) {
               attributes["data-img"] = imagePath
             }
             attributes["data-subtext"] = option.subtext(locale)
-            attributes["data-tokens"] = option.tags?.get(locale)?.joinToString(" ") ?: ""
+            attributes["data-tokens"] = option.tags?.getLocalized(locale)?.joinToString(" ") ?: ""
             +option[locale]
           } as UnionHTMLOptGroupElementOrHTMLOptionElement)
     }
@@ -220,7 +222,7 @@ sealed class Select(val element: HTMLSelectElement, val selectpicker: Boolean) {
 
   fun localize(mapping: Map<String, Map<String, String>>, locale: String) {
     element.options.asList().filterIsInstance<HTMLOptionElement>().forEach { option ->
-      option.run { text = mapping[option.value]?.get(locale) ?: option.value }
+      option.run { text = mapping[option.value]?.getLocalized(locale) ?: option.value }
     }
     refreshSelectPicker()
   }
@@ -236,7 +238,7 @@ sealed class Select(val element: HTMLSelectElement, val selectpicker: Boolean) {
         if (getAttribute("data-subtext") != null) {
           setAttribute("data-subtext", option?.subtext(locale) ?: "")
         }
-        setAttribute("data-tokens", option?.tags?.get(locale)?.joinToString(" ") ?: "")
+        setAttribute("data-tokens", option?.tags?.getLocalized(locale)?.joinToString(" ") ?: "")
         text = name
       }
     }
