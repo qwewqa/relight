@@ -1078,3 +1078,9 @@
 - Fixed issue with opening Karth pages via interactive
 - Updated data for WW
 - Improved scrolling over plots on mobile
+
+# v1.4.15
+- Added CA images to act icons
+- Added a damage share bar toggle to interactive
+- Removed the second share button
+- Minor tweaks
