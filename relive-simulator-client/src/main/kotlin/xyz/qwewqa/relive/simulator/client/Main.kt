@@ -2352,7 +2352,6 @@ class SimulatorClient(val simulator: Simulator) {
       isSharing = true
       GlobalScope.launch {
         try {
-          toast("Share", "Sharing setup...", "yellow")
           shareSetupModalBs.show()
           shareSetupText.value = localized("loading...", locale)
           val setup = getSetup()
@@ -2362,7 +2361,7 @@ class SimulatorClient(val simulator: Simulator) {
           val url = api.shareSetup(setup, options)
           shareSetupText.value = url
         } catch (e: Throwable) {
-          toast("Share", "An error occurred when attempting to share setup.", "red")
+          shareSetupText.value = localized("error", locale)
         } finally {
           isSharing = false
         }

@@ -17,6 +17,11 @@ val commonText =
                 "en" to "Loading...",
                 "zh_hant" to "載入中...",
             ),
+        "error" to
+            mapOf(
+                "en" to "Error",
+                "zh_hant" to "錯誤",
+            ),
         ".text-shutdown" to
             mapOf(
                 "en" to "Shutdown",
