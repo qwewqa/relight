@@ -168,12 +168,12 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
       val buffsElement = document.getElementById("player-buffs-$i") as HTMLDivElement
       statusImageContainer.run {
         clear()
-        append {
-          onclick = {
-            if (status.dressId > 0) {
-              window.open("https://karth.top/dress/${status.dressId}?global=1", "_blank")
-            }
+        onclick = {
+          if (status.dressId > 0) {
+            window.open("https://karth.top/dress/${status.dressId}?global=1", "_blank")
           }
+        }
+        append {
           img(classes = "interactive-status-actor-img") {
             src = "img/large_icon/1_${status.dressId}.png"
           }
@@ -252,12 +252,12 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
         val totalDamage = data.playerStatus?.sumOf { it.damageContribution } ?: 0.0
         data.playerStatus?.reversed()?.forEachIndexed { i, status ->
           div(classes = "$playerWidth interactive-status-container") {
-            onclick = {
-              if (status.dressId > 0) {
-                window.open("https://karth.top/dress/${status.dressId}?global=1", "_blank")
-              }
-            }
             div(classes = "interactive-status-image-container") {
+              onClickFunction = {
+                if (status.dressId > 0) {
+                  window.open("https://karth.top/dress/${status.dressId}?global=1", "_blank")
+                }
+              }
               id = "player-status-image-container-$i"
               img(classes = "interactive-status-actor-img") {
                 src = "img/large_icon/1_${status.dressId}.png"
