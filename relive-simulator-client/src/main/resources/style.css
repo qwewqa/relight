@@ -1163,14 +1163,18 @@ input[type=number] {
     display: flex;
     position: absolute;
     left: 50%;
-    bottom: -2%;
+    bottom: -36%;
     transform: translateX(-50%);
     font-weight: bold;
     background: white;
     font-size: calc(var(--size-ref) / 26);
     border-radius: calc(var(--size-ref) / 180);
     height: calc(var(--size-ref) / 26);
-    filter: drop-shadow(0 0 2px black);
+    filter: drop-shadow(0 0 2px dimgray);
     align-items: center;
     padding: calc(var(--size-ref) / 50) calc(var(--size-ref) / 180)
+}
+
+.show-damage-shares #interactive-timeline-container {
+    margin-bottom: calc(var(--size-ref) / 20);
 }
