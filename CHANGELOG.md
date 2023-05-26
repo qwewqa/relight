@@ -1092,3 +1092,7 @@
 # v1.5.1
 - Tweaked styling of timeline damage overlays
 - Added percentages to damage shares
+
+# v1.5.2
+- Performance adjustments
+- Visual adjustments
