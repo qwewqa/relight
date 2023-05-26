@@ -1088,3 +1088,7 @@
 # v1.5.0
 - Added per-act damage previews to interactive
 - Improved loading performance
+
+# v1.5.1
+- Tweaked styling of timeline damage overlays
+- Added percentages to damage shares
