@@ -204,8 +204,18 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
         brillianceElement.textContent = ""
         brillianceLabelElement.textContent = ""
       }
-      damageElement.textContent = status.damageContribution.formatShort()
-      damageLabelElement.textContent = status.damageContribution.formatShort()
+      damageElement.textContent =
+          if (status.damageContribution > 0) {
+            "${status.damageContribution.formatShort()} (${(status.damageContribution / totalDamage * 100).toFixed(1)}%)"
+          } else {
+            ""
+          }
+      damageLabelElement.textContent =
+          if (status.damageContribution > 0) {
+            "${status.damageContribution.formatShort()} (${(status.damageContribution / totalDamage * 100).toFixed(1)}%)"
+          } else {
+            ""
+          }
       buffsElement.run {
         clear()
         append { buffElements(status) }
@@ -231,8 +241,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
               style = "font-size: 0.7rem;height: 0.8rem;position: relative;"
               div(classes = "progress-bar bg-danger") {
                 id = "boss-hp-$i"
-                style =
-                    "width: ${status.hp.toDouble() / status.maxHp * 100}%;font-weight: bold;z-index: 2;"
+                style = "width: ${status.hp / status.maxHp * 100}%;font-weight: bold;z-index: 2;"
                 if (status.hp > 0) {
                   +"${status.hp}/${status.maxHp} (-${(status.maxHp - status.hp).formatShort()})"
                 }
@@ -321,7 +330,11 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                   style =
                       "width: ${status.damageContribution / totalDamage.coerceAtLeast(1.0) * 100}%;color: black;font-weight: bold;z-index: 2;"
                   if (status.damageContribution > 0) {
-                    +status.damageContribution.formatShort()
+                    +if (status.damageContribution > 0) {
+                      "${status.damageContribution.formatShort()} (${(status.damageContribution / totalDamage * 100).toFixed(1)}%)"
+                    } else {
+                      ""
+                    }
                   }
                 }
                 div(classes = "progress-bar-label") {
@@ -329,7 +342,11 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                   style =
                       "font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;"
                   if (status.damageContribution > 0) {
-                    +status.damageContribution.formatShort()
+                    +if (status.damageContribution > 0) {
+                      "${status.damageContribution.formatShort()} (${(status.damageContribution / totalDamage * 100).toFixed(1)}%)"
+                    } else {
+                      ""
+                    }
                   }
                 }
               }
