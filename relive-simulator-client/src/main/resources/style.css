@@ -112,7 +112,7 @@ form .form-label {
 }
 
 #interactive-container {
-    min-height: calc(100vh - 1rem);
+    min-height: calc(100vh - 1.5rem);
 }
 
 @media (min-width: 576px) {
