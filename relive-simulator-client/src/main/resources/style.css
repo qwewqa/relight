@@ -203,7 +203,7 @@ pwa-update::part(offlineToast) {
 }
 
 #interactive-ui-container {
-    margin-top: 0.6em;
+    margin-top: 0.4em;
 }
 
 :root {
@@ -233,6 +233,10 @@ pwa-update::part(offlineToast) {
 
     .interactive-status-buffs-container {
         min-height: 30px;
+    }
+
+    .boss-buffs .interactive-status-buffs-container {
+        min-height: 15px;
     }
 }
 
@@ -878,7 +882,7 @@ pwa-update::part(offlineToast) {
 }
 
 #interactive-container {
-    --size-ref: min(680px, calc(0.88 * var(--container-max-width)));
+    --size-ref: min(680px, calc(0.9 * var(--container-max-width)));
 }
 
 #interactive-console-container {
@@ -1016,7 +1020,7 @@ pwa-update::part(offlineToast) {
     gap: calc(var(--se-size) / 4);
     flex-wrap: wrap;
     max-width: calc(var(--size-ref) / 2.1);
-    min-height: calc(4 / 3 * var(--se-size));
+    min-height: calc((8 / 3 + 1 / 4) * var(--se-size));
     align-content: center;
     align-items: center;
 }

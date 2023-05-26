@@ -224,7 +224,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
   } else {
     clear()
     append {
-      div(classes = "row justify-content-evenly g-1 g-md-2") {
+      div(classes = "row justify-content-evenly g-1") {
         // Reversed since frontmost is the first in the list
         data.enemyStatus?.reversed()?.forEachIndexed { i, status ->
           div(classes = "$bossWidth") {
@@ -233,7 +233,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
               style = "font-size: 0.75rem;"
               +status.name
             }
-            div {
+            div(classes = "boss-buffs") {
               id = "boss-buffs-$i"
               buffElements(status)
             }
@@ -258,7 +258,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
           }
         }
       }
-      div(classes = "row justify-content-evenly g-1 g-md-2 mt-1") {
+      div(classes = "row justify-content-evenly g-1 mt-1") {
         val totalDamage = data.playerStatus?.sumOf { it.damageContribution } ?: 0.0
         data.playerStatus?.reversed()?.forEachIndexed { i, status ->
           div(classes = "$playerWidth interactive-status-container") {
