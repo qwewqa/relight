@@ -1128,7 +1128,7 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
-.dropdown-toggle  {
+.dropdown-toggle {
     border: var(--bs-border-width) solid var(--bs-border-color);
 }
 
@@ -1153,4 +1153,24 @@ input[type=number] {
 #interactive-status-container .progress-bar,
 #interactive-status-container .progress-bar-label {
     text-indent: 0.2rem;
+}
+
+.interactive-timeline-act-damage-overlay {
+    display: none;
+}
+
+.show-damage-shares .interactive-timeline-act-damage-overlay {
+    display: flex;
+    position: absolute;
+    left: 50%;
+    bottom: -2%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    background: white;
+    font-size: calc(var(--size-ref) / 26);
+    border-radius: calc(var(--size-ref) / 180);
+    height: calc(var(--size-ref) / 26);
+    filter: drop-shadow(0 0 2px black);
+    align-items: center;
+    padding: calc(var(--size-ref) / 120) calc(var(--size-ref) / 240) calc(var(--size-ref) / 80);
 }

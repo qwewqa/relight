@@ -88,7 +88,7 @@ fun getSimulationOptions(): SimulationOptions {
                     id = "$id",
                     name = memoir.names,
                     description =
-                        localeIds.associateWith { locale ->
+                        localeIds.associateWith { _ ->
                           "c${memoir.cost}${if (memoir.cutinData != null) ", cutin" else ""}"
                         },
                     descriptionIcons =
@@ -202,10 +202,7 @@ fun getSimulationOptions(): SimulationOptions {
             DataSimulationOption(
                 id = "$id",
                 name = effect.names,
-                imagePath =
-                    "img/skill_icon/skill_icon_${effect.iconId}.png".takeIf {
-                      effect.iconId != null
-                    },
+                imagePath = "img/skill_icon/skill_icon_${effect.iconId}.png",
                 data =
                     AwakeningSongEffectData(
                         id = id,
@@ -245,7 +242,7 @@ fun getSimulationOptions(): SimulationOptions {
                     ),
                 description = mapOf("en" to "hp${boss.maxHp}"),
                 tags =
-                    localeIds.associateWith { locale ->
+                    localeIds.associateWith { _ ->
                       listOfNotNull(
                           dress.character.school.name.lowercase(),
                           dress.attribute.name.lowercase(),

@@ -114,6 +114,7 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
         if (card.isSupport) {
           img(classes = "queue-support-indicator") { src = "img/common/icon_support_dress.png" }
         }
+        div(classes = "interactive-timeline-act-damage-overlay d-none") {}
         onClickFunction = { GlobalScope.launch { simulation.sendCommand("unqueue #${index + 1}") } }
       }
     }

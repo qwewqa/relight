@@ -3132,18 +3132,18 @@ class SimulatorClient(val simulator: Simulator) {
                 }
               }
               interactiveStatusContainer.displayStatus(data)
-              interactiveStatusContainer.updateDamageEstimate(log.queueDamageEstimate)
-              lastEstimateUpdateTime = time
               updateInteractiveUi(sim, data.queueStatus, data.error)
+              updateDamageEstimate(log.queueInfo)
+              lastEstimateUpdateTime = time
             }
             if (time - lastEstimateUpdateTime >= estimateUpdateInterval) {
-              interactiveStatusContainer.updateDamageEstimate(log?.queueDamageEstimate)
+              updateDamageEstimate(log?.queueInfo)
               lastEstimateUpdateTime = time
             }
             if (data != null) {
               prev = log
             } else {
-              prev = prev?.copy(queueDamageEstimate = log?.queueDamageEstimate)
+              prev = prev?.copy(queueInfo = log?.queueInfo)
             }
           }
         } catch (e: Throwable) {

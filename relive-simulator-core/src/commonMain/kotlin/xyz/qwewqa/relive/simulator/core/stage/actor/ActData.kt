@@ -1,6 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.stage.actor
 
 import xyz.qwewqa.relive.simulator.core.stage.Act
+import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 
 data class ActData(
     val name: String,
@@ -29,3 +30,5 @@ enum class ActType(val shortName: String) {
 }
 
 fun actsOf(vararg acts: ActData) = acts.associateBy { it.type }
+
+inline fun ActData.wrap(crossinline act: ActionContext.(Act) -> Unit) = copy(act = { act(this@wrap.act) })

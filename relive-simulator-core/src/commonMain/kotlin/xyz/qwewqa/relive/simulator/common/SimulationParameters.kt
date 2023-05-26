@@ -42,8 +42,14 @@ data class SimulatorVersion(
 @Serializable
 data class InteractiveLog(
     val data: InteractiveLogData?,
-    val queueDamageEstimate: Double? = null,
+    val queueInfo: InteractiveQueueInfo? = null,
     val rev: Int = -1,
+)
+
+@Serializable
+data class InteractiveQueueInfo(
+    val queueDamageEstimate: Double? = null,
+    val perActQueueDamageEstimates: List<Double>? = null,
 )
 
 @Serializable

@@ -91,7 +91,7 @@ inline fun makeFieldEffectOption(
 @Suppress("UNCHECKED_CAST")
 object FieldEffectOptions : ImplementationRegistry<FieldEffectOption>() {
   init {
-    for ((id, option) in valuesGenFieldEffectOption) {
+    for ((_, option) in valuesGenFieldEffectOption) {
       +when (option.type) {
         1 -> {
           val effect = StageEffects[option.param1] ?: continue

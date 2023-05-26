@@ -11,6 +11,7 @@ import kotlinx.html.js.onClickFunction
 import org.w3c.dom.*
 import xyz.qwewqa.relive.simulator.common.ActorStatus
 import xyz.qwewqa.relive.simulator.common.InteractiveLogData
+import xyz.qwewqa.relive.simulator.common.InteractiveQueueInfo
 import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.common.LogEntry
 
@@ -281,8 +282,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                 style = "font-size: 0.7rem;height: 0.8rem;position: relative;"
                 div(classes = "progress-bar bg-success") {
                   id = "player-hp-$i"
-                  style =
-                      "width: ${status.hp / status.maxHp * 100}%;font-weight: bold;z-index: 2;"
+                  style = "width: ${status.hp / status.maxHp * 100}%;font-weight: bold;z-index: 2;"
                   if (status.hp > 0) {
                     +"${status.hp}/${status.maxHp}"
                   }
@@ -345,29 +345,45 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
   }
 }
 
-fun HTMLElement.updateDamageEstimate(value: Double?) {
+fun updateDamageEstimate(queueInfo: InteractiveQueueInfo?) {
   val containerElement = document.getElementById("damage-estimate-container") ?: return
   val damageElement = document.getElementById("damage-estimate") ?: return
 
-  if (value == null) {
+  val damage = queueInfo?.queueDamageEstimate
+  if (damage == null) {
     containerElement.classList.add("d-none")
   } else {
     containerElement.classList.remove("d-none")
-    damageElement.textContent = value.formatShort()
+    damageElement.textContent = damage.formatShort()
   }
+
+  val timelineContainer =
+      document.getElementById("interactive-timeline-container") as HTMLDivElement
+  timelineContainer
+      .getElementsByClassName("interactive-timeline-act-damage-overlay")
+      .multiple<HTMLDivElement>()
+      .forEachIndexed { i, element ->
+        val actDamage = queueInfo?.perActQueueDamageEstimates?.getOrNull(i)
+        if (actDamage == null) {
+          element.classList.add("d-none")
+        } else {
+          element.classList.remove("d-none")
+          element.textContent = actDamage.formatShort(1)
+        }
+      }
 }
 
-private fun Double.formatShort(): String {
+private fun Double.formatShort(digits: Int = 2): String {
   return when {
     this >= 1_000_000_000_000_000_000_000_000.0 ->
-        "${(this / 1_000_000_000_000_000_000_000_000.0).toFixed(2)}Sx"
+        "${(this / 1_000_000_000_000_000_000_000_000.0).toFixed(digits)}Sx"
     this >= 1_000_000_000_000_000_000_000.0 ->
-        "${(this / 1_000_000_000_000_000_000_000.0).toFixed(2)}Qt"
-    this >= 1_000_000_000_000_000 -> "${(this / 1_000_000_000_000_000).toFixed(2)}Qd"
-    this >= 1_000_000_000_000 -> "${(this / 1_000_000_000_000).toFixed(2)}T"
-    this >= 1_000_000_000 -> "${(this / 1_000_000_000).toFixed(2)}B"
-    this >= 1_000_000 -> "${(this / 1_000_000).toFixed(2)}M"
-    this >= 1_000 -> "${(this / 1_000).toFixed(2)}K"
+        "${(this / 1_000_000_000_000_000_000_000.0).toFixed(digits)}Qt"
+    this >= 1_000_000_000_000_000 -> "${(this / 1_000_000_000_000_000).toFixed(digits)}Qd"
+    this >= 1_000_000_000_000 -> "${(this / 1_000_000_000_000).toFixed(digits)}T"
+    this >= 1_000_000_000 -> "${(this / 1_000_000_000).toFixed(digits)}B"
+    this >= 1_000_000 -> "${(this / 1_000_000).toFixed(digits)}M"
+    this >= 1_000 -> "${(this / 1_000).toFixed(digits)}K"
     else -> this.toString()
   }
 }

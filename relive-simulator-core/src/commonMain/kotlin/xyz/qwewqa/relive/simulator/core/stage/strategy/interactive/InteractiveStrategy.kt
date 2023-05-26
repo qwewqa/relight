@@ -14,6 +14,7 @@ import xyz.qwewqa.relive.simulator.common.ActorStatus
 import xyz.qwewqa.relive.simulator.common.CutinCardStatus
 import xyz.qwewqa.relive.simulator.common.InteractiveLog
 import xyz.qwewqa.relive.simulator.common.InteractiveLogData
+import xyz.qwewqa.relive.simulator.common.InteractiveQueueInfo
 import xyz.qwewqa.relive.simulator.common.InteractiveQueueStatus
 import xyz.qwewqa.relive.simulator.common.InteractiveRunState
 import xyz.qwewqa.relive.simulator.common.LogCategory
@@ -30,12 +31,13 @@ import xyz.qwewqa.relive.simulator.core.stage.SwitchableDamageCalculator
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.countableBuffsByName
+import xyz.qwewqa.relive.simulator.core.stage.actor.wrap
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
 import xyz.qwewqa.relive.simulator.core.stage.buff.hasMultipleCA
+import xyz.qwewqa.relive.simulator.core.stage.execute
 import xyz.qwewqa.relive.simulator.core.stage.hierarchicalString
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.log
-import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifier
 import xyz.qwewqa.relive.simulator.core.stage.modifier.accuracy
 import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.modifier.agility
@@ -85,7 +87,11 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
     var damageEstimate: I54? = null
       private set
+    var perActDamageEstimate: List<I54>? = null
+      private set
+
     private val damageEstimates = mutableListOf<I54>()
+    private val perActDamageEstimates = mutableListOf<List<I54>>()
     private var damageEstimatorJob: Job? = null
 
     // First entry is just a placeholder
@@ -135,7 +141,9 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
     private fun startDamageEstimates() {
       damageEstimatorJob?.cancel()
       damageEstimates.clear()
+      perActDamageEstimates.clear()
       damageEstimate = null
+      perActDamageEstimate = null
 
       if (queueStatus?.runState != InteractiveRunState.QUEUE) {
         return
@@ -146,16 +154,34 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
         val random = Random(seed)
         repeat(maxEstimates) {
           val newSeed = random.nextInt()
-          val damage =
-              playStageTest(
-                  emptyList(),
-                  status.history +
-                      ParsedCommand(InteractiveCommandType.SEED, "$newSeed", "seed $newSeed"))
-          damageEstimates += damage
+          playStageTest(
+              emptyList(),
+              status.history +
+                  ParsedCommand(InteractiveCommandType.SEED, "$newSeed", "seed $newSeed")) {
+                  stage,
+                  strategy ->
+                damageEstimates += stage.enemy.actors.values.sumOfI54 { it.statistics.damageTaken }
+                perActDamageEstimates += strategy.actLog.map { it.damage }
+              }
           damageEstimate = damageEstimates.map { it.toDouble() }.average().toI54()
+          perActDamageEstimate = listAverage(perActDamageEstimates)
           delay(10)
         }
       }
+    }
+
+    private fun listAverage(values: List<List<I54>>): List<I54> {
+      val results = mutableListOf<I54>()
+      var i = 0
+      while (true) {
+        val indexValues = values.mapNotNull { it.getOrNull(i) }
+        if (indexValues.isEmpty()) {
+          break
+        }
+        results += indexValues.map { it.toDouble() }.average().toI54()
+        i++
+      }
+      return results
     }
 
     fun init(
@@ -346,7 +372,16 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
   private fun playStageTest(
       testActs: List<Int>,
       history: List<ParsedCommand> = status.history
-  ): I54 {
+  ): I54 =
+      playStageTest(testActs, history) { stage, _ ->
+        stage.enemy.actors.values.sumOfI54 { it.statistics.damageTaken }
+      }
+
+  private inline fun <T> playStageTest(
+      testActs: List<Int>,
+      history: List<ParsedCommand> = status.history,
+      after: (Stage, InteractiveStrategy) -> T,
+  ): T {
     val managedRandom = ManagedRandom(Random(Random(seed).nextInt()))
     val strategy = InteractiveStrategy(managedRandom, history, testActs = testActs)
     val stage =
@@ -362,7 +397,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
       stage.play(PlayInfo(maxTurns = maxTurns, null, null))
     } catch (_: UserInput) {}
 
-    return stage.enemy.actors.values.sumOfI54 { it.statistics.damageTaken }
+    return after(stage, strategy)
   }
 
   init {
@@ -371,14 +406,19 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
 
   suspend fun getLog(rev: Int = -1) =
       mutex.withLock {
+        val queueInfo =
+            InteractiveQueueInfo(
+                status.damageEstimate?.toDouble(),
+                status.perActDamageEstimate?.map { it.toDouble() },
+            )
         if (rev != this.rev) {
           InteractiveLog(
               InteractiveLogData(
                   resultLog, null, status.queueStatus, status.enemyStatus, status.playerStatus),
-              status.damageEstimate?.toDouble(),
+              queueInfo,
               this.rev)
         } else {
-          InteractiveLog(null, status.damageEstimate?.toDouble(), this.rev)
+          InteractiveLog(null, queueInfo, this.rev)
         }
       }
 
@@ -600,6 +640,8 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
       val discarded: BoundAct?,
   )
 
+  private data class ActLogEntry(val damage: I54)
+
   private inner class InteractiveStrategy(
       val managedRandom: ManagedRandom,
       val history: List<ParsedCommand>,
@@ -616,6 +658,8 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
       private set
 
     private var ranTestQueue = false
+
+    val actLog = mutableListOf<ActLogEntry>()
 
     lateinit var stage: Stage
     lateinit var team: Team
@@ -938,10 +982,28 @@ ${formattedHand()}
       }
       return QueueResult(
               buildList {
-                queue.forEach {
-                  val apCost = it.apCost
+                queue.forEach { boundAct ->
+                  val apCost = boundAct.apCost
                   repeat(apCost - 1) { this += IdleTile }
-                  this += ActionTile(it.actor, apCost, it.act)
+                  this +=
+                      if (ranTestQueue) {
+                        val wrappedAct =
+                            boundAct.act.wrap { base ->
+                              val originalDamage =
+                                  enemy.actors.values.sumOfI54 { it.statistics.damageTaken }
+                              base.execute(this)
+                              val damage =
+                                  enemy.actors.values.sumOfI54 { it.statistics.damageTaken } -
+                                      originalDamage
+                              actLog.add(
+                                  ActLogEntry(
+                                      damage = damage,
+                                  ))
+                            }
+                        ActionTile(boundAct.actor, apCost, wrappedAct)
+                      } else {
+                        ActionTile(boundAct.actor, apCost, boundAct.act)
+                      }
                 }
               },
               climax,
