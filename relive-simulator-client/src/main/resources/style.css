@@ -991,7 +991,7 @@ pwa-update::part(offlineToast) {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
-    filter: drop-shadow(0 0 1px black);
+    filter: drop-shadow(0 0 1px navy);
 }
 
 .interactive-status-buff-lock {

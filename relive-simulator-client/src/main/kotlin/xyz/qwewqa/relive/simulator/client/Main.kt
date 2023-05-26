@@ -1744,12 +1744,9 @@ class SimulatorClient(val simulator: Simulator) {
             }
           },
       )
-      GlobalScope.launch {
-        val elements = js("$")(".actor-selectpicker-$actorId").toArray() as Array<dynamic>
-        for (element in elements) {
-          delay(4)
-          js("$")(element).selectpicker()
-        }
+      val elements = js("$")(".actor-selectpicker-$actorId").toArray() as Array<dynamic>
+      for (element in elements) {
+        js("$")(element).selectpicker()
       }
     } else {
       val (id, tab, settings) = actorElementCache.removeLast()
