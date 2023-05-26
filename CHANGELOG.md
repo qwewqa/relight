@@ -1084,3 +1084,7 @@
 - Added a damage share bar toggle to interactive
 - Removed the second share button
 - Minor tweaks
+
+# v1.5.0
+- Added per-act damage previews to interactive
+- Improved loading performance
