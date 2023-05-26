@@ -117,16 +117,6 @@ class JsSimulator : Simulator {
           })
     }
   }
-
-  override suspend fun options(): SimulationOptions = getSimulationOptions()
-
-  override suspend fun shutdown() {
-    error("Not supported")
-  }
-
-  override suspend fun features(): SimulatorFeatures {
-    return SimulatorFeatures(false)
-  }
 }
 
 class WorkerPool(private val script: Blob, val capacity: Int = 4) {

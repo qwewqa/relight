@@ -8,7 +8,6 @@ import kotlinx.browser.sessionStorage
 import kotlinx.browser.window
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.await
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -20,7 +19,6 @@ import kotlinx.html.ButtonType
 import kotlinx.html.DIV
 import kotlinx.html.InputType
 import kotlinx.html.b
-import kotlinx.html.br
 import kotlinx.html.button
 import kotlinx.html.classes
 import kotlinx.html.div
@@ -86,17 +84,14 @@ import xyz.qwewqa.relive.simulator.common.SimulatorFeatures
 import xyz.qwewqa.relive.simulator.common.SimulatorVersion
 import xyz.qwewqa.relive.simulator.common.StatisticsSummary
 import xyz.qwewqa.relive.simulator.common.StrategyParameter
+import xyz.qwewqa.relive.simulator.core.getSimulationOptions
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dresses
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoirs
 
-suspend fun main() {
-  try {
-    SimulatorClient(RemoteSimulator(URL("${window.location.protocol}//${window.location.host}")))
-        .start()
-  } catch (e: Throwable) {
-    console.error(e)
-  }
+fun main() {
+  SimulatorClient(RemoteSimulator(URL("${window.location.protocol}//${window.location.host}")))
+      .start()
 }
 
 @OptIn(DelicateCoroutinesApi::class, kotlinx.serialization.ExperimentalSerializationApi::class)
@@ -111,8 +106,6 @@ class SimulatorClient(val simulator: Simulator) {
 
   val versionLink = document.getElementById("version-link") as HTMLAnchorElement
   val languageSelect = document.getElementById("language-select").singleSelect(false)
-  val shutdownContainer = document.getElementById("shutdown-container") as HTMLDivElement
-  val shutdownButton = document.getElementById("shutdown-button") as HTMLButtonElement
   val exportButton = document.getElementById("export-button") as HTMLButtonElement
   val doImportButton = document.getElementById("do-import-button") as HTMLButtonElement
   val yamlImportCheckbox = document.getElementById("import-yaml-checkbox") as HTMLInputElement
@@ -292,8 +285,7 @@ class SimulatorClient(val simulator: Simulator) {
 
   var activeActorOptions: ActorOptions? = null
 
-  lateinit var features: SimulatorFeatures
-  lateinit var options: SimulationOptions
+  val options = getSimulationOptions()
 
   val compressor = LZString
   val baseHref = "${window.location.protocol}//${window.location.host}${window.location.pathname}"
@@ -348,9 +340,7 @@ class SimulatorClient(val simulator: Simulator) {
     if (!toastsCheckbox.checked) return null
     val element =
         toastElement(color) {
-          div(classes = "toast-indicator") {
-            style = "background-color: $color;"
-          }
+          div(classes = "toast-indicator") { style = "background-color: $color;" }
           div(classes = "toast-content") {
             b {
               +name
@@ -1984,13 +1974,10 @@ class SimulatorClient(val simulator: Simulator) {
   fun localized(value: String, fallback: String) =
       options.commonTextById[value]?.get(locale) ?: fallback
 
-  suspend fun start() {
-    updateVersionString()
-
-    features = simulator.features()
-    options = simulator.options()
-
+  fun start() {
     GlobalScope.launch {
+      updateVersionString()
+
       val auth0 =
           createAuth0Client(
                   jsObject {
@@ -2076,23 +2063,6 @@ class SimulatorClient(val simulator: Simulator) {
 
     strategyCollapseAllButton.addEventListener("click", { foldAll(strategyEditor) })
     strategyExpandAllButton.addEventListener("click", { unfoldAll(strategyEditor) })
-
-    if (features.shutdown) {
-      shutdownContainer.removeClass("d-none")
-    }
-
-    shutdownButton.addEventListener(
-        "click",
-        {
-          MainScope().launch {
-            try {
-              simulator.shutdown()
-              toast("Shutdown", "Successfully shut down server.")
-            } catch (e: Throwable) {
-              toast("Shutdown", "An error occurred when attempting shutdown.")
-            }
-          }
-        })
 
     fun updateExportText() {
       try {

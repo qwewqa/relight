@@ -56,20 +56,6 @@ class RemoteSimulator(val baseUrl: URL) : Simulator {
     return client.get(URL("/version", baseUrl.href).href).body()
   }
 
-  override suspend fun options(): SimulationOptions = getSimulationOptions()
-
-  override suspend fun features(): SimulatorFeatures {
-    return try {
-      client.get(URL("/features", baseUrl.href).href).body()
-    } catch (e: Throwable) {
-      SimulatorFeatures()
-    }
-  }
-
-  override suspend fun shutdown() {
-    client.get(URL("/shutdown", baseUrl.href).href) { expectSuccess = false }
-  }
-
   inner class RemoteSimulation(val simulator: RemoteSimulator, val token: String) : Simulation {
     override suspend fun pollResult(): SimulationResult {
       return client.get(URL("/result/$token", baseUrl.href).href).body()
