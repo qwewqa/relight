@@ -1182,3 +1182,27 @@ input[type=number] {
 .show-damage-shares #interactive-timeline-container {
     margin-bottom: calc(var(--size-ref) / 20);
 }
+
+.toast-body {
+    margin: 0.15em 0.2em;
+    padding: 0.4em;
+    display: flex;
+    align-items: center;
+}
+
+.toast {
+    border-radius: 9999px;
+    align-items: center;
+    --bs-toast-spacing: 0.25em;
+}
+
+.toast-indicator {
+    width: 1em;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    margin: auto 0.4em auto 0;
+}
+
+.toast-content {
+    line-height: 0.95em;
+}

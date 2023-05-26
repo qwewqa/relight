@@ -22,6 +22,7 @@ import kotlinx.html.InputType
 import kotlinx.html.b
 import kotlinx.html.br
 import kotlinx.html.button
+import kotlinx.html.classes
 import kotlinx.html.div
 import kotlinx.html.dom.append
 import kotlinx.html.dom.create
@@ -333,34 +334,28 @@ class SimulatorClient(val simulator: Simulator) {
     updateGuestStyling()
   }
 
-  private fun toastElement(color: String = "grey", dismissible: Boolean, value: DIV.() -> Unit) =
+  private fun toastElement(color: String = "grey", value: DIV.() -> Unit) =
       document.create.div("toast") {
         attributes["role"] = "alert"
-        div("toast-body") {
-          style =
-              "border-left: 4px solid $color;border-radius: inherit;display: flex;justify-content: space-between;"
-          value()
-          if (dismissible) {
-            button(type = ButtonType.button, classes = "btn-close") {
-              style = "margin-left: 0.2em;"
-              attributes["data-bs-dismiss"] = "toast"
-            }
-          }
-        }
+        div("toast-body") { value() }
       }
 
   fun toast(
       name: String,
       value: String,
       color: String = "grey",
-      autohide: Boolean = true,
-      dismissible: Boolean = !autohide,
   ): Bootstrap.Toast? {
     if (!toastsCheckbox.checked) return null
     val element =
-        toastElement(color, dismissible) {
-          div {
-            b { +name }
+        toastElement(color) {
+          div(classes = "toast-indicator") {
+            style = "background-color: $color;"
+          }
+          div(classes = "toast-content") {
+            b {
+              +name
+              +": "
+            }
             +" "
             +value
           }
@@ -370,33 +365,7 @@ class SimulatorClient(val simulator: Simulator) {
     return Bootstrap.Toast(
             element,
             jsObject {
-              this.autohide = autohide
-              this.delay = 1500
-            })
-        .also { it.show() }
-  }
-
-  fun toast(
-      name: String,
-      color: String = "grey",
-      autohide: Boolean = true,
-      dismissible: Boolean = !autohide,
-      block: DIV.() -> Unit
-  ): Bootstrap.Toast? {
-    if (!toastsCheckbox.checked) return null
-    val element =
-        toastElement(color, dismissible) {
-          div {
-            b { +name }
-            br()
-            block()
-          }
-        }
-    toastContainer.appendChild(element)
-    return Bootstrap.Toast(
-            element,
-            jsObject {
-              this.autohide = autohide
+              this.autohide = true
               this.delay = 1500
             })
         .also { it.show() }
@@ -406,7 +375,7 @@ class SimulatorClient(val simulator: Simulator) {
     val serverVersion = simulator.version()
     if (version != serverVersion) {
       if (serverVersion.apiVersion != version.apiVersion) {
-        toast("Error", "Client version does not match server version.", "red", autohide = false)
+        toast("Error", "Client version does not match server version.", "red")
       }
       versionLink.textContent = "client $version / server $serverVersion"
     } else {
@@ -1923,9 +1892,9 @@ class SimulatorClient(val simulator: Simulator) {
                 compressor.decompressFromEncodedURIComponent(urlOptions))
         setSetup(setup)
         updateUrlForSetup(setup)
-        toast("Import", "Updated configuration from url.", "green")
+        toast("Import", "Updated config from url.", "green")
       } catch (e: Throwable) {
-        toast("Error", "Failed to update configuration from url.", "red")
+        toast("Error", "Failed to update config from url.", "red")
       }
     }
   }
@@ -1988,7 +1957,7 @@ class SimulatorClient(val simulator: Simulator) {
       if (newUrl.length <= 8192) {
         window.history.pushState(null, "", newUrl)
       } else {
-        toast("Warning", "Url not updated due to high configuration size.", "yellow")
+        toast("Warning", "Url not updated due to config size.", "yellow")
       }
     }
   }
@@ -2386,12 +2355,12 @@ class SimulatorClient(val simulator: Simulator) {
               activeSetup = setup
               updateUrlForSetup(setup)
             } catch (e: Throwable) {
-              toast("Simulate", "Simulation failed to start.", "red")
+              toast("Simulate", "Failed to start.", "red")
               simulateButton.disabled = false
               cancelButton.disabled = true
               return@launch
             }
-            toast("Simulate", "Simulation started.", "green")
+            toast("Simulate", "Started.", "green")
             done = false
           }
         })
@@ -2456,13 +2425,15 @@ class SimulatorClient(val simulator: Simulator) {
 
     interactiveRestartButton.addEventListener("click", { startNewInteractiveSimulation() })
 
-    interactiveSharesButton.addEventListener("click", {
-      if (interactiveContainer.hasClass("show-damage-shares")) {
-        interactiveContainer.removeClass("show-damage-shares")
-      } else {
-        interactiveContainer.addClass("show-damage-shares")
-      }
-    })
+    interactiveSharesButton.addEventListener(
+        "click",
+        {
+          if (interactiveContainer.hasClass("show-damage-shares")) {
+            interactiveContainer.removeClass("show-damage-shares")
+          } else {
+            interactiveContainer.addClass("show-damage-shares")
+          }
+        })
 
     suspend fun sendInteractiveCommand(command: String) {
       when (command) {
@@ -3357,11 +3328,11 @@ class SimulatorClient(val simulator: Simulator) {
                   )
                 }
                 if (result.error != null) {
-                  toast("Simulate", "Simulation completed with errors.", "orange")
+                  toast("Simulate", "Completed with errors.", "orange")
                 } else if (result.cancelled) {
-                  toast("Cancel", "Simulation cancelled.", "yellow")
+                  toast("Simulate", "Cancelled.", "yellow")
                 } else {
-                  toast("Simulate", "Simulation completed successfully.", "green")
+                  toast("Simulate", "Completed successfully.", "green")
                 }
               }
             }
