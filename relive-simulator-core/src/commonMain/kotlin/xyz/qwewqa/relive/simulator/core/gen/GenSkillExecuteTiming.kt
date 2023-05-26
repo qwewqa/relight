@@ -6,4 +6,4 @@ import kotlinx.serialization.Serializable
 
 @Serializable data class GenSkillExecuteTiming(val description: Map<String, String>, val _id_: Int)
 
-val valuesGenSkillExecuteTiming = loadMasterData<GenSkillExecuteTiming>(dataGenSkillExecuteTiming)
+expect val valuesGenSkillExecuteTiming: Map<Int, GenSkillExecuteTiming>

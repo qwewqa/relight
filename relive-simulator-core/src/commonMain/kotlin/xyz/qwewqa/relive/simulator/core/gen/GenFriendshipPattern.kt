@@ -16,4 +16,4 @@ class FriendshipPanel(
     val res_quantity: Int,
 )
 
-val valuesGenFriendshipPattern = loadMasterData<ListGenFriendshipPattern>(dataGenFriendshipPattern)
+expect val valuesGenFriendshipPattern: Map<Int, List<FriendshipPanel>>

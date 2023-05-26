@@ -41,4 +41,4 @@ data class GenEquipActiveSkill(
     val _id_: Int
 )
 
-val valuesGenEquipActiveSkill = loadMasterData<GenEquipActiveSkill>(dataGenEquipActiveSkill)
+expect val valuesGenEquipActiveSkill: Map<Int, GenEquipActiveSkill>

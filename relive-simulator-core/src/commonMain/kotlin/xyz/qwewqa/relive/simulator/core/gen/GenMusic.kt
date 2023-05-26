@@ -27,4 +27,4 @@ data class GenMusic(
     val _id_: Int
 )
 
-val valuesGenMusic = loadMasterData<GenMusic>(dataGenMusic)
+expect val valuesGenMusic: Map<Int, GenMusic>

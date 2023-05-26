@@ -27,4 +27,4 @@ data class GenPartySkill(
     val _id_: Int
 )
 
-val valuesGenPartySkill = loadMasterData<GenPartySkill>(dataGenPartySkill)
+expect val valuesGenPartySkill: Map<Int, GenPartySkill>

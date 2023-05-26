@@ -20,4 +20,4 @@ data class GenSkillOption(
     val _id_: Int
 )
 
-val valuesGenSkillOption = loadMasterData<GenSkillOption>(dataGenSkillOption)
+expect val valuesGenSkillOption: Map<Int, GenSkillOption>

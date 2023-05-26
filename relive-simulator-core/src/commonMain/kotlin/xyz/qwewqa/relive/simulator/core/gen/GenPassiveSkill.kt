@@ -26,4 +26,4 @@ data class GenPassiveSkill(
     val _id_: Int
 )
 
-val valuesGenPassiveSkill = loadMasterData<GenPassiveSkill>(dataGenPassiveSkill)
+expect val valuesGenPassiveSkill: Map<Int, GenPassiveSkill>

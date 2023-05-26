@@ -79,4 +79,4 @@ data class GenDress(
     val _id_: Int
 )
 
-val valuesGenDress = loadMasterData<GenDress>(dataGenDress)
+expect val valuesGenDress: Map<Int, GenDress>

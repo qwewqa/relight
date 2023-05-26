@@ -16,4 +16,4 @@ data class GenMusicSkill(
     val _id_: Int
 )
 
-val valuesGenMusicSkill = loadMasterData<GenMusicSkill>(dataGenMusicSkill)
+expect val valuesGenMusicSkill: Map<Int, GenMusicSkill>

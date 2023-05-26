@@ -26,4 +26,4 @@ data class GenBuff(
     val _id_: Int
 )
 
-val valuesGenBuff = loadMasterData<GenBuff>(dataGenBuff)
+expect val valuesGenBuff: Map<Int, GenBuff>

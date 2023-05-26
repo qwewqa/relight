@@ -18,4 +18,4 @@ data class GenGuildRaceBoss(
     val _id_: Int
 )
 
-val valuesGenGuildRaceBoss = loadMasterData<GenGuildRaceBoss>(dataGenGuildRaceBoss)
+expect val valuesGenGuildRaceBoss: Map<Int, GenGuildRaceBoss>

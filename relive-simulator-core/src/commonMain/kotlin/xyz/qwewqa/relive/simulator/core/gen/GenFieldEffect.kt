@@ -28,4 +28,4 @@ data class GenFieldEffect(
   val _id_: Int
 )
 
-val valuesGenFieldEffect = loadMasterData<GenFieldEffect>(dataGenFieldEffect)
+expect val valuesGenFieldEffect: Map<Int, GenFieldEffect>

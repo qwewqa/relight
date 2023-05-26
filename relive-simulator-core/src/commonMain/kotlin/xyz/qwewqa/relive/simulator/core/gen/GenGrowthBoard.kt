@@ -17,4 +17,4 @@ data class GenGrowthBoard(
     val _id_: Int
 )
 
-val valuesGenGrowthBoard = loadMasterData<GenGrowthBoard>(dataGenGrowthBoard)
+expect val valuesGenGrowthBoard: Map<Int, GenGrowthBoard>

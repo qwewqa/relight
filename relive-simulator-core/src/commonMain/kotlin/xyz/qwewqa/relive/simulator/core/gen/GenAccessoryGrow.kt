@@ -4,4 +4,4 @@ package xyz.qwewqa.relive.simulator.core.gen
 
 typealias ListGenAccessoryGrow = List<Int>
 
-val valuesGenAccessoryGrow = loadMasterData<ListGenAccessoryGrow>(dataGenAccessoryGrow)
+expect val valuesGenAccessoryGrow: Map<Int, List<Int>>

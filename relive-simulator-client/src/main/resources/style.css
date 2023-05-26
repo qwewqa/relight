@@ -930,7 +930,7 @@ pwa-update::part(offlineToast) {
     display: flex;
     overflow-x: clip;
     margin-left: 2px;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
     --buff-icon-size: 12px;
     column-gap: 3px;
     flex-wrap: wrap-reverse;

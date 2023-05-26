@@ -12,4 +12,4 @@ data class GenRemakeSkill(
     val _id_: Int
 )
 
-val valuesGenRemakeSkill = loadMasterData<GenRemakeSkill>(dataGenRemakeSkill)
+expect val valuesGenRemakeSkill: Map<Int, GenRemakeSkill>

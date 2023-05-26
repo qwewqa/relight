@@ -1,0 +1,46 @@
+package xyz.qwewqa.relive.simulator.core.gen
+
+actual val valuesGenAccessory: Map<Int, GenAccessory> by lazy {
+  loadJsMasterData(dataGenAccessory) { id, data ->
+    GenAccessory(
+        attribute_id = data.attribute_id.unsafeCast<Int>(),
+        auto_skill1_id = data.auto_skill1_id.unsafeCast<Int>(),
+        auto_skill1_release_limitbreak = data.auto_skill1_release_limitbreak.unsafeCast<Int>(),
+        auto_skill1_type = data.auto_skill1_type.unsafeCast<Int>(),
+        auto_skill2_id = data.auto_skill2_id.unsafeCast<Int>(),
+        auto_skill2_release_limitbreak = data.auto_skill2_release_limitbreak.unsafeCast<Int>(),
+        auto_skill2_type = data.auto_skill2_type.unsafeCast<Int>(),
+        auto_skill3_id = data.auto_skill3_id.unsafeCast<Int>(),
+        auto_skill3_release_limitbreak = data.auto_skill3_release_limitbreak.unsafeCast<Int>(),
+        auto_skill3_type = data.auto_skill3_type.unsafeCast<Int>(),
+        auto_skill4_id = data.auto_skill4_id.unsafeCast<Int>(),
+        auto_skill4_release_limitbreak = data.auto_skill4_release_limitbreak.unsafeCast<Int>(),
+        auto_skill4_type = data.auto_skill4_type.unsafeCast<Int>(),
+        auto_skill5_id = data.auto_skill5_id.unsafeCast<Int>(),
+        auto_skill5_release_limitbreak = data.auto_skill5_release_limitbreak.unsafeCast<Int>(),
+        auto_skill5_type = data.auto_skill5_type.unsafeCast<Int>(),
+        base_agi = data.base_agi.unsafeCast<Int>(),
+        base_atk = data.base_atk.unsafeCast<Int>(),
+        base_cri = data.base_cri.unsafeCast<Int>(),
+        base_dex = data.base_dex.unsafeCast<Int>(),
+        base_hp = data.base_hp.unsafeCast<Int>(),
+        base_mdef = data.base_mdef.unsafeCast<Int>(),
+        base_pdef = data.base_pdef.unsafeCast<Int>(),
+        dress_ids = listFromDynamic(data.dress_ids),
+        grow_id = data.grow_id.unsafeCast<Int>(),
+        icon_id = data.icon_id.unsafeCast<Int>(),
+        max_agi = data.max_agi.unsafeCast<Int>(),
+        max_atk = data.max_atk.unsafeCast<Int>(),
+        max_cri = data.max_cri.unsafeCast<Int>(),
+        max_dex = data.max_dex.unsafeCast<Int>(),
+        max_hp = data.max_hp.unsafeCast<Int>(),
+        max_mdef = data.max_mdef.unsafeCast<Int>(),
+        max_pdef = data.max_pdef.unsafeCast<Int>(),
+        name = stringMapFromDynamic(data.name),
+        sell_price = data.sell_price.unsafeCast<Int>(),
+        skill_id = data.skill_id.unsafeCast<Int>(),
+        skill_slot = data.skill_slot.unsafeCast<Int>(),
+        _id_ = id,
+    )
+  }
+}

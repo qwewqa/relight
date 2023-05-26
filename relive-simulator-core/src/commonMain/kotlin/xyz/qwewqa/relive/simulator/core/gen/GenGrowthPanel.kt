@@ -25,4 +25,4 @@ data class GenGrowthPanel(
     val _id_: Int
 )
 
-val valuesGenGrowthPanel = loadMasterData<GenGrowthPanel>(dataGenGrowthPanel)
+expect val valuesGenGrowthPanel: Map<Int, GenGrowthPanel>

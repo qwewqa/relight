@@ -46,4 +46,4 @@ data class GenAccessory(
     val _id_: Int
 )
 
-val valuesGenAccessory = loadMasterData<GenAccessory>(dataGenAccessory)
+expect val valuesGenAccessory: Map<Int, GenAccessory>

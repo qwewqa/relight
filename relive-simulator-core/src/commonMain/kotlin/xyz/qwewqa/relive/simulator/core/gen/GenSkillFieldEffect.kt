@@ -29,4 +29,4 @@ data class GenSkillFieldEffect(
     val _id_: Int
 )
 
-val valuesGenSkillFieldEffect = loadMasterData<GenSkillFieldEffect>(dataGenSkillFieldEffect)
+expect val valuesGenSkillFieldEffect: Map<Int, GenSkillFieldEffect>

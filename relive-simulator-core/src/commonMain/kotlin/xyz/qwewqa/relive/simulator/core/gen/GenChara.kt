@@ -26,4 +26,4 @@ data class GenChara(
     val _id_: Int
 )
 
-val valuesGenChara = loadMasterData<GenChara>(dataGenChara)
+expect val valuesGenChara: Map<Int, GenChara>

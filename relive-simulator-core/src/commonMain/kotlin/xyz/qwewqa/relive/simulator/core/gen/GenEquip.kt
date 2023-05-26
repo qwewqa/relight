@@ -30,4 +30,4 @@ data class GenEquip(
     val _id_: Int
 )
 
-val valuesGenEquip = loadMasterData<GenEquip>(dataGenEquip)
+expect val valuesGenEquip: Map<Int, GenEquip>

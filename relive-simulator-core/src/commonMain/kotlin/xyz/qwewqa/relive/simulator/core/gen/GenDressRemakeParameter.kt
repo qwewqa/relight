@@ -15,5 +15,4 @@ data class DressRemakeParameter(
     val agi: Int,
 )
 
-val valuesGenDressRemakeParameter =
-    loadMasterData<ListGenDressRemakeParameter>(dataGenDressRemakeParameter)
+expect val valuesGenDressRemakeParameter: Map<Int, List<DressRemakeParameter>>
