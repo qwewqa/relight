@@ -723,7 +723,7 @@
             return a;
         },
 
-        text: function (options, useFragment) {
+        text: function (options, useFragment, deferImages = true) {
             var textElement = elementTemplates.text.cloneNode(false),
                 subtextElement,
                 iconElement;
@@ -734,8 +734,7 @@
                 if (options.img) {
                     var imgElement = elementTemplates.img.cloneNode(false);
                     imgElement.className = "select-option-img";
-                    imgElement.loading = "lazy";
-                    imgElement.src = options.img;
+                    imgElement.setAttribute(deferImages ? "data-src" : "src", options.img);
 
                     textElement.appendChild(imgElement);
                     textElement.appendChild(document.createTextNode(` ${options.text}`));
@@ -764,8 +763,7 @@
                         if (i !== subtextParts.length - 1) {
                             const imgElement = elementTemplates.img.cloneNode(false);
                             imgElement.className = "select-option-subtext-img";
-                            imgElement.loading = "lazy";
-                            imgElement.src = subtextParts[i];
+                            imgElement.setAttribute(deferImages ? "data-src" : "src", subtextParts[i]);
                             container.appendChild(imgElement);
                         } else {
                             const spanElement = elementTemplates.span.cloneNode(false);
@@ -962,7 +960,7 @@
         selectAllText: 'Select All',
         deselectAllText: 'Deselect All',
         source: {},
-        chunkSize: 40,
+        chunkSize: 30,
         doneButton: false,
         doneButtonText: 'Close',
         multipleSeparator: ', ',
@@ -1443,6 +1441,12 @@
                                         toSanitize.push(elText);
                                         elementData.sanitized = true;
                                     }
+                                }
+                            }
+
+                            for (const imgElement of element.getElementsByTagName("img")) {
+                                if (!imgElement.src) {
+                                    imgElement.src = imgElement.getAttribute("data-src");
                                 }
                             }
 
@@ -1977,7 +1981,7 @@
 
                                     titleOptions.img = option.img;
 
-                                    titleFragment.appendChild(generateOption.text.call(this, titleOptions, true));
+                                    titleFragment.appendChild(generateOption.text.call(this, titleOptions, true, false));
                                 }
                             } else {
                                 break;
