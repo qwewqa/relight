@@ -1096,3 +1096,6 @@
 # v1.5.2
 - Performance adjustments
 - Visual adjustments
+
+# v1.5.3
+- Load time improvements
