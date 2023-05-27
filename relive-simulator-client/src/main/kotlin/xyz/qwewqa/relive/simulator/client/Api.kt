@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.client
 
 import io.ktor.client.*
 import io.ktor.client.call.*
+import io.ktor.client.fetch.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
@@ -25,18 +26,15 @@ import kotlin.js.Date
 const val BASE_API_URL = "https://api.relight.qwewqa.xyz"
 
 class RelightApi(val simulator: SimulatorClient) {
-  private val client = HttpClient {
-    install(ContentNegotiation) {
-      json(
-          Json {
-            isLenient = true
-            ignoreUnknownKeys = true
-            allowSpecialFloatingPointValues = true
-            useArrayPolymorphism = false
-            encodeDefaults = true
-          })
-    }
+  val json = Json {
+    isLenient = true
+    ignoreUnknownKeys = true
+    allowSpecialFloatingPointValues = true
+    useArrayPolymorphism = false
+    encodeDefaults = true
   }
+
+  private val client = HttpClient { install(ContentNegotiation) { json(json) } }
 
   var auth0Client: Auth0Client? = null
 
@@ -54,17 +52,23 @@ class RelightApi(val simulator: SimulatorClient) {
         }
       }
 
-  val settingsOld = localStorage["settings"]?.let { json.decodeFromString<UserSettingsOld>(it) }
+  val settingsOld =
+      localStorage["settings"]?.let {
+        xyz.qwewqa.relive.simulator.client.json.decodeFromString<UserSettingsOld>(it)
+      }
 
   val settings =
-      json.decodeFromString<UserData>(localStorage["userdata"] ?: "{}").apply {
-        if (settingsOld != null) {
-          val now = Date.now().toLong()
-          settingsOld.presets.forEach { (k, v) -> presets[k] = SyncData(now, v) }
-          localStorage["_settings"] = json.encodeToString(this)
-          localStorage.removeItem("settings")
-        }
-      }
+      xyz.qwewqa.relive.simulator.client.json
+          .decodeFromString<UserData>(localStorage["userdata"] ?: "{}")
+          .apply {
+            if (settingsOld != null) {
+              val now = Date.now().toLong()
+              settingsOld.presets.forEach { (k, v) -> presets[k] = SyncData(now, v) }
+              localStorage["_settings"] =
+                  xyz.qwewqa.relive.simulator.client.json.encodeToString(this)
+              localStorage.removeItem("settings")
+            }
+          }
 
   private var etag: String? = null
   private suspend fun getSyncData(): UserData? {
@@ -119,13 +123,14 @@ class RelightApi(val simulator: SimulatorClient) {
   }
 
   fun reloadSettings() {
-    val incoming: UserData = json.decodeFromString(localStorage["userdata"] ?: "{}")
+    val incoming: UserData =
+        xyz.qwewqa.relive.simulator.client.json.decodeFromString(localStorage["userdata"] ?: "{}")
     settings.update(incoming)
     saveSettings()
   }
 
   fun saveSettings() {
-    localStorage["userdata"] = json.encodeToString(settings)
+    localStorage["userdata"] = xyz.qwewqa.relive.simulator.client.json.encodeToString(settings)
   }
 
   suspend fun createPresets(presets: List<PlayerLoadoutParameters>): String {
@@ -181,7 +186,13 @@ class RelightApi(val simulator: SimulatorClient) {
   }
 
   suspend fun getSetup(id: String): SimulationParameters {
-    return client.get("$BASE_API_URL/share/setup/get/$id").body<GetSetupResponse>().parameters
+    // The Ktor client isn't guaranteed to start the request immediately, while fetch will.
+    // In this case, we really want to start the request immediately (mainly so that it can progress
+    // while the client finishes initializing), so we use fetch.
+    return json
+        .decodeFromString<GetSetupResponse>(
+            fetch("$BASE_API_URL/share/setup/get/$id").await().text().await())
+        .parameters
   }
 }
 

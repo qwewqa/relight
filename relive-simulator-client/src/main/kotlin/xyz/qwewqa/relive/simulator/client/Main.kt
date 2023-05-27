@@ -4,7 +4,9 @@ import Accessories
 import kotlinx.browser.document
 import kotlinx.browser.sessionStorage
 import kotlinx.browser.window
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.await
 import kotlinx.coroutines.delay
@@ -72,6 +74,7 @@ import xyz.qwewqa.relive.simulator.common.InteractiveLog
 import xyz.qwewqa.relive.simulator.common.MarginResult
 import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
 import xyz.qwewqa.relive.simulator.common.SimulationMarginResultType
+import xyz.qwewqa.relive.simulator.common.SimulationOptions
 import xyz.qwewqa.relive.simulator.common.SimulationParameters
 import xyz.qwewqa.relive.simulator.common.SimulationResult
 import xyz.qwewqa.relive.simulator.common.SimulationResultType
@@ -282,7 +285,9 @@ class SimulatorClient(val simulator: Simulator) {
 
   var activeActorOptions: ActorOptions? = null
 
-  val options = getSimulationOptions()
+  // Ideally this wouldn't be lateinit, but it takes a while, and there are some things we want
+  // to start doing before this.
+  lateinit var options: SimulationOptions
 
   val compressor = LZString
   val baseHref = "${window.location.protocol}//${window.location.host}${window.location.pathname}"
@@ -1862,29 +1867,30 @@ class SimulatorClient(val simulator: Simulator) {
     return regex.find(URL(url).search)?.groupValues?.get(1)
   }
 
-  fun updateSetupFromUrl(url: String = window.location.href) {
-    val urlOptions = getUrlParameter(url, "options")
-    val urlSetup = getUrlParameter(url, "load-setup") ?: getSetupIdFromShareLink(url)
-    if (urlSetup != null) {
-      toast("Setup", "Loading setup.", "gold")
-      GlobalScope.launch {
-        val setup = api.getSetup(urlSetup)
-        setSetup(setup)
-        toast("Setup", "Loaded setup.", "green")
+  fun updateSetupFromUrl(url: String = window.location.href) =
+      GlobalScope.launch(Dispatchers.Main.immediate) {
+        val urlOptions = getUrlParameter(url, "options")
+        val urlSetup = getUrlParameter(url, "load-setup") ?: getSetupIdFromShareLink(url)
+        if (urlSetup != null) {
+          toast("Setup", "Loading setup.", "gold")
+          val setup = api.getSetup(urlSetup)
+          finishedLoading.await()
+          setSetup(setup)
+          toast("Setup", "Loaded setup.", "green")
+        } else if (urlOptions != null) {
+          try {
+            val setup =
+                json.decodeFromString<SimulationParameters>(
+                    compressor.decompressFromEncodedURIComponent(urlOptions))
+            finishedLoading.await()
+            setSetup(setup)
+            updateUrlForSetup(setup)
+            toast("Import", "Updated setup from url.", "green")
+          } catch (e: Throwable) {
+            toast("Error", "Failed to update setup from url.", "red")
+          }
+        }
       }
-    } else if (urlOptions != null) {
-      try {
-        val setup =
-            json.decodeFromString<SimulationParameters>(
-                compressor.decompressFromEncodedURIComponent(urlOptions))
-        setSetup(setup)
-        updateUrlForSetup(setup)
-        toast("Import", "Updated setup from url.", "green")
-      } catch (e: Throwable) {
-        toast("Error", "Failed to update setup from url.", "red")
-      }
-    }
-  }
 
   fun getSetupIdFromShareLink(url: String): String? {
     val regex = Regex(".*/to/([a-zA-Z0-9]{32})")
@@ -1913,22 +1919,24 @@ class SimulatorClient(val simulator: Simulator) {
     sessionStorage["temp-setup"] = json.encodeToString(getSetup())
   }
 
-  fun handleFirstLoadUrlOptions() {
-    val tempSetupData = sessionStorage["temp-setup"]
-    if (tempSetupData != null) {
-      try {
-        val setup = json.decodeFromString<SimulationParameters>(tempSetupData)
-        setSetup(setup)
-        // Can't update url since it'll override login data.
-        sessionStorage.removeItem("temp-setup")
-      } catch (e: Throwable) {
-        sessionStorage.removeItem("temp-setup")
+  fun handleFirstLoadUrlOptions() =
+      GlobalScope.launch(Dispatchers.Main.immediate) {
+        val tempSetupData = sessionStorage["temp-setup"]
+        if (tempSetupData != null) {
+          try {
+            val setup = json.decodeFromString<SimulationParameters>(tempSetupData)
+            finishedLoading.await()
+            setSetup(setup)
+            // Can't update url since it'll override login data.
+            sessionStorage.removeItem("temp-setup")
+          } catch (e: Throwable) {
+            sessionStorage.removeItem("temp-setup")
+          }
+        } else {
+          updateSetupFromUrl()
+        }
+        importPresetsFromUrl() || importSetupsFromUrl()
       }
-    } else {
-      updateSetupFromUrl()
-    }
-    importPresetsFromUrl() || importSetupsFromUrl()
-  }
 
   fun urlWithQuery(parameters: Map<String, String>): String {
     val paramString = parameters.asSequence().joinToString("&") { (key, value) -> "$key=$value" }
@@ -1971,7 +1979,12 @@ class SimulatorClient(val simulator: Simulator) {
   fun localized(value: String, fallback: String) =
       options.commonTextById[value]?.get(locale) ?: fallback
 
+  private val finishedLoading = CompletableDeferred<Unit>()
+
   fun start() {
+    // We want to kick this off first, since the API can take a while to respond
+    handleFirstLoadUrlOptions()
+
     GlobalScope.launch {
       updateVersionString()
 
@@ -2044,6 +2057,8 @@ class SimulatorClient(val simulator: Simulator) {
         loginButton.removeClass("d-none")
       }
     }
+
+    options = getSimulationOptions()
 
     val commonText = options.commonText.associateBy { it.id }
     val bosses = options.bosses.associateBy { it.id }
@@ -3035,7 +3050,7 @@ class SimulatorClient(val simulator: Simulator) {
 
     addActor() // Start with one already here by default
 
-    handleFirstLoadUrlOptions()
+    finishedLoading.complete(Unit)
 
     toast("Ready", "Initialization complete.", "green")
 
