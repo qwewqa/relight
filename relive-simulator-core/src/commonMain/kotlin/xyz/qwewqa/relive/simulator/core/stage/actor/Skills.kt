@@ -40,8 +40,8 @@ class SkillPartBlueprint(
     val option: ActiveSkillOption,
     val attribute: Attribute?,
     val target: SkillTarget,
-    val values: List<Int>,
-    val times: List<Int>,
+    val values: Array<Int>,
+    val times: Array<Int>,
     val chance: Int,
 ) {
   fun create(level: Int) =

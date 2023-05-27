@@ -2,6 +2,6 @@
 
 package xyz.qwewqa.relive.simulator.core.gen
 
-typealias ListGenAccessoryGrow = List<Int>
+typealias ArrayGenAccessoryGrow = Array<Int>
 
-expect val valuesGenAccessoryGrow: Map<Int, List<Int>>
+expect val valuesGenAccessoryGrow: Map<Int, Array<Int>>

@@ -12,7 +12,7 @@ data class GenMusicSkill(
     val skill_option1_id: Int,
     val skill_option1_target_id: Int,
     val skill_option1_value: Int,
-    val skill_option1_values: List<Int>,
+    val skill_option1_values: Array<Int>,
     val _id_: Int
 )
 

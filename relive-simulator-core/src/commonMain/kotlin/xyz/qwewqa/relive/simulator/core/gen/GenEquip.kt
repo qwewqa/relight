@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class GenEquip(
     val active_skill_id: Int,
-    val appearance_chara_ids: List<Int>,
+    val appearance_chara_ids: Array<Int>,
     val auto_skill1_id: Int,
     val auto_skill1_type: Int,
     val base_atk: Int,

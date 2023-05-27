@@ -8,7 +8,7 @@ actual val valuesGenMusic: Map<Int, GenMusic> by lazy {
         awaken_skill2_id = data.awaken_skill2_id.unsafeCast<Int>(),
         awaken_skill3_id = data.awaken_skill3_id.unsafeCast<Int>(),
         awaken_skill4_id = data.awaken_skill4_id.unsafeCast<Int>(),
-        chara_ids = listFromDynamic(data.chara_ids),
+        chara_ids = arrayFromDynamic(data.chara_ids),
         description = stringMapFromDynamic(data.description),
         disc_color = data.disc_color.unsafeCast<String>(),
         event_id = data.event_id.unsafeCast<Int>(),
@@ -18,7 +18,7 @@ actual val valuesGenMusic: Map<Int, GenMusic> by lazy {
         jacket_color = data.jacket_color.unsafeCast<String>(),
         name = stringMapFromDynamic(data.name),
         published_at = data.published_at.unsafeCast<Int>(),
-        school_ids = listFromDynamic(data.school_ids),
+        school_ids = arrayFromDynamic(data.school_ids),
         theme_color = data.theme_color.unsafeCast<String>(),
         title_color = data.title_color.unsafeCast<String>(),
         _id_ = id

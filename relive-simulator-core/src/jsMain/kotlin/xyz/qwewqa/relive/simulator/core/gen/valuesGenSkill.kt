@@ -18,8 +18,8 @@ actual val valuesGenSkill: Map<Int, GenSkill> by lazy {
                   id = option.id.unsafeCast<Int>(),
                   hit_rate = option.hit_rate.unsafeCast<Int>(),
                   target_id = option.target_id.unsafeCast<Int>(),
-                  times = listFromDynamic(option.times),
-                  values = listFromDynamic(option.values),
+                  times = arrayFromDynamic(option.times),
+                  values = arrayFromDynamic(option.values),
               )
             },
         _id_ = id,

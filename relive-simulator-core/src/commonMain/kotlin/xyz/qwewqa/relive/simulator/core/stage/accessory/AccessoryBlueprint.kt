@@ -41,7 +41,7 @@ data class AccessoryBlueprint(
     val maxDexterity: Int,
     val maxCritical: Int,
     val maxAgility: Int,
-    val growValues: List<Int>,
+    val growValues: Array<Int>,
     val dressIds: Set<Int>,
     val attribute: Attribute? = null,
     val actData: ActBlueprint? = null,

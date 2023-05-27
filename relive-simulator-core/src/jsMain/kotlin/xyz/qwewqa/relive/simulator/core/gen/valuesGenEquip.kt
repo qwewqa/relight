@@ -4,7 +4,7 @@ actual val valuesGenEquip: Map<Int, GenEquip> by lazy {
   loadJsMasterData(dataGenEquip) { id, data ->
     GenEquip(
         active_skill_id = data.active_skill_id.unsafeCast<Int>(),
-        appearance_chara_ids = listFromDynamic(data.appearance_chara_ids),
+        appearance_chara_ids = arrayFromDynamic(data.appearance_chara_ids),
         auto_skill1_id = data.auto_skill1_id.unsafeCast<Int>(),
         auto_skill1_type = data.auto_skill1_type.unsafeCast<Int>(),
         base_atk = data.base_atk.unsafeCast<Int>(),

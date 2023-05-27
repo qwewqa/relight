@@ -53,8 +53,8 @@ class StartSkill(
 class StartSkillBlueprint(
     val option: ActiveSkillOption,
     val target: SkillTarget,
-    val values: List<Int>,
-    val times: List<Int>,
+    val values: Array<Int>,
+    val times: Array<Int>,
     val chance: Int,
 ) {
   fun create(level: Int) =

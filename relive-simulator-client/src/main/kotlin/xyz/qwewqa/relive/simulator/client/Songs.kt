@@ -197,10 +197,10 @@ private fun updateSongAwakeningEffect(
   val values =
       when (skillData) {
         is AwakeningSongEffectData -> skillData.values
-        else -> emptyList()
+        else -> emptyArray()
       }.let {
         if (0 !in it) {
-          listOf(0) + it
+          arrayOf(0) + it
         } else {
           it
         }

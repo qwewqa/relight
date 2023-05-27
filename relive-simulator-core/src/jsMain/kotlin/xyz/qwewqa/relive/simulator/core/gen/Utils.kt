@@ -10,8 +10,7 @@ inline fun <T> loadJsMasterData(data: String, converter: (Int, dynamic) -> T): M
   return map
 }
 
-fun <T> listFromDynamic(array: dynamic): List<T> =
-    (array as Array<dynamic>).map { it.unsafeCast<T>() }
+fun <T> arrayFromDynamic(array: dynamic): Array<T> = array.unsafeCast<Array<T>>()
 
 fun <T> stringMapFromDynamic(map: dynamic): Map<String, T> {
   val result = stringMapOf<T>()

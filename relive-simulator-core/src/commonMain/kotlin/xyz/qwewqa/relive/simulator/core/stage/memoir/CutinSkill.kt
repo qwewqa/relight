@@ -12,10 +12,10 @@ import xyz.qwewqa.relive.simulator.core.stage.target.SkillTargets
 
 class CutinSkillBlueprint(
     override val id: Int,
-    val costs: List<Int>,
-    val startCooldowns: List<Int>,
-    val cooldowns: List<Int>,
-    val usageLimits: List<Int>,
+    val costs: Array<Int>,
+    val startCooldowns: Array<Int>,
+    val cooldowns: Array<Int>,
+    val usageLimits: Array<Int>,
     val target: CutinTarget,
     val parts: List<SkillPartBlueprint>
 ) : FeatureImplementation {
@@ -25,7 +25,7 @@ class CutinSkillBlueprint(
           startCooldowns = startCooldowns,
           cooldowns = cooldowns,
           usageLimits = usageLimits,
-          parameters = emptyList(),
+          parameters = emptyArray(),
           target = target,
           act = { Skill(parts.map { it.create(level) }, null) })
 }

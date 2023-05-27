@@ -11,7 +11,7 @@ import xyz.qwewqa.relive.simulator.core.stage.target.SkillTargets
 
 data class StageEffectBuff(
     val effect: ContinuousBuffEffect<Unit>,
-    val values: List<Int>,
+    val values: Array<Int>,
     val target: SkillTarget,
 )
 
@@ -27,7 +27,7 @@ data class StageEffect(
 
 @Suppress("UNCHECKED_CAST")
 object StageEffects : ImplementationRegistry<StageEffect>() {
-  private fun getStageEffectBuff(type: Int, target: Int, values: List<Int>): StageEffectBuff? {
+  private fun getStageEffectBuff(type: Int, target: Int, values: Array<Int>): StageEffectBuff? {
     if (type == 0) return null
     val effect = (Buffs[type] as? ContinuousBuffEffect<Unit>) ?: return null
     val targeting = SkillTargets[target] ?: return null

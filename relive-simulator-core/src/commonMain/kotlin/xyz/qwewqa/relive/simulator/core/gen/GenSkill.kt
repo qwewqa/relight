@@ -9,8 +9,8 @@ data class GenSkillOptionInfo(
     val id: Int,
     val hit_rate: Int,
     val target_id: Int,
-    val times: List<Int>,
-    val values: List<Int>,
+    val times: Array<Int>,
+    val values: Array<Int>,
 )
 
 @Serializable

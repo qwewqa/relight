@@ -331,7 +331,7 @@ data class SongEffectData(
 @Serializable
 data class AwakeningSongEffectData(
     val id: Int,
-    val values: List<Int>,
+    val values: Array<Int>,
 )
 
 @Serializable

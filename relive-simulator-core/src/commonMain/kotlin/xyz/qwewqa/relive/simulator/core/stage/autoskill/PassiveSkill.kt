@@ -30,7 +30,7 @@ class PassiveSkill(
 class PassiveSkillBlueprint(
     val option: PassiveSkillOption,
     val target: SkillTarget,
-    val values: List<Int>,
+    val values: Array<Int>,
 ) {
   fun create(level: Int) =
       PassiveSkill(
@@ -61,7 +61,7 @@ class UnitSkillBlueprint(
 private fun getPassiveSkillBlueprint(
     optionId: Int,
     targetId: Int,
-    values: List<Int>,
+    values: Array<Int>,
 ): PassiveSkillBlueprint? {
   return PassiveSkillBlueprint(
       option = SkillOptions[optionId] as? PassiveSkillOption ?: return null,

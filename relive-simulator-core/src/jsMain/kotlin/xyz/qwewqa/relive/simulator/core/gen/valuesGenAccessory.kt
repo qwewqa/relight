@@ -26,7 +26,7 @@ actual val valuesGenAccessory: Map<Int, GenAccessory> by lazy {
         base_hp = data.base_hp.unsafeCast<Int>(),
         base_mdef = data.base_mdef.unsafeCast<Int>(),
         base_pdef = data.base_pdef.unsafeCast<Int>(),
-        dress_ids = listFromDynamic(data.dress_ids),
+        dress_ids = arrayFromDynamic(data.dress_ids),
         grow_id = data.grow_id.unsafeCast<Int>(),
         icon_id = data.icon_id.unsafeCast<Int>(),
         max_agi = data.max_agi.unsafeCast<Int>(),

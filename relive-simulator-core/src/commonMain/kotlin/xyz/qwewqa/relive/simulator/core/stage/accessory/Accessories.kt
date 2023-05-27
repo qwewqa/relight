@@ -29,7 +29,7 @@ object Accessories : ImplementationRegistry<AccessoryBlueprint>() {
           0,
           0,
           0,
-          List(100) { 0 },
+          Array(100) { 0 },
           emptySet(),
       )
 

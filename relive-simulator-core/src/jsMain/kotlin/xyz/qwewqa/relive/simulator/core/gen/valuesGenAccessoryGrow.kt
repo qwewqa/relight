@@ -1,5 +1,5 @@
 package xyz.qwewqa.relive.simulator.core.gen
 
-actual val valuesGenAccessoryGrow: Map<Int, List<Int>> by lazy {
-  loadJsMasterData(dataGenAccessoryGrow) { id, data -> listFromDynamic(data) }
+actual val valuesGenAccessoryGrow: Map<Int, Array<Int>> by lazy {
+  loadJsMasterData(dataGenAccessoryGrow) { id, data -> arrayFromDynamic(data) }
 }

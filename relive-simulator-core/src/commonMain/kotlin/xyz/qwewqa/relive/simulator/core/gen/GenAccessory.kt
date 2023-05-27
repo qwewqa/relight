@@ -29,7 +29,7 @@ data class GenAccessory(
     val base_hp: Int,
     val base_mdef: Int,
     val base_pdef: Int,
-    val dress_ids: List<Int>,
+    val dress_ids: Array<Int>,
     val grow_id: Int,
     val icon_id: Int,
     val max_agi: Int,

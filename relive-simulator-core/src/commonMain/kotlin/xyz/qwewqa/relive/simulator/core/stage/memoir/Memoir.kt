@@ -53,11 +53,11 @@ data class MemoirBlueprint(
 }
 
 data class CutinBlueprint(
-    val costs: List<Int>,
-    val startCooldowns: List<Int>,
-    val cooldowns: List<Int>,
-    val usageLimits: List<Int>,
-    val parameters: List<ActParameters>,
+    val costs: Array<Int>,
+    val startCooldowns: Array<Int>,
+    val cooldowns: Array<Int>,
+    val usageLimits: Array<Int>,
+    val parameters: Array<ActParameters>,
     val target: CutinTarget = CutinTarget.TurnStart,
     val act: ActBlueprintContext.() -> Act = { Act {} },
 ) {
