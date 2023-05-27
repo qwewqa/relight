@@ -1,8 +1,6 @@
 package xyz.qwewqa.relive.simulator.client
 
 import Accessories
-import kotlin.js.Promise
-import kotlin.random.Random
 import kotlinx.browser.document
 import kotlinx.browser.sessionStorage
 import kotlinx.browser.window
@@ -20,7 +18,6 @@ import kotlinx.html.DIV
 import kotlinx.html.InputType
 import kotlinx.html.b
 import kotlinx.html.button
-import kotlinx.html.classes
 import kotlinx.html.div
 import kotlinx.html.dom.append
 import kotlinx.html.dom.create
@@ -75,12 +72,10 @@ import xyz.qwewqa.relive.simulator.common.InteractiveLog
 import xyz.qwewqa.relive.simulator.common.MarginResult
 import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
 import xyz.qwewqa.relive.simulator.common.SimulationMarginResultType
-import xyz.qwewqa.relive.simulator.common.SimulationOptions
 import xyz.qwewqa.relive.simulator.common.SimulationParameters
 import xyz.qwewqa.relive.simulator.common.SimulationResult
 import xyz.qwewqa.relive.simulator.common.SimulationResultType
 import xyz.qwewqa.relive.simulator.common.SimulationResultValue
-import xyz.qwewqa.relive.simulator.common.SimulatorFeatures
 import xyz.qwewqa.relive.simulator.common.SimulatorVersion
 import xyz.qwewqa.relive.simulator.common.StatisticsSummary
 import xyz.qwewqa.relive.simulator.common.StrategyParameter
@@ -88,6 +83,8 @@ import xyz.qwewqa.relive.simulator.core.getSimulationOptions
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dresses
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoirs
+import kotlin.js.Promise
+import kotlin.random.Random
 
 fun main() {
   SimulatorClient(RemoteSimulator(URL("${window.location.protocol}//${window.location.host}")))
@@ -1869,7 +1866,7 @@ class SimulatorClient(val simulator: Simulator) {
     val urlOptions = getUrlParameter(url, "options")
     val urlSetup = getUrlParameter(url, "load-setup") ?: getSetupIdFromShareLink(url)
     if (urlSetup != null) {
-      toast("Setup", "Loading setup.", "yellow")
+      toast("Setup", "Loading setup.", "gold")
       GlobalScope.launch {
         val setup = api.getSetup(urlSetup)
         setSetup(setup)
@@ -1882,9 +1879,9 @@ class SimulatorClient(val simulator: Simulator) {
                 compressor.decompressFromEncodedURIComponent(urlOptions))
         setSetup(setup)
         updateUrlForSetup(setup)
-        toast("Import", "Updated config from url.", "green")
+        toast("Import", "Updated setup from url.", "green")
       } catch (e: Throwable) {
-        toast("Error", "Failed to update config from url.", "red")
+        toast("Error", "Failed to update setup from url.", "red")
       }
     }
   }
@@ -1947,7 +1944,7 @@ class SimulatorClient(val simulator: Simulator) {
       if (newUrl.length <= 8192) {
         window.history.pushState(null, "", newUrl)
       } else {
-        toast("Warning", "Url not updated due to config size.", "yellow")
+        toast("Warning", "Url not updated due to length limit.", "gold")
       }
     }
   }
@@ -2031,7 +2028,7 @@ class SimulatorClient(val simulator: Simulator) {
               }
               syncInProgress = true
               GlobalScope.launch {
-                toast("Sync", "Syncing...", "yellow")
+                toast("Sync", "Syncing...", "gold")
                 try {
                   api.sync()
                   toast("Sync", "Sync successful.", "green")
@@ -3300,7 +3297,7 @@ class SimulatorClient(val simulator: Simulator) {
                 if (result.error != null) {
                   toast("Simulate", "Completed with errors.", "orange")
                 } else if (result.cancelled) {
-                  toast("Simulate", "Cancelled.", "yellow")
+                  toast("Simulate", "Cancelled.", "gold")
                 } else {
                   toast("Simulate", "Completed successfully.", "green")
                 }
