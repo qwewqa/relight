@@ -34,7 +34,7 @@ class RelightApi(val simulator: SimulatorClient) {
     encodeDefaults = true
   }
 
-  private val client = HttpClient { install(ContentNegotiation) { json(json) } }
+  private val client by lazy { HttpClient { install(ContentNegotiation) { json(json) } } }
 
   var auth0Client: Auth0Client? = null
 
