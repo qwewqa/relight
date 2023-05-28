@@ -5,15 +5,35 @@ import kotlinx.browser.window
 import kotlinx.dom.addClass
 import kotlinx.dom.clear
 import kotlinx.dom.removeClass
-import kotlinx.html.*
+import kotlinx.html.FlowContent
+import kotlinx.html.SPAN
+import kotlinx.html.TagConsumer
+import kotlinx.html.a
+import kotlinx.html.attributesMapOf
+import kotlinx.html.b
+import kotlinx.html.div
 import kotlinx.html.dom.append
+import kotlinx.html.i
+import kotlinx.html.id
+import kotlinx.html.img
 import kotlinx.html.js.onClickFunction
-import org.w3c.dom.*
+import kotlinx.html.p
+import kotlinx.html.role
+import kotlinx.html.span
+import kotlinx.html.style
+import kotlinx.html.title
+import org.w3c.dom.CustomEvent
+import org.w3c.dom.HTMLDivElement
+import org.w3c.dom.HTMLElement
+import org.w3c.dom.HTMLParagraphElement
+import org.w3c.dom.asList
+import org.w3c.dom.get
 import xyz.qwewqa.relive.simulator.common.ActorStatus
 import xyz.qwewqa.relive.simulator.common.InteractiveLogData
 import xyz.qwewqa.relive.simulator.common.InteractiveQueueInfo
 import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.common.LogEntry
+import kotlin.collections.set
 
 val LogCategory.backgroundColor
   get() =
@@ -258,7 +278,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
           }
         }
       }
-      div(classes = "row justify-content-evenly g-1 mt-1") {
+      div(classes = "row justify-content-evenly g-1 mt-0") {
         val totalDamage = data.playerStatus?.sumOf { it.damageContribution } ?: 0.0
         data.playerStatus?.reversed()?.forEachIndexed { i, status ->
           div(classes = "$playerWidth interactive-status-container") {

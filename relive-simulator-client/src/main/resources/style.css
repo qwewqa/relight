@@ -202,10 +202,6 @@ pwa-update::part(offlineToast) {
     min-width: 720px;
 }
 
-#interactive-ui-container {
-    margin-top: 0.4em;
-}
-
 :root {
     --container-max-width: 100vw;
     --bs-border-width: 2px;
@@ -903,7 +899,7 @@ pwa-update::part(offlineToast) {
 }
 
 #interactive-container {
-    --size-ref: min(680px, calc(0.9 * var(--container-max-width)));
+    --size-ref: min(700px, max(70vh, 560px), calc(0.9 * var(--container-max-width)));
 }
 
 #interactive-console-container {
@@ -954,7 +950,7 @@ pwa-update::part(offlineToast) {
 .interactive-status-buffs-container {
     display: flex;
     overflow-x: visible;
-    margin-left: 2px;
+    margin-left: 1px;
     margin-bottom: 1px;
     --buff-icon-size: 12px;
     column-gap: 3px;
