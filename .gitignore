@@ -165,3 +165,5 @@ relive-simulator-client/src/main/kotlin/xyz/qwewqa/relive/simulator/client/GVers
 /relive-simulator-server/src/main/resources/client/sw.js
 /relive-simulator-browser/src/main/resources/bootstrap-select.js
 /relive-simulator-browser/src/main/resources/style.css
+
+/site/
