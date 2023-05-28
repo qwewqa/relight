@@ -1,17 +1,31 @@
 # Relive Simulator
 
-A damage calculator for smartphone game Revue Starlight Re LIVE
+A team building and analysis tool for smartphone game Revue Starlight Re LIVE
 
 ## Building
 
-Run the server.
+Running the server for development purposes.
 
 ```
 ./gradlew :relive-simulator-server:run
 ```
 
-GraalVM Native image.
+Building the browser JS distribution.
 
 ```
-native-image -jar relive-simulator-server-0.0.1-all.jar
+./gradlew :relive-simulator-browser:browserDistribution
+```
+
+## Documentation
+
+Ensure Python and mkdocs-material is installed.
+
+```
+pip install mkdocs-material
+```
+
+Serve the documentation locally.
+
+```
+mkdocs serve
 ```
