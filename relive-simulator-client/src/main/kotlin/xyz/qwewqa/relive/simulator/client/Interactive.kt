@@ -9,14 +9,25 @@ import kotlinx.coroutines.launch
 import kotlinx.dom.addClass
 import kotlinx.dom.clear
 import kotlinx.dom.removeClass
-import kotlinx.html.*
+import kotlinx.html.TagConsumer
+import kotlinx.html.button
+import kotlinx.html.div
 import kotlinx.html.dom.append
+import kotlinx.html.i
+import kotlinx.html.id
+import kotlinx.html.img
 import kotlinx.html.js.div
 import kotlinx.html.js.onClickFunction
+import kotlinx.html.role
+import kotlinx.html.span
 import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLSpanElement
-import xyz.qwewqa.relive.simulator.common.*
+import xyz.qwewqa.relive.simulator.common.ActCardStatus
+import xyz.qwewqa.relive.simulator.common.ActionStatus
+import xyz.qwewqa.relive.simulator.common.CutinCardStatus
+import xyz.qwewqa.relive.simulator.common.InteractiveQueueStatus
+import xyz.qwewqa.relive.simulator.common.InteractiveRunState
 
 fun updateInteractiveUi(
     simulation: InteractiveSimulation,
@@ -113,6 +124,10 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
         img(classes = "queue-act-img") { src = "img/skill_icon/skill_icon_${card.iconId}.png" }
         if (card.isSupport) {
           img(classes = "queue-support-indicator") { src = "img/common/icon_support_dress.png" }
+        }
+        if (card.isClimax) {
+          img(classes = "queue-act-img-overlay") { src = "img/custom/climax_overlay.png" }
+          i("bi bi-stars queue-act-climax-icon") {}
         }
         div(classes = "interactive-timeline-act-damage-overlay d-none") {}
         onClickFunction = { GlobalScope.launch { simulation.sendCommand("unqueue #${index + 1}") } }
@@ -212,6 +227,10 @@ private fun updateActs(simulation: InteractiveSimulation, status: InteractiveQue
               img(classes = "queue-actor-img") { src = "img/large_icon/1_${card.dressId}.png" }
               img(classes = "queue-act-img") {
                 src = "img/skill_icon/skill_icon_${card.iconId}.png"
+              }
+              if (card.isClimax) {
+                img(classes = "queue-act-img-overlay") { src = "img/custom/climax_overlay.png" }
+                i("bi bi-stars queue-act-climax-icon") {}
               }
               if (card.isSupport) {
                 img(classes = "queue-support-indicator") {

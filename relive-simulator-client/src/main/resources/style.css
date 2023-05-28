@@ -440,7 +440,6 @@ pwa-update::part(offlineToast) {
 }
 
 .interactive-timeline-image-container {
-    margin: 12%;
 }
 
 .interactive-queue-image-container {
@@ -450,7 +449,7 @@ pwa-update::part(offlineToast) {
 }
 
 .queue-actor-img {
-    width: 100%;
+    width: calc(var(--size-ref) / 8);
 }
 
 .queue-act-img {
@@ -459,6 +458,27 @@ pwa-update::part(offlineToast) {
     right: 4%;
     width: 56%;
     filter: drop-shadow(0 0 2px white) drop-shadow(0 0 2px white);
+}
+
+.queue-act-img-overlay {
+    position: absolute;
+    bottom: 2%;
+    right: 4%;
+    width: 56%;
+    aspect-ratio: 1;
+    filter: saturate(200%);
+    mix-blend-mode: hue;
+    display: none;
+}
+
+.queue-act-climax-icon {
+    position: absolute;
+    bottom: 5%;
+    left: 4%;
+    color: rebeccapurple;
+    font-size: calc(var(--size-ref) / 24);
+    line-height: 0;
+    filter: drop-shadow(0 0 2px white) drop-shadow(0 0 2px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white);
 }
 
 .queue-act-cost {
@@ -481,11 +501,11 @@ pwa-update::part(offlineToast) {
 }
 
 .interactive-timeline-normal .queue-actor-img {
-    filter: drop-shadow(0 0 2px navy);
+    filter: drop-shadow(0 0 2px royalblue) drop-shadow(0 0 2px royalblue);
 }
 
 .interactive-timeline-climax .queue-actor-img {
-    filter: drop-shadow(0 0 3px rebeccapurple) drop-shadow(0 0 2px rebeccapurple);
+    filter: drop-shadow(0 0 2px rebeccapurple) drop-shadow(0 0 2px rebeccapurple);
 }
 
 .queue-support-indicator {
@@ -500,7 +520,7 @@ pwa-update::part(offlineToast) {
     position: relative;
     overflow-x: auto;
     overflow-y: visible;
-    padding-top: calc(var(--size-ref) / 96);
+    padding-top: calc(var(--size-ref) / 72);
     padding-bottom: calc(var(--size-ref) / 96);
 }
 
@@ -528,6 +548,7 @@ pwa-update::part(offlineToast) {
 }
 
 .interactive-climax-button-activated:disabled {
+    border: midnightblue 2px solid;
     background: midnightblue;
 }
 
@@ -574,11 +595,11 @@ pwa-update::part(offlineToast) {
 }
 
 .interactive-act-queued .queue-actor-img {
-    filter: brightness(100%) drop-shadow(0 0 4px forestgreen) drop-shadow(0 0 2px forestgreen);
+    filter: brightness(100%) drop-shadow(0 0 2px darkgreen) drop-shadow(0 0 2px darkgreen);
 }
 
 .interactive-act-queued .queue-act-img {
-    filter: brightness(100%);
+    filter: brightness(100%) drop-shadow(0 0 2px white) drop-shadow(0 0 2px white);
 }
 
 .interactive-act-queued .queue-support-indicator {
@@ -604,11 +625,11 @@ pwa-update::part(offlineToast) {
 }
 
 .interactive-act-too-expensive .queue-act-img {
-    filter: brightness(85%);
+    filter: brightness(80%);
 }
 
 .interactive-act-too-expensive .queue-support-indicator {
-    filter: brightness(85%);
+    filter: brightness(80%) drop-shadow(0 0 2px white) drop-shadow(0 0 2px white);
 }
 
 .interactive-act-too-expensive .queue-act-cost {
@@ -814,7 +835,7 @@ pwa-update::part(offlineToast) {
 }
 
 .interactive-memoir-queued {
-    filter: drop-shadow(0 0 4px darkviolet) drop-shadow(0 0 2px darkviolet);
+    filter: drop-shadow(0 0 2px darkviolet) drop-shadow(0 0 2px darkviolet);
 }
 
 .interactive-memoir-queued-icon {
@@ -932,7 +953,7 @@ pwa-update::part(offlineToast) {
 
 .interactive-status-buffs-container {
     display: flex;
-    overflow-x: clip;
+    overflow-x: visible;
     margin-left: 2px;
     margin-bottom: 1px;
     --buff-icon-size: 12px;
@@ -950,10 +971,10 @@ pwa-update::part(offlineToast) {
     position: absolute;
     top: 8%;
     right: 2%;
-    color: gold;
-    font-size: calc(0.3 * var(--status-image-size));
+    color: rebeccapurple;
+    font-size: calc(0.35 * var(--status-image-size));
     line-height: 0;
-    filter: drop-shadow(0 0 1px black) drop-shadow(0 0 1px black) drop-shadow(0 0 1px black);
+    filter: drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white);
 }
 
 .interactive-status-dex-counter {
@@ -1180,7 +1201,7 @@ input[type=number] {
 }
 
 .show-damage-shares #interactive-timeline-container {
-    margin-bottom: calc(var(--size-ref) / 20);
+    margin-bottom: calc(var(--size-ref) / 24);
 }
 
 .toast-body {
