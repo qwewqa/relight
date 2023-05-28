@@ -1099,3 +1099,7 @@
 
 # v1.5.3
 - Load time improvements
+
+# v1.5.4
+- Added indicator icon to climax acts in interactive
+- Visual adjustments
