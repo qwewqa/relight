@@ -21,29 +21,9 @@ import org.w3c.dom.asList
 import xyz.qwewqa.relive.simulator.common.DataSimulationOption
 import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
 import xyz.qwewqa.relive.simulator.common.SimulationOptions
-import kotlin.collections.Iterable
-import kotlin.collections.List
-import kotlin.collections.Map
-import kotlin.collections.associateWith
 import kotlin.collections.component1
 import kotlin.collections.component2
-import kotlin.collections.contains
-import kotlin.collections.filter
-import kotlin.collections.filterIsInstance
-import kotlin.collections.first
-import kotlin.collections.firstOrNull
-import kotlin.collections.forEach
-import kotlin.collections.forEachIndexed
-import kotlin.collections.get
-import kotlin.collections.joinToString
-import kotlin.collections.listOf
-import kotlin.collections.map
-import kotlin.collections.mapOf
 import kotlin.collections.set
-import kotlin.collections.single
-import kotlin.collections.toMap
-import kotlin.collections.toSet
-import kotlin.collections.toTypedArray
 
 fun HTMLInputElement.integerInput(default: Int) = IntegerInput(this, default)
 
@@ -460,10 +440,10 @@ class ActorOptions(
             rank = 9,
             rankPanelPattern = List(8) { true },
             remake = 0,
-            remakeSkill = "None",
-            accessory = "None",
-            accessoryLevel = 100,
-            accessoryLimitBreak = 10,
+            remakeSkill = null,
+            accessory = "0",
+            accessoryLevel = 50,
+            accessoryLimitBreak = 0,
             isSupport = false,
         )
 
@@ -473,8 +453,8 @@ class ActorOptions(
     unitSkillLevel.element.value = ""
     level.element.value = ""
     friendship.element.value = ""
-    accessory.value = "None"
-    accessoryUnbind.value = "10"
+    accessory.value = "0"
+    accessoryUnbind.value = "0"
   }
 
   var parameters: PlayerLoadoutParameters
