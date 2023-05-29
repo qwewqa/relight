@@ -1399,6 +1399,10 @@ class SimulatorClient(val simulator: Simulator) {
     // We want to kick this off first, since the API can take a while to respond
     handleFirstLoadUrlOptions()
 
+    GlobalScope.launch {
+      updateVersionString()
+    }
+
     options = getSimulationOptions()
 
     val commonText = options.commonText.associateBy { it.id }
@@ -1665,7 +1669,6 @@ class SimulatorClient(val simulator: Simulator) {
           GlobalScope.launch {
             simulateButton.disabled = true
             cancelButton.disabled = false
-            updateVersionString()
             try {
               val setup = getSetup()
               simulation = simulator.simulate(setup)
@@ -1693,7 +1696,6 @@ class SimulatorClient(val simulator: Simulator) {
 
     fun startNewInteractiveSimulation() {
       GlobalScope.launch {
-        updateVersionString()
         try {
           val setup = getSetup().inferSupports()
           interactiveSimulation?.end()
