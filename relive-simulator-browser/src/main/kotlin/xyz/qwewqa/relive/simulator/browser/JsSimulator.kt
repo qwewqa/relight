@@ -1,19 +1,7 @@
 package xyz.qwewqa.relive.simulator.browser
 
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.request.*
-import io.ktor.serialization.kotlinx.json.*
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
-import kotlin.coroutines.Continuation
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
-import kotlin.js.Date
-import kotlin.random.Random
 import kotlinx.browser.window
+import kotlinx.coroutines.await
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -29,6 +17,7 @@ import xyz.qwewqa.relive.simulator.client.InteractiveSimulation
 import xyz.qwewqa.relive.simulator.client.Simulation
 import xyz.qwewqa.relive.simulator.client.Simulator
 import xyz.qwewqa.relive.simulator.client.SimulatorClient
+import xyz.qwewqa.relive.simulator.client.fetch
 import xyz.qwewqa.relive.simulator.common.FilterLogRequest
 import xyz.qwewqa.relive.simulator.common.FilterLogResponse
 import xyz.qwewqa.relive.simulator.common.InteractiveLog
@@ -36,14 +25,11 @@ import xyz.qwewqa.relive.simulator.common.InteractiveLogData
 import xyz.qwewqa.relive.simulator.common.LogEntry
 import xyz.qwewqa.relive.simulator.common.MarginResult
 import xyz.qwewqa.relive.simulator.common.SimulationMarginResultType
-import xyz.qwewqa.relive.simulator.common.SimulationOptions
 import xyz.qwewqa.relive.simulator.common.SimulationParameters
 import xyz.qwewqa.relive.simulator.common.SimulationResult
 import xyz.qwewqa.relive.simulator.common.SimulationResultType
 import xyz.qwewqa.relive.simulator.common.SimulationResultValue
-import xyz.qwewqa.relive.simulator.common.SimulatorFeatures
 import xyz.qwewqa.relive.simulator.common.SimulatorVersion
-import xyz.qwewqa.relive.simulator.core.getSimulationOptions
 import xyz.qwewqa.relive.simulator.core.stage.ExcludedRun
 import xyz.qwewqa.relive.simulator.core.stage.LogFilter
 import xyz.qwewqa.relive.simulator.core.stage.MarginStageResult
@@ -56,6 +42,14 @@ import xyz.qwewqa.relive.simulator.core.stage.Victory
 import xyz.qwewqa.relive.simulator.core.stage.createStageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.interactive.InteractiveSimulationController
 import xyz.qwewqa.relive.simulator.core.stage.utils.summarize
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
+import kotlin.js.Date
+import kotlin.random.Random
 
 const val WORKER_URL = "relive-simulator-worker.js"
 
@@ -67,14 +61,15 @@ class JsSimulator : Simulator {
   private suspend fun getWorkerScript(): Blob =
       workerScriptBlob
           ?: run {
-            val response: String =
-                httpClient
-                    .get(
+            val response =
+                fetch(
                         URL(
                                 WORKER_URL,
                                 "${window.location.protocol}//${window.location.host}${window.location.pathname}")
                             .href)
-                    .body()
+                    .await()
+                    .text()
+                    .await()
             val blob = Blob(arrayOf(response), BlobPropertyBag("text/javascript"))
             workerScriptBlob = blob
             blob
@@ -103,19 +98,6 @@ class JsSimulator : Simulator {
 
   override suspend fun version(): SimulatorVersion {
     return SimulatorClient.version
-  }
-
-  private val httpClient = HttpClient {
-    install(ContentNegotiation) {
-      json(
-          Json {
-            isLenient = true
-            ignoreUnknownKeys = true
-            allowSpecialFloatingPointValues = true
-            useArrayPolymorphism = false
-            encodeDefaults = true
-          })
-    }
   }
 }
 
