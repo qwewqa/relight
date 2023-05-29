@@ -7,8 +7,43 @@ import kotlinx.dom.hasClass
 import kotlinx.dom.removeClass
 import kotlinx.html.dom.create
 import kotlinx.html.option
-import org.w3c.dom.*
-import xyz.qwewqa.relive.simulator.common.*
+import org.w3c.dom.Element
+import org.w3c.dom.HTMLCollection
+import org.w3c.dom.HTMLDivElement
+import org.w3c.dom.HTMLElement
+import org.w3c.dom.HTMLImageElement
+import org.w3c.dom.HTMLInputElement
+import org.w3c.dom.HTMLOptionElement
+import org.w3c.dom.HTMLParagraphElement
+import org.w3c.dom.HTMLSelectElement
+import org.w3c.dom.UnionHTMLOptGroupElementOrHTMLOptionElement
+import org.w3c.dom.asList
+import xyz.qwewqa.relive.simulator.common.DataSimulationOption
+import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
+import xyz.qwewqa.relive.simulator.common.SimulationOptions
+import kotlin.collections.Iterable
+import kotlin.collections.List
+import kotlin.collections.Map
+import kotlin.collections.associateWith
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.contains
+import kotlin.collections.filter
+import kotlin.collections.filterIsInstance
+import kotlin.collections.first
+import kotlin.collections.firstOrNull
+import kotlin.collections.forEach
+import kotlin.collections.forEachIndexed
+import kotlin.collections.get
+import kotlin.collections.joinToString
+import kotlin.collections.listOf
+import kotlin.collections.map
+import kotlin.collections.mapOf
+import kotlin.collections.set
+import kotlin.collections.single
+import kotlin.collections.toMap
+import kotlin.collections.toSet
+import kotlin.collections.toTypedArray
 
 fun HTMLInputElement.integerInput(default: Int) = IntegerInput(this, default)
 
@@ -127,10 +162,6 @@ class TextInput(val element: HTMLInputElement) {
 inline fun <reified T> HTMLCollection.single(): T = asList().filterIsInstance<T>().single()
 
 inline fun <reified T> HTMLCollection.multiple(): List<T> = asList().filterIsInstance<T>()
-
-fun refreshSelectPicker() {
-  js("$('.selectpicker').selectpicker('refresh')")
-}
 
 class Collapse(val element: HTMLDivElement) {
   var show: Boolean

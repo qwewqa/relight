@@ -2324,8 +2324,8 @@ class SimulatorClient(val simulator: Simulator) {
     interactiveGoButton.addEventListener(
         "click", { GlobalScope.launch { interactiveSimulation?.sendCommand("go") } })
 
+    // Also initializes selectpickers
     updateLocaleText()
-    refreshSelectPicker()
 
     window.onpopstate = { updateSetupFromUrl() }
 
