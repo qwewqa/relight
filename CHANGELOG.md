@@ -1106,3 +1106,8 @@
 
 # v1.5.5
 - Removed accounts, setups, and presets
+
+# v1.5.6
+- Fixed version not displaying on load
+- Adjusted automatic names
+- Blank names are now automatically filled when starting interactive
