@@ -1103,3 +1103,6 @@
 # v1.5.4
 - Added indicator icon to climax acts in interactive
 - Visual adjustments
+
+# v1.5.5
+- Removed accounts, setups, and presets
