@@ -18,7 +18,12 @@ external object Yaml {
 // 2. Performance doesn't matter
 // 3. Multiline strings are nice to have (otherwise yamlkt would be fine)
 
-val json = Json { ignoreUnknownKeys = true }
+val json = Json {
+  isLenient = true
+  ignoreUnknownKeys = true
+  allowSpecialFloatingPointValues = true
+  encodeDefaults = true
+}
 
 @OptIn(ExperimentalSerializationApi::class)
 inline fun <reified T> dumpYamlSerialize(obj: T): String {

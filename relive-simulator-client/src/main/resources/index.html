@@ -285,9 +285,6 @@
                             <a class="btn btn-primary" href="https://discord.gg/tGfYwUJsNH" id="server-link" role="button">
                                 <i class="bi bi-discord"></i>
                             </a>
-                            <a class="btn btn-secondary" data-bs-toggle="collapse" href="#options-collapse" id="options-collapse-button" role="button">
-                                <i class="bi bi-gear-fill"></i>
-                            </a>
                         </div>
                         <div class="col-auto ps-0 me-auto">
                             <select class="form-select" id="language-select"></select>
@@ -299,62 +296,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row my-1 collapse" id="options-collapse">
-                        <div class="col-12 mb-1">
-                            <h4 class="text-options">Options</h4>
-                        </div>
-                        <div class="col-12 col-md-auto mb-1">
-                            <h5 class="text-account">Account</h5>
-                            <div class="d-none mb-1" id="profile"></div>
-                            <button class="btn btn-primary text-log-in d-none mb-1" id="login-button" type="button">
-                                Log In
-                            </button>
-                            <button class="btn btn-secondary text-log-out d-none mb-1" id="logout-button" type="button">
-                                Log Out
-                            </button>
-                            <button class="btn btn-info text-cloud-sync mb-1" disabled id="sync-button" type="button">
-                                Cloud Sync
-                            </button>
-                        </div>
-                        <div class="col-12 col-md-auto mb-1">
-                            <div class="row">
-                                <div class="col-12">
-                                    <h5 class="text-setups">Setups</h5>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-auto">
-                                    <button class="btn btn-success text-save mb-1" id="save-setup-button" type="button">
-                                        Save
-                                    </button>
-                                    <button class="btn btn-primary text-load mb-1" id="load-setup-button" type="button">
-                                        Load
-                                    </button>
-                                    <button class="btn btn-warning text-manage mb-1" id="manage-setups-button" type="button">
-                                        Manage
-                                    </button>
-                                </div>
-                                <div class="col-auto ps-sm-0">
-                                    <button class="btn btn-primary text-share mb-1" id="share-setups-button" type="button">
-                                        Share
-                                    </button>
-                                    <button class="btn btn-secondary text-import mb-1" id="import-setups-button" type="button">
-                                        Import
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-auto">
-                            <h5 class="text-presets">Presets</h5>
-                            <button class="btn btn-primary text-share mb-1" id="share-presets-button" type="button">
-                                Share
-                            </button>
-                            <button class="btn btn-secondary text-import mb-1" id="import-presets-button" type="button">
-                                Import
-                            </button>
-                        </div>
-                    </div>
-                    <div class="row my-2 gy-2">
+                    <div class="row mt-1 mb-3 gy-2">
                         <div class="col-12 d-flex">
                             <h4 class="text-stage-configuration">Stage Configuration</h4>
                         </div>
@@ -407,7 +349,7 @@
                             <input class="form-control" id="event-multiplier-input" placeholder="100" type="number">
                         </div>
                     </div>
-                    <div class="row my-4">
+                    <div class="row my-3">
                         <div class="col-12 d-flex">
                             <h4 class="text-actors">
                                 Actors
@@ -482,7 +424,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row my-4 gy-2">
+                    <div class="row my-3 gy-2">
                         <div class="col-12">
                             <h4 class="text-songs">Songs</h4>
                         </div>
@@ -1632,7 +1574,6 @@
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="bootstrap-select.js"></script>
 <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
-<script src="https://cdn.auth0.com/js/auth0-spa-js/1.22/auth0-spa-js.production.js"></script>
 <script src="relive-simulator-client.js"></script>
 </body>
 </html>

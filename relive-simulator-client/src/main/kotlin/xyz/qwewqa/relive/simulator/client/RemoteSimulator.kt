@@ -1,40 +1,35 @@
 package xyz.qwewqa.relive.simulator.client
 
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.plugins.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.request.*
-import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.*
-import kotlinx.serialization.json.Json
+import kotlinx.coroutines.await
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import org.w3c.dom.url.URL
-import xyz.qwewqa.relive.simulator.common.*
-import xyz.qwewqa.relive.simulator.core.getSimulationOptions
+import xyz.qwewqa.relive.simulator.common.FilterLogRequest
+import xyz.qwewqa.relive.simulator.common.FilterLogResponse
+import xyz.qwewqa.relive.simulator.common.InteractiveCommand
+import xyz.qwewqa.relive.simulator.common.InteractiveLog
+import xyz.qwewqa.relive.simulator.common.SimulateResponse
+import xyz.qwewqa.relive.simulator.common.SimulationParameters
+import xyz.qwewqa.relive.simulator.common.SimulationResult
+import xyz.qwewqa.relive.simulator.common.SimulatorVersion
 
 class RemoteSimulator(val baseUrl: URL) : Simulator {
-  private val client = HttpClient {
-    install(ContentNegotiation) {
-      json(
-          Json {
-            isLenient = true
-            ignoreUnknownKeys = true
-            allowSpecialFloatingPointValues = true
-            useArrayPolymorphism = false
-            encodeDefaults = true
-          })
-    }
-  }
 
   override suspend fun simulate(parameters: SimulationParameters): Simulation {
     return RemoteSimulation(
         this,
-        client
-            .post(URL("/simulate", baseUrl.href).href) {
-              contentType(ContentType.Application.Json)
-              setBody(parameters)
-            }
-            .body<SimulateResponse>()
+        json
+            .decodeFromString<SimulateResponse>(
+                fetch(
+                        URL("/simulate", baseUrl.href).href,
+                        jsObject {
+                          method = "POST"
+                          headers = jsObject { this["Content-Type"] = "application/json" }
+                          body = json.encodeToString(parameters)
+                        })
+                    .await()
+                    .text()
+                    .await())
             .token)
   }
 
@@ -43,35 +38,47 @@ class RemoteSimulator(val baseUrl: URL) : Simulator {
   ): InteractiveSimulation {
     return RemoteInteractiveSimulation(
         this,
-        client
-            .post(URL("/simulate_interactive", baseUrl.href).href) {
-              contentType(ContentType.Application.Json)
-              setBody(parameters)
-            }
-            .body<SimulateResponse>()
+        json
+            .decodeFromString<SimulateResponse>(
+                fetch(
+                        URL("/simulate_interactive", baseUrl.href).href,
+                        jsObject {
+                          method = "POST"
+                          headers = jsObject { this["Content-Type"] = "application/json" }
+                          body = json.encodeToString(parameters)
+                        })
+                    .await()
+                    .text()
+                    .await())
             .token)
   }
 
   override suspend fun version(): SimulatorVersion {
-    return client.get(URL("/version", baseUrl.href).href).body()
+    return json.decodeFromString(fetch(URL("/version", baseUrl.href).href).await().text().await())
   }
 
   inner class RemoteSimulation(val simulator: RemoteSimulator, val token: String) : Simulation {
     override suspend fun pollResult(): SimulationResult {
-      return client.get(URL("/result/$token", baseUrl.href).href).body()
+      return json.decodeFromString(
+          fetch(URL("/result/$token", baseUrl.href).href).await().text().await())
     }
 
     override suspend fun cancel() {
-      client.get(URL("/result/$token/cancel", baseUrl.href).href)
+      fetch(URL("/result/$token/cancel", baseUrl.href).href).await()
     }
 
     override suspend fun filterLog(request: FilterLogRequest): FilterLogResponse {
-      return client
-          .post(URL("/result/$token/log", baseUrl.href).href) {
-            contentType(ContentType.Application.Json)
-            setBody(request)
-          }
-          .body()
+      return json.decodeFromString(
+          fetch(
+                  URL("/result/$token/log", baseUrl.href).href,
+                  jsObject {
+                    method = "POST"
+                    headers = jsObject { this["Content-Type"] = "application/json" }
+                    body = json.encodeToString(request)
+                  })
+              .await()
+              .text()
+              .await())
     }
   }
 
@@ -80,23 +87,34 @@ class RemoteSimulator(val baseUrl: URL) : Simulator {
     private var rev = -1
 
     override suspend fun getLog(): InteractiveLog {
-      val log =
-          client
-              .get(URL("/interactive/$token", baseUrl.href).href) { parameter("rev", rev) }
-              .body<InteractiveLog>()
+      val log: InteractiveLog =
+          json.decodeFromString(
+              fetch(
+                      URL("/interactive/$token?rev=$rev", baseUrl.href).href,
+                      jsObject {
+                        method = "GET"
+                        headers = jsObject { this["Content-Type"] = "application/json" }
+                      })
+                  .await()
+                  .text()
+                  .await())
       rev = log.rev
       return log
     }
 
     override suspend fun sendCommand(text: String) {
-      client.post(URL("/interactive/$token", baseUrl.href).href) {
-        contentType(ContentType.Application.Json)
-        setBody(InteractiveCommand(text))
-      }
+      fetch(
+              URL("/interactive/$token", baseUrl.href).href,
+              jsObject {
+                method = "POST"
+                headers = jsObject { this["Content-Type"] = "application/json" }
+                body = json.encodeToString(InteractiveCommand(text))
+              })
+          .await()
     }
 
     override suspend fun end() {
-      client.get(URL("/result/$token/end", baseUrl.href).href)
+      fetch(URL("/result/$token/end", baseUrl.href).href).await()
     }
   }
 }

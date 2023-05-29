@@ -8,7 +8,6 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.await
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.dom.addClass
@@ -57,7 +56,6 @@ import org.w3c.dom.clipboard.ClipboardEvent
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.KeyboardEvent
 import org.w3c.dom.get
-import org.w3c.dom.set
 import org.w3c.dom.url.URL
 import xyz.qwewqa.relive.simulator.client.ActorOptions.Companion.rankPanelIds
 import xyz.qwewqa.relive.simulator.client.Plotly.addTraces
@@ -86,7 +84,9 @@ import xyz.qwewqa.relive.simulator.core.getSimulationOptions
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dresses
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoirs
-import kotlin.js.Promise
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
 import kotlin.random.Random
 
 fun main() {
@@ -186,9 +186,6 @@ class SimulatorClient(val simulator: Simulator) {
   val saveNewOptionButton = document.getElementById("save-new-option-button") as HTMLButtonElement
   val newOptionContainer = document.getElementById("new-option-container") as HTMLDivElement
 
-  val sharePresetsButton = document.getElementById("share-presets-button") as HTMLButtonElement
-  val importPresetsButton = document.getElementById("import-presets-button") as HTMLButtonElement
-
   val shareOptionsModal = document.getElementById("share-options-modal") as HTMLDivElement
   val shareOptionsModalBS = Bootstrap.Modal(shareOptionsModal)
   val shareOptionsTitle = document.getElementById("share-options-title") as HTMLHeadingElement
@@ -211,17 +208,6 @@ class SimulatorClient(val simulator: Simulator) {
       document.getElementById("select-options-all-yes-button") as HTMLButtonElement
   val selectOptionsAllNoButton =
       document.getElementById("select-options-all-no-button") as HTMLButtonElement
-
-  val saveSetupButton = document.getElementById("save-setup-button") as HTMLButtonElement
-  val loadSetupButton = document.getElementById("load-setup-button") as HTMLButtonElement
-  val manageSetupsButton = document.getElementById("manage-setups-button") as HTMLButtonElement
-  val shareSetupsButton = document.getElementById("share-setups-button") as HTMLButtonElement
-  val importSetupsButton = document.getElementById("import-setups-button") as HTMLButtonElement
-
-  val loginButton = document.getElementById("login-button") as HTMLButtonElement
-  val logoutButton = document.getElementById("logout-button") as HTMLButtonElement
-  val syncButton = document.getElementById("sync-button") as HTMLButtonElement
-  val profile = document.getElementById("profile") as HTMLDivElement
 
   val optionsTab = document.getElementById("options-tab") as HTMLButtonElement
   val interactiveTab = document.getElementById("interactive-tab") as HTMLButtonElement
@@ -372,535 +358,6 @@ class SimulatorClient(val simulator: Simulator) {
       versionLink.textContent = "client $version / server $serverVersion"
     } else {
       versionLink.textContent = version.toString()
-    }
-  }
-
-  private fun openPresetsModal(
-      save: Boolean = false,
-      load: Boolean = false,
-      delete: Boolean = false,
-      new: Boolean = false,
-  ) {
-    api.reloadSettings()
-    optionList.clear()
-    optionList.run {
-      api.settings.presetData.values
-          .sortedBy { it.name }
-          .forEachIndexed { index, preset ->
-            append.div("d-flex p-1 preset-item") {
-              id = "preset-$index"
-              attributes["data-name"] = preset.name.lowercase()
-              img(classes = "preset-image me-2 my-auto") {
-                id = "actor-preset-image-$index"
-                style = "height: 2em;"
-                src = options.dressesById[preset.dress]?.imagePath ?: ""
-              }
-              input(InputType.text, classes = "form-control-plaintext form-control-sm") {
-                id = "actor-preset-name-$index"
-                value = preset.name
-                readonly = true
-              }
-              div("d-flex gap-1 ps-1 pe-2") {
-                if (save) {
-                  button(classes = "btn btn-sm btn-outline-primary") {
-                    id = "actor-preset-save-$index"
-                    i("bi bi-download")
-                    onClickFunction = {
-                      val parameters =
-                          activeActorOptions
-                              ?.parameters
-                              ?.copy(
-                                  name = preset.name,
-                              )
-                      if (parameters != null) {
-                        api.reloadSettings()
-                        api.settings.presetData[preset.name] = parameters
-                        api.saveSettings()
-                        optionsModalBs.hide()
-                      }
-                    }
-                  }
-                }
-                if (load) {
-                  button(classes = "btn btn-sm btn-outline-secondary") {
-                    id = "actor-preset-load-$index"
-                    i("bi bi-upload")
-                    onClickFunction = {
-                      val current = activeActorOptions
-                      val retainMemoir = preset.memoir == "0"
-                      if (current != null) {
-                        current.parameters =
-                            preset.copy(
-                                name = current.parameters.name,
-                                memoir =
-                                    if (retainMemoir) current.parameters.memoir else preset.memoir,
-                                memoirLevel =
-                                    if (retainMemoir) current.parameters.memoirLevel
-                                    else preset.memoirLevel,
-                                memoirLimitBreak =
-                                    if (retainMemoir) current.parameters.memoirLimitBreak
-                                    else preset.memoirLimitBreak,
-                            )
-                        optionsModalBs.hide()
-                      } else {
-                        ActorOptions(options, addActor()).parameters =
-                            preset.copy(
-                                name = "",
-                            )
-                        toast("Added", "Actor preset loaded.", "green")
-                      }
-                    }
-                  }
-                }
-                if (delete) {
-                  button(classes = "btn btn-sm btn-outline-danger") {
-                    id = "actor-preset-delete-$index"
-                    i("bi bi-x-lg")
-                    onClickFunction = {
-                      api.reloadSettings()
-                      api.settings.presetData.remove(preset.name)
-                      api.saveSettings()
-                      document.getElementById("preset-$index")?.remove()
-                    }
-                  }
-                }
-              }
-            }
-          }
-    }
-    if (new) {
-      newOptionContainer.removeClass("d-none")
-    } else {
-      newOptionContainer.addClass("d-none")
-    }
-    fun saveOption() {
-      val param = activeActorOptions?.parameters ?: return
-      var name = optionNameInput.value
-      if (name.isBlank()) {
-        name = optionSearch.value
-      }
-      if (name.isBlank()) {
-        toast("Error", "Name cannot be blank.", "red")
-        return
-      }
-      if (name in api.settings.presetData) {
-        toast("Save Preset", "Preset already exists.", "red")
-        return
-      }
-      optionNameInput.value = ""
-      api.reloadSettings()
-      api.settings.presetData[name] = param.copy(name = name)
-      api.saveSettings()
-      optionsModalBs.hide()
-    }
-    saveNewOptionButton.onclick = { saveOption() }
-    optionNameInput.element.onkeypress = {
-      if (it.key == "Enter") {
-        saveOption()
-      }
-    }
-    optionsTitle.textContent = localized(".text-presets", "Presets")
-    optionsModalBs.show()
-  }
-
-  private fun openSetupsModal(
-      save: Boolean = false,
-      load: Boolean = false,
-      delete: Boolean = false,
-      new: Boolean = false,
-  ) {
-    api.reloadSettings()
-    optionList.clear()
-    optionList.run {
-      api.settings.setupData.values
-          .sortedBy { it.name }
-          .forEachIndexed { index, setup ->
-            append.div("d-flex p-1 setup-item") {
-              id = "setup-$index"
-              attributes["data-name"] = setup.name.lowercase()
-              div(classes = "d-flex me-2") {
-                setup.parameters.team.reversed().forEachIndexed { i, loadout ->
-                  img(classes = "setup-image my-auto") {
-                    id = "setup-image-$index-$i"
-                    style = "height: 2em;"
-                    src = options.dressesById[loadout.dress]?.imagePath ?: ""
-                  }
-                }
-              }
-              input(InputType.text, classes = "form-control-plaintext form-control-sm") {
-                id = "setup-name-$index"
-                value = setup.name
-                readonly = true
-              }
-              div("d-flex gap-1 ps-1 pe-2") {
-                if (save) {
-                  button(classes = "btn btn-sm btn-outline-primary") {
-                    id = "setup-save-$index"
-                    i("bi bi-download")
-                    onClickFunction = {
-                      val current = getSetup()
-                      api.reloadSettings()
-                      api.settings.setupData[setup.name] = setup.copy(parameters = current)
-                      api.saveSettings()
-                      optionsModalBs.hide()
-                    }
-                  }
-                }
-                if (load) {
-                  button(classes = "btn btn-sm btn-outline-secondary") {
-                    id = "setup-load-$index"
-                    i("bi bi-upload")
-                    onClickFunction = {
-                      setSetup(setup.parameters)
-                      optionsModalBs.hide()
-                    }
-                  }
-                }
-                if (delete) {
-                  button(classes = "btn btn-sm btn-outline-danger") {
-                    id = "setup-delete-$index"
-                    i("bi bi-x-lg")
-                    onClickFunction = {
-                      api.reloadSettings()
-                      api.settings.setupData.remove(setup.name)
-                      api.saveSettings()
-                      document.getElementById("setup-$index")?.remove()
-                    }
-                  }
-                }
-              }
-            }
-          }
-    }
-    if (new) {
-      newOptionContainer.removeClass("d-none")
-    } else {
-      newOptionContainer.addClass("d-none")
-    }
-    fun saveOption() {
-      val current = getSetup()
-      var name = optionNameInput.value
-      if (name.isBlank()) {
-        name = optionSearch.value
-      }
-      if (name.isBlank()) {
-        toast("Error", "Name cannot be blank.", "red")
-        return
-      }
-      if (name in api.settings.setupData) {
-        toast("Save Preset", "Preset already exists.", "red")
-        return
-      }
-      optionNameInput.value = ""
-      api.reloadSettings()
-      api.settings.setupData[name] = SetupData(name, current)
-      api.saveSettings()
-      optionsModalBs.hide()
-    }
-    saveNewOptionButton.onclick = { saveOption() }
-    optionNameInput.element.onkeypress = {
-      if (it.key == "Enter") {
-        saveOption()
-      }
-    }
-    optionsTitle.textContent = localized(".text-setups", "Setups")
-    optionsModalBs.show()
-  }
-
-  private enum class OptionStatus {
-    NORMAL,
-    NEW,
-    OVERRIDING,
-    REDUNDANT,
-  }
-
-  private fun openPresetsSelectModal(
-      presets: List<PlayerLoadoutParameters>,
-      defaultSelected: Boolean = false,
-      callback: (List<PlayerLoadoutParameters>) -> Unit,
-  ) = openPresetsSelectModal(presets.map { it to OptionStatus.NORMAL }, defaultSelected, callback)
-
-  private fun openPresetsSelectModal(
-      presets: List<Pair<PlayerLoadoutParameters, OptionStatus>>,
-      defaultSelected: Boolean = false,
-      callback: (List<PlayerLoadoutParameters>) -> Unit,
-  ) {
-    selectOptionsList.clear()
-    selectOptionsList.run {
-      presets
-          .sortedBy { (preset, _) -> preset.name }
-          .forEachIndexed { index, (preset, status) ->
-            append.div("d-flex p-1 preset-item") {
-              id = "preset-$index"
-              attributes["data-name"] = preset.name.lowercase()
-              img(classes = "preset-image me-2 my-auto") {
-                id = "actor-preset-image-$index"
-                style = "height: 2em;"
-                src = options.dressesById[preset.dress]?.imagePath ?: ""
-              }
-              input(InputType.text, classes = "form-control-plaintext form-control-sm") {
-                id = "actor-preset-name-$index"
-                value = preset.name
-                readonly = true
-              }
-              div("d-flex gap-1 ps-1 pe-2") {
-                role = "group"
-                if (status == OptionStatus.REDUNDANT) {
-                  button(classes = "btn btn-sm btn-secondary d-flex align-items-center") {
-                    disabled = true
-                    i("bi bi-slash-circle")
-                  }
-                } else {
-                  val yesButtonClass =
-                      when (status) {
-                        OptionStatus.NORMAL -> "btn-outline-success"
-                        OptionStatus.NEW -> "btn-outline-primary"
-                        OptionStatus.OVERRIDING -> "btn-outline-warning"
-                        OptionStatus.REDUNDANT -> ""
-                      }
-                  val yesButtonIcon =
-                      when (status) {
-                        OptionStatus.NORMAL -> "bi-check-lg"
-                        OptionStatus.NEW -> "bi-plus-lg"
-                        OptionStatus.OVERRIDING -> "bi-exclamation-lg"
-                        OptionStatus.REDUNDANT -> ""
-                      }
-                  val noButtonClass =
-                      when (status) {
-                        OptionStatus.NORMAL -> "btn-outline-danger"
-                        OptionStatus.NEW -> "btn-outline-secondary"
-                        OptionStatus.OVERRIDING -> "btn-outline-secondary"
-                        OptionStatus.REDUNDANT -> ""
-                      }
-                  val noButtonIcon =
-                      when (status) {
-                        OptionStatus.NORMAL -> "bi-x-lg"
-                        OptionStatus.NEW -> "bi-slash-circle"
-                        OptionStatus.OVERRIDING -> "bi-slash-circle"
-                        OptionStatus.REDUNDANT -> ""
-                      }
-                  input(InputType.radio, classes = "btn-check select-options-yes-button") {
-                    id = "actor-preset-select-$index-yes"
-                    autoComplete = false
-                    name = "actor-preset-select-radio-$index"
-                    value = preset.name
-                    if (defaultSelected) {
-                      checked = true
-                    }
-                  }
-                  label("btn btn-sm $yesButtonClass d-flex align-items-center") {
-                    htmlFor = "actor-preset-select-$index-yes"
-                    i("bi $yesButtonIcon")
-                  }
-                  input(InputType.radio, classes = "btn-check select-options-no-button") {
-                    id = "actor-preset-select-$index-no"
-                    autoComplete = false
-                    name = "actor-preset-select-radio-$index"
-                    value = preset.name
-                    if (!defaultSelected) {
-                      checked = true
-                    }
-                  }
-                  label("btn btn-sm $noButtonClass success d-flex align-items-center") {
-                    htmlFor = "actor-preset-select-$index-no"
-                    i("bi $noButtonIcon")
-                  }
-                }
-              }
-            }
-          }
-    }
-    confirmSelectOptionsButton.onclick = {
-      val selected =
-          selectOptionsList
-              .querySelectorAll(".select-options-yes-button:checked")
-              .asList()
-              .filterIsInstance<HTMLInputElement>()
-      val selectedNames = selected.map { it.value }.toSet()
-      callback(presets.map { it.first }.filter { it.name in selectedNames })
-      selectOptionsModalBS.hide()
-    }
-    selectOptionsTitle.textContent = localized(".text-select-presets", "Select Presets")
-    selectOptionsModalBS.show()
-  }
-
-  private fun openSetupsSelectModal(
-      presets: List<SetupData>,
-      defaultSelected: Boolean = false,
-      callback: (List<SetupData>) -> Unit,
-  ) = openSetupsSelectModal(presets.map { it to OptionStatus.NORMAL }, defaultSelected, callback)
-
-  private fun openSetupsSelectModal(
-      setups: List<Pair<SetupData, OptionStatus>>,
-      defaultSelected: Boolean = false,
-      callback: (List<SetupData>) -> Unit,
-  ) {
-    selectOptionsList.clear()
-    selectOptionsList.run {
-      setups
-          .sortedBy { (setup, _) -> setup.name }
-          .forEachIndexed { index, (setup, status) ->
-            append.div("d-flex p-1 setup-item") {
-              id = "setup-$index"
-              attributes["data-name"] = setup.name.lowercase()
-              div(classes = "d-flex me-2") {
-                setup.parameters.team.reversed().forEachIndexed { i, loadout ->
-                  img(classes = "setup-image my-auto") {
-                    id = "setup-image-$index-$i"
-                    style = "height: 2em;"
-                    src = options.dressesById[loadout.dress]?.imagePath ?: ""
-                  }
-                }
-              }
-              input(InputType.text, classes = "form-control-plaintext form-control-sm") {
-                id = "setup-name-$index"
-                value = setup.name
-                readonly = true
-              }
-              div("d-flex gap-1 ps-1 pe-2") {
-                role = "group"
-                if (status == OptionStatus.REDUNDANT) {
-                  button(classes = "btn btn-sm btn-secondary d-flex align-items-center") {
-                    disabled = true
-                    i("bi bi-slash-circle")
-                  }
-                } else {
-                  val yesButtonClass =
-                      when (status) {
-                        OptionStatus.NORMAL -> "btn-outline-success"
-                        OptionStatus.NEW -> "btn-outline-primary"
-                        OptionStatus.OVERRIDING -> "btn-outline-warning"
-                        OptionStatus.REDUNDANT -> ""
-                      }
-                  val yesButtonIcon =
-                      when (status) {
-                        OptionStatus.NORMAL -> "bi-check-lg"
-                        OptionStatus.NEW -> "bi-plus-lg"
-                        OptionStatus.OVERRIDING -> "bi-exclamation-lg"
-                        OptionStatus.REDUNDANT -> ""
-                      }
-                  val noButtonClass =
-                      when (status) {
-                        OptionStatus.NORMAL -> "btn-outline-danger"
-                        OptionStatus.NEW -> "btn-outline-secondary"
-                        OptionStatus.OVERRIDING -> "btn-outline-secondary"
-                        OptionStatus.REDUNDANT -> ""
-                      }
-                  val noButtonIcon =
-                      when (status) {
-                        OptionStatus.NORMAL -> "bi-x-lg"
-                        OptionStatus.NEW -> "bi-slash-circle"
-                        OptionStatus.OVERRIDING -> "bi-slash-circle"
-                        OptionStatus.REDUNDANT -> ""
-                      }
-                  input(InputType.radio, classes = "btn-check select-options-yes-button") {
-                    id = "setup-select-$index-yes"
-                    autoComplete = false
-                    name = "setup-select-radio-$index"
-                    value = setup.name
-                    if (defaultSelected) {
-                      checked = true
-                    }
-                  }
-                  label("btn btn-sm $yesButtonClass d-flex align-items-center") {
-                    htmlFor = "setup-select-$index-yes"
-                    i("bi $yesButtonIcon")
-                  }
-                  input(InputType.radio, classes = "btn-check select-options-no-button") {
-                    id = "setup-select-$index-no"
-                    autoComplete = false
-                    name = "setup-select-radio-$index"
-                    value = setup.name
-                    if (!defaultSelected) {
-                      checked = true
-                    }
-                  }
-                  label("btn btn-sm $noButtonClass success d-flex align-items-center") {
-                    htmlFor = "setup-select-$index-no"
-                    i("bi $noButtonIcon")
-                  }
-                }
-              }
-            }
-          }
-    }
-    confirmSelectOptionsButton.onclick = {
-      val selected =
-          selectOptionsList
-              .querySelectorAll(".select-options-yes-button:checked")
-              .asList()
-              .filterIsInstance<HTMLInputElement>()
-      val selectedNames = selected.map { it.value }.toSet()
-      callback(setups.map { it.first }.filter { it.name in selectedNames })
-      selectOptionsModalBS.hide()
-    }
-    selectOptionsTitle.textContent = localized(".text-select-setups", "Select Setups")
-    selectOptionsModalBS.show()
-  }
-
-  private fun startPresetsImport(id: String) {
-    GlobalScope.launch {
-      try {
-        if (id.isEmpty()) {
-          throw Exception("No ID provided.")
-        }
-        val presets = api.getPresets(id)
-        api.reloadSettings()
-        val presetStatuses =
-            presets.map {
-              val existing = api.settings.presetData[it.name]
-              it to
-                  when (existing) {
-                    null -> OptionStatus.NEW
-                    it -> OptionStatus.REDUNDANT
-                    else -> OptionStatus.OVERRIDING
-                  }
-            }
-        openPresetsSelectModal(presetStatuses, defaultSelected = true) { selected ->
-          api.reloadSettings()
-          api.settings.presetData.putAll(selected.associateBy { it.name })
-          api.saveSettings()
-          importOptionsModalBS.hide()
-          importOptionsText.value = ""
-          toast("Import Presets", "Presets imported.", "green")
-        }
-      } catch (e: Throwable) {
-        toast("Import Presets", "Failed to import presets.", "red")
-        throw e
-      }
-    }
-  }
-
-  private fun startSetupsImport(id: String) {
-    GlobalScope.launch {
-      try {
-        if (id.isEmpty()) {
-          throw Exception("No ID provided.")
-        }
-        val setups = api.getSetups(id)
-        api.reloadSettings()
-        val setupStatuses =
-            setups.map {
-              val existing = api.settings.setupData[it.name]
-              it to
-                  when (existing) {
-                    null -> OptionStatus.NEW
-                    it -> OptionStatus.REDUNDANT
-                    else -> OptionStatus.OVERRIDING
-                  }
-            }
-        openSetupsSelectModal(setupStatuses, defaultSelected = true) { selected ->
-          api.reloadSettings()
-          api.settings.setupData.putAll(selected.associateBy { it.name })
-          api.saveSettings()
-          importOptionsModalBS.hide()
-          importOptionsText.value = ""
-          toast("Import Setups", "Setups imported.", "green")
-        }
-      } catch (e: Throwable) {
-        toast("Import Setups", "Failed to import setups.", "red")
-        throw e
-      }
     }
   }
 
@@ -1678,26 +1135,6 @@ class SimulatorClient(val simulator: Simulator) {
                                   )
                             }
                           }
-                      button(
-                          type = ButtonType.button,
-                          classes = "btn btn-outline-secondary text-save-preset-short") {
-                            id = "actor-save-preset-$actorId"
-                            +localized(".text-save-preset-short", "Save")
-                            onClickFunction = {
-                              activeActorOptions = ActorOptions(options, actorId)
-                              openPresetsModal(save = true, delete = true, new = true)
-                            }
-                          }
-                      button(
-                          type = ButtonType.button,
-                          classes = "btn btn-outline-secondary text-load-preset-short") {
-                            id = "actor-load-preset-$actorId"
-                            +localized(".text-load-preset-short", "Load")
-                            onClickFunction = {
-                              activeActorOptions = ActorOptions(options, actorId)
-                              openPresetsModal(load = true)
-                            }
-                          }
                     }
                   }
                 }
@@ -1897,28 +1334,6 @@ class SimulatorClient(val simulator: Simulator) {
     return regex.find(url)?.groupValues?.get(1)
   }
 
-  fun importPresetsFromUrl(url: String = window.location.href): Boolean {
-    val urlPresetsId = getUrlParameter(url, "import-presets")?.trim()
-    if (urlPresetsId != null) {
-      startPresetsImport(urlPresetsId)
-      return true
-    }
-    return false
-  }
-
-  fun importSetupsFromUrl(url: String = window.location.href): Boolean {
-    val urlSetupsId = getUrlParameter(url, "import-setups")?.trim()
-    if (urlSetupsId != null) {
-      startSetupsImport(urlSetupsId)
-      return true
-    }
-    return false
-  }
-
-  fun storeTempSetup() {
-    sessionStorage["temp-setup"] = json.encodeToString(getSetup())
-  }
-
   fun handleFirstLoadUrlOptions() =
       GlobalScope.launch(Dispatchers.Main.immediate) {
         val tempSetupData = sessionStorage["temp-setup"]
@@ -1935,7 +1350,6 @@ class SimulatorClient(val simulator: Simulator) {
         } else {
           updateSetupFromUrl()
         }
-        importPresetsFromUrl() || importSetupsFromUrl()
       }
 
   fun urlWithQuery(parameters: Map<String, String>): String {
@@ -1985,79 +1399,6 @@ class SimulatorClient(val simulator: Simulator) {
     // We want to kick this off first, since the API can take a while to respond
     handleFirstLoadUrlOptions()
 
-    GlobalScope.launch {
-      updateVersionString()
-
-      val auth0 =
-          createAuth0Client(
-                  jsObject {
-                    domain = "dev-xsdys5cc.us.auth0.com"
-                    client_id = "MYdi8odm24xva0wsjaIhOxkhFTikRWYB"
-                    redirect_uri = baseHref
-                    audience = "https://api-legacy.relight.qwewqa.xyz/"
-                    cacheLocation = "localstorage"
-                  })
-              .await()
-
-      loginButton.addEventListener(
-          "click",
-          {
-            storeTempSetup()
-            auth0.loginWithRedirect()
-          })
-
-      logoutButton.addEventListener(
-          "click",
-          {
-            storeTempSetup()
-            auth0.logout(jsObject { returnTo = baseHref })
-          })
-
-      if (window.location.search.contains("state=") &&
-          (window.location.search.contains("code=") || window.location.search.contains("error="))) {
-        try {
-          (auth0.handleRedirectCallback() as Promise<dynamic>).await()
-        } catch (e: Throwable) {
-          toast("Log In", "Failed to log in.", "red")
-        }
-        updateUrlForSetup(getSetup())
-      }
-
-      val isAuthenticated = (auth0.isAuthenticated() as Promise<dynamic>).await()
-
-      if (isAuthenticated as Boolean) {
-        val userProfile = auth0.getUser().await()
-        profile.removeClass("d-none")
-        profile.textContent = userProfile.name
-        logoutButton.removeClass("d-none")
-        api.auth0Client = auth0
-
-        var syncInProgress = false
-        syncButton.addEventListener(
-            "click",
-            {
-              if (syncInProgress) {
-                return@addEventListener
-              }
-              syncInProgress = true
-              GlobalScope.launch {
-                toast("Sync", "Syncing...", "gold")
-                try {
-                  api.sync()
-                  toast("Sync", "Sync successful.", "green")
-                } catch (e: Throwable) {
-                  toast("Error", "Error syncing with server: ${e.message}", "red")
-                } finally {
-                  syncInProgress = false
-                }
-              }
-            })
-        syncButton.disabled = false
-      } else {
-        loginButton.removeClass("d-none")
-      }
-    }
-
     options = getSimulationOptions()
 
     val commonText = options.commonText.associateBy { it.id }
@@ -2096,12 +1437,6 @@ class SimulatorClient(val simulator: Simulator) {
         })
 
     yamlImportCheckbox.addEventListener("click", { updateExportText() })
-
-    saveSetupButton.addEventListener("click", { openSetupsModal(save = true, new = true) })
-
-    loadSetupButton.addEventListener("click", { openSetupsModal(load = true) })
-
-    manageSetupsButton.addEventListener("click", { openSetupsModal(delete = true) })
 
     guestCheckbox.addEventListener("click", { teamUpdate() })
 
@@ -2274,7 +1609,7 @@ class SimulatorClient(val simulator: Simulator) {
         "click",
         {
           val teamDresses =
-              getSetup().team.mapNotNull { it.isSupport to options.dressesById[it.dress]?.data?.id }
+              getSetup().team.map { it.isSupport to options.dressesById[it.dress]?.data?.id }
           actIconsContainer.clear()
           actIconsContainer.append {
             div("mx-auto") {
@@ -2572,78 +1907,6 @@ class SimulatorClient(val simulator: Simulator) {
                     .multiple<HTMLInputElement>()
                     .forEach { it.checked = true }
               }
-        })
-
-    sharePresetsButton.addEventListener(
-        "click",
-        {
-          api.reloadSettings()
-          val presets = api.settings.presetData.values.toList()
-          openPresetsSelectModal(presets, defaultSelected = false) { selected ->
-            GlobalScope.launch {
-              try {
-                val id = api.createPresets(selected)
-                shareOptionsTitle.textContent = localized(".text-share-presets", "Share Presets")
-                shareOptionsText.textContent = id
-                shareOptionsUrlText.textContent = urlWithQuery(mapOf("import-presets" to id))
-                shareOptionsModalBS.show()
-              } catch (e: Throwable) {
-                toast("Share Presets", "Failed to share presets.", "red")
-                throw e
-              }
-            }
-          }
-        })
-
-    shareSetupsButton.addEventListener(
-        "click",
-        {
-          api.reloadSettings()
-          val setups = api.settings.setupData.values.toList()
-          openSetupsSelectModal(setups, defaultSelected = false) { selected ->
-            GlobalScope.launch {
-              try {
-                val id = api.createSetups(selected)
-                shareOptionsTitle.textContent = localized(".text-share-setups", "Share Setups")
-                shareOptionsText.textContent = id
-                shareOptionsUrlText.textContent = urlWithQuery(mapOf("import-setups" to id))
-                shareOptionsModalBS.show()
-              } catch (e: Throwable) {
-                toast("Share Setups", "Failed to share setups.", "red")
-                throw e
-              }
-            }
-          }
-        })
-
-    importPresetsButton.addEventListener(
-        "click",
-        {
-          fun importPresets() {
-            val id = importOptionsText.value.trim()
-            if (id.startsWith("http")) {
-              importPresetsFromUrl(id)
-            } else {
-              startPresetsImport(id)
-            }
-          }
-          doImportOptionsButton.onclick = { importPresets() }
-          importOptionsModalBS.show()
-        })
-
-    importSetupsButton.addEventListener(
-        "click",
-        {
-          fun importSetups() {
-            val id = importOptionsText.value.trim()
-            if (id.startsWith("http")) {
-              importSetupsFromUrl(id)
-            } else {
-              startSetupsImport(id)
-            }
-          }
-          doImportOptionsButton.onclick = { importSetups() }
-          importOptionsModalBS.show()
         })
 
     fun updateLocaleText() {
@@ -3090,10 +2353,10 @@ class SimulatorClient(val simulator: Simulator) {
               updateDamageEstimate(log?.queueInfo)
               lastEstimateUpdateTime = time
             }
-            if (data != null) {
-              prev = log
+            prev = if (data != null) {
+              log
             } else {
-              prev = prev?.copy(queueInfo = log?.queueInfo)
+              prev?.copy(queueInfo = log?.queueInfo)
             }
           }
         } catch (e: Throwable) {
