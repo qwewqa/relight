@@ -49,9 +49,6 @@ class RelightApi(val simulator: SimulatorClient) {
   }
 
   suspend fun getSetup(id: String): SimulationParameters {
-    // The Ktor client isn't guaranteed to start the request immediately, while fetch will.
-    // In this case, we really want to start the request immediately (mainly so that it can progress
-    // while the client finishes initializing), so we use fetch.
     return json
         .decodeFromString<GetSetupResponse>(
             fetch("$BASE_API_URL/share/setup/get/$id").await().text().await())
