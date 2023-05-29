@@ -1399,9 +1399,7 @@ class SimulatorClient(val simulator: Simulator) {
     // We want to kick this off first, since the API can take a while to respond
     handleFirstLoadUrlOptions()
 
-    GlobalScope.launch {
-      updateVersionString()
-    }
+    GlobalScope.launch { updateVersionString() }
 
     options = getSimulationOptions()
 
@@ -1546,51 +1544,68 @@ class SimulatorClient(val simulator: Simulator) {
               .forEach { (tab, _) -> actorTabsDiv.appendChild(tab) }
         })
 
-    autoNameButton.addEventListener(
-        "click",
-        {
-          val setup = getSetup()
-          val nameUseCounts = mutableMapOf<String, Int>().withDefault { 0 }
-          val dressUseCounts = mutableMapOf<String, Int>().withDefault { 0 }
+    fun autoName(retainExisting: Boolean) {
+      val setup = getSetup()
+      val entries =
           actorTabsDiv.children
               .asList()
               .drop(if (guestCheckbox.checked) 1 else 0)
               .reversed()
               .zip(setup.team)
-              .forEach { (tab, params) ->
-                val data = options.dressesById[params.dress]!!.data
-                var name = data.characterName.replace(" ", "").lowercase()
-
-                val dressUseCount = dressUseCounts.getValue(params.dress)
-                dressUseCounts[params.dress] = dressUseCount + 1
-
-                when {
-                  dressUseCount > 0 -> {
-                    name = "s_$name"
-                  }
-                  params.level == 1 -> {
-                    name = "f_$name"
-                  }
-                }
-
-                val nameUseCount = nameUseCounts.getValue(name)
-                nameUseCounts[name] = nameUseCount + 1
-                if (nameUseCount > 0) {
-                  name += "_${nameUseCount + 1}"
-                }
-
-                val options = ActorOptions(options, tab.attributes["data-actor-id"]!!.value.toInt())
-                options.parameters =
-                    options.parameters.copy(name = name, isSupport = dressUseCount > 0)
-              }
-          if (guestCheckbox.checked) {
-            val tab = actorTabsDiv.firstChild as HTMLDivElement?
-            if (tab != null) {
-              val options = ActorOptions(options, tab.attributes["data-actor-id"]!!.value.toInt())
-              options.parameters = options.parameters.copy(name = "guest", isSupport = false)
-            }
+      val usedNames =
+          if (retainExisting)
+              entries
+                  .mapNotNull { (_, params) -> params.name.takeIf { it.isNotBlank() } }
+                  .toMutableSet()
+          else {
+            mutableSetOf()
           }
-        })
+      val updateSupports =
+          entries.groupBy { (_, params) -> params.dress }.any { (_, group) -> group.size > 1 }
+      val usedDresses = mutableSetOf<Int>()
+      entries.forEach { (tab, params) ->
+        val data = options.dressesById[params.dress]!!.data
+
+        val dressWasUsed = usedDresses.contains(data.id)
+        usedDresses.add(data.id)
+
+        var name = params.name
+
+        if (!retainExisting || name.isBlank()) {
+          name = data.characterName.replace(" ", "").lowercase()
+
+          if (usedNames.contains(name)) {
+            var num = 2
+            while (usedNames.contains("${name}_$num")) {
+              num++
+            }
+            name = "${name}_$num"
+          }
+
+          usedNames.add(name)
+        }
+
+        val options = ActorOptions(options, tab.attributes["data-actor-id"]!!.value.toInt())
+        options.parameters =
+            options.parameters.copy(
+                name = name,
+                isSupport =
+                    if (updateSupports) {
+                      dressWasUsed
+                    } else {
+                      params.isSupport
+                    })
+      }
+      if (guestCheckbox.checked && (!retainExisting || setup.guest?.name?.isBlank() == true)) {
+        val tab = actorTabsDiv.firstChild as HTMLDivElement?
+        if (tab != null) {
+          val options = ActorOptions(options, tab.attributes["data-actor-id"]!!.value.toInt())
+          options.parameters = options.parameters.copy(name = "guest", isSupport = false)
+        }
+      }
+    }
+
+    autoNameButton.addEventListener("click", { autoName(false) })
 
     teamImageButton.addEventListener(
         "click",
@@ -1697,7 +1712,8 @@ class SimulatorClient(val simulator: Simulator) {
     fun startNewInteractiveSimulation() {
       GlobalScope.launch {
         try {
-          val setup = getSetup().inferSupports()
+          autoName(true)
+          val setup = getSetup()
           interactiveSimulation?.end()
           interactiveSimulation = simulator.simulateInteractive(setup)
           interactiveContainer.removeClass("d-none")
@@ -2355,11 +2371,12 @@ class SimulatorClient(val simulator: Simulator) {
               updateDamageEstimate(log?.queueInfo)
               lastEstimateUpdateTime = time
             }
-            prev = if (data != null) {
-              log
-            } else {
-              prev?.copy(queueInfo = log?.queueInfo)
-            }
+            prev =
+                if (data != null) {
+                  log
+                } else {
+                  prev?.copy(queueInfo = log?.queueInfo)
+                }
           }
         } catch (e: Throwable) {
           delay(2000)
