@@ -1111,3 +1111,7 @@
 - Fixed version not displaying on load
 - Adjusted automatic names
 - Blank names are now automatically filled when starting interactive
+
+# v1.5.7
+- Fixed issue with resetting actor options
+- Load time improvements
