@@ -1,5 +1,7 @@
 package xyz.qwewqa.relive.simulator.client
 
+@JsModule("plotly.js-dist-min")
+@JsNonModule
 external object Plotly {
   fun newPlot(
       graphDiv: Any,

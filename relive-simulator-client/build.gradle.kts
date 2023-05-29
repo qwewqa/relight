@@ -25,6 +25,7 @@ dependencies {
   implementation(npm("js-yaml", "4.1.0"))
   implementation(npm("sortablejs", "1.14.0"))
   implementation(npm("lz-string", "1.4.4"))
+  implementation(npm("plotly.js-dist-min", "2.23.2"))
 }
 
 kotlin {
