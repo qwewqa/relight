@@ -1399,7 +1399,7 @@ class SimulatorClient(val simulator: Simulator) {
     // We want to kick this off first, since the API can take a while to respond
     handleFirstLoadUrlOptions()
 
-    GlobalScope.launch { updateVersionString() }
+    GlobalScope.launch(Dispatchers.Main.immediate) { updateVersionString() }
 
     options = getSimulationOptions()
 
