@@ -174,16 +174,16 @@ def create_setup():
         print(e)
         raise BadRequestError(f"Invalid setup data.")
     setup_id = generate_id()
-    img_s3_key = f"preview/{setup_id}.png"
-    img_bucket.Object(img_s3_key).put(Body=base64.b64decode(data.preview_image))
+    img_s3_key = f"preview/{setup_id}"
+    img_bucket.Object(img_s3_key).put(Body=base64.b64decode(data.preview_image), ContentType=data.content_type)
     team_img_s3_key = None
     if data.team_image is not None:
-        team_img_s3_key = f"preview/{setup_id}_team.png"
-        img_bucket.Object(team_img_s3_key).put(Body=base64.b64decode(data.team_image))
+        team_img_s3_key = f"preview/{setup_id}_team"
+        img_bucket.Object(team_img_s3_key).put(Body=base64.b64decode(data.team_image), ContentType=data.content_type)
     team_img_alt_s3_key = None
     if data.team_image_alt is not None:
-        team_img_alt_s3_key = f"preview/{setup_id}_team_alt.png"
-        img_bucket.Object(team_img_alt_s3_key).put(Body=base64.b64decode(data.team_image_alt))
+        team_img_alt_s3_key = f"preview/{setup_id}_team_alt"
+        img_bucket.Object(team_img_alt_s3_key).put(Body=base64.b64decode(data.team_image_alt), ContentType=data.content_type)
     ddb_key = f"setup#{setup_id}"
     item = {
         "id": ddb_key,
@@ -191,6 +191,7 @@ def create_setup():
         "img_s3_key": img_s3_key,
         "img_width": data.preview_width,
         "img_height": data.preview_height,
+        "content_type": data.content_type,
     }
     if team_img_s3_key is not None:
         item["team_img_s3_key"] = team_img_s3_key
@@ -231,6 +232,7 @@ def to_setup(setup_id: str):
     img_s3_key = item["img_s3_key"]
     img_width = item["img_width"]
     img_height = item["img_height"]
+    content_type = item.get("content_type", "image/png")
     img_url = f"{IMG_BASE_URL}/{img_s3_key}"
     redirect_url = f"{SIM_BASE_URL}?load-setup={setup_id}"
     html = f"""<!DOCTYPE html>
@@ -242,7 +244,7 @@ def to_setup(setup_id: str):
 <meta property="og:image" content="{img_url}" />
 <meta property="og:image:width" content="{img_width}" />
 <meta property="og:image:height" content="{img_height}" />
-<meta property="og:image:type" content="image/png" />
+<meta property="og:image:type" content="{content_type}" />
 <meta name="twitter:image:src" content="{img_url}" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Relight" />

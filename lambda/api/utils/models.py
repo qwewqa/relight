@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Literal
 
 from pydantic import BaseModel, constr, conlist, Field, BaseSettings, conint
 
@@ -92,3 +92,4 @@ class CreateSetupRequest(BaseModel):
     preview_height: conint(ge=16, le=5000)
     team_image: constr(max_length=8_000_000) = None
     team_image_alt: constr(max_length=8_000_000) = None
+    content_type: Literal["image/png", "image/jpeg", "image/webp", "image/avif"] = "image/png"
