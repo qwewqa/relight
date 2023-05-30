@@ -1,4 +1,4 @@
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-sw.js');
+importScripts('workbox-sw.js');
 
 const HTML_CACHE = "relive-sim-html";
 const JS_CACHE = "relive-sim-javascript";
