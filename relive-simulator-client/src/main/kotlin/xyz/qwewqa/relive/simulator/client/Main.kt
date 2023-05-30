@@ -45,7 +45,6 @@ import org.w3c.dom.HTMLAnchorElement
 import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.HTMLElement
-import org.w3c.dom.HTMLHeadingElement
 import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.HTMLPreElement
 import org.w3c.dom.HTMLSelectElement
@@ -177,38 +176,6 @@ class SimulatorClient(val simulator: Simulator) {
   val shareSetupText = document.getElementById("share-setup-text") as HTMLTextAreaElement
   val shareSetupButton = document.getElementById("share-setup-button") as HTMLButtonElement
 
-  val optionsModal = document.getElementById("options-modal") as HTMLDivElement
-  val optionsModalBs = Bootstrap.Modal(optionsModal)
-  val optionsTitle = document.getElementById("options-title") as HTMLHeadingElement
-  val optionSearch = document.getElementById("option-search") as HTMLInputElement
-  val optionList = document.getElementById("options-list") as HTMLDivElement
-  val optionNameInput = document.getElementById("new-option-name-input").textInput()
-  val saveNewOptionButton = document.getElementById("save-new-option-button") as HTMLButtonElement
-  val newOptionContainer = document.getElementById("new-option-container") as HTMLDivElement
-
-  val shareOptionsModal = document.getElementById("share-options-modal") as HTMLDivElement
-  val shareOptionsModalBS = Bootstrap.Modal(shareOptionsModal)
-  val shareOptionsTitle = document.getElementById("share-options-title") as HTMLHeadingElement
-  val shareOptionsText = document.getElementById("share-options-text") as HTMLTextAreaElement
-  val shareOptionsUrlText = document.getElementById("share-options-url-text") as HTMLTextAreaElement
-  val importOptionsModal = document.getElementById("import-options-modal") as HTMLDivElement
-  val importOptionsModalBS = Bootstrap.Modal(importOptionsModal)
-  val importOptionsText = document.getElementById("import-options-text") as HTMLTextAreaElement
-  val doImportOptionsButton =
-      document.getElementById("do-import-options-button") as HTMLButtonElement
-
-  val selectOptionsModal = document.getElementById("select-options-modal") as HTMLDivElement
-  val selectOptionsModalBS = Bootstrap.Modal(selectOptionsModal)
-  val selectOptionsTitle = document.getElementById("select-options-title") as HTMLHeadingElement
-  val selectOptionsList = document.getElementById("select-options-list") as HTMLDivElement
-  val selectOptionsSearch = document.getElementById("select-options-search") as HTMLInputElement
-  val confirmSelectOptionsButton =
-      document.getElementById("confirm-select-options-button") as HTMLButtonElement
-  val selectOptionsAllYesButton =
-      document.getElementById("select-options-all-yes-button") as HTMLButtonElement
-  val selectOptionsAllNoButton =
-      document.getElementById("select-options-all-no-button") as HTMLButtonElement
-
   val optionsTab = document.getElementById("options-tab") as HTMLButtonElement
   val interactiveTab = document.getElementById("interactive-tab") as HTMLButtonElement
   val simulateTab = document.getElementById("simulate-tab") as HTMLButtonElement
@@ -268,8 +235,6 @@ class SimulatorClient(val simulator: Simulator) {
   val saveResultsButton = document.getElementById("save-results-button") as HTMLButtonElement
   val clearGraphsButton = document.getElementById("clear-graphs-button") as HTMLButtonElement
   val savedResultsRow = document.getElementById("saved-results-row") as HTMLDivElement
-
-  var activeActorOptions: ActorOptions? = null
 
   // Ideally this wouldn't be lateinit, but it takes a while, and there are some things we want
   // to start doing before this.
@@ -1449,20 +1414,6 @@ class SimulatorClient(val simulator: Simulator) {
           exportText.select()
         })
 
-    shareOptionsText.addEventListener(
-        "click",
-        {
-          shareOptionsText.focus()
-          shareOptionsText.select()
-        })
-
-    shareOptionsUrlText.addEventListener(
-        "click",
-        {
-          shareOptionsUrlText.focus()
-          shareOptionsUrlText.select()
-        })
-
     shareSetupText.addEventListener(
         "click",
         {
@@ -1835,97 +1786,6 @@ class SimulatorClient(val simulator: Simulator) {
               button.attributes["data-interactive-command"]?.value?.trim() ?: return@forEach
           button.onclick = { GlobalScope.launch { interactiveSimulation?.sendCommand(command) } }
         }
-
-    optionSearch.addEventListener(
-        "keyup",
-        {
-          val value = optionSearch.value.trim().lowercase()
-          if (value.isEmpty()) {
-            optionList.children.asList().forEach { it.removeClass("d-none") }
-            return@addEventListener
-          }
-          optionList.children.asList().forEach {
-            if (it.attributes["data-name"]?.value?.contains(value) == true) {
-              it.removeClass("d-none")
-            } else {
-              it.addClass("d-none")
-            }
-          }
-        })
-
-    optionsModal.addEventListener(
-        "shown.bs.modal",
-        {
-          optionSearch.focus()
-          optionSearch.select()
-        })
-
-    selectOptionsModal.addEventListener(
-        "shown.bs.modal",
-        {
-          selectOptionsSearch.focus()
-          selectOptionsSearch.select()
-        })
-
-    importOptionsModal.addEventListener(
-        "shown.bs.modal",
-        {
-          importOptionsText.focus()
-          importOptionsText.select()
-        })
-
-    selectOptionsSearch.addEventListener(
-        "keyup",
-        {
-          val value = selectOptionsSearch.value.trim().lowercase()
-          if (value.isEmpty()) {
-            selectOptionsList.children.asList().forEach { it.removeClass("d-none") }
-            return@addEventListener
-          }
-          selectOptionsList.children.asList().forEach {
-            if (it.attributes["data-name"]?.value?.contains(value) == true) {
-              it.removeClass("d-none")
-            } else {
-              it.addClass("d-none")
-            }
-          }
-        })
-
-    selectOptionsAllYesButton.addEventListener(
-        "click",
-        {
-          selectOptionsList.children
-              .asList()
-              .filter { !it.hasClass("d-none") }
-              .forEach { entry ->
-                entry
-                    .getElementsByClassName("select-options-yes-button")
-                    .multiple<HTMLInputElement>()
-                    .forEach { it.checked = true }
-                entry
-                    .getElementsByClassName("select-options-no-button")
-                    .multiple<HTMLInputElement>()
-                    .forEach { it.checked = false }
-              }
-        })
-
-    selectOptionsAllNoButton.addEventListener(
-        "click",
-        {
-          selectOptionsList.children
-              .asList()
-              .filter { !it.hasClass("d-none") }
-              .forEach { entry ->
-                entry
-                    .getElementsByClassName("select-options-yes-button")
-                    .multiple<HTMLInputElement>()
-                    .forEach { it.checked = false }
-                entry
-                    .getElementsByClassName("select-options-no-button")
-                    .multiple<HTMLInputElement>()
-                    .forEach { it.checked = true }
-              }
-        })
 
     fun updateLocaleText() {
       actorElementCache.clear()
