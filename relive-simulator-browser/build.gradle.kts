@@ -91,7 +91,7 @@ tasks.register<Copy>("copyServiceWorker") {
           }
           .filter {
             !it.first.run {
-              startsWith("img/acts") || startsWith("img/large_icon") || startsWith("img/enemy")
+              startsWith("img/acts")
             }
           }
   val timestamp = System.currentTimeMillis()
@@ -120,8 +120,8 @@ tasks.register<Copy>("copyResources") {
 
 tasks.withType(org.gradle.language.jvm.tasks.ProcessResources::class) {
   dependsOn("copyIndex")
-  dependsOn("copyServiceWorker")
   dependsOn("copyResources")
+  dependsOn("copyServiceWorker")
   dependsOn(":relive-simulator-worker:browserProductionWebpack")
 }
 
