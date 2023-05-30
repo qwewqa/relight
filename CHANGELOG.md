@@ -1125,3 +1125,8 @@
 
 # v1.5.10
 - Improved service worker precache speed
+
+# v1.5.11
+- Fixed damage being limited to around 2.1 billion per hit
+- Adjusted formatting of some numbers
+- Minor cleanup
