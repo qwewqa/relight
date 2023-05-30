@@ -1119,3 +1119,6 @@
 # v1.5.8
 - Share images are now jpgs
 - Load time improvements
+
+# v1.5.9
+- Switched to using webp for image assets
