@@ -1,18 +1,28 @@
 package xyz.qwewqa.relive.simulator.client
 
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 import kotlinx.browser.document
 import org.khronos.webgl.get
-import org.w3c.dom.*
+import org.w3c.dom.BOTTOM
+import org.w3c.dom.CENTER
+import org.w3c.dom.CanvasRenderingContext2D
+import org.w3c.dom.CanvasTextAlign
+import org.w3c.dom.CanvasTextBaseline
+import org.w3c.dom.END
+import org.w3c.dom.HTMLAnchorElement
+import org.w3c.dom.HTMLCanvasElement
+import org.w3c.dom.Image
+import org.w3c.dom.START
+import org.w3c.dom.TOP
 import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
 import xyz.qwewqa.relive.simulator.common.SimulationOptions
 import xyz.qwewqa.relive.simulator.common.SimulationParameters
 import xyz.qwewqa.relive.simulator.common.SongEffectParameter
 import xyz.qwewqa.relive.simulator.core.gen.getLocalizedString
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 const val DRESS_WIDTH = 144.0
 const val DRESS_HEIGHT = 160.0
@@ -542,4 +552,7 @@ private inline fun CanvasRenderingContext2D.withState(block: CanvasRenderingCont
   restore()
 }
 
-fun HTMLCanvasElement.base64() = toDataURL("image/png").split(",", limit = 2)[1]
+const val base64ImageContentType = "image/jpeg"
+fun HTMLCanvasElement.base64(): String {
+  return toDataURL(base64ImageContentType, 0.6).split(",", limit = 2)[1]
+}

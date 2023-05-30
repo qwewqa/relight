@@ -40,7 +40,8 @@ class RelightApi(val simulator: SimulatorClient) {
                                   preview_width = image.width,
                                   preview_height = image.height,
                                   team_image = teamImage.base64(),
-                                  team_image_alt = teamImageAlt.base64()))
+                                  team_image_alt = teamImageAlt.base64(),
+                                  content_type = base64ImageContentType))
                     })
                 .await()
                 .text()
@@ -66,6 +67,7 @@ data class CreateSetupRequest(
     val preview_height: Int,
     val team_image: String,
     val team_image_alt: String,
+    val content_type: String,
 )
 
 @Serializable
