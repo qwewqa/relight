@@ -34,6 +34,7 @@ import xyz.qwewqa.relive.simulator.common.InteractiveQueueInfo
 import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.common.LogEntry
 import kotlin.collections.set
+import kotlin.math.absoluteValue
 
 val LogCategory.backgroundColor
   get() =
@@ -405,24 +406,43 @@ fun updateDamageEstimate(queueInfo: InteractiveQueueInfo?) {
           element.classList.add("d-none")
         } else {
           element.classList.remove("d-none")
-          element.textContent = actDamage.formatShort(1)
+          element.textContent = actDamage.formatShort()
         }
       }
 }
 
-private fun Double.formatShort(digits: Int = 2): String {
-  return when {
-    this >= 1_000_000_000_000_000_000_000_000.0 ->
-        "${(this / 1_000_000_000_000_000_000_000_000.0).toFixed(digits)}Sx"
-    this >= 1_000_000_000_000_000_000_000.0 ->
-        "${(this / 1_000_000_000_000_000_000_000.0).toFixed(digits)}Qt"
-    this >= 1_000_000_000_000_000 -> "${(this / 1_000_000_000_000_000).toFixed(digits)}Qd"
-    this >= 1_000_000_000_000 -> "${(this / 1_000_000_000_000).toFixed(digits)}T"
-    this >= 1_000_000_000 -> "${(this / 1_000_000_000).toFixed(digits)}B"
-    this >= 1_000_000 -> "${(this / 1_000_000).toFixed(digits)}M"
-    this >= 1_000 -> "${(this / 1_000).toFixed(digits)}K"
-    else -> this.toString()
+private val suffixes =
+    listOf(
+        1e42 to "Td",
+        1e39 to "Dd",
+        1e36 to "Ud",
+        1e33 to "Dc",
+        1e30 to "No",
+        1e27 to "Oc",
+        1e24 to "Sp",
+        1e21 to "Sx",
+        1e18 to "Qi",
+        1e15 to "Qa",
+        1e12 to "T",
+        1e9 to "B",
+        1e6 to "M",
+        1e3 to "K",
+        1e0 to "")
+
+private fun Double.formatShort(): String {
+  suffixes.forEach { (value, suffix) ->
+    if (this.absoluteValue >= value) {
+      return formatShortenedNumber(this / value, suffix)
+    }
   }
+  // < 1
+  return ((this * 10000.0).toFixed(0).toDouble() / 10000.0).toString()
+}
+
+private fun formatShortenedNumber(value: Double, suffix: String): String {
+  val integerDigits = value.toFixed(0).length
+  val fractionalDigits = (5 - integerDigits - suffix.length).coerceAtLeast(0)
+  return "${value.toFixed(fractionalDigits)}$suffix"
 }
 
 fun HTMLElement.displayLog(
