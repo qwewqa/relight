@@ -88,7 +88,7 @@ private fun updateStageEffects(status: InteractiveQueueStatus?) {
             div("interactive-stage-effect interactive-stage-effect-lv-${level.coerceIn(1..5)}") {
               div("interactive-stage-effect-text") { +turns.toString() }
               img(classes = "interactive-stage-effect-img") {
-                src = "img/field_effect_icon/$iconId.png"
+                src = "img/field_effect_icon/$iconId.webp"
               }
             }
           }
@@ -120,13 +120,13 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
   fun TagConsumer<HTMLElement>.cardImage(index: Int, card: ActCardStatus) {
     div("interactive-timeline-image-container") {
       div("interactive-queue-image-container") {
-        img(classes = "queue-actor-img") { src = "img/large_icon/1_${card.dressId}.png" }
-        img(classes = "queue-act-img") { src = "img/skill_icon/skill_icon_${card.iconId}.png" }
+        img(classes = "queue-actor-img") { src = "img/large_icon/1_${card.dressId}.webp" }
+        img(classes = "queue-act-img") { src = "img/skill_icon/skill_icon_${card.iconId}.webp" }
         if (card.isSupport) {
-          img(classes = "queue-support-indicator") { src = "img/common/icon_support_dress.png" }
+          img(classes = "queue-support-indicator") { src = "img/common/icon_support_dress.webp" }
         }
         if (card.isClimax) {
-          img(classes = "queue-act-img-overlay") { src = "img/custom/climax_overlay.png" }
+          img(classes = "queue-act-img-overlay") { src = "img/custom/climax_overlay.webp" }
           i("bi bi-stars queue-act-climax-icon") {}
         }
         div(classes = "interactive-timeline-act-damage-overlay d-none") {}
@@ -222,19 +222,19 @@ private fun updateActs(simulation: InteractiveSimulation, status: InteractiveQue
             }") {
           div("interactive-queue-image-container") {
             if (card == null) {
-              img(classes = "queue-actor-img") { src = "img/common/icon_empty_large.png" }
+              img(classes = "queue-actor-img") { src = "img/common/icon_empty_large.webp" }
             } else {
-              img(classes = "queue-actor-img") { src = "img/large_icon/1_${card.dressId}.png" }
+              img(classes = "queue-actor-img") { src = "img/large_icon/1_${card.dressId}.webp" }
               img(classes = "queue-act-img") {
-                src = "img/skill_icon/skill_icon_${card.iconId}.png"
+                src = "img/skill_icon/skill_icon_${card.iconId}.webp"
               }
               if (card.isClimax) {
-                img(classes = "queue-act-img-overlay") { src = "img/custom/climax_overlay.png" }
+                img(classes = "queue-act-img-overlay") { src = "img/custom/climax_overlay.webp" }
                 i("bi bi-stars queue-act-climax-icon") {}
               }
               if (card.isSupport) {
                 img(classes = "queue-support-indicator") {
-                  src = "img/common/icon_support_dress.png"
+                  src = "img/common/icon_support_dress.webp"
                 }
               }
               span(
@@ -412,14 +412,14 @@ private fun updateMemoirs(simulation: InteractiveSimulation, status: Interactive
                     }
                 }") {
             img(classes = "interactive-memoir-img") {
-              src = "img/large_icon/2_${cutin.memoirId}.png"
+              src = "img/large_icon/2_${cutin.memoirId}.webp"
             }
             img(classes = "interactive-memoir-actor-img") {
-              src = "img/large_icon/1_${cutin.dressId}.png"
+              src = "img/large_icon/1_${cutin.dressId}.webp"
             }
             if (cutin.isSupport) {
               img(classes = "interactive-memoir-support-indicator") {
-                src = "img/common/icon_support_dress.png"
+                src = "img/common/icon_support_dress.webp"
               }
             }
             span("interactive-memoir-cost-text") { +"${cutin.cost}" }

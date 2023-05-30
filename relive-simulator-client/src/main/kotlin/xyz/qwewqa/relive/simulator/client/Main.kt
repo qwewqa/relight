@@ -795,7 +795,7 @@ class SimulatorClient(val simulator: Simulator) {
                       +" "
                       img {
                         style = "height: 1.2em; margin-top: -0.1em;"
-                        src = "img/common/button_unitskill.png"
+                        src = "img/common/button_unitskill.webp"
                       }
                       input(InputType.number, classes = "form-control actor-unit-skill") {
                         id = inputId
@@ -1637,7 +1637,7 @@ class SimulatorClient(val simulator: Simulator) {
                   teamDresses.map { (isSupport, dressId) ->
                     img(
                         src =
-                            "img/acts/${dressId}_${actName}${if (isSupport) "_support" else ""}.png") {
+                            "img/acts/${dressId}_${actName}${if (isSupport) "_support" else ""}.webp") {
                           style = "max-height: 50px; max-width: 50px;"
                         }
                   }

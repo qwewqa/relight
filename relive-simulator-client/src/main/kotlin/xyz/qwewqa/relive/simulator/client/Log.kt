@@ -115,11 +115,11 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
               div("interactive-status-buff-value") { +buffData.value.toString() }
               div("interactive-status-buff-image-container") {
                 img(classes = "interactive-status-buff-img") {
-                  src = "https://relight.qwewqa.xyz/img/buff_icon/buff_icon_${buffData.iconId}.png"
+                  src = "img/buff_icon/buff_icon_${buffData.iconId}.webp"
                 }
                 if (buffData.isLocked) {
                   img(classes = "interactive-status-buff-lock") {
-                    src = "https://relight.qwewqa.xyz/img/buff_icon/buff_icon_lock.png"
+                    src = "img/buff_icon/buff_icon_lock.webp"
                   }
                 }
               }
@@ -196,12 +196,12 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
         }
         append {
           img(classes = "interactive-status-actor-img") {
-            src = "img/large_icon/1_${status.dressId}.png"
+            src = "img/large_icon/1_${status.dressId}.webp"
           }
           div(classes = "interactive-status-dex-counter") { +"${status.dexterity}" }
           if (status.isSupport) {
             img(classes = "interactive-status-support-indicator") {
-              src = "img/common/icon_support_dress.png"
+              src = "img/common/icon_support_dress.webp"
             }
           }
           if (status.inClimax) {
@@ -290,12 +290,12 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
               }
               id = "player-status-image-container-$i"
               img(classes = "interactive-status-actor-img") {
-                src = "img/large_icon/1_${status.dressId}.png"
+                src = "img/large_icon/1_${status.dressId}.webp"
               }
               div(classes = "interactive-status-dex-counter") { +"${status.dexterity}" }
               if (status.isSupport) {
                 img(classes = "interactive-status-support-indicator") {
-                  src = "img/common/icon_support_dress.png"
+                  src = "img/common/icon_support_dress.webp"
                 }
               }
               if (status.inClimax) {
@@ -558,9 +558,9 @@ private fun FlowContent.processLogContent(content: String) {
         "u" -> beginSpan { style = "text-decoration: underline;" }
         "s" -> beginSpan { style = "text-decoration: line-through;" }
         "/" -> endSpan()
-        "dress" -> imageReplacement { "img/large_icon/1_$it.png" }
-        "memoir" -> imageReplacement { "img/large_icon/2_$it.png" }
-        "act" -> imageReplacement { "img/skill_icon/skill_icon_$it.png" }
+        "dress" -> imageReplacement { "img/large_icon/1_$it.webp" }
+        "memoir" -> imageReplacement { "img/large_icon/2_$it.webp" }
+        "act" -> imageReplacement { "img/skill_icon/skill_icon_$it.webp" }
         "command" ->
             a(href = "#") {
               title = data

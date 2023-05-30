@@ -56,17 +56,17 @@ fun getSimulationOptions(): SimulationOptions {
                     descriptionIcons =
                         listOfNotNull(
                             dress.character.school.id?.let {
-                              "img/icon_colored/60x56_school$it.png"
+                              "img/icon_colored/60x56_school$it.webp"
                             },
-                            dress.attribute.id?.let { "img/icon_colored/56x56_attribute$it.png" },
+                            dress.attribute.id?.let { "img/icon_colored/56x56_attribute$it.webp" },
                             dress.damageType.id?.let {
-                              "img/icon_colored/54x54_attack_type$it.png"
+                              "img/icon_colored/54x54_attack_type$it.webp"
                             },
-                            dress.position.id?.let { "img/icon_colored/54x54_position$it.png" },
+                            dress.position.id?.let { "img/icon_colored/54x54_position$it.webp" },
                         ),
                     description = localeIds.associateWith { "c${dress.cost}" },
                     tags = tags,
-                    imagePath = "img/large_icon/1_${dress.id}.png".takeIf { dress.id > 0 },
+                    imagePath = "img/large_icon/1_${dress.id}.webp".takeIf { dress.id > 0 },
                     data =
                         DressData(
                             id = dress.id,
@@ -95,7 +95,7 @@ fun getSimulationOptions(): SimulationOptions {
                         memoir.autoskills
                             .flatMap { it.create(5).skills }
                             .mapNotNull { it.iconId }
-                            .map { "img/skill_icon/skill_icon_$it.png" }
+                            .map { "img/skill_icon/skill_icon_$it.webp" }
                             .distinct(),
                     tags =
                         localeIds.associateWith { locale ->
@@ -112,9 +112,9 @@ fun getSimulationOptions(): SimulationOptions {
                         },
                     imagePath =
                         if (memoir.id > 0) {
-                          "img/large_icon/2_${memoir.id}.png"
+                          "img/large_icon/2_${memoir.id}.webp"
                         } else {
-                          "img/common/plate_unselected_3.png"
+                          "img/common/plate_unselected_3.webp"
                         },
                     data =
                         MemoirData(
@@ -150,12 +150,12 @@ fun getSimulationOptions(): SimulationOptions {
                 descriptionIcons =
                     awakenSkills
                         .filter { it.iconId != null }
-                        .map { "img/skill_icon/skill_icon_${it.iconId}.png" },
+                        .map { "img/skill_icon/skill_icon_${it.iconId}.webp" },
                 tags =
                     localeIds.associateWith { locale ->
                       awakenSkills.map { it.names.getLocalizedString(locale) }
                     },
-                imagePath = "img/music_coverart/27_$id.png".takeIf { id >= 0 },
+                imagePath = "img/music_coverart/27_$id.webp".takeIf { id >= 0 },
                 data =
                     SongData(
                         id = song.id,
@@ -178,8 +178,8 @@ fun getSimulationOptions(): SimulationOptions {
                     id = "$id",
                     name = song.names,
                     description = skill.names.mapValues { (_, v) -> "$v $valueText" },
-                    descriptionIcons = listOf("img/skill_icon/skill_icon_${skill.iconId}.png"),
-                    imagePath = "img/music_coverart/27_$id.png",
+                    descriptionIcons = listOf("img/skill_icon/skill_icon_${skill.iconId}.webp"),
+                    imagePath = "img/music_coverart/27_$id.webp",
                     data = SongAwakeningData(id = id))
               },
       songEffects =
@@ -188,7 +188,7 @@ fun getSimulationOptions(): SimulationOptions {
                 id = "$id",
                 name = effect.names,
                 imagePath =
-                    "img/skill_icon/skill_icon_${effect.iconId}.png".takeIf {
+                    "img/skill_icon/skill_icon_${effect.iconId}.webp".takeIf {
                       effect.iconId != null
                     },
                 data =
@@ -202,7 +202,7 @@ fun getSimulationOptions(): SimulationOptions {
             DataSimulationOption(
                 id = "$id",
                 name = effect.names,
-                imagePath = "img/skill_icon/skill_icon_${effect.iconId}.png",
+                imagePath = "img/skill_icon/skill_icon_${effect.iconId}.webp",
                 data =
                     AwakeningSongEffectData(
                         id = id,
@@ -217,7 +217,7 @@ fun getSimulationOptions(): SimulationOptions {
                 name = effect.names,
                 description = Songs[id / 100]?.let { song -> song.names },
                 imagePath =
-                    "img/skill_icon/skill_icon_${effect.iconId}.png".takeIf {
+                    "img/skill_icon/skill_icon_${effect.iconId}.webp".takeIf {
                       effect.iconId != null
                     },
                 data =
@@ -235,10 +235,10 @@ fun getSimulationOptions(): SimulationOptions {
                 name = mapOf("en" to k),
                 descriptionIcons =
                     listOfNotNull(
-                        dress.character.school.id?.let { "img/icon_colored/60x56_school$it.png" },
-                        dress.attribute.id?.let { "img/icon_colored/56x56_attribute$it.png" },
-                        dress.damageType.id?.let { "img/icon_colored/54x54_attack_type$it.png" },
-                        dress.position.id?.let { "img/icon_colored/54x54_position$it.png" },
+                        dress.character.school.id?.let { "img/icon_colored/60x56_school$it.webp" },
+                        dress.attribute.id?.let { "img/icon_colored/56x56_attribute$it.webp" },
+                        dress.damageType.id?.let { "img/icon_colored/54x54_attack_type$it.webp" },
+                        dress.position.id?.let { "img/icon_colored/54x54_position$it.webp" },
                     ),
                 description = mapOf("en" to "hp${boss.maxHp}"),
                 tags =
@@ -249,7 +249,7 @@ fun getSimulationOptions(): SimulationOptions {
                           dress.damageType.name.lowercase(),
                       )
                     },
-                imagePath = v.info?.iconId?.let { "img/enemy/$it.png" },
+                imagePath = v.info?.iconId?.let { "img/enemy/$it.webp" },
                 data = BossData.fromDress(dress),
             )
           },
@@ -280,7 +280,7 @@ fun getSimulationOptions(): SimulationOptions {
                               "opt1_time" to "$time",
                           )
                         },
-                imagePath = "img/skill_icon/skill_icon_${skill.icon}.png",
+                imagePath = "img/skill_icon/skill_icon_${skill.icon}.webp",
                 data =
                     RemakeSkillData(
                         value = "$value$valueSuffix".takeIf { valueSuffix != null },
@@ -296,8 +296,8 @@ fun getSimulationOptions(): SimulationOptions {
                 description = null,
                 tags = mapOf("en" to listOf(), "ja" to listOf()),
                 imagePath =
-                    if (accessory.iconId == 0) "img/common/plate_unselected_6.png"
-                    else "img/medium_icon/38_${accessory.iconId}.png",
+                    if (accessory.iconId == 0) "img/common/plate_unselected_6.webp"
+                    else "img/medium_icon/38_${accessory.iconId}.webp",
                 data =
                     AccessoryData(
                         id = accessory.id,

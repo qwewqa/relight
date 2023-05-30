@@ -299,40 +299,40 @@ class MultipleSelect(element: HTMLSelectElement, selectpicker: Boolean) :
 
 fun getMemoirUnbindImagePath(level: Int) =
     when (level) {
-      4 -> "img/common/frame_large_equip_rainbow.png"
-      3 -> "img/common/frame_large_equip_gold.png"
-      2 -> "img/common/frame_large_equip_silver.png"
-      1 -> "img/common/frame_large_equip_bronze.png"
-      else -> "img/common/frame_large_equip_blue.png"
+      4 -> "img/common/frame_large_equip_rainbow.webp"
+      3 -> "img/common/frame_large_equip_gold.webp"
+      2 -> "img/common/frame_large_equip_silver.webp"
+      1 -> "img/common/frame_large_equip_bronze.webp"
+      else -> "img/common/frame_large_equip_blue.webp"
     }
 
 fun getAccessoryUnbindImagePath(level: Int) =
     when (level) {
-      10 -> "img/common/frame_medium_accessory_rainbow.png"
-      9 -> "img/common/frame_medium_accessory_gold.png"
-      8 -> "img/common/frame_medium_accessory_gold.png"
-      7 -> "img/common/frame_medium_accessory_gold.png"
-      6 -> "img/common/frame_medium_accessory_silver.png"
-      5 -> "img/common/frame_medium_accessory_silver.png"
-      4 -> "img/common/frame_medium_accessory_silver.png"
-      3 -> "img/common/frame_medium_accessory_bronze.png"
-      2 -> "img/common/frame_medium_accessory_bronze.png"
-      1 -> "img/common/frame_medium_accessory_blue.png"
-      else -> "img/common/frame_medium_accessory_blue.png"
+      10 -> "img/common/frame_medium_accessory_rainbow.webp"
+      9 -> "img/common/frame_medium_accessory_gold.webp"
+      8 -> "img/common/frame_medium_accessory_gold.webp"
+      7 -> "img/common/frame_medium_accessory_gold.webp"
+      6 -> "img/common/frame_medium_accessory_silver.webp"
+      5 -> "img/common/frame_medium_accessory_silver.webp"
+      4 -> "img/common/frame_medium_accessory_silver.webp"
+      3 -> "img/common/frame_medium_accessory_bronze.webp"
+      2 -> "img/common/frame_medium_accessory_bronze.webp"
+      1 -> "img/common/frame_medium_accessory_blue.webp"
+      else -> "img/common/frame_medium_accessory_blue.webp"
     }
 
-fun getEquipEvolutionImagePath(level: Int) = "img/common/icon_equip_evolution_$level.png"
+fun getEquipEvolutionImagePath(level: Int) = "img/common/icon_equip_evolution_$level.webp"
 
-fun getRemakeLevelVerticalImagePath(level: Int) = "img/custom/icon_remake_$level.png"
+fun getRemakeLevelVerticalImagePath(level: Int) = "img/custom/icon_remake_$level.webp"
 
-fun getRemakeLevelHorizontalImagePath(level: Int) = "img/common/icon_remake_$level.png"
+fun getRemakeLevelHorizontalImagePath(level: Int) = "img/common/icon_remake_$level.webp"
 
 fun getMemoirUnbindLevelHorizontalImagePath(level: Int) =
-    "img/custom/icon_equip_evolution_$level.png"
+    "img/custom/icon_equip_evolution_$level.webp"
 
-fun getMemoirUnbindLevelVerticalImagePath(level: Int) = "img/common/icon_equip_evolution_$level.png"
+fun getMemoirUnbindLevelVerticalImagePath(level: Int) = "img/common/icon_equip_evolution_$level.webp"
 
-const val actorSupportIconPath = "img/common/icon_support_dress.png"
+const val actorSupportIconPath = "img/common/icon_support_dress.webp"
 
 class ActorOptions(
     private val options: SimulationOptions,

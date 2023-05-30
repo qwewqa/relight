@@ -181,6 +181,7 @@ fun Application.configureRouting() {
           path.endsWith(".css") -> call.respondText(value.decodeToString(), ContentType.Text.CSS)
           path.endsWith(".html") -> call.respondText(value.decodeToString(), ContentType.Text.Html)
           path.endsWith(".png") -> call.respondBytes(value, ContentType.Image.PNG)
+          path.endsWith(".webp") -> call.respondBytes(value, ContentType("image", "webp"))
           else -> call.respondText(value.decodeToString())
         }
       } else {

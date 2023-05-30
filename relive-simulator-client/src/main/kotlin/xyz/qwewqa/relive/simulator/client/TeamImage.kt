@@ -8,7 +8,6 @@ import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.CanvasTextAlign
 import org.w3c.dom.CanvasTextBaseline
 import org.w3c.dom.END
-import org.w3c.dom.HTMLAnchorElement
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.Image
 import org.w3c.dom.START
@@ -31,13 +30,6 @@ const val MARGIN_TOP = 5.0
 const val SUPERSCALE = 2.0 // At base resolution, some images can be slightly misaligned
 const val FONT =
     "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", \"Noto Sans\", \"Liberation Sans\", Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
-
-fun downloadDataUrl(url: String) {
-  val anchor = document.createElement("a") as HTMLAnchorElement
-  anchor.download = "team.png"
-  anchor.href = url
-  anchor.click()
-}
 
 class TeamImage(
     val parameters: SimulationParameters,
