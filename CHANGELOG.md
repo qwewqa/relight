@@ -1122,3 +1122,6 @@
 
 # v1.5.9
 - Switched to using webp for image assets
+
+# v1.5.10
+- Improved service worker precache speed
