@@ -1115,3 +1115,7 @@
 # v1.5.7
 - Fixed issue with resetting actor options
 - Load time improvements
+
+# v1.5.8
+- Share images are now jpgs
+- Load time improvements
