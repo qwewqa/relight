@@ -27,11 +27,7 @@ dependencies {
 }
 
 kotlin {
-  sourceSets.all {
-    languageSettings {
-      languageVersion = "1.9"
-    }
-  }
+  sourceSets.all { languageSettings { languageVersion = "1.9" } }
   js(IR) {
     browser {
       webpackTask { cssSupport { enabled.set(true) } }
@@ -91,7 +87,9 @@ tasks.register<Copy>("copyServiceWorker") {
           }
           .filter {
             !it.first.run {
-              startsWith("img/acts")
+              startsWith("img/acts") ||
+                  startsWith("img/large_icon/19_") ||
+                  startsWith("img/large_icon/35_")
             }
           }
   val timestamp = System.currentTimeMillis()
@@ -125,5 +123,4 @@ tasks.withType(org.gradle.language.jvm.tasks.ProcessResources::class) {
   dependsOn(":relive-simulator-worker:browserProductionWebpack")
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink> {
-}
+tasks.withType<org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink> {}
