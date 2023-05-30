@@ -168,11 +168,11 @@ open class RandomDamageCalculator : DamageCalculator {
     if (InvincibilityBuff in target.buffs && !hitAttribute.focus) {
       // Critical chance isn't actually 0 against invincible targets, but
       // it doesn't matter, so we'll skip calculating it.
-      return DamageResult(0, 0, 0.0, acc / 100.0, false)
+      return DamageResult(0.i54, 0.i54, 0.0, acc / 100.0, false)
     } else if (hitAttribute.mode == HitMode.FIXED) {
       return DamageResult(
-          base = hitAttribute.modifier / hitAttribute.hitCount,
-          critical = hitAttribute.modifier / hitAttribute.hitCount,
+          base = hitAttribute.modifier.toI54() / hitAttribute.hitCount,
+          critical = hitAttribute.modifier.toI54() / hitAttribute.hitCount,
           criticalChance = 0.0,
           hitChance = acc / 100.0,
           variance = false,
@@ -285,8 +285,8 @@ open class RandomDamageCalculator : DamageCalculator {
     criticalDmg = criticalDmg ptmul eventMultiplier
 
     return DamageResult(
-        base = dmg.toInt(),
-        critical = criticalDmg.toInt(),
+        base = dmg,
+        critical = criticalDmg,
         criticalChance = dex / 100.0,
         hitChance = acc / 100.0,
         variance = true,
@@ -412,8 +412,8 @@ class SwitchableDamageCalculator : DamageCalculator {
 }
 
 data class DamageResult(
-    val base: Int,
-    val critical: Int,
+    val base: I54,
+    val critical: I54,
     val criticalChance: Double,
     val hitChance: Double,
     val variance: Boolean,
