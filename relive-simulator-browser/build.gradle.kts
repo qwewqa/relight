@@ -73,6 +73,7 @@ tasks.register<Copy>("copyIndex") {
 }
 
 tasks.register<Copy>("copyServiceWorker") {
+  dependsOn("copyResources")
   outputs.upToDateWhen { false }
   from("${project(":relive-simulator-client").projectDir}/src/main/resources/sw.js")
   into("$projectDir/src/main/resources/")
@@ -120,7 +121,6 @@ tasks.register<Copy>("copyResources") {
 
 tasks.withType(org.gradle.language.jvm.tasks.ProcessResources::class) {
   dependsOn("copyIndex")
-  dependsOn("copyResources")
   dependsOn("copyServiceWorker")
   dependsOn(":relive-simulator-worker:browserProductionWebpack")
 }
