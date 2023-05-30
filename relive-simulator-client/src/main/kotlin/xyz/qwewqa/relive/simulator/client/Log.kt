@@ -164,9 +164,9 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
       hpElement.style.width = "${status.hp / status.maxHp * 100}%"
       if (status.hp > 0) {
         hpElement.textContent =
-            "${status.hp}/${status.maxHp} (-${(status.maxHp - status.hp).formatShort()})"
+            "${status.hp}/${status.maxHp} (-${(status.maxHp - status.hp).formatShortInt()})"
         hpLabelElement.textContent =
-            "${status.hp}/${status.maxHp} (-${(status.maxHp - status.hp).formatShort()})"
+            "${status.hp}/${status.maxHp} (-${(status.maxHp - status.hp).formatShortInt()})"
       } else {
         hpElement.textContent = ""
         hpLabelElement.textContent = ""
@@ -227,13 +227,13 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
       }
       damageElement.textContent =
           if (status.damageContribution > 0) {
-            "${status.damageContribution.formatShort()} (${(status.damageContribution / totalDamage * 100).toFixed(1)}%)"
+            "${status.damageContribution.formatShortInt()} (${(status.damageContribution / totalDamage * 100).toFixed(1)}%)"
           } else {
             ""
           }
       damageLabelElement.textContent =
           if (status.damageContribution > 0) {
-            "${status.damageContribution.formatShort()} (${(status.damageContribution / totalDamage * 100).toFixed(1)}%)"
+            "${status.damageContribution.formatShortInt()} (${(status.damageContribution / totalDamage * 100).toFixed(1)}%)"
           } else {
             ""
           }
@@ -264,7 +264,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                 id = "boss-hp-$i"
                 style = "width: ${status.hp / status.maxHp * 100}%;font-weight: bold;z-index: 2;"
                 if (status.hp > 0) {
-                  +"${status.hp}/${status.maxHp} (-${(status.maxHp - status.hp).formatShort()})"
+                  +"${status.hp}/${status.maxHp} (-${(status.maxHp - status.hp).formatShortInt()})"
                 }
               }
               div(classes = "progress-bar-label") {
@@ -272,7 +272,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                 style =
                     "font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;"
                 if (status.hp > 0) {
-                  +"${status.hp}/${status.maxHp} (-${(status.maxHp - status.hp).formatShort()})"
+                  +"${status.hp}/${status.maxHp} (-${(status.maxHp - status.hp).formatShortInt()})"
                 }
               }
             }
@@ -352,7 +352,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                       "width: ${status.damageContribution / totalDamage.coerceAtLeast(1.0) * 100}%;color: black;font-weight: bold;z-index: 2;"
                   if (status.damageContribution > 0) {
                     +if (status.damageContribution > 0) {
-                      "${status.damageContribution.formatShort()} (${(status.damageContribution / totalDamage * 100).toFixed(1)}%)"
+                      "${status.damageContribution.formatShortInt()} (${(status.damageContribution / totalDamage * 100).toFixed(1)}%)"
                     } else {
                       ""
                     }
@@ -364,7 +364,7 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
                       "font-weight: bold;color: black;position: absolute;left: 0;top: 0;z-index: 1;height: 100%;display: flex;flex-direction:column;justify-content: center;align-items: center;"
                   if (status.damageContribution > 0) {
                     +if (status.damageContribution > 0) {
-                      "${status.damageContribution.formatShort()} (${(status.damageContribution / totalDamage * 100).toFixed(1)}%)"
+                      "${status.damageContribution.formatShortInt()} (${(status.damageContribution / totalDamage * 100).toFixed(1)}%)"
                     } else {
                       ""
                     }
@@ -392,7 +392,7 @@ fun updateDamageEstimate(queueInfo: InteractiveQueueInfo?) {
     containerElement.classList.add("d-none")
   } else {
     containerElement.classList.remove("d-none")
-    damageElement.textContent = damage.formatShort()
+    damageElement.textContent = damage.formatShortInt()
   }
 
   val timelineContainer =
@@ -406,7 +406,7 @@ fun updateDamageEstimate(queueInfo: InteractiveQueueInfo?) {
           element.classList.add("d-none")
         } else {
           element.classList.remove("d-none")
-          element.textContent = actDamage.formatShort()
+          element.textContent = actDamage.formatShortInt()
         }
       }
 }
@@ -426,23 +426,18 @@ private val suffixes =
         1e12 to "T",
         1e9 to "B",
         1e6 to "M",
-        1e3 to "K",
-        1e0 to "")
+        1e3 to "K")
 
-private fun Double.formatShort(): String {
-  suffixes.forEach { (value, suffix) ->
-    if (this.absoluteValue >= value) {
-      return formatShortenedNumber(this / value, suffix)
+private fun Double.formatShortInt(): String {
+  suffixes.forEach { (divisor, suffix) ->
+    if (this.absoluteValue >= divisor) {
+      val value = this / divisor
+      val integerDigits = value.toFixed(0).length
+      val fractionalDigits = (5 - integerDigits - suffix.length).coerceAtLeast(0)
+      return "${value.toFixed(fractionalDigits)}$suffix"
     }
   }
-  // < 1
-  return ((this * 10000.0).toFixed(0).toDouble() / 10000.0).toString()
-}
-
-private fun formatShortenedNumber(value: Double, suffix: String): String {
-  val integerDigits = value.toFixed(0).length
-  val fractionalDigits = (5 - integerDigits - suffix.length).coerceAtLeast(0)
-  return "${value.toFixed(fractionalDigits)}$suffix"
+  return toFixed(0)
 }
 
 fun HTMLElement.displayLog(
