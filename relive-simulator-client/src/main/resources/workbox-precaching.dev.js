@@ -538,7 +538,7 @@ this.workbox.precaching = (function (exports, assert_js, cacheNames_js, logger_j
         cacheName,
         plugins = [],
         fallbackToNetwork = true,
-        concurrentRequests = 64
+        concurrentRequests = 32
       } = {}) {
         this._urlsToCacheKeys = new Map();
         this._urlsToCacheModes = new Map();
