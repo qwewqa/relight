@@ -1130,3 +1130,7 @@
 - Fixed damage being limited to around 2.1 billion per hit
 - Adjusted formatting of some numbers
 - Minor cleanup
+
+# v1.5.12
+- Adjusted formatting of some small numbers
+- Updated sharing domain to relight.to
