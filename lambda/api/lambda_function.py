@@ -1,7 +1,8 @@
 import base64
 import hashlib
 import json
-import uuid
+import random
+import string
 from typing import Optional
 from urllib.request import urlopen
 
@@ -33,8 +34,9 @@ MAX_PRESET_SHARE_DATA_SIZE = 100_000
 MAX_SETUP_SHARE_DATA_SIZE = 100_000
 
 
-def generate_id() -> str:
-    return uuid.uuid4().hex
+def generate_id(length=10) -> str:
+    chars = string.ascii_letters + string.digits
+    return ''.join(random.choice(chars) for _ in range(length))
 
 
 def get_auth_token_from_header() -> Optional[str]:
@@ -89,7 +91,7 @@ def get_user_id() -> str:
 
 @app.get("/share/presets/get/<preset_id>")
 def get_presets(preset_id: str):
-    if len(preset_id) != 32:
+    if len(preset_id) > 32:
         raise BadRequestError("Invalid preset ID")
     ddb_key = f"presets#{preset_id}"
     response = table.get_item(Key={"id": ddb_key})
@@ -121,14 +123,15 @@ def create_presets():
             "id": ddb_key,
             "presets_name": data.name,
             "s3_key": s3_key,
-        }
+        },
+        ConditionExpression="attribute_not_exists(id)",
     )
     return {"id": preset_id}
 
 
 @app.get("/share/setups/get/<setup_id>")
 def get_setups(setup_id: str):
-    if len(setup_id) != 32:
+    if len(setup_id) > 32:
         raise BadRequestError("Invalid setup ID")
     ddb_key = f"setups#{setup_id}"
     response = table.get_item(Key={"id": ddb_key})
@@ -160,7 +163,8 @@ def create_setups():
             "id": ddb_key,
             "setups_name": data.name,
             "s3_key": s3_key,
-        }
+        },
+        ConditionExpression="attribute_not_exists(id)",
     )
     return {"id": setup_id}
 
@@ -183,7 +187,8 @@ def create_setup():
     team_img_alt_s3_key = None
     if data.team_image_alt is not None:
         team_img_alt_s3_key = f"preview/{setup_id}_team_alt"
-        img_bucket.Object(team_img_alt_s3_key).put(Body=base64.b64decode(data.team_image_alt), ContentType=data.content_type)
+        img_bucket.Object(team_img_alt_s3_key).put(Body=base64.b64decode(data.team_image_alt),
+                                                   ContentType=data.content_type)
     ddb_key = f"setup#{setup_id}"
     item = {
         "id": ddb_key,
@@ -198,14 +203,15 @@ def create_setup():
     if team_img_alt_s3_key is not None:
         item["team_img_alt_s3_key"] = team_img_alt_s3_key
     table.put_item(
-        Item=item
+        Item=item,
+        ConditionExpression="attribute_not_exists(id)",
     )
     return {"id": setup_id, "url": f"{SHARE_BASE_URL}/{setup_id}"}
 
 
 @app.get("/share/setup/get/<setup_id>")
 def get_setup(setup_id: str):
-    if len(setup_id) != 32:
+    if len(setup_id) > 32:
         raise BadRequestError("Invalid setup ID")
     ddb_key = f"setup#{setup_id}"
     response = table.get_item(Key={"id": ddb_key})
@@ -222,7 +228,7 @@ def get_setup(setup_id: str):
 
 @app.get("/to/<setup_id>")
 def to_setup(setup_id: str):
-    if len(setup_id) != 32:
+    if len(setup_id) > 32:
         raise BadRequestError("Invalid setup ID")
     ddb_key = f"setup#{setup_id}"
     response = table.get_item(Key={"id": ddb_key})
