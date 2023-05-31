@@ -1134,3 +1134,7 @@
 # v1.5.12
 - Adjusted formatting of some small numbers
 - Updated sharing domain to relight.to
+
+# v1.5.13
+- Updated data
+- Share urls are now shorter
