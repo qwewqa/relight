@@ -22,7 +22,7 @@ bucket = s3.Bucket("relight-legacy-sharedata")
 img_bucket = s3.Bucket("relight-share-images")
 
 IMG_BASE_URL = "https://i.relight.qwewqa.xyz"
-SHARE_BASE_URL = "https://share.relight.qwewqa.xyz"
+SHARE_BASE_URL = "https://relight.to"
 SIM_BASE_URL = "https://relight.qwewqa.xyz/"
 
 settings = Settings()
@@ -200,7 +200,7 @@ def create_setup():
     table.put_item(
         Item=item
     )
-    return {"id": setup_id, "url": f"{SHARE_BASE_URL}/to/{setup_id}"}
+    return {"id": setup_id, "url": f"{SHARE_BASE_URL}/{setup_id}"}
 
 
 @app.get("/share/setup/get/<setup_id>")
@@ -255,6 +255,20 @@ def to_setup(setup_id: str):
 </html>
 """
     return Response(200, content_type="text/html", body=html, headers={"Location": redirect_url})
+
+
+@app.get("/to/")
+def to_shortcut():
+    html = f"""<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="refresh" content="0; url={SIM_BASE_URL}" />
+</head>
+<body>
+</body>
+</html>
+"""
+    return Response(200, content_type="text/html", body=html, headers={"Location": SIM_BASE_URL})
 
 
 def get_sync_data(user_id: str) -> dict:
