@@ -1515,4 +1515,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
 
   val AgonyResistanceUp = +skillOptionData(597).applyEffect()
   val LockedAgonyResistanceUp = +skillOptionData(598).applyEffect()
+
+  val SealCAResistanceUp = +skillOptionData(599).applyEffect()
+  val LockedSealCAResistanceUp = +skillOptionData(600).applyEffect()
 }

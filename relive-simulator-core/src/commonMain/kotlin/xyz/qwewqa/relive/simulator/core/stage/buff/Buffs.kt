@@ -1505,6 +1505,11 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val LockedAgonyResistanceUpBuff = +buffData(322).makeLockedVariantOf(AgonyResistanceUpBuff)
 
+  val SealCAResistanceUpBuff =
+      +buffData(323).makeSpecificResistanceUpBuff(SealCABuff)
+
+  val LockedSealCAResistanceUpBuff = +buffData(324).makeLockedVariantOf(SealCAResistanceUpBuff)
+
   val abnormalBuffs =
       platformSetOf(
           StopBuff,
