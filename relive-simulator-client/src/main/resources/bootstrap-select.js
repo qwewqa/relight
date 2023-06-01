@@ -2311,6 +2311,7 @@
             this.$menuInner.css({
                 'max-height': menuInnerHeight + 'px',
                 'overflow-y': 'auto',
+                'overflow-x': 'auto',
                 'min-height': menuInnerMinHeight + 'px',
                 'overscroll-behavior': 'contain'
             });
