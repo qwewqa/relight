@@ -2783,7 +2783,10 @@
                         that.setSelected(clickedData, true);
                     } else { // Toggle the clicked option if multi select.
                         that.setSelected(clickedData, !state);
-                        that.focusedParent.focus();
+
+                        if (matchMedia('(pointer:fine)').matches) {
+                            that.focusedParent.focus();
+                        }
 
                         if (maxOptions !== false || maxOptionsGrp !== false) {
                             var maxReached = maxOptions < getSelectedOptions.call(that).length,
@@ -2850,7 +2853,7 @@
 
                     if (!that.multiple || (that.multiple && that.options.maxOptions === 1)) {
                         that.$button.trigger('focus');
-                    } else if (that.options.liveSearch) {
+                    } else if (that.options.liveSearch && matchMedia('(pointer:fine)').matches) {
                         that.$searchbox.trigger('focus');
                     }
 
