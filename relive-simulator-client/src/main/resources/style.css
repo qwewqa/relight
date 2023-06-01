@@ -1,3 +1,7 @@
+body {
+    overflow-y: scroll;
+}
+
 .cm-editor {
     height: 100%
 }
