@@ -1128,6 +1128,9 @@ pwa-update::part(offlineToast) {
 
 .input-group > .song-effect-type {
     flex: 1 1 0;
+    display: flex;
+    gap: 0.3em;
+    align-items: center;
 }
 
 .song-effect-awaken-skill-type {
@@ -1139,8 +1142,12 @@ pwa-update::part(offlineToast) {
 .input-group > .song-effect-value {
     flex: 0 1 auto;
     width: 5em;
-    z-index: 100;
     text-align: right;
+}
+
+/* Fixes an issue where the z-index isn't applied properly for selectpickers */
+.input-group > .form-control:focus-within {
+    z-index: 5;
 }
 
 input::-webkit-outer-spin-button,
@@ -1151,10 +1158,6 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
     -moz-appearance: textfield;
-}
-
-.dropdown-toggle {
-    border: var(--bs-border-width) solid var(--bs-border-color);
 }
 
 #share-setup-text {
@@ -1226,4 +1229,16 @@ input[type=number] {
 
 .toast-content {
     line-height: 0.95em;
+}
+
+.filter-option-inner-inner {
+    display: flex;
+    gap: 0.3em;
+    align-items: center;
+}
+
+.select-option-main-text {
+    display: flex;
+    gap: 0.3em;
+    align-items: center;
 }

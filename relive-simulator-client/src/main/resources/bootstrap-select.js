@@ -731,16 +731,20 @@
             if (options.content) {
                 textElement.innerHTML = options.content;
             } else {
+                const mainTextElement = elementTemplates.div.cloneNode(false);
+                mainTextElement.className = "select-option-main-text"
+
                 if (options.img) {
                     var imgElement = elementTemplates.img.cloneNode(false);
                     imgElement.className = "select-option-img";
                     imgElement.setAttribute(deferImages ? "data-src" : "src", options.img);
 
-                    textElement.appendChild(imgElement);
-                    textElement.appendChild(document.createTextNode(` ${options.text}`));
+                    mainTextElement.appendChild(imgElement);
+                    mainTextElement.appendChild(document.createTextNode(`${options.text}`));
                 } else {
-                    textElement.textContent = options.text;
+                    mainTextElement.textContent = options.text;
                 }
+                textElement.appendChild(mainTextElement);
 
                 if (options.icon) {
                     var whitespace = elementTemplates.whitespace.cloneNode(false);
@@ -964,8 +968,8 @@
         doneButton: false,
         doneButtonText: 'Close',
         multipleSeparator: ', ',
-        styleBase: 'btn',
-        style: classNames.BUTTONCLASS,
+        styleBase: 'form-control',
+        style: '',
         size: 'auto',
         title: null,
         placeholder: null,
