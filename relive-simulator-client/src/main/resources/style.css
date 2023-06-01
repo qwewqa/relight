@@ -172,9 +172,8 @@ form .form-label {
 }
 
 .select-option-subtext-img {
-    height: 1.8em;
+    height: 1.6em;
     margin: 0.1em;
-    padding-top: 0.2em;
 }
 
 .select-option-subtext-img-text {
@@ -182,8 +181,9 @@ form .form-label {
 }
 
 .select-option-subtext-container {
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    margin-top: 0.2em;
 }
 
 pwa-update::part(updateToast) {
