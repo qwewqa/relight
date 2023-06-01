@@ -1145,3 +1145,6 @@
 
 # v1.5.15
 - Adjusted select styling
+
+# v1.5.16
+- Adjusted select behavior
