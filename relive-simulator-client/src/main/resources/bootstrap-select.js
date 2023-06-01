@@ -680,7 +680,7 @@
 
     elementTemplates.subtext.className = 'text-muted';
 
-    elementTemplates.text = elementTemplates.span.cloneNode(false);
+    elementTemplates.text = elementTemplates.div.cloneNode(false);
     elementTemplates.text.className = 'text';
 
     elementTemplates.checkMark = elementTemplates.span.cloneNode(false);
