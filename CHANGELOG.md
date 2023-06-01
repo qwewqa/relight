@@ -1142,3 +1142,6 @@
 # v1.5.14
 - Adjusted select styling
 - Vertical scrollbar is now always active
+
+# v1.5.15
+- Adjusted select styling
