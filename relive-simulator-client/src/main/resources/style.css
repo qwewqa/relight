@@ -1242,3 +1242,7 @@ input[type=number] {
     gap: 0.3em;
     align-items: center;
 }
+
+.bootstrap-select.disabled .dropdown-toggle  {
+    background-color: var(--bs-secondary-bg);
+}
