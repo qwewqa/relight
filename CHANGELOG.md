@@ -1138,3 +1138,7 @@
 # v1.5.13
 - Updated data
 - Share urls are now shorter
+
+# v1.5.14
+- Adjusted select styling
+- Vertical scrollbar is now always active
