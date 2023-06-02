@@ -1148,3 +1148,6 @@
 
 # v1.5.16
 - Adjusted select behavior
+
+# v1.5.17
+- Song effect inputs are now blank by default
