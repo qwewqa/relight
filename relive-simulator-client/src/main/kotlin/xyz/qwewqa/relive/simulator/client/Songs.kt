@@ -103,16 +103,36 @@ fun getSongParameters() =
 fun setSongParameters(options: SimulationOptions, value: SongParameters, locale: String) {
   updateSelectedSong(options, value.id, locale)
   songSelect.value = value.id
+
   songEffect1Type.value = value.activeEffect1?.id ?: "0"
-  songEffect1Value.value = value.activeEffect1?.value ?: 0
+  val effect1Value = value.activeEffect1?.value ?: 0
+  if (effect1Value > 0) {
+    songEffect1Value.value = effect1Value
+  } else {
+    songEffect1Value.clear()
+  }
+
   songEffect2Type.value = value.activeEffect2?.id ?: "0"
-  songEffect2Value.value = value.activeEffect2?.value ?: 0
+  val effect2Value = value.activeEffect2?.value ?: 0
+  if (effect2Value > 0) {
+    songEffect2Value.value = effect2Value
+  } else {
+    songEffect2Value.clear()
+  }
+
   songPassiveEffectType.value = value.passiveEffect?.id ?: "0"
-  songPassiveEffectValue.value = value.passiveEffect?.value ?: 0
+  val passiveEffectValue = value.passiveEffect?.value ?: 0
+  if (passiveEffectValue > 0) {
+    songPassiveEffectValue.value = passiveEffectValue
+  } else {
+    songPassiveEffectValue.clear()
+  }
+
   updateSelectValueOrSelectFirst(songAwakeningEffect1Value, "${value.awakenSkill1Value}")
   updateSelectValueOrSelectFirst(songAwakeningEffect2Value, "${value.awakenSkill2Value}")
   updateSelectValueOrSelectFirst(songAwakeningEffect3Value, "${value.awakenSkill3Value}")
   updateSelectValueOrSelectFirst(songAwakeningEffect4Value, "${value.awakenSkill4Value}")
+
   awakenedSongsSelect.value = value.awakenExtraSkillSongs
 }
 
