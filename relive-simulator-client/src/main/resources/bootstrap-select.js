@@ -1790,10 +1790,6 @@
                 mainElements = [],
                 widestOptionLength = 0;
 
-            if (that.options.showTick || that.multiple) {
-                elementTemplates.li.classList.add('show-tick');
-            }
-
             function buildElement (mainElements, item) {
                 var liElement,
                     combinedLength = 0;
