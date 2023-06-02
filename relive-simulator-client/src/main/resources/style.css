@@ -155,7 +155,18 @@ div.dropdown-menu {
 
 .dropdown-menu > .inner > ul.dropdown-menu.inner {
     width: max-content;
-    min-width: 100% !important;
+    min-width: 100%;
+}
+
+.dropdown-menu li.selected.show-tick::before {
+    position: absolute;
+    left: 0.25em;
+    top: 10%;
+    bottom: 10%;
+    content: '';
+    width: 0.25em;
+    border-radius: 99em;
+    background: black;
 }
 
 .bootstrap-select > select {

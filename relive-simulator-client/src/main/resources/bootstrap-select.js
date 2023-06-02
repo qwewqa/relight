@@ -683,8 +683,6 @@
     elementTemplates.text = elementTemplates.div.cloneNode(false);
     elementTemplates.text.className = 'text';
 
-    elementTemplates.checkMark = elementTemplates.span.cloneNode(false);
-
     var REGEXP_ARROW = new RegExp(keyCodes.ARROW_UP + '|' + keyCodes.ARROW_DOWN);
     var REGEXP_TAB_OR_ESCAPE = new RegExp('^' + keyCodes.TAB + '$|' + keyCodes.ESCAPE);
 
@@ -1475,29 +1473,6 @@
                         menuInner.firstChild.appendChild(menuFragment);
 
                         menuInner.scrollTop = scrollTop;
-
-                        // if an option is encountered that is wider than the current menu width, update the menu width accordingly
-                        // switch to ResizeObserver with increased browser support
-                        if (isVirtual === true && that.sizeInfo.hasScrollBar) {
-                            var menuInnerInnerWidth = menuInner.firstChild.offsetWidth;
-
-                            if (init && menuInnerInnerWidth < that.sizeInfo.menuInnerInnerWidth && that.sizeInfo.totalMenuWidth > that.sizeInfo.selectWidth) {
-                                menuInner.firstChild.style.minWidth = that.sizeInfo.menuInnerInnerWidth + 'px';
-                            } else if (menuInnerInnerWidth > that.sizeInfo.menuInnerInnerWidth) {
-                                // set to 0 to get actual width of menu
-                                that.$menu[0].style.minWidth = 0;
-
-                                var actualMenuWidth = menuInner.firstChild.offsetWidth;
-
-                                if (actualMenuWidth > that.sizeInfo.menuInnerInnerWidth) {
-                                    that.sizeInfo.menuInnerInnerWidth = actualMenuWidth;
-                                    menuInner.firstChild.style.minWidth = that.sizeInfo.menuInnerInnerWidth + 'px';
-                                }
-
-                                // reset to default CSS styling
-                                that.$menu[0].style.minWidth = '';
-                            }
-                        }
                     }
 
                     if ((!isSearching && that.options.source.load || isSearching && that.options.source.search) && currentChunk === chunkCount - 1) {
@@ -1815,9 +1790,8 @@
                 mainElements = [],
                 widestOptionLength = 0;
 
-            if ((that.options.showTick || that.multiple) && !elementTemplates.checkMark.parentNode) {
-                elementTemplates.checkMark.className = this.options.iconBase + ' ' + that.options.tickIcon + ' check-mark';
-                elementTemplates.a.appendChild(elementTemplates.checkMark);
+            if (that.options.showTick || that.multiple) {
+                elementTemplates.li.classList.add('show-tick');
             }
 
             function buildElement (mainElements, item) {
