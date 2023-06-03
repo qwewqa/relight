@@ -1295,7 +1295,7 @@ class SimulatorClient(val simulator: Simulator) {
       }
 
   fun getSetupIdFromShareLink(url: String): String? {
-    val regex = Regex(".*/to/([a-zA-Z0-9]{32})")
+    val regex = Regex("^.*[./]to/([a-zA-Z0-9]+)$")
     return regex.find(url)?.groupValues?.get(1)
   }
 
