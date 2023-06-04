@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.client
 
 import Accessories
 import kotlinx.browser.document
+import kotlinx.browser.localStorage
 import kotlinx.browser.sessionStorage
 import kotlinx.browser.window
 import kotlinx.coroutines.CompletableDeferred
@@ -55,6 +56,7 @@ import org.w3c.dom.clipboard.ClipboardEvent
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.KeyboardEvent
 import org.w3c.dom.get
+import org.w3c.dom.set
 import org.w3c.dom.url.URL
 import xyz.qwewqa.relive.simulator.client.ActorOptions.Companion.rankPanelIds
 import xyz.qwewqa.relive.simulator.client.Plotly.addTraces
@@ -148,6 +150,7 @@ class SimulatorClient(val simulator: Simulator) {
   val bossStrategyTypeSelect =
       document.getElementById("boss-strategy-type-select").singleSelect(true)
   val bossStrategyCollapse = document.getElementById("boss-strategy-collapse").collapse()
+  val prideCheckbox = document.getElementById("pride-checkbox") as HTMLInputElement
   val toastsCheckbox = document.getElementById("toasts-checkbox") as HTMLInputElement
   val toastContainer = document.getElementById("toast-container") as HTMLDivElement
   val bossStrategyEditor = run {
@@ -1440,6 +1443,27 @@ class SimulatorClient(val simulator: Simulator) {
           }
         })
 
+    fun updatePrideState() {
+      if (prideCheckbox.checked) {
+        document.body?.addClass("pride")
+      } else {
+        document.body?.removeClass("pride")
+      }
+    }
+
+    prideCheckbox.checked = localStorage["preference-pride"] != "false"
+    prideCheckbox.addEventListener(
+        "click",
+        {
+          localStorage["preference-pride"] = prideCheckbox.checked.toString()
+          updatePrideState()
+        })
+    updatePrideState()
+
+    toastsCheckbox.checked = localStorage["preference-toasts"] != "false"
+    toastsCheckbox.addEventListener(
+        "click", { localStorage["preference-toasts"] = toastsCheckbox.checked.toString() })
+
     seedRandomizeButton.addEventListener("click", { seedInput.value = Random.nextInt() })
 
     bossSelect.element.addEventListener("change", { teamUpdate() })
@@ -1668,6 +1692,20 @@ class SimulatorClient(val simulator: Simulator) {
           interactiveSimulation?.end()
           interactiveSimulation = simulator.simulateInteractive(setup)
           interactiveContainer.removeClass("d-none")
+
+          val interactiveThemeClasses = listOf(
+              "interactive-lesbian",
+              "interactive-bisexual",
+              "interactive-pansexual",
+              "interactive-asexual",
+              "interactive-aromantic",
+              "interactive-transgender",
+              "interactive-nonbinary",
+              "interactive-agender",
+          )
+          interactiveThemeClasses.forEach { interactiveContainer.removeClass(it) }
+          interactiveContainer.addClass(interactiveThemeClasses.random())
+
           updateUrlForSetup(setup)
         } catch (e: Throwable) {
           return@launch
