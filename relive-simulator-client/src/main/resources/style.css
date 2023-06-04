@@ -383,6 +383,220 @@ pwa-update::part(offlineToast) {
     --marker-color: purple;
 }
 
+.pride  .interactive-timeline-empty:nth-child(1 of .interactive-timeline-item) {
+    --marker-color: #ff0000;
+}
+
+.pride  .interactive-timeline-empty:nth-child(2 of .interactive-timeline-item) {
+    --marker-color: #ff9100;
+}
+
+.pride  .interactive-timeline-empty:nth-child(3 of .interactive-timeline-item) {
+    --marker-color: #ffd700;
+}
+
+.pride  .interactive-timeline-empty:nth-child(4 of .interactive-timeline-item) {
+    --marker-color: #008000;
+}
+
+.pride  .interactive-timeline-empty:nth-child(5 of .interactive-timeline-item) {
+    --marker-color: #0000ff;
+}
+
+.pride  .interactive-timeline-empty:nth-child(6 of .interactive-timeline-item) {
+    --marker-color: #800080;
+}
+
+.pride  .interactive-timeline-empty {
+    filter: drop-shadow(0 0 2px dimgray);
+}
+
+.pride interactive-transgender-alt .interactive-act:nth-child(5n + 1 of .interactive-act) {
+    --queued-act-color: hsl(198, 92%, 69%);
+    --queued-act-contrast-color: hsl(198, 90%, 8%);
+    --queued-act-glow-color: hsl(198, 92%, 29%);
+}
+
+.pride interactive-transgender-alt .interactive-act:nth-child(5n + 2 of .interactive-act) {
+    --queued-act-color: hsl(348, 75%, 81%);
+    --queued-act-contrast-color: hsl(348, 75%, 11%);
+    --queued-act-glow-color: hsl(348, 75%, 31%);
+}
+
+.pride interactive-transgender-alt .interactive-act:nth-child(5n + 3 of .interactive-act) {
+    --queued-act-color: hsl(0, 0%, 100%);
+    --queued-act-contrast-color: hsl(0, 0%, 13%);
+    --queued-act-glow-color: hsl(0, 0%, 20%);
+}
+
+.pride interactive-transgender-alt .interactive-act:nth-child(5n + 4 of .interactive-act) {
+    --queued-act-color: hsl(348, 75%, 81%);
+    --queued-act-contrast-color: hsl(348, 75%, 11%);
+    --queued-act-glow-color: hsl(348, 75%, 31%);
+}
+
+.pride interactive-transgender-alt .interactive-act:nth-child(5n + 5 of .interactive-act) {
+    --queued-act-color: hsl(198, 92%, 69%);
+    --queued-act-contrast-color: hsl(198, 90%, 8%);
+    --queued-act-glow-color: hsl(198, 92%, 29%);
+}
+
+.pride interactive-lesbian-alt .interactive-act:nth-child(5n + 1 of .interactive-act) {
+    --queued-act-color: hsl(9, 87%, 44%);
+    --queued-act-contrast-color: hsl(9, 87%, 4%);
+    --queued-act-glow-color: hsl(9, 87%, 30%);
+}
+
+.pride interactive-lesbian-alt .interactive-act:nth-child(5n + 2 of .interactive-act) {
+    --queued-act-color: hsl(25, 96%, 67%);
+    --queued-act-contrast-color: hsl(25, 96%, 12%);
+    --queued-act-glow-color: hsl(25, 96%, 30%);
+}
+
+.pride interactive-lesbian-alt .interactive-act:nth-child(5n + 3 of .interactive-act) {
+    --queued-act-color: hsl(0, 0%, 100%);
+    --queued-act-contrast-color: hsl(0, 0%, 13%);
+    --queued-act-glow-color: hsl(0, 0%, 20%);
+}
+
+.pride interactive-lesbian-alt .interactive-act:nth-child(5n + 4 of .interactive-act) {
+    --queued-act-color: hsl(324, 56%, 61%);
+    --queued-act-contrast-color: hsl(324, 56%, 12%);
+    --queued-act-glow-color: hsl(324, 56%, 27%);
+}
+
+.pride interactive-lesbian-alt .interactive-act:nth-child(5n + 5 of .interactive-act) {
+    --queued-act-color: hsl(324, 94%, 33%);
+    --queued-act-contrast-color: hsl(324, 94%, 4%);
+    --queued-act-glow-color: hsl(324, 94%, 22%);
+}
+
+.pride interactive-bisexual-alt .interactive-act:nth-child(5n + 1 of .interactive-act) {
+    --queued-act-color: hsl(329, 91%, 44%);
+    --queued-act-contrast-color: hsl(329, 91%, 94%);
+    --queued-act-glow-color: hsl(329, 91%, 30%);
+}
+
+.pride interactive-bisexual-alt .interactive-act:nth-child(5n + 2 of .interactive-act) {
+    --queued-act-color: hsl(329, 91%, 44%);
+    --queued-act-contrast-color: hsl(329, 91%, 94%);
+    --queued-act-glow-color: hsl(329, 91%, 30%);
+}
+
+.pride interactive-bisexual-alt .interactive-act:nth-child(5n + 3 of .interactive-act) {
+    --queued-act-color: hsl(304, 34%, 46%);
+    --queued-act-contrast-color: hsl(304, 34%, 94%);
+    --queued-act-glow-color: hsl(304, 34%, 32%);
+}
+
+.pride interactive-bisexual-alt .interactive-act:nth-child(5n + 4 of .interactive-act) {
+    --queued-act-color: hsl(232, 70%, 39%);
+    --queued-act-contrast-color: hsl(232, 70%, 96%);
+    --queued-act-glow-color: hsl(232, 70%, 26%);
+}
+
+.pride interactive-bisexual-alt .interactive-act:nth-child(5n + 5 of .interactive-act) {
+    --queued-act-color: hsl(232, 70%, 39%);
+    --queued-act-contrast-color: hsl(232, 70%, 96%);
+    --queued-act-glow-color: hsl(232, 70%, 26%);
+}
+
+.pride interactive-lesbian .interactive-act {
+    --queued-act-color: hsl(0, 0%, 100%);
+    --queued-act-contrast-color: hsl(3, 36%, 16%);
+    --queued-act-glow-color: hsl(3, 80%, 36%);
+}
+
+.pride interactive-lesbian .interactive-act .bi-check {
+    background: linear-gradient(180deg, #d62900 0%, #d62900 38%, #ff9b55 38%, #ff9b55 46%, #ffffff 46%, #ffffff 54%, #d461a6 54%, #d461a6 62%, #a50062 62%, #a50062 100%);
+    background-clip: text;
+    color: transparent;
+}
+
+.pride interactive-bisexual .interactive-act {
+    --queued-act-color: hsl(0, 0%, 100%);
+    --queued-act-contrast-color: hsl(304, 12%, 92%);
+    --queued-act-glow-color: hsl(304, 32%, 30%);
+}
+
+.pride interactive-bisexual .interactive-act .bi-check {
+    background: linear-gradient(180deg, #d60270 0%, #d60270 46%, #9b4f96 46%, #9b4f96 54%, #0038a8 54%, #0038a8 100%);
+    background-clip: text;
+    color: transparent;
+}
+
+.pride interactive-pansexual .interactive-act {
+    --queued-act-color: hsl(0, 0%, 100%);
+    --queued-act-contrast-color: hsl(0, 0%, 13%);
+    --queued-act-glow-color: hsl(0, 0%, 20%);
+}
+
+.pride interactive-pansexual .interactive-act .bi-check {
+    background: linear-gradient(180deg, #ff218c 0%, #ff218c 44%, #ffd800 44%, #ffd800 56%, #21b1ff 56%, #21b1ff 100%);
+    background-clip: text;
+    color: transparent;
+}
+
+.pride interactive-asexual .interactive-act {
+    --queued-act-color: hsl(0, 0%, 100%);
+    --queued-act-contrast-color: hsl(300, 12%, 86%);
+    --queued-act-glow-color: hsl(300, 72%, 30%);
+}
+
+.pride interactive-asexual .interactive-act .bi-check {
+    background: linear-gradient(180deg, #000000 0%, #000000 41%, #a3a3a3 41%, #a3a3a3 50%, #ffffff 50%, #ffffff 59%, #800080 59%, #800080 100%);
+    background-clip: text;
+    color: transparent;
+}
+
+.pride interactive-aromantic .interactive-act {
+    --queued-act-color: hsl(0, 0%, 100%);
+    --queued-act-contrast-color: hsl(125, 24%, 28%);
+    --queued-act-glow-color: hsl(125, 45%, 26%);
+}
+
+.pride interactive-aromantic .interactive-act .bi-check {
+    background: linear-gradient(180deg, #3da542 0%, #3da542 38%, #a7d379 38%, #a7d379 46%, #ffffff 46%, #ffffff 54%, #a9a9a9 54%, #a9a9a9 62%, #000000 62%, #000000 100%);
+    background-clip: text;
+    color: transparent;
+}
+
+.pride interactive-transgender .interactive-act {
+    --queued-act-color: hsl(0, 0%, 100%);
+    --queued-act-contrast-color: hsl(216, 30%, 18%);
+    --queued-act-glow-color: hsl(216, 39%, 20%);
+}
+
+.pride interactive-transgender .interactive-act .bi-check {
+    background: linear-gradient(180deg, #5bcefa 0%, #5bcefa 38%, #f5a9b8 38%, #f5a9b8 46%, #ffffff 46%, #ffffff 54%, #f5a9b8 54%, #f5a9b8 62%, #5bcefa 62%, #5bcefa 100%);
+    background-clip: text;
+    color: transparent;
+}
+
+.pride interactive-nonbinary .interactive-act {
+    --queued-act-color: hsl(0, 0%, 100%);
+    --queued-act-contrast-color: hsl(0, 0%, 24%);
+    --queued-act-glow-color: hsl(0, 0%, 36%);
+}
+
+.pride interactive-nonbinary .interactive-act .bi-check {
+    background: linear-gradient(180deg, #fcf434 0%, #fcf434 41%, #ffffff 41%, #ffffff 50%, #9c59d1 50%, #9c59d1 59%, #2c2c2c 59%, #2c2c2c 100%);
+    background-clip: text;
+    color: transparent;
+}
+
+.pride interactive-agender .interactive-act {
+    --queued-act-color: hsl(0, 0%, 100%);
+    --queued-act-contrast-color: hsl(93, 42%, 36%);
+    --queued-act-glow-color: hsl(93, 86%, 18%);
+}
+
+.pride interactive-agender .interactive-act .bi-check {
+    background: linear-gradient(180deg, #000000 0%, #000000 35%, #bcc4c7 35%, #bcc4c7 41%, #ffffff 41%, #ffffff 47%, #b7f684 47%, #b7f684 53%, #ffffff 53%, #ffffff 59%, #bcc4c7 59%, #bcc4c7 65%, #000000 65%, #000000 0%);
+    background-clip: text;
+    color: transparent;
+}
+
 .interactive-timeline-current {
 }
 
@@ -611,7 +825,7 @@ pwa-update::part(offlineToast) {
 }
 
 .interactive-act-queued .queue-actor-img {
-    filter: brightness(100%) drop-shadow(0 0 2px darkgreen) drop-shadow(0 0 2px darkgreen);
+    filter: brightness(100%) drop-shadow(0 0 2px var(--queued-act-glow-color)) drop-shadow(0 0 2px var(--queued-act-glow-color));
 }
 
 .interactive-act-queued .queue-act-img {
@@ -630,10 +844,12 @@ pwa-update::part(offlineToast) {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: green;
-    font-size: calc(var(--size-ref) / 9);
+    color: var(--queued-act-color);
+    font-size: calc(var(--size-ref) / 8);
     line-height: 0;
-    filter: drop-shadow(0 0 3px white) drop-shadow(0 0 3px white) drop-shadow(0 0 2px white) drop-shadow(0 0 2px white);
+    --outer-shadow-size: calc(var(--size-ref) / 240);
+    --inner-shadow-size: calc(var(--size-ref) / 360);
+    filter: drop-shadow(0 0 var(--outer-shadow-size) var(--queued-act-contrast-color)) drop-shadow(0 0 var(--outer-shadow-size) var(--queued-act-contrast-color)) drop-shadow(0 0 var(--inner-shadow-size) var(--queued-act-contrast-color)) drop-shadow(0 0 var(--inner-shadow-size) var(--queued-act-contrast-color));
 }
 
 .interactive-act-too-expensive .queue-actor-img {
@@ -920,6 +1136,9 @@ pwa-update::part(offlineToast) {
 
 #interactive-container {
     --size-ref: min(700px, max(70vh, 560px), calc(0.9 * var(--container-max-width)));
+    --queued-act-color: green;
+    --queued-act-contrast-color: white;
+    --queued-act-glow-color: darkgreen;
 }
 
 #interactive-console-container {
@@ -1259,6 +1478,6 @@ input[type=number] {
     align-items: center;
 }
 
-.bootstrap-select.disabled .dropdown-toggle  {
+.bootstrap-select.disabled .dropdown-toggle {
     background-color: var(--bs-secondary-bg);
 }
