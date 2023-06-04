@@ -510,6 +510,7 @@ pwa-update::part(offlineToast) {
 .pride .interactive-lesbian .interactive-act .bi-check {
     background: linear-gradient(180deg, #d62900 0%, #d62900 38%, #ff9b55 38%, #ff9b55 46%, #ffffff 46%, #ffffff 54%, #d461a6 54%, #d461a6 62%, #a50062 62%, #a50062 100%);
     background-clip: text;
+    -webkit-background-clip: text;
     color: transparent;
 }
 
@@ -522,6 +523,7 @@ pwa-update::part(offlineToast) {
 .pride .interactive-bisexual .interactive-act .bi-check {
     background: linear-gradient(180deg, #d60270 0%, #d60270 46%, #9b4f96 46%, #9b4f96 54%, #0038a8 54%, #0038a8 100%);
     background-clip: text;
+    -webkit-background-clip: text;
     color: transparent;
 }
 
@@ -534,6 +536,7 @@ pwa-update::part(offlineToast) {
 .pride .interactive-pansexual .interactive-act .bi-check {
     background: linear-gradient(180deg, #ff218c 0%, #ff218c 44%, #ffd800 44%, #ffd800 56%, #21b1ff 56%, #21b1ff 100%);
     background-clip: text;
+    -webkit-background-clip: text;
     color: transparent;
 }
 
@@ -546,6 +549,7 @@ pwa-update::part(offlineToast) {
 .pride .interactive-asexual .interactive-act .bi-check {
     background: linear-gradient(180deg, #000000 0%, #000000 41%, #a3a3a3 41%, #a3a3a3 50%, #ffffff 50%, #ffffff 59%, #800080 59%, #800080 100%);
     background-clip: text;
+    -webkit-background-clip: text;
     color: transparent;
 }
 
@@ -558,6 +562,7 @@ pwa-update::part(offlineToast) {
 .pride .interactive-aromantic .interactive-act .bi-check {
     background: linear-gradient(180deg, #3da542 0%, #3da542 38%, #a7d379 38%, #a7d379 46%, #ffffff 46%, #ffffff 54%, #a9a9a9 54%, #a9a9a9 62%, #000000 62%, #000000 100%);
     background-clip: text;
+    -webkit-background-clip: text;
     color: transparent;
 }
 
@@ -570,6 +575,7 @@ pwa-update::part(offlineToast) {
 .pride .interactive-transgender .interactive-act .bi-check {
     background: linear-gradient(180deg, #5bcefa 0%, #5bcefa 38%, #f5a9b8 38%, #f5a9b8 46%, #ffffff 46%, #ffffff 54%, #f5a9b8 54%, #f5a9b8 62%, #5bcefa 62%, #5bcefa 100%);
     background-clip: text;
+    -webkit-background-clip: text;
     color: transparent;
 }
 
@@ -582,6 +588,7 @@ pwa-update::part(offlineToast) {
 .pride .interactive-nonbinary .interactive-act .bi-check {
     background: linear-gradient(180deg, #fcf434 0%, #fcf434 41%, #ffffff 41%, #ffffff 50%, #9c59d1 50%, #9c59d1 59%, #2c2c2c 59%, #2c2c2c 100%);
     background-clip: text;
+    -webkit-background-clip: text;
     color: transparent;
 }
 
@@ -594,6 +601,7 @@ pwa-update::part(offlineToast) {
 .pride .interactive-agender .interactive-act .bi-check {
     background: linear-gradient(180deg, #000000 0%, #000000 35%, #bcc4c7 35%, #bcc4c7 41%, #ffffff 41%, #ffffff 47%, #b7f684 47%, #b7f684 53%, #ffffff 53%, #ffffff 59%, #bcc4c7 59%, #bcc4c7 65%, #000000 65%, #000000 0%);
     background-clip: text;
+    -webkit-background-clip: text;
     color: transparent;
 }
 
