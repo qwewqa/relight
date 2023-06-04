@@ -1151,3 +1151,7 @@
 
 # v1.5.17
 - Song effect inputs are now blank by default
+
+# v1.5.18
+- Added pride month themes
+- Preferences are now persisted
