@@ -1155,3 +1155,6 @@
 # v1.5.18
 - Added pride month themes
 - Preferences are now persisted
+
+# v1.5.19
+- Fixed themed checkmark appearance on Chrome
