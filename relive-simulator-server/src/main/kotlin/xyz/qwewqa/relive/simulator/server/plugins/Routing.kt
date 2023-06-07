@@ -182,6 +182,7 @@ fun Application.configureRouting() {
           path.endsWith(".html") -> call.respondText(value.decodeToString(), ContentType.Text.Html)
           path.endsWith(".png") -> call.respondBytes(value, ContentType.Image.PNG)
           path.endsWith(".webp") -> call.respondBytes(value, ContentType("image", "webp"))
+          path.endsWith(".ico") -> call.respondBytes(value, ContentType.Image.XIcon)
           else -> call.respondText(value.decodeToString())
         }
       } else {
