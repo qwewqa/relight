@@ -89,7 +89,8 @@ tasks.register<Copy>("copyServiceWorker") {
             !it.first.run {
               startsWith("img/acts") ||
                   startsWith("img/large_icon/19_") ||
-                  startsWith("img/large_icon/35_")
+                  startsWith("img/large_icon/35_") ||
+                  startsWith("img/flags")
             }
           }
   val timestamp = System.currentTimeMillis()
