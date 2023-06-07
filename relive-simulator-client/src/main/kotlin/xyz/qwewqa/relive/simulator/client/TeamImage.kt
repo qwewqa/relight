@@ -92,8 +92,13 @@ class TeamImage(
   }
 
   suspend fun drawOpenGraphImage(): HTMLCanvasElement {
-    canvas.width = 1200
-    canvas.height = 600
+    val width = 1200
+    val height = 630
+
+    val flagWidth = 200
+
+    canvas.width = width
+    canvas.height = height
 
     ctx.withState {
       ctx.fillStyle = "white"
@@ -110,31 +115,41 @@ class TeamImage(
         ctx.font = "36px $FONT"
         ctx.fillText(parameters.boss, 20.0 + offset, 22.0)
       }
-      ctx.fillText("Song: ", 20.0, 416.0)
+      ctx.fillText("Song: ", 20.0, 432.0)
       withState {
         val offset = ctx.measureText("Song: ").width
         ctx.font = "36px $FONT"
         ctx.fillText(
             options.songsById[parameters.song.id]?.name?.getLocalizedString() ?: "",
             20.0 + offset,
-            416.0)
+            432.0)
       }
       withState {
         ctx.font = "32px $FONT"
         val effect1 = parameters.song.activeEffect1
         val effect2 = parameters.song.activeEffect2
         val effect3 = parameters.song.passiveEffect
-        ctx.fillText("Effect 1: ", 20.0, 462.0, 1200.0 - 40.0)
-        val effect1Offset = measureText("Effect 1: ").width
-        ctx.fillText(effect1.format(), 20.0 + effect1Offset, 462.0, 1200.0 - 40.0 - effect1Offset)
-        ctx.fillText("Effect 2: ", 20.0, 462.0 + 42.0, 1200.0 - 40.0)
-        val effect2Offset = measureText("Effect 2: ").width
+        ctx.fillText("Active 1: ", 20.0, 486.0, width - 40.0)
+        val effect1Offset = measureText("Active 1: ").width
         ctx.fillText(
-            effect2.format(), 20.0 + effect2Offset, 462.0 + 42.0, 1200.0 - 40.0 - effect2Offset)
-        ctx.fillText("Passive Effect: ", 20.0, 462.0 + 84.0, 1200.0 - 40.0)
-        val effect3Offset = measureText("Passive Effect: ").width
+            effect1.format(),
+            20.0 + effect1Offset,
+            486.0,
+            width - 40.0 - effect1Offset - flagWidth - 20.0)
+        ctx.fillText("Active 2: ", 20.0, 486.0 + 44.0, width - 40.0)
+        val effect2Offset = measureText("Active 2: ").width
         ctx.fillText(
-            effect3.format(), 20.0 + effect3Offset, 462.0 + 84.0, 1200.0 - 40.0 - effect3Offset)
+            effect2.format(),
+            20.0 + effect2Offset,
+            486.0 + 44.0,
+            width - 40.0 - effect2Offset - flagWidth - 20.0)
+        ctx.fillText("Passive: ", 20.0, 486.0 + 88.0, width - 40.0)
+        val effect3Offset = measureText("Passive: ").width
+        ctx.fillText(
+            effect3.format(),
+            20.0 + effect3Offset,
+            486.0 + 88.0,
+            width - 40.0 - effect3Offset - flagWidth - 20.0)
       }
     }
 
@@ -151,6 +166,13 @@ class TeamImage(
         }
       }
     }
+
+    rect(
+            x = width - flagWidth - 16.0,
+            y = height - flagWidth - 16.0,
+            width = flagWidth.toDouble(),
+            height = flagWidth.toDouble())
+        .drawImage(randomFlagUrl())
 
     return canvas
   }
@@ -545,6 +567,7 @@ private inline fun CanvasRenderingContext2D.withState(block: CanvasRenderingCont
 }
 
 const val base64ImageContentType = "image/jpeg"
+
 fun HTMLCanvasElement.base64(): String {
-  return toDataURL(base64ImageContentType, 0.6).split(",", limit = 2)[1]
+  return toDataURL(base64ImageContentType, 0.85).split(",", limit = 2)[1]
 }
