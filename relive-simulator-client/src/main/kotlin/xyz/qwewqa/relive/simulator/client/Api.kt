@@ -21,8 +21,12 @@ class RelightApi(val simulator: SimulatorClient) {
     encodeDefaults = true
   }
 
-  suspend fun shareSetup(parameters: SimulationParameters, options: SimulationOptions): String {
-    val image = TeamImage(parameters, options).drawOpenGraphImage()
+  suspend fun shareSetup(
+      parameters: SimulationParameters,
+      options: SimulationOptions,
+      flagUrl: String?
+  ): String {
+    val image = TeamImage(parameters, options).drawOpenGraphImage(flagUrl)
     val teamImage = TeamImage(parameters, options).drawTeamImage()
     val teamImageAlt = TeamImage(parameters, options).drawTeamImageAlt()
     return json

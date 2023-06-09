@@ -91,7 +91,7 @@ class TeamImage(
     return finalCanvas
   }
 
-  suspend fun drawOpenGraphImage(): HTMLCanvasElement {
+  suspend fun drawOpenGraphImage(flagUrl: String?): HTMLCanvasElement {
     val width = 1200
     val height = 630
 
@@ -167,12 +167,14 @@ class TeamImage(
       }
     }
 
-    rect(
-            x = width - flagWidth - 16.0,
-            y = height - flagWidth - 16.0,
-            width = flagWidth.toDouble(),
-            height = flagWidth.toDouble())
-        .drawImage(randomFlagUrl())
+    if (flagUrl != null) {
+      rect(
+              x = width - flagWidth - 16.0,
+              y = height - flagWidth - 16.0,
+              width = flagWidth.toDouble(),
+              height = flagWidth.toDouble())
+          .drawImage(flagUrl)
+    }
 
     return canvas
   }

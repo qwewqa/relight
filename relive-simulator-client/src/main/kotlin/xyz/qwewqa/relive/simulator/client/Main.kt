@@ -1629,13 +1629,14 @@ class SimulatorClient(val simulator: Simulator) {
       isSharing = true
       GlobalScope.launch {
         try {
+          val flagUrl = randomFlagSmallUrl()
           shareSetupModalBs.show()
           shareSetupText.value = localized("loading...", locale)
           val setup = getSetup()
           shareSetupImageContainer.clear()
-          val imageData = TeamImage(setup, options).drawOpenGraphImage()
+          val imageData = TeamImage(setup, options).drawOpenGraphImage(flagUrl)
           shareSetupImageContainer.append { img(src = imageData.toDataURL()) { width = "100%" } }
-          val url = api.shareSetup(setup, options)
+          val url = api.shareSetup(setup, options, flagUrl)
           shareSetupText.value = url
         } catch (e: Throwable) {
           shareSetupText.value = localized("error", locale)
