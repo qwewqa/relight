@@ -182,6 +182,7 @@ class SimulatorClient(val simulator: Simulator) {
   val optionsTab = document.getElementById("options-tab") as HTMLButtonElement
   val interactiveTab = document.getElementById("interactive-tab") as HTMLButtonElement
   val simulateTab = document.getElementById("simulate-tab") as HTMLButtonElement
+  val aboutTab = document.getElementById("about-tab") as HTMLButtonElement
 
   val toInteractiveButtons = document.getElementsByClassName("to-interactive-button")
   val toSimulateButtons = document.getElementsByClassName("to-simulate-button")
@@ -1654,6 +1655,8 @@ class SimulatorClient(val simulator: Simulator) {
     bossStrategyTypeSelect.populate(bossStrategies, locale)
     initSongs(options, locale)
 
+    aboutTab.addEventListener("click", { initAboutArtists() })
+
     simulateButton.addEventListener(
         "click",
         {
@@ -1694,16 +1697,17 @@ class SimulatorClient(val simulator: Simulator) {
           interactiveSimulation = simulator.simulateInteractive(setup)
           interactiveContainer.removeClass("d-none")
 
-          val interactiveThemeClasses = listOf(
-              "interactive-lesbian",
-              "interactive-bisexual",
-              "interactive-pansexual",
-              "interactive-asexual",
-              "interactive-aromantic",
-              "interactive-transgender",
-              "interactive-nonbinary",
-              "interactive-agender",
-          )
+          val interactiveThemeClasses =
+              listOf(
+                  "interactive-lesbian",
+                  "interactive-bisexual",
+                  "interactive-pansexual",
+                  "interactive-asexual",
+                  "interactive-aromantic",
+                  "interactive-transgender",
+                  "interactive-nonbinary",
+                  "interactive-agender",
+              )
           interactiveThemeClasses.forEach { interactiveContainer.removeClass(it) }
           interactiveContainer.addClass(interactiveThemeClasses.random())
 

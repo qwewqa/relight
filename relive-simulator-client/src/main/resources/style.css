@@ -1489,3 +1489,13 @@ input[type=number] {
 .bootstrap-select.disabled .dropdown-toggle {
     background-color: var(--bs-secondary-bg);
 }
+
+#tabs {
+    --bs-nav-link-padding-x: 0.9rem;
+    --bs-nav-link-padding-y: 0.4rem;
+}
+
+.art-list-img {
+    width: min(200px, 30%);
+    padding: 0.5em;
+}
