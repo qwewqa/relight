@@ -605,6 +605,45 @@ pwa-update::part(offlineToast) {
     color: transparent;
 }
 
+.pride .interactive-genderfluid .interactive-act {
+    --queued-act-color: hsl(0, 0%, 100%);
+    --queued-act-contrast-color: hsl(0, 0%, 90%);
+    --queued-act-glow-color: hsl(293, 36%, 60%);
+}
+
+.pride .interactive-genderfluid .interactive-act .bi-check {
+    background: linear-gradient(180deg, #ff76a4 0%, #ff76a4 38%, #ffffff 38%, #ffffff 46%, #c011d7 46%, #c011d7 54%, #000000 54%, #000000 62%, #2f3cbe 62%, #2f3cbe 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.pride .interactive-genderqueer .interactive-act {
+    --queued-act-color: hsl(0, 0%, 100%);
+    --queued-act-contrast-color: hsl(0, 0%, 16%);
+    --queued-act-glow-color: hsl(0, 0%, 36%);
+}
+
+.pride .interactive-genderqueer .interactive-act .bi-check {
+    background: linear-gradient(180deg, #b57edc 0%, #b57edc 44%, #ffffff 44%, #ffffff 56%, #4a8123 56%, #4a8123 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.pride .interactive-newgay .interactive-act {
+    --queued-act-color: hsl(0, 0%, 100%);
+    --queued-act-contrast-color: hsl(184, 42%, 18%);
+    --queued-act-glow-color: hsl(216, 48%, 36%);
+}
+
+.pride .interactive-newgay .interactive-act .bi-check {
+    background: linear-gradient(180deg, #138e71 0%, #138e71 38%, #9be9c3 38%, #9be9c3 46%, #ffffff 46%, #ffffff 54%, #81ade2 54%, #81ade2 62%, #3e0d78 62%, #3e0d78 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
 .interactive-timeline-current {
 }
 

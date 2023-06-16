@@ -1707,6 +1707,9 @@ class SimulatorClient(val simulator: Simulator) {
                   "interactive-transgender",
                   "interactive-nonbinary",
                   "interactive-agender",
+                  "interactive-genderfluid",
+                  "interactive-genderqueer",
+                  "interactive-newgay",
               )
           interactiveThemeClasses.forEach { interactiveContainer.removeClass(it) }
           interactiveContainer.addClass(interactiveThemeClasses.random())
