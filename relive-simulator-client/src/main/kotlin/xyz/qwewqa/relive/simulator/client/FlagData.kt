@@ -39,6 +39,11 @@ object FlagData {
   operator fun ArtistInfo.unaryPlus() = this.also { artists.add(it) }
   operator fun FlagInfo.unaryPlus() = this.also { flags.add(it) }
 
+  val huiyuan =
+      +ArtistInfo(
+          name = "Huiyuan",
+      )
+
   val kekkers =
       +ArtistInfo(
           name = "Kekkers",
@@ -53,21 +58,40 @@ object FlagData {
           twitterId = "1223276551023685633",
       )
 
+  val vani =
+      +ArtistInfo(
+          name = "vani",
+          twitter = "vanillabeanpuff",
+          twitterId = "1515186747834978304",
+      )
+
   val anon =
       +ArtistInfo(
           name = "Anonymous",
       )
 
+  val huiyuanNanaFruitsTartPride =
+      +FlagInfo(
+          artist = huiyuan,
+          name = "nana_fruits_tart_pride",
+      )
+
   val limeKuinaFsgAgenderAromantic =
       +FlagInfo(
           artist = lime,
-          name = "kuina_fsg_agender_aromantic",
+          name = "kuina_fsg_agender_aro",
       )
 
   val kekkersRuiBeachTrans =
       +FlagInfo(
           artist = kekkers,
           name = "rui_beach_trans",
+      )
+
+  val vaniShioriShutenBi =
+      +FlagInfo(
+          artist = vani,
+          name = "shiori_shuten_bi",
       )
 }
 
@@ -101,39 +125,41 @@ fun initAboutArtists() {
   ele.append {
     for (artist in FlagData.artists) {
       val flags = flagsByArtist[artist] ?: continue
-      h3 {
-        +artist.name
-        +" "
-        small {
-          if (artist.discordId != null) {
-            a {
-              href = "https://discordapp.com/users/${artist.discordId}/"
-              target = "_blank"
-              i("bi bi-discord")
-            }
-          }
+      div("my-3") {
+        h3 {
+          +artist.name
           +" "
-          if (artist.twitterId != null) {
-            a {
-              href = "https://twitter.com/i/user/${artist.twitterId}/"
-              target = "_blank"
-              i("bi bi-twitter")
+          small {
+            if (artist.discordId != null) {
+              a {
+                href = "https://discordapp.com/users/${artist.discordId}/"
+                target = "_blank"
+                i("bi bi-discord")
+              }
             }
-          }
-          +" "
-          if (artist.pixivId != null) {
-            a {
-              href = "https://www.pixiv.net/users/${artist.pixivId}"
-              target = "_blank"
-              i("bi bi-pixiv")
+            +" "
+            if (artist.twitterId != null) {
+              a {
+                href = "https://twitter.com/i/user/${artist.twitterId}/"
+                target = "_blank"
+                i("bi bi-twitter")
+              }
+            }
+            +" "
+            if (artist.pixivId != null) {
+              a {
+                href = "https://www.pixiv.net/users/${artist.pixivId}"
+                target = "_blank"
+                i("bi bi-pixiv")
+              }
             }
           }
         }
-      }
-      div("d-flex flex-wrap") {
-        for (flag in flags) {
-          img(classes = "art-list-img") {
-            src = flag.largeUrl
+        div("d-flex flex-wrap") {
+          for (flag in flags) {
+            img(classes = "art-list-img") {
+              src = flag.largeUrl
+            }
           }
         }
       }
