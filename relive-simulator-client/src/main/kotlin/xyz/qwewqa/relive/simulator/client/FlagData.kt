@@ -3,10 +3,10 @@ package xyz.qwewqa.relive.simulator.client
 import kotlinx.browser.document
 import kotlinx.dom.clear
 import kotlinx.html.dom.append
+import kotlinx.html.h4
 import kotlinx.html.img
 import kotlinx.html.js.a
 import kotlinx.html.js.div
-import kotlinx.html.js.h3
 import kotlinx.html.js.i
 import kotlinx.html.js.small
 import org.w3c.dom.HTMLDivElement
@@ -42,6 +42,8 @@ object FlagData {
   val huiyuan =
       +ArtistInfo(
           name = "Huiyuan",
+          twitter = "touchluck62",
+          twitterId = "803899963688165376",
       )
 
   val kekkers =
@@ -126,7 +128,7 @@ fun initAboutArtists() {
     for (artist in FlagData.artists) {
       val flags = flagsByArtist[artist] ?: continue
       div("my-3") {
-        h3 {
+        h4 {
           +artist.name
           +" "
           small {
