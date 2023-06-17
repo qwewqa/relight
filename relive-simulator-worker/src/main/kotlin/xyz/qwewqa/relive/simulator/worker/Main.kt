@@ -1,6 +1,5 @@
 package xyz.qwewqa.relive.simulator.worker
 
-import kotlin.random.Random
 import org.w3c.dom.DedicatedWorkerGlobalScope
 import xyz.qwewqa.relive.simulator.common.LogEntry
 import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
@@ -16,6 +15,7 @@ import xyz.qwewqa.relive.simulator.core.stage.StageConfiguration
 import xyz.qwewqa.relive.simulator.core.stage.createStageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.toSimulationResult
+import kotlin.random.Random
 
 external val self: DedicatedWorkerGlobalScope
 
@@ -30,6 +30,10 @@ fun main() {
       // RESET[key] is a message sent by the main thread to reset the worker.
       ev.data is String && "RESET:.+".toRegex().matches(ev.data as String) -> {
         initialized = false
+        turns = 0
+        loadout = null
+        initializationError = null
+        parameters = null
         self.postMessage(ev.data)
       }
       !initialized -> {
