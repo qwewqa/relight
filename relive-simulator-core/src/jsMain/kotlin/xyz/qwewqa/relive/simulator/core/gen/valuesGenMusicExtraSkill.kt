@@ -1,6 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.gen
 
-actual val valuesGenMusicExtraSkill: Map<Int, GenMusicExtraSkill> by lazy {
+actual val valuesGenMusicExtraSkillBase: Map<Int, GenMusicExtraSkill> by lazy {
   loadJsMasterData(dataGenMusicExtraSkill) { id, data ->
     GenMusicExtraSkill(
         description = stringMapFromDynamic(data.description),

@@ -13,4 +13,21 @@ data class GenMusicExtraSkill(
     val _id_: Int
 )
 
-expect val valuesGenMusicExtraSkill: Map<Int, GenMusicExtraSkill>
+expect val valuesGenMusicExtraSkillBase: Map<Int, GenMusicExtraSkill>
+
+private var _valuesGenMusicExtraSkill: Map<Int, GenMusicExtraSkill>? = null
+val valuesGenMusicExtraSkill: Map<Int, GenMusicExtraSkill>
+  get() {
+    return _valuesGenMusicExtraSkill
+        ?: valuesGenMusicExtraSkillBase
+            .mapValues { (k, v) ->
+              when (k) {
+                4000221 ->
+                    v.copy(
+                        name = v.name + ("en" to "Siegfeld Rear Position Critical Up"),
+                    )
+                else -> v
+              }
+            }
+            .also { _valuesGenMusicExtraSkill = it }
+  }
