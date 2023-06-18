@@ -39,6 +39,11 @@ object FlagData {
   operator fun ArtistInfo.unaryPlus() = this.also { artists.add(it) }
   operator fun FlagInfo.unaryPlus() = this.also { flags.add(it) }
 
+  val anonymous =
+      +ArtistInfo(
+          name = "Anonymous",
+      )
+
   val huiyuan =
       +ArtistInfo(
           name = "Huiyuan",
@@ -67,9 +72,21 @@ object FlagData {
           twitterId = "1515186747834978304",
       )
 
-  val anon =
+  val qwe =
       +ArtistInfo(
-          name = "Anonymous",
+          name = "qwe",
+      )
+
+  val anonymousArtemisAkiraAro =
+      +FlagInfo(
+          artist = anonymous,
+          name = "artemis_akira_aro",
+      )
+
+  val anonymousValentinesJunnaLesbian =
+      +FlagInfo(
+          artist = anonymous,
+          name = "valentines_junna_lesbian",
       )
 
   val huiyuanNanaFruitsTartPride =
@@ -94,6 +111,12 @@ object FlagData {
       +FlagInfo(
           artist = vani,
           name = "shiori_shuten_bi",
+      )
+
+  val qweAndrewMlm =
+      FlagInfo(
+          artist = qwe,
+          name = "andrew_mlm",
       )
 }
 
