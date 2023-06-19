@@ -28,8 +28,8 @@ data class FlagInfo(
     val name: String,
     val weight: Double = 1.0,
 ) {
-  val smallUrl = "img/flags/${artist.name}_${name}_sm.png"
-  val largeUrl = "img/flags/${artist.name}_${name}.png"
+  val smallUrl = "img/flags/${artist.name.lowercase()}_${name}_sm.png"
+  val largeUrl = "img/flags/${artist.name.lowercase()}_${name}.png"
 }
 
 object FlagData {
