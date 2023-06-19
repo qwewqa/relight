@@ -106,6 +106,7 @@ class SimulatorClient(val simulator: Simulator) {
   var interactiveSimulation: InteractiveSimulation? = null
 
   val versionLink = document.getElementById("version-link") as HTMLAnchorElement
+  val tabNameInput = document.getElementById("tab-name-input") as HTMLInputElement
   val languageSelect = document.getElementById("language-select").singleSelect(false)
   val exportButton = document.getElementById("export-button") as HTMLButtonElement
   val doImportButton = document.getElementById("do-import-button") as HTMLButtonElement
@@ -1648,6 +1649,15 @@ class SimulatorClient(val simulator: Simulator) {
     }
 
     shareSetupButton.addEventListener("click", { shareSetup() })
+
+    tabNameInput.addEventListener("input", {
+      val name = tabNameInput.value
+      if (name.isBlank()) {
+        document.title = "Relight"
+      } else {
+        document.title = "$name - Relight"
+      }
+    })
 
     languageSelect.populate(options.locales)
     bossSelect.populate(bosses, locale)
