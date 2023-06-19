@@ -44,6 +44,13 @@ object FlagData {
           name = "Anonymous",
       )
 
+  val cy =
+      +ArtistInfo(
+          name = "cy",
+          twitter = "cy_gameslol",
+          twitterId = "1375725356263477252",
+      )
+
   val huiyuan =
       +ArtistInfo(
           name = "Huiyuan",
@@ -82,6 +89,18 @@ object FlagData {
       +FlagInfo(
           artist = anonymous,
           name = "valentines_junna_lesbian",
+      )
+
+  val cyMeiFanHikoboshiPan =
+      +FlagInfo(
+          artist = cy,
+          name = "meifan_hikoboshi_pan",
+      )
+
+  val cyTsukasaBenzaitenLesbian =
+      +FlagInfo(
+          artist = cy,
+          name = "tsukasa_benzaiten_lesbian",
       )
 
   val huiyuanNanaFruitsTartPride =
