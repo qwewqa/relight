@@ -72,11 +72,6 @@ object FlagData {
           twitterId = "1515186747834978304",
       )
 
-  val qwe =
-      +ArtistInfo(
-          name = "qwe",
-      )
-
   val anonymousArtemisAkiraAro =
       +FlagInfo(
           artist = anonymous,
@@ -111,12 +106,6 @@ object FlagData {
       +FlagInfo(
           artist = vani,
           name = "shiori_shuten_bi",
-      )
-
-  val qweAndrewMlm =
-      FlagInfo(
-          artist = qwe,
-          name = "andrew_mlm",
       )
 }
 

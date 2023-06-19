@@ -1538,3 +1538,7 @@ input[type=number] {
     width: min(200px, 30%);
     padding: 0.2em;
 }
+
+#about-tab-pane a > i {
+    vertical-align: text-top;
+}
