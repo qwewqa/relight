@@ -1534,11 +1534,40 @@ input[type=number] {
     --bs-nav-link-padding-y: 0.4rem;
 }
 
-.art-list-img {
-    width: min(200px, 30%);
+#about-artists {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.art-list-figure {
+    flex: 0 0 min-content;
     padding: 0.2em;
+    border-radius: 0.5em;
+    margin: 0.3em;
+}
+
+.art-list-img {
+    width: min(200px, calc(var(--container-max-width) / 4));
+    padding: 0.2em;
+}
+
+.art-list-figure > figcaption {
+    font-size: 1.0em;
+    text-align: center;
 }
 
 #about-tab-pane a > i {
     vertical-align: text-top;
+}
+
+@media (min-width: 768px) {
+    .art-list-figure {
+        padding: 0.5em;
+        margin: 0.5em;
+    }
+
+    .art-list-figure > figcaption {
+        font-size: 1.2em;
+    }
 }
