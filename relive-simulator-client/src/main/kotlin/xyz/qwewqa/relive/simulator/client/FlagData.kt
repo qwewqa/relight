@@ -121,6 +121,12 @@ object FlagData {
           name = "rui_beach_trans",
       )
 
+  val vaniRyokoCasualAgender =
+      +FlagInfo(
+          artist = vani,
+          name = "ryoko_casual_agender",
+      )
+
   val vaniShioriShutenBi =
       +FlagInfo(
           artist = vani,
