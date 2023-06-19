@@ -1158,3 +1158,9 @@
 
 # v1.5.19
 - Fixed themed checkmark appearance on Chrome
+
+# v1.6.0
+- Added an info tab
+- Added chibis to share preview images, more to come soon
+- Added some more pride month themes
+- Fixed Siegfeld rear position critical up song passive
