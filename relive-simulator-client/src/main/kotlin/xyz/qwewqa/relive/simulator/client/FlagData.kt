@@ -8,7 +8,7 @@ import kotlinx.html.i
 import kotlinx.html.img
 import kotlinx.html.js.a
 import kotlinx.html.js.figure
-import kotlinx.html.js.small
+import kotlinx.html.span
 import kotlinx.html.style
 import org.w3c.dom.HTMLDivElement
 import kotlin.random.Random
@@ -31,12 +31,6 @@ enum class FlagCharacterGroup(val color: String) {
   Frontier("#ffc134"),
   Siegfeld("#6880f3"),
   Seiran("#1f5ba5"),
-//  Misc("#eeeeee"),
-//  Seisho("#f6c5c8"),
-//  Rinmeikan("#f8e4fe"),
-//  Frontier("#faebcb"),
-//  Siegfeld("#d4dcf0"),
-//  Seiran("#cee3f2"),
 }
 
 enum class FlagCharacter(val group: FlagCharacterGroup) {
@@ -85,8 +79,11 @@ data class FlagInfo(
     val name: String,
     val weight: Double = 1.0,
 ) {
-  val smallUrl = "img/flags/${artist.name.lowercase()}_${character.name.lowercase()}_${name}_sm.png"
-  val largeUrl = "img/flags/${artist.name.lowercase()}_${character.name.lowercase()}_${name}.png"
+  private fun String.normalize() =
+      lowercase().replace(Regex("\\s+"), "_").replace(Regex("[^a-z0-9_]"), "")
+
+  val smallUrl = "img/flags/${artist.name.normalize()}_${character.name.lowercase()}_${name}_sm.png"
+  val largeUrl = "img/flags/${artist.name.normalize()}_${character.name.lowercase()}_${name}.png"
 }
 
 object FlagData {
@@ -127,6 +124,14 @@ object FlagData {
           name = "Lime",
           twitter = "LimeApricots",
           twitterId = "1223276551023685633",
+      )
+
+  val tsunamyWave =
+      +ArtistInfo(
+          name = "TsUNaMy WaVe",
+          twitter = "TsUNaMy_WaVe",
+          twitterId = "4475654952",
+          website = "http://www.alsubs.net/",
       )
 
   val vani =
@@ -176,6 +181,14 @@ object FlagData {
           artist = anonymous,
           character = FlagCharacter.Akira,
           name = "artemis_aro",
+      )
+
+  val tsunamyWaveMichiruDorothyPride =
+      +FlagInfo(
+          artist = tsunamyWave,
+          character = FlagCharacter.Michiru,
+          name = "dorothy_pride",
+          weight = 999.0,
       )
 
   val cyMeiFanHikoboshiPan =
@@ -241,7 +254,7 @@ fun initAboutArtists() {
           val artist = flag.artist
           +artist.name
           +" "
-          small {
+          span {
             if (artist.discordId != null) {
               a {
                 href = "https://discordapp.com/users/${artist.discordId}/"
@@ -263,6 +276,14 @@ fun initAboutArtists() {
                 href = "https://www.pixiv.net/users/${artist.pixivId}"
                 target = "_blank"
                 i("bi bi-pixiv")
+              }
+            }
+            +" "
+            if (artist.website != null) {
+              a {
+                href = artist.website
+                target = "_blank"
+                i("bi bi-link-45deg")
               }
             }
           }
