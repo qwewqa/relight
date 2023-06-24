@@ -105,6 +105,13 @@ object FlagData {
           twitterId = "1375725356263477252",
       )
 
+  val hainu =
+      +ArtistInfo(
+          name = "Hainu",
+          twitter = "hainusan",
+          twitterId = "1220281569966903296",
+      )
+
   val huiyuan =
       +ArtistInfo(
           name = "Huiyuan",
@@ -169,6 +176,13 @@ object FlagData {
           name = "beach_trans",
       )
 
+  val hainuYuyukoEurydiceLesbian =
+      +FlagInfo(
+          artist = hainu,
+          character = FlagCharacter.Yuyuko,
+          name = "eurydice_lesbian",
+      )
+
   val cyTsukasaBenzaitenLesbian =
       +FlagInfo(
           artist = cy,
@@ -188,7 +202,6 @@ object FlagData {
           artist = tsunamyWave,
           character = FlagCharacter.Michiru,
           name = "dorothy_pride",
-          weight = 999.0,
       )
 
   val cyMeiFanHikoboshiPan =
