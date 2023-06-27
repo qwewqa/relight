@@ -119,6 +119,13 @@ object FlagData {
           twitterId = "803899963688165376",
       )
 
+  val jayne =
+      +ArtistInfo(
+          name = "Jayne",
+          twitter = "jaynestargaryen",
+          twitterId = "1113206748846772225",
+      )
+
   val kekkers =
       +ArtistInfo(
           name = "Kekkers",
@@ -131,6 +138,14 @@ object FlagData {
           name = "Lime",
           twitter = "LimeApricots",
           twitterId = "1223276551023685633",
+      )
+
+  val pris =
+      +ArtistInfo(
+          name = "Pris",
+          twitter = "turtlingpris",
+          twitterId = "1188005804781244417",
+          website = "https://priscirat.tumblr.com/",
       )
 
   val tsunamyWave =
@@ -148,11 +163,32 @@ object FlagData {
           twitterId = "1515186747834978304",
       )
 
+  val prisAmemiyaSgAce =
+      +FlagInfo(
+          artist = pris,
+          character = FlagCharacter.Amemiya,
+          name = "sg_ace",
+      )
+
+  val prisMasaiSgAro =
+      +FlagInfo(
+          artist = pris,
+          character = FlagCharacter.Masai,
+          name = "sg_aro",
+      )
+
   val limeMahiruCupidLesbian =
       +FlagInfo(
           artist = lime,
           character = FlagCharacter.Mahiru,
           name = "cupid_lesbian",
+      )
+
+  val hainuClaudineSoulRevueGenderqueer =
+      +FlagInfo(
+          artist = hainu,
+          character = FlagCharacter.Claudine,
+          name = "soul_revue_genderqueer",
       )
 
   val anonymousValentinesJunnaLesbian =
@@ -230,6 +266,13 @@ object FlagData {
           artist = lime,
           character = FlagCharacter.Kuina,
           name = "fsg_agender_aro",
+      )
+
+  val jayneHisameErdaNb =
+      +FlagInfo(
+          artist = jayne,
+          character = FlagCharacter.Hisame,
+          name = "erda_nb",
       )
 }
 
