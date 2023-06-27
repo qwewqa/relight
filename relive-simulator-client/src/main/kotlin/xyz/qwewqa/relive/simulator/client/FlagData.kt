@@ -163,19 +163,19 @@ object FlagData {
           twitterId = "1515186747834978304",
       )
 
-  val prisAmemiyaSgAce =
-      +FlagInfo(
-          artist = pris,
-          character = FlagCharacter.Amemiya,
-          name = "sg_ace",
-      )
+//  val prisAmemiyaSgAce =
+//      +FlagInfo(
+//          artist = pris,
+//          character = FlagCharacter.Amemiya,
+//          name = "sg_ace",
+//      )
 
-  val prisMasaiSgAro =
-      +FlagInfo(
-          artist = pris,
-          character = FlagCharacter.Masai,
-          name = "sg_aro",
-      )
+//  val prisMasaiSgAro =
+//      +FlagInfo(
+//          artist = pris,
+//          character = FlagCharacter.Masai,
+//          name = "sg_aro",
+//      )
 
   val limeMahiruCupidLesbian =
       +FlagInfo(
@@ -219,12 +219,12 @@ object FlagData {
           name = "eurydice_lesbian",
       )
 
-  val cyTsukasaBenzaitenLesbian =
-      +FlagInfo(
-          artist = cy,
-          character = FlagCharacter.Tsukasa,
-          name = "benzaiten_lesbian",
-      )
+//  val cyTsukasaBenzaitenLesbian =
+//      +FlagInfo(
+//          artist = cy,
+//          character = FlagCharacter.Tsukasa,
+//          name = "benzaiten_lesbian",
+//      )
 
   val anonymousArtemisAkiraAro =
       +FlagInfo(
@@ -268,12 +268,12 @@ object FlagData {
           name = "fsg_agender_aro",
       )
 
-  val jayneHisameErdaNb =
-      +FlagInfo(
-          artist = jayne,
-          character = FlagCharacter.Hisame,
-          name = "erda_nb",
-      )
+//  val jayneHisameErdaNb =
+//      +FlagInfo(
+//          artist = jayne,
+//          character = FlagCharacter.Hisame,
+//          name = "erda_nb",
+//      )
 }
 
 class WeightedRandomPicker<T>(values: List<T>, weightSelector: (T) -> Double) {
