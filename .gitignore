@@ -154,16 +154,17 @@ gradle-app.setting
 
 # End of https://www.toptal.com/developers/gitignore/api/gradle,kotlin,intellij
 
-relive-simulator-server/src/main/resources/client/index.html
-relive-simulator-server/src/main/resources/client/relive-simulator-client.js
-relive-simulator-server/src/main/resources/client/relive-simulator-client.js.map
-relive-simulator-server/src/main/kotlin/xyz/qwewqa/relive/simulator/server/GVersion.kt
-relive-simulator-client/src/main/kotlin/xyz/qwewqa/relive/simulator/client/GVersion.kt
-/relive-simulator-server/src/main/resources/client/img/
-/relive-simulator-server/src/main/resources/client/bootstrap-select.js
-/relive-simulator-server/src/main/resources/client/style.css
-/relive-simulator-server/src/main/resources/client/sw.js
-/relive-simulator-browser/src/main/resources/bootstrap-select.js
-/relive-simulator-browser/src/main/resources/style.css
+/relive-simulator-server/src/main/kotlin/xyz/qwewqa/relive/simulator/server/GVersion.kt
+/relive-simulator-client/src/main/kotlin/xyz/qwewqa/relive/simulator/client/GVersion.kt
+
+/relive-simulator-server/src/main/resources/client/*
+
+!/relive-simulator-browser/src/main/resources/icon/*
+!/relive-simulator-browser/src/main/resources/manifest.json
+/relive-simulator-browser/src/main/resources/*
 
 /site/
+
+.idea/codeStyles/*
+.idea/jsonSchemas.xml
+.idea/kotlinc.xml
