@@ -1510,6 +1510,47 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val LockedSealCAResistanceUpBuff = +buffData(324).makeLockedVariantOf(SealCAResistanceUpBuff)
 
+  val AccuracyDownResistanceUpBuff =
+      +buffData(325).makeSpecificResistanceUpBuff(AccuracyDownBuff)
+
+  val LockedAccuracyDownResistanceUpBuff =
+      +buffData(326).makeLockedVariantOf(AccuracyDownResistanceUpBuff)
+
+  val AgilityDownResistanceUpBuff =
+      +buffData(327).makeSpecificResistanceUpBuff(AgilityDownBuff)
+
+  val LockedAgilityDownResistanceUpBuff =
+      +buffData(328).makeLockedVariantOf(AgilityDownResistanceUpBuff)
+
+  val DelusionResistanceUpBuff =
+      +buffData(329).makeSpecificResistanceUpBuff(DelusionBuff)
+
+  val LockedDelusionResistanceUpBuff =
+      +buffData(330).makeLockedVariantOf(DelusionResistanceUpBuff)
+
+  // TODO: Implement falling out
+
+  val FallingOutDaze =
+      +buffData(331)
+          .makeCountableBuffEffect(
+              category = BuffCategory.Negative,
+          )
+
+  val FallingOutImpudence =
+      +buffData(332)
+          .makeCountableBuffEffect(
+              category = BuffCategory.Negative,
+          )
+
+  val ContractionResistanceUpBuff =
+      +buffData(333)
+          .makeSpecificResistanceUpBuff(
+              ContractionBuff,
+          )
+
+  val LockedContractionResistanceUpBuff =
+      +buffData(334).makeLockedVariantOf(ContractionResistanceUpBuff)
+
   val abnormalBuffs =
       platformSetOf(
           StopBuff,

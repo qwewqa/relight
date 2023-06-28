@@ -11,7 +11,6 @@ actual val valuesGenBuff: Map<Int, GenBuff> by lazy {
         chara_color = arrayFromDynamic(data.chara_color),
         chara_gray_scale = data.chara_gray_scale.unsafeCast<Int>(),
         icon_id = data.icon_id.unsafeCast<Int>(),
-        is_lock = data.is_lock.unsafeCast<Int>(),
         is_motion_stop = data.is_motion_stop.unsafeCast<Int>(),
         loop = data.loop.unsafeCast<Int>(),
         loop_filename = data.loop_filename.unsafeCast<String>(),

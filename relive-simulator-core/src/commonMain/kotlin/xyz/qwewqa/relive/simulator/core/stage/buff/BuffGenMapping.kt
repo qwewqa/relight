@@ -144,13 +144,15 @@ data class BuffData(
       )
 }
 
+private val lockedBuffGroups = setOf(998, 999)
+
 fun GenBuff.toBuffData() =
     BuffData(
         id = _id_,
         name = name.getLocalizedString(),
         iconId = icon_id,
         groupId = group,
-        locked = is_lock != 0,
+        locked = group in lockedBuffGroups,
     )
 
 val buffData = valuesGenBuff.mapValues { it.value.toBuffData() }

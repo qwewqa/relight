@@ -14,7 +14,6 @@ data class GenBuff(
     val chara_color: Array<Double>,
     val chara_gray_scale: Int,
     val icon_id: Int,
-    val is_lock: Int,
     val is_motion_stop: Int,
     val loop: Int,
     val loop_filename: String,

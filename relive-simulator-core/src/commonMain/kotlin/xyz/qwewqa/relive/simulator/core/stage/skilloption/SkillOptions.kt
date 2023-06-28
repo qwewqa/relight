@@ -1518,4 +1518,41 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
 
   val SealCAResistanceUp = +skillOptionData(599).applyEffect()
   val LockedSealCAResistanceUp = +skillOptionData(600).applyEffect()
+
+  val AccuracyDownResistanceUp = +skillOptionData(601).applyEffect()
+  val LockedAccuracyDownResistanceUp = +skillOptionData(602).applyEffect()
+
+  val AgilityDownResistanceUp = +skillOptionData(603).applyEffect()
+  val LockedAgilityDownResistanceUp = +skillOptionData(604).applyEffect()
+
+  val DelusionResistanceUp = +skillOptionData(605).applyEffect()
+  val LockedDelusionResistanceUp = +skillOptionData(606).applyEffect()
+
+  val FallingOutDaze = +skillOptionData(607).applyEffect()
+
+  val FallingOutImpudence = +skillOptionData(608).applyEffect()
+
+  val ScalingActPowerUp150Flower =
+      +skillOptionData(609).scalingActPowerUp(150) { it.dress.attribute == Attribute.Flower }
+
+  val ScalingActPowerUp150Wind =
+      +skillOptionData(610).scalingActPowerUp(150) { it.dress.attribute == Attribute.Wind }
+
+  val ScalingActPowerUp150Snow =
+      +skillOptionData(611).scalingActPowerUp(150) { it.dress.attribute == Attribute.Snow }
+
+  val ScalingActPowerUp150Moon =
+      +skillOptionData(612).scalingActPowerUp(150) { it.dress.attribute == Attribute.Moon }
+
+  val ScalingActPowerUp150Space =
+      +skillOptionData(613).scalingActPowerUp(150) { it.dress.attribute == Attribute.Space }
+
+  val ScalingActPowerUp150Cloud =
+      +skillOptionData(614).scalingActPowerUp(150) { it.dress.attribute == Attribute.Cloud }
+
+  val ScalingActPowerUp150Dream =
+      +skillOptionData(615).scalingActPowerUp(150) { it.dress.attribute == Attribute.Dream }
+
+  val ContractionResistanceUp = +skillOptionData(616).applyEffect()
+  val LockedContractionResistanceUp = +skillOptionData(617).applyEffect()
 }
