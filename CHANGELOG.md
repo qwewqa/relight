@@ -171,7 +171,7 @@
 
 # v0.16.3
 
-- Fixed Stage Girl Fumi and Stage Girl Junna by Chihiro
+- Fixed Stage Girl Fumi and Stage Girl Junna by chihiro
 
 # v0.17.0
 
@@ -850,7 +850,7 @@
 
 # v0.35.24
 
-- New dresses added by Chihiro
+- New dresses added by chihiro
 
 # v0.35.25
 
@@ -979,7 +979,7 @@
 - Improved appearance of support radio buttons
 
 # v1.1.5
-- TR30 bosses added by Chihiro
+- TR30 bosses added by chihiro
 
 # v1.1.6
 - Fixed TR30 Shizuha difficulty 4 HP
@@ -1164,3 +1164,9 @@
 - Added chibis to share preview images, more to come soon
 - Added some more pride month themes
 - Fixed Siegfeld rear position critical up song passive
+
+# v1.6.1
+- Added new girls and memoirs
+- TR bosses added by chihiro
+- Added tab name input
+- Added new flags
