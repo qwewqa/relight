@@ -15,7 +15,7 @@ import kotlin.random.Random
 
 data class ArtistInfo(
     val name: String,
-    val id: String = name,
+    val id: String = name.lowercase(),
     val twitter: String? = null,
     val twitterId: String? = null,
     val discord: String? = null,
