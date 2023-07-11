@@ -3,6 +3,7 @@ package xyz.qwewqa.relive.simulator.core.stage.actor
 import xyz.qwewqa.relive.simulator.common.DisplayBuffData
 import xyz.qwewqa.relive.simulator.core.i54.I54
 import xyz.qwewqa.relive.simulator.core.i54.i54
+import xyz.qwewqa.relive.simulator.core.stage.PlatformMap
 import xyz.qwewqa.relive.simulator.core.stage.PlatformSet
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
@@ -34,9 +35,17 @@ data class CountableBuffDetails(
     val value: I54,
 )
 
+val BUFF_GROUP_LEVEL_COUNT = 2
+
 class BuffManager(val actor: Actor) {
-  private val positiveBuffs = platformSetOf<ContinuousBuffImpl<*>>()
-  private val negativeBuffs = platformSetOf<ContinuousBuffImpl<*>>()
+  private val positiveBuffs =
+      platformMapOf<Int, PlatformSet<ContinuousBuffImpl<*>>>().apply {
+        (1..BUFF_GROUP_LEVEL_COUNT).forEach { this[it] = platformSetOf() }
+      }
+  private val negativeBuffs =
+      platformMapOf<Int, PlatformSet<ContinuousBuffImpl<*>>>().apply {
+        (1..BUFF_GROUP_LEVEL_COUNT).forEach { this[it] = platformSetOf() }
+      }
   private val buffsByEffect =
       platformMapOf<ContinuousBuffEffect<*>, PlatformSet<ContinuousBuffImpl<*>>>()
 
@@ -51,23 +60,31 @@ class BuffManager(val actor: Actor) {
     get() = _effectNameMapping
 
   private val positiveCountableBuffs =
-      platformMapOf<CountableBuffEffect, MutableList<CountableBuffStack>>()
+      platformMapOf<Int, PlatformMap<CountableBuffEffect, MutableList<CountableBuffStack>>>()
+          .apply { (1..BUFF_GROUP_LEVEL_COUNT).forEach { this[it] = platformMapOf() } }
   private val negativeCountableBuffs =
-      platformMapOf<CountableBuffEffect, MutableList<CountableBuffStack>>()
-  private val positiveCountableBuffStacks = mutableListOf<CountableBuffStack>()
-  private val negativeCountableBuffStacks = mutableListOf<CountableBuffStack>()
+      platformMapOf<Int, PlatformMap<CountableBuffEffect, MutableList<CountableBuffStack>>>()
+          .apply { (1..BUFF_GROUP_LEVEL_COUNT).forEach { this[it] = platformMapOf() } }
+  private val positiveCountableBuffStacks = platformMapOf<Int, MutableList<CountableBuffStack>>().apply {
+    (1..BUFF_GROUP_LEVEL_COUNT).forEach { this[it] = mutableListOf() }
+  }
+  private val negativeCountableBuffStacks = platformMapOf<Int, MutableList<CountableBuffStack>>().apply {
+    (1..BUFF_GROUP_LEVEL_COUNT).forEach { this[it] = mutableListOf() }
+  }
 
   var guardOnAbnormal = false
 
   fun get(buff: ContinuousBuffEffect<*>): Set<ContinuousBuff<*>> = buffsByEffect[buff] ?: emptySet()
-  fun all(): Set<ContinuousBuff<*>> = positiveBuffs + negativeBuffs
-  fun continuous(): Set<ContinuousBuff<*>> = positiveBuffs + negativeBuffs
-  fun continuousPositive(): Set<ContinuousBuff<*>> = positiveBuffs
-  fun continuousNegative(): Set<ContinuousBuff<*>> = negativeBuffs
+  fun continuousPositive(): Set<ContinuousBuff<*>> = positiveBuffs.values.flatten().toSet()
+  fun continuousNegative(): Set<ContinuousBuff<*>> = negativeBuffs.values.flatten().toSet()
   fun countablePositive(): Map<CountableBuffEffect, List<CountableBuffStack>> =
-      positiveCountableBuffs
+      platformMapOf<CountableBuffEffect, List<CountableBuffStack>>().also { results ->
+        positiveCountableBuffs.values.forEach { results.putAll(it) }
+      }
   fun countableNegative(): Map<CountableBuffEffect, List<CountableBuffStack>> =
-      negativeCountableBuffs
+      platformMapOf<CountableBuffEffect, List<CountableBuffStack>>().also { results ->
+        negativeCountableBuffs.values.forEach { results.putAll(it) }
+      }
 
   operator fun contains(buffEffect: ContinuousBuffEffect<*>) = count(buffEffect) > 0
   operator fun contains(buff: CountableBuffEffect) = count(buff) > 0
@@ -75,8 +92,8 @@ class BuffManager(val actor: Actor) {
       (buffsByEffect[buffEffect]?.size ?: 0) + (pseudoBuffs[buffEffect] ?: 0)
   fun count(buff: CountableBuffEffect) =
       when (buff.category) {
-        BuffCategory.Positive -> positiveCountableBuffs[buff]
-        BuffCategory.Negative -> negativeCountableBuffs[buff]
+        BuffCategory.Positive -> positiveCountableBuffs[buff.groupLevel]!![buff]
+        BuffCategory.Negative -> negativeCountableBuffs[buff.groupLevel]!![buff]
       }?.size
           ?: 0
 
@@ -87,9 +104,10 @@ class BuffManager(val actor: Actor) {
   ) =
       startContinuousBuff(this, source, value, turns).also { activeBuff ->
         when (category) {
-          BuffCategory.Positive -> positiveBuffs
-          BuffCategory.Negative -> negativeBuffs
-        }.addQuick(activeBuff)
+              BuffCategory.Positive -> positiveBuffs
+              BuffCategory.Negative -> negativeBuffs
+            }[groupLevel]!!
+            .addQuick(activeBuff)
         buffsByEffect
             .getOrPut(this) {
               _effectNameMapping[name] = this
@@ -161,12 +179,13 @@ class BuffManager(val actor: Actor) {
         when (buff.category) {
           BuffCategory.Positive -> positiveCountableBuffStacks
           BuffCategory.Negative -> negativeCountableBuffStacks
-        }
+        }[buff.groupLevel]!!
     val effectStacks =
         when (buff.category) {
-          BuffCategory.Positive -> positiveCountableBuffs
-          BuffCategory.Negative -> negativeCountableBuffs
-        }.getOrPut(buff) { mutableListOf() }
+              BuffCategory.Positive -> positiveCountableBuffs
+              BuffCategory.Negative -> negativeCountableBuffs
+            }[buff.groupLevel]!!
+            .getOrPut(buff) { mutableListOf() }
     repeat(count) {
       val stack = CountableBuffStack(buff, value)
       categoryStacks.add(stack)
@@ -183,12 +202,12 @@ class BuffManager(val actor: Actor) {
         when (buff.category) {
           BuffCategory.Positive -> positiveCountableBuffStacks
           BuffCategory.Negative -> negativeCountableBuffStacks
-        }
+        }[buff.groupLevel]!!
     val stacks =
         when (buff.category) {
           BuffCategory.Positive -> positiveCountableBuffs
           BuffCategory.Negative -> negativeCountableBuffs
-        }[buff]
+        }[buff.groupLevel]!![buff]
     if (stacks == null || stacks.size == 0)
         error("Cannot remove countable buff $buff which is already at zero stacks.")
     val prevCount = stacks.size
@@ -206,12 +225,12 @@ class BuffManager(val actor: Actor) {
         when (buff.category) {
           BuffCategory.Positive -> positiveCountableBuffStacks
           BuffCategory.Negative -> negativeCountableBuffStacks
-        }
+        }[buff.groupLevel]!!
     val stacks =
         when (buff.category) {
           BuffCategory.Positive -> positiveCountableBuffs
           BuffCategory.Negative -> negativeCountableBuffs
-        }[buff]
+        }[buff.groupLevel]!![buff]
     if (stacks == null || stacks.size == 0)
         error("Cannot remove countable buff $buff which is already at zero stacks.")
     val prevCount = stacks.size
@@ -229,7 +248,7 @@ class BuffManager(val actor: Actor) {
         when (buff.category) {
           BuffCategory.Positive -> positiveCountableBuffs
           BuffCategory.Negative -> negativeCountableBuffs
-        }[buff]
+        }[buff.groupLevel]!![buff]
     return stacks?.lastOrNull()?.value
   }
 
@@ -269,8 +288,8 @@ class BuffManager(val actor: Actor) {
 
   /** Remove all non-ephemeral buffs. */
   fun clear() {
-    positiveBuffs.toList().forEach { it.remove() }
-    negativeBuffs.toList().forEach { it.remove() }
+    positiveBuffs.values.forEach { level -> level.forEach { it.remove() } }
+    negativeBuffs.values.forEach { level -> level.forEach { it.remove() } }
     positiveCountableBuffs.clear()
     negativeCountableBuffs.clear()
   }
@@ -279,42 +298,42 @@ class BuffManager(val actor: Actor) {
     (buffsByEffect[buffEffect] ?: return).toList().forEach { it.remove() }
   }
 
-  fun remove(category: BuffCategory) {
+  fun remove(category: BuffCategory, groupLevel: Int = 1) {
     when (category) {
           BuffCategory.Positive -> positiveBuffs
           BuffCategory.Negative -> negativeBuffs
-        }
+        }[groupLevel]!!
         .filter { !it.effect.isLocked }
         .forEach { it.remove() }
   }
 
-  fun adjustContinuousTurns(category: BuffCategory, delta: Int) {
+  fun adjustContinuousTurns(category: BuffCategory, delta: Int, groupLevel: Int = 1) {
     val buffs =
         when (category) {
           BuffCategory.Positive -> positiveBuffs
           BuffCategory.Negative -> negativeBuffs
-        }
+        }[groupLevel]!!
     buffs.forEach { it.turns = (it.turns + delta).coerceAtLeast(0) }
     if (delta < 0) {
       buffs.filter { it.turns == 0 }.forEach { it.remove() }
     }
   }
 
-  fun removeCountable(category: BuffCategory) {
+  fun removeCountable(category: BuffCategory, groupLevel: Int = 1) {
     val stacks =
         when (category) {
           BuffCategory.Positive -> positiveCountableBuffs
           BuffCategory.Negative -> negativeCountableBuffs
-        }
+        }[groupLevel]!!
     stacks.keys.forEach { if (!it.isLocked) stacks[it]!!.clear() }
   }
 
-  fun increaseCountable(category: BuffCategory, count: Int) {
+  fun increaseCountable(category: BuffCategory, count: Int, groupLevel: Int = 1) {
     val stacks =
         when (category) {
           BuffCategory.Positive -> positiveCountableBuffs
           BuffCategory.Negative -> negativeCountableBuffs
-        }
+        }[groupLevel]!!
     // TODO: Test how this works for countables that can have different values
     stacks.values.forEach {
       it.lastOrNull()?.let { buff ->
@@ -323,17 +342,17 @@ class BuffManager(val actor: Actor) {
     }
   }
 
-  fun removeCountable(category: BuffCategory, count: Int): Int {
+  fun removeCountables(category: BuffCategory, count: Int, groupLevel: Int = 1): Int {
     val categoryStacks =
         when (category) {
           BuffCategory.Positive -> positiveCountableBuffStacks
           BuffCategory.Negative -> negativeCountableBuffStacks
-        }
+        }[groupLevel]!!
     val stacks =
         when (category) {
           BuffCategory.Positive -> positiveCountableBuffs
           BuffCategory.Negative -> negativeCountableBuffs
-        }
+        }[groupLevel]!!
     val targets = categoryStacks.takeLast(count)
     targets.forEach { stack ->
       val effectStacks = stacks[stack.effect]!!
@@ -343,17 +362,17 @@ class BuffManager(val actor: Actor) {
     return targets.size
   }
 
-  fun removeCountable(effect: CountableBuffEffect, count: Int): Int {
+  fun removeCountables(effect: CountableBuffEffect, count: Int, groupLevel: Int = 1): Int {
     val categoryStacks =
         when (effect.category) {
           BuffCategory.Positive -> positiveCountableBuffStacks
           BuffCategory.Negative -> negativeCountableBuffStacks
-        }
+        }[groupLevel]!!
     val effectStacks =
         when (effect.category) {
           BuffCategory.Positive -> positiveCountableBuffs
           BuffCategory.Negative -> negativeCountableBuffs
-        }[effect]
+        }[groupLevel]!![effect]
             ?: return 0 // No stacks of this effect if null
     val actualCount = min(count, effectStacks.size)
     repeat(actualCount) {
@@ -363,17 +382,17 @@ class BuffManager(val actor: Actor) {
     return actualCount
   }
 
-  fun removeCountable(effect: CountableBuffEffect): Int {
+  fun removeCountable(effect: CountableBuffEffect, groupLevel: Int = 1): Int {
     val categoryStacks =
         when (effect.category) {
           BuffCategory.Positive -> positiveCountableBuffStacks
           BuffCategory.Negative -> negativeCountableBuffStacks
-        }
+        }[groupLevel]!!
     val effectStacks =
         when (effect.category) {
           BuffCategory.Positive -> positiveCountableBuffs
           BuffCategory.Negative -> negativeCountableBuffs
-        }[effect]
+        }[groupLevel]!![effect]
             ?: return 0 // No stacks of this effect if null
     val actualCount = effectStacks.size
     repeat(actualCount) {
@@ -383,12 +402,12 @@ class BuffManager(val actor: Actor) {
     return actualCount
   }
 
-  fun flip(category: BuffCategory, count: Int) {
+  fun flip(category: BuffCategory, count: Int, groupLevel: Int = 1) {
     val targets =
         when (category) {
           BuffCategory.Positive -> positiveBuffs
           BuffCategory.Negative -> negativeBuffs
-        }
+        }[groupLevel]!!
     val affected = targets.filter { it.effect.flipped != null }.takeLast(count)
     affected.forEach {
       actor.context.log("Buff") { "Flipped buff ${it.name}." }
@@ -402,8 +421,12 @@ class BuffManager(val actor: Actor) {
             buffsByEffect.forEach { (effect, values) ->
               add(effect to (values.maxOfOrNull { it.turns } ?: 0))
             }
-            positiveCountableBuffs.forEach { (effect, buffs) -> add(effect to buffs.size) }
-            negativeCountableBuffs.forEach { (effect, buffs) -> add(effect to buffs.size) }
+            positiveCountableBuffs.values.forEach { level ->
+              level.forEach { (effect, buffs) -> add(effect to buffs.size) }
+            }
+            negativeCountableBuffs.values.forEach { level ->
+              level.forEach { (effect, buffs) -> add(effect to buffs.size) }
+            }
           }
           .filter { (_, value) -> value > 0 }
           .sortedByDescending { (effect, _) -> effect.displayPriority }
@@ -459,10 +482,10 @@ class BuffManager(val actor: Actor) {
           +Modifier.TurnReduceCountableNegativeEffects
         }
         if (turnReduceCountableNegativeEffects > 0) {
-          removeCountable(BuffCategory.Negative, count = turnReduceCountableNegativeEffects.toInt())
+          removeCountables(BuffCategory.Negative, count = turnReduceCountableNegativeEffects.toInt())
         }
 
-        positiveBuffs.tick()
+        positiveBuffs.values.forEach { it.tick() }
 
         val burn = mod { +Modifier.BurnDamage }
         if (burn > 0) {
@@ -496,7 +519,7 @@ class BuffManager(val actor: Actor) {
           +Modifier.TurnReduceCountablePositiveEffects
         }
         if (turnReduceCountablePositiveEffects > 0) {
-          removeCountable(BuffCategory.Positive, count = turnReduceCountablePositiveEffects.toInt())
+          removeCountables(BuffCategory.Positive, count = turnReduceCountablePositiveEffects.toInt())
         }
 
         val continuousPositiveTurnReductionRegenTurns = mod {
@@ -507,7 +530,7 @@ class BuffManager(val actor: Actor) {
               BuffCategory.Positive, -continuousPositiveTurnReductionRegenTurns.toInt())
         }
 
-        negativeBuffs.tick()
+        negativeBuffs.values.forEach { it.tick() }
 
         if (actor.brilliance >= 100 || !actor.hasBrillianceBar) { // Bosses activate each turn
           actor.activateBlessings()
@@ -582,9 +605,10 @@ class BuffManager(val actor: Actor) {
     override fun remove() {
       val removed =
           when (effect.category) {
-            BuffCategory.Positive -> positiveBuffs
-            BuffCategory.Negative -> negativeBuffs
-          }.remove(this)
+                BuffCategory.Positive -> positiveBuffs
+                BuffCategory.Negative -> negativeBuffs
+              }[effect.groupLevel]!!
+              .remove(this)
       require(removed) { "Buff is not active." }
       buffsByEffect[effect]!!.remove(this)
       effect.endEffect(source, value, data)

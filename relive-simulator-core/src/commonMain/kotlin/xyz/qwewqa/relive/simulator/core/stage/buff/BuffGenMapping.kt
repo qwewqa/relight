@@ -13,6 +13,7 @@ data class BuffData(
     val name: String,
     val iconId: Int,
     val groupId: Int,
+    val groupLevel: Int,
     val locked: Boolean,
 ) {
   // change this to use an object declaration instead of SimpleContinuousBuffEffect
@@ -30,6 +31,7 @@ data class BuffData(
         override val name: String = this@BuffData.name
         override val iconId: Int = this@BuffData.iconId
         override val groupId: Int = this@BuffData.groupId
+        override val groupLevel: Int = this@BuffData.groupLevel
         override val category: BuffCategory = category
         override val isLocked: Boolean = locked
         override val exclusive: Boolean = exclusive
@@ -62,6 +64,7 @@ data class BuffData(
         override val name: String = this@BuffData.name
         override val iconId: Int = this@BuffData.iconId
         override val groupId: Int = this@BuffData.groupId
+        override val groupLevel: Int = this@BuffData.groupLevel
         override val category: BuffCategory = category
         override val isLocked: Boolean = locked
         override val exclusive: Boolean = exclusive
@@ -130,6 +133,16 @@ data class BuffData(
           related = related,
       )
 
+  // Note: externally implemented effects still need to be updated when using this
+  fun <T> makeGreaterVariantOf(base: ContinuousBuffEffect<T>) =
+      makeContinuousBuffEffect(
+          category = base.category,
+          locked = base.isLocked,
+          exclusive = base.exclusive,  // TODO: Does flip work?
+          onStart = { value, source -> base.onStart(this, value, source) },
+          onEnd = { value, source, data -> base.onEnd(this, value, source, data) },
+      )
+
   fun makeCountableBuffEffect(
       category: BuffCategory,
       isLocked: Boolean = false,
@@ -139,6 +152,7 @@ data class BuffData(
           name = name,
           iconId = iconId,
           groupId = groupId,
+          groupLevel = groupLevel,
           category = category,
           isLocked = isLocked,
       )
@@ -152,6 +166,7 @@ fun GenBuff.toBuffData() =
         name = name.getLocalizedString(),
         iconId = icon_id,
         groupId = group,
+        groupLevel = group_level,
         locked = group in lockedBuffGroups,
     )
 

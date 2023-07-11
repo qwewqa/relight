@@ -10,6 +10,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.BurnBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterBurn
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.HopeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.WeakenBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.CountableBuffEffect
@@ -33,7 +34,7 @@ inline val Modifiers.superStrengthFactor: I54
 inline val Modifiers.actPower: I54
   get() {
     val staminaModifier = Modifier.StaminaActPowerUp given { actor.hp == maxHp }
-    val burnModifier = -10 given { BurnBuff in actor.buffs }
+    val burnModifier = -10 given { BurnBuff in actor.buffs || GreaterBurn in actor.buffs }
     val holdBackModifier = -50 given { Buffs.HoldBackBuff in actor.buffs }
     return (Modifier.BaseActPower ptmod
         (Modifier.ActPowerUp - Modifier.ActPowerDown +
@@ -102,9 +103,14 @@ val Modifiers.hpRecoveryAdjustment: I54
 
 fun Modifiers.positiveEffectResistance(effect: BuffEffect): I54 {
   val resistance =
-      when (effect) {
-        is CountableBuffEffect -> Modifier.PositiveCountableEffectResistanceUp
-        else -> Modifier.PositiveEffectResistanceUp
+      when (effect.groupLevel) {
+        1 ->
+            when (effect) {
+              is CountableBuffEffect -> +Modifier.PositiveCountableEffectResistanceUp
+              else -> +Modifier.PositiveEffectResistanceUp
+            }
+        2 -> 0.i54
+        else -> throw NotImplementedError("Unknown effect group level ${effect.groupLevel}")
       }
   val specificResistance = actor.specificBuffResist[effect] ?: 0.i54
   return resistance + specificResistance
@@ -112,11 +118,16 @@ fun Modifiers.positiveEffectResistance(effect: BuffEffect): I54 {
 
 fun Modifiers.negativeEffectResistance(effect: BuffEffect): I54 {
   val resistance =
-      when (effect) {
-        is CountableBuffEffect ->
-            Modifier.NegativeCountableEffectResistanceUp -
-                Modifier.NegativeCountableEffectResistanceDown
-        else -> Modifier.NegativeEffectResistanceUp - Modifier.NegativeEffectResistanceDown
+      when (effect.groupLevel) {
+        1 ->
+            when (effect) {
+              is CountableBuffEffect ->
+                  Modifier.NegativeCountableEffectResistanceUp -
+                      Modifier.NegativeCountableEffectResistanceDown
+              else -> Modifier.NegativeEffectResistanceUp - Modifier.NegativeEffectResistanceDown
+            }
+        2 -> 0.i54
+        else -> throw NotImplementedError("Unknown effect group level ${effect.groupLevel}")
       }
   val specificResistance = actor.specificBuffResist[effect] ?: 0.i54
   return resistance + specificResistance

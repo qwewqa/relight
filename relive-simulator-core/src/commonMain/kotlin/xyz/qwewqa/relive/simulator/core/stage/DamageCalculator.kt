@@ -16,6 +16,8 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.BlindnessBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FreezeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FrostbiteBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterBlindness
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFreeze
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.InvincibilityBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LockedNormalBarrierBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LockedSpecialBarrierBuff
@@ -163,7 +165,8 @@ open class RandomDamageCalculator : DamageCalculator {
   fun calculateDamage(attacker: Actor, target: Actor, hitAttribute: HitAttribute): DamageResult {
     val acc =
         (100 + attacker.mod { +accuracy } - target.mod { +evasion }).coerceIn(0, 100) *
-            (if (BlindnessBuff in attacker.buffs) 0.3 else 1.0)
+            (if (BlindnessBuff in attacker.buffs || GreaterBlindness in attacker.buffs) 0.3
+            else 1.0)
 
     if (InvincibilityBuff in target.buffs && !hitAttribute.focus) {
       // Critical chance isn't actually 0 against invincible targets, but
@@ -238,7 +241,7 @@ open class RandomDamageCalculator : DamageCalculator {
     val freezeCoef =
         target.mod {
           100 +
-              (30 given { FreezeBuff in target.buffs }) +
+              (30 given { FreezeBuff in target.buffs || GreaterFreeze in target.buffs }) +
               (30 given { FrostbiteBuff in target.buffs })
         }
 

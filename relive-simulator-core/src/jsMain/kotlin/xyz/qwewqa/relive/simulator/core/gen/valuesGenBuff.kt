@@ -19,6 +19,7 @@ actual val valuesGenBuff: Map<Int, GenBuff> by lazy {
         priority = data.priority.unsafeCast<Int>(),
         value_unit = data.value_unit.unsafeCast<Int>(),
         group = data.group.unsafeCast<Int>(),
+        group_level = data.group_level.unsafeCast<Int>(),
         _id_ = id
     )
   }

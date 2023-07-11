@@ -1551,6 +1551,21 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val LockedContractionResistanceUpBuff =
       +buffData(334).makeLockedVariantOf(ContractionResistanceUpBuff)
 
+  val ReflectStageEffectGrayWorldBuff =
+      +buffData(335).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+
+  val GreaterBurn =
+      +buffData(1001).makeGreaterVariantOf(BurnBuff)
+
+  val GreaterConfusion =
+      +buffData(1002).makeGreaterVariantOf(ConfusionBuff)
+
+  val GreaterBlindness =
+      +buffData(1003).makeGreaterVariantOf(BlindnessBuff)
+
+  val GreaterFreeze =
+      +buffData(1004).makeGreaterVariantOf(FreezeBuff)
+
   val abnormalBuffs =
       platformSetOf(
           StopBuff,

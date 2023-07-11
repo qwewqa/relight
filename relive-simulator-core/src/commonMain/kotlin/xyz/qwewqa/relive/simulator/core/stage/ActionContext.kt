@@ -555,7 +555,7 @@ class TargetContext(
         actionContext.log("Dispel", category = LogCategory.BUFF) {
           "Dispel ${count}x countable ${category.name} effects from [$name]."
         }
-        buffs.removeCountable(category, count)
+        buffs.removeCountables(category, count)
       }
     }
   }
@@ -569,7 +569,7 @@ class TargetContext(
         actionContext.log("Dispel", category = LogCategory.BUFF) {
           "Dispel ${count}x countable effect ${effect.name} from [$name]."
         }
-        buffs.removeCountable(effect, count)
+        buffs.removeCountables(effect, count)
       }
     }
   }
@@ -597,7 +597,7 @@ class TargetContext(
         actionContext.log("Conversion", category = LogCategory.BUFF) {
           "Convert ${count}x Revive from [$name]."
         }
-        buffs.addCountable(WeakSpotBuff, count = buffs.removeCountable(ReviveBuff, count))
+        buffs.addCountable(WeakSpotBuff, count = buffs.removeCountables(ReviveBuff, count))
       }
     }
   }
@@ -611,7 +611,7 @@ class TargetContext(
         actionContext.log("Conversion", category = LogCategory.BUFF) {
           "Convert ${count}x negative countable effects from [$name]."
         }
-        buffs.addCountable(ReviveBuff, count = buffs.removeCountable(BuffCategory.Negative, count))
+        buffs.addCountable(ReviveBuff, count = buffs.removeCountables(BuffCategory.Negative, count))
       }
     }
   }

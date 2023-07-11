@@ -1555,4 +1555,9 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
 
   val ContractionResistanceUp = +skillOptionData(616).applyEffect()
   val LockedContractionResistanceUp = +skillOptionData(617).applyEffect()
+
+  val GreaterBurn = +skillOptionData(10010).applyEffect()
+  val GreaterConfusion = +skillOptionData(10020).applyEffect()
+  val GreaterBlindness = +skillOptionData(10030).applyEffect()
+  val GreaterFreeze = +skillOptionData(10040).applyEffect()
 }
