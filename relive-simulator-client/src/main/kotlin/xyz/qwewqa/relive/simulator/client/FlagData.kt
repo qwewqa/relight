@@ -221,29 +221,29 @@ object FlagData {
           name = "fruits_tart_pride",
       )
 
-  val rmTamaoBeautifulWomanPan =
-      +FlagInfo(
-          artist = rm,
-          character = FlagCharacter.Tamao,
-          name = "beautiful_woman_pan",
-          weight = 999.0,
-      )
+//  val rmTamaoBeautifulWomanPan =
+//      +FlagInfo(
+//          artist = rm,
+//          character = FlagCharacter.Tamao,
+//          name = "beautiful_woman_pan",
+//          weight = 999.0,
+//      )
 
-  val rmIchieSunLesbian =
-      +FlagInfo(
-          artist = rm,
-          character = FlagCharacter.Ichie,
-          name = "sun_lesbian",
-          weight = 999.0,
-      )
+//  val rmIchieSunLesbian =
+//      +FlagInfo(
+//          artist = rm,
+//          character = FlagCharacter.Ichie,
+//          name = "sun_lesbian",
+//          weight = 999.0,
+//      )
 
-  val rmFumiBenikageNb =
-      +FlagInfo(
-          artist = rm,
-          character = FlagCharacter.Fumi,
-          name = "benikage_nb",
-          weight = 999.0,
-      )
+//  val rmFumiBenikageNb =
+//      +FlagInfo(
+//          artist = rm,
+//          character = FlagCharacter.Fumi,
+//          name = "benikage_nb",
+//          weight = 999.0,
+//      )
 
   val kekkersRuiBeachTrans =
       +FlagInfo(
@@ -259,12 +259,12 @@ object FlagData {
           name = "eurydice_lesbian",
       )
 
-  val vaniAruruAliceTrans =
-      +FlagInfo(
-          artist = vani,
-          character = FlagCharacter.Aruru,
-          name = "alice_trans",
-      )
+//  val vaniAruruAliceTrans =
+//      +FlagInfo(
+//          artist = vani,
+//          character = FlagCharacter.Aruru,
+//          name = "alice_trans",
+//      )
 
   val hainuLalafinHopeTrans =
       +FlagInfo(
@@ -273,12 +273,12 @@ object FlagData {
           name = "hope_trans",
       )
 
-    val cyTsukasaBenzaitenLesbian =
-        +FlagInfo(
-            artist = cy,
-            character = FlagCharacter.Tsukasa,
-            name = "benzaiten_lesbian",
-        )
+//    val cyTsukasaBenzaitenLesbian =
+//        +FlagInfo(
+//            artist = cy,
+//            character = FlagCharacter.Tsukasa,
+//            name = "benzaiten_lesbian",
+//        )
 
   val anonymousArtemisAkiraAro =
       +FlagInfo(
@@ -322,21 +322,21 @@ object FlagData {
           name = "casual_agender",
       )
 
-  val rmStellaFsgGenderfluid =
-      +FlagInfo(
-          artist = rm,
-          character = FlagCharacter.Stella,
-          name = "fsg_genderfluid",
-          weight = 999.0,
-      )
+//  val rmStellaFsgGenderfluid =
+//      +FlagInfo(
+//          artist = rm,
+//          character = FlagCharacter.Stella,
+//          name = "fsg_genderfluid",
+//          weight = 999.0,
+//      )
 
-  val rmShiroFsgTrans =
-      +FlagInfo(
-          artist = rm,
-          character = FlagCharacter.Shiro,
-          name = "fsg_trans",
-          weight = 999.0,
-      )
+//  val rmShiroFsgTrans =
+//      +FlagInfo(
+//          artist = rm,
+//          character = FlagCharacter.Shiro,
+//          name = "fsg_trans",
+//          weight = 999.0,
+//      )
 
   val limeKuinaFsgAgenderAromantic =
       +FlagInfo(
