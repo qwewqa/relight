@@ -1170,3 +1170,8 @@
 - TR bosses added by chihiro
 - Added tab name input
 - Added new flags
+
+# v1.6.2
+- Added new girls and memoirs
+- Added new flags
+- Temporarily disabled debuff passives
