@@ -1175,3 +1175,6 @@
 - Added new girls and memoirs
 - Added new flags
 - Temporarily disabled debuff passives
+
+# v1.6.3
+- Fixed error when actors exited
