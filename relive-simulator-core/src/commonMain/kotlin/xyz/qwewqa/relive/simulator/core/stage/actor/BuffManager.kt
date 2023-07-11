@@ -288,10 +288,10 @@ class BuffManager(val actor: Actor) {
 
   /** Remove all non-ephemeral buffs. */
   fun clear() {
-    positiveBuffs.values.forEach { level -> level.forEach { it.remove() } }
-    negativeBuffs.values.forEach { level -> level.forEach { it.remove() } }
-    positiveCountableBuffs.clear()
-    negativeCountableBuffs.clear()
+    positiveBuffs.values.forEach { level -> level.toList().forEach { it.remove() } }
+    negativeBuffs.values.forEach { level -> level.toList().forEach { it.remove() } }
+    positiveCountableBuffs.values.forEach { it.clear() }
+    negativeCountableBuffs.values.forEach { it.clear() }
   }
 
   fun removeAll(buffEffect: ContinuousBuffEffect<*>) {
