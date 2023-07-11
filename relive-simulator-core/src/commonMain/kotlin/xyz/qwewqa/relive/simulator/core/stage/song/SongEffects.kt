@@ -24,14 +24,14 @@ open class CommonSongEffect(
   override fun start(context: ActionContext, value: Int) =
       context.run {
         if (self in target.getTargets(context, null)) {
-          skillOption.executePassive(TargetContext(context, listOf(self)), value)
+          skillOption.executeForward(TargetContext(context, listOf(self)), value)
         }
       }
 
   override fun end(context: ActionContext, value: Int) =
       context.run {
         if (self in target.getTargets(context, null)) {
-          skillOption.reversePassive(TargetContext(context, listOf(self)), value)
+          skillOption.executeReverse(TargetContext(context, listOf(self)), value)
         }
       }
 }

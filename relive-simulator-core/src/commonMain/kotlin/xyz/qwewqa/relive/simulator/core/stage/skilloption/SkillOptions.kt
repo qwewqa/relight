@@ -40,12 +40,20 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
               applyContinuousBuff(effect = effect, value = value, turns = time, chance = chance)
             },
             passiveAction = { value ->
+              if (effect.category != BuffCategory.Negative) {  // TODO: temporary measure until we know what bosses do
+                targets.forEach { target ->
+                  target.buffs.activatePsuedoBuff(
+                      effect as ContinuousBuffEffect<Unit>, value = value.toI54())
+                }
+              }
+            },
+            forwardAction = { value ->
               targets.forEach { target ->
                 target.buffs.activatePsuedoBuff(
                     effect as ContinuousBuffEffect<Unit>, value = value.toI54())
               }
             },
-            reversePassiveAction = { value ->
+            reverseAction = { value ->
               targets.forEach { target ->
                 target.buffs.removePseudoBuff(
                     effect as ContinuousBuffEffect<Unit>, value = value.toI54())

@@ -49,7 +49,8 @@ interface PassiveSkillOption : SkillOption {
 }
 
 interface ReversiblePassiveSkillOption : PassiveSkillOption {
-  fun reversePassive(context: TargetContext, value: Int)
+  fun executeForward(context: TargetContext, value: Int)
+  fun executeReverse(context: TargetContext, value: Int)
 }
 
 interface DualSkillOption : ActiveSkillOption, PassiveSkillOption

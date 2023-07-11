@@ -112,10 +112,11 @@ data class SkillOptionData(
       }
 
   inline fun makeDualReversibleSkillOption(
-      activeType: AutoSkillType = AutoSkillType.TurnStartB,
-      crossinline activeAction: TargetContext.(value: Int, time: Int, chance: Int) -> Unit,
-      crossinline passiveAction: TargetContext.(value: Int) -> Unit,
-      crossinline reversePassiveAction: TargetContext.(value: Int) -> Unit,
+    activeType: AutoSkillType = AutoSkillType.TurnStartB,
+    crossinline activeAction: TargetContext.(value: Int, time: Int, chance: Int) -> Unit,
+    crossinline forwardAction: TargetContext.(value: Int) -> Unit,
+    crossinline passiveAction: TargetContext.(value: Int) -> Unit,
+    crossinline reverseAction: TargetContext.(value: Int) -> Unit,
   ) =
       object : DualReversibleSkillOption {
         override val id = this@SkillOptionData.id
@@ -144,8 +145,12 @@ data class SkillOptionData(
           context.passiveAction(value)
         }
 
-        override fun reversePassive(context: TargetContext, value: Int) {
-          context.reversePassiveAction(value)
+        override fun executeForward(context: TargetContext, value: Int) {
+          context.forwardAction(value)
+        }
+
+        override fun executeReverse(context: TargetContext, value: Int) {
+          context.reverseAction(value)
         }
       }
 }
