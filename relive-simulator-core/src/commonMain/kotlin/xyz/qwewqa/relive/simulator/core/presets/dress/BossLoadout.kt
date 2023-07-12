@@ -301,6 +301,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30.tr30WhiteRabb
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30.tr30WhiteRabbitMisoraStrategy
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr31.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr32.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr33.*
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.Strategy
 
@@ -330,6 +331,18 @@ private fun BossLoadout.applyGuildRaceData(race: Int, phase: Int, number: Int) =
 
 val bossLoadouts =
     listOf(
+            BossLoadout(tr33MafiaNana, tr33MafiaNanaStrategy).applyGuildRaceData(33, 3, 1),
+            BossLoadout(tr33MafiaNanaDiff4, tr33MafiaNanaDiff4Strategy)
+                .applyGuildRaceData(33, 4, 1),
+            BossLoadout(tr33MafiaMaya, tr33MafiaMayaStrategy).applyGuildRaceData(33, 3, 2),
+            BossLoadout(tr33MafiaMayaDiff4, tr33MafiaMayaDiff4Strategy)
+                .applyGuildRaceData(33, 4, 2),
+            BossLoadout(tr33MafiaKaoruko, tr33MafiaKaorukoStrategy).applyGuildRaceData(33, 3, 3),
+            BossLoadout(tr33MafiaKaorukoDiff4, tr33MafiaKaorukoDiff4Strategy)
+                .applyGuildRaceData(33, 4, 3),
+            BossLoadout(tr33TowerHikari, tr33TowerHikariStrategy).applyGuildRaceData(33, 3, 4),
+            BossLoadout(tr33TowerHikariDiff4, tr33TowerHikariDiff4Strategy)
+                .applyGuildRaceData(33, 4, 4),
             // NOTE: The boss IDs of TR32 are actually 34.
             BossLoadout(tr32DraculaClaudine, tr32DraculaClaudineStrategy)
                 .applyGuildRaceData(34, 3, 1),
