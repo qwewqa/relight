@@ -2,8 +2,8 @@ val project_version: String by project
 val ktor_version: String by project
 
 plugins {
-  kotlin("js")
-  id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
+  kotlin("multiplatform")
+  id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0"
 }
 
 group = "xyz.qwewqa.relive.simulator"
@@ -15,35 +15,28 @@ repositories {
   mavenCentral()
 }
 
-dependencies {
-  implementation(kotlin("stdlib-js"))
-  implementation(project(":relive-simulator-core"))
-}
-
 kotlin {
-  sourceSets.all {
-    languageSettings {
-      languageVersion = "1.9"
-    }
-  }
-  js(IR) {
+  js {
     browser {
       distribution {
         directory = File("${project(":relive-simulator-browser").projectDir}/src/main/resources")
       }
-
-      webpackTask { cssSupport { enabled.set(true) } }
-
-      runTask { cssSupport { enabled.set(true) } }
-
-      testTask {
-        useKarma {
-          useChromeHeadless()
-          webpackConfig.cssSupport { enabled.set(true) }
-        }
-      }
+      commonWebpackConfig { cssSupport { enabled.set(true) } }
     }
     binaries.executable()
   }
-  sourceSets.all { languageSettings { optIn("kotlin.RequiresOptIn") } }
+  sourceSets {
+    all {
+      languageSettings {
+        optIn("kotlin.RequiresOptIn")
+        languageVersion = "2.0"
+      }
+    }
+    val jsMain by getting {
+      dependencies {
+        implementation(kotlin("stdlib-js"))
+        implementation(project(":relive-simulator-core"))
+      }
+    }
+  }
 }

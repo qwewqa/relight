@@ -2,7 +2,7 @@ package xyz.qwewqa.relive.simulator.core.stage.strategy
 
 import com.github.h0tk3y.betterParse.lexer.Token
 
-actual fun _regexToken(pattern: String, ignore: Boolean): Token =
+actual fun reToken(pattern: String, ignore: Boolean): Token =
     JsRegexToken(null, pattern, ignore)
 
 private class JsRegexToken : Token {

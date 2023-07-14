@@ -6,7 +6,7 @@ val project_version: String by project
 plugins {
   application
   kotlin("jvm")
-  id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
+  id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0"
 }
 
 group = "xyz.qwewqa.relive.simulator"
@@ -17,18 +17,12 @@ application { mainClass.set("xyz.qwewqa.relive.simulator.server.ApplicationKt") 
 
 repositories { mavenCentral() }
 
-kotlin {
-  sourceSets.all {
-    languageSettings {
-      languageVersion = "1.9"
-    }
-  }
-}
+kotlin { sourceSets.all { languageSettings { languageVersion = "2.0" } } }
 
 dependencies {
   implementation(project(":relive-simulator-core"))
   implementation(kotlin("stdlib"))
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
   implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.8.0")
   implementation("ch.qos.logback:logback-classic:$logback_version")
   implementation("io.ktor:ktor-server-compression:$ktor_version")
@@ -41,15 +35,13 @@ dependencies {
   implementation("io.ktor:ktor-server-cio-jvm:$ktor_version")
   implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
   testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlin_version")
-  implementation("com.charleskorn.kaml:kaml:0.52.0")
+  implementation("com.charleskorn.kaml:kaml:0.54.0")
   testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
 }
 
-tasks {
-  getByName("run") { dependsOn(":relive-simulator-client:browserDevelopmentWebpack") }
-}
+tasks { getByName("run") { dependsOn(":relive-simulator-client:jsBrowserDevelopmentWebpack") } }
 
 tasks.withType(org.gradle.language.jvm.tasks.ProcessResources::class) {
-  mustRunAfter(":relive-simulator-client:browserDevelopmentWebpack")
-  mustRunAfter(":relive-simulator-client:browserProductionWebpack")
+  mustRunAfter(":relive-simulator-client:jsBrowserDevelopmentWebpack")
+  mustRunAfter(":relive-simulator-client:jsBrowserProductionWebpack")
 }

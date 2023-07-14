@@ -4,8 +4,8 @@ val project_version: String by project
 val ktor_version: String by project
 
 plugins {
-  kotlin("js")
-  id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
+  kotlin("multiplatform")
+  id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0"
 }
 
 group = "xyz.qwewqa.relive.simulator"
@@ -17,33 +17,34 @@ repositories {
   mavenCentral()
 }
 
-dependencies {
-  implementation(kotlin("stdlib-js"))
-  implementation(project(":relive-simulator-client"))
-  implementation("io.ktor:ktor-client-js:$ktor_version")
-  implementation("io.ktor:ktor-client-serialization:$ktor_version")
-  implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.8.0")
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-}
-
 kotlin {
-  sourceSets.all { languageSettings { languageVersion = "1.9" } }
-  js(IR) {
+  js {
     browser {
-      webpackTask { cssSupport { enabled.set(true) } }
-
-      runTask { cssSupport { enabled.set(true) } }
-
-      testTask {
-        useKarma {
-          useChromeHeadless()
-          webpackConfig.cssSupport { enabled.set(true) }
-        }
+      commonWebpackConfig {
+        cssSupport { enabled.set(true) }
       }
     }
     binaries.executable()
   }
-  sourceSets.all { languageSettings { optIn("kotlin.RequiresOptIn") } }
+
+  sourceSets {
+    all {
+      languageSettings {
+        optIn("kotlin.RequiresOptIn")
+        languageVersion = "2.0"
+      }
+    }
+    val jsMain by getting {
+      dependencies {
+        implementation(kotlin("stdlib-js"))
+        implementation(project(":relive-simulator-client"))
+        implementation("io.ktor:ktor-client-js:$ktor_version")
+        implementation("io.ktor:ktor-client-serialization:$ktor_version")
+        implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.8.0")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
+      }
+    }
+  }
 }
 
 tasks.register<Copy>("copyIndex") {
@@ -121,7 +122,7 @@ tasks.withType(org.gradle.language.jvm.tasks.ProcessResources::class) {
   dependsOn("copyIndex")
   dependsOn("copyResources")
   dependsOn("copyServiceWorker")
-  dependsOn(":relive-simulator-worker:browserProductionWebpack")
+  dependsOn(":relive-simulator-worker:jsBrowserProductionWebpack")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink> {}

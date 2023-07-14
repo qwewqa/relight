@@ -1,11 +1,9 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 val project_version: String by project
 val api_version: String by project
 
 plugins {
   kotlin("multiplatform")
-  id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
+  id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0"
   id("com.peterabeles.gversion")
 }
 
@@ -23,25 +21,19 @@ gversion {
 repositories { mavenCentral() }
 
 kotlin {
-  sourceSets.all {
-    languageSettings {
-      languageVersion = "1.9"
-    }
-  }
+  sourceSets.all { languageSettings { languageVersion = "2.0" } }
   jvm { testRuns["test"].executionTask.configure { useJUnitPlatform() } }
-  js(IR) {
-    browser()
-  }
+  js { browser() }
   sourceSets.all { languageSettings { optIn("kotlin.RequiresOptIn") } }
 }
 
 dependencies {
   "commonMainImplementation"(kotlin("stdlib"))
   "commonMainImplementation"("com.github.h0tk3y.betterParse:better-parse:0.4.4")
-  "commonMainImplementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
-  "commonMainImplementation"("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+  "commonMainImplementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+  "commonMainImplementation"("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
   "commonTestImplementation"(kotlin("test"))
-  "commonTestImplementation"("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+  "commonTestImplementation"("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2")
 }
 
 task("generateApiVersionFile") {

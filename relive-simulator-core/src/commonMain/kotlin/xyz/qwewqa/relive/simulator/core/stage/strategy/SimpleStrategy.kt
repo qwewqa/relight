@@ -81,18 +81,18 @@ val actNameMapping = ActType.values().associateBy { it.shortName }
 const val DEFAULT_MOVESET_WEIGHT = 100
 
 object SimpleStrategyGrammar : Grammar<List<SimpleStrategyMoveset>>() {
-  val comment by _regexToken("""#.*""", ignore = true)
-  val num by _regexToken("""\d+""")
-  val stringLit by _regexToken(""""([^"\\]|\\.)*"""")
-  val quotIdent by _regexToken("""`[^`]*`""")
-  val moveset by _regexToken("""[Mm]oveset""")
-  val turn by _regexToken("[Tt]urn")
+  val comment by reToken("""#.*""", ignore = true)
+  val num by reToken("""\d+""")
+  val stringLit by reToken(""""([^"\\]|\\.)*"""")
+  val quotIdent by reToken("""`[^`]*`""")
+  val moveset by reToken("""[Mm]oveset""")
+  val turn by reToken("[Tt]urn")
   val colon by literalToken(":")
   val climax by literalToken("climax")
   val assert by literalToken("assert")
-  val ident by _regexToken("""\S+""")
-  val newlines by _regexToken("""\s*[\r\n]+\s*""")
-  val ws by _regexToken("""[^\S\r\n]+""", ignore = true)
+  val ident by reToken("""\S+""")
+  val newlines by reToken("""\s*[\r\n]+\s*""")
+  val ws by reToken("""[^\S\r\n]+""", ignore = true)
 
   val string: Parser<String> by stringLit use { text.substring(1, text.length - 1) }
   val identifier: Parser<String> by
