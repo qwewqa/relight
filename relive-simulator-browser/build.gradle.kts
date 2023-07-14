@@ -19,11 +19,7 @@ repositories {
 
 kotlin {
   js {
-    browser {
-      commonWebpackConfig {
-        cssSupport { enabled.set(true) }
-      }
-    }
+    browser { commonWebpackConfig { cssSupport { enabled.set(true) } } }
     binaries.executable()
   }
 
@@ -118,11 +114,15 @@ tasks.register<Copy>("copyResources") {
   into("$projectDir/src/main/resources/")
 }
 
+tasks.register<Copy>("copyWorker") {
+  dependsOn(":relive-simulator-worker:jsBrowserProductionWebpack")
+  from("${project(":relive-simulator-worker").projectDir}/build/dist/js/productionExecutable/")
+  into("$projectDir/src/main/resources/")
+}
+
 tasks.withType(org.gradle.language.jvm.tasks.ProcessResources::class) {
   dependsOn("copyIndex")
   dependsOn("copyResources")
   dependsOn("copyServiceWorker")
   dependsOn(":relive-simulator-worker:jsBrowserProductionWebpack")
 }
-
-tasks.withType<org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink> {}

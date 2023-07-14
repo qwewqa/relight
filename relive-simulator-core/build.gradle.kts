@@ -21,10 +21,14 @@ gversion {
 repositories { mavenCentral() }
 
 kotlin {
-  sourceSets.all { languageSettings { languageVersion = "2.0" } }
+  sourceSets.all {
+    languageSettings {
+      optIn("kotlin.RequiresOptIn")
+      languageVersion = "2.0"
+    }
+  }
   jvm { testRuns["test"].executionTask.configure { useJUnitPlatform() } }
   js { browser() }
-  sourceSets.all { languageSettings { optIn("kotlin.RequiresOptIn") } }
 }
 
 dependencies {
@@ -49,7 +53,7 @@ task("generateApiVersionFile") {
   }
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile::class) {
+project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configureEach {
   dependsOn("generateApiVersionFile")
   dependsOn("createVersionFile")
 }

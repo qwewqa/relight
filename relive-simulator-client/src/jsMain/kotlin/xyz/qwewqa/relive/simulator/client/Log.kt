@@ -1,5 +1,7 @@
 package xyz.qwewqa.relive.simulator.client
 
+import kotlin.collections.set
+import kotlin.math.absoluteValue
 import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.dom.addClass
@@ -33,8 +35,6 @@ import xyz.qwewqa.relive.simulator.common.InteractiveLogData
 import xyz.qwewqa.relive.simulator.common.InteractiveQueueInfo
 import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.common.LogEntry
-import kotlin.collections.set
-import kotlin.math.absoluteValue
 
 val LogCategory.backgroundColor
   get() =
@@ -57,13 +57,10 @@ private var idCounter = 0
 const val MAX_SIMULTANEOUS_BUFFS_DISPLAYED = 10
 const val BUFF_DISPLAY_PERIOD = 4000
 
+data class AnimationData(val elementId: String, val keyframes: Array<Any>, val timing: Any)
+
 fun HTMLElement.displayStatus(data: InteractiveLogData) {
   var buffGroupIdCounter = 0
-  data class AnimationData(
-      val elementId: String,
-      val keyframes: Array<dynamic>,
-      val timing: dynamic
-  )
   val animations = mutableListOf<AnimationData>()
 
   fun TagConsumer<HTMLElement>.buffElements(status: ActorStatus) {

@@ -18,9 +18,6 @@ repositories {
 kotlin {
   js {
     browser {
-      distribution {
-        directory = File("${project(":relive-simulator-browser").projectDir}/src/main/resources")
-      }
       commonWebpackConfig { cssSupport { enabled.set(true) } }
     }
     binaries.executable()

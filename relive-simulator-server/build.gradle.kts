@@ -41,7 +41,15 @@ dependencies {
 
 tasks { getByName("run") { dependsOn(":relive-simulator-client:jsBrowserDevelopmentWebpack") } }
 
+tasks.register<Delete>("clearClient") { delete("$projectDir/src/main/resources/client") }
+
+tasks.register<Copy>("copyClient") {
+  dependsOn("clearClient")
+  dependsOn(":relive-simulator-client:jsBrowserDevelopmentWebpack")
+  from("${project(":relive-simulator-client").projectDir}/build/dist/js/developmentExecutable")
+  into("$projectDir/src/main/resources/client")
+}
+
 tasks.withType(org.gradle.language.jvm.tasks.ProcessResources::class) {
-  mustRunAfter(":relive-simulator-client:jsBrowserDevelopmentWebpack")
-  mustRunAfter(":relive-simulator-client:jsBrowserProductionWebpack")
+  dependsOn("copyClient")
 }
