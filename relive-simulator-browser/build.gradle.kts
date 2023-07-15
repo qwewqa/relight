@@ -108,21 +108,21 @@ ${imageData.joinToString(",\n") { (url, revision) -> "{url: '$url', revision: '$
 }
 
 tasks.register<Copy>("copyResources") {
-  from("${project(":relive-simulator-client").projectDir}/src/main/resources/") {
+  from("${project(":relive-simulator-client").projectDir}/src/jsMain/resources/") {
     exclude("index.html", "sw.js")
   }
-  into("$projectDir/src/main/resources/")
+  into("$projectDir/src/jsMain/resources/")
 }
 
 tasks.register<Copy>("copyWorker") {
   dependsOn(":relive-simulator-worker:jsBrowserProductionWebpack")
   from("${project(":relive-simulator-worker").projectDir}/build/dist/js/productionExecutable/")
-  into("$projectDir/src/main/resources/")
+  into("$projectDir/src/jsMain/resources/")
 }
 
 tasks.withType(org.gradle.language.jvm.tasks.ProcessResources::class) {
   dependsOn("copyIndex")
   dependsOn("copyResources")
+  dependsOn("copyWorker")
   dependsOn("copyServiceWorker")
-  dependsOn(":relive-simulator-worker:jsBrowserProductionWebpack")
 }

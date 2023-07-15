@@ -1,5 +1,3 @@
-/src/main/resources/index.html
-/src/main/resources/relive-simulator-worker.js
-/src/main/resources/relive-simulator-worker.js.map
-/src/main/resources/sw.js
-/src/main/resources/img/
+!/src/jsMain/resources/manifest.json
+!/src/jsMain/resources/icon
+/src/jsMain/resources/*

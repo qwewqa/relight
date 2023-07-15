@@ -50,6 +50,4 @@ tasks.register<Copy>("copyClient") {
   into("$projectDir/src/main/resources/client")
 }
 
-tasks.withType(org.gradle.language.jvm.tasks.ProcessResources::class) {
-  dependsOn("copyClient")
-}
+tasks.withType(org.gradle.language.jvm.tasks.ProcessResources::class) { dependsOn("copyClient") }
