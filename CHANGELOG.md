@@ -1188,3 +1188,6 @@
 # v1.6.5
 - Increased TR32 boss agility
 - Added birthday Maya's TR boost
+
+# v1.6.6
+- Updated WW data
