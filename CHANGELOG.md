@@ -1184,3 +1184,7 @@
 - Added new flags
 - Fixed boss element override not being imported
 - TR33 bosses added by chihiro
+
+# v1.6.5
+- Increased TR32 boss agility
+- Added birthday Maya's TR boost
