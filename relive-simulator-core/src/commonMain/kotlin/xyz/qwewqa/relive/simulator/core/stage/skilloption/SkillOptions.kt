@@ -40,7 +40,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
               applyContinuousBuff(effect = effect, value = value, turns = time, chance = chance)
             },
             passiveAction = { value ->
-              if (effect.category != BuffCategory.Negative) {  // TODO: temporary measure until we know what bosses do
+              if (effect.category !=
+                  BuffCategory.Negative) { // TODO: temporary measure until we know what bosses do
                 targets.forEach { target ->
                   target.buffs.activatePsuedoBuff(
                       effect as ContinuousBuffEffect<Unit>, value = value.toI54())
@@ -72,6 +73,12 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
     val effect =
         Buffs[params[0]] as? ContinuousBuffEffect<*> ?: error("No buff effect for ${params[0]}")
     return makeSkillOption { value, time -> removeContinuous(effect = effect) }
+  }
+
+  fun SkillOptionData.removeContinuousEffects(
+      vararg effects: ContinuousBuffEffect<*>
+  ): ActiveSkillOption {
+    return makeSkillOption { value, time -> effects.forEach { removeContinuous(effect = it) } }
   }
 
   fun SkillOptionData.reduceCountable(): ActiveSkillOption {
@@ -1568,4 +1575,30 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterConfusion = +skillOptionData(10020).applyEffect()
   val GreaterBlindness = +skillOptionData(10030).applyEffect()
   val GreaterFreeze = +skillOptionData(10040).applyEffect()
+  val GreaterApUp = +skillOptionData(10050).applyEffect()
+  val GreaterProvoke = +skillOptionData(10060).applyEffect()
+  val GreaterBurnResistanceUp = +skillOptionData(10070).applyEffect()
+  val GreaterBlindnessResistanceUp = +skillOptionData(10080).applyEffect()
+  val GreaterConfusionResistanceUp = +skillOptionData(10090).applyEffect()
+  val GreaterDamageReceivedDown = +skillOptionData(10100).applyEffect()
+
+  // TODO: figure out if these affect base
+
+  val RemoveGreaterBurn =
+      +skillOptionData(20001)
+          .removeContinuousEffects(
+              Buffs.GreaterBurnBuff,
+          )
+
+  val RemoveGreaterConfusion =
+      +skillOptionData(20002)
+          .removeContinuousEffects(
+              Buffs.GreaterConfusionBuff,
+          )
+
+  val RemoveGreaterBlindness =
+      +skillOptionData(20003)
+          .removeContinuousEffects(
+              Buffs.GreaterBlindnessBuff,
+          )
 }

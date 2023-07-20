@@ -1704,84 +1704,53 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
       }
 
   val allyHighestAgility =
-      +getSkillTargetData(4171).makeAllyTargetSingleNthHighest(1) {
-        it.mod { +agility }
-      }
+      +getSkillTargetData(4171).makeAllyTargetSingleNthHighest(1) { it.mod { +agility } }
   val ally2ndHighestAgility =
-      +getSkillTargetData(4172).makeAllyTargetSingleNthHighest(2) {
-        it.mod { +agility }
-      }
+      +getSkillTargetData(4172).makeAllyTargetSingleNthHighest(2) { it.mod { +agility } }
   val ally3rdHighestAgility =
-      +getSkillTargetData(4173).makeAllyTargetSingleNthHighest(3) {
-        it.mod { +agility }
-      }
+      +getSkillTargetData(4173).makeAllyTargetSingleNthHighest(3) { it.mod { +agility } }
   val ally4thHighestAgility =
-      +getSkillTargetData(4174).makeAllyTargetSingleNthHighest(4) {
-        it.mod { +agility }
-      }
+      +getSkillTargetData(4174).makeAllyTargetSingleNthHighest(4) { it.mod { +agility } }
   val ally5thHighestAgility =
-      +getSkillTargetData(4175).makeAllyTargetSingleNthHighest(5) {
-        it.mod { +agility }
-      }
+      +getSkillTargetData(4175).makeAllyTargetSingleNthHighest(5) { it.mod { +agility } }
   val enemyHighestAgility =
-      +getSkillTargetData(4176).makeEnemyTargetSingleNthHighest(1) {
-        it.mod { +agility }
-      }
+      +getSkillTargetData(4176).makeEnemyTargetSingleNthHighest(1) { it.mod { +agility } }
   val enemy2ndHighestAgility =
-      +getSkillTargetData(4177).makeEnemyTargetSingleNthHighest(2) {
-        it.mod { +agility }
-      }
+      +getSkillTargetData(4177).makeEnemyTargetSingleNthHighest(2) { it.mod { +agility } }
   val enemy3rdHighestAgility =
-      +getSkillTargetData(4178).makeEnemyTargetSingleNthHighest(3) {
-        it.mod { +agility }
-      }
+      +getSkillTargetData(4178).makeEnemyTargetSingleNthHighest(3) { it.mod { +agility } }
   val enemy4thHighestAgility =
-      +getSkillTargetData(4179).makeEnemyTargetSingleNthHighest(4) {
-        it.mod { +agility }
-      }
+      +getSkillTargetData(4179).makeEnemyTargetSingleNthHighest(4) { it.mod { +agility } }
   val enemy5thHighestAgility =
-      +getSkillTargetData(4180).makeEnemyTargetSingleNthHighest(5) {
-        it.mod { +agility }
-      }
+      +getSkillTargetData(4180).makeEnemyTargetSingleNthHighest(5) { it.mod { +agility } }
   val allyLowestAgility =
-      +getSkillTargetData(4181).makeAllyTargetSingleNthLowest(1) {
-        it.mod { +agility }
-      }
+      +getSkillTargetData(4181).makeAllyTargetSingleNthLowest(1) { it.mod { +agility } }
   val ally2ndLowestAgility =
-      +getSkillTargetData(4182).makeAllyTargetSingleNthLowest(2) {
-        it.mod { +agility }
-      }
+      +getSkillTargetData(4182).makeAllyTargetSingleNthLowest(2) { it.mod { +agility } }
   val ally3rdLowestAgility =
-      +getSkillTargetData(4183).makeAllyTargetSingleNthLowest(3) {
-        it.mod { +agility }
-      }
+      +getSkillTargetData(4183).makeAllyTargetSingleNthLowest(3) { it.mod { +agility } }
   val ally4thLowestAgility =
-      +getSkillTargetData(4184).makeAllyTargetSingleNthLowest(4) {
-        it.mod { +agility }
-      }
+      +getSkillTargetData(4184).makeAllyTargetSingleNthLowest(4) { it.mod { +agility } }
   val ally5thLowestAgility =
-      +getSkillTargetData(4185).makeAllyTargetSingleNthLowest(5) {
-        it.mod { +agility }
-      }
+      +getSkillTargetData(4185).makeAllyTargetSingleNthLowest(5) { it.mod { +agility } }
   val enemyLowestAgility =
-      +getSkillTargetData(4186).makeEnemyTargetSingleNthLowest(1) {
-        it.mod { +agility }
-      }
+      +getSkillTargetData(4186).makeEnemyTargetSingleNthLowest(1) { it.mod { +agility } }
   val enemy2ndLowestAgility =
-      +getSkillTargetData(4187).makeEnemyTargetSingleNthLowest(2) {
-        it.mod { +agility }
-      }
+      +getSkillTargetData(4187).makeEnemyTargetSingleNthLowest(2) { it.mod { +agility } }
   val enemy3rdLowestAgility =
-      +getSkillTargetData(4188).makeEnemyTargetSingleNthLowest(3) {
-        it.mod { +agility }
-      }
+      +getSkillTargetData(4188).makeEnemyTargetSingleNthLowest(3) { it.mod { +agility } }
   val enemy4thLowestAgility =
-      +getSkillTargetData(4189).makeEnemyTargetSingleNthLowest(4) {
-        it.mod { +agility }
-      }
+      +getSkillTargetData(4189).makeEnemyTargetSingleNthLowest(4) { it.mod { +agility } }
   val enemy5thLowestAgility =
-      +getSkillTargetData(4190).makeEnemyTargetSingleNthLowest(5) {
-        it.mod { +agility }
+      +getSkillTargetData(4190).makeEnemyTargetSingleNthLowest(5) { it.mod { +agility } }
+
+  val allyAkiraMichiruMeiFanShioriYachiyo =
+      +getSkillTargetData(4191).makeAllyTargetAoe {
+        it.dress.character == Character.Akira ||
+            it.dress.character == Character.Michiru ||
+            it.dress.character == Character.MeiFan ||
+            it.dress.character == Character.Shiori ||
+            it.dress.character == Character.Yachiyo
       }
 
   // Handled specially

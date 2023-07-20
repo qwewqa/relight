@@ -21,8 +21,9 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ConfusionBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ElectricShockBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ExitEvasionBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FreezeBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterConfusion
-import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFreeze
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterConfusionBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFreezeBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterProvokeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LockedAggroBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LovesicknessBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.NightmareBuff
@@ -99,7 +100,9 @@ class Actor(
   var provokeTarget: Actor? = null
 
   fun updateProvokeTarget() {
-    provokeTarget = buffs.get(ProvokeBuff).toList().lastOrNull()?.source
+    val provokeBuffs = setOf(ProvokeBuff, GreaterProvokeBuff)
+    provokeTarget =
+        buffs.continuousNegative().filter { it.effect in provokeBuffs }.lastOrNull()?.source
   }
 
   /** If true, prevents taking damage via [damage]. Calling [exit] will still result in an exit. */
@@ -167,7 +170,7 @@ class Actor(
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by agony." }
         return
       }
-      if (FreezeBuff in buffs || GreaterFreeze in buffs) {
+      if (FreezeBuff in buffs || GreaterFreezeBuff in buffs) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by freeze." }
         return
       }
@@ -202,7 +205,7 @@ class Actor(
             .execute(context)
         return
       }
-      if ((ConfusionBuff in buffs || GreaterConfusion in buffs) &&
+      if ((ConfusionBuff in buffs || GreaterConfusionBuff in buffs) &&
           context.stage.random.nextDouble() < 0.3) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by confuse." }
         val confusionAct =
@@ -322,7 +325,7 @@ class Actor(
         if (additionalEffects) {
           self.addBrilliance(amount * 70 / self.maxHp)
           self.buffs.removeAll(FreezeBuff)
-          self.buffs.removeAll(GreaterFreeze)
+          self.buffs.removeAll(GreaterFreezeBuff)
           self.buffs.tryRemove(Buffs.WeakSpotBuff)
           if (SleepBuff in self.buffs && stage.random.nextDouble() > 0.2) {
             self.buffs.removeAll(SleepBuff)

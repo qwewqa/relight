@@ -1554,17 +1554,40 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val ReflectStageEffectGrayWorldBuff =
       +buffData(335).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
-  val GreaterBurn =
+  val ReflectStageEffectThunderBuff =
+      +buffData(336).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+
+  val GreaterBurnBuff =
       +buffData(1001).makeGreaterVariantOf(BurnBuff)
 
-  val GreaterConfusion =
+  val GreaterConfusionBuff =
       +buffData(1002).makeGreaterVariantOf(ConfusionBuff)
 
-  val GreaterBlindness =
+  val GreaterBlindnessBuff =
       +buffData(1003).makeGreaterVariantOf(BlindnessBuff)
 
-  val GreaterFreeze =
+  val GreaterFreezeBuff =
       +buffData(1004).makeGreaterVariantOf(FreezeBuff)
+
+  val GreaterApUpBuff =
+      +buffData(1005).makeGreaterVariantOf(ApUpBuff)
+
+  val GreaterProvokeBuff =
+      +buffData(1006).makeGreaterVariantOf(ProvokeBuff)
+
+  // TODO: figure out if greater resistances affect base resistances
+
+  val GreaterBurnResistanceUpBuff =
+      +buffData(1007).makeSpecificResistanceUpBuff(GreaterBurnBuff)
+
+  val GreaterBlindnessResistanceUpBuff =
+      +buffData(1008).makeSpecificResistanceUpBuff(GreaterBlindnessBuff)
+
+  val GreaterConfusionResistanceUpBuff =
+      +buffData(1009).makeSpecificResistanceUpBuff(GreaterConfusionBuff)
+
+  val GreaterDamageReceivedDownBuff =
+      +buffData(1010).makeGreaterVariantOf(DamageReceivedDownBuff)
 
   val abnormalBuffs =
       platformSetOf(
@@ -1637,7 +1660,7 @@ inline val Modifiers.apChange: Int
         val increase =
             when {
               Buffs.ApUp2Buff in this -> 2
-              Buffs.ApUpBuff in this -> 1
+              Buffs.ApUpBuff in this || Buffs.GreaterApUpBuff in this -> 1
               else -> 0
             }
         increase - decrease
