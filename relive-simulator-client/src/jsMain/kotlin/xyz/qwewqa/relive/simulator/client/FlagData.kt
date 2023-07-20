@@ -204,7 +204,6 @@ object FlagData {
           artist = huiyuan,
           character = FlagCharacter.Maya,
           name = "pride_pride",
-          weight = 999.0,
       )
 
   val anonymousValentinesJunnaLesbian =
@@ -226,7 +225,6 @@ object FlagData {
 //          artist = rm,
 //          character = FlagCharacter.Tamao,
 //          name = "beautiful_woman_pan",
-//          weight = 999.0,
 //      )
 
 //  val rmIchieSunLesbian =
@@ -234,7 +232,6 @@ object FlagData {
 //          artist = rm,
 //          character = FlagCharacter.Ichie,
 //          name = "sun_lesbian",
-//          weight = 999.0,
 //      )
 
 //  val rmFumiBenikageNb =
@@ -242,7 +239,6 @@ object FlagData {
 //          artist = rm,
 //          character = FlagCharacter.Fumi,
 //          name = "benikage_nb",
-//          weight = 999.0,
 //      )
 
   val kekkersRuiBeachTrans =
@@ -322,12 +318,18 @@ object FlagData {
           name = "casual_agender",
       )
 
+  val kekkersMinkuCasualPan =
+      +FlagInfo(
+          artist = kekkers,
+          character = FlagCharacter.Minku,
+          name = "casual_pan",
+      )
+
 //  val rmStellaFsgGenderfluid =
 //      +FlagInfo(
 //          artist = rm,
 //          character = FlagCharacter.Stella,
 //          name = "fsg_genderfluid",
-//          weight = 999.0,
 //      )
 
 //  val rmShiroFsgTrans =
@@ -335,7 +337,6 @@ object FlagData {
 //          artist = rm,
 //          character = FlagCharacter.Shiro,
 //          name = "fsg_trans",
-//          weight = 999.0,
 //      )
 
   val limeKuinaFsgAgenderAromantic =
@@ -351,6 +352,13 @@ object FlagData {
           character = FlagCharacter.Koharu,
           name = "delight_genderqueer",
       )
+
+//  val jayneSuzuPrinceNb =
+//      +FlagInfo(
+//          artist = jayne,
+//          character = FlagCharacter.Suzu,
+//          name = "prince_nb",
+//      )
 
   val jayneHisameErdaNb =
       +FlagInfo(
