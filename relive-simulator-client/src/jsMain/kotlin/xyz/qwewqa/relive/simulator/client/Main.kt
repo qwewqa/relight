@@ -1263,6 +1263,11 @@ class SimulatorClient(val simulator: Simulator) {
         } else {
           bossHpInput.clear()
         }
+        if (bossAttribute != null) {
+          bossAttributeSelect.value = bossAttribute!!.name
+        } else {
+          bossAttributeSelect.value = "None"
+        }
         eventBonusInput.value = additionalEventBonus
         eventMultiplierInput.value = eventMultiplier
         seedInput.value = seed
