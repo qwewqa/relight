@@ -34,7 +34,7 @@ val tr32DraculaClaudine =
                 actPower = 2300,
                 normalDefense = 650,
                 specialDefense = 650,
-                agility = 1,
+                agility = 9999,
             ),
             acts =
               actsOf(
@@ -199,7 +199,7 @@ val tr32DraculaClaudineDiff4 =
                 actPower = 10000,
                 normalDefense = 10000,
                 specialDefense = 10000,
-                agility = 1,
+                agility = 9999,
             ),
             acts =
               actsOf(
