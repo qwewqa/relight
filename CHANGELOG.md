@@ -1178,3 +1178,9 @@
 
 # v1.6.3
 - Fixed error when actors exited
+
+# v1.6.4
+- Added new girls and memoirs
+- Added new flags
+- Fixed boss element override not being imported
+- TR33 bosses added by chihiro
