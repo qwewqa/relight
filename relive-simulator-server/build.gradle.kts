@@ -6,7 +6,7 @@ val project_version: String by project
 plugins {
   application
   kotlin("jvm")
-  id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0"
+  kotlin("plugin.serialization")
 }
 
 group = "xyz.qwewqa.relive.simulator"
