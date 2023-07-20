@@ -44,8 +44,8 @@ kotlin {
 }
 
 tasks.register<Copy>("copyIndex") {
-  from("${project(":relive-simulator-client").projectDir}/src/main/resources/index.html")
-  into("$projectDir/src/main/resources/")
+  from("${project(":relive-simulator-client").projectDir}/src/jsMain/resources/index.html")
+  into("$projectDir/src/jsMain/resources/")
   filter { line ->
     line
         .replace(
@@ -67,10 +67,10 @@ tasks.register<Copy>("copyIndex") {
 
 tasks.register<Copy>("copyServiceWorker") {
   outputs.upToDateWhen { false }
-  from("${project(":relive-simulator-client").projectDir}/src/main/resources/sw.js")
-  into("$projectDir/src/main/resources/")
-  val imageDir = File("${project(":relive-simulator-client").projectDir}/src/main/resources/img/")
-  val resourcesDir = File("${project(":relive-simulator-client").projectDir}/src/main/resources/")
+  from("${project(":relive-simulator-client").projectDir}/src/jsMain/resources/sw.js")
+  into("$projectDir/src/jsMain/resources/")
+  val imageDir = File("${project(":relive-simulator-client").projectDir}/src/jsMain/resources/img/")
+  val resourcesDir = File("${project(":relive-simulator-client").projectDir}/src/jsMain/resources/")
   val md = MessageDigest.getInstance("SHA-1")
   fun hash(input: ByteArray): String {
     return BigInteger(1, md.digest(input)).toString(16).padStart(32, '0')
