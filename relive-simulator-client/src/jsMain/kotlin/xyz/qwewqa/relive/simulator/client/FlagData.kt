@@ -171,6 +171,13 @@ object FlagData {
           twitterId = "1515186747834978304",
       )
 
+    val kekkersKirinAssorted =
+        +FlagInfo(
+            artist = kekkers,
+            character = FlagCharacter.Kirin,
+            name = "assorted",
+        )
+
     val prisAmemiyaSgAce =
         +FlagInfo(
             artist = pris,
@@ -353,12 +360,12 @@ object FlagData {
           name = "delight_genderqueer",
       )
 
-//  val jayneSuzuPrinceNb =
-//      +FlagInfo(
-//          artist = jayne,
-//          character = FlagCharacter.Suzu,
-//          name = "prince_nb",
-//      )
+  val jayneSuzuPrinceNb =
+      +FlagInfo(
+          artist = jayne,
+          character = FlagCharacter.Suzu,
+          name = "prince_nb",
+      )
 
   val jayneHisameErdaNb =
       +FlagInfo(
