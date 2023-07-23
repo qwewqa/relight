@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+
 val project_version: String by project
 val api_version: String by project
 
@@ -64,7 +66,7 @@ task("generateApiVersionFile") {
   }
 }
 
-project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configureEach {
+tasks.withType<KotlinCompilationTask<*>>().configureEach {
   dependsOn("generateApiVersionFile")
   dependsOn("createVersionFile")
 }
