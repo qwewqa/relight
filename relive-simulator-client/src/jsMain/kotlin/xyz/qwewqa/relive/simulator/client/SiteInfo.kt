@@ -22,6 +22,9 @@ fun initSiteInfo() {
       kotlinx.coroutines.delay(10000)
     }
   }
+
+  val buildInfo = window.document.getElementById("build-info") as HTMLDivElement
+  buildInfo.textContent = GIT_SHA.take(7)
 }
 
 suspend fun getStorageEstimate(): StorageEstimate? {
