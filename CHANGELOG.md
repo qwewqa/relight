@@ -1191,3 +1191,7 @@
 
 # v1.6.6
 - Updated WW data
+
+# v1.6.7
+- Added build info and stage use to bottom of page
+- Added new flags
