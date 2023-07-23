@@ -1376,6 +1376,8 @@ class SimulatorClient(val simulator: Simulator) {
 
     GlobalScope.launch(Dispatchers.Main.immediate) { updateVersionString() }
 
+    initSiteInfo()
+
     options = getSimulationOptions()
 
     val commonText = options.commonText.associateBy { it.id }
