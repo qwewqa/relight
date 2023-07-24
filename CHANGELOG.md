@@ -1200,3 +1200,6 @@
 - Added additional background update check
 - Version now links to clear cache page
 - Reduced spacing to right of Discord link button
+
+# v1.6.9
+- Version check now runs continuously in the background
