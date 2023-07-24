@@ -33,14 +33,16 @@ fun initSiteInfo() {
   val versionUpdateIcon = window.document.getElementById("version-update-icon") as HTMLElement
   val versionLink = window.document.getElementById("version-link") as HTMLElement
   GlobalScope.launch {
-    val versionInfo = getLiveVersionInfo()
-    if (versionInfo != null) {
-      if (versionInfo.GIT_SHA != GIT_SHA) {
-        versionUpdateIcon.removeClass("d-none")
-        versionLink.style.color = "crimson"
+    while (true) {
+      val versionInfo = getLiveVersionInfo()
+      if (versionInfo != null) {
+        if (versionInfo.GIT_SHA != GIT_SHA) {
+          versionUpdateIcon.removeClass("d-none")
+          versionLink.style.color = "crimson"
+        }
       }
+      delay(30000)
     }
-    delay(30000)
   }
 }
 
