@@ -25,12 +25,10 @@ val json = Json {
   encodeDefaults = true
 }
 
-@OptIn(ExperimentalSerializationApi::class)
 inline fun <reified T> dumpYamlSerialize(obj: T): String {
   return Yaml.dump(Yaml.load(Json.encodeToString(obj))) as String
 }
 
-@OptIn(ExperimentalSerializationApi::class)
 inline fun <reified T> loadYamlDeserialize(document: String): T {
   return json.decodeFromString(JSON.stringify(Yaml.load(document)))
 }

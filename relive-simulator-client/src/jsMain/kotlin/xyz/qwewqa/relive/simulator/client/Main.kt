@@ -106,6 +106,7 @@ class SimulatorClient(val simulator: Simulator) {
   var interactiveSimulation: InteractiveSimulation? = null
 
   val versionLink = document.getElementById("version-link") as HTMLAnchorElement
+  val versionText = document.getElementById("version-text") as HTMLSpanElement
   val tabNameInput = document.getElementById("tab-name-input") as HTMLInputElement
   val languageSelect = document.getElementById("language-select").singleSelect(false)
   val exportButton = document.getElementById("export-button") as HTMLButtonElement
@@ -325,9 +326,9 @@ class SimulatorClient(val simulator: Simulator) {
       if (serverVersion.apiVersion != version.apiVersion) {
         toast("Error", "Client version does not match server version.", "red")
       }
-      versionLink.textContent = "client $version / server $serverVersion"
+      versionText.textContent = "client $version / server $serverVersion"
     } else {
-      versionLink.textContent = version.toString()
+      versionText.textContent = version.toString()
     }
   }
 

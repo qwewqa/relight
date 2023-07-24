@@ -108,6 +108,7 @@ ${imageData.joinToString(",\n") { (url, revision) -> "{url: '$url', revision: '$
 }
 
 tasks.register<Copy>("copyResources") {
+  dependsOn(":relive-simulator-client:createVersionFile")
   from("${project(":relive-simulator-client").projectDir}/src/jsMain/resources/") {
     exclude("index.html", "sw.js")
   }

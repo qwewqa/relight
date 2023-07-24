@@ -157,6 +157,8 @@ gradle-app.setting
 /relive-simulator-server/src/main/kotlin/xyz/qwewqa/relive/simulator/server/GVersion.kt
 /relive-simulator-client/src/main/kotlin/xyz/qwewqa/relive/simulator/client/GVersion.kt
 
+/relive-simulator-client/src/jsMain/resources/version.yaml
+
 /relive-simulator-server/src/main/resources/client/*
 
 !/relive-simulator-browser/src/main/resources/icon/*

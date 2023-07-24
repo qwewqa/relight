@@ -1,9 +1,12 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+
 val project_version: String by project
 val ktor_version: String by project
 
 plugins {
   kotlin("multiplatform")
   kotlin("plugin.serialization")
+  id("com.peterabeles.gversion")
 }
 
 group = "xyz.qwewqa.relive.simulator"
@@ -13,6 +16,13 @@ version = project_version
 repositories {
   maven { url = uri("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven") }
   mavenCentral()
+}
+
+gversion {
+  srcDir = "src/jsMain/resources"
+  classPackage = ""
+  className = "version"
+  language = "yaml"
 }
 
 kotlin {
@@ -46,4 +56,8 @@ kotlin {
       }
     }
   }
+}
+
+tasks.withType<KotlinCompilationTask<*>>().configureEach {
+  dependsOn("createVersionFile")
 }
