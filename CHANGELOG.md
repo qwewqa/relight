@@ -1195,3 +1195,8 @@
 # v1.6.7
 - Added build info and stage use to bottom of page
 - Added new flags
+
+# v1.6.8
+- Added additional background update check
+- Version now links to clear cache page
+- Reduced spacing to right of Discord link button
