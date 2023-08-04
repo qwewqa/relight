@@ -1203,3 +1203,6 @@
 
 # v1.6.9
 - Version check now runs continuously in the background
+
+# v1.6.10
+- Added new girls and memoirs
