@@ -1557,6 +1557,12 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val ReflectStageEffectThunderBuff =
       +buffData(336).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
+  val StealResistanceUpBuff =
+      +buffData(337).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+
+  val NegativeStageEffectResistanceUp =
+      +buffData(338).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+
   val GreaterBurnBuff =
       +buffData(1001).makeGreaterVariantOf(BurnBuff)
 
@@ -1588,6 +1594,12 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val GreaterDamageReceivedDownBuff =
       +buffData(1010).makeGreaterVariantOf(DamageReceivedDownBuff)
+
+  val GreaterEvasionBuff =
+      +buffData(1011).makeGreaterVariantOf(EvasionBuff)
+
+  val GreaterStopBuff =
+      +buffData(1012).makeGreaterVariantOf(StopBuff)
 
   val abnormalBuffs =
       platformSetOf(

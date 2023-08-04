@@ -64,7 +64,7 @@ open class RandomDamageCalculator : DamageCalculator {
                     "Possible critical rolls: ${possibleRolls(true)}."
               }
         }
-        if (target.buffs.tryRemove(Buffs.EvasionBuff)) {
+        if (target.buffs.tryRemove(Buffs.EvasionBuff) || target.buffs.tryRemove(Buffs.GreaterEvasionBuff)) {
           if (PerfectAimBuff !in self.buffs && !hitAttribute.focus) {
             log("Hit", category = LogCategory.DAMAGE) {
               "Miss against [${target.name}] from Evade."
@@ -318,7 +318,7 @@ class MeanDamageCalculator : RandomDamageCalculator() {
                     "Possible critical rolls: ${possibleRolls(true)}."
               }
         }
-        if (target.buffs.tryRemove(Buffs.EvasionBuff)) {
+        if (target.buffs.tryRemove(Buffs.EvasionBuff) || target.buffs.tryRemove(Buffs.GreaterEvasionBuff)) {
           if (!(PerfectAimBuff in self.buffs) && !hitAttribute.focus) {
             log("Hit", category = LogCategory.DAMAGE) {
               "Miss against [${target.name}] from Evade."

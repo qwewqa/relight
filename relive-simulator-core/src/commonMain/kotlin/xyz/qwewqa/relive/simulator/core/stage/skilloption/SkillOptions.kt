@@ -1571,6 +1571,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val ContractionResistanceUp = +skillOptionData(616).applyEffect()
   val LockedContractionResistanceUp = +skillOptionData(617).applyEffect()
 
+  val StealResistanceUp = +skillOptionData(618).applyEffect()
+
   val GreaterBurn = +skillOptionData(10010).applyEffect()
   val GreaterConfusion = +skillOptionData(10020).applyEffect()
   val GreaterBlindness = +skillOptionData(10030).applyEffect()
@@ -1581,6 +1583,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterBlindnessResistanceUp = +skillOptionData(10080).applyEffect()
   val GreaterConfusionResistanceUp = +skillOptionData(10090).applyEffect()
   val GreaterDamageReceivedDown = +skillOptionData(10100).applyEffect()
+  val GreaterEvasion = +skillOptionData(10110).applyEffect()
+  val GreaterStop = +skillOptionData(10120).applyEffect()
 
   // TODO: figure out if these affect base
 

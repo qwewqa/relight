@@ -24,6 +24,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FreezeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterConfusionBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFreezeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterProvokeBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterStopBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LockedAggroBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LovesicknessBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.NightmareBuff
@@ -162,7 +163,7 @@ class Actor(
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by overwhelm." }
         return
       }
-      if (StopBuff in buffs) {
+      if (StopBuff in buffs || GreaterStopBuff in buffs) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by stop." }
         return
       }
@@ -399,7 +400,7 @@ class Actor(
   fun addBrilliance(base: I54) =
       context.run {
         if (base > 0) {
-          if (StopBuff in buffs) {
+          if (StopBuff in buffs || GreaterStopBuff in buffs) {
             context.log("Abnormal") { "Brilliance gain prevented by stop." }
             return
           }

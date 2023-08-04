@@ -143,6 +143,12 @@ data class BuffData(
           onEnd = { value, source, data -> base.onEnd(this, value, source, data) },
       )
 
+  fun makeGreaterVariantOf(base: CountableBuffEffect) =
+      makeCountableBuffEffect(
+          category = base.category,
+          isLocked = base.isLocked,
+      )
+
   fun makeCountableBuffEffect(
       category: BuffCategory,
       isLocked: Boolean = false,
