@@ -1211,3 +1211,7 @@
 - Added new flags
 - Added damage factors to log
 - Added new girls and memoirs
+
+# v1.6.12
+- Updated Witch Shizuha's amp
+- Added missing bonus for Witch Shizuha
