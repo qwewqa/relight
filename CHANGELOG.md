@@ -1206,3 +1206,8 @@
 
 # v1.6.10
 - Added new girls and memoirs
+
+# v1.6.11
+- Added new flags
+- Added damage factors to log
+- Added new girls and memoirs
