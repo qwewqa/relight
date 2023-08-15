@@ -18,6 +18,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FreezeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FrostbiteBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterBlindnessBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFreezeBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFrostbiteBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.InvincibilityBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LockedNormalBarrierBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LockedSpecialBarrierBuff
@@ -64,7 +65,8 @@ open class RandomDamageCalculator : DamageCalculator {
                     "Possible critical rolls: ${possibleRolls(true)}."
               }
         }
-        if (target.buffs.tryRemove(Buffs.EvasionBuff) || target.buffs.tryRemove(Buffs.GreaterEvasionBuff)) {
+        if (target.buffs.tryRemove(Buffs.EvasionBuff) ||
+            target.buffs.tryRemove(Buffs.GreaterEvasionBuff)) {
           if (PerfectAimBuff !in self.buffs && !hitAttribute.focus) {
             log("Hit", category = LogCategory.DAMAGE) {
               "Miss against [${target.name}] from Evade."
@@ -242,7 +244,7 @@ open class RandomDamageCalculator : DamageCalculator {
         target.mod {
           100 +
               (30 given { FreezeBuff in target.buffs || GreaterFreezeBuff in target.buffs }) +
-              (30 given { FrostbiteBuff in target.buffs })
+              (30 given { FrostbiteBuff in target.buffs || GreaterFrostbiteBuff in target.buffs })
         }
 
     // cx damage up
@@ -255,6 +257,29 @@ open class RandomDamageCalculator : DamageCalculator {
 
     val eventBonusCoef = 100 + attacker.eventBonus
     val eventMultiplier = attacker.eventMultiplier
+
+    attacker.context.log(
+        "DamageCalculator", category = LogCategory.DAMAGE, summary = { "Damage factors" }) {
+          listOf(
+                  "base" to base,
+                  "eleCoef" to eleCoef,
+                  "effEleCoef" to effEleCoef,
+                  "critCoef" to critCoef,
+                  "attributeDamageDealtUpCoef" to attributeDamageDealtUpCoef,
+                  "againstAttributeDamageDealtUpCoef" to againstAttributeDamageDealtUpCoef,
+                  "bonusCoef" to bonusCoef,
+                  "eventBonusCoef" to eventBonusCoef,
+                  "targetAgainstAttributeDamageReceivedDownCoef" to
+                      targetAgainstAttributeDamageReceivedDownCoef,
+                  "freezeCoef" to freezeCoef,
+                  "cxDmgCoef" to cxDmgCoef,
+                  "dmgDealtDownCoef" to dmgDealtDownCoef,
+                  "dmgTakenCoef" to dmgTakenCoef,
+                  "dmgDealtUpCoef" to dmgDealtUpCoef,
+                  "eventMultiplier" to eventMultiplier,
+              )
+              .joinToString("\n") { (name, value) -> "$name: $value" }
+        }
 
     var dmg = base
     dmg = dmg ptmul eleCoef
@@ -318,7 +343,8 @@ class MeanDamageCalculator : RandomDamageCalculator() {
                     "Possible critical rolls: ${possibleRolls(true)}."
               }
         }
-        if (target.buffs.tryRemove(Buffs.EvasionBuff) || target.buffs.tryRemove(Buffs.GreaterEvasionBuff)) {
+        if (target.buffs.tryRemove(Buffs.EvasionBuff) ||
+            target.buffs.tryRemove(Buffs.GreaterEvasionBuff)) {
           if (!(PerfectAimBuff in self.buffs) && !hitAttribute.focus) {
             log("Hit", category = LogCategory.DAMAGE) {
               "Miss against [${target.name}] from Evade."
