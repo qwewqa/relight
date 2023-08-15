@@ -1563,6 +1563,9 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val NegativeStageEffectResistanceUp =
       +buffData(338).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
+  val PositiveStageEffectResistanceUp =
+      +buffData(339).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
   val GreaterBurnBuff =
       +buffData(1001).makeGreaterVariantOf(BurnBuff)
 
@@ -1600,6 +1603,18 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val GreaterStopBuff =
       +buffData(1012).makeGreaterVariantOf(StopBuff)
+
+  val GreaterFortitudeBuff =
+      +buffData(1013).makeGreaterVariantOf(FortitudeBuff)
+
+  val GreaterFreezeResistanceUpBuff =
+      +buffData(1014).makeSpecificResistanceUpBuff(GreaterFreezeBuff)
+
+  val GreaterStopResistanceUpBuff =
+      +buffData(1015).makeSpecificResistanceUpBuff(GreaterStopBuff)
+
+  val GreaterFrostbiteBuff =
+      +buffData(1016).makeGreaterVariantOf(FrostbiteBuff)
 
   val abnormalBuffs =
       platformSetOf(

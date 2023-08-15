@@ -21,8 +21,10 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ConfusionBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ElectricShockBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ExitEvasionBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FreezeBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FrostbiteBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterConfusionBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFreezeBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFrostbiteBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterProvokeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterStopBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LockedAggroBuff
@@ -175,6 +177,10 @@ class Actor(
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by freeze." }
         return
       }
+      if (FrostbiteBuff in buffs || GreaterFrostbiteBuff in buffs) {
+        context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by frostbite." }
+        return
+      }
       if (SleepBuff in buffs) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by sleep." }
         return
@@ -297,7 +303,8 @@ class Actor(
             }
             return@run
           }
-          if (self.buffs.tryRemove(Buffs.FortitudeBuff)) {
+          if (self.buffs.tryRemove(Buffs.FortitudeBuff) ||
+              self.buffs.tryRemove(Buffs.GreaterFortitudeBuff)) {
             self.hp = 1.i54
             context.log("Damage", category = LogCategory.DAMAGE) {
               "Fortitude activate (newHp: 1)."
