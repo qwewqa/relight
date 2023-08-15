@@ -1,5 +1,8 @@
 package xyz.qwewqa.relive.simulator.core.stage
 
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.core.i54.I54
 import xyz.qwewqa.relive.simulator.core.i54.i54
@@ -25,9 +28,6 @@ import xyz.qwewqa.relive.simulator.core.stage.modifier.positiveEffectResistance
 import xyz.qwewqa.relive.simulator.core.stage.stageeffect.StageEffect
 import xyz.qwewqa.relive.simulator.core.stage.target.SkillTarget
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
 
 data class ActionLog(
     var successfulHits: Int = 0,
@@ -188,8 +188,8 @@ class TargetContext(
   fun attack(
       modifier: Int,
       hitCount: Int = 1,
-      bonusMultiplier: Int = 100,
-      bonusCondition: Condition = Condition { false },
+      ampMultiplier: Int = 100,
+      ampCondition: Condition = Condition { false },
       damageType: DamageType = self.dress.damageType,
       attribute: Attribute = self.dress.attribute,
       addBrilliance: Boolean = true,
@@ -205,8 +205,8 @@ class TargetContext(
             hitCount = hitCount,
             attribute = attribute,
             damageType = damageType,
-            bonusModifier = bonusMultiplier,
-            bonusCondition = bonusCondition,
+            ampModifier = ampMultiplier,
+            ampCondition = ampCondition,
             addBrilliance = addBrilliance,
             focus = focus,
             noReflect = noReflect,
@@ -265,8 +265,8 @@ class TargetContext(
             hitCount = hitCount,
             attribute = attribute,
             damageType = damageType,
-            bonusModifier = bonusMultiplier,
-            bonusCondition = bonusCondition,
+            ampModifier = bonusMultiplier,
+            ampCondition = bonusCondition,
             addBrilliance = addBrilliance,
             focus = focus,
             noReflect = noReflect,

@@ -205,9 +205,9 @@ open class RandomDamageCalculator : DamageCalculator {
       base = (atk - def).coerceAtLeast(atk / 10) / hitAttribute.hitCount
     }
 
-    val bonusCoef =
-        if (hitAttribute.bonusCondition != null && hitAttribute.bonusCondition.evaluate(target)) {
-          hitAttribute.bonusModifier.toI54()
+    val ampCoef =
+        if (hitAttribute.ampCondition != null && hitAttribute.ampCondition.evaluate(target)) {
+          hitAttribute.ampModifier.toI54()
         } else {
           100.i54
         }
@@ -267,7 +267,7 @@ open class RandomDamageCalculator : DamageCalculator {
                   "critCoef" to critCoef,
                   "attributeDamageDealtUpCoef" to attributeDamageDealtUpCoef,
                   "againstAttributeDamageDealtUpCoef" to againstAttributeDamageDealtUpCoef,
-                  "bonusCoef" to bonusCoef,
+                  "ampCoef" to ampCoef,
                   "eventBonusCoef" to eventBonusCoef,
                   "targetAgainstAttributeDamageReceivedDownCoef" to
                       targetAgainstAttributeDamageReceivedDownCoef,
@@ -286,7 +286,7 @@ open class RandomDamageCalculator : DamageCalculator {
     dmg = dmg ptmul effEleCoef
     dmg = dmg ptmul attributeDamageDealtUpCoef
     dmg = dmg ptmul againstAttributeDamageDealtUpCoef
-    dmg = dmg ptmul bonusCoef // tentative
+    dmg = dmg ptmul ampCoef // tentative
     dmg = dmg ptmul eventBonusCoef
     dmg = dmg ptmul targetAgainstAttributeDamageReceivedDownCoef // tentative
     dmg = dmg ptmul freezeCoef
@@ -302,7 +302,7 @@ open class RandomDamageCalculator : DamageCalculator {
     criticalDmg = criticalDmg ptmul critCoef
     criticalDmg = criticalDmg ptmul attributeDamageDealtUpCoef
     criticalDmg = criticalDmg ptmul againstAttributeDamageDealtUpCoef
-    criticalDmg = criticalDmg ptmul bonusCoef // tentative
+    criticalDmg = criticalDmg ptmul ampCoef // tentative
     criticalDmg = criticalDmg ptmul eventBonusCoef
     criticalDmg = criticalDmg ptmul targetAgainstAttributeDamageReceivedDownCoef // tentative
     criticalDmg = criticalDmg ptmul freezeCoef
@@ -462,8 +462,8 @@ data class HitAttribute(
     val hitCount: Int = 1,
     val attribute: Attribute = Attribute.Neutral,
     val damageType: DamageType = DamageType.Neutral,
-    val bonusModifier: Int = 100,
-    val bonusCondition: Condition? = null,
+    val ampModifier: Int = 100,
+    val ampCondition: Condition? = null,
     val addBrilliance: Boolean = true,
     val focus: Boolean = false,
     val noReflect: Boolean = false,

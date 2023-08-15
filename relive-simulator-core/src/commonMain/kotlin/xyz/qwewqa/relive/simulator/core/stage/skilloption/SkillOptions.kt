@@ -405,8 +405,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { Buffs.PoisonBuff in it.buffs })
+            ampMultiplier = 200,
+            ampCondition = { Buffs.PoisonBuff in it.buffs })
       }
   val AttackBurnBoost =
       +skillOptionData(277).makeSkillOption { value, time, _, attribute ->
@@ -414,8 +414,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { Buffs.BurnBuff in it.buffs })
+            ampMultiplier = 200,
+            ampCondition = { Buffs.BurnBuff in it.buffs })
       }
   val AttackProvokeBoost =
       +skillOptionData(278).makeSkillOption { value, time, _, attribute ->
@@ -423,8 +423,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { Buffs.ProvokeBuff in it.buffs })
+            ampMultiplier = 200,
+            ampCondition = { Buffs.ProvokeBuff in it.buffs })
       }
   val AttackStunBoost =
       +skillOptionData(279).makeSkillOption { value, time, _, attribute ->
@@ -432,8 +432,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { Buffs.StunBuff in it.buffs })
+            ampMultiplier = 200,
+            ampCondition = { Buffs.StunBuff in it.buffs })
       }
   val AttackSleepBoost =
       +skillOptionData(280).makeSkillOption { value, time, _, attribute ->
@@ -441,8 +441,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { Buffs.SleepBuff in it.buffs })
+            ampMultiplier = 200,
+            ampCondition = { Buffs.SleepBuff in it.buffs })
       }
   val AttackConfusionBoost =
       +skillOptionData(281).makeSkillOption { value, time, _, attribute ->
@@ -450,8 +450,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { Buffs.ConfusionBuff in it.buffs })
+            ampMultiplier = 200,
+            ampCondition = { Buffs.ConfusionBuff in it.buffs })
       }
   val AttackStopBoost =
       +skillOptionData(282).makeSkillOption { value, time, _, attribute ->
@@ -459,8 +459,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { Buffs.StopBuff in it.buffs })
+            ampMultiplier = 200,
+            ampCondition = { Buffs.StopBuff in it.buffs })
       }
   val AttackFreezeBoost =
       +skillOptionData(283).makeSkillOption { value, time, _, attribute ->
@@ -468,8 +468,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { Buffs.FreezeBuff in it.buffs })
+            ampMultiplier = 200,
+            ampCondition = { Buffs.FreezeBuff in it.buffs })
       }
   val AttackBlindnessBoost =
       +skillOptionData(284).makeSkillOption { value, time, _, attribute ->
@@ -477,8 +477,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { Buffs.BlindnessBuff in it.buffs })
+            ampMultiplier = 200,
+            ampCondition = { Buffs.BlindnessBuff in it.buffs })
       }
   val AttackHpRecoveryDownBoost =
       +skillOptionData(285).makeSkillOption { value, time, _, attribute ->
@@ -486,8 +486,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { Buffs.HpRecoveryDownBuff in it.buffs })
+            ampMultiplier = 200,
+            ampCondition = { Buffs.HpRecoveryDownBuff in it.buffs })
       }
   val AttackMarkBoost =
       +skillOptionData(286).makeSkillOption { value, time, _, attribute ->
@@ -495,8 +495,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { Buffs.MarkBuff in it.buffs })
+            ampMultiplier = 200,
+            ampCondition = { Buffs.MarkBuff in it.buffs })
       }
   val AttackAggroBoost =
       +skillOptionData(287).makeSkillOption { value, time, _, attribute ->
@@ -504,8 +504,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { Buffs.AggroBuff in it.buffs })
+            ampMultiplier = 200,
+            ampCondition = { Buffs.AggroBuff in it.buffs })
       }
   val AttackApUpBoost =
       +skillOptionData(288).makeSkillOption { value, time, _, attribute ->
@@ -513,8 +513,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { Buffs.ApUpBuff in it.buffs })
+            ampMultiplier = 200,
+            ampCondition = { Buffs.ApUpBuff in it.buffs })
       }
   val AttackSealAct1Boost =
       +skillOptionData(289).makeSkillOption { value, time, _, attribute ->
@@ -522,8 +522,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { Buffs.SealAct1Buff in it.buffs })
+            ampMultiplier = 200,
+            ampCondition = { Buffs.SealAct1Buff in it.buffs })
       }
   val AttackSealAct2Boost =
       +skillOptionData(290).makeSkillOption { value, time, _, attribute ->
@@ -531,8 +531,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { Buffs.SealAct2Buff in it.buffs })
+            ampMultiplier = 200,
+            ampCondition = { Buffs.SealAct2Buff in it.buffs })
       }
   val AttackSealAct3Boost =
       +skillOptionData(291).makeSkillOption { value, time, _, attribute ->
@@ -540,8 +540,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { Buffs.SealAct3Buff in it.buffs })
+            ampMultiplier = 200,
+            ampCondition = { Buffs.SealAct3Buff in it.buffs })
       }
   val AttackBrillianceGainDownBoost =
       +skillOptionData(292).makeSkillOption { value, time, _, attribute ->
@@ -549,8 +549,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { Buffs.BrillianceGainDownBuff in it.buffs })
+            ampMultiplier = 200,
+            ampCondition = { Buffs.BrillianceGainDownBuff in it.buffs })
       }
 
   val ActChange = +skillOptionData(293).applyEffect()
@@ -575,8 +575,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 125,
-            bonusCondition = { it.dress.damageType == DamageType.Normal })
+            ampMultiplier = 125,
+            ampCondition = { it.dress.damageType == DamageType.Normal })
       }
   val AttackNormalBoost150 =
       +skillOptionData(306).makeSkillOption { value, time, _, attribute ->
@@ -584,8 +584,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 150,
-            bonusCondition = { it.dress.damageType == DamageType.Normal })
+            ampMultiplier = 150,
+            ampCondition = { it.dress.damageType == DamageType.Normal })
       }
   val AttackSpecialBoost125 =
       +skillOptionData(307).makeSkillOption { value, time, _, attribute ->
@@ -593,8 +593,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 125,
-            bonusCondition = { it.dress.damageType == DamageType.Special })
+            ampMultiplier = 125,
+            ampCondition = { it.dress.damageType == DamageType.Special })
       }
   val AttackSpecialBoost150 =
       +skillOptionData(308).makeSkillOption { value, time, _, attribute ->
@@ -602,8 +602,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 150,
-            bonusCondition = { it.dress.damageType == DamageType.Special })
+            ampMultiplier = 150,
+            ampCondition = { it.dress.damageType == DamageType.Special })
       }
 
   // TODO: remove exit
@@ -683,8 +683,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { Buffs.LovesicknessBuff in it.buffs })
+            ampMultiplier = 200,
+            ampCondition = { Buffs.LovesicknessBuff in it.buffs })
       }
 
   val LockedContinuousNegativeEffectResistanceUp =
@@ -711,8 +711,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { Buffs.ElectricShockBuff in it.buffs })
+            ampMultiplier = 200,
+            ampCondition = { Buffs.ElectricShockBuff in it.buffs })
       }
 
   val ReviveBuff = +skillOptionData(360).applyEffect()
@@ -723,8 +723,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 150,
-            bonusCondition = { it.dress.character.school == School.Seisho })
+            ampMultiplier = 150,
+            ampCondition = { it.dress.character.school == School.Seisho })
       }
   val AttackRinmeikanBoost150 =
       +skillOptionData(362).makeSkillOption { value, time, _, attribute ->
@@ -732,8 +732,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 150,
-            bonusCondition = { it.dress.character.school == School.Rinmeikan })
+            ampMultiplier = 150,
+            ampCondition = { it.dress.character.school == School.Rinmeikan })
       }
   val AttackFrontierBoost150 =
       +skillOptionData(363).makeSkillOption { value, time, _, attribute ->
@@ -741,8 +741,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 150,
-            bonusCondition = { it.dress.character.school == School.Frontier })
+            ampMultiplier = 150,
+            ampCondition = { it.dress.character.school == School.Frontier })
       }
   val AttackSiegfeldBoost150 =
       +skillOptionData(364).makeSkillOption { value, time, _, attribute ->
@@ -750,8 +750,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 150,
-            bonusCondition = { it.dress.character.school == School.Siegfeld })
+            ampMultiplier = 150,
+            ampCondition = { it.dress.character.school == School.Siegfeld })
       }
   val AttackSeiranBoost150 =
       +skillOptionData(365).makeSkillOption { value, time, _, attribute ->
@@ -759,8 +759,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 150,
-            bonusCondition = { it.dress.character.school == School.Seiran })
+            ampMultiplier = 150,
+            ampCondition = { it.dress.character.school == School.Seiran })
       }
 
   val AttackSeishoBoost200 =
@@ -769,8 +769,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { it.dress.character.school == School.Seisho })
+            ampMultiplier = 200,
+            ampCondition = { it.dress.character.school == School.Seisho })
       }
   val AttackRinmeikanBoost200 =
       +skillOptionData(367).makeSkillOption { value, time, _, attribute ->
@@ -778,8 +778,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { it.dress.character.school == School.Rinmeikan })
+            ampMultiplier = 200,
+            ampCondition = { it.dress.character.school == School.Rinmeikan })
       }
   val AttackFrontierBoost200 =
       +skillOptionData(368).makeSkillOption { value, time, _, attribute ->
@@ -787,8 +787,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { it.dress.character.school == School.Frontier })
+            ampMultiplier = 200,
+            ampCondition = { it.dress.character.school == School.Frontier })
       }
   val AttackSiegfeldBoost200 =
       +skillOptionData(369).makeSkillOption { value, time, _, attribute ->
@@ -796,8 +796,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { it.dress.character.school == School.Siegfeld })
+            ampMultiplier = 200,
+            ampCondition = { it.dress.character.school == School.Siegfeld })
       }
   val AttackSeiranBoost200 =
       +skillOptionData(370).makeSkillOption { value, time, _, attribute ->
@@ -805,8 +805,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 200,
-            bonusCondition = { it.dress.character.school == School.Seiran })
+            ampMultiplier = 200,
+            ampCondition = { it.dress.character.school == School.Seiran })
       }
 
   val HitRandom33Stop1t =
@@ -904,8 +904,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 150,
-            bonusCondition = { it.dress.character.school == School.Seisho },
+            ampMultiplier = 150,
+            ampCondition = { it.dress.character.school == School.Seisho },
             focus = true,
         )
       }
@@ -915,8 +915,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 150,
-            bonusCondition = { it.dress.character.school == School.Rinmeikan },
+            ampMultiplier = 150,
+            ampCondition = { it.dress.character.school == School.Rinmeikan },
             focus = true,
         )
       }
@@ -926,8 +926,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 150,
-            bonusCondition = { it.dress.character.school == School.Frontier },
+            ampMultiplier = 150,
+            ampCondition = { it.dress.character.school == School.Frontier },
             focus = true,
         )
       }
@@ -937,8 +937,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 150,
-            bonusCondition = { it.dress.character.school == School.Siegfeld },
+            ampMultiplier = 150,
+            ampCondition = { it.dress.character.school == School.Siegfeld },
             focus = true,
         )
       }
@@ -948,8 +948,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 150,
-            bonusCondition = { it.dress.character.school == School.Seiran },
+            ampMultiplier = 150,
+            ampCondition = { it.dress.character.school == School.Seiran },
             focus = true,
         )
       }
@@ -993,8 +993,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 150,
-            bonusCondition = { it.dress.id in DressCategory.Arcana },
+            ampMultiplier = 150,
+            ampCondition = { it.dress.id in DressCategory.Arcana },
         )
       }
 
@@ -1443,8 +1443,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             modifier = value,
             hitCount = time,
             attribute = attribute,
-            bonusMultiplier = 150,
-            bonusCondition = {
+            ampMultiplier = 150,
+            ampCondition = {
               it.dress.attribute == Attribute.Sun || it.dress.attribute == Attribute.Star
             },
         )
