@@ -1215,3 +1215,6 @@
 # v1.6.12
 - Updated Witch Shizuha's amp
 - Added missing bonus for Witch Shizuha
+
+# v1.6.13
+- Fixed boss attribute override not working on bulk sims
