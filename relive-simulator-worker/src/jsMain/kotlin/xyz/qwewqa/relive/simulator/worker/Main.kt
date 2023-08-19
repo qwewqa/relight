@@ -12,6 +12,7 @@ import xyz.qwewqa.relive.simulator.core.stage.MarginStageResult
 import xyz.qwewqa.relive.simulator.core.stage.PlayError
 import xyz.qwewqa.relive.simulator.core.stage.PlayInfo
 import xyz.qwewqa.relive.simulator.core.stage.StageConfiguration
+import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.createStageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.loadout.StageLoadout
 import xyz.qwewqa.relive.simulator.core.stage.toSimulationResult
@@ -140,6 +141,7 @@ external class RawSimulationParameters {
   val bossStrategy: RawStrategyParameter?
   val boss: String
   val bossHp: Double?
+  val bossAttribute: String?
   val additionalEventBonus: Int
   val eventMultiplier: Int
   val seed: Int
@@ -242,6 +244,7 @@ fun RawSimulationParameters.parse() =
         bossStrategy = bossStrategy?.parse(),
         boss = boss,
         bossHp = bossHp,
+        bossAttribute = bossAttribute?.let { Attribute.valueOf(it) },
         additionalEventBonus = additionalEventBonus,
         eventMultiplier = eventMultiplier,
         seed = seed,
