@@ -22,7 +22,9 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ElectricShockBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ExitEvasionBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FreezeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FrostbiteBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterAgonyBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterConfusionBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterElectricShockBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFreezeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFrostbiteBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterProvokeBuff
@@ -169,7 +171,7 @@ class Actor(
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by stop." }
         return
       }
-      if (AgonyBuff in buffs) {
+      if (AgonyBuff in buffs || GreaterAgonyBuff in buffs) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by agony." }
         return
       }
@@ -228,7 +230,8 @@ class Actor(
         confusionAct.execute(context)
         return
       }
-      if (ElectricShockBuff in buffs && context.stage.random.nextDouble() < 0.3) {
+      if ((ElectricShockBuff in buffs || GreaterElectricShockBuff in buffs) &&
+          context.stage.random.nextDouble() < 0.3) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) {
           "Act prevented by electric shock."
         }
@@ -411,7 +414,7 @@ class Actor(
             context.log("Abnormal") { "Brilliance gain prevented by stop." }
             return
           }
-          if (AgonyBuff in buffs) {
+          if (AgonyBuff in buffs || GreaterAgonyBuff in buffs) {
             context.log("Abnormal") { "Brilliance gain prevented by agony." }
             return
           }

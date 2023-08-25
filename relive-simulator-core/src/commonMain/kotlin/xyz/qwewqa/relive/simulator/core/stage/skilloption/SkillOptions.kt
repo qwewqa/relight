@@ -1589,6 +1589,9 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterFreezeResistanceUp = +skillOptionData(10140).applyEffect()
   val GreaterStopResistanceUp = +skillOptionData(10150).applyEffect()
   val GreaterFrostbite = +skillOptionData(10160).applyEffect()
+  val GreaterElectricShock = +skillOptionData(10170).applyEffect()
+  val GreaterAgony = +skillOptionData(10180).applyEffect()
+  val GreaterAgonyResistanceUp = +skillOptionData(10190).applyEffect()
 
   // TODO: figure out if these affect base
 

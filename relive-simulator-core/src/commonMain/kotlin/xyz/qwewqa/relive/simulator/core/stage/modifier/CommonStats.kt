@@ -9,7 +9,9 @@ import xyz.qwewqa.relive.simulator.core.i54.sumOfI54
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.AgonyBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.BurnBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterAgonyBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterBurnBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.HopeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.WeakenBuff
@@ -150,4 +152,5 @@ fun Modifiers.damageDealtUpModifier(target: Actor): I54 {
 fun Modifiers.damageReceivedModifier(attacker: Actor) =
     ((Modifier.DamageReceivedUp - (+Modifier.DamageReceivedDown).coerceAtMost(100)) +
         (actor.fromCharacterDamageReceivedUp[attacker.dress.character] ?: 0.i54) +
-        (if (WeakenBuff in actor.buffs) 10.i54 else 0.i54))
+        (if (WeakenBuff in actor.buffs) 10.i54 else 0.i54) +
+        (if (AgonyBuff in actor.buffs || GreaterAgonyBuff in actor.buffs) 30.i54 else 0.i54))

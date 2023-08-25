@@ -1128,11 +1128,9 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val AgonyBuff =
       +buffData(218)
-          .makeIdempotentContinuousBuffEffect(
+          .makeSimpleContinuousBuffEffect(
               category = BuffCategory.Negative,
               exclusive = true,
-              onStart = { self.mod { Modifier.DamageReceivedUp += 30 } },
-              onEnd = { self.mod { Modifier.DamageReceivedUp -= 30 } },
           )
 
   val LockedAggroBuff = +buffData(219).makeLockedVariantOf(AggroBuff)
@@ -1615,6 +1613,15 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val GreaterFrostbiteBuff =
       +buffData(1016).makeGreaterVariantOf(FrostbiteBuff)
+
+  val GreaterElectricShockBuff =
+      +buffData(1017).makeGreaterVariantOf(ElectricShockBuff)
+
+  val GreaterAgonyBuff =
+      +buffData(1018).makeGreaterVariantOf(AgonyBuff)
+
+  val GreaterAgonyResistanceUpBuff =
+      +buffData(1019).makeSpecificResistanceUpBuff(GreaterAgonyBuff)
 
   val abnormalBuffs =
       platformSetOf(
