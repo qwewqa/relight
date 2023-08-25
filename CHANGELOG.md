@@ -1218,3 +1218,6 @@
 
 # v1.6.13
 - Fixed boss attribute override not working on bulk sims
+
+# v1.6.14
+- Added new girls and memoirs
