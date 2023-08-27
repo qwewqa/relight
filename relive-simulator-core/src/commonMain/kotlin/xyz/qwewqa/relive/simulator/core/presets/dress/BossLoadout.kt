@@ -302,6 +302,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr30.tr30WhiteRabb
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr31.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr32.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr33.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr34.*
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.Strategy
 
@@ -331,6 +332,22 @@ private fun BossLoadout.applyGuildRaceData(race: Int, phase: Int, number: Int) =
 
 val bossLoadouts =
     listOf(
+            // NOTE: From TR34 on, guild race ID of bosses are one higher than the actual TR.
+            BossLoadout(tr34MusketeerKaren, tr34MusketeerKarenStrategy)
+                .applyGuildRaceData(35, 3, 1),
+            BossLoadout(tr34MusketeerKarenDiff4, tr34MusketeerKarenDiff4Strategy)
+                .applyGuildRaceData(35, 4, 1),
+            BossLoadout(tr34MusketeerHikari, tr34MusketeerHikariStrategy)
+                .applyGuildRaceData(35, 3, 2),
+            BossLoadout(tr34MusketeerHikariDiff4, tr34MusketeerHikariDiff4Strategy)
+                .applyGuildRaceData(35, 4, 2),
+            BossLoadout(tr34MusketeerMahiru, tr34MusketeerMahiruStrategy)
+                .applyGuildRaceData(35, 3, 3),
+            BossLoadout(tr34MusketeerMahiruDiff4, tr34MusketeerMahiruDiff4Strategy)
+                .applyGuildRaceData(35, 4, 3),
+            BossLoadout(tr34TowerHikari, tr34TowerHikariStrategy).applyGuildRaceData(35, 3, 4),
+            BossLoadout(tr34TowerHikariDiff4, tr34TowerHikariDiff4Strategy)
+                .applyGuildRaceData(35, 4, 4),
             BossLoadout(tr33MafiaNana, tr33MafiaNanaStrategy).applyGuildRaceData(33, 3, 1),
             BossLoadout(tr33MafiaNanaDiff4, tr33MafiaNanaDiff4Strategy)
                 .applyGuildRaceData(33, 4, 1),
@@ -343,7 +360,7 @@ val bossLoadouts =
             BossLoadout(tr33TowerHikari, tr33TowerHikariStrategy).applyGuildRaceData(33, 3, 4),
             BossLoadout(tr33TowerHikariDiff4, tr33TowerHikariDiff4Strategy)
                 .applyGuildRaceData(33, 4, 4),
-            // NOTE: The boss IDs of TR32 are actually 34.
+            // NOTE: The guild race ID of TR32 bosses are actually 34.
             BossLoadout(tr32DraculaClaudine, tr32DraculaClaudineStrategy)
                 .applyGuildRaceData(34, 3, 1),
             BossLoadout(tr32DraculaClaudineDiff4, tr32DraculaClaudineDiff4Strategy)
