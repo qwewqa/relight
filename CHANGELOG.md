@@ -1225,3 +1225,8 @@
 # v1.6.15
 - Added new girls and memoirs
 - Added new flags
+- TR34 bosses added by chihiro
+
+# v1.6.16
+- Added missing boost on birthday Mei Fan
+- Fixed missing insanity implementation
