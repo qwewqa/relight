@@ -1221,3 +1221,7 @@
 
 # v1.6.14
 - Added new girls and memoirs
+
+# v1.6.15
+- Added new girls and memoirs
+- Added new flags
