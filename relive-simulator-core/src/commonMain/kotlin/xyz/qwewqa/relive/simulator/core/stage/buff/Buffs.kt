@@ -1664,7 +1664,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
           listOf(GreaterConfusionBuff, GreaterBlindnessBuff, GreaterBurnBuff))
 
   val GreaterInsanityBuff =
-      +buffData(1026).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+      +buffData(1026).makeCountableBuffEffect(BuffCategory.Negative)
 
   val GreaterFixedClimaxActPowerUp: ContinuousBuffEffect<Unit> =
       +buffData(1027)

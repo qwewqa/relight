@@ -214,6 +214,21 @@ class Actor(
             .execute(context)
         return
       }
+      if (Buffs.GreaterInsanityBuff in buffs) {
+        context.log("Abnormal", category = LogCategory.EMPHASIS) {
+          "Act prevented by greater insanity."
+        }
+        Act {
+              targetAllyRandom().act {
+                attack(
+                    modifier = 71, // TODO: figure out what the actual value is
+                    hitCount = 1,
+                )
+              }
+            }
+            .execute(context)
+        return
+      }
       if ((ConfusionBuff in buffs || GreaterConfusionBuff in buffs) &&
           context.stage.random.nextDouble() < 0.3) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by confuse." }
@@ -260,7 +275,7 @@ class Actor(
       act.execute(context)
     } finally {
       if (context.actionLog.successfulHits > startLog.successfulHits) {
-        buffs.tryRemove(Buffs.DazeBuff)
+        buffs.tryRemove(Buffs.DazeBuff) || buffs.tryRemove(Buffs.GreaterInsanityBuff)
       }
       context.actionLog.consumeCountableBuffs.forEach { buffs.tryRemove(it) }
     }
