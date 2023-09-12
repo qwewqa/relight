@@ -61,6 +61,7 @@ enum class Modifier {
   PositiveCountableEffectResistanceUp,
   ClimaxDamageUp,
   ClimaxDamageDown,
+  ClimaxDamageFixedUp,
   DamageDealtUp,
   DamageDealtDown,
   DamageReceivedDown,

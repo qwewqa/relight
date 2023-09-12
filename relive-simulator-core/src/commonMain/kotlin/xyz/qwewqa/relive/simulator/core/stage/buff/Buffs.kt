@@ -58,6 +58,25 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
           },
       )
 
+  private fun BuffData.makeMultipleResistanceUpBuff(
+      buffs: List<BuffEffect>,
+      locked: Boolean = false,
+  ) =
+      makeSimpleContinuousBuffEffect(
+          category = BuffCategory.Positive,
+          locked = locked,
+          onStart = { value ->
+            buffs.forEach { buff ->
+              self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0.i54) + value
+            }
+          },
+          onEnd = { value ->
+            buffs.forEach { buff ->
+              self.specificBuffResist[buff] = (self.specificBuffResist[buff] ?: 0.i54) - value
+            }
+          },
+      )
+
   private inline fun <T> BuffData.makeMapModifierContinuousBuffEffect(
       crossinline mapAccessor: (Actor) -> MutableMap<T, I54>,
       key: T,
@@ -1623,6 +1642,40 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val GreaterAgonyResistanceUpBuff =
       +buffData(1019).makeSpecificResistanceUpBuff(GreaterAgonyBuff)
 
+  val GreaterFrostbiteResistanceUpBuff =
+      +buffData(1020).makeSpecificResistanceUpBuff(GreaterFrostbiteBuff)
+
+  // TODO implement
+
+  val GreaterStagnationBuff =
+      +buffData(1021).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterIgnoranceBuff =
+      +buffData(1022).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterAggroBuff =
+      +buffData(1023).makeGreaterVariantOf(AggroBuff)
+
+  val GreaterCriticalDamageReceivedDownBuff =
+      +buffData(1024).makeGreaterVariantOf(CriticalDamageReceivedDownBuff)
+
+  val GreaterCombinedResistanceUpBuff =
+      +buffData(1025).makeMultipleResistanceUpBuff(
+          listOf(GreaterConfusionBuff, GreaterBlindnessBuff, GreaterBurnBuff))
+
+  val GreaterInsanityBuff =
+      +buffData(1026).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterFixedClimaxActPowerUp: ContinuousBuffEffect<Unit> =
+      +buffData(1027)
+          .makeModifierContinuousBuffEffect(
+              modifier = Modifier.ClimaxDamageFixedUp,
+              category = BuffCategory.Positive,
+              exclusive = true)
+
+  val GreaterApDownBuff =
+      +buffData(1028).makeGreaterVariantOf(ApDownBuff)
+
   val abnormalBuffs =
       platformSetOf(
           StopBuff,
@@ -1688,7 +1741,7 @@ inline val Modifiers.apChange: Int
         val decrease =
             when {
               Buffs.ApDown2Buff in this -> 2
-              Buffs.ApDownBuff in this -> 1
+              Buffs.ApDownBuff in this || Buffs.GreaterApDownBuff in this -> 1
               else -> 0
             }
         val increase =

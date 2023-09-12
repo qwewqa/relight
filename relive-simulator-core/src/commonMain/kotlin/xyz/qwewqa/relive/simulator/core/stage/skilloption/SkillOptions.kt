@@ -1592,6 +1592,15 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterElectricShock = +skillOptionData(10170).applyEffect()
   val GreaterAgony = +skillOptionData(10180).applyEffect()
   val GreaterAgonyResistanceUp = +skillOptionData(10190).applyEffect()
+  val GreaterFrostbiteResistanceUp = +skillOptionData(10200).applyEffect()
+  val GreaterStagnation = +skillOptionData(10210).applyEffect()
+  val GreaterIgnorance = +skillOptionData(10220).applyEffect()
+  val GreaterAggro = +skillOptionData(10230).applyEffect()
+  val GreaterCriticalDamageReceivedDown = +skillOptionData(10240).applyEffect()
+  val GreaterCombinedResistanceUp = +skillOptionData(10250).applyEffect()
+  val GreaterInsanity = +skillOptionData(10260).applyEffect()
+  val GreaterFixedClimaxActPowerUp = +skillOptionData(10270).applyEffect()
+  val GreaterAPDown = +skillOptionData(10280).applyEffect()
 
   // TODO: figure out if these affect base
 
@@ -1611,5 +1620,17 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
       +skillOptionData(20003)
           .removeContinuousEffects(
               Buffs.GreaterBlindnessBuff,
+          )
+
+  val RemoveGreaterStop =
+      +skillOptionData(20004)
+          .removeContinuousEffects(
+              Buffs.GreaterStopBuff,
+          )
+
+  val RemoveGreaterFreeze =
+      +skillOptionData(20005)
+          .removeContinuousEffects(
+              Buffs.GreaterFreezeBuff,
           )
 }

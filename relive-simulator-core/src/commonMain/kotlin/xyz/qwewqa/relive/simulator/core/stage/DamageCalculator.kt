@@ -192,7 +192,10 @@ open class RandomDamageCalculator : DamageCalculator {
       var atk = attacker.mod { actPower }
       if (attacker.inCX) atk = atk * 110 / 100
       val cheerCoef = 100 + (attacker.buffs.getNext(Buffs.CheerBuff) ?: 0.i54)
-      val modifier = hitAttribute.modifier.toI54() ptmul cheerCoef
+      val modifier =
+          (hitAttribute.modifier.toI54() +
+              if (attacker.inCX) attacker.mod { +Modifier.ClimaxDamageFixedUp } else 0.i54) ptmul
+              cheerCoef
       atk = atk * 2 * modifier / 100
 
       val def =

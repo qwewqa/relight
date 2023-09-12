@@ -13,6 +13,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.AgonyBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.BurnBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterAgonyBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterBurnBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterInsanityBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.HopeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.WeakenBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.CountableBuffEffect
@@ -62,8 +63,9 @@ inline val Modifiers.specialDefense: I54
 
 inline val Modifiers.agility: I54
   get() {
-    return (Modifier.BaseAgility ptmod (Modifier.AgilityUp - Modifier.AgilityDown + hopeFactor)) +
-        Modifier.FixedAgility
+    return (Modifier.BaseAgility ptmod
+        (Modifier.AgilityUp - Modifier.AgilityDown + hopeFactor -
+            (if (GreaterInsanityBuff in actor.buffs) (-99).i54 else 0.i54))) + Modifier.FixedAgility
   }
 
 inline val Modifiers.dexterity: I54
@@ -153,4 +155,5 @@ fun Modifiers.damageReceivedModifier(attacker: Actor) =
     ((Modifier.DamageReceivedUp - (+Modifier.DamageReceivedDown).coerceAtMost(100)) +
         (actor.fromCharacterDamageReceivedUp[attacker.dress.character] ?: 0.i54) +
         (if (WeakenBuff in actor.buffs) 10.i54 else 0.i54) +
-        (if (AgonyBuff in actor.buffs || GreaterAgonyBuff in actor.buffs) 30.i54 else 0.i54))
+        (if (AgonyBuff in actor.buffs || GreaterAgonyBuff in actor.buffs) 30.i54 else 0.i54) +
+        (if (GreaterInsanityBuff in actor.buffs) 30.i54 else 0.i54))
