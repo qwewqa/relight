@@ -269,6 +269,13 @@ object FlagData {
 //          name = "alice_trans",
 //      )
 
+  val LimeMisoraAceAce =
+      +FlagInfo(
+          artist = lime,
+          character = FlagCharacter.Misora,
+          name = "ace_ace",
+      )
+
   val hainuLalafinHopeTrans =
       +FlagInfo(
           artist = hainu,
