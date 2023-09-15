@@ -1230,3 +1230,6 @@
 # v1.6.16
 - Added missing boost on birthday Mei Fan
 - Fixed missing insanity implementation
+
+# v1.6.17
+- Fixed insanity agility debuff
