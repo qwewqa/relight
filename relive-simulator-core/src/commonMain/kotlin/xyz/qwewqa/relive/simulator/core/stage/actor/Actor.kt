@@ -201,6 +201,18 @@ class Actor(
         }
         return
       }
+      // TODO: account for buff values
+      if (buffs.tryRemove(Buffs.ImpudenceBuff)) {
+        context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by pride." }
+        Act { targetRandom().act { heal(fixed = 5000) } }.execute(context)
+        return
+      }
+      // TODO: test order
+      if (buffs.tryRemove(Buffs.DelusionBuff)) {
+        context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by delusion." }
+        Act { targetRandom().act { heal(percent = 20) } }.execute(context)
+        return
+      }
       if (Buffs.DazeBuff in buffs) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by daze." }
         Act {
@@ -256,18 +268,6 @@ class Actor(
       if (inCXAct && !inCX) {
         // Relevant for bosses
         brilliance = 0.i54
-      }
-      // TODO: account for buff values
-      if (buffs.tryRemove(Buffs.ImpudenceBuff)) {
-        context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by pride." }
-        Act { targetRandom().act { heal(fixed = 5000) } }.execute(context)
-        return
-      }
-      // TODO: test order
-      if (buffs.tryRemove(Buffs.DelusionBuff)) {
-        context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by delusion." }
-        Act { targetRandom().act { heal(percent = 20) } }.execute(context)
-        return
       }
       if (!inCXAct) {
         addBrilliance(7.i54 * apCost)
