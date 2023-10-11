@@ -1666,6 +1666,9 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val GreaterInsanityBuff =
       +buffData(1026).makeCountableBuffEffect(BuffCategory.Negative)
 
+  //TODO: buffData ID for greater pride: val GreaterArroganceBuff =
+  //    +buffData().makeCountableBuffEffect(BuffCategory.Negative)
+
   val GreaterFixedClimaxActPowerUp: ContinuousBuffEffect<Unit> =
       +buffData(1027)
           .makeModifierContinuousBuffEffect(

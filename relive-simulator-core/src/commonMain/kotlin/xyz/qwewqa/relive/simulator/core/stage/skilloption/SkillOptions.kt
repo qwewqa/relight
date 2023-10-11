@@ -1599,6 +1599,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterCriticalDamageReceivedDown = +skillOptionData(10240).applyEffect()
   val GreaterCombinedResistanceUp = +skillOptionData(10250).applyEffect()
   val GreaterInsanity = +skillOptionData(10260).applyEffect()
+  //TODO: add ID for greater pride: val GreaterArrogance = +skillOptionData().applyEffect()
   val GreaterFixedClimaxActPowerUp = +skillOptionData(10270).applyEffect()
   val GreaterAPDown = +skillOptionData(10280).applyEffect()
 
