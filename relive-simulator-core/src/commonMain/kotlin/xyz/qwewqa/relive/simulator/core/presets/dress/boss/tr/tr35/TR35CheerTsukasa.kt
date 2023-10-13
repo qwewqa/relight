@@ -160,7 +160,7 @@ val tr35CheerTsukasa =
             autoSkills =
             listOf(
                 trEventBonusPassive2023(1090029),
-                AbnormalResistPassiveA.new(100),
+                FullNegativeEffectResistancePassive.new(100),
                 BossElementResistPassive.new(50),
             ),
         ),
