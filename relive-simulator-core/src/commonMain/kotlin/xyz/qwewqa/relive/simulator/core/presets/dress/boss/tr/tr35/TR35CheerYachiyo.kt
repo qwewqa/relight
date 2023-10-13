@@ -169,9 +169,9 @@ val tr35CheerYachiyoStrategy = FixedStrategy {
       +boss[ActType.Act7]
     }
     3 -> {
+      +boss[ActType.ClimaxAct]
       +boss[ActType.Act9]
       +boss[ActType.Act6]
-      +boss[ActType.ClimaxAct]
     }
     4 -> {
       +boss[ActType.Act2]
@@ -179,8 +179,8 @@ val tr35CheerYachiyoStrategy = FixedStrategy {
       +boss[ActType.Act7]
     }
     5 -> {
-      +boss[ActType.Act9]
       +boss[ActType.Act8]
+      +boss[ActType.Act9]
       +boss[ActType.Act7]
     }
     6 -> {
@@ -346,9 +346,9 @@ val tr35CheerYachiyoDiff4Strategy = FixedStrategy {
       +boss[ActType.Act7]
     }
     3 -> {
+      +boss[ActType.ClimaxAct]
       +boss[ActType.Act9]
       +boss[ActType.Act6]
-      +boss[ActType.ClimaxAct]
     }
     4 -> {
       +boss[ActType.Act2]
@@ -356,8 +356,8 @@ val tr35CheerYachiyoDiff4Strategy = FixedStrategy {
       +boss[ActType.Act7]
     }
     5 -> {
-      +boss[ActType.Act9]
       +boss[ActType.Act8]
+      +boss[ActType.Act9]
       +boss[ActType.Act7]
     }
     6 -> {
