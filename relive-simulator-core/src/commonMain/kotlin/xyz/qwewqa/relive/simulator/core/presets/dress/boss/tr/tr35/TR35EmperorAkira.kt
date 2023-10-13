@@ -160,7 +160,7 @@ val tr35EmperorAkira =
             autoSkills =
             listOf(
                 trEventBonusPassive2023V2(1090029),
-                AbnormalResistPassiveA.new(100),
+                FullNegativeEffectResistancePassive.new(100),
                 BossElementResistPassive.new(50),
             ),
         ),
