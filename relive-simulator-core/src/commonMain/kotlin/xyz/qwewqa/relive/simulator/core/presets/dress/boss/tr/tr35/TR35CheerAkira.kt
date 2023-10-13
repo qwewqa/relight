@@ -145,7 +145,7 @@ val tr35CheerAkira =
             autoSkills =
             listOf(
                 trEventBonusPassive2023(1090029),
-                AbnormalGuardPassive.new(),
+                FullNegativeEffectResistancePassive.new(100),
             ),
         ),
     )
