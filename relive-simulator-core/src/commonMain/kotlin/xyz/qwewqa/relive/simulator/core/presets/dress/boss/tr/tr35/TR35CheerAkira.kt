@@ -2,7 +2,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr35
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.FullNegativeEffectResistancePassive
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.TrDamageReductionPassive
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023V2
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
@@ -144,7 +144,7 @@ val tr35CheerAkira =
             ),
             autoSkills =
             listOf(
-                trEventBonusPassive2023(1090029),
+                trEventBonusPassive2023V2(1090029),
                 FullNegativeEffectResistancePassive.new(100),
             ),
         ),
@@ -315,7 +315,7 @@ val tr35CheerAkiraDiff4 =
             ),
             autoSkills =
             listOf(
-                trEventBonusPassive2023(1090029),
+                trEventBonusPassive2023V2(1090029),
                 FullNegativeEffectResistancePassive.new(100),
                 BossElementResistPassive.new(50),
                 TrDamageReductionPassive.new(90),
