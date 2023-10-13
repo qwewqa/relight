@@ -1599,9 +1599,15 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterCriticalDamageReceivedDown = +skillOptionData(10240).applyEffect()
   val GreaterCombinedResistanceUp = +skillOptionData(10250).applyEffect()
   val GreaterInsanity = +skillOptionData(10260).applyEffect()
-  //TODO: add ID for greater pride: val GreaterArrogance = +skillOptionData().applyEffect()
   val GreaterFixedClimaxActPowerUp = +skillOptionData(10270).applyEffect()
   val GreaterAPDown = +skillOptionData(10280).applyEffect()
+  val GreaterSleep = +skillOptionData(10281).applyEffect()
+  val GreaterCriticalUp = +skillOptionData(10282).applyEffect()
+  val GreaterEffectiveDamageUp = +skillOptionData(10283).applyEffect()
+  val GreaterArrogance = +skillOptionData(10284).applyEffect()
+  val GreaterElectricShockResistanceUp = +skillOptionData(10285).applyEffect()
+  val GreaterRevive = +skillOptionData(10286).applyEffect()
+  val ExcludingGreaterArroganceResistanceUp = +skillOptionData(10289).applyEffect()
 
   // TODO: figure out if these affect base
 
@@ -1633,5 +1639,29 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
       +skillOptionData(20005)
           .removeContinuousEffects(
               Buffs.GreaterFreezeBuff,
+          )
+
+  val RemoveGreaterElectricShock =
+      +skillOptionData(20006)
+          .removeContinuousEffects(
+              Buffs.GreaterElectricShockBuff,
+          )
+
+  val RemoveGreaterConfusionResistanceUp =
+      +skillOptionData(20007)
+          .removeContinuousEffects(
+              Buffs.GreaterConfusionResistanceUpBuff,
+          )
+
+  val RemoveGreaterBurnResistanceUp =
+      +skillOptionData(20008)
+          .removeContinuousEffects(
+              Buffs.GreaterBurnResistanceUpBuff,
+          )
+
+  val RemoveGreaterFreezeResistanceUp =
+      +skillOptionData(20009)
+          .removeContinuousEffects(
+              Buffs.GreaterFreezeResistanceUpBuff,
           )
 }

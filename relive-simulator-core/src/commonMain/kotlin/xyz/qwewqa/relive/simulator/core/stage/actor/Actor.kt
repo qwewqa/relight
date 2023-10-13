@@ -28,6 +28,8 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterElectricShockBuf
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFreezeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFrostbiteBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterProvokeBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterReviveBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterSleepBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterStopBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LockedAggroBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LovesicknessBuff
@@ -183,7 +185,7 @@ class Actor(
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by frostbite." }
         return
       }
-      if (SleepBuff in buffs) {
+      if (SleepBuff in buffs || GreaterSleepBuff in buffs) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by sleep." }
         return
       }
@@ -204,6 +206,11 @@ class Actor(
       // TODO: account for buff values
       if (buffs.tryRemove(Buffs.ImpudenceBuff)) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by pride." }
+        Act { targetRandom().act { heal(fixed = 5000) } }.execute(context)
+        return
+      }
+      if (buffs.tryRemove(Buffs.GreaterArroganceBuff)) {
+        context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by arrogance." }
         Act { targetRandom().act { heal(fixed = 5000) } }.execute(context)
         return
       }
@@ -329,7 +336,7 @@ class Actor(
             }
             return@run
           }
-          if (self.buffs.tryRemove(Buffs.ReviveBuff)) {
+          if (self.buffs.tryRemove(Buffs.ReviveBuff) || self.buffs.tryRemove(GreaterReviveBuff)) {
             self.hp = self.maxHp / 2
             context.log("Damage", category = LogCategory.DAMAGE) {
               "Revive activate (newHp: ${self.maxHp / 2})."
@@ -353,8 +360,9 @@ class Actor(
           self.buffs.removeAll(FreezeBuff)
           self.buffs.removeAll(GreaterFreezeBuff)
           self.buffs.tryRemove(Buffs.WeakSpotBuff)
-          if (SleepBuff in self.buffs && stage.random.nextDouble() > 0.2) {
+          if ((SleepBuff in self.buffs || GreaterSleepBuff in self.buffs) && stage.random.nextDouble() > 0.2) {
             self.buffs.removeAll(SleepBuff)
+            self.buffs.removeAll(GreaterSleepBuff) // TODO: probably not right but who cares
           }
           if (NightmareBuff in self.buffs && stage.random.nextDouble() > 0.2) {
             self.buffs.removeAll(NightmareBuff)

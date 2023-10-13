@@ -12,6 +12,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.AgonyBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.BurnBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterAgonyBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterArroganceBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterBurnBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterInsanityBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.HopeBuff
@@ -156,4 +157,5 @@ fun Modifiers.damageReceivedModifier(attacker: Actor) =
         (actor.fromCharacterDamageReceivedUp[attacker.dress.character] ?: 0.i54) +
         (if (WeakenBuff in actor.buffs) 10.i54 else 0.i54) +
         (if (AgonyBuff in actor.buffs || GreaterAgonyBuff in actor.buffs) 30.i54 else 0.i54) +
+        (if (GreaterArroganceBuff in actor.buffs) 30.i54 else 0.i54) +
         (if (GreaterInsanityBuff in actor.buffs) 30.i54 else 0.i54))

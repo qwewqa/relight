@@ -1,8 +1,8 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr35
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.FullNegativeEffectResistancePassive
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassive1
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.TrDamageReductionPassive
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023V2
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
@@ -12,7 +12,6 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Position
 import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
 import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalResistPassiveA
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.BossElementResistPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
@@ -159,8 +158,8 @@ val tr35CheerTsukasa =
             ),
             autoSkills =
             listOf(
-                trEventBonusPassive2023(1090029),
-                AbnormalResistPassiveA.new(100),
+                trEventBonusPassive2023V2(1090029),
+                FullNegativeEffectResistancePassive.new(100),
                 BossElementResistPassive.new(50),
             ),
         ),
@@ -345,7 +344,7 @@ val tr35CheerTsukasaDiff4 =
             autoSkills =
             listOf(
                 trEventBonusPassive2023V2(1090029),
-                FullNegativeEffectResistancePassive.new(100),
+                SuperBossPassive1.new(100, 6),
                 BossElementResistPassive.new(50),
                 TrDamageReductionPassive.new(90),
             ),

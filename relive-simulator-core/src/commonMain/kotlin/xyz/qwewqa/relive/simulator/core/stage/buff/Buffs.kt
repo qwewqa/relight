@@ -1666,9 +1666,6 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val GreaterInsanityBuff =
       +buffData(1026).makeCountableBuffEffect(BuffCategory.Negative)
 
-  //TODO: buffData ID for greater pride: val GreaterArroganceBuff =
-  //    +buffData().makeCountableBuffEffect(BuffCategory.Negative)
-
   val GreaterFixedClimaxActPowerUp: ContinuousBuffEffect<Unit> =
       +buffData(1027)
           .makeModifierContinuousBuffEffect(
@@ -1678,6 +1675,27 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val GreaterApDownBuff =
       +buffData(1028).makeGreaterVariantOf(ApDownBuff)
+
+  val GreaterSleepBuff =
+      +buffData(1029).makeGreaterVariantOf(SleepBuff)
+
+  val GreaterCriticalUpBuff =
+      +buffData(1030).makeGreaterVariantOf(CriticalUpBuff)
+
+  val GreaterEffectiveDamageDealtUpBuff =
+      +buffData(1031).makeGreaterVariantOf(EffectiveDamageDealtUpBuff)
+
+  val GreaterArroganceBuff =
+      +buffData(1032).makeCountableBuffEffect(BuffCategory.Negative)
+
+  val GreaterElectricShockResistanceUpBuff =
+      +buffData(1033).makeMultipleResistanceUpBuff(listOf(GreaterElectricShockBuff, ElectricShockBuff))
+
+  val GreaterReviveBuff =
+      +buffData(1034).makeGreaterVariantOf(ReviveBuff)
+
+  val ExcludingGreaterArroganceResistanceUpBuff =
+      +buffData(1041).makeSimpleContinuousBuffEffect(BuffCategory.Positive)  // TODO: Implement
 
   val abnormalBuffs =
       platformSetOf(

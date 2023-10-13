@@ -1,12 +1,15 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr
 
+import xyz.qwewqa.relive.simulator.core.i54.i54
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.EventBonusPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffect
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifier
+import xyz.qwewqa.relive.simulator.core.stage.stageeffect.StageEffects
 
 fun trEventBonusPassive(dressId: Int) =
     EventBonusPassive(
@@ -56,5 +59,24 @@ object FullNegativeEffectResistancePassive : PassiveEffect {
           Modifier.NegativeEffectResistanceUp += value
           Modifier.NegativeCountableEffectResistanceUp += value
         }
+      }
+}
+
+object SuperBossPassive1 : PassiveEffect {
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run {
+        self.buffs.add(null, Buffs.ActPowerUpBuff, 100.i54, 1)
+//        self.context.team.stageEffects.add(StageEffects[94]!!, 6, 5)
+        self.mod {
+          Modifier.NegativeEffectResistanceUp += value
+          Modifier.NegativeCountableEffectResistanceUp += value
+        }
+        listOf(
+                Buffs.GreaterBurnResistanceUpBuff,
+                Buffs.GreaterBlindnessResistanceUpBuff,
+                Buffs.GreaterConfusionResistanceUpBuff,
+                Buffs.GreaterFreezeResistanceUpBuff,
+                Buffs.GreaterStopResistanceUpBuff)
+            .forEach { self.buffs.activatePsuedoBuff(it, 100.i54) }
       }
 }

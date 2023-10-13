@@ -5,13 +5,17 @@ import xyz.qwewqa.relive.simulator.core.i54.toI54
 import xyz.qwewqa.relive.simulator.core.stage.BasicTargetSelectionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
+import xyz.qwewqa.relive.simulator.core.stage.buff.ContinuousBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.platformMapOf
+import xyz.qwewqa.relive.simulator.core.stage.target.SkillTargets.allyPlayer
 import xyz.qwewqa.relive.simulator.core.stage.team.Team
 
 class StageEffectManager(val team: Team) {
   private val levels = platformMapOf<StageEffect, Int>()
   private var activeStacks = mutableListOf<StageEffectStack>()
   private val activeEffects = platformMapOf<StageEffect, ActiveStageEffect>()
+  private val teamEffects = platformMapOf<ContinuousBuffEffect<Unit>, MutableList<Int>>()
 
   // TODO: stop using this and just check whether targets changed each refresh
   private var targetsValid = true
@@ -20,8 +24,31 @@ class StageEffectManager(val team: Team) {
 
   fun add(effect: StageEffect, turns: Int, level: Int = 1) {
     if (turns <= 0) return
+    if (effect.category == BuffCategory.Positive &&
+        level <= (teamEffects[Buffs.PositiveStageEffectResistanceUp]?.maxOrNull() ?: 0)) {
+      return
+    }
+    if (effect.category == BuffCategory.Negative &&
+        level <= (teamEffects[Buffs.NegativeStageEffectResistanceUp]?.maxOrNull() ?: 0)) {
+      return
+    }
     activeStacks += StageEffectStack(effect, turns, level)
-    levels[effect] = (levels[effect] ?: 0) + level
+    refreshLevels()
+  }
+
+  fun refreshLevels() {
+    levels.clear()
+    for (stack in activeStacks) {
+      if (stack.effect.category == BuffCategory.Positive &&
+          stack.level <= (teamEffects[Buffs.PositiveStageEffectResistanceUp]?.maxOrNull() ?: 0)) {
+        continue
+      }
+      if (stack.effect.category == BuffCategory.Negative &&
+          stack.level <= (teamEffects[Buffs.NegativeStageEffectResistanceUp]?.maxOrNull() ?: 0)) {
+        continue
+      }
+      levels[stack.effect] = (levels[stack.effect] ?: 0) + stack.level
+    }
   }
 
   fun adjustLevels(category: BuffCategory, count: Int, delta: Int) {
@@ -32,14 +59,11 @@ class StageEffectManager(val team: Team) {
         .take(count)
         .forEach { it.adjustLevel(delta) }
     activeStacks.removeAll { it.level == 0 }
+    refreshLevels()
   }
 
   private fun StageEffectStack.adjustLevel(delta: Int) {
-    val originalLevel = level
-    level = (level + delta).coerceAtLeast(0)
-    if (originalLevel != level) {
-      levels[effect] = (levels[effect] ?: 0) + (level - originalLevel)
-    }
+    level = (level + delta).coerceIn(0, 5)
   }
 
   fun tick() {
@@ -50,6 +74,7 @@ class StageEffectManager(val team: Team) {
       }
     }
     activeStacks.removeAll { it.turns <= 0 }
+    refreshLevels()
   }
 
   fun invalidateTargets() {
@@ -96,10 +121,17 @@ class StageEffectManager(val team: Team) {
         // Note that the team is passed in for both the own and enemy teams, because enemy targeting
         // stage effects
         // are added to the enemy team but retain the enemy targeting.
-        val targets = buff.target.getTargets(BasicTargetSelectionContext(null, team, team), null)
-        targets.map { actor ->
-          actor.buffs.activatePsuedoBuff(buff.effect, value.toI54())
-          actor to value
+        if (buff.target == allyPlayer) {
+          teamEffects.getOrPut(buff.effect) { mutableListOf() } += value
+          listOf(
+              null to value,
+          )
+        } else {
+          val targets = buff.target.getTargets(BasicTargetSelectionContext(null, team, team), null)
+          targets.map { actor ->
+            actor.buffs.activatePsuedoBuff(buff.effect, value.toI54())
+            actor to value
+          }
         }
       }
 
@@ -111,7 +143,12 @@ class StageEffectManager(val team: Team) {
     return values.zip(buffs).map { (buffValues, buff) ->
       val newValue = buff.values[level.coerceAtMost(buff.values.size) - 1]
       buffValues.map { (actor, oldValue) ->
-        actor.buffs.updatePseudoBuff(buff.effect, oldValue.toI54(), newValue.toI54())
+        if (actor == null) {
+          val values = teamEffects[buff.effect]!!
+          values[values.indexOf(oldValue)] = newValue
+        } else {
+          actor.buffs.updatePseudoBuff(buff.effect, oldValue.toI54(), newValue.toI54())
+        }
         actor to newValue
       }
     }
@@ -120,7 +157,11 @@ class StageEffectManager(val team: Team) {
   private fun StageEffect.deactivate(values: StageEffectActiveBuffValues) =
       values.zip(buffs).forEach { (buffValues, buff) ->
         buffValues.forEach { (actor, value) ->
-          actor.buffs.removePseudoBuff(buff.effect, value.toI54())
+          if (actor == null) {
+            teamEffects[buff.effect]!!.remove(value)
+          } else {
+            actor.buffs.removePseudoBuff(buff.effect, value.toI54())
+          }
         }
       }
 
@@ -136,7 +177,7 @@ class StageEffectManager(val team: Team) {
 
 class StageEffectStack(val effect: StageEffect, var turns: Int, var level: Int)
 
-typealias StageEffectActiveBuffValues = List<List<Pair<Actor, Int>>>
+typealias StageEffectActiveBuffValues = List<List<Pair<Actor?, Int>>>
 
 data class ActiveStageEffect(
     val effect: StageEffect,
