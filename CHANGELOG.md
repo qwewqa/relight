@@ -1233,3 +1233,7 @@
 
 # v1.6.17
 - Fixed insanity agility debuff
+
+# v1.6.18
+- Added new girls and memoirs
+- TR35 bosses added by Savivo
