@@ -1237,3 +1237,8 @@
 # v1.6.18
 - Added new girls and memoirs
 - TR35 bosses added by Savivo
+
+# v1.6.19
+- Added Alice Misora
+- Fixed agony missing agility down
+- Fixed stage effects not being removed in some circumstances
