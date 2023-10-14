@@ -12,6 +12,10 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.School
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkillType
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FortitudeBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.InvincibleRebirthBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ReviveBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.WeakSpotBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.ContinuousBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.buff.CountableBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
@@ -715,7 +719,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             ampCondition = { Buffs.ElectricShockBuff in it.buffs })
       }
 
-  val ReviveBuff = +skillOptionData(360).applyEffect()
+  val Revive = +skillOptionData(360).applyEffect()
 
   val AttackSeishoBoost150 =
       +skillOptionData(361).makeSkillOption { value, time, _, attribute ->
@@ -1155,7 +1159,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val LockedSuperReflectSpecial = +skillOptionData(486).applyEffect()
   val BlessingEffectiveDamageUp = +skillOptionData(487).applyEffect()
   val ConversionReviveToWeakSpot =
-      +skillOptionData(488).makeSkillOption { _, time -> convertRevive(time) }
+      +skillOptionData(488).makeSkillOption { _, time -> convert(ReviveBuff, WeakSpotBuff, time) }
 
   val HitRandom33DazeSeishoBoost =
       +skillOptionData(489).makeSkillOption { value, time, _, attribute ->
@@ -1572,6 +1576,16 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val LockedContractionResistanceUp = +skillOptionData(617).applyEffect()
 
   val StealResistanceUp = +skillOptionData(618).applyEffect()
+
+  val ConversionInvincibleRebirthToWeakSpot =
+      +skillOptionData(619).makeSkillOption { _, time ->
+        convert(InvincibleRebirthBuff, WeakSpotBuff, time)
+      }
+
+  val ConversionFortitudeToInvincibleRebirth =
+      +skillOptionData(620).makeSkillOption { _, time ->
+        convert(FortitudeBuff, InvincibleRebirthBuff, time)
+      }
 
   val GreaterBurn = +skillOptionData(10010).applyEffect()
   val GreaterConfusion = +skillOptionData(10020).applyEffect()

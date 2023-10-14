@@ -588,16 +588,16 @@ class TargetContext(
     }
   }
 
-  fun convertRevive(count: Int) {
+  fun convert(from: CountableBuffEffect, to: CountableBuffEffect, count: Int) {
     if (!self.isAlive) return
     for (originalTarget in originalTargets) {
       val target = aggroTarget ?: originalTarget
       if (!target.isAlive) continue
       target.apply {
         actionContext.log("Conversion", category = LogCategory.BUFF) {
-          "Convert ${count}x Revive from [$name]."
+          "Convert ${count}x ${from.name} to ${to.name} from [$name]."
         }
-        buffs.addCountable(WeakSpotBuff, count = buffs.removeCountables(ReviveBuff, count))
+        buffs.addCountable(to, count = buffs.removeCountables(from, count))
       }
     }
   }
