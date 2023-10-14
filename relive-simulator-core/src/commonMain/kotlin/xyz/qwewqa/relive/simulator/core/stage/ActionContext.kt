@@ -589,15 +589,17 @@ class TargetContext(
   }
 
   fun convert(from: CountableBuffEffect, to: CountableBuffEffect, count: Int) {
+    // TODO: handle greater effects
     if (!self.isAlive) return
     for (originalTarget in originalTargets) {
       val target = aggroTarget ?: originalTarget
       if (!target.isAlive) continue
       target.apply {
+        val actualCount = buffs.removeCountables(from, count)
         actionContext.log("Conversion", category = LogCategory.BUFF) {
-          "Convert ${count}x ${from.name} to ${to.name} from [$name]."
+          "Convert ${actualCount}x (max: $count) ${from.name} to ${to.name} from [$name]."
         }
-        buffs.addCountable(to, count = buffs.removeCountables(from, count))
+        buffs.addCountable(to, count = actualCount)
       }
     }
   }

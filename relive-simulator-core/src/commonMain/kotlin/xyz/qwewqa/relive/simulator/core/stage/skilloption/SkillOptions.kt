@@ -1159,7 +1159,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val LockedSuperReflectSpecial = +skillOptionData(486).applyEffect()
   val BlessingEffectiveDamageUp = +skillOptionData(487).applyEffect()
   val ConversionReviveToWeakSpot =
-      +skillOptionData(488).makeSkillOption { _, time -> convert(ReviveBuff, WeakSpotBuff, time) }
+      +skillOptionData(488).makeSkillOption { value, _ -> convert(ReviveBuff, WeakSpotBuff, value) }
 
   val HitRandom33DazeSeishoBoost =
       +skillOptionData(489).makeSkillOption { value, time, _, attribute ->
@@ -1258,7 +1258,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val LockedPerfectAim = +skillOptionData(508).applyEffect()
 
   val ConversionCountableNegativeEffectToRevive =
-      +skillOptionData(509).makeSkillOption { _, time -> convertCountableNegative(time) }
+      +skillOptionData(509).makeSkillOption { value, _ -> convertCountableNegative(value) }
 
   val StaminaActPowerUp = +skillOptionData(510).applyEffect()
 
@@ -1578,13 +1578,13 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val StealResistanceUp = +skillOptionData(618).applyEffect()
 
   val ConversionInvincibleRebirthToWeakSpot =
-      +skillOptionData(619).makeSkillOption { _, time ->
-        convert(InvincibleRebirthBuff, WeakSpotBuff, time)
+      +skillOptionData(619).makeSkillOption { value, _ ->
+        convert(InvincibleRebirthBuff, WeakSpotBuff, value)
       }
 
   val ConversionFortitudeToInvincibleRebirth =
-      +skillOptionData(620).makeSkillOption { _, time ->
-        convert(FortitudeBuff, InvincibleRebirthBuff, time)
+      +skillOptionData(620).makeSkillOption { value, _ ->
+        convert(FortitudeBuff, InvincibleRebirthBuff, value)
       }
 
   val GreaterBurn = +skillOptionData(10010).applyEffect()
