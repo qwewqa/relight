@@ -11,6 +11,8 @@ data class ActBlueprint(
     val icon: Int? = null,
     val parameters: List<ActParameters>? = emptyList(),
     val value: ActBlueprintContext.() -> Act = { Act {} },
+    val partIconIds: List<Int> = emptyList(),
+    val fieldEffectPartIconIds: List<Int> = emptyList(),
 ) {
   fun create(level: Int): ActData {
     return ActData(
@@ -26,7 +28,9 @@ data class ActBlueprint(
                   params.map { it.hitRate },
               )
               .value()
-        })
+        },
+        partIconIds,
+        fieldEffectPartIconIds)
   }
 }
 

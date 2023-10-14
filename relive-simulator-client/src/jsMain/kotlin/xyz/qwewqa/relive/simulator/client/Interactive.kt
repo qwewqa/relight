@@ -225,6 +225,22 @@ private fun updateActs(simulation: InteractiveSimulation, status: InteractiveQue
               img(classes = "queue-actor-img") { src = "img/common/icon_empty_large.webp" }
             } else {
               img(classes = "queue-actor-img") { src = "img/large_icon/1_${card.dressId}.webp" }
+
+              div("interactive-act-popup-outer") {
+                div("interactive-act-popup") {
+                  card.partIcons.forEach {
+                    img(classes = "interactive-act-popup-image") {
+                      src = "img/skill_icon/skill_icon_${it}.webp"
+                    }
+                  }
+                  card.fieldEffectPartIcons.forEach {
+                    img(classes = "interactive-act-popup-image") {
+                      src = "img/field_effect_icon/$it.webp"
+                    }
+                  }
+                }
+              }
+
               img(classes = "queue-act-img") {
                 src = "img/skill_icon/skill_icon_${card.iconId}.webp"
               }

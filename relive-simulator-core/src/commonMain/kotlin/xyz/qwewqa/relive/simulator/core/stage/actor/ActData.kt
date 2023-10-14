@@ -9,6 +9,8 @@ data class ActData(
     val apCost: Int,
     val icon: Int?,
     val act: Act,
+    val partIcons: List<Int> = emptyList(),
+    val fieldEffectPartIcons: List<Int> = emptyList(),
 )
 
 enum class ActType(val shortName: String) {

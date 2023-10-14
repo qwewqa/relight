@@ -746,6 +746,8 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
                 else -> ActionStatus.READY
               },
               hand.indexOf(this) + 1, // 1-indexed
+              act.partIcons,
+              act.fieldEffectPartIcons,
           )
 
     val BoundCutin.status

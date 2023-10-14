@@ -1581,3 +1581,31 @@ input[type=number] {
     font-size: 0.7em;
     color: gray;
 }
+
+.interactive-act-popup-outer {
+    bottom: -3%;
+    position: absolute;
+}
+
+.interactive-act-popup {
+    position: fixed;
+    display: none;
+    flex-wrap: wrap;
+    width: calc(var(--size-ref) / 20 * 5 + var(--size-ref) / 360 * 13);
+    padding: calc(var(--size-ref) / 360);
+    border-radius: calc(var(--size-ref) / 180);
+    background: white;
+    filter: drop-shadow(0 0 2px grey);
+    z-index: 100;
+}
+
+@media (pointer: fine) {
+    .interactive-queue-image-container:hover .interactive-act-popup {
+        display: flex;
+    }
+}
+
+.interactive-act-popup-image {
+    margin: calc(var(--size-ref) / 360);
+    width: calc(var(--size-ref) / 20);
+}

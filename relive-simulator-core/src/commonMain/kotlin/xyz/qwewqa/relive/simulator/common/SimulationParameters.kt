@@ -129,6 +129,8 @@ data class ActCardStatus(
     val isSupport: Boolean,
     val status: ActionStatus,
     val handIndex: Int,
+    val partIcons: List<Int>,
+    val fieldEffectPartIcons: List<Int>,
 )
 
 @Serializable
