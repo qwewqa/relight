@@ -1242,3 +1242,7 @@
 - Added Alice Misora
 - Fixed agony missing agility down
 - Fixed stage effects not being removed in some circumstances
+
+# v1.7.0
+- Fixed arrogance agility down
+- Added tooltips for acts on desktop
