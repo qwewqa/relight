@@ -66,7 +66,8 @@ inline val Modifiers.agility: I54
   get() {
     return (Modifier.BaseAgility ptmod
         (Modifier.AgilityUp - Modifier.AgilityDown + hopeFactor +
-            (if (GreaterInsanityBuff in actor.buffs) (-99).i54 else 0.i54))) + Modifier.FixedAgility
+            (if (GreaterInsanityBuff in actor.buffs) (-99).i54 else 0.i54) +
+            (if (GreaterAgonyBuff in actor.buffs) (-99).i54 else 0.i54))) + Modifier.FixedAgility
   }
 
 inline val Modifiers.dexterity: I54
