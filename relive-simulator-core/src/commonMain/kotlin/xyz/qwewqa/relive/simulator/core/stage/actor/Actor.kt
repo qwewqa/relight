@@ -382,7 +382,7 @@ class Actor(
       context.run {
         hp = 0.i54
         brilliance = 0.i54
-        team.strategy.onExit(self)
+        team.onActorExit(self)
         buffs.clear()
         self.exitCX()
         enemy.forEach { enemy ->
@@ -394,7 +394,7 @@ class Actor(
 
   fun revive() =
       context.run {
-        team.strategy.onRevive(self)
+        team.onActorEnter(self)
         log("Revive", category = LogCategory.EMPHASIS) { "Revived." }
       }
 

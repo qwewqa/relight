@@ -37,7 +37,7 @@ class StageEffectManager(val team: Team) {
   }
 
   fun refreshLevels() {
-    levels.clear()
+    levels.keys.forEach { levels[it] = 0 }
     for (stack in activeStacks) {
       if (stack.effect.category == BuffCategory.Positive &&
           stack.level <= (teamEffects[Buffs.PositiveStageEffectResistanceUp]?.maxOrNull() ?: 0)) {
@@ -69,9 +69,6 @@ class StageEffectManager(val team: Team) {
   fun tick() {
     activeStacks.forEach { stack ->
       stack.turns--
-      if (stack.turns == 0) {
-        levels[stack.effect] = levels[stack.effect]!! - stack.level
-      }
     }
     activeStacks.removeAll { it.turns <= 0 }
     refreshLevels()
