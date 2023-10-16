@@ -203,6 +203,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
               controller.maxTurns,
               emptyList(),
               emptyList(),
+              emptyList(),
               null,
               emptyList(),
               0,
@@ -701,6 +702,34 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
     private var lastQueueStatus: List<ActCardStatus> = emptyList()
     private var lastCutinStatus: List<CutinCardStatus> = emptyList()
 
+    private fun enemyQueue() =
+        enemy.strategy.nextQueue(stage, enemy, team).run {
+          var cost = 1
+          buildList {
+            tiles.forEach { tile ->
+              when (tile) {
+                is IdleTile -> cost += 1
+                is ActionTile -> {
+                  add(
+                      ActCardStatus(
+                          dressId = 0,
+                          iconId = tile.actData.icon ?: 0,
+                          cost = cost,
+                          baseCost = tile.actData.apCost,
+                          isClimax = tile.actData.type == ActType.ClimaxAct,
+                          isSupport = false,
+                          status = ActionStatus.QUEUED,
+                          handIndex = -1,
+                          partIcons = tile.actData.partIcons,
+                          fieldEffectPartIcons = tile.actData.fieldEffectPartIcons,
+                      ))
+                  cost = 1
+                }
+              }
+            }
+          }
+        }
+
     val queueStatus: InteractiveQueueStatus
       get() =
           InteractiveQueueStatus(
@@ -708,6 +737,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
               stage.tile,
               maxTurns,
               if (queuing) queue.map { it.status } else lastQueueStatus,
+              if (queuing) enemyQueue() else emptyList(),
               if (queuing) hand.map { it.status } else emptyList(),
               if (!finished) held?.status else null,
               if (queuing) team.actors.values.mapNotNull { it.cutin?.status } else lastCutinStatus,

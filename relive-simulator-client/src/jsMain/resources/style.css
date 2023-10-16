@@ -336,6 +336,7 @@ pwa-update::part(offlineToast) {
     height: var(--tl-height);
     margin-left: auto;
     margin-right: auto;
+    z-index: 100;
 }
 
 #interactive-shortcuts-container {
@@ -714,6 +715,11 @@ pwa-update::part(offlineToast) {
     background: var(--marker-color);
     border-radius: 50%;
     content: "";
+}
+
+.interactive-timeline-enemy-queue .interactive-timeline-marker {
+    border-radius: 10%;
+    transform: rotate(45deg);
 }
 
 .interactive-timeline-image-container {
@@ -1584,6 +1590,7 @@ input[type=number] {
 
 .interactive-act-popup-outer {
     bottom: -3%;
+    left: 50%;
     position: absolute;
 }
 
@@ -1591,16 +1598,22 @@ input[type=number] {
     position: fixed;
     display: none;
     flex-wrap: wrap;
-    width: calc(var(--size-ref) / 20 * 5 + var(--size-ref) / 360 * 13);
+    max-width: calc(var(--size-ref) / 20 * 5 + var(--size-ref) / 360 * 13);
+    width: max-content;
     padding: calc(var(--size-ref) / 360);
     border-radius: calc(var(--size-ref) / 180);
     background: white;
     filter: drop-shadow(0 0 2px grey);
     z-index: 100;
+    transform: translate(-50%, 0);
 }
 
 @media (pointer: fine) {
     .interactive-queue-image-container:hover .interactive-act-popup {
+        display: flex;
+    }
+
+    .interactive-timeline-item:hover .interactive-act-popup {
         display: flex;
     }
 }

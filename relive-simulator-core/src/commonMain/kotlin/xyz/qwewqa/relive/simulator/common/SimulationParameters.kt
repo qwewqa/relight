@@ -88,6 +88,7 @@ data class InteractiveQueueStatus(
     val tile: Int,
     val maxTurns: Int,
     val queue: List<ActCardStatus>,
+    val enemyQueues: List<ActCardStatus>,
     val hand: List<ActCardStatus>,
     val hold: ActCardStatus?,
     val cutins: List<CutinCardStatus>,

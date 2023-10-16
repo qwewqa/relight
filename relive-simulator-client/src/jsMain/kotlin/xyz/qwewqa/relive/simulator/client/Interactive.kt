@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import kotlinx.dom.addClass
 import kotlinx.dom.clear
 import kotlinx.dom.removeClass
+import kotlinx.html.FlowContent
 import kotlinx.html.TagConsumer
 import kotlinx.html.button
 import kotlinx.html.div
@@ -135,14 +136,36 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
     }
   }
 
+  val expandedEnemyQueue = buildList {
+    status.enemyQueues.forEach { queue ->
+      repeat(queue.cost - 1) { add(null) }
+      add(queue)
+    }
+  }
+
   var tile = 0
   fun tileClass(): String {
     tile++
-    return when {
+    return "${when {
       status.runState == InteractiveRunState.QUEUE -> ""
       tile < status.tile -> "interactive-timeline-past"
       tile == status.tile -> "interactive-timeline-current"
       else -> "interactive-timeline-future"
+    }} ${if (expandedEnemyQueue.getOrNull(tile - 1) != null) "interactive-timeline-enemy-queue" else ""}"
+  }
+  fun FlowContent.enemyQueueTooltip() {
+    val card = expandedEnemyQueue.getOrNull(tile - 1) ?: return
+    div("interactive-act-popup-outer") {
+      div("interactive-act-popup") {
+        card.partIcons.forEach {
+          img(classes = "interactive-act-popup-image") {
+            src = "img/skill_icon/skill_icon_${it}.webp"
+          }
+        }
+        card.fieldEffectPartIcons.forEach {
+          img(classes = "interactive-act-popup-image") { src = "img/field_effect_icon/$it.webp" }
+        }
+      }
     }
   }
 
@@ -156,17 +179,22 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
           }
       when (card.cost) {
         1 -> {
-          div("interactive-timeline-item $type ${tileClass()}") { cardImage(i, card) }
+          div("interactive-timeline-item $type ${tileClass()}") {
+            cardImage(i, card)
+            enemyQueueTooltip()
+          }
         }
         2 -> {
           div("interactive-timeline-item $type ${tileClass()}") {
             div("interactive-timeline-connector-start")
             div("interactive-timeline-marker") {}
             onClickFunction = { GlobalScope.launch { simulation.sendCommand("unqueue #${i + 1}") } }
+            enemyQueueTooltip()
           }
           div("interactive-timeline-item $type ${tileClass()}") {
             div("interactive-timeline-connector-end")
             cardImage(i, card)
+            enemyQueueTooltip()
           }
         }
         else -> {
@@ -174,6 +202,7 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
             div("interactive-timeline-connector-start")
             div("interactive-timeline-marker") {}
             onClickFunction = { GlobalScope.launch { simulation.sendCommand("unqueue #${i + 1}") } }
+            enemyQueueTooltip()
           }
           repeat(card.cost - 2) {
             div("interactive-timeline-item $type ${tileClass()}") {
@@ -182,11 +211,13 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
               onClickFunction = {
                 GlobalScope.launch { simulation.sendCommand("unqueue #${i + 1}") }
               }
+              enemyQueueTooltip()
             }
           }
           div("interactive-timeline-item $type ${tileClass()}") {
             div("interactive-timeline-connector-end")
             cardImage(i, card)
+            enemyQueueTooltip()
           }
         }
       }
@@ -194,6 +225,7 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
     repeat(6 - status.queue.sumOf { it.cost }) {
       div("interactive-timeline-item interactive-timeline-empty ${tileClass()}") {
         div("interactive-timeline-marker") {}
+        enemyQueueTooltip()
       }
     }
   }
