@@ -801,8 +801,6 @@ pwa-update::part(offlineToast) {
 
 #interactive-acts-row-container {
     position: relative;
-    overflow-x: auto;
-    overflow-y: visible;
     padding-top: calc(var(--size-ref) / 72);
     padding-bottom: calc(var(--size-ref) / 96);
 }
@@ -1592,6 +1590,8 @@ input[type=number] {
     bottom: -3%;
     left: 50%;
     position: absolute;
+    transform: translateZ(0);
+    z-index: 100;
 }
 
 .interactive-act-popup {
