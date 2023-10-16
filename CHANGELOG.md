@@ -1249,3 +1249,6 @@
 
 # v1.7.1
 - Added tooltips for boss queue
+
+# v1.7.2
+- Fixed tooltip positioning at some window sizes
