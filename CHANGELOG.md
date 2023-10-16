@@ -1246,3 +1246,6 @@
 # v1.7.0
 - Fixed arrogance agility down
 - Added tooltips for acts on desktop
+
+# v1.7.1
+- Added tooltips for boss queue
