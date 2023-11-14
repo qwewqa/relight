@@ -103,6 +103,15 @@ object Dresses : ImplementationRegistry<DressBlueprint>() {
                             DRESS_AUTO_SKILL_LEVEL)
                     else -> null
                   }?.skills,
+                  when (dress.auto_skill5_type) {
+                    1 ->
+                        (PassiveSkillGroups[dress.auto_skill5_id] ?: continue).create(
+                            DRESS_AUTO_SKILL_LEVEL)
+                    2 ->
+                        (StartSkillGroups[dress.auto_skill5_id] ?: continue).create(
+                            DRESS_AUTO_SKILL_LEVEL)
+                    else -> null
+                  }?.skills,
               ),
           autoSkillRanks =
               listOf(

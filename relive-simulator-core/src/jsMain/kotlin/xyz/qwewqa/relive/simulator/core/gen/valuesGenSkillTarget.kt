@@ -9,7 +9,8 @@ actual val valuesGenSkillTarget: Map<Int, GenSkillTarget> by lazy {
         description = stringMapFromDynamic(data.description),
         description_for_field_effect = stringMapFromDynamic(data.description_for_field_effect),
         role = data.role.unsafeCast<Int>(),
-        school_id = data.school_id.unsafeCast<Int>(),
+        school_id = data.school_id.unsafeCast<Int?>(),
+        school_ids = if (data.school_ids == null) emptyArray() else arrayFromDynamic(data.school_ids),
         skill_target_filter_ids = arrayFromDynamic(data.skill_target_filter_ids),
         _id_ = id,
     )

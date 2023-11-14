@@ -19,6 +19,10 @@ actual val valuesGenDress: Map<Int, GenDress> by lazy {
         auto_skill4_release_panel_number = data.auto_skill4_release_panel_number.unsafeCast<Int>(),
         auto_skill4_release_rank = data.auto_skill4_release_rank.unsafeCast<Int>(),
         auto_skill4_type = data.auto_skill4_type.unsafeCast<Int>(),
+        auto_skill5_id = data.auto_skill5_id.unsafeCast<Int>(),
+        auto_skill5_release_panel_number = data.auto_skill5_release_panel_number.unsafeCast<Int>(),
+        auto_skill5_release_rank = data.auto_skill5_release_rank.unsafeCast<Int>(),
+        auto_skill5_type = data.auto_skill5_type.unsafeCast<Int>(),
         base_agi = data.base_agi.unsafeCast<Int>(),
         base_atk = data.base_atk.unsafeCast<Int>(),
         base_hp = data.base_hp.unsafeCast<Int>(),
@@ -73,6 +77,8 @@ actual val valuesGenDress: Map<Int, GenDress> by lazy {
         role_index = data.role_index.unsafeCast<Int>(),
         trait_id = data.trait_id.unsafeCast<Int>(),
         win_sequence_id = data.win_sequence_id.unsafeCast<Int>(),
+        leader_tactics_skill_id = data.leader_tactics_skill_id.unsafeCast<Int>(),
+        sub_tactics_skill_id = data.sub_tactics_skill_id.unsafeCast<Int>(),
         _id_ = id,
     )
   }

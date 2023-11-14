@@ -22,6 +22,10 @@ data class GenDress(
     val auto_skill4_release_panel_number: Int,
     val auto_skill4_release_rank: Int,
     val auto_skill4_type: Int,
+    val auto_skill5_id: Int,
+    val auto_skill5_release_panel_number: Int,
+    val auto_skill5_release_rank: Int,
+    val auto_skill5_type: Int,
     val base_agi: Int,
     val base_atk: Int,
     val base_hp: Int,
@@ -76,6 +80,8 @@ data class GenDress(
     val role_index: Int,
     val trait_id: Int,
     val win_sequence_id: Int,
+    val leader_tactics_skill_id: Int,
+    val sub_tactics_skill_id: Int,
     val _id_: Int
 )
 

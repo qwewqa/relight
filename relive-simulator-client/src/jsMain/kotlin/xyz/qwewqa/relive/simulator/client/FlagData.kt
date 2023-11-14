@@ -227,6 +227,13 @@ object FlagData {
           name = "fruits_tart_pride",
       )
 
+  val huiyuanFutabaSgBi =
+      +FlagInfo(
+          artist = huiyuan,
+          character = FlagCharacter.Futaba,
+          name = "sg_bi",
+      )
+
   val rmTamaoBeautifulWomanPan =
       +FlagInfo(
           artist = rm,
