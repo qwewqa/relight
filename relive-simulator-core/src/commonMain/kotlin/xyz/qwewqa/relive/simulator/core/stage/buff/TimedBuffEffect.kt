@@ -19,6 +19,9 @@ interface ContinuousBuffEffect<T> : BuffEffect {
     get() = null
   val related: ContinuousBuffEffect<Unit>?
     get() = null
+
+  val isResistance: Boolean
+
   fun onStart(context: ActionContext, value: I54, source: Actor?): T
   fun onEnd(context: ActionContext, value: I54, source: Actor?, data: T)
 

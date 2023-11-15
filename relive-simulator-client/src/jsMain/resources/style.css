@@ -932,6 +932,35 @@ pwa-update::part(offlineToast) {
     filter: drop-shadow(0 0 3px red) drop-shadow(0 0 3px red) drop-shadow(0 0 2px red) drop-shadow(0 0 2px red);
 }
 
+.interactive-act-sealed .queue-actor-img {
+    filter: brightness(65%);
+}
+
+.interactive-act-sealed .queue-act-img {
+    filter: brightness(80%);
+}
+
+.interactive-act-sealed .queue-support-indicator {
+    filter: brightness(80%) drop-shadow(0 0 2px white) drop-shadow(0 0 2px white);
+}
+
+.interactive-act-sealed .queue-act-cost {
+    filter: drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 2px white);
+}
+
+.queue-act-sealed-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    font-size: calc(var(--size-ref) / 14);
+    line-height: 0;
+    --outer-shadow-size: calc(var(--size-ref) / 240);
+    --inner-shadow-size: calc(var(--size-ref) / 360);
+    filter: drop-shadow(0 0 var(--outer-shadow-size) red) drop-shadow(0 0 var(--outer-shadow-size) red) drop-shadow(0 0 var(--inner-shadow-size) red) drop-shadow(0 0 var(--inner-shadow-size) red);
+}
+
 #interactive-memoirs-row {
     display: flex;
     width: var(--size-ref);

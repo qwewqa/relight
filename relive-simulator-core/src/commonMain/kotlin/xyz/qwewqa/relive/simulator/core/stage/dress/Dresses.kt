@@ -119,6 +119,7 @@ object Dresses : ImplementationRegistry<DressBlueprint>() {
                   dress.auto_skill2_release_rank,
                   dress.auto_skill3_release_rank,
                   dress.auto_skill4_release_rank,
+                  dress.auto_skill5_release_rank,
               ),
           autoSkillPanels =
               listOf(
@@ -126,6 +127,7 @@ object Dresses : ImplementationRegistry<DressBlueprint>() {
                   0,
                   dress.auto_skill3_release_panel_number,
                   dress.auto_skill4_release_panel_number,
+                  dress.auto_skill5_release_panel_number,
               ),
           rankPanels =
               listOf(

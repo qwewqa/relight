@@ -32,6 +32,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.actor.countableBuffsByName
 import xyz.qwewqa.relive.simulator.core.stage.actor.wrap
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.apChange
 import xyz.qwewqa.relive.simulator.core.stage.buff.hasMultipleCA
 import xyz.qwewqa.relive.simulator.core.stage.execute
@@ -771,6 +772,7 @@ class InteractiveSimulationController(val maxTurns: Int, val seed: Int, val load
               actor.isSupport,
               when {
                 this == held -> ActionStatus.HELD
+                isSealed() -> ActionStatus.SEALED
                 queue.count { it == this } >= hand.count { it == this } -> ActionStatus.QUEUED
                 queue.sumOf { it.apCost } + apCost > 6 -> ActionStatus.TOO_EXPENSIVE
                 else -> ActionStatus.READY
@@ -1208,6 +1210,9 @@ ${
                 act.type == ActType.ClimaxAct -> {
                   log("Hold") { "Error: Cannot hold a climax act" }
                 }
+                act.isSealed() -> {
+                  log("Hold") { "Error: Cannot hold a sealed act" }
+                }
                 else -> {
                   held = act
                   val newAct = drawCard(1).single()
@@ -1243,6 +1248,9 @@ ${
                 }
                 act.type == ActType.ClimaxAct -> {
                   log("Discard") { "Error: Cannot discard a climax act" }
+                }
+                act.isSealed() -> {
+                  log("Discard") { "Error: Cannot discard a sealed act" }
                 }
                 else -> {
                   discardPile += act
@@ -1782,7 +1790,17 @@ ${
 
     private fun BoundAct.canQueue() =
         queue.count { it == this } < hand.count { it == this } &&
-            queue.sumOf { it.apCost } + apCost <= 6
+            queue.sumOf { it.apCost } + apCost <= 6 &&
+            !isSealed()
+
+    private fun BoundAct.isSealed() =
+        when (type) {
+          ActType.Act1 -> Buffs.SealAct1Buff in actor.buffs
+          ActType.Act2 -> Buffs.SealAct2Buff in actor.buffs
+          ActType.Act3 -> Buffs.SealAct3Buff in actor.buffs || Buffs.GreaterSealAct3Buff in actor.buffs
+          ActType.ClimaxAct -> Buffs.SealCABuff in actor.buffs
+          else -> false
+        }
 
     private fun BoundCutin.fullInfo() =
         "@(memoir:${actor.memoir?.id})[${actor.name} (${actor.dress.name})]:[${actor.memoir?.name}](Cost: ${currentCost}, Cooldown: ${

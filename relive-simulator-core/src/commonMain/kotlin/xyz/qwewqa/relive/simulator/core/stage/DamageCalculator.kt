@@ -19,6 +19,8 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FrostbiteBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterBlindnessBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFreezeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFrostbiteBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterInvincibilityBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterPerfectAimBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.InvincibilityBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LockedNormalBarrierBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LockedSpecialBarrierBuff
@@ -67,14 +69,14 @@ open class RandomDamageCalculator : DamageCalculator {
         }
         if (target.buffs.tryRemove(Buffs.EvasionBuff) ||
             target.buffs.tryRemove(Buffs.GreaterEvasionBuff)) {
-          if (PerfectAimBuff !in self.buffs && !hitAttribute.focus) {
+          if (PerfectAimBuff !in self.buffs && GreaterPerfectAimBuff !in self.buffs && !hitAttribute.focus) {
             log("Hit", category = LogCategory.DAMAGE) {
               "Miss against [${target.name}] from Evade."
             }
             return@run
           }
         }
-        if (PerfectAimBuff in self.buffs ||
+        if (PerfectAimBuff in self.buffs || GreaterPerfectAimBuff in self.buffs ||
             hitAttribute.focus ||
             stage.random.nextDouble() < result.hitChance) {
           val n = if (result.variance) stage.random.nextInt(-8, 9) else 0
@@ -170,7 +172,7 @@ open class RandomDamageCalculator : DamageCalculator {
             (if (BlindnessBuff in attacker.buffs || GreaterBlindnessBuff in attacker.buffs) 0.3
             else 1.0)
 
-    if (InvincibilityBuff in target.buffs && !hitAttribute.focus) {
+    if ((InvincibilityBuff in target.buffs || GreaterInvincibilityBuff in target.buffs) && !hitAttribute.focus) {
       // Critical chance isn't actually 0 against invincible targets, but
       // it doesn't matter, so we'll skip calculating it.
       return DamageResult(0.i54, 0.i54, 0.0, acc / 100.0, false)

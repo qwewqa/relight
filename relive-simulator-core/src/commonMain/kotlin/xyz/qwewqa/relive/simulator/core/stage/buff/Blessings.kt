@@ -9,6 +9,7 @@ fun Actor.activateBlessings() =
     context.targetSelf().act {
       // TODO: Fix consumption order pending testing
       buffs.consumeOnce(Buffs.BlessingHpRecoveryBuff) { value -> heal(percent = value) }
+      buffs.consumeOnce(Buffs.GreaterBlessingHpRecoveryBuff) { value -> heal(percent = value) }
       buffs.consumeOnce(Buffs.BlessingRemoveCountableNegativeEffectsBuff) { _ ->
         removeCountable(BuffCategory.Negative)
       }

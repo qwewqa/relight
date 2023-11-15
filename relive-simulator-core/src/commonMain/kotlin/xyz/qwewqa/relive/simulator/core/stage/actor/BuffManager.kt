@@ -621,9 +621,9 @@ class BuffManager(val actor: Actor) {
 
 val consumeOnAttackCountableBuffs =
     listOf(
-        Buffs.HopeBuff,
-        Buffs.CheerBuff,
-        Buffs.SuperStrengthBuff,
+        listOf(Buffs.HopeBuff, Buffs.GreaterHopeBuff),
+        listOf(Buffs.CheerBuff),
+        listOf(Buffs.SuperStrengthBuff),
     )
 
 class CountableBuffStack(

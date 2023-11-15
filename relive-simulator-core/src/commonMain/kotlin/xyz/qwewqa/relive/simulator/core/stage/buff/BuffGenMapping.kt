@@ -21,6 +21,7 @@ data class BuffData(
       category: BuffCategory,
       locked: Boolean = this.locked,
       exclusive: Boolean = false,
+      isResistance: Boolean = false,
       crossinline flipped: () -> ContinuousBuffEffect<*>? = { null },
       related: ContinuousBuffEffect<Unit>? = null,
       crossinline onStart: ActionContext.(value: I54, source: Actor?) -> T,
@@ -41,6 +42,8 @@ data class BuffData(
         override val related
           get() = related
 
+        override val isResistance = isResistance
+
         override fun onStart(context: ActionContext, value: I54, source: Actor?): T {
           return context.onStart(value, source)
         }
@@ -54,6 +57,7 @@ data class BuffData(
       category: BuffCategory,
       locked: Boolean = this.locked,
       exclusive: Boolean = false,
+      isResistance: Boolean = false,
       crossinline flipped: () -> ContinuousBuffEffect<*>? = { null },
       related: ContinuousBuffEffect<Unit>? = null,
       crossinline onStart: ActionContext.() -> Unit,
@@ -74,6 +78,8 @@ data class BuffData(
         override val related
           get() = related
 
+        override val isResistance = isResistance
+
         override fun onStart(context: ActionContext, value: I54, source: Actor?) {
           if (this !in context.self.buffs) {
             context.onStart()
@@ -92,6 +98,7 @@ data class BuffData(
       category: BuffCategory,
       locked: Boolean = this.locked,
       exclusive: Boolean = false,
+      isResistance: Boolean = false,
       crossinline flipped: () -> ContinuousBuffEffect<*>? = { null },
       related: ContinuousBuffEffect<Unit>? = null,
   ): ContinuousBuffEffect<Unit> =
@@ -99,6 +106,7 @@ data class BuffData(
           category = category,
           locked = locked,
           exclusive = exclusive,
+          isResistance = isResistance,
           flipped = flipped,
           related = related,
           onStart = { value, _ -> self.mod { modifier += value } },
@@ -110,6 +118,7 @@ data class BuffData(
       category: BuffCategory,
       locked: Boolean = this.locked,
       exclusive: Boolean = false,
+      isResistance: Boolean = false,
       crossinline flipped: () -> ContinuousBuffEffect<*>? = { null },
       related: ContinuousBuffEffect<Unit>? = null,
       crossinline onStart: ActionContext.(value: I54) -> Unit = { _ -> },
@@ -119,6 +128,7 @@ data class BuffData(
           category = category,
           locked = locked,
           exclusive = exclusive,
+          isResistance = isResistance,
           flipped = flipped,
           related = related,
           onStart = { value, _ -> onStart(value) },
@@ -130,6 +140,7 @@ data class BuffData(
           category = related.category,
           locked = true,
           exclusive = related.exclusive,
+          isResistance = related.isResistance,
           related = related,
       )
 
@@ -139,6 +150,7 @@ data class BuffData(
           category = base.category,
           locked = base.isLocked,
           exclusive = base.exclusive,  // TODO: Does flip work?
+          isResistance = base.isResistance,
           onStart = { value, source -> base.onStart(this, value, source) },
           onEnd = { value, source, data -> base.onEnd(this, value, source, data) },
       )

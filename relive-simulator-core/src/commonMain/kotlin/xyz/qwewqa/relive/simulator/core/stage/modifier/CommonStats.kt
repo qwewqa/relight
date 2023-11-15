@@ -14,6 +14,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.BurnBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterAgonyBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterArroganceBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterBurnBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterHopeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterInsanityBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.HopeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.WeakenBuff
@@ -27,7 +28,7 @@ val Modifiers.maxHp: I54
 
 inline val Modifiers.hopeFactor: I54
   get() {
-    return 20 given { HopeBuff in actor.buffs }
+    return 20 given { HopeBuff in actor.buffs || GreaterHopeBuff in actor.buffs }
   }
 
 inline val Modifiers.superStrengthFactor: I54
@@ -108,6 +109,9 @@ val Modifiers.hpRecoveryAdjustment: I54
   }
 
 fun Modifiers.positiveEffectResistance(effect: BuffEffect): I54 {
+  if (effect.groupLevel == 1 && Buffs.GreaterStagnationBuff in actor.buffs) {
+    return 100.i54
+  }
   val resistance =
       when (effect.groupLevel) {
         1 ->
@@ -132,7 +136,13 @@ fun Modifiers.negativeEffectResistance(effect: BuffEffect): I54 {
                       Modifier.NegativeCountableEffectResistanceDown
               else -> Modifier.NegativeEffectResistanceUp - Modifier.NegativeEffectResistanceDown
             }
-        2 -> 0.i54
+        2 -> when (effect) {
+          is CountableBuffEffect ->
+              Modifier.GreaterNegativeCountableEffectResistanceUp -
+                  Modifier.GreaterNegativeCountableEffectResistanceDown
+          else -> Modifier.GreaterNegativeEffectResistanceUp -
+              Modifier.GreaterNegativeEffectResistanceDown
+        }
         else -> throw NotImplementedError("Unknown effect group level ${effect.groupLevel}")
       }
   val specificResistance = actor.specificBuffResist[effect] ?: 0.i54

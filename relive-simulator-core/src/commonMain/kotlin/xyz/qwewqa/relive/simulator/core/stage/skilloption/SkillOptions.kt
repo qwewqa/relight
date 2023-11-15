@@ -13,6 +13,8 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkillType
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FortitudeBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterEvasionBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFortitudeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.InvincibleRebirthBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ReviveBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.WeakSpotBuff
@@ -610,7 +612,9 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             ampCondition = { it.dress.damageType == DamageType.Special })
       }
 
-  // TODO: remove exit
+  val RemoveExit = +skillOptionData(309).makeSkillOption { value, time ->
+    // TODO: implement
+  }
 
   val FocusAttack =
       +skillOptionData(310).makeSkillOption { value, time, _, attribute ->
@@ -1587,6 +1591,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         convert(FortitudeBuff, InvincibleRebirthBuff, value)
       }
 
+  val ConversionGreaterEvasionGreaterFortitude =
+      +skillOptionData(621).makeSkillOption { value, _ ->
+        convert(GreaterEvasionBuff, GreaterFortitudeBuff, value)
+      }
+
   val GreaterBurn = +skillOptionData(10010).applyEffect()
   val GreaterConfusion = +skillOptionData(10020).applyEffect()
   val GreaterBlindness = +skillOptionData(10030).applyEffect()
@@ -1622,6 +1631,33 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterElectricShockResistanceUp = +skillOptionData(10285).applyEffect()
   val GreaterRevive = +skillOptionData(10286).applyEffect()
   val ExcludingGreaterArroganceResistanceUp = +skillOptionData(10289).applyEffect()
+  val GreaterCombinedResistanceUpFreezeStop = +skillOptionData(10290).applyEffect()
+  val GreaterStun = +skillOptionData(10291).applyEffect()
+  val GreaterPerfectAim = +skillOptionData(10292).applyEffect()
+  val GreaterSleepResistanceUp = +skillOptionData(10293).applyEffect()
+  val GreaterApUpResistanceUp = +skillOptionData(10294).applyEffect()
+  val GreaterInvincibility = +skillOptionData(10295).applyEffect()
+  val ResistanceUpExceptGreaterInsanity = +skillOptionData(10296).applyEffect()
+  val GreaterStunResistanceUp = +skillOptionData(10297).applyEffect()
+  val GreaterMark = +skillOptionData(10298).applyEffect()
+  val GreaterAgilityUp = +skillOptionData(10299).applyEffect()
+  val GreaterBrillianceGainDown = +skillOptionData(10300).applyEffect()
+  val GreaterSealAct3 = +skillOptionData(10301).applyEffect()
+  val GreaterPierceInvincible = +skillOptionData(10302).applyEffect()
+  val GreaterHope = +skillOptionData(10303).applyEffect()
+  val GreaterMaxHpUp = +skillOptionData(10304).applyEffect()
+  val GreaterLovesickness = +skillOptionData(10305).applyEffect()
+  val GreaterDexterityUp = +skillOptionData(10306).applyEffect()
+  val GreaterActPowerDown = +skillOptionData(10307).applyEffect()
+  val GreaterCriticalDown = +skillOptionData(10308).applyEffect()
+  val GreaterCombinedResistanceUpElectricShockSleep = +skillOptionData(10309).applyEffect()
+  val GreaterHpRegen = +skillOptionData(10310).applyEffect()
+  val GreaterBrillianceRegen = +skillOptionData(10311).applyEffect()
+  val GreaterFortitudeReduction = +skillOptionData(10312).reduceCountable()
+  val GreaterAgilityDown = +skillOptionData(10314).applyEffect()
+  val GreaterCounterHeal = +skillOptionData(10315).applyEffect()
+  val GreaterBlessingHpRecovery = +skillOptionData(10316).applyEffect()
+  val GreaterAggroResistanceUp = +skillOptionData(10318).applyEffect()
 
   // TODO: figure out if these affect base
 
@@ -1677,5 +1713,35 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
       +skillOptionData(20009)
           .removeContinuousEffects(
               Buffs.GreaterFreezeResistanceUpBuff,
+          )
+
+  val RemoveGreaterApUp =
+      +skillOptionData(20010)
+          .removeContinuousEffects(
+              Buffs.GreaterApUpBuff,
+          )
+
+  val RemoveGreaterSleep =
+      +skillOptionData(20011)
+          .removeContinuousEffects(
+              Buffs.GreaterSleepBuff,
+          )
+
+  val RemoveGreaterStopResistanceUp =
+      +skillOptionData(20012)
+          .removeContinuousEffects(
+              Buffs.GreaterStopResistanceUpBuff,
+          )
+
+  val RemoveGreaterStun =
+      +skillOptionData(20013)
+          .removeContinuousEffects(
+              Buffs.GreaterStunBuff,
+          )
+
+  val RemoveGreaterAggro =
+      +skillOptionData(20014)
+          .removeContinuousEffects(
+              Buffs.GreaterAggroBuff,
           )
 }

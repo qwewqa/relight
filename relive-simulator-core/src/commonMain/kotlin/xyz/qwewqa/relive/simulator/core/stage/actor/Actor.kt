@@ -27,10 +27,12 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterConfusionBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterElectricShockBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFreezeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFrostbiteBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterLovesicknessBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterProvokeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterReviveBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterSleepBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterStopBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterStunBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LockedAggroBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LovesicknessBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.NightmareBuff
@@ -193,11 +195,11 @@ class Actor(
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by nightmare." }
         return
       }
-      if (StunBuff in buffs && context.stage.random.nextDouble() < 0.5) {
+      if ((StunBuff in buffs || GreaterStunBuff in buffs) && context.stage.random.nextDouble() < 0.5) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by stun." }
         return
       }
-      if (LovesicknessBuff in buffs && context.stage.random.nextDouble() < 0.5) {
+      if ((LovesicknessBuff in buffs || GreaterLovesicknessBuff in buffs) && context.stage.random.nextDouble() < 0.5) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) {
           "Act prevented by lovesickness."
         }

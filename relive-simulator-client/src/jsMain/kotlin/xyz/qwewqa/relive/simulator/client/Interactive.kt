@@ -248,6 +248,7 @@ private fun updateActs(simulation: InteractiveSimulation, status: InteractiveQue
         "interactive-act ${
                 when (card?.status) {
                     ActionStatus.QUEUED -> "interactive-act-queued"
+                    ActionStatus.SEALED -> "interactive-act-sealed"
                     ActionStatus.TOO_EXPENSIVE -> "interactive-act-too-expensive"
                     else -> ""
                 }
@@ -305,11 +306,14 @@ private fun updateActs(simulation: InteractiveSimulation, status: InteractiveQue
                 else -> {}
               }
               when (card.status) {
-                ActionStatus.TOO_EXPENSIVE -> {
-                  span("queue-act-too-expensive-text") { +"C" }
-                }
                 ActionStatus.QUEUED -> {
                   i("bi bi-check queue-act-queued-icon") {}
+                }
+                ActionStatus.SEALED -> {
+                  i("bi bi-slash-circle queue-act-sealed-icon") {}
+                }
+                ActionStatus.TOO_EXPENSIVE -> {
+                  span("queue-act-too-expensive-text") { +"C" }
                 }
                 else -> {}
               }
@@ -338,6 +342,7 @@ private fun updateActs(simulation: InteractiveSimulation, status: InteractiveQue
                 if (card == null ||
                     card.status == ActionStatus.HELD ||
                     card.status == ActionStatus.QUEUED ||
+                    card.status == ActionStatus.SEALED ||
                     card.isClimax ||
                     !status.holdAction) {
                   disabled = true

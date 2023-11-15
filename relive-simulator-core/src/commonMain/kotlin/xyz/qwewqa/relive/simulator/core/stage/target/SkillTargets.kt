@@ -1753,6 +1753,19 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
             it.dress.character == Character.Yachiyo
       }
 
+  val allyDreamSunStar =
+      +getSkillTargetData(4192).makeAllyTargetAoe {
+        it.dress.attribute == Attribute.Dream ||
+            it.dress.attribute == Attribute.Sun ||
+            it.dress.attribute == Attribute.Star
+      }
+
+  val enemySeishoSiegfeld =
+      +getSkillTargetData(4193).makeEnemyTargetAoe {
+        it.dress.character.school == School.Seisho ||
+            it.dress.character.school == School.Siegfeld
+      }
+
   // Handled specially
   val randomAllyPerHit = +getSkillTargetData(5001).makeAllyTargetAoe()
   val randomEnemyPerHit = +getSkillTargetData(6001).makeEnemyTargetAoe()
@@ -1869,8 +1882,12 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
       }
 
   // TODO: revives
-  //    11011: "1st Defeated Front Ally"
-  //    11012: "1st Defeated Rear Ally"
+  val firstDefeatedFrontAlly =
+      +getSkillTargetData(11011).makeAllyTarget { listOf() }
+  val firstDefeatedRearAlly =
+      +getSkillTargetData(11012).makeAllyTarget { listOf() }
+  val back3DefeatedAlly =
+      +getSkillTargetData(11013).makeAllyTarget { listOf() }
 
   val focusAllEnemies = +getSkillTargetData(22002).makeEnemyTarget { enemy.active.toList() }
 }

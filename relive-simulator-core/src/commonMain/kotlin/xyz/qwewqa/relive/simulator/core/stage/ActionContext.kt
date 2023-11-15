@@ -36,9 +36,12 @@ data class ActionLog(
     val consumeCountableBuffs: MutableSet<CountableBuffEffect> = mutableSetOf(),
 ) {
   fun markConsumeOnAttackCountableBuffs(actor: Actor) {
-    consumeOnAttackCountableBuffs.forEach { buff ->
-      if (buff in actor.buffs) {
-        consumeCountableBuffs.add(buff)
+    consumeOnAttackCountableBuffs.forEach { buffs ->
+      for (buff in buffs) {
+        if (buff in actor.buffs) {
+          consumeCountableBuffs.add(buff)
+          break
+        }
       }
     }
   }
