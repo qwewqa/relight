@@ -1252,3 +1252,8 @@
 
 # v1.7.2
 - Fixed tooltip positioning at some window sizes
+
+# v1.8.0
+- TR36 bosses added by Savivo
+- Added new girls and memoirs
+- Implemented leader and opening skills
