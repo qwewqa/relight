@@ -277,6 +277,8 @@ object DressCategory {
           1010029,
           1060028,
           3020022,
+          4050022,
+          2040024,
       )
 
   val Movie =
