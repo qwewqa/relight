@@ -332,12 +332,14 @@ fun getMemoirUnbindLevelHorizontalImagePath(level: Int) =
 
 fun getMemoirUnbindLevelVerticalImagePath(level: Int) = "img/common/icon_equip_evolution_$level.webp"
 
-const val actorSupportIconPath = "img/common/icon_support_dress.webp"
+const val actorLeaderIconPath = "img/icon_colored/26x26_leader.webp"
+const val actorSupportIconPath = "img/icon_colored/26x26_support.webp"
 
 class ActorOptions(
     private val options: SimulationOptions,
     val tabElement: Element,
-    val optionsElement: Element
+    val optionsElement: Element,
+    val actorId: Int
 ) {
   constructor(
       options: SimulationOptions,
@@ -346,11 +348,13 @@ class ActorOptions(
       options,
       document.getElementById("actor-tab-$actorId")!!,
       document.getElementById("actor-options-$actorId")!!,
+      actorId
   )
 
   val name = TextInput(optionsElement.getElementsByClassName("actor-name").single())
   val dress = SingleSelect(optionsElement.getElementsByClassName("actor-dress").single(), true)
-  val support = ButtonGroup(optionsElement.getElementsByClassName("actor-support-toggle").single())
+  val leader = optionsElement.getElementsByClassName("actor-leader-toggle").single<HTMLInputElement>()
+  val support = optionsElement.getElementsByClassName("actor-support-toggle").single<HTMLInputElement>()
   val memoir = SingleSelect(optionsElement.getElementsByClassName("actor-memoir").single(), true)
   val memoirLevel =
       IntegerInput(optionsElement.getElementsByClassName("actor-memoir-level").single(), 1)
@@ -386,7 +390,7 @@ class ActorOptions(
 
   val tabName = tabElement.getElementsByClassName("actor-name").single<HTMLElement>()
   val tabSupportIndicator =
-      tabElement.getElementsByClassName("actor-support-indicator").single<HTMLElement>()
+      tabElement.getElementsByClassName("actor-support-indicator").single<HTMLImageElement>()
   val tabLevel = tabElement.getElementsByClassName("actor-level").single<HTMLElement>()
   val tabUnitSkillLevel =
       tabElement.getElementsByClassName("actor-unit-skill-level").single<HTMLElement>()
@@ -464,23 +468,24 @@ class ActorOptions(
               .data
               .compatibleWith(options.dressesById[dress.value]!!.data)
       return PlayerLoadoutParameters(
-          name.value,
-          dress.value,
-          memoir.value,
-          memoirLevel.value,
-          memoirUnbind.value.toInt(),
-          unitSkillLevel.value,
-          level.value,
-          rarity.value.toInt(),
-          friendship.value,
-          rank.value.toInt(),
-          rankPanelPatterns[rankPanelPattern.value]!!,
-          remake.value.toInt(),
-          remakeSkill.value,
-          if (validAccessory) accessory.value else null,
-          accessoryLevel.value,
-          accessoryUnbind.value.toInt(),
-          support.value == "true",
+          name = name.value,
+          dress = dress.value,
+          memoir = memoir.value,
+          memoirLevel = memoirLevel.value,
+          memoirLimitBreak = memoirUnbind.value.toInt(),
+          unitSkillLevel = unitSkillLevel.value,
+          level = level.value,
+          rarity = rarity.value.toInt(),
+          friendship = friendship.value,
+          rank = rank.value.toInt(),
+          rankPanelPattern = rankPanelPatterns[rankPanelPattern.value]!!,
+          remake = remake.value.toInt(),
+          remakeSkill = remakeSkill.value,
+          accessory = if (validAccessory) accessory.value else null,
+          accessoryLevel = accessoryLevel.value,
+          accessoryLimitBreak = accessoryUnbind.value.toInt(),
+          isSupport = support.checked,
+          isLeader = leader.checked,
       )
     }
     set(param) {
@@ -520,7 +525,8 @@ class ActorOptions(
 
       name.value = param.name
       dress.value = param.dress
-      support.value = param.isSupport.toString()
+      support.checked = param.isSupport
+      leader.checked = param.isLeader
       memoir.value = param.memoir
       memoirLevel.value = param.memoirLevel
       memoirUnbind.value = param.memoirLimitBreak.toString()
@@ -571,10 +577,16 @@ class ActorOptions(
         tabAccessoryUnbindImage.addClass("d-none")
       }
 
-      if (param.isSupport) {
-        tabSupportIndicator.removeClass("d-none")
-      } else {
-        tabSupportIndicator.addClass("d-none")
+      when {
+        param.isSupport -> {
+          tabSupportIndicator.removeClass("d-none")
+          tabSupportIndicator.src = actorSupportIconPath
+        }
+        param.isLeader -> {
+          tabSupportIndicator.removeClass("d-none")
+          tabSupportIndicator.src = actorLeaderIconPath
+        }
+        else ->tabSupportIndicator.addClass("d-none")
       }
 
       // Check for disabled change

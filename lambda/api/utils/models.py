@@ -30,6 +30,7 @@ class PlayerLoadoutParameters(BaseModel):
     accessoryLevel: int = 100
     accessoryLimitBreak: int = 10
     isSupport: bool = False
+    isLeader: bool = False
 
 
 class CreatePresetsRequest(BaseModel):

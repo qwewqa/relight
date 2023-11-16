@@ -186,6 +186,8 @@ external class RawPlayerLoadoutParameters {
   val accessory: String?
   val accessoryLevel: Int
   val accessoryLimitBreak: Int
+  val isSupport: Boolean
+  val isLeader: Boolean
 }
 
 fun RawSongEffectParameter.parse() =
@@ -231,6 +233,8 @@ fun RawPlayerLoadoutParameters.parse() =
         accessory = accessory,
         accessoryLevel = accessoryLevel,
         accessoryLimitBreak = accessoryLimitBreak,
+        isSupport = isSupport,
+        isLeader = isLeader,
     )
 
 fun RawSimulationParameters.parse() =

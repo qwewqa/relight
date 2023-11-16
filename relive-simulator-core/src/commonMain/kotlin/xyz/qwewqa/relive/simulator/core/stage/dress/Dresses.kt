@@ -16,6 +16,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.Skills
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveSkillGroups
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.StartSkillGroups
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.TacticsSkillGroups
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.UnitSkills
 
 const val DRESS_AUTO_SKILL_LEVEL = 1
@@ -178,6 +179,12 @@ object Dresses : ImplementationRegistry<DressBlueprint>() {
           unitSkill = UnitSkills[dress.party_skill_id] ?: continue,
           multipleCA = Skills[dress.command_unique_skill_id]!!.isMultipleCa,
           releaseTime = dress.published_at,
+          openingSkill = if (dress.sub_tactics_skill_id > 0) {
+            TacticsSkillGroups[dress.sub_tactics_skill_id] ?: continue
+          } else null,
+          leaderSkill = if (dress.leader_tactics_skill_id > 0) {
+            TacticsSkillGroups[dress.leader_tactics_skill_id] ?: continue
+          } else null,
       )
     }
   }

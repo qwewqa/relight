@@ -32,12 +32,9 @@ class StartSkill(
     val time: Int,
     val chance: Int,
 ) : AutoSkill {
-  override val iconId
-    get() = option.iconId
-  override val descriptions: Map<String, String>
-    get() = option.descriptions
-  override val type: AutoSkillType
-    get() = option.activeType
+  override val iconId = option.iconId
+  override val descriptions = option.descriptions
+  override val type: AutoSkillType = option.activeType
 
   override fun execute(context: ActionContext) {
     context.executeActiveSkillOption(

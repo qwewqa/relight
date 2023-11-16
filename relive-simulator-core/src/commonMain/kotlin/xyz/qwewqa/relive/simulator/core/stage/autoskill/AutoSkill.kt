@@ -23,6 +23,7 @@ interface UnitAutoSkillGroupBlueprint {
 
 /** Determines the order of passive application. */
 enum class AutoSkillType {
+  Tactics,
   Passive,
   TurnStartA,
   TurnStartB,

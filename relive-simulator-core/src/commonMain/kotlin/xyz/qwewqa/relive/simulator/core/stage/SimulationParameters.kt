@@ -46,6 +46,7 @@ fun SimulationParameters.createStageLoadout(): StageLoadout {
                     remake = it.remake,
                     unitSkillLevel = it.unitSkillLevel,
                     remakeSkill = it.remakeSkill?.let { id -> remakeSkills[id]!! },
+                    isLeader = it.isLeader,
                 ),
                 Memoirs.aliases[it.memoir]!!.create(it.memoirLevel, it.memoirLimitBreak),
                 Accessories.aliases[it.accessory ?: "None"]!!.create(
@@ -65,6 +66,7 @@ fun SimulationParameters.createStageLoadout(): StageLoadout {
                     remake = it.remake,
                     unitSkillLevel = it.unitSkillLevel,
                     remakeSkill = null,
+                    isLeader = false,
                 ),
                 Memoirs.aliases[it.memoir]!!.create(it.memoirLevel, it.memoirLimitBreak),
                 Accessories.aliases[it.accessory ?: "None"]!!.create(

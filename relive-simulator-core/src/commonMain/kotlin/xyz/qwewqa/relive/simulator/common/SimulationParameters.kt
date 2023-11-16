@@ -256,6 +256,7 @@ data class DressData(
     val character: Character,
     val releaseTime: Int?,
     val cost: Int,
+    val hasLeaderSkill: Boolean,
 ) : Comparable<DressData> {
   override fun compareTo(other: DressData): Int {
     if (positionValue != other.positionValue) return positionValue - other.positionValue
@@ -364,6 +365,7 @@ data class PlayerLoadoutParameters(
     val accessoryLevel: Int = 100,
     val accessoryLimitBreak: Int = 10,
     val isSupport: Boolean = false,
+    val isLeader: Boolean = false,
 )
 
 @Serializable

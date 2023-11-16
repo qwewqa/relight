@@ -78,6 +78,7 @@ fun getSimulationOptions(): SimulationOptions {
                             character = dress.character,
                             releaseTime = dress.releaseTime,
                             cost = dress.cost,
+                            hasLeaderSkill = dress.leaderSkill != null,
                         ),
                 )
               }

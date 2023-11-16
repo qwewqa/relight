@@ -246,6 +246,13 @@ class TeamImage(
               drawImage(actorSupportIconPath, position)
             }
           }
+          if (loadout.isLeader) {
+            withState {
+              val position =
+                  RelativePosition(left = 5.percent, top = 20.percent).withWidth(18.percent)
+              drawImage(actorLeaderIconPath, position)
+            }
+          }
           if (loadout.hasAccessory) {
             withState {
               val position = RelativePosition(right = 6.percent, top = 5.percent)
@@ -370,6 +377,11 @@ class TeamImage(
           val supportPosition =
               RelativePosition(right = 4.percent, bottom = 4.percent).withWidth(30.percent)
           drawImage(actorSupportIconPath, supportPosition)
+        }
+        if (loadout.isLeader) {
+          val supportPosition =
+              RelativePosition(right = 4.percent, bottom = 4.percent).withWidth(30.percent)
+          drawImage(actorLeaderIconPath, supportPosition)
         }
 
         if (loadout.hasAccessory) {

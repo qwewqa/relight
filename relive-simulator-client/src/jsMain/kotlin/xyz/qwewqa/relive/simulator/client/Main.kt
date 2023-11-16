@@ -1,6 +1,10 @@
 package xyz.qwewqa.relive.simulator.client
 
 import Accessories
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
+import kotlin.random.Random
 import kotlinx.browser.document
 import kotlinx.browser.localStorage
 import kotlinx.browser.sessionStorage
@@ -85,10 +89,6 @@ import xyz.qwewqa.relive.simulator.core.getSimulationOptions
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dresses
 import xyz.qwewqa.relive.simulator.core.stage.memoir.Memoirs
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
-import kotlin.random.Random
 
 fun main() {
   SimulatorClient(RemoteSimulator(URL("${window.location.protocol}//${window.location.host}")))
@@ -261,6 +261,11 @@ class SimulatorClient(val simulator: Simulator) {
     teamUpdate()
   }
 
+  private fun actorOptions() =
+      actorTabsDiv.children.asList().reversed().map { tab ->
+        ActorOptions(options, tab.attributes["data-actor-id"]!!.value.toInt())
+      }
+
   private fun teamUpdate() {
     val setup = getSetup()
 
@@ -283,6 +288,11 @@ class SimulatorClient(val simulator: Simulator) {
     eventBonusDisplay.textContent = eventBonus?.toString() ?: "?"
 
     updateGuestStyling()
+  }
+
+  private fun teamRefresh() {
+    actorOptions().forEach { options -> options.parameters = options.parameters }
+    teamUpdate()
   }
 
   private fun toastElement(color: String = "grey", value: DIV.() -> Unit) =
@@ -583,30 +593,59 @@ class SimulatorClient(val simulator: Simulator) {
                         onChangeFunction = { ActorOptions(options, actorId).update() }
                       }
                     }
+                    div("col-auto pe-0") {
+                      label("form-label text-leader-toggle") {
+                        +localized(".text-leader-toggle", "Leader")
+                      }
+                      div("actor-leader-toggle d-flex justify-content-center") {
+                        input(InputType.checkBox, classes = "btn-check actor-leader-toggle") {
+                          id = "actor-leader-toggle-$actorId"
+                          onChangeFunction = {
+                            val ownOptions = ActorOptions(options, actorId)
+                            if (ownOptions.leader.checked) {
+                              ownOptions.support.checked = false
+                              actorOptions().forEach {
+                                if (it.actorId != actorId) {
+                                  it.leader.checked = false
+                                }
+                              }
+                              teamRefresh()
+                            } else {
+                              ownOptions.update()
+                            }
+                          }
+                        }
+                        label("btn btn-outline-danger") {
+                          htmlFor = "actor-leader-toggle-$actorId"
+                          i("bi bi-flag")
+                        }
+                      }
+                    }
                     div("col-auto") {
                       label("form-label text-support-toggle") {
                         +localized(".text-support-toggle", "Support")
                       }
-                      div("btn-group w-100 actor-support-toggle d-block") {
-                        role = "group"
-                        attributes["data-prev-value"] = "10"
-                        listOf(false, true).forEach { enable ->
-                          input(InputType.radio, classes = "btn-check") {
-                            id = "actor-support-toggle-$actorId-radio-$enable"
-                            name = "actor-support-toggle-$actorId-radio"
-                            autoComplete = false
-                            value = enable.toString()
-                            if (!enable) {
-                              attributes["checked"] = "checked"
-                            }
-                            onChangeFunction = { ActorOptions(options, actorId).update() }
-                          }
-                          label(
-                              classes =
-                                  "btn btn-outline-${if (enable) "success" else "secondary"}") {
-                                htmlFor = "actor-support-toggle-$actorId-radio-$enable"
-                                i("bi bi-${if (enable) "check" else "x"}-lg")
+                      div("actor-support-toggle d-flex justify-content-center") {
+                        input(InputType.checkBox, classes = "btn-check actor-support-toggle") {
+                          id = "actor-support-toggle-$actorId"
+                          onChangeFunction = {
+                            val ownOptions = ActorOptions(options, actorId)
+                            if (ownOptions.support.checked) {
+                              ownOptions.leader.checked = false
+                              actorOptions().forEach {
+                                if (it.actorId != actorId) {
+                                  it.support.checked = false
+                                }
                               }
+                              teamRefresh()
+                            } else {
+                              ownOptions.update()
+                            }
+                          }
+                        }
+                        label("btn btn-outline-success") {
+                          htmlFor = "actor-support-toggle-$actorId"
+                          i("bi bi-check2")
                         }
                       }
                     }
@@ -633,7 +672,18 @@ class SimulatorClient(val simulator: Simulator) {
                                       it.tags?.get(locale)?.joinToString(" ") ?: ""
                                 }
                               }
-                              onChangeFunction = { ActorOptions(options, actorId).update() }
+                              onChangeFunction = {
+                                val ownOptions = ActorOptions(options, actorId)
+                                val dressData =
+                                    options.dressesById[ownOptions.parameters.dress]!!.data
+                                if (!dressData.hasLeaderSkill) {
+                                  ownOptions.leader.checked = false
+                                  ownOptions.leader.disabled = true
+                                } else {
+                                  ownOptions.leader.disabled = false
+                                }
+                                ownOptions.update()
+                              }
                             }
                         button(type = ButtonType.button, classes = "btn btn-outline-secondary") {
                           i("bi bi-info-circle")
@@ -1131,12 +1181,8 @@ class SimulatorClient(val simulator: Simulator) {
 
   fun getSetup(): SimulationParameters {
     val actors =
-        actorTabsDiv.children
-            .asList()
-            .reversed()
-            .map { tab ->
-              ActorOptions(options, tab.attributes["data-actor-id"]!!.value.toInt()).parameters
-            }
+        actorOptions()
+            .map { it.parameters }
             .map { it.copy(name = it.name.replace(Regex("\\s"), "_")) }
     return SimulationParameters(
         maxTurns = turnsInput.value,
@@ -1658,14 +1704,16 @@ class SimulatorClient(val simulator: Simulator) {
 
     shareSetupButton.addEventListener("click", { shareSetup() })
 
-    tabNameInput.addEventListener("input", {
-      val name = tabNameInput.value
-      if (name.isBlank()) {
-        document.title = "Relight"
-      } else {
-        document.title = "$name - Relight"
-      }
-    })
+    tabNameInput.addEventListener(
+        "input",
+        {
+          val name = tabNameInput.value
+          if (name.isBlank()) {
+            document.title = "Relight"
+          } else {
+            document.title = "$name - Relight"
+          }
+        })
 
     languageSelect.populate(options.locales)
     bossSelect.populate(bosses, locale)

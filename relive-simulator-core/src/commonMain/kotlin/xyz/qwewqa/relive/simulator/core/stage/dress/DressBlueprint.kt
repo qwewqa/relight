@@ -11,6 +11,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.Position
 import xyz.qwewqa.relive.simulator.core.stage.actor.StatData
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkill
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.RemakeSkill
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.TacticsSkillGroup
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.UnitSkillBlueprint
 import xyz.qwewqa.relive.simulator.core.stage.platformSetOf
 
@@ -37,9 +38,12 @@ data class DressBlueprint(
     val unitSkill: UnitSkillBlueprint,
     val multipleCA: Boolean,
     val releaseTime: Int? = null,
+    val openingSkill: TacticsSkillGroup? = null,
+    val leaderSkill: TacticsSkillGroup? = null,
 ) : FeatureImplementation {
   val fullName
     get() = "$name ${character.displayName}"
+
   val fullNames
     get() =
         names?.mapValues { (lang, name) -> "$name ${character.names.getLocalizedString(lang) }" }
@@ -54,6 +58,7 @@ data class DressBlueprint(
       remake: Int,
       unitSkillLevel: Int,
       remakeSkill: RemakeSkill?,
+      isLeader: Boolean,
   ): Dress {
     require(rarity in baseRarity..6) { "Invalid rarity $rarity." }
     require(rank in 1..9) { "Invalid rank $rank." }
@@ -66,7 +71,7 @@ data class DressBlueprint(
             (100 + rankGrowths[9] + rarityGrowths[6]) / 100
     val panels =
         friendshipPanels.take(friendship) + // intentionally not friendship - 1
-        rankPanels.take(rank - 1).flatten() +
+            rankPanels.take(rank - 1).flatten() +
             rankPanels[rank - 1].filterIndexed { i, _ -> rankPanelPattern[i] }
     var panelHp = 0.i54
     var panelActPower = 0.i54
@@ -113,30 +118,34 @@ data class DressBlueprint(
         )
     val remakeStats = if (remake > 0) remakeParameters[remake - 1] else StatData()
     return Dress(
-        id,
-        name,
-        character,
-        attribute,
-        damageType,
-        position,
-        positionValue,
-        rankLevelStats + panelStats + remakeStats,
-        acts.associate {
-          it.type to
-              it.create(
-                  when (it.type) {
-                    ActType.Act1 -> act1Level
-                    ActType.Act2 -> act2Level
-                    ActType.Act3 -> act3Level
-                    ActType.ClimaxAct -> climaxActLevel
-                    else -> error("Unsupported dress act type.")
-                  })
-        },
-        autoSkills.take(autoSkillCount).flatten() +
-            (remakeSkill?.data?.takeIf { remake >= 4 } ?: emptyList()),
-        unitSkill.create(unitSkillLevel).skills,
-        multipleCA,
-        this,
+        id = id,
+        name = name,
+        character = character,
+        attribute = attribute,
+        damageType = damageType,
+        position = position,
+        positionValue = positionValue,
+        stats = rankLevelStats + panelStats + remakeStats,
+        acts =
+            acts.associate {
+              it.type to
+                  it.create(
+                      when (it.type) {
+                        ActType.Act1 -> act1Level
+                        ActType.Act2 -> act2Level
+                        ActType.Act3 -> act3Level
+                        ActType.ClimaxAct -> climaxActLevel
+                        else -> error("Unsupported dress act type.")
+                      })
+            },
+        autoSkills =
+            listOfNotNull(leaderSkill?.takeIf { isLeader }?.skills, openingSkill?.skills)
+                .flatten() +
+                autoSkills.take(autoSkillCount).flatten() +
+                (remakeSkill?.data?.takeIf { remake >= 4 } ?: emptyList()),
+        unitSkill = unitSkill.create(unitSkillLevel).skills,
+        multipleCA = multipleCA,
+        blueprint = this,
     )
   }
 }
