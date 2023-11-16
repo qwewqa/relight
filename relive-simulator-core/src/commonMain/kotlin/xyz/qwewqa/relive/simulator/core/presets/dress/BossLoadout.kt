@@ -304,6 +304,7 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr32.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr33.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr34.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr35.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr36.*
 import xyz.qwewqa.relive.simulator.core.stage.enemy.Enemies
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.Strategy
@@ -336,6 +337,14 @@ private fun BossLoadout.applyGuildRaceData(race: Int, phase: Int, number: Int): 
 val bossLoadouts =
     listOf(
             // NOTE: From TR34 on, guild race ID of bosses are one higher than the actual TR.
+            BossLoadout(tr36WhiteRabbitMisora, tr36WhiteRabbitMisoraStrategy).applyGuildRaceData(37, 3, 1),
+            BossLoadout(tr36WhiteRabbitMisoraDiff4, tr36WhiteRabbitMisoraDiff4Strategy).applyGuildRaceData(37, 4, 1),
+            BossLoadout(tr36AliceAruru, tr36AliceAruruStrategy).applyGuildRaceData(37, 3, 2),
+            BossLoadout(tr36AliceAruruDiff4, tr36AliceAruruDiff4Strategy).applyGuildRaceData(37, 4, 2),
+            BossLoadout(tr36QueenOfHeartsShizuha, tr36QueenOfHeartsShizuhaStrategy).applyGuildRaceData(37, 3, 3),
+            BossLoadout(tr36QueenOfHeartsShizuhaDiff4, tr36QueenOfHeartsShizuhaDiff4Strategy).applyGuildRaceData(37, 4, 3),
+            BossLoadout(tr36FaithMisora, tr36FaithMisoraStrategy).applyGuildRaceData(37, 3, 4),
+            BossLoadout(tr36FaithMisoraDiff4, tr36FaithMisoraDiff4Strategy).applyGuildRaceData(37, 4, 4),
             BossLoadout(tr35CheerAkira, tr35CheerAkiraStrategy).applyGuildRaceData(36, 3, 1),
             BossLoadout(tr35CheerAkiraDiff4, tr35CheerAkiraDiff4Strategy)
                 .applyGuildRaceData(36, 4, 1),
