@@ -1257,3 +1257,6 @@
 - TR36 bosses added by Savivo
 - Added new girls and memoirs
 - Implemented leader and opening skills
+
+# v1.8.1
+- Fixed issue with leader button disabling
