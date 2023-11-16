@@ -343,6 +343,7 @@ class SimulatorClient(val simulator: Simulator) {
   }
 
   var activeActorId: Int? = null
+
   fun setActiveActor(id: Int?) {
     activeActorId = id
     if (id != null) {
@@ -382,6 +383,7 @@ class SimulatorClient(val simulator: Simulator) {
   val actorElementCache = mutableListOf<CachedActorElements>()
 
   var actorIdCounter = 0
+
   fun addActor(): Int {
     val actorId: Int
     if (actorElementCache.isEmpty()) {
@@ -464,65 +466,63 @@ class SimulatorClient(val simulator: Simulator) {
                     "font-weight: bold; font-size: 0.75em; min-height: 1.2em; text-align: center; word-wrap: anywhere;"
               }
             }
-            onClickFunction =
-                onClickFunction@{ ev ->
-                  val actor = ActorOptions(options, actorId)
-                  for (slot in (0..9)) {
-                    if (isKeyDown("$slot")) {
-                      saveActorToClipboard(actor.parameters, slot)
-                      ev.preventDefault()
-                      return@onClickFunction
-                    }
-                  }
-                  when {
-                    isKeyDown("c") -> {
-                      saveActorToClipboard(actor.parameters)
-                      ev.preventDefault()
-                    }
-                    isKeyDown("v") -> {
-                      val parameters = loadActorFromClipboard() ?: return@onClickFunction
-                      val addedActorId = addActor()
-                      val addedOptions = ActorOptions(options, addedActorId)
-                      addedOptions.parameters = parameters
-                      addedOptions.tabElement.parentElement?.insertBefore(
-                          addedOptions.tabElement,
-                          actor.tabElement.nextSibling,
-                      )
-                      ev.preventDefault()
-                    }
-                    isKeyDown("d") -> {
-                      val addedActorId = addActor()
-                      val addedOptions = ActorOptions(options, addedActorId)
-                      addedOptions.parameters = actor.parameters
-                      addedOptions.tabElement.parentElement?.insertBefore(
-                          addedOptions.tabElement,
-                          actor.tabElement.nextSibling,
-                      )
-                      ev.preventDefault()
-                    }
-                    else -> {
-                      setActiveActor(actorId.takeIf { it != activeActorId })
-                    }
-                  }
+            onClickFunction = onClickFunction@{ ev ->
+              val actor = ActorOptions(options, actorId)
+              for (slot in (0..9)) {
+                if (isKeyDown("$slot")) {
+                  saveActorToClipboard(actor.parameters, slot)
+                  ev.preventDefault()
+                  return@onClickFunction
                 }
-            onContextMenuFunction =
-                onContextMenuFunction@{ ev ->
-                  val actor = ActorOptions(options, actorId)
-                  for (slot in (0..9)) {
-                    if (isKeyDown("$slot")) {
-                      val parameters = loadActorFromClipboard(slot) ?: return@onContextMenuFunction
-                      val addedActorId = addActor()
-                      val addedOptions = ActorOptions(options, addedActorId)
-                      addedOptions.parameters = parameters
-                      addedOptions.tabElement.parentElement?.insertBefore(
-                          addedOptions.tabElement,
-                          actor.tabElement.nextSibling,
-                      )
-                      ev.preventDefault()
-                      return@onContextMenuFunction
-                    }
-                  }
+              }
+              when {
+                isKeyDown("c") -> {
+                  saveActorToClipboard(actor.parameters)
+                  ev.preventDefault()
                 }
+                isKeyDown("v") -> {
+                  val parameters = loadActorFromClipboard() ?: return@onClickFunction
+                  val addedActorId = addActor()
+                  val addedOptions = ActorOptions(options, addedActorId)
+                  addedOptions.parameters = parameters
+                  addedOptions.tabElement.parentElement?.insertBefore(
+                      addedOptions.tabElement,
+                      actor.tabElement.nextSibling,
+                  )
+                  ev.preventDefault()
+                }
+                isKeyDown("d") -> {
+                  val addedActorId = addActor()
+                  val addedOptions = ActorOptions(options, addedActorId)
+                  addedOptions.parameters = actor.parameters
+                  addedOptions.tabElement.parentElement?.insertBefore(
+                      addedOptions.tabElement,
+                      actor.tabElement.nextSibling,
+                  )
+                  ev.preventDefault()
+                }
+                else -> {
+                  setActiveActor(actorId.takeIf { it != activeActorId })
+                }
+              }
+            }
+            onContextMenuFunction = onContextMenuFunction@{ ev ->
+              val actor = ActorOptions(options, actorId)
+              for (slot in (0..9)) {
+                if (isKeyDown("$slot")) {
+                  val parameters = loadActorFromClipboard(slot) ?: return@onContextMenuFunction
+                  val addedActorId = addActor()
+                  val addedOptions = ActorOptions(options, addedActorId)
+                  addedOptions.parameters = parameters
+                  addedOptions.tabElement.parentElement?.insertBefore(
+                      addedOptions.tabElement,
+                      actor.tabElement.nextSibling,
+                  )
+                  ev.preventDefault()
+                  return@onContextMenuFunction
+                }
+              }
+            }
           })
       actorSettingsDiv.appendChild(
           document.create.div("row actor-options") {
@@ -678,24 +678,19 @@ class SimulatorClient(val simulator: Simulator) {
                                     options.dressesById[ownOptions.parameters.dress]!!.data
                                 if (!dressData.hasLeaderSkill) {
                                   ownOptions.leader.checked = false
-                                  ownOptions.leader.disabled = true
-                                } else {
-                                  ownOptions.leader.disabled = false
                                 }
                                 ownOptions.update()
                               }
                             }
                         button(type = ButtonType.button, classes = "btn btn-outline-secondary") {
                           i("bi bi-info-circle")
-                          onClickFunction =
-                              ocf@{
-                                val opt = ActorOptions(options, actorId)
-                                val id =
-                                    options.dressesById[opt.parameters.dress]?.data?.id
-                                        ?: return@ocf
-                                if (id <= 0) return@ocf
-                                window.open("https://karth.top/dress/$id?global=1", "_blank")
-                              }
+                          onClickFunction = ocf@{
+                            val opt = ActorOptions(options, actorId)
+                            val id =
+                                options.dressesById[opt.parameters.dress]?.data?.id ?: return@ocf
+                            if (id <= 0) return@ocf
+                            window.open("https://karth.top/dress/$id?global=1", "_blank")
+                          }
                         }
                       }
                     }
@@ -946,15 +941,13 @@ class SimulatorClient(val simulator: Simulator) {
                             }
                         button(type = ButtonType.button, classes = "btn btn-outline-secondary") {
                           i("bi bi-info-circle")
-                          onClickFunction =
-                              ocf@{
-                                val opt = ActorOptions(options, actorId)
-                                val id =
-                                    options.memoirsById[opt.parameters.memoir]?.data?.id
-                                        ?: return@ocf
-                                if (id <= 0) return@ocf
-                                window.open("https://karth.top/equip/$id?global=1", "_blank")
-                              }
+                          onClickFunction = ocf@{
+                            val opt = ActorOptions(options, actorId)
+                            val id =
+                                options.memoirsById[opt.parameters.memoir]?.data?.id ?: return@ocf
+                            if (id <= 0) return@ocf
+                            window.open("https://karth.top/equip/$id?global=1", "_blank")
+                          }
                         }
                       }
                     }
@@ -987,8 +980,7 @@ class SimulatorClient(val simulator: Simulator) {
                               val prev =
                                   opt.memoirUnbind.element.attributes["data-prev-value"]
                                       ?.value
-                                      ?.toInt()
-                                      ?: 0
+                                      ?.toInt() ?: 0
                               val params = opt.parameters
                               // only works for 4* memos, which is almost all of them
                               val newMemoirLevel =
@@ -1053,18 +1045,15 @@ class SimulatorClient(val simulator: Simulator) {
                             button(
                                 type = ButtonType.button, classes = "btn btn-outline-secondary") {
                                   i("bi bi-info-circle")
-                                  onClickFunction =
-                                      ocf@{
-                                        val opt = ActorOptions(options, actorId)
-                                        val id =
-                                            options.accessoriesById[opt.parameters.accessory]
-                                                ?.data
-                                                ?.id
-                                                ?: return@ocf
-                                        if (id <= 0) return@ocf
-                                        window.open(
-                                            "https://karth.top/accessory/$id?global=1", "_blank")
-                                      }
+                                  onClickFunction = ocf@{
+                                    val opt = ActorOptions(options, actorId)
+                                    val id =
+                                        options.accessoriesById[opt.parameters.accessory]?.data?.id
+                                            ?: return@ocf
+                                    if (id <= 0) return@ocf
+                                    window.open(
+                                        "https://karth.top/accessory/$id?global=1", "_blank")
+                                  }
                                 }
                           }
                         }
@@ -1090,8 +1079,7 @@ class SimulatorClient(val simulator: Simulator) {
                               val prev =
                                   opt.accessoryUnbind.element.attributes["data-prev-value"]
                                       ?.value
-                                      ?.toInt()
-                                      ?: 0
+                                      ?.toInt() ?: 0
                               val params = opt.parameters
                               val newAccessoryLevel =
                                   (if (params.accessoryLevel == 50 + 5 * prev) {
@@ -1412,6 +1400,7 @@ class SimulatorClient(val simulator: Simulator) {
   }
 
   var locale = "en"
+
   fun localized(value: String, fallback: String) =
       options.commonTextById[value]?.get(locale) ?: fallback
 
@@ -2144,22 +2133,21 @@ class SimulatorClient(val simulator: Simulator) {
                       classes = "btn btn-success flex-grow-1 saved-results-add-button") {
                         id = "saved-results-add-button-$resultId"
                         i("bi bi-plus-lg") {}
-                        onClickFunction =
-                            onClick@{
-                              val nameInput =
-                                  document.getElementById("saved-results-name-$resultId")
-                                      as HTMLInputElement
-                              val name =
-                                  nameInput.value.takeIf { it.isNotBlank() } ?: "Result $resultId"
-                              if (!done) {
-                                return@onClick
-                              }
-                              addToGraph(name, result)
-                              val btn =
-                                  document.getElementById("saved-results-add-button-$resultId")
-                                      as HTMLButtonElement
-                              btn.disabled = true
-                            }
+                        onClickFunction = onClick@{
+                          val nameInput =
+                              document.getElementById("saved-results-name-$resultId")
+                                  as HTMLInputElement
+                          val name =
+                              nameInput.value.takeIf { it.isNotBlank() } ?: "Result $resultId"
+                          if (!done) {
+                            return@onClick
+                          }
+                          addToGraph(name, result)
+                          val btn =
+                              document.getElementById("saved-results-add-button-$resultId")
+                                  as HTMLButtonElement
+                          btn.disabled = true
+                        }
                       }
                   button(classes = "btn btn-primary ms-1") {
                     id = "saved-results-load-setup-button-$resultId"
@@ -2200,8 +2188,7 @@ class SimulatorClient(val simulator: Simulator) {
           val indexOfFirstVisible =
               logElements
                   .indexOfFirst { it.offsetTop >= interactiveLog.scrollTop }
-                  .takeIf { it >= 0 }
-                  ?: logElements.lastIndex
+                  .takeIf { it >= 0 } ?: logElements.lastIndex
           if (indexOfFirstVisible == 0) {
             return@addEventListener
           }
@@ -2237,8 +2224,7 @@ class SimulatorClient(val simulator: Simulator) {
                     it.offsetTop + it.offsetHeight <=
                         interactiveLog.scrollTop + interactiveLog.offsetHeight
                   }
-                  .takeIf { it >= 0 }
-                  ?: 0
+                  .takeIf { it >= 0 } ?: 0
           if (indexOfLastVisible == logElements.lastIndex) {
             return@addEventListener
           }

@@ -523,6 +523,8 @@ class ActorOptions(
         }
       }
 
+      leader.disabled = dressData?.data?.hasLeaderSkill != true
+
       name.value = param.name
       dress.value = param.dress
       support.checked = param.isSupport
