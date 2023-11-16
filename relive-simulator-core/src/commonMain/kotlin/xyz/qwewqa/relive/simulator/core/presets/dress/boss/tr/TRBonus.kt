@@ -66,10 +66,9 @@ object SuperBossPassive1 : PassiveEffect {
   override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
       context.run {
         self.buffs.add(null, Buffs.ActPowerUpBuff, 100.i54, 1)
-//        self.context.team.stageEffects.add(StageEffects[94]!!, 6, 5)
         self.mod {
-          Modifier.NegativeEffectResistanceUp += value
-          Modifier.NegativeCountableEffectResistanceUp += value
+          Modifier.NegativeEffectResistanceUp += 100.i54
+          Modifier.NegativeCountableEffectResistanceUp += 100.i54
         }
         listOf(
                 Buffs.GreaterBurnResistanceUpBuff,
@@ -78,5 +77,19 @@ object SuperBossPassive1 : PassiveEffect {
                 Buffs.GreaterFreezeResistanceUpBuff,
                 Buffs.GreaterStopResistanceUpBuff)
             .forEach { self.buffs.activatePsuedoBuff(it, 100.i54) }
+      }
+}
+
+object SuperBossPassive2 : PassiveEffect {
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run {
+        self.mod {
+          Modifier.NegativeEffectResistanceUp += 100
+          Modifier.NegativeCountableEffectResistanceUp += 100
+          Modifier.GreaterNegativeEffectResistanceUp += 100
+          Modifier.GreaterNegativeCountableEffectResistanceUp += 100
+        }
+        self.specificBuffResist[Buffs.GreaterInsanityBuff] =
+            (self.specificBuffResist[Buffs.GreaterInsanityBuff] ?: 0.i54) - 100
       }
 }

@@ -1,6 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr36
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.FullNegativeEffectResistancePassive
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassive2
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.TrDamageReductionPassive
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023V2
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
@@ -43,7 +43,8 @@ val tr36WhiteRabbitMisora =
             autoSkills =
             listOf(
                 trEventBonusPassive2023V2(2050013),
-                AbnormalGuardPassive.new(),
+                SuperBossPassive2.new(100),
+                TrDamageReductionPassive.new(90),
             ),
         ),
     )
@@ -109,8 +110,7 @@ val tr36WhiteRabbitMisoraDiff4 =
             autoSkills =
             listOf(
                 trEventBonusPassive2023V2(2050013),
-                FullNegativeEffectResistancePassive.new(100),
-                BossElementResistPassive.new(50),
+                SuperBossPassive2.new(100),
                 TrDamageReductionPassive.new(90),
             ),
         ),

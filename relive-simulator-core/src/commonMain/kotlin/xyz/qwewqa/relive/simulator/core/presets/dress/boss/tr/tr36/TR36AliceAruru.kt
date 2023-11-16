@@ -1,6 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr36
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.FullNegativeEffectResistancePassive
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassive2
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.TrDamageReductionPassive
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023V2
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
@@ -42,8 +42,9 @@ val tr36AliceAruru =
             autoSkills =
             listOf(
                 trEventBonusPassive2023V2(2050013),
-                AbnormalResistPassiveA.new(100),
+                SuperBossPassive2.new(100),
                 BossElementResistPassive.new(50),
+                TrDamageReductionPassive.new(90),
             ),
         ),
     )
@@ -109,7 +110,7 @@ val tr36AliceAruruDiff4 =
             autoSkills =
             listOf(
                 trEventBonusPassive2023V2(2050013),
-                FullNegativeEffectResistancePassive.new(100),
+                SuperBossPassive2.new(100),
                 BossElementResistPassive.new(50),
                 TrDamageReductionPassive.new(90),
             ),
