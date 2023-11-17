@@ -44,7 +44,7 @@ val tr36FaithMisora =
                 trEventBonusPassive2023V2(2050013),
                 SuperBossPassive2.new(100),
                 BossElementResistPassive.new(50),
-                TrDamageReductionPassive.new(90),
+                TrDamageReductionPassive.new(80),
             ),
         ),
     )
@@ -114,7 +114,7 @@ val tr36FaithMisoraDiff4 =
                 trEventBonusPassive2023V2(2050013),
                 SuperBossPassive2.new(100),
                 BossElementResistPassive.new(50),
-                TrDamageReductionPassive.new(90),
+                TrDamageReductionPassive.new(99),
             ),
         ),
     )

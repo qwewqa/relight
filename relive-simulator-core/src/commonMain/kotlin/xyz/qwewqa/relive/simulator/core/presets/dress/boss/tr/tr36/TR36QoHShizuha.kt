@@ -43,7 +43,7 @@ val tr36QueenOfHeartsShizuha =
             listOf(
                 trEventBonusPassive2023V2(2050013),
                 SuperBossPassive2.new(100),
-                TrDamageReductionPassive.new(90),
+                TrDamageReductionPassive.new(80),
             ),
         ),
     )
@@ -110,7 +110,7 @@ val tr36QueenOfHeartsShizuhaDiff4 =
             listOf(
                 trEventBonusPassive2023V2(2050013),
                 SuperBossPassive2.new(100),
-                TrDamageReductionPassive.new(90),
+                TrDamageReductionPassive.new(99),
             ),
         ),
     )
