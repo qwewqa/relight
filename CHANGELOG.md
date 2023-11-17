@@ -1260,3 +1260,6 @@
 
 # v1.8.1
 - Fixed issue with leader button disabling
+
+# v1.8.2
+- Fixed damage received down values on TR36 bosses
