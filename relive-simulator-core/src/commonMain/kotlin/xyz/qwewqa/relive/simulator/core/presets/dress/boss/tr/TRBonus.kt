@@ -52,6 +52,11 @@ object TrDamageReductionPassive : PassiveEffect {
       context.run { self.mod { Modifier.DamageReceivedDown += value } }
 }
 
+object TrCritDamageReductionPassive : PassiveEffect {
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run { self.mod { Modifier.CriticalDamageReceivedDown += value } }
+}
+
 object FullNegativeEffectResistancePassive : PassiveEffect {
   override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
       context.run {
@@ -59,6 +64,13 @@ object FullNegativeEffectResistancePassive : PassiveEffect {
           Modifier.NegativeEffectResistanceUp += value
           Modifier.NegativeCountableEffectResistanceUp += value
         }
+      }
+}
+
+object StagnationPassive : PassiveEffect {
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run {
+        enemy.actors.values.forEach { it.buffs.activatePsuedoBuff(Buffs.GreaterStagnationBuff) }
       }
 }
 

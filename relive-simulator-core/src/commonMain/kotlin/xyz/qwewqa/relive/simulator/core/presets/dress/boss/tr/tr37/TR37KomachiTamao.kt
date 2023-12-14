@@ -1,7 +1,9 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr37
 
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.FullNegativeEffectResistancePassive
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.StagnationPassive
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassive2
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.TrCritDamageReductionPassive
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.TrDamageReductionPassive
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023V2
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
@@ -45,7 +47,7 @@ val tr37KomachiTamao =
                 trEventBonusPassive2023V2(3010023),
                 SuperBossPassive2.new(100),
                 TrDamageReductionPassive.new(80),
-                //TRCritDamageReductionPassive.new(?)
+                TrCritDamageReductionPassive.new(50),
             ),
         ),
     )
@@ -115,7 +117,8 @@ val tr37KomachiTamaoDiff4 =
                 trEventBonusPassive2023V2(3010023),
                 SuperBossPassive2.new(100),
                 TrDamageReductionPassive.new(99),
-                //TRCritDamageReductionPassive.new(?)
+//                TrCritDamageReductionPassive.new(?),
+                StagnationPassive.new(),
             ),
         ),
     )
