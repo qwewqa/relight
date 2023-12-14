@@ -1263,3 +1263,8 @@
 
 # v1.8.2
 - Fixed damage received down values on TR36 bosses
+
+# v1.8.3
+- TR37 bosses added by Savivo
+- Added new girls and memoirs
+- Most images moved to a separate domain
