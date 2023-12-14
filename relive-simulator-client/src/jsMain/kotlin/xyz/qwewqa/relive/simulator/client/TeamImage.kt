@@ -564,6 +564,7 @@ val Double.percent
 
 suspend fun getImage(url: String): Image = suspendCoroutine { continuation ->
   val image = Image()
+  image.crossOrigin = "anonymous"
   image.onload = { continuation.resume(image) }
   image.src = url
 }

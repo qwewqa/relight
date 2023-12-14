@@ -24,11 +24,13 @@ import kotlinx.html.span
 import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLSpanElement
+import xyz.qwewqa.relive.simulator.common.ASSET_BASE_URL
 import xyz.qwewqa.relive.simulator.common.ActCardStatus
 import xyz.qwewqa.relive.simulator.common.ActionStatus
 import xyz.qwewqa.relive.simulator.common.CutinCardStatus
 import xyz.qwewqa.relive.simulator.common.InteractiveQueueStatus
 import xyz.qwewqa.relive.simulator.common.InteractiveRunState
+import xyz.qwewqa.relive.simulator.common.getSkillIconUrl
 
 fun updateInteractiveUi(
     simulation: InteractiveSimulation,
@@ -89,7 +91,7 @@ private fun updateStageEffects(status: InteractiveQueueStatus?) {
             div("interactive-stage-effect interactive-stage-effect-lv-${level.coerceIn(1..5)}") {
               div("interactive-stage-effect-text") { +turns.toString() }
               img(classes = "interactive-stage-effect-img") {
-                src = "img/field_effect_icon/$iconId.webp"
+                src = "${ASSET_BASE_URL}res/icon/field_effect/$iconId.png"
               }
             }
           }
@@ -121,13 +123,13 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
   fun TagConsumer<HTMLElement>.cardImage(index: Int, card: ActCardStatus) {
     div("interactive-timeline-image-container") {
       div("interactive-queue-image-container") {
-        img(classes = "queue-actor-img") { src = "img/large_icon/1_${card.dressId}.webp" }
-        img(classes = "queue-act-img") { src = "img/skill_icon/skill_icon_${card.iconId}.webp" }
+        img(classes = "queue-actor-img") { src = "${ASSET_BASE_URL}res/item_root/large/1_${card.dressId}.png" }
+        img(classes = "queue-act-img") { src = getSkillIconUrl(card.iconId) }
         if (card.isSupport) {
-          img(classes = "queue-support-indicator") { src = "img/common/icon_support_dress.webp" }
+          img(classes = "queue-support-indicator") { src = "${ASSET_BASE_URL}res/ui/images/common/icon_support_dress.png" }
         }
         if (card.isClimax) {
-          img(classes = "queue-act-img-overlay") { src = "img/custom/climax_overlay.webp" }
+          img(classes = "queue-act-img-overlay") { src = "https://relight.qwewqa.xyz/img/custom/climax_overlay.png" }
           i("bi bi-stars queue-act-climax-icon") {}
         }
         div(classes = "interactive-timeline-act-damage-overlay d-none") {}
@@ -159,11 +161,11 @@ private fun updateTimeline(simulation: InteractiveSimulation, status: Interactiv
       div("interactive-act-popup") {
         card.partIcons.forEach {
           img(classes = "interactive-act-popup-image") {
-            src = "img/skill_icon/skill_icon_${it}.webp"
+            src = getSkillIconUrl(it)
           }
         }
         card.fieldEffectPartIcons.forEach {
-          img(classes = "interactive-act-popup-image") { src = "img/field_effect_icon/$it.webp" }
+          img(classes = "interactive-act-popup-image") { src = "${ASSET_BASE_URL}res/icon/field_effect/$it.png" }
         }
       }
     }
@@ -255,35 +257,35 @@ private fun updateActs(simulation: InteractiveSimulation, status: InteractiveQue
             }") {
           div("interactive-queue-image-container") {
             if (card == null) {
-              img(classes = "queue-actor-img") { src = "img/common/icon_empty_large.webp" }
+              img(classes = "queue-actor-img") { src = "${ASSET_BASE_URL}res/ui/images/common/icon_empty_large.png" }
             } else {
-              img(classes = "queue-actor-img") { src = "img/large_icon/1_${card.dressId}.webp" }
+              img(classes = "queue-actor-img") { src = "${ASSET_BASE_URL}res/item_root/large/1_${card.dressId}.png" }
 
               div("interactive-act-popup-outer") {
                 div("interactive-act-popup") {
                   card.partIcons.forEach {
                     img(classes = "interactive-act-popup-image") {
-                      src = "img/skill_icon/skill_icon_${it}.webp"
+                      src = getSkillIconUrl(it)
                     }
                   }
                   card.fieldEffectPartIcons.forEach {
                     img(classes = "interactive-act-popup-image") {
-                      src = "img/field_effect_icon/$it.webp"
+                      src = "${ASSET_BASE_URL}res/icon/field_effect/$it.png"
                     }
                   }
                 }
               }
 
               img(classes = "queue-act-img") {
-                src = "img/skill_icon/skill_icon_${card.iconId}.webp"
+                src = getSkillIconUrl(card.iconId)
               }
               if (card.isClimax) {
-                img(classes = "queue-act-img-overlay") { src = "img/custom/climax_overlay.webp" }
+                img(classes = "queue-act-img-overlay") { src = "https://relight.qwewqa.xyz/img/custom/climax_overlay.png" }
                 i("bi bi-stars queue-act-climax-icon") {}
               }
               if (card.isSupport) {
                 img(classes = "queue-support-indicator") {
-                  src = "img/common/icon_support_dress.webp"
+                  src = "${ASSET_BASE_URL}res/ui/images/common/icon_support_dress.png"
                 }
               }
               span(
@@ -465,14 +467,14 @@ private fun updateMemoirs(simulation: InteractiveSimulation, status: Interactive
                     }
                 }") {
             img(classes = "interactive-memoir-img") {
-              src = "img/large_icon/2_${cutin.memoirId}.webp"
+              src = "${ASSET_BASE_URL}res/item_root/large/2_${cutin.memoirId}.png"
             }
             img(classes = "interactive-memoir-actor-img") {
-              src = "img/large_icon/1_${cutin.dressId}.webp"
+              src = "${ASSET_BASE_URL}res/item_root/large/1_${cutin.dressId}.png"
             }
             if (cutin.isSupport) {
               img(classes = "interactive-memoir-support-indicator") {
-                src = "img/common/icon_support_dress.webp"
+                src = "${ASSET_BASE_URL}res/ui/images/common/icon_support_dress.png"
               }
             }
             span("interactive-memoir-cost-text") { +"${cutin.cost}" }

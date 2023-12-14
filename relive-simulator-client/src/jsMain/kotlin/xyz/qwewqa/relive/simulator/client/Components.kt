@@ -18,6 +18,7 @@ import org.w3c.dom.HTMLParagraphElement
 import org.w3c.dom.HTMLSelectElement
 import org.w3c.dom.UnionHTMLOptGroupElementOrHTMLOptionElement
 import org.w3c.dom.asList
+import xyz.qwewqa.relive.simulator.common.ASSET_BASE_URL
 import xyz.qwewqa.relive.simulator.common.DataSimulationOption
 import xyz.qwewqa.relive.simulator.common.PlayerLoadoutParameters
 import xyz.qwewqa.relive.simulator.common.SimulationOptions
@@ -299,41 +300,41 @@ class MultipleSelect(element: HTMLSelectElement, selectpicker: Boolean) :
 
 fun getMemoirUnbindImagePath(level: Int) =
     when (level) {
-      4 -> "img/common/frame_large_equip_rainbow.webp"
-      3 -> "img/common/frame_large_equip_gold.webp"
-      2 -> "img/common/frame_large_equip_silver.webp"
-      1 -> "img/common/frame_large_equip_bronze.webp"
-      else -> "img/common/frame_large_equip_blue.webp"
+      4 -> "${ASSET_BASE_URL}res/ui/images/common/frame_large_equip_rainbow.png"
+      3 -> "${ASSET_BASE_URL}res/ui/images/common/frame_large_equip_gold.png"
+      2 -> "${ASSET_BASE_URL}res/ui/images/common/frame_large_equip_silver.png"
+      1 -> "${ASSET_BASE_URL}res/ui/images/common/frame_large_equip_bronze.png"
+      else -> "${ASSET_BASE_URL}res/ui/images/common/frame_large_equip_blue.png"
     }
 
 fun getAccessoryUnbindImagePath(level: Int) =
     when (level) {
-      10 -> "img/common/frame_medium_accessory_rainbow.webp"
-      9 -> "img/common/frame_medium_accessory_gold.webp"
-      8 -> "img/common/frame_medium_accessory_gold.webp"
-      7 -> "img/common/frame_medium_accessory_gold.webp"
-      6 -> "img/common/frame_medium_accessory_silver.webp"
-      5 -> "img/common/frame_medium_accessory_silver.webp"
-      4 -> "img/common/frame_medium_accessory_silver.webp"
-      3 -> "img/common/frame_medium_accessory_bronze.webp"
-      2 -> "img/common/frame_medium_accessory_bronze.webp"
-      1 -> "img/common/frame_medium_accessory_blue.webp"
-      else -> "img/common/frame_medium_accessory_blue.webp"
+      10 -> "${ASSET_BASE_URL}res/ui/images/common/frame_medium_accessory_rainbow.png"
+      9 -> "${ASSET_BASE_URL}res/ui/images/common/frame_medium_accessory_gold.png"
+      8 -> "${ASSET_BASE_URL}res/ui/images/common/frame_medium_accessory_gold.png"
+      7 -> "${ASSET_BASE_URL}res/ui/images/common/frame_medium_accessory_gold.png"
+      6 -> "${ASSET_BASE_URL}res/ui/images/common/frame_medium_accessory_silver.png"
+      5 -> "${ASSET_BASE_URL}res/ui/images/common/frame_medium_accessory_silver.png"
+      4 -> "${ASSET_BASE_URL}res/ui/images/common/frame_medium_accessory_silver.png"
+      3 -> "${ASSET_BASE_URL}res/ui/images/common/frame_medium_accessory_bronze.png"
+      2 -> "${ASSET_BASE_URL}res/ui/images/common/frame_medium_accessory_bronze.png"
+      1 -> "${ASSET_BASE_URL}res/ui/images/common/frame_medium_accessory_blue.png"
+      else -> "${ASSET_BASE_URL}res/ui/images/common/frame_medium_accessory_blue.png"
     }
 
-fun getEquipEvolutionImagePath(level: Int) = "img/common/icon_equip_evolution_$level.webp"
+fun getEquipEvolutionImagePath(level: Int) = "${ASSET_BASE_URL}res/ui/images/common/icon_equip_evolution_$level.png"
 
-fun getRemakeLevelVerticalImagePath(level: Int) = "img/custom/icon_remake_$level.webp"
+fun getRemakeLevelVerticalImagePath(level: Int) = "https://relight.qwewqa.xyz/img/custom/icon_remake_$level.png"
 
-fun getRemakeLevelHorizontalImagePath(level: Int) = "img/common/icon_remake_$level.webp"
+fun getRemakeLevelHorizontalImagePath(level: Int) = "${ASSET_BASE_URL}res/ui/images/common/icon_remake_$level.png"
 
 fun getMemoirUnbindLevelHorizontalImagePath(level: Int) =
-    "img/custom/icon_equip_evolution_$level.webp"
+    "https://relight.qwewqa.xyz/img/custom/icon_equip_evolution_$level.png"
 
-fun getMemoirUnbindLevelVerticalImagePath(level: Int) = "img/common/icon_equip_evolution_$level.webp"
+fun getMemoirUnbindLevelVerticalImagePath(level: Int) = "${ASSET_BASE_URL}res/ui/images/common/icon_equip_evolution_$level.png"
 
-const val actorLeaderIconPath = "img/icon_colored/26x26_leader.webp"
-const val actorSupportIconPath = "img/icon_colored/26x26_support.webp"
+const val actorLeaderIconPath = "${ASSET_BASE_URL}res/ui/images/icon_colored/26x26_leader.png"
+const val actorSupportIconPath = "${ASSET_BASE_URL}res/ui/images/icon_colored/26x26_support.png"
 
 class ActorOptions(
     private val options: SimulationOptions,

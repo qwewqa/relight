@@ -30,11 +30,13 @@ import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLParagraphElement
 import org.w3c.dom.asList
 import org.w3c.dom.get
+import xyz.qwewqa.relive.simulator.common.ASSET_BASE_URL
 import xyz.qwewqa.relive.simulator.common.ActorStatus
 import xyz.qwewqa.relive.simulator.common.InteractiveLogData
 import xyz.qwewqa.relive.simulator.common.InteractiveQueueInfo
 import xyz.qwewqa.relive.simulator.common.LogCategory
 import xyz.qwewqa.relive.simulator.common.LogEntry
+import xyz.qwewqa.relive.simulator.common.getSkillIconUrl
 
 val LogCategory.backgroundColor
   get() =
@@ -113,11 +115,11 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
               div("interactive-status-buff-value") { +buffData.value.toString() }
               div("interactive-status-buff-image-container") {
                 img(classes = "interactive-status-buff-img") {
-                  src = "img/buff_icon/buff_icon_${buffData.iconId}.webp"
+                  src = "${ASSET_BASE_URL}res/battle/buff_icon/buff_icon_${buffData.iconId}.png"
                 }
                 if (buffData.isLocked) {
                   img(classes = "interactive-status-buff-lock") {
-                    src = "img/buff_icon/buff_icon_lock.webp"
+                    src = "${ASSET_BASE_URL}res/battle/buff_icon/buff_icon_lock.png"
                   }
                 }
               }
@@ -194,12 +196,12 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
         }
         append {
           img(classes = "interactive-status-actor-img") {
-            src = "img/large_icon/1_${status.dressId}.webp"
+            src = "${ASSET_BASE_URL}res/item_root/large/1_${status.dressId}.png"
           }
           div(classes = "interactive-status-dex-counter") { +"${status.dexterity}" }
           if (status.isSupport) {
             img(classes = "interactive-status-support-indicator") {
-              src = "img/common/icon_support_dress.webp"
+              src = "${ASSET_BASE_URL}res/ui/images/common/icon_support_dress.png"
             }
           }
           if (status.inClimax) {
@@ -288,12 +290,12 @@ fun HTMLElement.displayStatus(data: InteractiveLogData) {
               }
               id = "player-status-image-container-$i"
               img(classes = "interactive-status-actor-img") {
-                src = "img/large_icon/1_${status.dressId}.webp"
+                src = "${ASSET_BASE_URL}res/item_root/large/1_${status.dressId}.png"
               }
               div(classes = "interactive-status-dex-counter") { +"${status.dexterity}" }
               if (status.isSupport) {
                 img(classes = "interactive-status-support-indicator") {
-                  src = "img/common/icon_support_dress.webp"
+                  src = "${ASSET_BASE_URL}res/ui/images/common/icon_support_dress.png"
                 }
               }
               if (status.inClimax) {
@@ -570,9 +572,9 @@ private fun FlowContent.processLogContent(content: String) {
         "u" -> beginSpan { style = "text-decoration: underline;" }
         "s" -> beginSpan { style = "text-decoration: line-through;" }
         "/" -> endSpan()
-        "dress" -> imageReplacement { "img/large_icon/1_$it.webp" }
-        "memoir" -> imageReplacement { "img/large_icon/2_$it.webp" }
-        "act" -> imageReplacement { "img/skill_icon/skill_icon_$it.webp" }
+        "dress" -> imageReplacement { "${ASSET_BASE_URL}res/item_root/large/1_$it.png" }
+        "memoir" -> imageReplacement { "${ASSET_BASE_URL}res/item_root/large/2_$it.png" }
+        "act" -> imageReplacement { getSkillIconUrl(it) }
         "command" ->
             a(href = "#") {
               title = data

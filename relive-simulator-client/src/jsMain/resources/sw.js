@@ -20,7 +20,7 @@ workbox.precaching.precacheAndRoute([
 
 workbox.routing.registerRoute(
   ({event}) => event.request.destination === 'document',
-  new workbox.strategies.CacheFirst({
+  new workbox.strategies.NetworkFirst({
     cacheName: HTML_CACHE,
     plugins: [],
   })
@@ -28,7 +28,7 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
     ({event}) => event.request.destination === 'script',
-    new workbox.strategies.CacheFirst({
+    new workbox.strategies.NetworkFirst({
         cacheName: JS_CACHE,
         plugins: [],
     })
@@ -36,7 +36,7 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
   ({event}) => event.request.destination === 'style',
-  new workbox.strategies.CacheFirst({
+  new workbox.strategies.NetworkFirst({
     cacheName: STYLE_CACHE,
     plugins: [],
   })

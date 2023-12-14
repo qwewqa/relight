@@ -72,6 +72,7 @@ import xyz.qwewqa.relive.simulator.client.codemirror.loadActorFromClipboard
 import xyz.qwewqa.relive.simulator.client.codemirror.saveActorToClipboard
 import xyz.qwewqa.relive.simulator.client.codemirror.unfoldAll
 import xyz.qwewqa.relive.simulator.client.codemirror.value
+import xyz.qwewqa.relive.simulator.common.ASSET_BASE_URL
 import xyz.qwewqa.relive.simulator.common.DataSimulationOption
 import xyz.qwewqa.relive.simulator.common.InteractiveLog
 import xyz.qwewqa.relive.simulator.common.MarginResult
@@ -811,7 +812,7 @@ class SimulatorClient(val simulator: Simulator) {
                       +" "
                       img {
                         style = "height: 1.2em; margin-top: -0.1em;"
-                        src = "img/common/button_unitskill.webp"
+                        src = "${ASSET_BASE_URL}res/ui/images/common/button_unitskill.png"
                       }
                       input(InputType.number, classes = "form-control actor-unit-skill") {
                         id = inputId
@@ -1657,7 +1658,7 @@ class SimulatorClient(val simulator: Simulator) {
                   teamDresses.map { (isSupport, dressId) ->
                     img(
                         src =
-                            "img/acts/${dressId}_${actName}${if (isSupport) "_support" else ""}.webp") {
+                            "https://relight.qwewqa.xyz/img/acts/${dressId}_${actName}${if (isSupport) "_support" else ""}.png") {
                           style = "max-height: 50px; max-width: 50px;"
                         }
                   }

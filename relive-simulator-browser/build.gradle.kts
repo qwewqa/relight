@@ -69,27 +69,10 @@ tasks.register<Copy>("copyServiceWorker") {
   outputs.upToDateWhen { false }
   from("${project(":relive-simulator-client").projectDir}/src/jsMain/resources/sw.js")
   into("$projectDir/src/jsMain/resources/")
-  val imageDir = File("${project(":relive-simulator-client").projectDir}/src/jsMain/resources/img/")
-  val resourcesDir = File("${project(":relive-simulator-client").projectDir}/src/jsMain/resources/")
   val md = MessageDigest.getInstance("SHA-1")
   fun hash(input: ByteArray): String {
     return BigInteger(1, md.digest(input)).toString(16).padStart(32, '0')
   }
-  val imageData =
-      fileTree(imageDir)
-          .filter { it.isFile }
-          .files
-          .map { file ->
-            file.relativeTo(resourcesDir).path.replace("\\", "/") to hash(file.readBytes())
-          }
-          .filter {
-            !it.first.run {
-              startsWith("img/acts") ||
-                  startsWith("img/large_icon/19_") ||
-                  startsWith("img/large_icon/35_") ||
-                  startsWith("img/flags")
-            }
-          }
   val timestamp = System.currentTimeMillis()
   filter { line ->
     line.replace(
@@ -100,8 +83,7 @@ tasks.register<Copy>("copyServiceWorker") {
 {url: 'relive-simulator-worker.js', revision: '$timestamp'},
 {url: 'bootstrap-select.js', revision: '$timestamp'},
 {url: 'options.json', revision: '$timestamp'},
-{url: 'style.css', revision: '$timestamp'},
-${imageData.joinToString(",\n") { (url, revision) -> "{url: '$url', revision: '$revision'}" }}
+{url: 'style.css', revision: '$timestamp'}
             """
             .trimIndent())
   }
