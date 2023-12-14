@@ -15,12 +15,13 @@ class PassiveSkill(
     val option: PassiveSkillOption,
     val target: SkillTarget,
     val value: Int,
+    override val type: AutoSkillType,
 ) : AutoSkill {
   override val iconId
     get() = option.iconId
+
   override val descriptions: Map<String, String>
     get() = option.descriptions
-  override val type = AutoSkillType.Passive
 
   override fun execute(context: ActionContext) {
     context.executePassiveSkillOption(option = option, target = target, value = value)
@@ -31,12 +32,14 @@ class PassiveSkillBlueprint(
     val option: PassiveSkillOption,
     val target: SkillTarget,
     val values: Array<Int>,
+    val type: AutoSkillType,
 ) {
   fun create(level: Int) =
       PassiveSkill(
           option,
           target,
           values[level - 1],
+          type,
       )
 }
 
@@ -58,7 +61,7 @@ class UnitSkillBlueprint(
   override fun create(level: Int) = PassiveSkillGroup(skills.map { it.create(level) })
 }
 
-private fun getPassiveSkillBlueprint(
+private fun getPartySkillBlueprint(
     optionId: Int,
     targetId: Int,
     values: Array<Int>,
@@ -67,6 +70,7 @@ private fun getPassiveSkillBlueprint(
       option = SkillOptions[optionId] as? PassiveSkillOption ?: return null,
       target = SkillTargets[targetId] ?: return null,
       values = values,
+      type = AutoSkillType.Party,
   )
 }
 
@@ -79,42 +83,52 @@ object PassiveSkillGroups : ImplementationRegistry<PassiveSkillGroupBlueprint>()
               listOfNotNull(
                   if (skill.skill_option1_id != 0)
                       PassiveSkillBlueprint(
-                          option = SkillOptions[skill.skill_option1_id] as? PassiveSkillOption
+                          option =
+                              SkillOptions[skill.skill_option1_id] as? PassiveSkillOption
                                   ?: continue,
                           target = SkillTargets[skill.skill_option1_target_id] ?: continue,
                           values = skill.skill_option1_values,
+                          type = AutoSkillType.Passive,
                       )
                   else null,
                   if (skill.skill_option2_id != 0)
                       PassiveSkillBlueprint(
-                          option = SkillOptions[skill.skill_option2_id] as? PassiveSkillOption
+                          option =
+                              SkillOptions[skill.skill_option2_id] as? PassiveSkillOption
                                   ?: continue,
                           target = SkillTargets[skill.skill_option2_target_id] ?: continue,
                           values = skill.skill_option2_values,
+                          type = AutoSkillType.Passive,
                       )
                   else null,
                   if (skill.skill_option3_id != 0)
                       PassiveSkillBlueprint(
-                          option = SkillOptions[skill.skill_option3_id] as? PassiveSkillOption
+                          option =
+                              SkillOptions[skill.skill_option3_id] as? PassiveSkillOption
                                   ?: continue,
                           target = SkillTargets[skill.skill_option3_target_id] ?: continue,
                           values = skill.skill_option3_values,
+                          type = AutoSkillType.Passive,
                       )
                   else null,
                   if (skill.skill_option4_id != 0)
                       PassiveSkillBlueprint(
-                          option = SkillOptions[skill.skill_option4_id] as? PassiveSkillOption
+                          option =
+                              SkillOptions[skill.skill_option4_id] as? PassiveSkillOption
                                   ?: continue,
                           target = SkillTargets[skill.skill_option4_target_id] ?: continue,
                           values = skill.skill_option4_values,
+                          type = AutoSkillType.Passive,
                       )
                   else null,
                   if (skill.skill_option5_id != 0)
                       PassiveSkillBlueprint(
-                          option = SkillOptions[skill.skill_option5_id] as? PassiveSkillOption
+                          option =
+                              SkillOptions[skill.skill_option5_id] as? PassiveSkillOption
                                   ?: continue,
                           target = SkillTargets[skill.skill_option5_target_id] ?: continue,
                           values = skill.skill_option5_values,
+                          type = AutoSkillType.Passive,
                       )
                   else null,
               ),
@@ -133,35 +147,35 @@ object UnitSkills : ImplementationRegistry<UnitSkillBlueprint>() {
           skills =
               listOfNotNull(
                   if (skill.skill_option1_id != 0)
-                      getPassiveSkillBlueprint(
+                      getPartySkillBlueprint(
                           skill.skill_option1_id,
                           skill.skill_option1_target_id,
                           skill.skill_option1_values,
                       )
                   else null,
                   if (skill.skill_option2_id != 0)
-                      getPassiveSkillBlueprint(
+                      getPartySkillBlueprint(
                           skill.skill_option2_id,
                           skill.skill_option2_target_id,
                           skill.skill_option2_values,
                       )
                   else null,
                   if (skill.skill_option3_id != 0)
-                      getPassiveSkillBlueprint(
+                      getPartySkillBlueprint(
                           skill.skill_option3_id,
                           skill.skill_option3_target_id,
                           skill.skill_option3_values,
                       )
                   else null,
                   if (skill.skill_option4_id != 0)
-                      getPassiveSkillBlueprint(
+                      getPartySkillBlueprint(
                           skill.skill_option4_id,
                           skill.skill_option4_target_id,
                           skill.skill_option4_values,
                       )
                   else null,
                   if (skill.skill_option5_id != 0)
-                      getPassiveSkillBlueprint(
+                      getPartySkillBlueprint(
                           skill.skill_option5_id,
                           skill.skill_option5_target_id,
                           skill.skill_option5_values,

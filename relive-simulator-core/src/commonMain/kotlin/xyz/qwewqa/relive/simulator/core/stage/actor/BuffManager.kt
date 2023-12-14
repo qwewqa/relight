@@ -623,7 +623,7 @@ val consumeOnAttackCountableBuffs =
     listOf(
         listOf(Buffs.HopeBuff, Buffs.GreaterHopeBuff),
         listOf(Buffs.CheerBuff),
-        listOf(Buffs.SuperStrengthBuff),
+        listOf(Buffs.SuperStrengthBuff, Buffs.GreaterSuperStrengthBuff),
     )
 
 class CountableBuffStack(

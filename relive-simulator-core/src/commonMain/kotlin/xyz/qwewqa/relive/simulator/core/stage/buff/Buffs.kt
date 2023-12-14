@@ -60,8 +60,8 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
       )
 
   private fun BuffData.makeResistanceUpExceptBuff(
-    buffs: List<BuffEffect>,
-    locked: Boolean = false,
+      buffs: List<BuffEffect>,
+      locked: Boolean = false,
   ) =
       makeSimpleContinuousBuffEffect(
           category = BuffCategory.Positive,
@@ -90,7 +90,6 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
             }
           },
       )
-
 
   private fun BuffData.makeMultipleResistanceUpBuff(
       buffs: List<BuffEffect>,
@@ -1509,7 +1508,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val DelusionBuff = +buffData(308).makeCountableBuffEffect(BuffCategory.Negative)
 
-  val CutinCustReductionBuff =
+  val CutinCostReductionBuff =
       +buffData(309)
           .makeContinuousBuffEffect(
               category = BuffCategory.Positive,
@@ -1517,7 +1516,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               onEnd = { value, _, _ -> self.cutinCostReductionPool -= value },
           )
 
-  val LockedCutinCustReductionBuff = +buffData(310).makeLockedVariantOf(CutinCustReductionBuff)
+  val LockedCutinCostReductionBuff = +buffData(310).makeLockedVariantOf(CutinCostReductionBuff)
 
   val ActBoostDazeBuff = +buffData(311).makeCountableBuffEffect(BuffCategory.Positive)
 
@@ -1561,28 +1560,23 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val LockedAgonyResistanceUpBuff = +buffData(322).makeLockedVariantOf(AgonyResistanceUpBuff)
 
-  val SealCAResistanceUpBuff =
-      +buffData(323).makeSpecificResistanceUpBuff(SealCABuff)
+  val SealCAResistanceUpBuff = +buffData(323).makeSpecificResistanceUpBuff(SealCABuff)
 
   val LockedSealCAResistanceUpBuff = +buffData(324).makeLockedVariantOf(SealCAResistanceUpBuff)
 
-  val AccuracyDownResistanceUpBuff =
-      +buffData(325).makeSpecificResistanceUpBuff(AccuracyDownBuff)
+  val AccuracyDownResistanceUpBuff = +buffData(325).makeSpecificResistanceUpBuff(AccuracyDownBuff)
 
   val LockedAccuracyDownResistanceUpBuff =
       +buffData(326).makeLockedVariantOf(AccuracyDownResistanceUpBuff)
 
-  val AgilityDownResistanceUpBuff =
-      +buffData(327).makeSpecificResistanceUpBuff(AgilityDownBuff)
+  val AgilityDownResistanceUpBuff = +buffData(327).makeSpecificResistanceUpBuff(AgilityDownBuff)
 
   val LockedAgilityDownResistanceUpBuff =
       +buffData(328).makeLockedVariantOf(AgilityDownResistanceUpBuff)
 
-  val DelusionResistanceUpBuff =
-      +buffData(329).makeSpecificResistanceUpBuff(DelusionBuff)
+  val DelusionResistanceUpBuff = +buffData(329).makeSpecificResistanceUpBuff(DelusionBuff)
 
-  val LockedDelusionResistanceUpBuff =
-      +buffData(330).makeLockedVariantOf(DelusionResistanceUpBuff)
+  val LockedDelusionResistanceUpBuff = +buffData(330).makeLockedVariantOf(DelusionResistanceUpBuff)
 
   // TODO: Implement falling out
 
@@ -1613,8 +1607,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val ReflectStageEffectThunderBuff =
       +buffData(336).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
-  val StealResistanceUpBuff =
-      +buffData(337).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+  val StealResistanceUpBuff = +buffData(337).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
   val NegativeStageEffectResistanceUp =
       +buffData(338).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
@@ -1625,28 +1618,24 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val ReflectStageEffectNightPlayfulnessBuff =
       +buffData(340).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
-  val GreaterBurnBuff =
-      +buffData(1001).makeGreaterVariantOf(BurnBuff)
+  val ReflectStageEffectImprisonmentBuff =
+      +buffData(341).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
-  val GreaterConfusionBuff =
-      +buffData(1002).makeGreaterVariantOf(ConfusionBuff)
+  val GreaterBurnBuff = +buffData(1001).makeGreaterVariantOf(BurnBuff)
 
-  val GreaterBlindnessBuff =
-      +buffData(1003).makeGreaterVariantOf(BlindnessBuff)
+  val GreaterConfusionBuff = +buffData(1002).makeGreaterVariantOf(ConfusionBuff)
 
-  val GreaterFreezeBuff =
-      +buffData(1004).makeGreaterVariantOf(FreezeBuff)
+  val GreaterBlindnessBuff = +buffData(1003).makeGreaterVariantOf(BlindnessBuff)
 
-  val GreaterApUpBuff =
-      +buffData(1005).makeGreaterVariantOf(ApUpBuff)
+  val GreaterFreezeBuff = +buffData(1004).makeGreaterVariantOf(FreezeBuff)
 
-  val GreaterProvokeBuff =
-      +buffData(1006).makeGreaterVariantOf(ProvokeBuff)
+  val GreaterApUpBuff = +buffData(1005).makeGreaterVariantOf(ApUpBuff)
+
+  val GreaterProvokeBuff = +buffData(1006).makeGreaterVariantOf(ProvokeBuff)
 
   // TODO: figure out if greater resistances affect base resistances
 
-  val GreaterBurnResistanceUpBuff =
-      +buffData(1007).makeSpecificResistanceUpBuff(GreaterBurnBuff)
+  val GreaterBurnResistanceUpBuff = +buffData(1007).makeSpecificResistanceUpBuff(GreaterBurnBuff)
 
   val GreaterBlindnessResistanceUpBuff =
       +buffData(1008).makeSpecificResistanceUpBuff(GreaterBlindnessBuff)
@@ -1654,61 +1643,51 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val GreaterConfusionResistanceUpBuff =
       +buffData(1009).makeSpecificResistanceUpBuff(GreaterConfusionBuff)
 
-  val GreaterDamageReceivedDownBuff =
-      +buffData(1010).makeGreaterVariantOf(DamageReceivedDownBuff)
+  val GreaterDamageReceivedDownBuff = +buffData(1010).makeGreaterVariantOf(DamageReceivedDownBuff)
 
-  val GreaterEvasionBuff =
-      +buffData(1011).makeGreaterVariantOf(EvasionBuff)
+  val GreaterEvasionBuff = +buffData(1011).makeGreaterVariantOf(EvasionBuff)
 
-  val GreaterStopBuff =
-      +buffData(1012).makeGreaterVariantOf(StopBuff)
+  val GreaterStopBuff = +buffData(1012).makeGreaterVariantOf(StopBuff)
 
-  val GreaterFortitudeBuff =
-      +buffData(1013).makeGreaterVariantOf(FortitudeBuff)
+  val GreaterFortitudeBuff = +buffData(1013).makeGreaterVariantOf(FortitudeBuff)
 
   val GreaterFreezeResistanceUpBuff =
       +buffData(1014).makeSpecificResistanceUpBuff(GreaterFreezeBuff)
 
-  val GreaterStopResistanceUpBuff =
-      +buffData(1015).makeSpecificResistanceUpBuff(GreaterStopBuff)
+  val GreaterStopResistanceUpBuff = +buffData(1015).makeSpecificResistanceUpBuff(GreaterStopBuff)
 
-  val GreaterFrostbiteBuff =
-      +buffData(1016).makeGreaterVariantOf(FrostbiteBuff)
+  val GreaterFrostbiteBuff = +buffData(1016).makeGreaterVariantOf(FrostbiteBuff)
 
-  val GreaterElectricShockBuff =
-      +buffData(1017).makeGreaterVariantOf(ElectricShockBuff)
+  val GreaterElectricShockBuff = +buffData(1017).makeGreaterVariantOf(ElectricShockBuff)
 
-  val GreaterAgonyBuff =
-      +buffData(1018).makeGreaterVariantOf(AgonyBuff)
+  val GreaterAgonyBuff = +buffData(1018).makeGreaterVariantOf(AgonyBuff)
 
-  val GreaterAgonyResistanceUpBuff =
-      +buffData(1019).makeSpecificResistanceUpBuff(GreaterAgonyBuff)
+  val GreaterAgonyResistanceUpBuff = +buffData(1019).makeSpecificResistanceUpBuff(GreaterAgonyBuff)
 
   val GreaterFrostbiteResistanceUpBuff =
       +buffData(1020).makeSpecificResistanceUpBuff(GreaterFrostbiteBuff)
 
-  val GreaterStagnationBuff =
-      +buffData(1021).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+  val GreaterStagnationBuff = +buffData(1021).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
 
   val GreaterIgnoranceBuff =
-      +buffData(1022).makeSimpleContinuousBuffEffect(
-          BuffCategory.Negative,
-          onStart = { _ -> self.mod { Modifier.PositiveCountableEffectResistanceUp += 100 } },
-          onEnd = { _ -> self.mod { Modifier.PositiveCountableEffectResistanceUp -= 100 } },
-      )
+      +buffData(1022)
+          .makeSimpleContinuousBuffEffect(
+              BuffCategory.Negative,
+              onStart = { _ -> self.mod { Modifier.PositiveCountableEffectResistanceUp += 100 } },
+              onEnd = { _ -> self.mod { Modifier.PositiveCountableEffectResistanceUp -= 100 } },
+          )
 
-  val GreaterAggroBuff =
-      +buffData(1023).makeGreaterVariantOf(AggroBuff)
+  val GreaterAggroBuff = +buffData(1023).makeGreaterVariantOf(AggroBuff)
 
   val GreaterCriticalDamageReceivedDownBuff =
       +buffData(1024).makeGreaterVariantOf(CriticalDamageReceivedDownBuff)
 
   val GreaterCombinedResistanceUpBuff =
-      +buffData(1025).makeMultipleResistanceUpBuff(
-          listOf(GreaterConfusionBuff, GreaterBlindnessBuff, GreaterBurnBuff))
+      +buffData(1025)
+          .makeMultipleResistanceUpBuff(
+              listOf(GreaterConfusionBuff, GreaterBlindnessBuff, GreaterBurnBuff))
 
-  val GreaterInsanityBuff =
-      +buffData(1026).makeCountableBuffEffect(BuffCategory.Negative)
+  val GreaterInsanityBuff = +buffData(1026).makeCountableBuffEffect(BuffCategory.Negative)
 
   val GreaterFixedClimaxActPowerUp: ContinuousBuffEffect<Unit> =
       +buffData(1027)
@@ -1717,45 +1696,35 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               category = BuffCategory.Positive,
               exclusive = true)
 
-  val GreaterApDownBuff =
-      +buffData(1028).makeGreaterVariantOf(ApDownBuff)
+  val GreaterApDownBuff = +buffData(1028).makeGreaterVariantOf(ApDownBuff)
 
-  val GreaterSleepBuff =
-      +buffData(1029).makeGreaterVariantOf(SleepBuff)
+  val GreaterSleepBuff = +buffData(1029).makeGreaterVariantOf(SleepBuff)
 
-  val GreaterCriticalUpBuff =
-      +buffData(1030).makeGreaterVariantOf(CriticalUpBuff)
+  val GreaterCriticalUpBuff = +buffData(1030).makeGreaterVariantOf(CriticalUpBuff)
 
   val GreaterEffectiveDamageDealtUpBuff =
       +buffData(1031).makeGreaterVariantOf(EffectiveDamageDealtUpBuff)
 
-  val GreaterArroganceBuff =
-      +buffData(1032).makeCountableBuffEffect(BuffCategory.Negative)
+  val GreaterArroganceBuff = +buffData(1032).makeCountableBuffEffect(BuffCategory.Negative)
 
   val GreaterElectricShockResistanceUpBuff =
-      +buffData(1033).makeMultipleResistanceUpBuff(listOf(GreaterElectricShockBuff, ElectricShockBuff))
+      +buffData(1033)
+          .makeMultipleResistanceUpBuff(listOf(GreaterElectricShockBuff, ElectricShockBuff))
 
-  val GreaterReviveBuff =
-      +buffData(1034).makeGreaterVariantOf(ReviveBuff)
+  val GreaterReviveBuff = +buffData(1034).makeGreaterVariantOf(ReviveBuff)
 
   val GreaterCombinedResistanceUpFreezeStopBuff =
-      +buffData(1035).makeMultipleResistanceUpBuff(
-          listOf(GreaterFreezeBuff, GreaterStopBuff))
+      +buffData(1035).makeMultipleResistanceUpBuff(listOf(GreaterFreezeBuff, GreaterStopBuff))
 
-  val GreaterStunBuff =
-      +buffData(1036).makeGreaterVariantOf(StunBuff)
+  val GreaterStunBuff = +buffData(1036).makeGreaterVariantOf(StunBuff)
 
-  val GreaterPerfectAimBuff =
-      +buffData(1037).makeGreaterVariantOf(PerfectAimBuff)
+  val GreaterPerfectAimBuff = +buffData(1037).makeGreaterVariantOf(PerfectAimBuff)
 
-  val GreaterSleepResistanceUpBuff =
-      +buffData(1038).makeSpecificResistanceUpBuff(GreaterSleepBuff)
+  val GreaterSleepResistanceUpBuff = +buffData(1038).makeSpecificResistanceUpBuff(GreaterSleepBuff)
 
-  val GreaterApUpResistanceUpBuff =
-      +buffData(1039).makeSpecificResistanceUpBuff(GreaterApUpBuff)
+  val GreaterApUpResistanceUpBuff = +buffData(1039).makeSpecificResistanceUpBuff(GreaterApUpBuff)
 
-  val GreaterInvincibilityBuff =
-      +buffData(1040).makeGreaterVariantOf(InvincibilityBuff)
+  val GreaterInvincibilityBuff = +buffData(1040).makeGreaterVariantOf(InvincibilityBuff)
 
   val ExcludingGreaterArroganceResistanceUpBuff =
       +buffData(1041).makeResistanceUpExceptBuff(listOf(GreaterArroganceBuff))
@@ -1763,65 +1732,90 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val ExcludingGreaterInsanityResistanceUpBuff =
       +buffData(1042).makeResistanceUpExceptBuff(listOf(GreaterInsanityBuff))
 
-  val GreaterStunResistanceUpBuff =
-      +buffData(1043).makeSpecificResistanceUpBuff(GreaterStunBuff)
+  val GreaterStunResistanceUpBuff = +buffData(1043).makeSpecificResistanceUpBuff(GreaterStunBuff)
 
   // TODO: Stacking with ordinary mark?
-  val GreaterMarkBuff =
-      +buffData(1044).makeGreaterVariantOf(MarkBuff)
+  val GreaterMarkBuff = +buffData(1044).makeGreaterVariantOf(MarkBuff)
 
-  val GreaterAgilityUpBuff =
-      +buffData(1045).makeGreaterVariantOf(AgilityUpBuff)
+  val GreaterAgilityUpBuff = +buffData(1045).makeGreaterVariantOf(AgilityUpBuff)
 
   val GreaterBrillianceRecoveryDownBuff =
       +buffData(1046).makeGreaterVariantOf(BrillianceGainDownBuff)
 
-  val GreaterSealAct3Buff =
-      +buffData(1047).makeGreaterVariantOf(SealAct3Buff)
+  val GreaterSealAct3Buff = +buffData(1047).makeGreaterVariantOf(SealAct3Buff)
 
   val PierceGreaterInvincible =
       +buffData(1048).makeSimpleContinuousBuffEffect(BuffCategory.Positive) // TODO
 
   // TODO: Priority vs normal hope buff?
-  val GreaterHopeBuff =
-      +buffData(1049).makeGreaterVariantOf(HopeBuff)
+  val GreaterHopeBuff = +buffData(1049).makeGreaterVariantOf(HopeBuff)
 
-  val GreaterMaxHpUpBuff =
-      +buffData(1050).makeGreaterVariantOf(MaxHpUpBuff)
+  val GreaterMaxHpUpBuff = +buffData(1050).makeGreaterVariantOf(MaxHpUpBuff)
 
-  val GreaterLovesicknessBuff =
-      +buffData(1051).makeGreaterVariantOf(LovesicknessBuff)
+  val GreaterLovesicknessBuff = +buffData(1051).makeGreaterVariantOf(LovesicknessBuff)
 
-  val GreaterDexterityUpBuff =
-      +buffData(1052).makeGreaterVariantOf(DexterityUpBuff)
+  val GreaterDexterityUpBuff = +buffData(1052).makeGreaterVariantOf(DexterityUpBuff)
 
-  val GreaterActPowerDownBuff =
-      +buffData(1053).makeGreaterVariantOf(ActPowerDownBuff)
+  val GreaterActPowerDownBuff = +buffData(1053).makeGreaterVariantOf(ActPowerDownBuff)
 
-  val GreaterCriticalDownBuff =
-      +buffData(1054).makeGreaterVariantOf(CriticalDownBuff)
+  val GreaterCriticalDownBuff = +buffData(1054).makeGreaterVariantOf(CriticalDownBuff)
 
   val GreaterCombinedResistanceUpElectricShockSleep =
-      +buffData(1055).makeMultipleResistanceUpBuff(
-          listOf(GreaterElectricShockBuff, GreaterSleepBuff))
+      +buffData(1055)
+          .makeMultipleResistanceUpBuff(listOf(GreaterElectricShockBuff, GreaterSleepBuff))
 
-  val GreaterHpRegenBuff =
-      +buffData(1056).makeGreaterVariantOf(HpRegenBuff)
+  val GreaterHpRegenBuff = +buffData(1056).makeGreaterVariantOf(HpRegenBuff)
 
-  val GreaterBrillianceRegenBuff =
-      +buffData(1057).makeGreaterVariantOf(BrillianceRegenBuff)
+  val GreaterBrillianceRegenBuff = +buffData(1057).makeGreaterVariantOf(BrillianceRegenBuff)
 
-  val GreaterAgilityDownBuff =
-      +buffData(1058).makeGreaterVariantOf(AgilityDownBuff)
+  val GreaterAgilityDownBuff = +buffData(1058).makeGreaterVariantOf(AgilityDownBuff)
 
-  val GreaterCounterHealBuff =
-      +buffData(1059).makeGreaterVariantOf(CounterHealBuff)
+  val GreaterCounterHealBuff = +buffData(1059).makeGreaterVariantOf(CounterHealBuff)
 
-  val GreaterBlessingHpRecoveryBuff =
-      +buffData(1060).makeGreaterVariantOf(BlessingHpRecoveryBuff)
+  val GreaterBlessingHpRecoveryBuff = +buffData(1060).makeGreaterVariantOf(BlessingHpRecoveryBuff)
 
-  val GreaterAggroResistanceUpBuff =
-      +buffData(1061).makeSpecificResistanceUpBuff(GreaterAggroBuff)
+  val GreaterAggroResistanceUpBuff = +buffData(1061).makeSpecificResistanceUpBuff(GreaterAggroBuff)
+
+  val GreaterSuperStrengthBuff = +buffData(1062).makeGreaterVariantOf(SuperStrengthBuff)
+
+  val GreaterSealStageEffectBuff = +buffData(1063).makeGreaterVariantOf(SealStageEffectBuff)
+
+  val GreaterSealStageEffectResistanceUpBuff =
+      +buffData(1064).makeSpecificResistanceUpBuff(GreaterSealStageEffectBuff)
+
+  val GreaterLovesicknessResistanceUpBuff =
+      +buffData(1065).makeSpecificResistanceUpBuff(GreaterLovesicknessBuff)
+
+  val GreaterMaxHpDownBuff = +buffData(1066).makeGreaterVariantOf(MaxHpDownBuff)
+
+  // TODO: Implement
+  val GreaterPanicBuff = +buffData(1067).makeCountableBuffEffect(BuffCategory.Negative)
+
+  // Res except greater panic
+
+  val GreaterNightmareBuff = +buffData(1069).makeGreaterVariantOf(NightmareBuff)
+
+  val GreaterNightmareResistanceUpBuff =
+      +buffData(1070).makeSpecificResistanceUpBuff(GreaterNightmareBuff)
+
+  val GreaterMultipleCAficationBuff = +buffData(1071).makeGreaterVariantOf(MultipleCAficationBuff)
+
+  val GreaterImpudenceBuff = +buffData(1072).makeGreaterVariantOf(ImpudenceBuff)
+
+  val GreaterActPowerUpBuff = +buffData(1073).makeGreaterVariantOf(ActPowerUpBuff)
+
+  val GreaterNormalReflectBuffBuff = +buffData(1074).makeGreaterVariantOf(NormalReflectBuff)
+
+  val GreaterSpecialReflectBuffBuff = +buffData(1075).makeGreaterVariantOf(SpecialReflectBuff)
+
+  val GreaterPoison = +buffData(1076).makeGreaterVariantOf(PoisonBuff)
+
+  val GreaterCutinInitialCooldownReductionBuff =
+      +buffData(1077).makeGreaterVariantOf(CutinInitialCooldownReductionBuff)
+
+  val GreaterCutinCostReductionBuff = +buffData(1078).makeGreaterVariantOf(CutinCostReductionBuff)
+
+  // Bonus DMG vs Boss
 
   val abnormalBuffs =
       platformSetOf(
@@ -1902,5 +1896,6 @@ inline val Modifiers.apChange: Int
 
 val Actor.hasMultipleCA
   get() =
-      (dress.multipleCA || Buffs.MultipleCAficationBuff in buffs) &&
-          Buffs.SealMultipleCABuff !in buffs
+      (dress.multipleCA ||
+          Buffs.MultipleCAficationBuff in buffs ||
+          Buffs.GreaterMultipleCAficationBuff in buffs) && Buffs.SealMultipleCABuff !in buffs

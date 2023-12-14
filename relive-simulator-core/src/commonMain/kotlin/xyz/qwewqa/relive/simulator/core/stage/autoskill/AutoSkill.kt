@@ -6,6 +6,7 @@ interface AutoSkill {
   val iconId: Int?
   val descriptions: Map<String, String>?
   val type: AutoSkillType
+
   fun execute(context: ActionContext)
 }
 
@@ -23,6 +24,7 @@ interface UnitAutoSkillGroupBlueprint {
 
 /** Determines the order of passive application. */
 enum class AutoSkillType {
+  Party,
   Tactics,
   Passive,
   TurnStartA,

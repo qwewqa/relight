@@ -15,12 +15,15 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FortitudeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterEvasionBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFortitudeBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterReviveBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.InvincibleRebirthBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ReviveBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.WeakSpotBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.ContinuousBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.buff.CountableBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
+import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistance
+import xyz.qwewqa.relive.simulator.core.stage.modifier.positiveEffectResistance
 
 object SkillOptions : ImplementationRegistry<SkillOption>() {
   // Note that some buffs have separate percent and fixed versions.
@@ -49,8 +52,15 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
               if (effect.category !=
                   BuffCategory.Negative) { // TODO: temporary measure until we know what bosses do
                 targets.forEach { target ->
-                  target.buffs.activatePsuedoBuff(
-                      effect as ContinuousBuffEffect<Unit>, value = value.toI54())
+                  effect as ContinuousBuffEffect<Unit>
+                  val res =
+                      when (effect.category) {
+                        BuffCategory.Positive -> target.mod.positiveEffectResistance(effect)
+                        BuffCategory.Negative -> target.mod.negativeEffectResistance(effect)
+                      }
+                  if (res > 0 && target.context.stage.random.nextDouble() < (res / 100.0)) {
+                    target.buffs.activatePsuedoBuff(effect, value = value.toI54())
+                  }
                 }
               }
             },
@@ -612,9 +622,10 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
             ampCondition = { it.dress.damageType == DamageType.Special })
       }
 
-  val RemoveExit = +skillOptionData(309).makeSkillOption { value, time ->
-    // TODO: implement
-  }
+  val RemoveExit =
+      +skillOptionData(309).makeSkillOption { value, time ->
+        // TODO: implement
+      }
 
   val FocusAttack =
       +skillOptionData(310).makeSkillOption { value, time, _, attribute ->
@@ -1139,10 +1150,15 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
 
   fun SkillOptionData.scalingActPowerUp(cap: Int, condition: (Actor) -> Boolean) =
       scalingEffect(Buffs.ActPowerUpBuff, cap, condition)
+
   fun SkillOptionData.scalingMaxHpUp(cap: Int, condition: (Actor) -> Boolean) =
       scalingEffect(Buffs.MaxHpUpBuff, cap, condition)
+
   fun SkillOptionData.scalingEvasionUp(cap: Int, condition: (Actor) -> Boolean) =
       scalingEffect(Buffs.EvasionUpBuff, cap, condition)
+
+  fun SkillOptionData.scalingGreaterActPowerUp(cap: Int, condition: (Actor) -> Boolean) =
+      scalingEffect(Buffs.GreaterActPowerUpBuff, cap, condition)
 
   val ScalingActPowerUp120FlowerWindSnow =
       +skillOptionData(481).scalingActPowerUp(120) {
@@ -1596,6 +1612,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         convert(GreaterEvasionBuff, GreaterFortitudeBuff, value)
       }
 
+  val ConversionGreaterFortitudeGreaterRevive =
+      +skillOptionData(622).makeSkillOption { value, _ ->
+        convert(GreaterFortitudeBuff, GreaterReviveBuff, value)
+      }
+
   val GreaterBurn = +skillOptionData(10010).applyEffect()
   val GreaterConfusion = +skillOptionData(10020).applyEffect()
   val GreaterBlindness = +skillOptionData(10030).applyEffect()
@@ -1658,6 +1679,43 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterCounterHeal = +skillOptionData(10315).applyEffect()
   val GreaterBlessingHpRecovery = +skillOptionData(10316).applyEffect()
   val GreaterAggroResistanceUp = +skillOptionData(10318).applyEffect()
+  val GreaterSuperstrength = +skillOptionData(10319).applyEffect()
+  val GreaterSealStageEffect = +skillOptionData(10320).applyEffect()
+  val GreaterSealStageEffectResistanceUp = +skillOptionData(10321).applyEffect()
+  val GreaterLovesicknessResistanceUp = +skillOptionData(10322).applyEffect()
+  val GreaterMaxHpDown = +skillOptionData(10323).applyEffect()
+  val GreaterPanic = +skillOptionData(10324).applyEffect()
+  // Res up except greater panic
+  val GreaterNightmare = +skillOptionData(10326).applyEffect()
+  val GreaterNightmareResistanceUp = +skillOptionData(10327).applyEffect()
+  val GreaterMultiCAfication = +skillOptionData(10328).applyEffect()
+  val GreaterImpudence = +skillOptionData(10329).applyEffect()
+  val GreaterReviveReduction = +skillOptionData(10330).reduceCountable()
+
+  val ScalingGreaterActPowerUp100Flower =
+      +skillOptionData(10331).scalingGreaterActPowerUp(100) {
+        it.dress.attribute == Attribute.Flower
+      }
+  val ScalingGreaterActPowerUp100Wind =
+      +skillOptionData(10332).scalingGreaterActPowerUp(100) { it.dress.attribute == Attribute.Wind }
+  val ScalingGreaterActPowerUp100Snow =
+      +skillOptionData(10333).scalingGreaterActPowerUp(100) { it.dress.attribute == Attribute.Snow }
+  val ScalingGreaterActPowerUp100Moon =
+      +skillOptionData(10334).scalingGreaterActPowerUp(100) { it.dress.attribute == Attribute.Moon }
+  val ScalingGreaterActPowerUp100Space =
+      +skillOptionData(10335).scalingGreaterActPowerUp(100) { it.dress.attribute == Attribute.Space }
+  val ScalingGreaterActPowerUp100Cloud =
+      +skillOptionData(10336).scalingGreaterActPowerUp(100) { it.dress.attribute == Attribute.Cloud }
+  val ScalingGreaterActPowerUp100Dream =
+      +skillOptionData(10337).scalingGreaterActPowerUp(100) { it.dress.attribute == Attribute.Dream }
+
+  val GreaterActPowerUp = +skillOptionData(10338).applyEffect()
+  val GreaterNormalReflect = +skillOptionData(10339).applyEffect()
+  val GreaterSpecialReflect = +skillOptionData(10340).applyEffect()
+  val GreaterPoison = +skillOptionData(10341).applyEffect()
+  val GreaterCutinInitialCooldownReduction = +skillOptionData(10342).applyEffect()
+  val GreaterCutinCostReduction = +skillOptionData(10343).applyEffect()
+  // Dmg vs boss
 
   // TODO: figure out if these affect base
 
@@ -1743,5 +1801,17 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
       +skillOptionData(20014)
           .removeContinuousEffects(
               Buffs.GreaterAggroBuff,
+          )
+
+  val RemoveGreaterLovesickness =
+      +skillOptionData(20015)
+          .removeContinuousEffects(
+              Buffs.GreaterLovesicknessBuff,
+          )
+
+  val RemoveGreaterApDown =
+      +skillOptionData(20016)
+          .removeContinuousEffects(
+              Buffs.GreaterApDownBuff,
           )
 }

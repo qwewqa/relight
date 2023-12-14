@@ -1762,8 +1762,36 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
 
   val enemySeishoSiegfeld =
       +getSkillTargetData(4193).makeEnemyTargetAoe {
-        it.dress.character.school == School.Seisho ||
-            it.dress.character.school == School.Siegfeld
+        it.dress.character.school == School.Seisho || it.dress.character.school == School.Siegfeld
+      }
+
+  val enemySeishoFlower =
+      +getSkillTargetData(4194).makeEnemyTargetAoe {
+        it.dress.character.school == School.Seisho && it.dress.attribute == Attribute.Flower
+      }
+  val enemySeishoWind =
+      +getSkillTargetData(4195).makeEnemyTargetAoe {
+        it.dress.character.school == School.Seisho && it.dress.attribute == Attribute.Wind
+      }
+  val enemySeishoSnow =
+      +getSkillTargetData(4196).makeEnemyTargetAoe {
+        it.dress.character.school == School.Seisho && it.dress.attribute == Attribute.Snow
+      }
+  val enemySeishoMoon =
+      +getSkillTargetData(4197).makeEnemyTargetAoe {
+        it.dress.character.school == School.Seisho && it.dress.attribute == Attribute.Moon
+      }
+  val enemySeishoSpace =
+      +getSkillTargetData(4198).makeEnemyTargetAoe {
+        it.dress.character.school == School.Seisho && it.dress.attribute == Attribute.Space
+      }
+  val enemySeishoCloud =
+      +getSkillTargetData(4199).makeEnemyTargetAoe {
+        it.dress.character.school == School.Seisho && it.dress.attribute == Attribute.Cloud
+      }
+  val enemySieshoDream =
+      +getSkillTargetData(4200).makeEnemyTargetAoe {
+        it.dress.character.school == School.Seisho && it.dress.attribute == Attribute.Dream
       }
 
   // Handled specially
@@ -1882,12 +1910,9 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
       }
 
   // TODO: revives
-  val firstDefeatedFrontAlly =
-      +getSkillTargetData(11011).makeAllyTarget { listOf() }
-  val firstDefeatedRearAlly =
-      +getSkillTargetData(11012).makeAllyTarget { listOf() }
-  val back3DefeatedAlly =
-      +getSkillTargetData(11013).makeAllyTarget { listOf() }
+  val firstDefeatedFrontAlly = +getSkillTargetData(11011).makeAllyTarget { listOf() }
+  val firstDefeatedRearAlly = +getSkillTargetData(11012).makeAllyTarget { listOf() }
+  val back3DefeatedAlly = +getSkillTargetData(11013).makeAllyTarget { listOf() }
 
   val focusAllEnemies = +getSkillTargetData(22002).makeEnemyTarget { enemy.active.toList() }
 }

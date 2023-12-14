@@ -27,7 +27,9 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterConfusionBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterElectricShockBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFreezeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFrostbiteBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterImpudenceBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterLovesicknessBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterNightmareBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterProvokeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterReviveBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterSleepBuff
@@ -191,7 +193,7 @@ class Actor(
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by sleep." }
         return
       }
-      if (NightmareBuff in buffs) {
+      if (NightmareBuff in buffs || GreaterNightmareBuff in buffs) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by nightmare." }
         return
       }
@@ -206,7 +208,7 @@ class Actor(
         return
       }
       // TODO: account for buff values
-      if (buffs.tryRemove(Buffs.ImpudenceBuff)) {
+      if (buffs.tryRemove(Buffs.ImpudenceBuff) || buffs.tryRemove(GreaterImpudenceBuff)) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by pride." }
         Act { targetRandom().act { heal(fixed = 5000) } }.execute(context)
         return
@@ -366,8 +368,9 @@ class Actor(
             self.buffs.removeAll(SleepBuff)
             self.buffs.removeAll(GreaterSleepBuff) // TODO: probably not right but who cares
           }
-          if (NightmareBuff in self.buffs && stage.random.nextDouble() > 0.2) {
+          if ((NightmareBuff in self.buffs || GreaterNightmareBuff in self.buffs) && stage.random.nextDouble() > 0.2) {
             self.buffs.removeAll(NightmareBuff)
+            self.buffs.removeAll(GreaterNightmareBuff) // TODO: probably not right but who cares
           }
           if (self.mod { +Modifier.CounterHealFixed } > 0 ||
               self.mod { +Modifier.CounterHealPercent } > 0) {
