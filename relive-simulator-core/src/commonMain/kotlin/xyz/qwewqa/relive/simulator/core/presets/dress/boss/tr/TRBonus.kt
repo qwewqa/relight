@@ -9,7 +9,6 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifier
-import xyz.qwewqa.relive.simulator.core.stage.stageeffect.StageEffects
 
 fun trEventBonusPassive(dressId: Int) =
     EventBonusPassive(
@@ -67,10 +66,10 @@ object FullNegativeEffectResistancePassive : PassiveEffect {
       }
 }
 
-object StagnationPassive : PassiveEffect {
+object IgnorancePassive : PassiveEffect {
   override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
       context.run {
-        enemy.actors.values.forEach { it.buffs.activatePsuedoBuff(Buffs.GreaterStagnationBuff) }
+        enemy.actors.values.forEach { it.buffs.activatePsuedoBuff(Buffs.GreaterIgnoranceBuff) }
       }
 }
 

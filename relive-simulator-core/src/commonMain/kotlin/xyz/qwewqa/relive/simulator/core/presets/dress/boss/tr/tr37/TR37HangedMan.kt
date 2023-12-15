@@ -1,12 +1,10 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr37
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.FullNegativeEffectResistancePassive
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.StagnationPassive
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.IgnorancePassive
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassive2
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.TrCritDamageReductionPassive
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.TrDamageReductionPassive
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023V2
-import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.Character
@@ -14,10 +12,8 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.DamageType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Position
 import xyz.qwewqa.relive.simulator.core.stage.actor.actsOf
 import xyz.qwewqa.relive.simulator.core.stage.actor.defaultDressStats
-import xyz.qwewqa.relive.simulator.core.stage.autoskill.AbnormalResistPassiveA
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.BossElementResistPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
-import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.dress.Dress
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.FixedStrategy
@@ -120,7 +116,7 @@ val tr37HangedManRuiDiff4 =
                 BossElementResistPassive.new(50),
                 TrDamageReductionPassive.new(99),
 //                TrCritDamageReductionPassive.new(?),
-                StagnationPassive.new(),
+                IgnorancePassive.new(),
             ),
         ),
     )
