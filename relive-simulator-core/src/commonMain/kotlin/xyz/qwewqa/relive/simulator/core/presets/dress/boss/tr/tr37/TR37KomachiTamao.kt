@@ -41,7 +41,7 @@ val tr37KomachiTamao =
             listOf(
                 trEventBonusPassive2023V2(3010023),
                 SuperBossPassive2.new(100),
-                TrDamageReductionPassive.new(80),
+                TrDamageReductionPassive.new(95),
                 TrCritDamageReductionPassive.new(50),
             ),
         ),

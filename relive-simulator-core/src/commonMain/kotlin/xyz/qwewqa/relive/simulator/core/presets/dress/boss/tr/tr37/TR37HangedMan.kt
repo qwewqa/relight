@@ -43,7 +43,7 @@ val tr37HangedManRui =
                 trEventBonusPassive2023V2(3010023),
                 SuperBossPassive2.new(100),
                 BossElementResistPassive.new(50),
-                TrDamageReductionPassive.new(80),
+                TrDamageReductionPassive.new(95),
                 TrCritDamageReductionPassive.new(50),
             ),
         ),
