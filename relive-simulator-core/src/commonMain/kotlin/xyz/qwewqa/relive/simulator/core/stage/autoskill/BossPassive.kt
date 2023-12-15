@@ -76,7 +76,7 @@ object BossElementResistPassive : PassiveEffect {
         if (self.dress.attribute == Attribute.Neutral || self.dress.attribute == Attribute.Dream) {
           return@run
         }
-        Attribute.values().forEach {
+        Attribute.entries.forEach {
           self.againstAttributeDamageDealtUp[it] = value.toI54()
           self.againstAttributeDamageReceivedDown[it] = value.toI54()
         }

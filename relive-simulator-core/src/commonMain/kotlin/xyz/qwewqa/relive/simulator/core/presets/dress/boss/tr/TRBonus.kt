@@ -2,6 +2,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr
 
 import xyz.qwewqa.relive.simulator.core.i54.i54
 import xyz.qwewqa.relive.simulator.core.stage.ActionContext
+import xyz.qwewqa.relive.simulator.core.stage.autoskill.BossElementResistPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.EventBonusPassive
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveEffect
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.new
@@ -66,13 +67,6 @@ object FullNegativeEffectResistancePassive : PassiveEffect {
       }
 }
 
-object IgnorancePassive : PassiveEffect {
-  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
-      context.run {
-        enemy.actors.values.forEach { it.buffs.activatePsuedoBuff(Buffs.GreaterIgnoranceBuff) }
-      }
-}
-
 object SuperBossPassive1 : PassiveEffect {
   override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
       context.run {
@@ -102,5 +96,31 @@ object SuperBossPassive2 : PassiveEffect {
         }
         self.specificBuffResist[Buffs.GreaterInsanityBuff] =
             (self.specificBuffResist[Buffs.GreaterInsanityBuff] ?: 0.i54) - 100
+      }
+}
+
+object SuperBossPassiveTR37Diff3 : PassiveEffect {
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run {
+        self.buffs.activatePsuedoBuff(Buffs.ExcludingGreaterInsanityResistanceUpBuff, 100.i54)
+        self.buffs.activatePsuedoBuff(Buffs.DamageReceivedDownBuff, 95.i54)
+        self.buffs.activatePsuedoBuff(Buffs.CriticalDamageReceivedDownBuff, 50.i54)
+        BossElementResistPassive.activate(this, 50, 0) { true }
+      }
+}
+
+object SuperBossPassiveTR37Diff4 : PassiveEffect {
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run {
+        self.buffs.activatePsuedoBuff(Buffs.ExcludingGreaterInsanityResistanceUpBuff, 100.i54)
+        self.buffs.activatePsuedoBuff(Buffs.DamageReceivedDownBuff, 99.i54)
+        self.buffs.activatePsuedoBuff(Buffs.CriticalDamageReceivedDownBuff, 50.i54)
+        BossElementResistPassive.activate(this, 50, 0) { true }
+
+        enemy.actors.values.forEach {
+          it.buffs.activatePsuedoBuff(Buffs.GreaterIgnoranceBuff)
+          it.buffs.activatePsuedoBuff(Buffs.GreaterBrillianceRecoveryDownBuff, 50.i54)
+          it.buffs.activatePsuedoBuff(Buffs.GreaterActPowerDownBuff, 99.i54)
+        }
       }
 }

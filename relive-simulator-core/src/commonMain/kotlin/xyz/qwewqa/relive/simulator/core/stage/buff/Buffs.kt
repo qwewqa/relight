@@ -70,8 +70,10 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
           onStart = { value ->
             self.mod {
               Modifier.NegativeEffectResistanceUp += value
+              Modifier.NegativeCountableEffectResistanceUp += value
               if (groupLevel >= 2) {
                 Modifier.GreaterNegativeEffectResistanceUp += value
+                Modifier.GreaterNegativeCountableEffectResistanceUp += value
               }
             }
             buffs.forEach { buff ->
@@ -81,8 +83,10 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
           onEnd = { value ->
             self.mod {
               Modifier.NegativeEffectResistanceUp -= value
+              Modifier.NegativeCountableEffectResistanceUp -= value
               if (groupLevel >= 2) {
                 Modifier.GreaterNegativeEffectResistanceUp -= value
+                Modifier.GreaterNegativeCountableEffectResistanceUp -= value
               }
             }
             buffs.forEach { buff ->

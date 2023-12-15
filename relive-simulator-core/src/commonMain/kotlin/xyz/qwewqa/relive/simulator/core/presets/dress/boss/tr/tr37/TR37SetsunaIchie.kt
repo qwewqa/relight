@@ -1,9 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr37
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.IgnorancePassive
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassive2
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.TrCritDamageReductionPassive
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.TrDamageReductionPassive
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR37Diff3
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR37Diff4
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023V2
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
@@ -40,9 +38,7 @@ val tr37SetsunaIchie =
             autoSkills =
             listOf(
                 trEventBonusPassive2023V2(3010023),
-                SuperBossPassive2.new(100),
-                TrDamageReductionPassive.new(95),
-                TrCritDamageReductionPassive.new(50),
+                SuperBossPassiveTR37Diff3.new(),
             ),
         ),
     )
@@ -108,10 +104,7 @@ val tr37SetsunaIchieDiff4 =
             autoSkills =
             listOf(
                 trEventBonusPassive2023V2(3010023),
-                SuperBossPassive2.new(100),
-                TrDamageReductionPassive.new(99),
-//                TrCritDamageReductionPassive.new(?),
-                IgnorancePassive.new(),
+                SuperBossPassiveTR37Diff4.new(),
             ),
         ),
     )
