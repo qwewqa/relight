@@ -1268,3 +1268,8 @@
 - TR37 bosses added by Savivo
 - Added new girls and memoirs
 - Most images moved to a separate domain
+
+# v1.8.4
+- Switch TR37 bosses to using ignorance
+- Updated TR37 diff 3 damage taken reduction
+- Fixed passives not applying
