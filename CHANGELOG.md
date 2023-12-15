@@ -1273,3 +1273,6 @@
 - Switch TR37 bosses to using ignorance
 - Updated TR37 diff 3 damage taken reduction
 - Fixed passives not applying
+
+# v1.8.5
+- Update TR37 boss passives
