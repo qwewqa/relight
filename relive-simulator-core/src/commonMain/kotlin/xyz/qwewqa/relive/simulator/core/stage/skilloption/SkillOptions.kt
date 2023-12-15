@@ -2,6 +2,7 @@
 
 package xyz.qwewqa.relive.simulator.core.stage.skilloption
 
+import xyz.qwewqa.relive.simulator.core.i54.i54
 import xyz.qwewqa.relive.simulator.core.i54.toI54
 import xyz.qwewqa.relive.simulator.core.stage.HitMode
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
@@ -58,7 +59,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
                         BuffCategory.Positive -> target.mod.positiveEffectResistance(effect)
                         BuffCategory.Negative -> target.mod.negativeEffectResistance(effect)
                       }
-                  if (res > 0 && target.context.stage.random.nextDouble() < (res / 100.0)) {
+                  if (res == 0.i54 || target.context.stage.random.nextDouble() > (res / 100.0)) {
                     target.buffs.activatePsuedoBuff(effect, value = value.toI54())
                   }
                 }
