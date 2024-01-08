@@ -1671,7 +1671,13 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val GreaterFrostbiteResistanceUpBuff =
       +buffData(1020).makeSpecificResistanceUpBuff(GreaterFrostbiteBuff)
 
-  val GreaterStagnationBuff = +buffData(1021).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+  val GreaterStagnationBuff =
+      +buffData(1021)
+          .makeSimpleContinuousBuffEffect(
+              BuffCategory.Negative,
+              onStart = { _ -> self.mod { Modifier.PositiveEffectResistanceUp += 100 } },
+              onEnd = { _ -> self.mod { Modifier.PositiveEffectResistanceUp -= 100 } },
+          )
 
   val GreaterIgnoranceBuff =
       +buffData(1022)
