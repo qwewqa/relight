@@ -1276,3 +1276,7 @@
 
 # v1.8.5
 - Update TR37 boss passives
+
+# v1.8.6
+- TR38 bosses added by Savivo
+- Added new girls and memoirs
