@@ -1717,6 +1717,15 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterCutinInitialCooldownReduction = +skillOptionData(10342).applyEffect()
   val GreaterCutinCostReduction = +skillOptionData(10343).applyEffect()
   // Dmg vs boss
+  val GreaterInvincibleRebirth = +skillOptionData(10345).applyEffect()
+  val GreaterSealClimate = +skillOptionData(10346).applyEffect()
+  val GreaterApDown2 = +skillOptionData(10347).applyEffect()
+  val GreaterCombinedResistanceUpStunLovesickness = +skillOptionData(10348).applyEffect()
+  val GreaterApUp2 = +skillOptionData(10349).applyEffect()
+  val GreaterMiraculousRecovery = +skillOptionData(10350).applyEffect()
+  val GreaterImpudenceResistanceUp = +skillOptionData(10351).applyEffect()
+  val GreaterSealAct2 = +skillOptionData(10352).applyEffect()
+  val GreaterContract = +skillOptionData(10353).applyEffect()
 
   // TODO: figure out if these affect base
 
@@ -1815,4 +1824,15 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
           .removeContinuousEffects(
               Buffs.GreaterApDownBuff,
           )
+
+  val GreaterDispelStunResistanceUp =
+      +skillOptionData(20017)
+          .removeContinuousEffects(
+              Buffs.GreaterStunResistanceUpBuff,
+          )
+
+  val GreaterDispelImpudence =
+      +skillOptionData(20018)
+          .copy(params = listOf(Buffs.GreaterImpudenceBuff.id!!))
+          .removeAllCountable()
 }

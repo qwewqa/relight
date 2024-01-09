@@ -17,8 +17,8 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ContractionBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterContractionBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ReviveBuff
-import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.WeakSpotBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.ContinuousBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.buff.CountableBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
@@ -77,13 +77,16 @@ class ActionContext(
     focus--
   }
 
+  val Actor.contracted
+    get() = ContractionBuff in buffs || GreaterContractionBuff in buffs
+
   private fun List<Actor>.targetContext(
       affectedByAggro: Boolean = false,
   ): TargetContext {
     return TargetContext(
         this@ActionContext,
         this,
-        enemy.active.firstOrNull()?.takeIf { ContractionBuff in self.buffs && affectedByAggro }
+        enemy.active.firstOrNull()?.takeIf { self.contracted && affectedByAggro }
             ?: self.aggroTarget.takeIf { affectedByAggro },
     )
   }
@@ -93,11 +96,8 @@ class ActionContext(
 
   private fun provokable(selector: () -> List<Actor>) =
       self.provokeTarget?.let { listOf(it) }
-          ?: enemy.active
-              .firstOrNull()
-              ?.takeIf { ContractionBuff in self.buffs }
-              ?.let { listOf(it) }
-              ?: selector()
+          ?: enemy.active.firstOrNull()?.takeIf { self.contracted }?.let { listOf(it) }
+          ?: selector()
 
   fun targetSelf() = listOf(self).targetContext()
 
@@ -111,8 +111,11 @@ class ActionContext(
   }
 
   fun targetFront(count: Int = 1) = provokable { enemy.active.take(count) }.targetContext(true)
+
   fun targetBack(count: Int = 1) = provokable { enemy.active.takeLast(count) }.targetContext(true)
+
   fun targetAoe() = enemy.active.targetContext(true)
+
   fun targetAoe(condition: Condition) =
       enemy.active.filter { condition.evaluate(it) }.targetContext(true)
 
@@ -121,15 +124,20 @@ class ActionContext(
       provokable { List(count) { enemy.active.random(stage.random) } }.targetContext(true)
 
   fun targetAllyAoe() = team.active.targetContext()
+
   fun targetAllyAoe(condition: Condition) =
       team.active.filter { condition.evaluate(it) }.targetContext()
+
   fun targetAllyFront(count: Int = 1) = team.active.take(count).targetContext()
+
   fun targetAllyBack(count: Int = 1) = team.active.takeLast(count).targetContext()
+
   fun targetAllyRandom(count: Int = 1) =
       List(count) { team.active.random(stage.random) }.targetContext()
 
   fun targetNextActingAlly() =
       (team.nextAct?.actor?.let { listOf(it) } ?: emptyList()).targetContext()
+
   fun targetNextActingEnemy() =
       (enemy.nextAct?.actor?.let { listOf(it) } ?: emptyList()).targetContext(false)
 
@@ -180,6 +188,7 @@ class TargetContext(
 ) {
   val stage
     get() = actionContext.stage
+
   val self = actionContext.self
   val team = actionContext.team
 

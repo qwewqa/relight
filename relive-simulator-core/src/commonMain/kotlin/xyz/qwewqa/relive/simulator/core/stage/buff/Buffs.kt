@@ -851,7 +851,6 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val LockedContinuousNegativeEffectResistanceUpBuff =
       +buffData(166).makeLockedVariantOf(ContinuousNegativeEffectResistanceUpBuff)
 
-  // Not implemented
   val SealCABuff = +buffData(167).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
 
   val LockedSealCABuff = +buffData(168).makeLockedVariantOf(SealCABuff)
@@ -1821,6 +1820,36 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   // Bonus DMG vs Boss
 
+  val GreaterInvincibleRebirthBuff = +buffData(1080).makeGreaterVariantOf(InvincibleRebirthBuff)
+
+  val GreaterSealCABuff = +buffData(1081).makeGreaterVariantOf(SealCABuff)
+
+  val OpposeNegativeStageEffectBuff =
+      +buffData(1082).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+
+  val RestrictPositiveStageEffectBuff =
+      +buffData(1083).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterApDown2Buff = +buffData(1084).makeGreaterVariantOf(ApDown2Buff)
+
+  // 1085: ?
+
+  val GreaterCombinedResistanceUpStunLovesicknessBuff =
+      +buffData(1086)
+          .makeMultipleResistanceUpBuff(listOf(GreaterStunBuff, GreaterLovesicknessBuff))
+
+  val GreaterApUp2Buff = +buffData(1087).makeGreaterVariantOf(ApUp2Buff)
+
+  // Disabled in PvE
+  val GreaterMiraculousRecoveryBuff = +buffData(1088).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+
+  val GreaterImpudenceResistanceUpBuff =
+      +buffData(1089).makeSpecificResistanceUpBuff(GreaterImpudenceBuff)
+
+  val GreaterSealAct2Buff = +buffData(1090).makeGreaterVariantOf(SealAct2Buff)
+
+  val GreaterContractionBuff = +buffData(1091).makeGreaterVariantOf(ContractionBuff)
+
   val abnormalBuffs =
       platformSetOf(
           StopBuff,
@@ -1885,13 +1914,13 @@ inline val Modifiers.apChange: Int
       actor.buffs.run {
         val decrease =
             when {
-              Buffs.ApDown2Buff in this -> 2
+              Buffs.ApDown2Buff in this || Buffs.GreaterApDown2Buff in this -> 2
               Buffs.ApDownBuff in this || Buffs.GreaterApDownBuff in this -> 1
               else -> 0
             }
         val increase =
             when {
-              Buffs.ApUp2Buff in this -> 2
+              Buffs.ApUp2Buff in this || Buffs.GreaterApUp2Buff in this -> 2
               Buffs.ApUpBuff in this || Buffs.GreaterApUpBuff in this -> 1
               else -> 0
             }

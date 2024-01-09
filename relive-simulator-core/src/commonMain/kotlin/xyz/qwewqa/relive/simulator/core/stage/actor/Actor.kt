@@ -325,7 +325,7 @@ class Actor(
             }
             return@run
           }
-          if (self.buffs.tryRemove(Buffs.InvincibleRebirthBuff)) {
+          if (self.buffs.tryRemove(Buffs.InvincibleRebirthBuff) || self.buffs.tryRemove(Buffs.GreaterInvincibleRebirthBuff)) {
             self.hp = self.maxHp
             context.log("Damage", category = LogCategory.DAMAGE) {
               "Invincible Rebirth activate (newHp: ${self.maxHp})."

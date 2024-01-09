@@ -32,6 +32,17 @@ class StageEffectManager(val team: Team) {
         level <= (teamEffects[Buffs.NegativeStageEffectResistanceUp]?.maxOrNull() ?: 0)) {
       return
     }
+    val adjustedLevel =
+        level -
+            when (effect.category) {
+              BuffCategory.Positive ->
+                  teamEffects[Buffs.RestrictPositiveStageEffectBuff]?.maxOrNull() ?: 0
+              BuffCategory.Negative ->
+                  teamEffects[Buffs.OpposeNegativeStageEffectBuff]?.maxOrNull() ?: 0
+            }
+    if (adjustedLevel <= 0) {
+      return
+    }
     activeStacks += StageEffectStack(effect, turns, level)
     refreshLevels()
   }
@@ -67,9 +78,7 @@ class StageEffectManager(val team: Team) {
   }
 
   fun tick() {
-    activeStacks.forEach { stack ->
-      stack.turns--
-    }
+    activeStacks.forEach { stack -> stack.turns-- }
     activeStacks.removeAll { it.turns <= 0 }
     refreshLevels()
   }

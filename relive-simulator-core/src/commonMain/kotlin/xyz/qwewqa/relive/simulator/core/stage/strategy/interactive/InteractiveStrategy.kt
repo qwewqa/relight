@@ -1796,9 +1796,9 @@ ${
     private fun BoundAct.isSealed() =
         when (type) {
           ActType.Act1 -> Buffs.SealAct1Buff in actor.buffs
-          ActType.Act2 -> Buffs.SealAct2Buff in actor.buffs
+          ActType.Act2 -> Buffs.SealAct2Buff in actor.buffs || Buffs.GreaterSealAct2Buff in actor.buffs
           ActType.Act3 -> Buffs.SealAct3Buff in actor.buffs || Buffs.GreaterSealAct3Buff in actor.buffs
-          ActType.ClimaxAct -> Buffs.SealCABuff in actor.buffs
+          ActType.ClimaxAct -> Buffs.SealCABuff in actor.buffs || Buffs.GreaterSealCABuff in actor.buffs
           else -> false
         }
 
