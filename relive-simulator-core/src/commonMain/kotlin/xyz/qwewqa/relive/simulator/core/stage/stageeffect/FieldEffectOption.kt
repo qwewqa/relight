@@ -7,6 +7,7 @@ import xyz.qwewqa.relive.simulator.core.stage.ActionContext
 import xyz.qwewqa.relive.simulator.core.stage.FeatureImplementation
 import xyz.qwewqa.relive.simulator.core.stage.ImplementationRegistry
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.common.DescriptionUnit
 import xyz.qwewqa.relive.simulator.core.stage.common.substitute
 import xyz.qwewqa.relive.simulator.core.stage.log
@@ -28,7 +29,7 @@ interface FieldEffectOption : FeatureImplementation {
   val extraDescription: String?
     get() = extraDescriptions?.getLocalizedString()
 
-  fun execute(target: Team, value: Int, time: Int)
+  fun execute(context: ActionContext, target: Team, value: Int, time: Int)
 }
 
 fun ActionContext.executeFieldEffectOption(
@@ -50,10 +51,8 @@ fun ActionContext.executeFieldEffectOption(
         )
     val primaryDescription = option.description.substitute(substitutions)
     val extraDescription =
-        " (${option.extraDescription?.substitute(substitutions)})".takeIf {
-          option.extraDescription?.isNotBlank() ?: false
-        }
-            ?: ""
+        " (${option.extraDescription?.substitute(substitutions)})"
+            .takeIf { option.extraDescription?.isNotBlank() ?: false } ?: ""
     val targetDescription = " -> ${target.name}"
     val timeDescription =
         when (option.type) {
@@ -62,16 +61,16 @@ fun ActionContext.executeFieldEffectOption(
         }
     val description = "$primaryDescription$extraDescription$timeDescription$targetDescription"
     log("Action") { "Begin stage effect action [$description]" }
-    option.execute(team, value, time)
+    option.execute(this, team, value, time)
     log("Action") { "End stage effect action [$description]" }
   } else {
-    option.execute(team, value, time)
+    option.execute(this, team, value, time)
   }
 }
 
 inline fun makeFieldEffectOption(
     option: GenFieldEffectOption,
-    crossinline action: (target: Team, value: Int, time: Int) -> Unit,
+    crossinline action: (context: ActionContext, target: Team, value: Int, time: Int) -> Unit,
 ) =
     object : FieldEffectOption {
       override val id = option._id_
@@ -85,7 +84,8 @@ inline fun makeFieldEffectOption(
       override val timeUnit = DescriptionUnit.fromId(option.time_unit)
       override val type = option.type
 
-      override fun execute(target: Team, value: Int, time: Int) = action(target, value, time)
+      override fun execute(context: ActionContext, target: Team, value: Int, time: Int) =
+          action(context, target, value, time)
     }
 
 @Suppress("UNCHECKED_CAST")
@@ -95,7 +95,11 @@ object FieldEffectOptions : ImplementationRegistry<FieldEffectOption>() {
       +when (option.type) {
         1 -> {
           val effect = StageEffects[option.param1] ?: continue
-          makeFieldEffectOption(option) { target, value, time ->
+          makeFieldEffectOption(option) { context, target, value, time ->
+            if (Buffs.SealStageEffectBuff in context.self.buffs ||
+                Buffs.GreaterSealStageEffectBuff in context.self.buffs) {
+              return@makeFieldEffectOption
+            }
             target.stageEffects.add(
                 effect = effect,
                 level = value,
@@ -104,7 +108,7 @@ object FieldEffectOptions : ImplementationRegistry<FieldEffectOption>() {
           }
         }
         2 -> {
-          makeFieldEffectOption(option) { target, value, _ ->
+          makeFieldEffectOption(option) { _, target, value, _ ->
             // Note: time has an inconsistent value here, but it's not used.
             target.stageEffects.adjustLevels(
                 category = BuffCategory.Negative,
@@ -114,7 +118,7 @@ object FieldEffectOptions : ImplementationRegistry<FieldEffectOption>() {
           }
         }
         3 -> {
-          makeFieldEffectOption(option) { target, value, _ ->
+          makeFieldEffectOption(option) { _, target, value, _ ->
             target.stageEffects.adjustLevels(
                 category = BuffCategory.Positive,
                 count = option.param1,
@@ -123,7 +127,7 @@ object FieldEffectOptions : ImplementationRegistry<FieldEffectOption>() {
           }
         }
         4 -> {
-          makeFieldEffectOption(option) { target, value, _ ->
+          makeFieldEffectOption(option) { _, target, value, _ ->
             target.stageEffects.adjustLevels(
                 category = BuffCategory.Negative,
                 count = option.param1,
@@ -132,7 +136,7 @@ object FieldEffectOptions : ImplementationRegistry<FieldEffectOption>() {
           }
         }
         5 -> {
-          makeFieldEffectOption(option) { target, value, _ ->
+          makeFieldEffectOption(option) { _, target, value, _ ->
             target.stageEffects.adjustLevels(
                 category = BuffCategory.Positive,
                 count = option.param1,
