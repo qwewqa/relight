@@ -50,14 +50,6 @@ class StageEffectManager(val team: Team) {
   fun refreshLevels() {
     levels.keys.forEach { levels[it] = 0 }
     for (stack in activeStacks) {
-      if (stack.effect.category == BuffCategory.Positive &&
-          stack.level <= (teamEffects[Buffs.PositiveStageEffectResistanceUp]?.maxOrNull() ?: 0)) {
-        continue
-      }
-      if (stack.effect.category == BuffCategory.Negative &&
-          stack.level <= (teamEffects[Buffs.NegativeStageEffectResistanceUp]?.maxOrNull() ?: 0)) {
-        continue
-      }
       levels[stack.effect] = (levels[stack.effect] ?: 0) + stack.level
     }
   }
