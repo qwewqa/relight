@@ -4,6 +4,7 @@ import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ApDown2Buff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ApUpBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.EffectiveDamageDealtUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterApUpBuff
 
 fun Actor.activateBlessings() =
     context.targetSelf().act {
@@ -27,8 +28,10 @@ fun Actor.activateBlessings() =
       }
       buffs.consumeOnce(Buffs.BlessingApDown2) { _ -> applyContinuousBuff(ApDown2Buff, 0, 1) }
       buffs.consumeOnce(Buffs.DisasterBrillianceReductionBuff) { value -> removeBrilliance(value) }
+      buffs.consumeOnce(Buffs.GreaterDisasterBrillianceReductionBuff) { value -> removeBrilliance(value) }
       buffs.consumeOnce(Buffs.DisasterDaze) { value ->
         applyCountableBuff(Buffs.DazeBuff, count = value.toInt())
       }
       buffs.consumeOnce(Buffs.DisasterApUpBuff) { _ -> applyContinuousBuff(ApUpBuff, 0, 1) }
+      buffs.consumeOnce(Buffs.GreaterDisasterGreaterApUpBuff) { _ -> applyContinuousBuff(GreaterApUpBuff, 0, 1) }
     }

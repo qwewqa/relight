@@ -81,8 +81,10 @@ class Actor(
 
   var hp = 1.i54
     private set
+
   var brilliance = 0.i54
     private set
+
   val buffs = BuffManager(this)
   val mod = Modifiers(this)
 
@@ -128,6 +130,7 @@ class Actor(
 
   val cutinInitialCooldownReduction
     get() = cutinInitialCooldownReductionPool.maxOrNull() ?: 0.i54
+
   val cutinCostReduction
     get() = cutinCostReductionPool.maxOrNull() ?: 0.i54
 
@@ -140,6 +143,7 @@ class Actor(
 
   var inCX = false
     private set
+
   var inCXAct: Boolean = false
 
   val isAlive
@@ -197,11 +201,13 @@ class Actor(
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by nightmare." }
         return
       }
-      if ((StunBuff in buffs || GreaterStunBuff in buffs) && context.stage.random.nextDouble() < 0.5) {
+      if ((StunBuff in buffs || GreaterStunBuff in buffs) &&
+          context.stage.random.nextDouble() < 0.5) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by stun." }
         return
       }
-      if ((LovesicknessBuff in buffs || GreaterLovesicknessBuff in buffs) && context.stage.random.nextDouble() < 0.5) {
+      if ((LovesicknessBuff in buffs || GreaterLovesicknessBuff in buffs) &&
+          context.stage.random.nextDouble() < 0.5) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) {
           "Act prevented by lovesickness."
         }
@@ -325,7 +331,8 @@ class Actor(
             }
             return@run
           }
-          if (self.buffs.tryRemove(Buffs.InvincibleRebirthBuff) || self.buffs.tryRemove(Buffs.GreaterInvincibleRebirthBuff)) {
+          if (self.buffs.tryRemove(Buffs.InvincibleRebirthBuff) ||
+              self.buffs.tryRemove(Buffs.GreaterInvincibleRebirthBuff)) {
             self.hp = self.maxHp
             context.log("Damage", category = LogCategory.DAMAGE) {
               "Invincible Rebirth activate (newHp: ${self.maxHp})."
@@ -363,12 +370,15 @@ class Actor(
           self.addBrilliance(amount * 70 / self.maxHp)
           self.buffs.removeAll(FreezeBuff)
           self.buffs.removeAll(GreaterFreezeBuff)
-          self.buffs.tryRemove(Buffs.WeakSpotBuff)
-          if ((SleepBuff in self.buffs || GreaterSleepBuff in self.buffs) && stage.random.nextDouble() > 0.2) {
+          self.buffs.tryRemove(Buffs.WeakSpotBuff) ||
+              self.buffs.tryRemove(Buffs.GreaterWeakSpotBuff)
+          if ((SleepBuff in self.buffs || GreaterSleepBuff in self.buffs) &&
+              stage.random.nextDouble() > 0.2) {
             self.buffs.removeAll(SleepBuff)
             self.buffs.removeAll(GreaterSleepBuff) // TODO: probably not right but who cares
           }
-          if ((NightmareBuff in self.buffs || GreaterNightmareBuff in self.buffs) && stage.random.nextDouble() > 0.2) {
+          if ((NightmareBuff in self.buffs || GreaterNightmareBuff in self.buffs) &&
+              stage.random.nextDouble() > 0.2) {
             self.buffs.removeAll(NightmareBuff)
             self.buffs.removeAll(GreaterNightmareBuff) // TODO: probably not right but who cares
           }

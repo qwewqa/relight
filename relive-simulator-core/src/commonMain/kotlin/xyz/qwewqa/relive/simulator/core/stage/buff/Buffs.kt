@@ -754,7 +754,6 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val EventBossDamageReductionBuff =
       +buffData(119).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
-  // Not Implemented
   val SealAct1Buff = +buffData(120).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
   val SealAct2Buff = +buffData(121).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
   val SealAct3Buff = +buffData(122).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
@@ -1849,6 +1848,24 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val GreaterSealAct2Buff = +buffData(1090).makeGreaterVariantOf(SealAct2Buff)
 
   val GreaterContractionBuff = +buffData(1091).makeGreaterVariantOf(ContractionBuff)
+
+  val GreaterDisasterBrillianceReductionBuff =
+      +buffData(1092).makeGreaterVariantOf(DisasterBrillianceReductionBuff)
+
+  val GreaterDisasterGreaterApUpBuff =
+      +buffData(1093).makeGreaterVariantOf(DisasterApUpBuff)
+
+  val GreaterSealAct1Buff = +buffData(1094).makeGreaterVariantOf(SealAct1Buff)
+
+  val GreaterCheerBuff = +buffData(1095).makeGreaterVariantOf(CheerBuff)
+
+  // Mind the swapped id order
+  val GreaterDamageDownBuff = +buffData(1097).makeGreaterVariantOf(DamageDealtDownBuff)
+
+  val GreaterDamageDownResistanceUpBuff =
+      +buffData(1096).makeSpecificResistanceUpBuff(GreaterDamageDownBuff)
+
+  val GreaterWeakSpotBuff = +buffData(1098).makeGreaterVariantOf(WeakSpotBuff)
 
   val abnormalBuffs =
       platformSetOf(

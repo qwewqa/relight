@@ -17,6 +17,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FortitudeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterEvasionBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFortitudeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterReviveBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterWeakSpotBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.InvincibleRebirthBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ReviveBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.WeakSpotBuff
@@ -1618,6 +1619,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         convert(GreaterFortitudeBuff, GreaterReviveBuff, value)
       }
 
+  val ConversionGreaterFortitudeGreaterWeakSpot =
+      +skillOptionData(623).makeSkillOption { value, _ ->
+        convert(GreaterFortitudeBuff, GreaterWeakSpotBuff, value)
+      }
+
   val GreaterBurn = +skillOptionData(10010).applyEffect()
   val GreaterConfusion = +skillOptionData(10020).applyEffect()
   val GreaterBlindness = +skillOptionData(10030).applyEffect()
@@ -1725,7 +1731,14 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterMiraculousRecovery = +skillOptionData(10350).applyEffect()
   val GreaterImpudenceResistanceUp = +skillOptionData(10351).applyEffect()
   val GreaterSealAct2 = +skillOptionData(10352).applyEffect()
-  val GreaterContract = +skillOptionData(10353).applyEffect()
+  val GreaterContraction = +skillOptionData(10353).applyEffect()
+  val GreaterDisasterBrillianceReduction = +skillOptionData(10354).applyEffect()
+  val GreaterDisasterGreaterApUp = +skillOptionData(10355).applyEffect()
+  val GreaterSealAct1 = +skillOptionData(10356).applyEffect()
+  val GreaterCheer = +skillOptionData(10357).applyEffect()
+  val GreaterDamageDownResistanceUp = +skillOptionData(10358).applyEffect()
+  val GreaterDamageDown = +skillOptionData(10359).applyEffect()
+  val GreaterWeakSpot = +skillOptionData(10360).applyEffect()
 
   // TODO: figure out if these affect base
 
@@ -1835,4 +1848,10 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
       +skillOptionData(20018)
           .copy(params = listOf(Buffs.GreaterImpudenceBuff.id!!))
           .removeAllCountable()
+
+  val GreaterDispelLovesicknessResistanceUp =
+      +skillOptionData(20019)
+          .removeContinuousEffects(
+              Buffs.GreaterLovesicknessResistanceUpBuff,
+          )
 }

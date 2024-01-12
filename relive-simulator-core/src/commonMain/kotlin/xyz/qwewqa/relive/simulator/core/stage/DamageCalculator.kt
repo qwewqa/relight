@@ -69,14 +69,17 @@ open class RandomDamageCalculator : DamageCalculator {
         }
         if (target.buffs.tryRemove(Buffs.EvasionBuff) ||
             target.buffs.tryRemove(Buffs.GreaterEvasionBuff)) {
-          if (PerfectAimBuff !in self.buffs && GreaterPerfectAimBuff !in self.buffs && !hitAttribute.focus) {
+          if (PerfectAimBuff !in self.buffs &&
+              GreaterPerfectAimBuff !in self.buffs &&
+              !hitAttribute.focus) {
             log("Hit", category = LogCategory.DAMAGE) {
               "Miss against [${target.name}] from Evade."
             }
             return@run
           }
         }
-        if (PerfectAimBuff in self.buffs || GreaterPerfectAimBuff in self.buffs ||
+        if (PerfectAimBuff in self.buffs ||
+            GreaterPerfectAimBuff in self.buffs ||
             hitAttribute.focus ||
             stage.random.nextDouble() < result.hitChance) {
           val n = if (result.variance) stage.random.nextInt(-8, 9) else 0
@@ -172,7 +175,8 @@ open class RandomDamageCalculator : DamageCalculator {
             (if (BlindnessBuff in attacker.buffs || GreaterBlindnessBuff in attacker.buffs) 0.3
             else 1.0)
 
-    if ((InvincibilityBuff in target.buffs || GreaterInvincibilityBuff in target.buffs) && !hitAttribute.focus) {
+    if ((InvincibilityBuff in target.buffs || GreaterInvincibilityBuff in target.buffs) &&
+        !hitAttribute.focus) {
       // Critical chance isn't actually 0 against invincible targets, but
       // it doesn't matter, so we'll skip calculating it.
       return DamageResult(0.i54, 0.i54, 0.0, acc / 100.0, false)
@@ -193,7 +197,11 @@ open class RandomDamageCalculator : DamageCalculator {
     } else {
       var atk = attacker.mod { actPower }
       if (attacker.inCX) atk = atk * 110 / 100
-      val cheerCoef = 100 + (attacker.buffs.getNext(Buffs.CheerBuff) ?: 0.i54)
+      val cheerCoef =
+          100 +
+              (attacker.buffs.getNext(Buffs.CheerBuff)
+                  ?: attacker.buffs.getNext(Buffs.GreaterCheerBuff)
+                  ?: 0.i54)
       val modifier =
           (hitAttribute.modifier.toI54() +
               if (attacker.inCX) attacker.mod { +Modifier.ClimaxDamageFixedUp } else 0.i54) ptmul
@@ -237,7 +245,8 @@ open class RandomDamageCalculator : DamageCalculator {
 
     // tentative
     var dmgTakenCoef = 100 + target.mod { +damageReceivedModifier(attacker) }
-    if (Buffs.WeakSpotBuff in target.buffs) dmgTakenCoef += 60.i54
+    if (Buffs.WeakSpotBuff in target.buffs || Buffs.GreaterWeakSpotBuff in target.buffs)
+        dmgTakenCoef += 60.i54
 
     val attributeDamageDealtUpCoef = 100 + (attacker.attributeDamageDealtUp[attribute] ?: 0.i54)
     val againstAttributeDamageDealtUpCoef =
