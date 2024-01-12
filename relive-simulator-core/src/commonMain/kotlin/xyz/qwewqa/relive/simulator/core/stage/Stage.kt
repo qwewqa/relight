@@ -78,15 +78,19 @@ class Stage(
         val allActors =
             player.actors.values + enemy.actors.values + listOfNotNull(player.guest, enemy.guest)
 
-        AutoSkillType.values().forEach { category ->
+        val enableTacticsSkills = allActors.any { !it.isSupport && it.dress.blueprint?.leaderSkill != null }
+        for (category in AutoSkillType.entries) {
+          if (category == AutoSkillType.Tactics && !enableTacticsSkills) {
+            continue
+          }
           allActors
               .shuffled(random)
               .sortedByDescending { it.mod { +agility } }
               .forEach { actor ->
-                actor.context.log("AutoSkill") { "${category.name} autoskills activate." }
-                actor.autoskills
-                    .filter { it.type == category }
-                    .forEach { skill -> skill.execute(actor.context) }
+                    actor.context.log("AutoSkill") { "${category.name} autoskills activate." }
+                    actor.autoskills
+                        .filter { it.type == category }
+                        .forEach { skill -> skill.execute(actor.context) }
               }
         }
 
