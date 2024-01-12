@@ -279,6 +279,16 @@ object DressCategory {
           3020022,
           4050022,
           2040024,
+          4100004,
+          2010024,
+          4010021,
+          5030009,
+      )
+
+  val Birthday2024 =
+      platformSetOf(
+          1020032,
+          3040032,
       )
 
   val Movie =
