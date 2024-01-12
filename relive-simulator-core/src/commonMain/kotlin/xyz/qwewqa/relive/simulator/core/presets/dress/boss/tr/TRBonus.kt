@@ -130,7 +130,7 @@ object SuperBossPassiveTR38Diff4 : PassiveEffect {
       context.run {
         self.buffs.activatePsuedoBuff(Buffs.ExcludingGreaterInsanityResistanceUpBuff, 100.i54)
         self.buffs.activatePsuedoBuff(Buffs.DamageReceivedDownBuff, 99.i54)
-        self.buffs.activatePsuedoBuff(Buffs.CriticalDamageReceivedDownBuff, 50.i54)
+        self.buffs.activatePsuedoBuff(Buffs.CriticalDamageReceivedDownBuff, 90.i54)
         BossElementResistPassive.activate(this, 50, 0) { true }
 
         enemy.actors.values.forEach {
