@@ -1280,3 +1280,9 @@
 # v1.8.6
 - TR38 bosses added by Savivo
 - Added new girls and memoirs
+
+# v1.8.7
+- Updated TR38 crit dmg taken reduction
+- Tactics skills are now disabled when only present on supports
+- Updated TR bonuses
+- Added new girls and memoirs
