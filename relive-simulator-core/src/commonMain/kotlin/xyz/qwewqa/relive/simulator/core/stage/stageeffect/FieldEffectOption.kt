@@ -98,6 +98,7 @@ object FieldEffectOptions : ImplementationRegistry<FieldEffectOption>() {
           makeFieldEffectOption(option) { context, target, value, time ->
             if (Buffs.SealStageEffectBuff in context.self.buffs ||
                 Buffs.GreaterSealStageEffectBuff in context.self.buffs) {
+              context.log("Buff") { "Stage effect action blocked by seal." }
               return@makeFieldEffectOption
             }
             target.stageEffects.add(
