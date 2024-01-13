@@ -1286,3 +1286,7 @@
 - Tactics skills are now disabled when only present on supports
 - Updated TR bonuses
 - Added new girls and memoirs
+
+# v1.8.8
+- Fixed TR bonuses on new girls
+- Stage effect seal taking effect is now logged
