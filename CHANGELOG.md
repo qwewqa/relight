@@ -1290,3 +1290,7 @@
 # v1.8.8
 - Fixed TR bonuses on new girls
 - Stage effect seal taking effect is now logged
+
+# v1.8.9
+- TR39 bosses added by Savivo
+- Added new girls and memoirs
