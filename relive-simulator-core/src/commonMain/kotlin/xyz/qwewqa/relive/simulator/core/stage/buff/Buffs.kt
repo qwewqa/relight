@@ -100,7 +100,9 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
       locked: Boolean = false,
   ) =
       makeSimpleContinuousBuffEffect(
-          category = BuffCategory.Positive,
+          category =
+              if (buffs.all { it.category == BuffCategory.Positive }) BuffCategory.Negative
+              else BuffCategory.Positive,
           locked = locked,
           isResistance = true,
           onStart = { value ->
@@ -1834,13 +1836,13 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   // 1085: ?
 
   val GreaterCombinedResistanceUpStunLovesicknessBuff =
-      +buffData(1086)
-          .makeMultipleResistanceUpBuff(listOf(GreaterStunBuff, GreaterLovesicknessBuff))
+      +buffData(1086).makeMultipleResistanceUpBuff(listOf(GreaterStunBuff, GreaterLovesicknessBuff))
 
   val GreaterApUp2Buff = +buffData(1087).makeGreaterVariantOf(ApUp2Buff)
 
   // Disabled in PvE
-  val GreaterMiraculousRecoveryBuff = +buffData(1088).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+  val GreaterMiraculousRecoveryBuff =
+      +buffData(1088).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
   val GreaterImpudenceResistanceUpBuff =
       +buffData(1089).makeSpecificResistanceUpBuff(GreaterImpudenceBuff)
@@ -1852,8 +1854,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val GreaterDisasterBrillianceReductionBuff =
       +buffData(1092).makeGreaterVariantOf(DisasterBrillianceReductionBuff)
 
-  val GreaterDisasterGreaterApUpBuff =
-      +buffData(1093).makeGreaterVariantOf(DisasterApUpBuff)
+  val GreaterDisasterGreaterApUpBuff = +buffData(1093).makeGreaterVariantOf(DisasterApUpBuff)
 
   val GreaterSealAct1Buff = +buffData(1094).makeGreaterVariantOf(SealAct1Buff)
 
@@ -1866,6 +1867,29 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
       +buffData(1096).makeSpecificResistanceUpBuff(GreaterDamageDownBuff)
 
   val GreaterWeakSpotBuff = +buffData(1098).makeGreaterVariantOf(WeakSpotBuff)
+
+  val GreaterDazeBuff = +buffData(1099).makeGreaterVariantOf(DazeBuff)
+
+  val GreaterSealCAResistanceUpBuff =
+      +buffData(1100).makeSpecificResistanceUpBuff(GreaterSealCABuff)
+
+  val GreaterActBoostGreaterDazeBuff =
+      +buffData(1101).makeCountableBuffEffect(BuffCategory.Positive)
+
+  val GreaterCombinedResistanceUpSealStageEffectApUpBuff =
+      +buffData(1102)
+          .makeMultipleResistanceUpBuff(listOf(GreaterSealStageEffectBuff, GreaterApUpBuff))
+
+  val HinderGreaterApDownBuff =
+      +buffData(1103).makeMultipleResistanceUpBuff(listOf(GreaterApDownBuff))
+
+  // TODO: Implement enhancement
+
+  val PoisonEnhancementApUp2Buff =
+      +buffData(10001).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val PoisonEnhancementMarkBuff =
+      +buffData(10002).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
 
   val abnormalBuffs =
       platformSetOf(

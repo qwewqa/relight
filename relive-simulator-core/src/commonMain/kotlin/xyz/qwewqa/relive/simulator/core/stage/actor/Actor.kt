@@ -230,7 +230,7 @@ class Actor(
         Act { targetRandom().act { heal(percent = 20) } }.execute(context)
         return
       }
-      if (Buffs.DazeBuff in buffs) {
+      if (Buffs.DazeBuff in buffs || Buffs.GreaterDazeBuff in buffs) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by daze." }
         Act {
               targetAllyRandom().act {
@@ -292,7 +292,7 @@ class Actor(
       act.execute(context)
     } finally {
       if (context.actionLog.successfulHits > startLog.successfulHits) {
-        buffs.tryRemove(Buffs.DazeBuff) || buffs.tryRemove(Buffs.GreaterInsanityBuff)
+        buffs.tryRemove(Buffs.DazeBuff) || buffs.tryRemove(Buffs.GreaterDazeBuff) || buffs.tryRemove(Buffs.GreaterInsanityBuff)
       }
       context.actionLog.consumeCountableBuffs.forEach { buffs.tryRemove(it) }
     }

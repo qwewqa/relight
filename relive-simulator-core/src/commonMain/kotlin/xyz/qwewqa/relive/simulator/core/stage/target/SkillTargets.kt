@@ -1793,6 +1793,34 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
       +getSkillTargetData(4200).makeEnemyTargetAoe {
         it.dress.character.school == School.Seisho && it.dress.attribute == Attribute.Dream
       }
+  val enemyFrontierFlower =
+      +getSkillTargetData(4201).makeEnemyTargetAoe {
+        it.dress.character.school == School.Frontier && it.dress.attribute == Attribute.Flower
+      }
+  val enemyFrontierWind =
+      +getSkillTargetData(4202).makeEnemyTargetAoe {
+        it.dress.character.school == School.Frontier && it.dress.attribute == Attribute.Wind
+      }
+  val enemyFrontierSnow =
+      +getSkillTargetData(4203).makeEnemyTargetAoe {
+        it.dress.character.school == School.Frontier && it.dress.attribute == Attribute.Snow
+      }
+  val enemyFrontierMoon =
+      +getSkillTargetData(4204).makeEnemyTargetAoe {
+        it.dress.character.school == School.Frontier && it.dress.attribute == Attribute.Moon
+      }
+  val enemyFrontierSpace =
+      +getSkillTargetData(4205).makeEnemyTargetAoe {
+        it.dress.character.school == School.Frontier && it.dress.attribute == Attribute.Space
+      }
+  val enemyFrontierCloud =
+      +getSkillTargetData(4206).makeEnemyTargetAoe {
+        it.dress.character.school == School.Frontier && it.dress.attribute == Attribute.Cloud
+      }
+  val enemyFrontierDream =
+      +getSkillTargetData(4207).makeEnemyTargetAoe {
+        it.dress.character.school == School.Frontier && it.dress.attribute == Attribute.Dream
+      }
 
   // Handled specially
   val randomAllyPerHit = +getSkillTargetData(5001).makeAllyTargetAoe()

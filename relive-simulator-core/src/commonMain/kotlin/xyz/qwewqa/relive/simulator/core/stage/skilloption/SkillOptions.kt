@@ -1739,6 +1739,13 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterDamageDownResistanceUp = +skillOptionData(10358).applyEffect()
   val GreaterDamageDown = +skillOptionData(10359).applyEffect()
   val GreaterWeakSpot = +skillOptionData(10360).applyEffect()
+  val GreaterDaze = +skillOptionData(10361).applyEffect()
+  val GreaterSealClimaxAct = +skillOptionData(10362).applyEffect()
+  val GreaterActBoostGreaterDaze = +skillOptionData(10363).applyEffect()
+  val GreaterCombinedResistanceUpSealStageEffectApUp = +skillOptionData(10364).applyEffect()
+  val GreaterPoisonEnhancementApUp2 = +skillOptionData(10365).applyEffect()
+  val GreaterPoisonEnhancementMark = +skillOptionData(10366).applyEffect()
+  val GreaterHinderGreaterApDown = +skillOptionData(10367).applyEffect()
 
   // TODO: figure out if these affect base
 
