@@ -1883,13 +1883,53 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val HinderGreaterApDownBuff =
       +buffData(1103).makeMultipleResistanceUpBuff(listOf(GreaterApDownBuff))
 
+  val GreaterDazeResistanceUpBuff = +buffData(1104).makeSpecificResistanceUpBuff(GreaterDazeBuff)
+
+  val GreaterDamageDealtUpBuff = +buffData(1105).makeGreaterVariantOf(DamageDealtUpBuff)
+
+  val GreaterCombinedResistanceSealAct2SealAct3SealCABuff =
+      +buffData(1106)
+          .makeMultipleResistanceUpBuff(
+              listOf(GreaterSealAct2Buff, GreaterSealAct3Buff, GreaterSealCABuff, GreaterSealCABuff))
+
+  // TODO: Implement
+  val GreaterSlumpBuff = +buffData(1107).makeCountableBuffEffect(BuffCategory.Negative)
+  val GreaterFallingOutGreaterDazeBuff = +buffData(1108).makeGreaterVariantOf(FallingOutDaze)
+
+  val GreaterCountableNegativeEffectResistanceUpBuff =
+      +buffData(1109)
+          .makeModifierContinuousBuffEffect(
+              modifier = Modifier.GreaterNegativeCountableEffectResistanceUp,
+              category = BuffCategory.Positive,
+          )
+
+  val GreaterActBoostGreaterImpudenceBuff =
+      +buffData(1110).makeCountableBuffEffect(BuffCategory.Positive)
+
+  val GreaterApUp3Buff = +buffData(1111).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
   // TODO: Implement enhancement
 
-  val PoisonEnhancementApUp2Buff =
+  val GreaterPoisonEnhancementApUp2Buff =
       +buffData(10001).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
 
-  val PoisonEnhancementMarkBuff =
+  val GreaterPoisonEnhancementMarkBuff =
       +buffData(10002).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterPoisonEnhancementSealStageEffectBuff =
+      +buffData(10003).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterPoisonEnhancementApUpBuff =
+      +buffData(10004).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterPoisonEnhancementSealAct3Buff =
+      +buffData(10005).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterPoisonEnhancementBrillianceRecoveryReductionBuff =
+      +buffData(10006).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterPoisonEnhancementBrillianceRecoveryReductionBuff2 =
+      +buffData(10007).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
 
   val abnormalBuffs =
       platformSetOf(
@@ -1961,6 +2001,7 @@ inline val Modifiers.apChange: Int
             }
         val increase =
             when {
+              Buffs.GreaterApUp3Buff in this -> 3
               Buffs.ApUp2Buff in this || Buffs.GreaterApUp2Buff in this -> 2
               Buffs.ApUpBuff in this || Buffs.GreaterApUpBuff in this -> 1
               else -> 0

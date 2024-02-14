@@ -228,6 +228,7 @@ class TargetContext(
     val impudenceBoost = self.buffs.tryRemove(Buffs.ActBoostImpudenceBuff)
     val dazeBoost = self.buffs.tryRemove(Buffs.ActBoostDazeBuff)
     val greaterDazeBoost = self.buffs.tryRemove(Buffs.GreaterActBoostGreaterDazeBuff)
+    val greaterImpudenceBoost = self.buffs.tryRemove(Buffs.GreaterActBoostGreaterImpudenceBuff)
     repeat(hitCount) { hitIndex ->
       val isLastHit = hitIndex == hitCount - 1
       for (originalTarget in originalTargets) {
@@ -249,6 +250,9 @@ class TargetContext(
               }
               if (greaterDazeBoost) {
                 applyBuff(Buffs.GreaterDazeBuff, time = 1)
+              }
+              if (greaterImpudenceBoost) {
+                applyBuff(Buffs.GreaterImpudenceBuff, time = 1)
               }
             }
           }

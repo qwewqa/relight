@@ -1624,6 +1624,81 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         convert(GreaterFortitudeBuff, GreaterWeakSpotBuff, value)
       }
 
+  val HitRandom33GreaterDazeSeishoBoost =
+      +skillOptionData(624).makeSkillOption { value, time, _, attribute ->
+        attackWithDebuff(
+            modifier = value,
+            hitCount = time,
+            attribute = attribute,
+            bonusMultiplier = 150,
+            bonusCondition = { it.dress.character.school == School.Seisho },
+            effect = Buffs.GreaterDazeBuff,
+            value = 0,
+            time = 1,
+            chance = 33,
+        )
+      }
+
+  val HitRandom33GreaterDazeRinmeikanBoost =
+      +skillOptionData(625).makeSkillOption { value, time, _, attribute ->
+        attackWithDebuff(
+            modifier = value,
+            hitCount = time,
+            attribute = attribute,
+            bonusMultiplier = 150,
+            bonusCondition = { it.dress.character.school == School.Rinmeikan },
+            effect = Buffs.GreaterDazeBuff,
+            value = 0,
+            time = 1,
+            chance = 33,
+        )
+      }
+
+  val HitRandom33GreaterDazeFrontierBoost =
+      +skillOptionData(626).makeSkillOption { value, time, _, attribute ->
+        attackWithDebuff(
+            modifier = value,
+            hitCount = time,
+            attribute = attribute,
+            bonusMultiplier = 150,
+            bonusCondition = { it.dress.character.school == School.Frontier },
+            effect = Buffs.GreaterDazeBuff,
+            value = 0,
+            time = 1,
+            chance = 33,
+        )
+      }
+
+  val HitRandom33GreaterDazeSiegfeldBoost =
+      +skillOptionData(627).makeSkillOption { value, time, _, attribute ->
+        attackWithDebuff(
+            modifier = value,
+            hitCount = time,
+            attribute = attribute,
+            bonusMultiplier = 150,
+            bonusCondition = { it.dress.character.school == School.Siegfeld },
+            effect = Buffs.GreaterDazeBuff,
+            value = 0,
+            time = 1,
+            chance = 33,
+        )
+      }
+
+  val HitRandom33GreaterDazeSeiranBoost =
+      +skillOptionData(628).makeSkillOption { value, time, _, attribute ->
+        attackWithDebuff(
+            modifier = value,
+            hitCount = time,
+            attribute = attribute,
+            bonusMultiplier = 150,
+            bonusCondition = { it.dress.character.school == School.Seiran },
+            effect = Buffs.GreaterDazeBuff,
+            value = 0,
+            time = 1,
+            chance = 33,
+        )
+      }
+
   val GreaterBurn = +skillOptionData(10010).applyEffect()
   val GreaterConfusion = +skillOptionData(10020).applyEffect()
   val GreaterBlindness = +skillOptionData(10030).applyEffect()
@@ -1746,6 +1821,19 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterPoisonEnhancementApUp2 = +skillOptionData(10365).applyEffect()
   val GreaterPoisonEnhancementMark = +skillOptionData(10366).applyEffect()
   val GreaterHinderGreaterApDown = +skillOptionData(10367).applyEffect()
+  val GreaterPoisonEnhancementSealStageEffect = +skillOptionData(10368).applyEffect()
+  val GreaterPoisonEnhancementApUp = +skillOptionData(10369).applyEffect()
+  val GreaterPoisonEnhancementSealAct3 = +skillOptionData(10370).applyEffect()
+  val GreaterDazeResistanceUp = +skillOptionData(10371).applyEffect()
+  val GreaterDamageDealtUp = +skillOptionData(10372).applyEffect()
+  val GreaterCombinedResistanceUpSealAct2SealAct3SealCA = +skillOptionData(10373).applyEffect()
+  val GreaterSlump = +skillOptionData(10374).applyEffect()
+  val GreaterFallingOutGreaterDaze = +skillOptionData(10375).applyEffect()
+  val GreaterCountableNegativeEffectsResistanceUp = +skillOptionData(10376).applyEffect()
+  val GreaterPoisonEnhancementBrillianceRecoveryReduction = +skillOptionData(10377).applyEffect()
+  val GreaterActBoostGreaterImpudence = +skillOptionData(10378).applyEffect()
+  val GreaterApUp3 = +skillOptionData(10379).applyEffect()
+  val GreaterPoisonEnhancementBrillianceRecoveryReduction2 = +skillOptionData(10380).applyEffect()
 
   // TODO: figure out if these affect base
 
@@ -1860,5 +1948,15 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
       +skillOptionData(20019)
           .removeContinuousEffects(
               Buffs.GreaterLovesicknessResistanceUpBuff,
+          )
+
+  val GreaterDispelDaze =
+      +skillOptionData(20020)
+          .removeAllCountable()
+
+  val GreaterDispelApDown2 =
+      +skillOptionData(20021)
+          .removeContinuousEffects(
+              Buffs.GreaterApDown2Buff,
           )
 }
