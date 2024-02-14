@@ -1294,3 +1294,6 @@
 # v1.8.9
 - TR39 bosses added by Savivo
 - Added new girls and memoirs
+
+# v1.8.10
+- Added new girls and memoirs
