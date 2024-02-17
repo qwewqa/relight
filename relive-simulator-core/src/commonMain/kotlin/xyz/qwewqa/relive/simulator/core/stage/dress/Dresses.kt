@@ -18,6 +18,7 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.PassiveSkillGroups
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.StartSkillGroups
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.TacticsSkillGroups
 import xyz.qwewqa.relive.simulator.core.stage.autoskill.UnitSkills
+import xyz.qwewqa.relive.simulator.core.stage.emptyPlatformMap
 
 const val DRESS_AUTO_SKILL_LEVEL = 1
 
@@ -235,6 +236,10 @@ fun characterFromId(id: Int) =
       901 -> Character.Sakura
       902 -> Character.Erika
       903 -> Character.Gemie
+      904 -> Character.Sherlock
+      905 -> Character.Nero
+      906 -> Character.Hercule
+      907 -> Character.Cordelia
       else -> null
     }
 

@@ -48,6 +48,10 @@ enum class Character(val id: Int? = null, val school: School) {
   Sakura(id = 901, school = School.None),
   Erika(id = 902, school = School.None),
   Gemie(id = 903, school = School.None),
+  Sherlock(id = 904, school = School.None),
+  Nero(id = 905, school = School.None),
+  Hercule(id = 906, school = School.None),
+  Cordelia(id = 907, school = School.None),
   ;
 
   val names: Map<String, String>
@@ -64,7 +68,7 @@ enum class Character(val id: Int? = null, val school: School) {
   }
 
   companion object {
-    private val byId = values().associateBy { it.id }
+    private val byId = entries.associateBy { it.id }
     fun fromId(id: Int) = byId[id] ?: Unknown
   }
 }

@@ -327,6 +327,10 @@ object DressCategory {
           3050016,
           3010021,
           1010026,
+          1020034,
+          9060001,
+          9070001,
+          9050001,
       )
 
   val StageGirlsCollection =
