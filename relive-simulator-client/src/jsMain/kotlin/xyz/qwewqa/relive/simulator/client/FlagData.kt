@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.client
 
+import kotlin.random.Random
 import kotlinx.browser.document
 import kotlinx.dom.clear
 import kotlinx.html.dom.append
@@ -11,7 +12,6 @@ import kotlinx.html.js.figure
 import kotlinx.html.span
 import kotlinx.html.style
 import org.w3c.dom.HTMLDivElement
-import kotlin.random.Random
 
 data class ArtistInfo(
     val name: String,
@@ -37,7 +37,7 @@ enum class FlagCharacterGroup(val color: String) {
 enum class FlagCharacter(val group: FlagCharacterGroup) {
   Kirin(FlagCharacterGroup.Misc),
   Andrew(FlagCharacterGroup.Misc),
-  Ellen(FlagCharacterGroup.Misc),
+  Elle(FlagCharacterGroup.Misc),
   Amemiya(FlagCharacterGroup.Misc),
   Masai(FlagCharacterGroup.Misc),
   Karen(FlagCharacterGroup.Seisho),
@@ -81,8 +81,10 @@ data class FlagInfo(
     val weight: Double = 1.0,
 ) {
 
-  val smallUrl = "https://relight.qwewqa.xyz/img/flags/${artist.id}_${character.name.lowercase()}_${name}_sm.png"
-  val largeUrl = "https://relight.qwewqa.xyz/img/flags/${artist.id}_${character.name.lowercase()}_${name}.png"
+  val smallUrl =
+      "https://relight.qwewqa.xyz/img/flags/${artist.id}_${character.name.lowercase()}_${name}_sm.png"
+  val largeUrl =
+      "https://relight.qwewqa.xyz/img/flags/${artist.id}_${character.name.lowercase()}_${name}.png"
 }
 
 object FlagData {
@@ -90,6 +92,7 @@ object FlagData {
   val flags = mutableListOf<FlagInfo>()
 
   operator fun ArtistInfo.unaryPlus() = this.also { artists.add(it) }
+
   operator fun FlagInfo.unaryPlus() = this.also { flags.add(it) }
 
   val anonymous =
@@ -139,6 +142,13 @@ object FlagData {
           twitterId = "1223276551023685633",
       )
 
+  val mono =
+      +ArtistInfo(
+          name = "Mono",
+          twitter = "monospeaks",
+          twitterId = "963457131809828864",
+      )
+
   val pris =
       +ArtistInfo(
           name = "Pris",
@@ -171,26 +181,54 @@ object FlagData {
           twitterId = "1515186747834978304",
       )
 
-    val kekkersKirinAssorted =
-        +FlagInfo(
-            artist = kekkers,
-            character = FlagCharacter.Kirin,
-            name = "assorted",
-        )
+  val kekkersKirinAssorted =
+      +FlagInfo(
+          artist = kekkers,
+          character = FlagCharacter.Kirin,
+          name = "assorted",
+      )
 
-    val prisAmemiyaSgAce =
-        +FlagInfo(
-            artist = pris,
-            character = FlagCharacter.Amemiya,
-            name = "sg_ace",
-        )
+  val huiyuanAndrewDefaultMlm =
+      +FlagInfo(
+          artist = huiyuan,
+          character = FlagCharacter.Andrew,
+          name = "default_mlm",
+      )
 
-    val prisMasaiSgAro =
-        +FlagInfo(
-            artist = pris,
-            character = FlagCharacter.Masai,
-            name = "sg_aro",
-        )
+  val vaniElleDefaultPride =
+      +FlagInfo(
+          artist = vani,
+          character = FlagCharacter.Elle,
+          name = "default_pride",
+      )
+
+  val prisAmemiyaSgAce =
+      +FlagInfo(
+          artist = pris,
+          character = FlagCharacter.Amemiya,
+          name = "sg_ace",
+      )
+
+  val prisMasaiSgAro =
+      +FlagInfo(
+          artist = pris,
+          character = FlagCharacter.Masai,
+          name = "sg_aro",
+      )
+
+  val monoKarenRomeoAcePan =
+      +FlagInfo(
+          artist = mono,
+          character = FlagCharacter.Karen,
+          name = "romeo_ace_pan",
+      )
+
+  val monoHikariMusketeerBiTrans =
+      +FlagInfo(
+          artist = mono,
+          character = FlagCharacter.Hikari,
+          name = "musketeer_bi_trans",
+      )
 
   val limeMahiruCupidLesbian =
       +FlagInfo(
@@ -234,6 +272,13 @@ object FlagData {
           name = "sg_bi",
       )
 
+  val huiyuanKaorukoSgBi =
+      +FlagInfo(
+          artist = huiyuan,
+          character = FlagCharacter.Kaoruko,
+          name = "sg_bi",
+      )
+
   val rmTamaoBeautifulWomanPan =
       +FlagInfo(
           artist = rm,
@@ -269,12 +314,12 @@ object FlagData {
           name = "eurydice_lesbian",
       )
 
-//  val vaniAruruAliceTrans =
-//      +FlagInfo(
-//          artist = vani,
-//          character = FlagCharacter.Aruru,
-//          name = "alice_trans",
-//      )
+  val vaniAruruAliceTrans =
+      +FlagInfo(
+          artist = vani,
+          character = FlagCharacter.Aruru,
+          name = "alice_trans",
+      )
 
   val LimeMisoraAceAce =
       +FlagInfo(
@@ -290,12 +335,19 @@ object FlagData {
           name = "hope_trans",
       )
 
-//    val cyTsukasaBenzaitenLesbian =
-//        +FlagInfo(
-//            artist = cy,
-//            character = FlagCharacter.Tsukasa,
-//            name = "benzaiten_lesbian",
-//        )
+  val cyTsukasaBenzaitenLesbian =
+      +FlagInfo(
+          artist = cy,
+          character = FlagCharacter.Tsukasa,
+          name = "benzaiten_lesbian",
+      )
+
+  val vaniShizuhaBfAce =
+      +FlagInfo(
+          artist = vani,
+          character = FlagCharacter.Shizuha,
+          name = "bf_ace",
+      )
 
   val anonymousArtemisAkiraAro =
       +FlagInfo(
