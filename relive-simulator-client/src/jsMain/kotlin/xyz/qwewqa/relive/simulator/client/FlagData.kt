@@ -5,6 +5,7 @@ import kotlinx.browser.document
 import kotlinx.dom.clear
 import kotlinx.html.dom.append
 import kotlinx.html.figcaption
+import kotlinx.html.hr
 import kotlinx.html.i
 import kotlinx.html.img
 import kotlinx.html.js.a
@@ -465,9 +466,14 @@ fun initAboutArtists() {
 
   if (ele.childElementCount > 0) return
 
+  var lastFlag: FlagInfo? = null
+
   ele.clear()
   ele.append {
     FlagData.flags.forEach { flag ->
+      if (lastFlag != null && lastFlag!!.character.group != flag.character.group) {
+        hr("art-list-hr")
+      }
       figure("art-list-figure") {
         style = "border: 2px solid ${flag.character.group.color};"
         img(classes = "art-list-img", src = flag.largeUrl)
@@ -510,6 +516,7 @@ fun initAboutArtists() {
           }
         }
       }
+      lastFlag = flag
     }
   }
 }

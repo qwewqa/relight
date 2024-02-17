@@ -1573,6 +1573,21 @@ input[type=number] {
     justify-content: center;
 }
 
+.art-list-hr {
+    display: none;
+}
+
+@media (min-width: 1400px) {
+    .art-list-hr {
+        display: block;
+        color: transparent;
+        border: none;
+        height: 0;
+        width: 100%;
+        margin: 0.8em;
+    }
+}
+
 .art-list-figure {
     flex: 0 0 min-content;
     padding: 0.2em;
