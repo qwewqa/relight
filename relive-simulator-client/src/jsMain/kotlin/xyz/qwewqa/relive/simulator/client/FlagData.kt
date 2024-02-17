@@ -385,20 +385,6 @@ object FlagData {
           name = "loki_genderfluid",
       )
 
-  val vaniRyokoCasualAgender =
-      +FlagInfo(
-          artist = vani,
-          character = FlagCharacter.Ryoko,
-          name = "casual_agender",
-      )
-
-  val kekkersMinkuCasualPan =
-      +FlagInfo(
-          artist = kekkers,
-          character = FlagCharacter.Minku,
-          name = "casual_pan",
-      )
-
   val rmStellaFsgGenderfluid =
       +FlagInfo(
           artist = rm,
@@ -411,6 +397,20 @@ object FlagData {
           artist = rm,
           character = FlagCharacter.Shiro,
           name = "fsg_trans",
+      )
+
+  val vaniRyokoCasualAgender =
+      +FlagInfo(
+          artist = vani,
+          character = FlagCharacter.Ryoko,
+          name = "casual_agender",
+      )
+
+  val kekkersMinkuCasualPan =
+      +FlagInfo(
+          artist = kekkers,
+          character = FlagCharacter.Minku,
+          name = "casual_pan",
       )
 
   val limeKuinaFsgAgenderAromantic =
