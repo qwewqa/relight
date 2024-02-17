@@ -1297,3 +1297,7 @@
 
 # v1.8.10
 - Added new girls and memoirs
+
+# v1.9.0
+- Added all flags
+- Added new Milky Holmes characters
