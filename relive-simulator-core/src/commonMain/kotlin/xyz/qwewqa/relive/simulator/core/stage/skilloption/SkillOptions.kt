@@ -1785,11 +1785,17 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val ScalingGreaterActPowerUp100Moon =
       +skillOptionData(10334).scalingGreaterActPowerUp(100) { it.dress.attribute == Attribute.Moon }
   val ScalingGreaterActPowerUp100Space =
-      +skillOptionData(10335).scalingGreaterActPowerUp(100) { it.dress.attribute == Attribute.Space }
+      +skillOptionData(10335).scalingGreaterActPowerUp(100) {
+        it.dress.attribute == Attribute.Space
+      }
   val ScalingGreaterActPowerUp100Cloud =
-      +skillOptionData(10336).scalingGreaterActPowerUp(100) { it.dress.attribute == Attribute.Cloud }
+      +skillOptionData(10336).scalingGreaterActPowerUp(100) {
+        it.dress.attribute == Attribute.Cloud
+      }
   val ScalingGreaterActPowerUp100Dream =
-      +skillOptionData(10337).scalingGreaterActPowerUp(100) { it.dress.attribute == Attribute.Dream }
+      +skillOptionData(10337).scalingGreaterActPowerUp(100) {
+        it.dress.attribute == Attribute.Dream
+      }
 
   val GreaterActPowerUp = +skillOptionData(10338).applyEffect()
   val GreaterNormalReflect = +skillOptionData(10339).applyEffect()
@@ -1834,6 +1840,13 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterActBoostGreaterImpudence = +skillOptionData(10378).applyEffect()
   val GreaterApUp3 = +skillOptionData(10379).applyEffect()
   val GreaterPoisonEnhancementBrillianceRecoveryReduction2 = +skillOptionData(10380).applyEffect()
+  val GreaterActBoostGreaterPanic = +skillOptionData(10381).applyEffect()
+  val GreaterPoisionResistanceUp = +skillOptionData(10382).applyEffect()
+  // Blank
+  val GreaterContinuousNegativeEffectsResistanceUp = +skillOptionData(10384).applyEffect()
+  val GreaterGospelOfGlory = +skillOptionData(10385).applyEffect()
+  // Blank
+  val HinderGreaterApDown2 = +skillOptionData(10387).applyEffect()
 
   // TODO: figure out if these affect base
 
@@ -1950,13 +1963,20 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
               Buffs.GreaterLovesicknessResistanceUpBuff,
           )
 
-  val GreaterDispelDaze =
-      +skillOptionData(20020)
-          .removeAllCountable()
+  val GreaterDispelDaze = +skillOptionData(20020).removeAllCountable()
 
   val GreaterDispelApDown2 =
       +skillOptionData(20021)
           .removeContinuousEffects(
               Buffs.GreaterApDown2Buff,
           )
+
+  val GreaterDispelPoisonResistanceUp =
+      +skillOptionData(20022)
+          .removeContinuousEffects(
+              Buffs.GreaterPoisonResistanceUpBuff,
+          )
+
+  val GreaterDispelContinuousNegativeEffects =
+      +skillOptionData(20023).makeSkillOption { _ -> removeContinuous(BuffCategory.Negative, 2) }
 }

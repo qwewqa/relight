@@ -1822,6 +1822,64 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
         it.dress.character.school == School.Frontier && it.dress.attribute == Attribute.Dream
       }
 
+  val EnemyRinmeikanFlower =
+      +getSkillTargetData(4208).makeEnemyTargetAoe {
+        it.dress.character.school == School.Rinmeikan && it.dress.attribute == Attribute.Flower
+      }
+  val EnemyRinmeikanWind =
+      +getSkillTargetData(4209).makeEnemyTargetAoe {
+        it.dress.character.school == School.Rinmeikan && it.dress.attribute == Attribute.Wind
+      }
+  val EnemyRinmeikanSnow =
+      +getSkillTargetData(4210).makeEnemyTargetAoe {
+        it.dress.character.school == School.Rinmeikan && it.dress.attribute == Attribute.Snow
+      }
+  val EnemyRinmeikanMoon =
+      +getSkillTargetData(4211).makeEnemyTargetAoe {
+        it.dress.character.school == School.Rinmeikan && it.dress.attribute == Attribute.Moon
+      }
+  val EnemyRinmeikanSpace =
+      +getSkillTargetData(4212).makeEnemyTargetAoe {
+        it.dress.character.school == School.Rinmeikan && it.dress.attribute == Attribute.Space
+      }
+  val EnemyRinmeikanCloud =
+      +getSkillTargetData(4213).makeEnemyTargetAoe {
+        it.dress.character.school == School.Rinmeikan && it.dress.attribute == Attribute.Cloud
+      }
+  val EnemyRinmeikanDream =
+      +getSkillTargetData(4214).makeEnemyTargetAoe {
+        it.dress.character.school == School.Rinmeikan && it.dress.attribute == Attribute.Dream
+      }
+
+  val EnemySiegefeldFlower =
+      +getSkillTargetData(4215).makeEnemyTargetAoe {
+        it.dress.character.school == School.Siegfeld && it.dress.attribute == Attribute.Flower
+      }
+  val EnemySiegefeldWind =
+      +getSkillTargetData(4216).makeEnemyTargetAoe {
+        it.dress.character.school == School.Siegfeld && it.dress.attribute == Attribute.Wind
+      }
+  val EnemySiegefeldSnow =
+      +getSkillTargetData(4217).makeEnemyTargetAoe {
+        it.dress.character.school == School.Siegfeld && it.dress.attribute == Attribute.Snow
+      }
+  val EnemySiegefeldMoon =
+      +getSkillTargetData(4218).makeEnemyTargetAoe {
+        it.dress.character.school == School.Siegfeld && it.dress.attribute == Attribute.Moon
+      }
+  val EnemySiegefeldSpace =
+      +getSkillTargetData(4219).makeEnemyTargetAoe {
+        it.dress.character.school == School.Siegfeld && it.dress.attribute == Attribute.Space
+      }
+  val EnemySiegefeldCloud =
+      +getSkillTargetData(4220).makeEnemyTargetAoe {
+        it.dress.character.school == School.Siegfeld && it.dress.attribute == Attribute.Cloud
+      }
+  val EnemySiegefeldDream =
+      +getSkillTargetData(4221).makeEnemyTargetAoe {
+        it.dress.character.school == School.Siegfeld && it.dress.attribute == Attribute.Dream
+      }
+
   // Handled specially
   val randomAllyPerHit = +getSkillTargetData(5001).makeAllyTargetAoe()
   val randomEnemyPerHit = +getSkillTargetData(6001).makeEnemyTargetAoe()

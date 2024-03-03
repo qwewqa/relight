@@ -1890,7 +1890,8 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val GreaterCombinedResistanceSealAct2SealAct3SealCABuff =
       +buffData(1106)
           .makeMultipleResistanceUpBuff(
-              listOf(GreaterSealAct2Buff, GreaterSealAct3Buff, GreaterSealCABuff, GreaterSealCABuff))
+              listOf(
+                  GreaterSealAct2Buff, GreaterSealAct3Buff, GreaterSealCABuff, GreaterSealCABuff))
 
   // TODO: Implement
   val GreaterSlumpBuff = +buffData(1107).makeCountableBuffEffect(BuffCategory.Negative)
@@ -1907,6 +1908,41 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
       +buffData(1110).makeCountableBuffEffect(BuffCategory.Positive)
 
   val GreaterApUp3Buff = +buffData(1111).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterActBoostGreaterPanicBuff =
+      +buffData(1112).makeCountableBuffEffect(BuffCategory.Positive)
+
+  val GreaterPoisonResistanceUpBuff = +buffData(1113).makeSpecificResistanceUpBuff(GreaterPoison)
+
+  val GreaterGospelOfGloryBuff =
+      +buffData(1114)
+          .makeContinuousBuffEffect(
+              BuffCategory.Positive,
+              onStart = { _, _ ->
+                self.mod {
+                  Modifier.BrillianceRegen += 100
+                  Modifier.HpRegen += 99_999
+                  Modifier.ActPowerUp += 50
+                }
+              },
+              onEnd = { _, _, _ ->
+                self.mod {
+                  Modifier.BrillianceRegen -= 100
+                  Modifier.HpRegen -= 99_999
+                  Modifier.ActPowerUp -= 50
+                }
+              },
+          )
+
+  val GreaterContinuousNegativeEffectResistanceUpBuff =
+      +buffData(1115)
+          .makeModifierContinuousBuffEffect(
+              modifier = Modifier.GreaterNegativeEffectResistanceUp,
+              category = BuffCategory.Positive,
+          )
+
+  val HinderGreaterApDown2Buff =
+      +buffData(1116).makeMultipleResistanceUpBuff(listOf(GreaterApDown2Buff))
 
   // TODO: Implement enhancement
 

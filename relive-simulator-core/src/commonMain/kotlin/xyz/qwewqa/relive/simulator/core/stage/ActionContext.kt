@@ -229,6 +229,7 @@ class TargetContext(
     val dazeBoost = self.buffs.tryRemove(Buffs.ActBoostDazeBuff)
     val greaterDazeBoost = self.buffs.tryRemove(Buffs.GreaterActBoostGreaterDazeBuff)
     val greaterImpudenceBoost = self.buffs.tryRemove(Buffs.GreaterActBoostGreaterImpudenceBuff)
+    val greaterPanicBoost = self.buffs.tryRemove(Buffs.GreaterActBoostGreaterPanicBuff)
     repeat(hitCount) { hitIndex ->
       val isLastHit = hitIndex == hitCount - 1
       for (originalTarget in originalTargets) {
@@ -253,6 +254,9 @@ class TargetContext(
               }
               if (greaterImpudenceBoost) {
                 applyBuff(Buffs.GreaterImpudenceBuff, time = 1)
+              }
+              if (greaterPanicBoost) {
+                applyBuff(Buffs.GreaterPanicBuff, time = 1)
               }
             }
           }
@@ -482,7 +486,7 @@ class TargetContext(
       chance: Int = 100
   ) = applyCountableBuff(effect, count, value.toI54(), chance)
 
-  fun removeContinuous(category: BuffCategory) {
+  fun removeContinuous(category: BuffCategory, groupLevel: Int = 1) {
     if (!self.isAlive) return
     for (originalTarget in originalTargets) {
       val target = aggroTarget ?: originalTarget
@@ -491,7 +495,7 @@ class TargetContext(
         actionContext.log("Dispel", category = LogCategory.BUFF) {
           "Dispel continuous ${category.name} effects from [$name]."
         }
-        buffs.remove(category)
+        buffs.remove(category, groupLevel)
       }
     }
   }
