@@ -3,6 +3,7 @@ package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr41
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR37Diff3
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR38Diff4
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2023V2
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2024
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
 import xyz.qwewqa.relive.simulator.core.stage.actor.Character
@@ -37,7 +38,7 @@ val tr41KomachiTamao =
             ),
             autoSkills =
             listOf(
-                trEventBonusPassive2023V2(1040035),
+                trEventBonusPassive2024(1040035),
                 SuperBossPassiveTR37Diff3.new(),
             ),
         ),
@@ -105,7 +106,7 @@ val tr41KomachiTamaoDiff4 =
             ),
             autoSkills =
             listOf(
-                trEventBonusPassive2023V2(1040035),
+                trEventBonusPassive2024(1040035),
                 SuperBossPassiveTR38Diff4.new(),
             ),
         ),
