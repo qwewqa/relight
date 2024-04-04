@@ -557,15 +557,19 @@ class TargetContext(
   }
 
   fun removeCountable(category: BuffCategory) {
+    removeCountableLevel(category, 1)
+  }
+
+  fun removeCountableLevel(category: BuffCategory, groupLevel: Int) {
     if (!self.isAlive) return
     for (originalTarget in originalTargets) {
       val target = aggroTarget ?: originalTarget
       if (!target.isAlive) continue
       target.apply {
         actionContext.log("Dispel", category = LogCategory.BUFF) {
-          "Dispel countable ${category.name} effects from [$name]."
+          "Dispel countable (lv $groupLevel) ${category.name} effects from [$name]."
         }
-        buffs.removeCountable(category)
+        buffs.removeCountable(category, groupLevel)
       }
     }
   }

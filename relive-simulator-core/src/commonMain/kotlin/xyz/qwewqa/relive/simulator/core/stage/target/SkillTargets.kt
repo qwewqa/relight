@@ -1880,6 +1880,21 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
         it.dress.character.school == School.Siegfeld && it.dress.attribute == Attribute.Dream
       }
 
+  val EnemyFlower =
+      +getSkillTargetData(4222).makeEnemyTargetAoe { it.dress.attribute == Attribute.Flower }
+  val EnemyWind =
+      +getSkillTargetData(4223).makeEnemyTargetAoe { it.dress.attribute == Attribute.Wind }
+  val EnemySnow =
+      +getSkillTargetData(4224).makeEnemyTargetAoe { it.dress.attribute == Attribute.Snow }
+  val EnemyMoon =
+      +getSkillTargetData(4225).makeEnemyTargetAoe { it.dress.attribute == Attribute.Moon }
+  val EnemySpace =
+      +getSkillTargetData(4226).makeEnemyTargetAoe { it.dress.attribute == Attribute.Space }
+  val EnemyCloud =
+      +getSkillTargetData(4227).makeEnemyTargetAoe { it.dress.attribute == Attribute.Cloud }
+  val EnemyDream =
+      +getSkillTargetData(4228).makeEnemyTargetAoe { it.dress.attribute == Attribute.Dream }
+
   // Handled specially
   val randomAllyPerHit = +getSkillTargetData(5001).makeAllyTargetAoe()
   val randomEnemyPerHit = +getSkillTargetData(6001).makeEnemyTargetAoe()

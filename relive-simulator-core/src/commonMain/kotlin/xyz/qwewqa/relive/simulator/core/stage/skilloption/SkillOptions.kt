@@ -1847,6 +1847,28 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterGospelOfGlory = +skillOptionData(10385).applyEffect()
   // Blank
   val HinderGreaterApDown2 = +skillOptionData(10387).applyEffect()
+  val GreaterFallingOutGreaterSlump = +skillOptionData(10388).applyEffect()
+  val GreaterBrillianceRegenEnhancement = +skillOptionData(10389).applyEffect()
+  val GreaterSlumpEnhancementApUp2 = +skillOptionData(10390).applyEffect()
+  val GreaterSlumpEnhancementMark = +skillOptionData(10391).applyEffect()
+  val GreaterDisheartening = +skillOptionData(10392).applyEffect()
+  val GreaterCurtainsClosed =
+      +skillOptionData(10393).makeSkillOption { _, _ ->
+        // Do nothing
+      }
+  val GreaterSlumpEnhancementSealClimaxAct = +skillOptionData(10394).applyEffect()
+  val GreaterSlumpEnhancementSealAct3 = +skillOptionData(10395).applyEffect()
+  val GreaterBrillianceRecoveryUp = +skillOptionData(10396).applyEffect()
+  val GreaterCombinedResistanceUpApUpApUp2ApUp3 = +skillOptionData(10397).applyEffect()
+  val GreaterResilience = +skillOptionData(10398).applyEffect()
+  val GreaterBlessingGreaterDispelCountableNegativeEffects = +skillOptionData(10399).applyEffect()
+  val GreaterBlessingGreaterApDown2 = +skillOptionData(10400).applyEffect()
+  // Blank
+  val GreaterDisasterGreaterDisheartening = +skillOptionData(10402).applyEffect()
+  val GreaterSlumpEnhancementBrillianceRecoveryDown = +skillOptionData(10403).applyEffect()
+  val GreaterBlessingGreaterDispelContinuousNegativeEffects = +skillOptionData(10404).applyEffect()
+  val GreaterApDown3 = +skillOptionData(10405).applyEffect()
+  val GreaterSlumpResistanceUp = +skillOptionData(10406).applyEffect()
 
   // TODO: figure out if these affect base
 
@@ -1979,4 +2001,22 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
 
   val GreaterDispelContinuousNegativeEffects =
       +skillOptionData(20023).makeSkillOption { _ -> removeContinuous(BuffCategory.Negative, 2) }
+
+  val GreaterDispelCountableNegativeEffects =
+      +skillOptionData(20024).makeSkillOption { _ ->
+        removeCountableLevel(BuffCategory.Negative, 2)
+      }
+
+  val GreaterDispelNegativeEffects =
+      +skillOptionData(20025).makeSkillOption { _ ->
+        removeCountableLevel(BuffCategory.Negative, 2)
+        removeContinuous(BuffCategory.Negative, 2)
+      }
+
+  private val resistanceBuffs =
+      Buffs.values.filterIsInstance<ContinuousBuffEffect<*>>().filter { it.isResistance }
+  val GreaterDispelAllResistanceUp =
+      +skillOptionData(20026).makeSkillOption { _ ->
+        resistanceBuffs.forEach { removeContinuous(it) }
+      }
 }

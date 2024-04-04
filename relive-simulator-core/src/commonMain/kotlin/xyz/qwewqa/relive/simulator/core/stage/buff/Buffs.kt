@@ -1894,7 +1894,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
                   GreaterSealAct2Buff, GreaterSealAct3Buff, GreaterSealCABuff, GreaterSealCABuff))
 
   // TODO: Implement
-  val GreaterSlumpBuff = +buffData(1107).makeCountableBuffEffect(BuffCategory.Negative)
+  val GreaterSlumpBuff = +buffData(1107).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
   val GreaterFallingOutGreaterDazeBuff = +buffData(1108).makeGreaterVariantOf(FallingOutDaze)
 
   val GreaterCountableNegativeEffectResistanceUpBuff =
@@ -1944,6 +1944,40 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val HinderGreaterApDown2Buff =
       +buffData(1116).makeMultipleResistanceUpBuff(listOf(GreaterApDown2Buff))
 
+  val GreaterFallingOutGreaterSlump = +buffData(1117).makeCountableBuffEffect(BuffCategory.Negative)
+
+  val GreaterDishearteningBuff =
+      +buffData(1118).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterCurtainsClosedBuff =
+      +buffData(1119).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterBrillianceRecoveryUpBuff = +buffData(1120).makeGreaterVariantOf(BrillianceGainUpBuff)
+
+  val GreaterCombinedResistanceApUpApUp2ApUp3Buff =
+      +buffData(1121)
+          .makeMultipleResistanceUpBuff(listOf(GreaterApUpBuff, GreaterApUp2Buff, GreaterApUp3Buff))
+
+  val GreaterResilienceBuff = +buffData(1122).makeGreaterVariantOf(ResilienceBuff)
+
+  val GreaterBlessingGreaterDispelCountableNegativeEffectsBuff =
+      +buffData(1123).makeGreaterVariantOf(BlessingRemoveCountableNegativeEffectsBuff)
+
+  val GreaterBlessingGreaterApDown2Buff = +buffData(1124).makeGreaterVariantOf(BlessingApDown2)
+
+  val GreaterDisasterGreaterDishearteningBuff =
+      +buffData(1125).makeCountableBuffEffect(BuffCategory.Negative)
+
+  val GreaterBlessingGreaterDispelContinuousNegativeEffects =
+      +buffData(1126).makeGreaterVariantOf(BlessingRemoveContinuousNegativeEffectsBuff)
+
+  // TODO
+  val ClimaxRevueShortenBuff = +buffData(1127).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterApDown3Buff = +buffData(1128).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+
+  val GreaterSlumpResistanceUpBuff = +buffData(1129).makeSpecificResistanceUpBuff(GreaterSlumpBuff)
+
   // TODO: Implement enhancement
 
   val GreaterPoisonEnhancementApUp2Buff =
@@ -1966,6 +2000,24 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val GreaterPoisonEnhancementBrillianceRecoveryReductionBuff2 =
       +buffData(10007).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterBrillianceRegenEnhancementApDown2Buff =
+      +buffData(10008).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+
+  val GreaterSlumpEnhancementApUp2Buff =
+      +buffData(10009).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterSlumpEnhancementMarkBuff =
+      +buffData(10010).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterSlumpEnhancementSealClimaxActBuff =
+      +buffData(10011).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterSlumpEnhancementSealAct3Buff =
+      +buffData(10012).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterSlumpEnhancementBrillianceRecoveryReductionBuff =
+      +buffData(10013).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
 
   val abnormalBuffs =
       platformSetOf(
@@ -2031,6 +2083,7 @@ inline val Modifiers.apChange: Int
       actor.buffs.run {
         val decrease =
             when {
+              Buffs.GreaterApDown3Buff in this -> 3
               Buffs.ApDown2Buff in this || Buffs.GreaterApDown2Buff in this -> 2
               Buffs.ApDownBuff in this || Buffs.GreaterApDownBuff in this -> 1
               else -> 0

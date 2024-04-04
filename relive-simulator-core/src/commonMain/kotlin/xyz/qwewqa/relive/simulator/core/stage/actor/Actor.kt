@@ -31,6 +31,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterImpudenceBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterLovesicknessBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterNightmareBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterProvokeBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterResilienceBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterReviveBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterSleepBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterStopBuff
@@ -324,7 +325,7 @@ class Actor(
             self.hp = 1.i54
             return@run
           }
-          if (self.buffs.count(ResilienceBuff) > 0) {
+          if (self.buffs.count(ResilienceBuff) > 0 || self.buffs.count(GreaterResilienceBuff) > 0) {
             self.hp = 1.i54
             context.log("Damage", category = LogCategory.DAMAGE) {
               "Resilience activate (newHp: 1)."
