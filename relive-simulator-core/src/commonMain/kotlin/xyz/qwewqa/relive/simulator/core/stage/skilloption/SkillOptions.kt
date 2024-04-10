@@ -1699,6 +1699,16 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         )
       }
 
+  val Intimidate =
+      +skillOptionData(629).makeSkillOption { _ ->
+        targets.forEach { target ->
+          target.buffs.removeCountable(BuffCategory.Positive, 2)
+          // Bypass resistances
+          target.buffs.removeCountable(Buffs.IntimidationBuff)
+          target.buffs.addCountable(Buffs.IntimidationBuff)
+        }
+      }
+
   val GreaterBurn = +skillOptionData(10010).applyEffect()
   val GreaterConfusion = +skillOptionData(10020).applyEffect()
   val GreaterBlindness = +skillOptionData(10030).applyEffect()
@@ -1869,6 +1879,8 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterBlessingGreaterDispelContinuousNegativeEffects = +skillOptionData(10404).applyEffect()
   val GreaterApDown3 = +skillOptionData(10405).applyEffect()
   val GreaterSlumpResistanceUp = +skillOptionData(10406).applyEffect()
+  val GreaterBrillianceSap = +skillOptionData(10407).applyEffect()
+  val GreaterBrillianceGainDownResistanceUp = +skillOptionData(10409).applyEffect()
 
   // TODO: figure out if these affect base
 

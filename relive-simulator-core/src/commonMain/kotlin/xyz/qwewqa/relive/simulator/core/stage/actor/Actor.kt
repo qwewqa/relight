@@ -34,8 +34,10 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterProvokeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterResilienceBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterReviveBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterSleepBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterSlumpBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterStopBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterStunBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.IntimidationBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LockedAggroBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.LovesicknessBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.NightmareBuff
@@ -178,6 +180,10 @@ class Actor(
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by overwhelm." }
         return
       }
+      if (buffs.tryRemove(IntimidationBuff)) {
+        context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by intimidation." }
+        return
+      }
       if (StopBuff in buffs || GreaterStopBuff in buffs) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by stop." }
         return
@@ -214,10 +220,20 @@ class Actor(
         }
         return
       }
+      if (GreaterSlumpBuff in buffs && context.stage.random.nextDouble() < 0.5) {
+        context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by slump." }
+        return
+      }
       // TODO: account for buff values
       if (buffs.tryRemove(Buffs.ImpudenceBuff) || buffs.tryRemove(GreaterImpudenceBuff)) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by pride." }
         Act { targetRandom().act { heal(fixed = 5000) } }.execute(context)
+        return
+      }
+      if (buffs.tryRemove(Buffs.GreaterPanicBuff)) {
+        context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by panic." }
+        // TODO: figure out what the actual value is
+        Act { targetRandom().act { addBrilliance(20) } }.execute(context)
         return
       }
       if (buffs.tryRemove(Buffs.GreaterArroganceBuff)) {

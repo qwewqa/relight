@@ -1625,6 +1625,9 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val ReflectStageEffectImprisonmentBuff =
       +buffData(341).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
+  val IntimidationBuff =
+      +buffData(342).makeCountableBuffEffect(BuffCategory.Negative, isLocked = true)
+
   val GreaterBurnBuff = +buffData(1001).makeGreaterVariantOf(BurnBuff)
 
   val GreaterConfusionBuff = +buffData(1002).makeGreaterVariantOf(ConfusionBuff)
@@ -1792,10 +1795,10 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val GreaterMaxHpDownBuff = +buffData(1066).makeGreaterVariantOf(MaxHpDownBuff)
 
-  // TODO: Implement
   val GreaterPanicBuff = +buffData(1067).makeCountableBuffEffect(BuffCategory.Negative)
 
-  // Res except greater panic
+  val ResistanceUpExceptGreaterPanicBuff =
+      +buffData(1068).makeResistanceUpExceptBuff(listOf(GreaterPanicBuff))
 
   val GreaterNightmareBuff = +buffData(1069).makeGreaterVariantOf(NightmareBuff)
 
@@ -1893,8 +1896,11 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               listOf(
                   GreaterSealAct2Buff, GreaterSealAct3Buff, GreaterSealCABuff, GreaterSealCABuff))
 
-  // TODO: Implement
-  val GreaterSlumpBuff = +buffData(1107).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+  val GreaterSlumpBuff = +buffData(1107).makeModifierContinuousBuffEffect(
+      Modifier.BrillianceGainDown,
+      BuffCategory.Negative,
+  )
+
   val GreaterFallingOutGreaterDazeBuff = +buffData(1108).makeGreaterVariantOf(FallingOutDaze)
 
   val GreaterCountableNegativeEffectResistanceUpBuff =
@@ -1977,6 +1983,11 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val GreaterApDown3Buff = +buffData(1128).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
 
   val GreaterSlumpResistanceUpBuff = +buffData(1129).makeSpecificResistanceUpBuff(GreaterSlumpBuff)
+
+  val GreaterBrillianceSapBuff = +buffData(1130).makeGreaterVariantOf(BrillianceSapBuff)
+
+  val GreaterBrillianceGainDownResistanceUpBuff =
+      +buffData(1132).makeSpecificResistanceUpBuff(GreaterBrillianceSapBuff)
 
   // TODO: Implement enhancement
 

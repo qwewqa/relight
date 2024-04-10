@@ -8,6 +8,7 @@ import xyz.qwewqa.relive.simulator.core.stage.PlatformSet
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ActionRestrictionResistanceUpBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.IntimidationBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.OverwhelmBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.TurnRemoveContinuousNegativeEffectsBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.TurnRemoveCountableNegativeEffectsBuff
@@ -436,6 +437,9 @@ class BuffManager(val actor: Actor) {
       actor.run {
         while (OverwhelmBuff in buffs) {
           buffs.removeLast(OverwhelmBuff)
+        }
+        while (IntimidationBuff in buffs) {
+          buffs.removeLast(IntimidationBuff)
         }
 
         val hpRegenValue = mod { +Modifier.HpRegen } + mod { maxHp ptmul Modifier.HpPercentRegen }
