@@ -14,12 +14,15 @@ import xyz.qwewqa.relive.simulator.core.stage.target.SkillTargets
 
 open class CommonSongEffect(
     override val id: Int,
-    override val names: Map<String, String>,
     val skillOption: ReversiblePassiveSkillOption,
     val target: SkillTarget,
     override val defaultValue: Int?,
 ) : SongEffect {
   override val iconId = skillOption.iconId
+  override val names =
+      skillOption.descriptions.mapValues { (_, v) ->
+        Regex(" *\\(%value%\\)").replace(v, "")
+      } // Names aren't reliably translated
 
   override fun start(context: ActionContext, value: Int) =
       context.run {
@@ -36,15 +39,47 @@ open class CommonSongEffect(
       }
 }
 
+class ExtraSongEffect(
+    id: Int,
+    skillOption: ReversiblePassiveSkillOption,
+    target: SkillTarget,
+    defaultValue: Int?,
+) : CommonSongEffect(id, skillOption, target, defaultValue) {
+
+  override val names =
+      skillOption.descriptions.mapValues { (_, v) ->
+        val effectName = Regex(" *\\(%value%\\)").replace(v, "")
+        if (skillOption.valueUnit == DescriptionUnit.Percent && skillOption in showPercentSkills) {
+          "$effectName %"
+        } else {
+          effectName
+        }
+      }
+
+  companion object {
+    private val showPercentSkills =
+        setOf(
+            SkillOptions.NormalDefenseUp,
+            SkillOptions.SpecialDefenseUp,
+        )
+  }
+}
+
 class AwakeningSongEffect(
     id: Int,
-    names: Map<String, String>,
     val shortNames: Map<String, String>,
     skillOption: ReversiblePassiveSkillOption,
     target: SkillTarget,
     defaultValue: Int?,
     val values: Array<Int>,
-) : CommonSongEffect(id, names, skillOption, target, defaultValue)
+) : CommonSongEffect(id, skillOption, target, defaultValue) {
+  override val names =
+      skillOption.descriptions.mapValues { (k, v) ->
+        val effectName = Regex(" *\\(%value%\\)").replace(v, "")
+        val targetName = target.descriptions.getLocalizedString(k)
+        "$effectName [$targetName]"
+      }
+}
 
 object BasicSongEffects : ImplementationRegistry<SongEffect>() {
   init {
@@ -58,8 +93,8 @@ object BasicSongEffects : ImplementationRegistry<SongEffect>() {
           val effect = it.first()
           +CommonSongEffect(
               id = effect._id_,
-              names = effect.name,
-              skillOption = (SkillOptions[effect.skill_option1_id] as? ReversiblePassiveSkillOption)
+              skillOption =
+                  (SkillOptions[effect.skill_option1_id] as? ReversiblePassiveSkillOption)
                       ?: error(
                           "Skill option ${effect.skill_option1_id} is not reversible, got ${SkillOptions[effect.skill_option1_id]}"),
               target =
@@ -93,17 +128,8 @@ object ExtraSongEffects : ImplementationRegistry<SongEffect>() {
           (SkillOptions[effect.skill_option1_id] as? ReversiblePassiveSkillOption)
               ?: error(
                   "Skill option ${effect.skill_option1_id} is not reversible, got ${SkillOptions[effect.skill_option1_id]}")
-      +CommonSongEffect(
+      +ExtraSongEffect(
           id = effect._id_,
-          names =
-              effect.name.mapValues { (_, v) ->
-                if (skillOption.valueUnit == DescriptionUnit.Percent &&
-                    skillOption in showPercentSkills) {
-                  "$v %"
-                } else {
-                  v
-                }
-              },
           skillOption = skillOption,
           target =
               if (effect.skill_option1_target_id != 0) {
@@ -134,12 +160,9 @@ object AwakeningSongEffects : ImplementationRegistry<AwakeningSongEffect>() {
                   ?: error("Target ${it.skill_option1_target_id} not found.")
           +AwakeningSongEffect(
               id = it._id_,
-              names =
-                  it.name.mapValues { (k, v) ->
-                    "$v [${target.descriptions.getLocalizedString(k)}]"
-                  },
               shortNames = it.name,
-              skillOption = (SkillOptions[it.skill_option1_id] as? ReversiblePassiveSkillOption)
+              skillOption =
+                  (SkillOptions[it.skill_option1_id] as? ReversiblePassiveSkillOption)
                       ?: error(
                           "Skill option ${it.skill_option1_id} is not reversible, got ${SkillOptions[it.skill_option1_id]}"),
               target = target,
