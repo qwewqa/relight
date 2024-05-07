@@ -36,6 +36,9 @@ fun Actor.activateBlessings() =
         applyCountableBuff(Buffs.HopeBuff, count = value.toInt())
       }
       buffs.consumeOnce(Buffs.BlessingApDown2) { _ -> applyContinuousBuff(ApDown2Buff, 0, 1) }
+      buffs.consumeOnce(Buffs.GreaterBlessingGreaterResilienceBuff) { _ ->
+        applyContinuousBuff(Buffs.GreaterResilienceBuff, 0, 1)
+      }
       buffs.consumeOnce(Buffs.GreaterBlessingGreaterApDown2Buff) { _ ->
         applyContinuousBuff(GreaterApDown2Buff, 0, 1)
       }
