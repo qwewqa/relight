@@ -1881,6 +1881,21 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterSlumpResistanceUp = +skillOptionData(10406).applyEffect()
   val GreaterBrillianceSap = +skillOptionData(10407).applyEffect()
   val GreaterBrillianceGainDownResistanceUp = +skillOptionData(10409).applyEffect()
+  val GreaterStunResistanceUp2 = +skillOptionData(10410).applyEffect()
+  val UpgradeGreaterStunContraction = +skillOptionData(10411).applyEffect()
+  val LockedGreaterApDown3 = +skillOptionData(10412).applyEffect()
+  val GreaterLethargy = +skillOptionData(10413).applyEffect()
+  val GreaterCombinedResistanceUpDazeImpudence = +skillOptionData(10414).applyEffect()
+  val LockedGreaterStunEnhancementContraction = +skillOptionData(10415).applyEffect()
+  val GreaterBlessingGreaterResilience = +skillOptionData(10416).applyEffect()
+  val LockedGreaterStopResistanceUp2 = +skillOptionData(10417).applyEffect()
+  val GreaterStunEnhancementSealAct1 = +skillOptionData(10418).applyEffect()
+  val GreaterStunEnhancementSealClimaxAct = +skillOptionData(10419).applyEffect()
+  val LockedGreaterStunEnhancementSealAct1 = +skillOptionData(10420).applyEffect()
+  val LockedGreaterStunEnhancementSealClimaxAct = +skillOptionData(10421).applyEffect()
+  val GreaterMastery = +skillOptionData(10422).applyEffect()
+  val GreaterStunEnhancementGreaterDisheartening = +skillOptionData(10423).applyEffect()
+  val LockedGreaterStunEnhancementGreaterDisheartening = +skillOptionData(10424).applyEffect()
 
   // TODO: figure out if these affect base
 
@@ -2030,5 +2045,18 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterDispelAllResistanceUp =
       +skillOptionData(20026).makeSkillOption { _ ->
         resistanceBuffs.forEach { removeContinuous(it) }
+      }
+
+  val GreaterDispelGreaterCombinedResistanceUpStunLovesickness =
+      +skillOptionData(20027).makeSkillOption { _ ->
+        removeContinuous(Buffs.GreaterCombinedResistanceUpStunLovesicknessBuff)
+      }
+
+  val GreaterDispelContinuousPositiveEffects =
+      +skillOptionData(20028).makeSkillOption { _ -> removeContinuous(BuffCategory.Positive, 2) }
+
+  val GreaterDispelGreaterCombinedResistanceUpFreezeStop =
+      +skillOptionData(20029).makeSkillOption { _ ->
+        removeContinuous(Buffs.GreaterCombinedResistanceUpFreezeStopBuff)
       }
 }

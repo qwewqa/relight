@@ -1989,6 +1989,32 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val GreaterBrillianceGainDownResistanceUpBuff =
       +buffData(1132).makeSpecificResistanceUpBuff(GreaterBrillianceSapBuff)
 
+  val LockedGreaterStunBuff = +buffData(1133).makeLockedVariantOf(GreaterStunBuff)
+
+  val LockedGreaterApDownBuff = +buffData(1134).makeLockedVariantOf(GreaterApDownBuff)
+
+  val GreaterLethargyBuff = +buffData(1135)
+      .makeIdempotentContinuousBuffEffect(
+          category = BuffCategory.Negative,
+          onStart = { self.mod { Modifier.DamageReceivedUp += 20 } },
+          onEnd = { self.mod { Modifier.DamageReceivedUp -= 20 } },
+      )
+
+  val GreaterCombinedResistanceUpDazeImpudence =
+      +buffData(1136)
+          .makeMultipleResistanceUpBuff(listOf(GreaterDazeBuff, GreaterImpudenceBuff))
+
+  // TODO
+  val ReflectAllNegativeStageEffectsBuff =
+      +buffData(1137).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+
+  val GreaterBlessingGreaterResilienceBuff =
+      +buffData(1138).makeCountableBuffEffect(BuffCategory.Positive)
+
+  val LockedGreaterStopBuff = +buffData(1139).makeLockedVariantOf(GreaterStopBuff)
+
+  val GreaterMasteryBuff = +buffData(1140).makeCountableBuffEffect(BuffCategory.Positive)
+
   // TODO: Implement enhancement
 
   val GreaterPoisonEnhancementApUp2Buff =
@@ -2029,6 +2055,30 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val GreaterSlumpEnhancementBrillianceRecoveryReductionBuff =
       +buffData(10013).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterStunEnhancementContractionBuff =
+      +buffData(10014).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val LockedGreaterStunEnhancementContractionBuff =
+      +buffData(10015).makeLockedVariantOf(GreaterStunEnhancementContractionBuff)
+
+  val GreaterStunEnhancementSealAct1Buff =
+      +buffData(10016).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val GreaterStunEnhancementSealClimateActBuff =
+      +buffData(10017).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val LockedGreaterStunEnhancementSealAct1Buff =
+      +buffData(10018).makeLockedVariantOf(GreaterStunEnhancementSealAct1Buff)
+
+  val LockedGreaterStunEnhancementSealClimateActBuff =
+      +buffData(10019).makeLockedVariantOf(GreaterStunEnhancementSealClimateActBuff)
+
+  val GreaterStunEnhancementGreaterDishearteningBuff =
+      +buffData(10020).makeSimpleContinuousBuffEffect(BuffCategory.Negative)
+
+  val LockedGreaterStunEnhancementGreaterDishearteningBuff =
+      +buffData(10021).makeLockedVariantOf(GreaterStunEnhancementGreaterDishearteningBuff)
 
   val abnormalBuffs =
       platformSetOf(

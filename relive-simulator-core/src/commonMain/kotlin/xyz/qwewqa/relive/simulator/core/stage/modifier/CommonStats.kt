@@ -16,6 +16,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterArroganceBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterBurnBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterHopeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterInsanityBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterMasteryBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.HopeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.WeakenBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.ContinuousBuffEffect
@@ -73,8 +74,8 @@ inline val Modifiers.agility: I54
         (Modifier.AgilityUp - Modifier.AgilityDown +
             hopeFactor +
             (if (GreaterInsanityBuff in actor.buffs) (-99).i54 else 0.i54) +
-            (if (GreaterArroganceBuff in actor.buffs) (-99).i54 else 0.i54))) +
-        Modifier.FixedAgility
+            (if (GreaterArroganceBuff in actor.buffs) (-99).i54 else 0.i54) +
+            (if (GreaterMasteryBuff in actor.buffs) 20.i54 else 0.i54))) + Modifier.FixedAgility
   }
 
 inline val Modifiers.dexterity: I54
@@ -90,7 +91,10 @@ inline val Modifiers.critical: I54
   get() {
     val holdBackModifier = -100 given { Buffs.HoldBackBuff in actor.buffs }
     return (Modifier.BaseCritical + Modifier.BuffCritical + holdBackModifier -
-            Modifier.DebuffCritical + hopeFactor + superStrengthFactor)
+            Modifier.DebuffCritical +
+            hopeFactor +
+            superStrengthFactor +
+            (if (GreaterMasteryBuff in actor.buffs) 50.i54 else 0.i54))
         .coerceAtLeast(0)
   }
 
@@ -170,7 +174,8 @@ fun Modifiers.damageDealtUpModifier(target: Actor): I54 {
       actor.conditionalDamageDealtUp.sumOfI54 { (cond, value) ->
         value given { cond.evaluate(target) }
       } +
-      (actor.againstSchoolDamageDealtUp[target.dress.character.school] ?: 0.i54))
+      (actor.againstSchoolDamageDealtUp[target.dress.character.school] ?: 0.i54) +
+      (if (GreaterMasteryBuff in actor.buffs) 50.i54 else 0.i54))
 }
 
 fun Modifiers.damageReceivedModifier(attacker: Actor) =

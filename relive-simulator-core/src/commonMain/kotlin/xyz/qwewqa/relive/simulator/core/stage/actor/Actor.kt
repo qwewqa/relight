@@ -28,6 +28,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterElectricShockBuf
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFreezeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFrostbiteBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterImpudenceBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterLethargyBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterLovesicknessBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterNightmareBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterProvokeBuff
@@ -182,6 +183,10 @@ class Actor(
       }
       if (buffs.tryRemove(IntimidationBuff)) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by intimidation." }
+        return
+      }
+      if (GreaterLethargyBuff in buffs) {
+        context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by lethargy." }
         return
       }
       if (StopBuff in buffs || GreaterStopBuff in buffs) {
