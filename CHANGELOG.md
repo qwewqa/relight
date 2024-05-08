@@ -1312,3 +1312,7 @@
 # v1.9.3
 - Added new girls and memoirs
 - Fixed issue with some song effects not being applied
+
+# v1.9.4
+- Added new girls and memoirs
+- TR42 and TR43 bosses added by Savivo
