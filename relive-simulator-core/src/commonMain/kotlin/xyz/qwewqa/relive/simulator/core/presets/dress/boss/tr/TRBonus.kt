@@ -151,3 +151,20 @@ object SuperBossPassiveTR38Diff4 : PassiveEffect {
         }
       }
 }
+
+object SuperBossPassiveTR42Diff4 : PassiveEffect {
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run {
+        self.buffs.activatePsuedoBuff(Buffs.ExcludingGreaterInsanityResistanceUpBuff, 100.i54)
+        self.buffs.activatePsuedoBuff(Buffs.DamageReceivedDownBuff, 99.i54)
+        self.buffs.activatePsuedoBuff(Buffs.CriticalDamageReceivedDownBuff, 90.i54)
+        BossElementResistPassive.activate(this, 50, 0) { true }
+
+        enemy.actors.values.forEach {
+          it.buffs.activatePsuedoBuff(Buffs.GreaterStagnationBuff)
+          it.buffs.activatePsuedoBuff(Buffs.GreaterIgnoranceBuff)
+          it.buffs.activatePsuedoBuff(Buffs.GreaterBrillianceRecoveryDownBuff, 80.i54)
+          it.buffs.activatePsuedoBuff(Buffs.GreaterActPowerDownBuff, 99.i54)
+        }
+      }
+}

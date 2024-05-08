@@ -309,6 +309,8 @@ import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr37.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr38.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr39.*
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr41.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr42.*
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr43.*
 import xyz.qwewqa.relive.simulator.core.stage.enemy.Enemies
 import xyz.qwewqa.relive.simulator.core.stage.loadout.ActorLoadout
 import xyz.qwewqa.relive.simulator.core.stage.strategy.Strategy
@@ -341,6 +343,30 @@ private fun BossLoadout.applyGuildRaceData(race: Int, phase: Int, number: Int): 
 val bossLoadouts =
     listOf(
             // NOTE: From TR34 on, guild race ID of bosses are one higher than the actual TR.
+            BossLoadout(tr43CheerAkira, tr43CheerAkiraStrategy).applyGuildRaceData(44, 3, 1),
+            BossLoadout(tr43CheerAkiraDiff4, tr43CheerAkiraDiff4Strategy)
+                .applyGuildRaceData(44, 4, 1),
+            BossLoadout(tr43CheerTsukasa, tr43CheerTsukasaStrategy).applyGuildRaceData(44, 3, 2),
+            BossLoadout(tr43CheerTsukasaDiff4, tr43CheerTsukasaDiff4Strategy)
+                .applyGuildRaceData(44, 4, 2),
+            BossLoadout(tr43CheerYachiyo, tr43CheerYachiyoStrategy).applyGuildRaceData(44, 3, 3),
+            BossLoadout(tr43CheerYachiyoDiff4, tr43CheerYachiyoDiff4Strategy)
+                .applyGuildRaceData(44, 4, 3),
+            BossLoadout(tr43EmperorAkira, tr43EmperorAkiraStrategy).applyGuildRaceData(44, 3, 4),
+            BossLoadout(tr43EmperorAkiraDiff4, tr43EmperorAkiraDiff4Strategy)
+                .applyGuildRaceData(44, 4, 4),
+            BossLoadout(tr42MusketeerKaren, tr42MusketeerKarenStrategy).applyGuildRaceData(43, 3, 1),
+            BossLoadout(tr42MusketeerKarenDiff4, tr42MusketeerKarenDiff4Strategy)
+                .applyGuildRaceData(43, 4, 1),
+            BossLoadout(tr42MusketeerHikari, tr42MusketeerHikariStrategy).applyGuildRaceData(43, 3, 2),
+            BossLoadout(tr42MusketeerHikariDiff4, tr42MusketeerHikariDiff4Strategy)
+                .applyGuildRaceData(43, 4, 2),
+            BossLoadout(tr42MusketeerMahiru, tr42MusketeerMahiruStrategy).applyGuildRaceData(43, 3, 3),
+            BossLoadout(tr42MusketeerMahiruDiff4, tr42MusketeerMahiruDiff4Strategy)
+                .applyGuildRaceData(43, 4, 3),
+            BossLoadout(tr42TowerHikari, tr42TowerHikariStrategy).applyGuildRaceData(43, 3, 4),
+            BossLoadout(tr42TowerHikariDiff4, tr42TowerHikariDiff4Strategy)
+                .applyGuildRaceData(43, 4, 4),
             BossLoadout(tr41SetsunaIchie, tr41SetsunaIchieStrategy).applyGuildRaceData(42, 3, 1),
             BossLoadout(tr41SetsunaIchieDiff4, tr41SetsunaIchieDiff4Strategy)
                 .applyGuildRaceData(42, 4, 1),
