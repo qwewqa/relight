@@ -1316,3 +1316,6 @@
 # v1.9.4
 - Added new girls and memoirs
 - TR42 and TR43 bosses added by Savivo
+
+# v1.9.5
+- Added new girls and memoirs
