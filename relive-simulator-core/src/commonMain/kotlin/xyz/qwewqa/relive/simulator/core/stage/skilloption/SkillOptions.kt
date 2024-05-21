@@ -1896,6 +1896,21 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterMastery = +skillOptionData(10422).applyEffect()
   val GreaterStunEnhancementGreaterDisheartening = +skillOptionData(10423).applyEffect()
   val LockedGreaterStunEnhancementGreaterDisheartening = +skillOptionData(10424).applyEffect()
+  val LockedGreaterLovesickness = +skillOptionData(10425).applyEffect()
+  val GreaterInvincibleRebirthReduction = +skillOptionData(10426).reduceCountable()
+  val LockedGreaterApUp = +skillOptionData(10427).applyEffect()
+  val LockedGreaterSlump = +skillOptionData(10428).applyEffect()
+  val LockedGreaterCombinedResistanceUpConfusionBlindnessBurn = +skillOptionData(10429).applyEffect()
+  val LockedGreaterCombinedResistanceUpFreezeStop = +skillOptionData(10430).applyEffect()
+  val LockedGreaterCombinedResistanceUpShockSleep = +skillOptionData(10431).applyEffect()
+  val LockedGreaterCombinedResistanceUpStunLovesickness = +skillOptionData(10432).applyEffect()
+  val EndOfThePerformance = +skillOptionData(10433).makeSkillOption { _, _ ->
+    // Do nothing
+  }
+  val LockedGreaterContinuousNegativeEffectsResistanceUp = +skillOptionData(10434).applyEffect()
+  val LockedGreaterCountableNegativeEffectsResistanceUp = +skillOptionData(10435).applyEffect()
+  val LockedGreaterResilience = +skillOptionData(10436).applyEffect()
+  val GreaterBlessingGreaterEffectiveDamageUp = +skillOptionData(10437).applyEffect()
 
   // TODO: figure out if these affect base
 
@@ -2058,5 +2073,10 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterDispelGreaterCombinedResistanceUpFreezeStop =
       +skillOptionData(20029).makeSkillOption { _ ->
         removeContinuous(Buffs.GreaterCombinedResistanceUpFreezeStopBuff)
+      }
+
+  val GreaterDispelCountableNegativeEffectsResistanceUp =
+      +skillOptionData(20030).makeSkillOption { _ ->
+        removeContinuous(Buffs.GreaterContinuousNegativeEffectResistanceUpBuff)
       }
 }

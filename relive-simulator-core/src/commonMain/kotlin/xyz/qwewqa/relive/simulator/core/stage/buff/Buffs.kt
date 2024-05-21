@@ -1896,10 +1896,12 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               listOf(
                   GreaterSealAct2Buff, GreaterSealAct3Buff, GreaterSealCABuff, GreaterSealCABuff))
 
-  val GreaterSlumpBuff = +buffData(1107).makeModifierContinuousBuffEffect(
-      Modifier.BrillianceGainDown,
-      BuffCategory.Negative,
-  )
+  val GreaterSlumpBuff =
+      +buffData(1107)
+          .makeModifierContinuousBuffEffect(
+              Modifier.BrillianceGainDown,
+              BuffCategory.Negative,
+          )
 
   val GreaterFallingOutGreaterDazeBuff = +buffData(1108).makeGreaterVariantOf(FallingOutDaze)
 
@@ -1993,16 +1995,16 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val LockedGreaterApDownBuff = +buffData(1134).makeLockedVariantOf(GreaterApDownBuff)
 
-  val GreaterLethargyBuff = +buffData(1135)
-      .makeIdempotentContinuousBuffEffect(
-          category = BuffCategory.Negative,
-          onStart = { self.mod { Modifier.DamageReceivedUp += 20 } },
-          onEnd = { self.mod { Modifier.DamageReceivedUp -= 20 } },
-      )
+  val GreaterLethargyBuff =
+      +buffData(1135)
+          .makeIdempotentContinuousBuffEffect(
+              category = BuffCategory.Negative,
+              onStart = { self.mod { Modifier.DamageReceivedUp += 20 } },
+              onEnd = { self.mod { Modifier.DamageReceivedUp -= 20 } },
+          )
 
   val GreaterCombinedResistanceUpDazeImpudence =
-      +buffData(1136)
-          .makeMultipleResistanceUpBuff(listOf(GreaterDazeBuff, GreaterImpudenceBuff))
+      +buffData(1136).makeMultipleResistanceUpBuff(listOf(GreaterDazeBuff, GreaterImpudenceBuff))
 
   // TODO
   val ReflectAllNegativeStageEffectsBuff =
@@ -2014,6 +2016,42 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val LockedGreaterStopBuff = +buffData(1139).makeLockedVariantOf(GreaterStopBuff)
 
   val GreaterMasteryBuff = +buffData(1140).makeCountableBuffEffect(BuffCategory.Positive)
+
+  val LockedGreaterLovesicknessBuff = +buffData(1141).makeLockedVariantOf(GreaterLovesicknessBuff)
+
+  val LockedGreaterApUpBuff = +buffData(1142).makeLockedVariantOf(GreaterApUpBuff)
+
+  val LockedGreaterSlumpBuff = +buffData(1143).makeLockedVariantOf(GreaterSlumpBuff)
+
+  val LockedGreaterCombinedResistanceUpConfusionBlindnessBurnBuff =
+      +buffData(1144)
+          .makeMultipleResistanceUpBuff(
+              listOf(GreaterConfusionBuff, GreaterBlindnessBuff, GreaterBurnBuff), locked = true)
+
+  val LockedGreaterCombinedResistanceUpFreezeStopBuff =
+      +buffData(1145)
+          .makeMultipleResistanceUpBuff(listOf(GreaterFreezeBuff, GreaterStopBuff), locked = true)
+
+  val LockedGreaterCombinedResistanceUpElectricShockSleepBuff =
+      +buffData(1146)
+          .makeMultipleResistanceUpBuff(
+              listOf(GreaterElectricShockBuff, GreaterSleepBuff), locked = true)
+
+  val LockedGreaterCombinedResistanceUpStunLovesicknessBuff =
+      +buffData(1147)
+          .makeMultipleResistanceUpBuff(
+              listOf(GreaterStunBuff, GreaterLovesicknessBuff), locked = true)
+
+  val LockedGreaterContinuousNegativeEffectResistanceUpBuff =
+      +buffData(1148).makeGreaterVariantOf(GreaterContinuousNegativeEffectResistanceUpBuff)
+
+  val LockedGreaterCountableNegativeEffectResistanceUpBuff =
+      +buffData(1149).makeGreaterVariantOf(GreaterCountableNegativeEffectResistanceUpBuff)
+
+  val LockedGreaterResilienceBuff = +buffData(1150).makeLockedVariantOf(GreaterResilienceBuff)
+
+  val GreaterBlessingGreaterEffectiveElementDamageDealtUpBuff =
+      +buffData(1151).makeCountableBuffEffect(BuffCategory.Positive)
 
   // TODO: Implement enhancement
 
