@@ -48,9 +48,9 @@ fun trEventBonusPassive2023V2(dressId: Int) =
                 ))
         .new()
 
-fun trEventBonusPassive2024(dressId: Int) =
+fun trEventBonusPassive2024(vararg dressId: Int) =
     EventBonusPassive(
-            dresses = mapOf(dressId to 200),
+            dresses = dressId.associateWith { 200 },
             categories =
                 mapOf(
                     (DressCategory.Birthday2024 to 40)
