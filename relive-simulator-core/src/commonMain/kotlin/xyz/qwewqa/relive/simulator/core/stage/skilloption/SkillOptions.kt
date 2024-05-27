@@ -1911,6 +1911,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val LockedGreaterCountableNegativeEffectsResistanceUp = +skillOptionData(10435).applyEffect()
   val LockedGreaterResilience = +skillOptionData(10436).applyEffect()
   val GreaterBlessingGreaterEffectiveDamageUp = +skillOptionData(10437).applyEffect()
+  val LockedGreaterApUp2 = +skillOptionData(10438).applyEffect()
 
   // TODO: figure out if these affect base
 

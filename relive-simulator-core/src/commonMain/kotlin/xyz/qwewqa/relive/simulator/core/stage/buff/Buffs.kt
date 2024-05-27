@@ -2053,6 +2053,8 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val GreaterBlessingGreaterEffectiveElementDamageDealtUpBuff =
       +buffData(1151).makeCountableBuffEffect(BuffCategory.Positive)
 
+  val LockedGreaterApUp2Buff = +buffData(1152).makeLockedVariantOf(GreaterApUp2Buff)
+
   // TODO: Implement enhancement
 
   val GreaterPoisonEnhancementApUp2Buff =
