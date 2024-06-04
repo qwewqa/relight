@@ -1323,3 +1323,7 @@
 # v1.9.6
 - Added new girls and memoirs
 - TR44 bosses added by Savivo
+
+# v1.9.7
+- Added new girls and memoirs
+- Adjusted the behavior of some countable buffs
