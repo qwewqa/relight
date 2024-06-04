@@ -2055,6 +2055,10 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val LockedGreaterApUp2Buff = +buffData(1152).makeLockedVariantOf(GreaterApUp2Buff)
 
+  // Skip
+
+  val LockedGreaterLethargyBuff = +buffData(1154).makeLockedVariantOf(GreaterLethargyBuff)
+
   // TODO: Implement enhancement
 
   val GreaterPoisonEnhancementApUp2Buff =
