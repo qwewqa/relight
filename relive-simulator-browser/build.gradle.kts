@@ -37,7 +37,7 @@ kotlin {
         implementation("io.ktor:ktor-client-js:$ktor_version")
         implementation("io.ktor:ktor-client-serialization:$ktor_version")
         implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.8.0")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
       }
     }
   }
@@ -98,7 +98,7 @@ tasks.register<Copy>("copyResources") {
 }
 
 tasks.register<Copy>("copyWorker") {
-  dependsOn(":relive-simulator-worker:jsBrowserProductionWebpack")
+  dependsOn(":relive-simulator-worker:jsBrowserDistribution")
   from("${project(":relive-simulator-worker").projectDir}/build/dist/js/productionExecutable/")
   into("$projectDir/src/jsMain/resources/")
 }

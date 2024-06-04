@@ -22,7 +22,7 @@ kotlin { sourceSets.all { languageSettings { languageVersion = "2.0" } } }
 dependencies {
   implementation(project(":relive-simulator-core"))
   implementation(kotlin("stdlib"))
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
   implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.8.0")
   implementation("ch.qos.logback:logback-classic:$logback_version")
   implementation("io.ktor:ktor-server-compression:$ktor_version")
@@ -39,13 +39,13 @@ dependencies {
   testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
 }
 
-tasks { getByName("run") { dependsOn(":relive-simulator-client:jsBrowserDevelopmentWebpack") } }
+tasks { getByName("run") { dependsOn(":relive-simulator-client:jsBrowserDevelopmentExecutableDistribution") } }
 
 tasks.register<Delete>("clearClient") { delete("$projectDir/src/main/resources/client") }
 
 tasks.register<Copy>("copyClient") {
   dependsOn("clearClient")
-  dependsOn(":relive-simulator-client:jsBrowserDevelopmentWebpack")
+  dependsOn(":relive-simulator-client:jsBrowserDevelopmentExecutableDistribution")
   from("${project(":relive-simulator-client").projectDir}/build/dist/js/developmentExecutable")
   into("$projectDir/src/main/resources/client")
 }

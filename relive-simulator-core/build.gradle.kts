@@ -39,15 +39,15 @@ kotlin {
       dependencies {
         implementation(kotlin("stdlib"))
         implementation("com.github.h0tk3y.betterParse:better-parse:0.4.4")
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0-RC")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
       }
     }
 
     val commonTest by getting {
       dependencies {
         implementation(kotlin("test"))
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
       }
     }
   }
