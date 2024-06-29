@@ -308,6 +308,7 @@ open class RandomDamageCalculator : DamageCalculator {
     dmg = dmg ptmul dmgTakenCoef
     dmg = dmg ptmul dmgDealtUpCoef
     dmg = dmg ptmul eventMultiplier // tentative
+    dmg = dmg ptmul 10
 
     var criticalDmg = base
     criticalDmg = criticalDmg ptmul eleCoef

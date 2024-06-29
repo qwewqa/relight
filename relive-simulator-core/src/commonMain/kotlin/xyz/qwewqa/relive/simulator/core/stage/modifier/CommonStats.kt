@@ -175,7 +175,7 @@ fun Modifiers.damageDealtUpModifier(target: Actor): I54 {
         value given { cond.evaluate(target) }
       } +
       (actor.againstSchoolDamageDealtUp[target.dress.character.school] ?: 0.i54) +
-      (if (GreaterMasteryBuff in actor.buffs) 50.i54 else 0.i54))
+      (if (GreaterMasteryBuff in actor.buffs) 20.i54 else 0.i54))
 }
 
 fun Modifiers.damageReceivedModifier(attacker: Actor) =
