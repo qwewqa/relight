@@ -87,6 +87,7 @@ enum class Modifier {
   FrostbiteDamage,
   NightmareDamage,
   Weaken,
+  EnemyDamageReceivedDown,
 }
 
 private val modifierCount = Modifier.entries.size

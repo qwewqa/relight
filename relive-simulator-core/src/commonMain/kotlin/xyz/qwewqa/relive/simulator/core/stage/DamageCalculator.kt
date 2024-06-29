@@ -17,6 +17,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.BlindnessBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FreezeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FrostbiteBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterBlindnessBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterDivineSkillBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFreezeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFrostbiteBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterInvincibilityBuff
@@ -31,6 +32,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.SpecialBarrierBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.SpecialSuperReflectBuff
 import xyz.qwewqa.relive.simulator.core.stage.condition.Condition
 import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifier
+import xyz.qwewqa.relive.simulator.core.stage.modifier.absorb
 import xyz.qwewqa.relive.simulator.core.stage.modifier.accuracy
 import xyz.qwewqa.relive.simulator.core.stage.modifier.actPower
 import xyz.qwewqa.relive.simulator.core.stage.modifier.climaxDamageAdjustment
@@ -71,6 +73,7 @@ open class RandomDamageCalculator : DamageCalculator {
             target.buffs.tryRemove(Buffs.GreaterEvasionBuff)) {
           if (PerfectAimBuff !in self.buffs &&
               GreaterPerfectAimBuff !in self.buffs &&
+              GreaterDivineSkillBuff !in self.buffs &&
               !hitAttribute.focus) {
             log("Hit", category = LogCategory.DAMAGE) {
               "Miss against [${target.name}] from Evade."
@@ -80,6 +83,7 @@ open class RandomDamageCalculator : DamageCalculator {
         }
         if (PerfectAimBuff in self.buffs ||
             GreaterPerfectAimBuff in self.buffs ||
+            GreaterDivineSkillBuff in self.buffs ||
             hitAttribute.focus ||
             stage.random.nextDouble() < result.hitChance) {
           val n = if (result.variance) stage.random.nextInt(-8, 9) else 0
@@ -158,8 +162,8 @@ open class RandomDamageCalculator : DamageCalculator {
           if (reflected > 0) {
             self.damage(reflected, additionalEffects = false)
           }
-          if (self.mod { +Modifier.Absorb } > 0) {
-            self.heal(afterBarrier * self.mod { +Modifier.Absorb } / 100)
+          if (self.mod { +absorb } > 0) {
+            self.heal(afterBarrier * self.mod { +absorb } / 100)
           }
           actionLog.successfulHits++
         } else {
@@ -247,6 +251,8 @@ open class RandomDamageCalculator : DamageCalculator {
     if (Buffs.WeakSpotBuff in target.buffs || Buffs.GreaterWeakSpotBuff in target.buffs)
         dmgTakenCoef += 60.i54
 
+    val bossDmgTakenCoef = 100 - target.mod { +Modifier.EnemyDamageReceivedDown }
+
     val attributeDamageDealtUpCoef = 100 + (attacker.attributeDamageDealtUp[attribute] ?: 0.i54)
     val againstAttributeDamageDealtUpCoef =
         100 + (attacker.againstAttributeDamageDealtUp[target.dress.attribute] ?: 0.i54)
@@ -308,7 +314,7 @@ open class RandomDamageCalculator : DamageCalculator {
     dmg = dmg ptmul dmgTakenCoef
     dmg = dmg ptmul dmgDealtUpCoef
     dmg = dmg ptmul eventMultiplier // tentative
-    dmg = dmg ptmul 10
+    dmg = dmg ptmul bossDmgTakenCoef
 
     var criticalDmg = base
     criticalDmg = criticalDmg ptmul eleCoef
@@ -325,6 +331,7 @@ open class RandomDamageCalculator : DamageCalculator {
     criticalDmg = criticalDmg ptmul dmgTakenCoef
     criticalDmg = criticalDmg ptmul dmgDealtUpCoef
     criticalDmg = criticalDmg ptmul eventMultiplier
+    criticalDmg = criticalDmg ptmul bossDmgTakenCoef
 
     return DamageResult(
         base = dmg,
@@ -359,7 +366,10 @@ class MeanDamageCalculator : RandomDamageCalculator() {
         }
         if (target.buffs.tryRemove(Buffs.EvasionBuff) ||
             target.buffs.tryRemove(Buffs.GreaterEvasionBuff)) {
-          if (!(PerfectAimBuff in self.buffs) && !hitAttribute.focus) {
+          if (PerfectAimBuff !in self.buffs &&
+              GreaterPerfectAimBuff !in self.buffs &&
+              GreaterDivineSkillBuff !in self.buffs &&
+              !hitAttribute.focus) {
             log("Hit", category = LogCategory.DAMAGE) {
               "Miss against [${target.name}] from Evade."
             }
@@ -367,7 +377,10 @@ class MeanDamageCalculator : RandomDamageCalculator() {
           }
         }
         val hitChance =
-            if (PerfectAimBuff in self.buffs || hitAttribute.focus) {
+            if (PerfectAimBuff in self.buffs ||
+                GreaterPerfectAimBuff in self.buffs ||
+                GreaterDivineSkillBuff in self.buffs ||
+                hitAttribute.focus) {
               1.0
             } else {
               stage.random.nextDouble() // To keep rng consistent
@@ -432,8 +445,8 @@ class MeanDamageCalculator : RandomDamageCalculator() {
         if (reflected > 0) {
           self.damage(reflected, additionalEffects = false)
         }
-        if (self.mod { +Modifier.Absorb } > 0) {
-          self.heal(afterBarrier * self.mod { +Modifier.Absorb } / 100)
+        if (self.mod { +absorb } > 0) {
+          self.heal(afterBarrier * self.mod { +absorb } / 100)
         }
         actionLog.successfulHits++
       }

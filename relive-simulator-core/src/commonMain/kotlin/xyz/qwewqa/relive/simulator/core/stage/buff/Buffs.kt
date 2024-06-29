@@ -2055,9 +2055,82 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val LockedGreaterApUp2Buff = +buffData(1152).makeLockedVariantOf(GreaterApUp2Buff)
 
-  // Skip
+  val EnemyDamageReceivedDownBuff =
+      +buffData(1153)
+          .makeModifierContinuousBuffEffect(
+              modifier = Modifier.EnemyDamageReceivedDown,
+              category = BuffCategory.Positive,
+          )
 
   val LockedGreaterLethargyBuff = +buffData(1154).makeLockedVariantOf(GreaterLethargyBuff)
+
+  val LockedGreaterContractionBuff = +buffData(1155).makeLockedVariantOf(GreaterContractionBuff)
+
+  val LockedGreaterGospelOfGloryBuff = +buffData(1156).makeLockedVariantOf(GreaterGospelOfGloryBuff)
+
+  val LockedGreaterSealStageEffectBuff =
+      +buffData(1157).makeLockedVariantOf(GreaterSealStageEffectBuff)
+
+  val GreaterDivineSkillBuff = +buffData(1158).makeCountableBuffEffect(BuffCategory.Positive)
+
+  val LockedGreaterDamageReceivedDownBuff =
+      +buffData(1159).makeLockedVariantOf(GreaterDamageReceivedDownBuff)
+
+  val LockedGreaterCriticalDamageReceivedDownBuff =
+      +buffData(1160).makeLockedVariantOf(GreaterCriticalDamageReceivedDownBuff)
+
+  val LockedGreaterAgilityUpBuff = +buffData(1161).makeLockedVariantOf(GreaterAgilityUpBuff)
+
+  val LockedGreaterHpRegenBuff = +buffData(1162).makeLockedVariantOf(GreaterHpRegenBuff)
+
+  val LockedGreaterSealCABuff = +buffData(1163).makeLockedVariantOf(GreaterSealCABuff)
+
+  val LockedHinderGreaterContinuousNegativeEffectsResistanceUpBuff =
+      +buffData(1164)
+          .makeMultipleResistanceUpBuff(
+              listOf(GreaterContinuousNegativeEffectResistanceUpBuff),
+              locked = true,
+          )
+
+  val LockedGreaterApDown2Buff = +buffData(1165).makeLockedVariantOf(GreaterApDown2Buff)
+
+  val LockedGreaterGuidingLights =
+      +buffData(1166)
+          .makeContinuousBuffEffect(
+              BuffCategory.Positive,
+              locked = true,
+              onStart = { _, _ ->
+                self.mod {
+                  Modifier.AgilityUp += 20
+                  Modifier.BrillianceRegen += 100
+                  Modifier.HpRegen += 99_999
+                }
+              },
+              onEnd = { _, _, _ ->
+                self.mod {
+                  Modifier.AgilityUp -= 20
+                  Modifier.BrillianceRegen -= 100
+                  Modifier.HpRegen -= 99_999
+                }
+              },
+          )
+
+  val GreaterContinuousNegativeEffectResistanceDownBuff =
+      +buffData(1167)
+          .makeModifierContinuousBuffEffect(
+              modifier = Modifier.GreaterNegativeEffectResistanceDown,
+              category = BuffCategory.Negative,
+          )
+
+  val LockedGreaterAgilityDownBuff = +buffData(1168).makeLockedVariantOf(GreaterAgilityDownBuff)
+
+  val LockedGreaterBrillianceReductionResistanceUpBuff =
+      +buffData(1169).makeSpecificResistanceUpBuff(GreaterBrillianceGainDownResistanceUpBuff)
+
+  // TODO: Implement this if needed
+  val LockedGreaterStealResistanceUpBuff = +buffData(1170).makeSimpleContinuousBuffEffect(BuffCategory.Positive)
+
+  val LockedGreaterMiraculousRecoveryBuff = +buffData(1171).makeLockedVariantOf(GreaterMiraculousRecoveryBuff)
 
   // TODO: Implement enhancement
 

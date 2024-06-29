@@ -1,5 +1,6 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr45
 
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.BossDmgTakenDown90
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR37Diff3
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR38Diff4
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR42Diff4
@@ -40,6 +41,7 @@ val tr45SetsunaIchie =
             listOf(
                 trEventBonusPassive2024(4050028),
                 SuperBossPassiveTR37Diff3.new(),
+                BossDmgTakenDown90.new(),
             ),
         ),
     )
@@ -106,6 +108,7 @@ val tr45SetsunaIchieDiff4 =
             listOf(
                 trEventBonusPassive2024(4050028),
                 SuperBossPassiveTR42Diff4.new(),
+                BossDmgTakenDown90.new(),
             ),
         ),
     )

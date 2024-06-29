@@ -500,7 +500,7 @@ class TargetContext(
     }
   }
 
-  fun shortenContinuous(category: BuffCategory, amount: Int) {
+  fun shortenContinuous(category: BuffCategory, amount: Int, groupLevel: Int = 1) {
     if (!self.isAlive) return
     for (originalTarget in originalTargets) {
       val target = aggroTarget ?: originalTarget
@@ -509,7 +509,7 @@ class TargetContext(
         actionContext.log("Dispel", category = LogCategory.BUFF) {
           "Shorten continuous ${category.name} effects to [$name]."
         }
-        buffs.adjustContinuousTurns(category, -amount)
+        buffs.adjustContinuousTurns(category, -amount, groupLevel)
       }
     }
   }

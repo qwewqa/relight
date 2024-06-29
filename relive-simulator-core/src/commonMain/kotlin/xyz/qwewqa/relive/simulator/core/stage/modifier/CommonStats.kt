@@ -14,6 +14,7 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.BurnBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterAgonyBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterArroganceBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterBurnBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterDivineSkillBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterHopeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterInsanityBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterMasteryBuff
@@ -75,7 +76,8 @@ inline val Modifiers.agility: I54
             hopeFactor +
             (if (GreaterInsanityBuff in actor.buffs) (-99).i54 else 0.i54) +
             (if (GreaterArroganceBuff in actor.buffs) (-99).i54 else 0.i54) +
-            (if (GreaterMasteryBuff in actor.buffs) 20.i54 else 0.i54))) + Modifier.FixedAgility
+            (if (GreaterMasteryBuff in actor.buffs) 20.i54 else 0.i54) +
+            (if (GreaterDivineSkillBuff in actor.buffs) 20.i54 else 0.i54))) + Modifier.FixedAgility
   }
 
 inline val Modifiers.dexterity: I54
@@ -132,6 +134,7 @@ fun Modifiers.positiveEffectResistance(effect: BuffEffect): I54 {
               else -> +Modifier.PositiveEffectResistanceUp
             }
         2 -> 0.i54
+        99 -> 0.i54
         else -> throw NotImplementedError("Unknown effect group level ${effect.groupLevel}")
       }
   val specificResistance = actor.specificBuffResist[effect] ?: 0.i54
@@ -157,6 +160,7 @@ fun Modifiers.negativeEffectResistance(effect: BuffEffect): I54 {
                   Modifier.GreaterNegativeEffectResistanceUp -
                       Modifier.GreaterNegativeEffectResistanceDown
             }
+        99 -> 0.i54
         else -> throw NotImplementedError("Unknown effect group level ${effect.groupLevel}")
       }
   val specificResistance = actor.specificBuffResist[effect] ?: 0.i54
@@ -185,3 +189,8 @@ fun Modifiers.damageReceivedModifier(attacker: Actor) =
         (if (AgonyBuff in actor.buffs || GreaterAgonyBuff in actor.buffs) 30.i54 else 0.i54) +
         (if (GreaterArroganceBuff in actor.buffs) 30.i54 else 0.i54) +
         (if (GreaterInsanityBuff in actor.buffs) 30.i54 else 0.i54))
+
+inline val Modifiers.absorb: I54
+  get() {
+    return Modifier.Absorb + (if (GreaterDivineSkillBuff in actor.buffs) 20.i54 else 0.i54)
+  }

@@ -172,6 +172,13 @@ object SuperBossPassiveTR42Diff4 : PassiveEffect {
       }
 }
 
+object BossDmgTakenDown90 : PassiveEffect {
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run {
+        self.activatePassiveBuff(Buffs.EnemyDamageReceivedDownBuff, 90.i54)
+      }
+}
+
 fun Actor.activatePassiveBuff(effect: ContinuousBuffEffect<Unit>, value: I54 = 100.i54) {
   val res =
       when (effect.category) {

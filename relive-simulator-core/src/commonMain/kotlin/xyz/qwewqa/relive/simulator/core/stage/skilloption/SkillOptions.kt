@@ -1914,15 +1914,42 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val LockedGreaterResilience = +skillOptionData(10436).applyEffect()
   val GreaterBlessingGreaterEffectiveDamageUp = +skillOptionData(10437).applyEffect()
   val LockedGreaterApUp2 = +skillOptionData(10438).applyEffect()
-
-  // Skip
-
+  val EnemyDamageReceivedDown = +skillOptionData(10439).applyEffect()
   val LockedGreaterLethargy = +skillOptionData(10440).applyEffect()
 
   val GreaterStealContinuousPositiveEffects =
       +skillOptionData(10441).makeSkillOption { _, _ ->
         // TODO: implement
       }
+
+  val GreaterStealCountablePositiveEffects =
+      +skillOptionData(10442).makeSkillOption { _, _ ->
+        // TODO: implement
+      }
+
+  val LockedGreaterContraction = +skillOptionData(10443).applyEffect()
+  val LockedGreaterGospelOfGlory = +skillOptionData(10444).applyEffect()
+  val LockedGreaterSealStageEffect = +skillOptionData(10445).applyEffect()
+  val GreaterDivineSkill = +skillOptionData(10446).applyEffect()
+  val LockedGreaterDamageReceivedDown = +skillOptionData(10447).applyEffect()
+  val LockedGreaterCriticalDamageReceivedDown = +skillOptionData(10448).applyEffect()
+  val LockedGreaterAgilityUp = +skillOptionData(10449).applyEffect()
+  val LockedGreaterHpRegen = +skillOptionData(10450).applyEffect()
+  val LockedGreaterSealCA = +skillOptionData(10451).applyEffect()
+  val HinderGreaterContinuousNegativeEffectResistanceUp =
+      +skillOptionData(10452).applyEffect()
+  val LockedGreaterApDown2 = +skillOptionData(10453).applyEffect()
+  val LockedGreaterGuidingLights = +skillOptionData(10454).applyEffect()
+  val GreaterContinuousNegativeEffectResistanceDown =
+      +skillOptionData(10455).applyEffect()
+  val LockedGreaterAgilityDown = +skillOptionData(10456).applyEffect()
+  val GreaterShortenContinuousPositiveEffects =
+      +skillOptionData(10457).makeSkillOption { value ->
+        shortenContinuous(BuffCategory.Positive, value, 2)
+      }
+  val LockedGreaterBrillianceReductionResistanceUp = +skillOptionData(10458).applyEffect()
+  val LockedGreaterStealResistanceUp = +skillOptionData(10459).applyEffect()
+  val LockedGreaterMiraculousRecovery = +skillOptionData(10460).applyEffect()
 
   // TODO: figure out if these affect base
 
