@@ -6,6 +6,7 @@ import xyz.qwewqa.relive.simulator.core.gen.valuesGenSkillTarget
 import xyz.qwewqa.relive.simulator.core.stage.TargetSelectionContext
 import xyz.qwewqa.relive.simulator.core.stage.actor.Actor
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.ContractionBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterContractionBuff
 
 data class SkillTargetData(
     val id: Int,
@@ -19,6 +20,7 @@ data class SkillTargetData(
         override val isAffectedByAggro: Boolean = false
         override val description: String = this@SkillTargetData.descriptions.getLocalizedString()
         override val descriptions: Map<String, String> = this@SkillTargetData.descriptions
+
         override fun getTargets(context: TargetSelectionContext, provokeTarget: Actor?) =
             target(context, provokeTarget)
       }
@@ -58,6 +60,7 @@ data class SkillTargetData(
         override val isAffectedByAggro: Boolean = !focus
         override val description: String = this@SkillTargetData.descriptions.getLocalizedString()
         override val descriptions: Map<String, String> = this@SkillTargetData.descriptions
+
         override fun getTargets(context: TargetSelectionContext, provokeTarget: Actor?) =
             context.target(provokeTarget)
       }
@@ -67,7 +70,7 @@ data class SkillTargetData(
       crossinline condition: (actor: Actor) -> Boolean = { true },
   ) =
       makeEnemyTarget(focus) { _ ->
-        if (self?.buffs?.contains(ContractionBuff) == true) {
+        if (self?.buffs?.let { ContractionBuff in it || GreaterContractionBuff in it } == true) {
           listOfNotNull(enemy.active.firstOrNull())
         } else {
           enemy.active.filter(condition)

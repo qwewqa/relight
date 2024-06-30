@@ -16,6 +16,7 @@ import xyz.qwewqa.relive.simulator.core.stage.dress.DressCategory
 import xyz.qwewqa.relive.simulator.core.stage.modifier.Modifier
 import xyz.qwewqa.relive.simulator.core.stage.modifier.negativeEffectResistance
 import xyz.qwewqa.relive.simulator.core.stage.modifier.positiveEffectResistance
+import xyz.qwewqa.relive.simulator.core.stage.target.SkillTargets
 
 fun trEventBonusPassive(dressId: Int) =
     EventBonusPassive(
@@ -130,7 +131,7 @@ object SuperBossPassiveTR37Diff4 : PassiveEffect {
         self.activatePassiveBuff(Buffs.CriticalDamageReceivedDownBuff, 50.i54)
         BossElementResistPassive.activate(this, 50, 0) { true }
 
-        enemy.actors.values.forEach {
+        resolveTarget(SkillTargets.allEnemies).targets.forEach {
           it.activatePassiveBuff(Buffs.GreaterIgnoranceBuff)
           it.activatePassiveBuff(Buffs.GreaterBrillianceRecoveryDownBuff, 50.i54)
           it.activatePassiveBuff(Buffs.GreaterActPowerDownBuff, 99.i54)
@@ -146,7 +147,7 @@ object SuperBossPassiveTR38Diff4 : PassiveEffect {
         self.activatePassiveBuff(Buffs.CriticalDamageReceivedDownBuff, 90.i54)
         BossElementResistPassive.activate(this, 50, 0) { true }
 
-        enemy.actors.values.forEach {
+        resolveTarget(SkillTargets.allEnemies).targets.forEach {
           it.activatePassiveBuff(Buffs.GreaterStagnationBuff)
           it.activatePassiveBuff(Buffs.GreaterIgnoranceBuff)
           it.activatePassiveBuff(Buffs.GreaterBrillianceRecoveryDownBuff, 50.i54)
@@ -163,7 +164,7 @@ object SuperBossPassiveTR42Diff4 : PassiveEffect {
         self.activatePassiveBuff(Buffs.CriticalDamageReceivedDownBuff, 90.i54)
         BossElementResistPassive.activate(this, 50, 0) { true }
 
-        enemy.actors.values.forEach {
+        resolveTarget(SkillTargets.allEnemies).targets.forEach {
           it.activatePassiveBuff(Buffs.GreaterStagnationBuff)
           it.activatePassiveBuff(Buffs.GreaterIgnoranceBuff)
           it.activatePassiveBuff(Buffs.GreaterBrillianceRecoveryDownBuff, 80.i54)
