@@ -1331,3 +1331,6 @@
 # v1.9.8
 - Added new girls and memoirs
 - TR 45 and 46 bosses added by Savivo
+
+# v1.9.9
+- Fixed contraction not working on bosses
