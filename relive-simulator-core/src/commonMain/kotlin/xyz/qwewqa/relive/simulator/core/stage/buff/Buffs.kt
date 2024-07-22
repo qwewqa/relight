@@ -2132,6 +2132,29 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val LockedGreaterMiraculousRecoveryBuff = +buffData(1171).makeLockedVariantOf(GreaterMiraculousRecoveryBuff)
 
+  val LockedGreaterDisheartening = +buffData(1172).makeLockedVariantOf(GreaterDishearteningBuff)
+
+  val GreaterLethargyResistanceUpBuff =
+      +buffData(1173).makeSpecificResistanceUpBuff(GreaterLethargyBuff)
+
+  val GreaterStaminaActPowerUpBuff =
+      +buffData(1174).makeGreaterVariantOf(StaminaActPowerUpBuff)
+
+  val GreaterCountableNegativeEffectResistanceDownBuff =
+      +buffData(1175).makeModifierContinuousBuffEffect(
+          modifier = Modifier.GreaterNegativeCountableEffectResistanceDown,
+          category = BuffCategory.Negative,
+      )
+
+  val LockedGreaterApUp3Buff = +buffData(1176).makeLockedVariantOf(GreaterApUp3Buff)
+
+  val LockedGreaterCurtainsClosedBuff = +buffData(1177).makeLockedVariantOf(GreaterCurtainsClosedBuff)
+
+  val LockedGreaterApDown3Buff = +buffData(1178).makeLockedVariantOf(GreaterApDown3Buff)
+
+  val LockedGreaterSealInstantSkillBuff = +buffData(1179).makeGreaterVariantOf(
+      LockedSealInstantSkillBuff)
+
   // TODO: Implement enhancement
 
   val GreaterPoisonEnhancementApUp2Buff =

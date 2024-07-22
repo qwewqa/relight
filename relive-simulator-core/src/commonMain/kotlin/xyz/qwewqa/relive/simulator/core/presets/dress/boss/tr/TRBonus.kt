@@ -123,6 +123,20 @@ object SuperBossPassiveTR37Diff3 : PassiveEffect {
       }
 }
 
+object SuperBossPassiveTR45Diff3 : PassiveEffect {
+  override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
+      context.run {
+        self.activatePassiveBuff(Buffs.ExcludingGreaterInsanityResistanceUpBuff, 100.i54)
+        self.activatePassiveBuff(Buffs.DamageReceivedDownBuff, 95.i54)
+        self.activatePassiveBuff(Buffs.CriticalDamageReceivedDownBuff, 50.i54)
+        BossElementResistPassive.activate(this, 50, 0) { true }
+        self.activatePassiveBuff(Buffs.EnemyDamageReceivedDownBuff, 60.i54)
+        self.mod {
+          Modifier.GlobalDamageReceivedDown += 90
+        }
+      }
+}
+
 object SuperBossPassiveTR37Diff4 : PassiveEffect {
   override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
       context.run {
@@ -173,10 +187,24 @@ object SuperBossPassiveTR42Diff4 : PassiveEffect {
       }
 }
 
-object BossDmgTakenDown90 : PassiveEffect {
+object SuperBossPassiveTR45Diff4 : PassiveEffect {
   override fun activate(context: ActionContext, value: Int, time: Int, condition: Condition) =
       context.run {
-        self.activatePassiveBuff(Buffs.EnemyDamageReceivedDownBuff, 90.i54)
+        self.activatePassiveBuff(Buffs.ExcludingGreaterInsanityResistanceUpBuff, 100.i54)
+        self.activatePassiveBuff(Buffs.DamageReceivedDownBuff, 99.i54)
+        self.activatePassiveBuff(Buffs.CriticalDamageReceivedDownBuff, 99.i54)
+        BossElementResistPassive.activate(this, 50, 0) { true }
+        self.activatePassiveBuff(Buffs.EnemyDamageReceivedDownBuff, 85.i54)
+        self.mod {
+          Modifier.GlobalDamageReceivedDown += 90
+        }
+
+        resolveTarget(SkillTargets.allEnemies).targets.forEach {
+          it.activatePassiveBuff(Buffs.GreaterStagnationBuff)
+          it.activatePassiveBuff(Buffs.GreaterIgnoranceBuff)
+          it.activatePassiveBuff(Buffs.GreaterBrillianceRecoveryDownBuff, 80.i54)
+          it.activatePassiveBuff(Buffs.GreaterActPowerDownBuff, 99.i54)
+        }
       }
 }
 

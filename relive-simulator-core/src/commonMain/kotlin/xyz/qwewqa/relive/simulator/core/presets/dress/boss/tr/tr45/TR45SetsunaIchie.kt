@@ -1,9 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr45
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.BossDmgTakenDown90
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR37Diff3
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR38Diff4
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR42Diff4
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR45Diff3
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR45Diff4
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2024
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
@@ -40,8 +38,7 @@ val tr45SetsunaIchie =
             autoSkills =
             listOf(
                 trEventBonusPassive2024(4050028),
-                SuperBossPassiveTR37Diff3.new(),
-                BossDmgTakenDown90.new(),
+                SuperBossPassiveTR45Diff3.new()
             ),
         ),
     )
@@ -107,8 +104,7 @@ val tr45SetsunaIchieDiff4 =
             autoSkills =
             listOf(
                 trEventBonusPassive2024(4050028),
-                SuperBossPassiveTR42Diff4.new(),
-                BossDmgTakenDown90.new(),
+                SuperBossPassiveTR45Diff4.new()
             ),
         ),
     )

@@ -1883,7 +1883,7 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val GreaterBrillianceGainDownResistanceUp = +skillOptionData(10409).applyEffect()
   val GreaterStunResistanceUp2 = +skillOptionData(10410).applyEffect()
   val UpgradeGreaterStunContraction = +skillOptionData(10411).applyEffect()
-  val LockedGreaterApDown3 = +skillOptionData(10412).applyEffect()
+  val LockedGreaterApDown = +skillOptionData(10412).applyEffect()
   val GreaterLethargy = +skillOptionData(10413).applyEffect()
   val GreaterCombinedResistanceUpDazeImpudence = +skillOptionData(10414).applyEffect()
   val LockedGreaterStunEnhancementContraction = +skillOptionData(10415).applyEffect()
@@ -1950,6 +1950,21 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val LockedGreaterBrillianceReductionResistanceUp = +skillOptionData(10458).applyEffect()
   val LockedGreaterStealResistanceUp = +skillOptionData(10459).applyEffect()
   val LockedGreaterMiraculousRecovery = +skillOptionData(10460).applyEffect()
+  val LockedGreaterDisheartening = +skillOptionData(10461).applyEffect()
+  val LockedGreaterLethargyResistanceUp = +skillOptionData(10462).applyEffect()
+  val GreaterScalingActPowerUp100Sun =
+      +skillOptionData(10463).scalingGreaterActPowerUp(100) { it.dress.attribute == Attribute.Sun }
+  val GreaterShortenContinuousNegativeEffects =
+      +skillOptionData(10464).makeSkillOption { value ->
+        shortenContinuous(BuffCategory.Negative, value, 2)
+      }
+  val GreaterStaminaActPowerUp = +skillOptionData(10465).applyEffect()
+  val GreaterCountableNegativeEffectResistanceDown =
+      +skillOptionData(10466).applyEffect()
+  val LockedGreaterApUp3 = +skillOptionData(10467).applyEffect()
+  val LockedGreaterCurtainsClosed = +skillOptionData(10468).applyEffect()
+  val LockedGreaterApDown3 = +skillOptionData(10469).applyEffect()
+  val LockedGreaterSealInstantSkill = +skillOptionData(10470).applyEffect()
 
   // TODO: figure out if these affect base
 

@@ -11,7 +11,7 @@ data class GenSkillTarget(
     val chara_ids: Array<Int>,
     val description: Map<String, String>,
     val description_for_field_effect: Map<String, String>,
-    val role: Int,
+    val roles: Array<Int>,
     val school_id: Int? = null,
     val school_ids: Array<Int>,
     val skill_target_filter_ids: Array<Int>,

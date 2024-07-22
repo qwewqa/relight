@@ -1,8 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr46
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.BossDmgTakenDown90
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR37Diff3
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR42Diff4
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR45Diff3
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR45Diff4
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2024
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
@@ -24,7 +23,7 @@ val tr46TowerHikari =
             character = Character.Hikari,
             attribute = Attribute.Moon,
             damageType = DamageType.Normal,
-            position = Position.None,
+            position = Position.Front,
             stats =
             defaultDressStats.copy(
                 hp = 50_000_000,
@@ -39,8 +38,7 @@ val tr46TowerHikari =
             autoSkills =
             listOf(
                 trEventBonusPassive2024(4050028, 1060031),
-                SuperBossPassiveTR37Diff3.new(),
-                BossDmgTakenDown90.new(),
+                SuperBossPassiveTR45Diff3.new()
             ),
         ),
     )
@@ -93,7 +91,7 @@ val tr46TowerHikariDiff4 =
             character = Character.Hikari,
             attribute = Attribute.Moon,
             damageType = DamageType.Normal,
-            position = Position.None,
+            position = Position.Front,
             stats =
             defaultDressStats.copy(
                 hp = 200_000_000,
@@ -108,8 +106,7 @@ val tr46TowerHikariDiff4 =
             autoSkills =
             listOf(
                 trEventBonusPassive2024(4050028, 1060031),
-                SuperBossPassiveTR42Diff4.new(),
-                BossDmgTakenDown90.new(),
+                SuperBossPassiveTR45Diff4.new()
             ),
         ),
     )

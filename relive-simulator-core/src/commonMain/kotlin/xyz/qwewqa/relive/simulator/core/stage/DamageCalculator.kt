@@ -252,6 +252,7 @@ open class RandomDamageCalculator : DamageCalculator {
         dmgTakenCoef += 60.i54
 
     val bossDmgTakenCoef = 100 - target.mod { +Modifier.EnemyDamageReceivedDown }
+    val globalDmgTakenCoef = 100 - target.mod { +Modifier.GlobalDamageReceivedDown }
 
     val attributeDamageDealtUpCoef = 100 + (attacker.attributeDamageDealtUp[attribute] ?: 0.i54)
     val againstAttributeDamageDealtUpCoef =
@@ -296,6 +297,8 @@ open class RandomDamageCalculator : DamageCalculator {
                   "dmgTakenCoef" to dmgTakenCoef,
                   "dmgDealtUpCoef" to dmgDealtUpCoef,
                   "eventMultiplier" to eventMultiplier,
+                  "bossDmgTakenCoef" to bossDmgTakenCoef,
+                  "globalDmgTakenCoef" to globalDmgTakenCoef,
               )
               .joinToString("\n") { (name, value) -> "$name: $value" }
         }
@@ -315,6 +318,7 @@ open class RandomDamageCalculator : DamageCalculator {
     dmg = dmg ptmul dmgDealtUpCoef
     dmg = dmg ptmul eventMultiplier // tentative
     dmg = dmg ptmul bossDmgTakenCoef
+    dmg = dmg ptmul globalDmgTakenCoef
 
     var criticalDmg = base
     criticalDmg = criticalDmg ptmul eleCoef
@@ -332,6 +336,7 @@ open class RandomDamageCalculator : DamageCalculator {
     criticalDmg = criticalDmg ptmul dmgDealtUpCoef
     criticalDmg = criticalDmg ptmul eventMultiplier
     criticalDmg = criticalDmg ptmul bossDmgTakenCoef
+    criticalDmg = criticalDmg ptmul globalDmgTakenCoef
 
     return DamageResult(
         base = dmg,
