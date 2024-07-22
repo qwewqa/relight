@@ -1334,3 +1334,7 @@
 
 # v1.9.9
 - Fixed contraction not working on bosses
+
+# v1.9.10
+- Added new girls and memoirs
+- Adjust TR 45 and 46 bosses
