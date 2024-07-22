@@ -69,11 +69,16 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
           isResistance = true,
           onStart = { value ->
             self.mod {
-              Modifier.NegativeEffectResistanceUp += value
-              Modifier.NegativeCountableEffectResistanceUp += value
-              if (groupLevel >= 2) {
-                Modifier.GreaterNegativeEffectResistanceUp += value
-                Modifier.GreaterNegativeCountableEffectResistanceUp += value
+              when (groupLevel) {
+                1 -> {
+                  Modifier.NegativeEffectResistanceUp += value
+                  Modifier.NegativeCountableEffectResistanceUp += value
+                }
+                2 -> {
+                  Modifier.GreaterNegativeEffectResistanceUp += value
+                  Modifier.GreaterNegativeCountableEffectResistanceUp += value
+                }
+                else -> error("Invalid group level $groupLevel")
               }
             }
             buffs.forEach { buff ->

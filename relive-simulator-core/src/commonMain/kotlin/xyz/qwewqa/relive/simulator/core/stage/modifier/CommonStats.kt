@@ -148,8 +148,14 @@ fun Modifiers.negativeEffectResistance(effect: BuffEffect): I54 {
             when (effect) {
               is CountableBuffEffect ->
                   Modifier.NegativeCountableEffectResistanceUp -
-                      Modifier.NegativeCountableEffectResistanceDown
-              else -> Modifier.NegativeEffectResistanceUp - Modifier.NegativeEffectResistanceDown
+                      Modifier.NegativeCountableEffectResistanceDown +
+                      Modifier.GreaterNegativeCountableEffectResistanceUp -
+                      Modifier.GreaterNegativeCountableEffectResistanceDown
+              else ->
+                  Modifier.NegativeEffectResistanceUp -
+                      Modifier.NegativeEffectResistanceDown +
+                      Modifier.GreaterNegativeEffectResistanceUp -
+                      Modifier.GreaterNegativeEffectResistanceDown
             }
         2 ->
             when (effect) {
