@@ -1338,3 +1338,6 @@
 # v1.9.10
 - Added new girls and memoirs
 - Adjust TR 45 and 46 bosses
+
+# v1.9.11
+- Greater NER down fixes
