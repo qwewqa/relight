@@ -1341,3 +1341,6 @@
 
 # v1.9.11
 - Greater NER down fixes
+
+# v1.9.12
+- Added new girls and memoirs
