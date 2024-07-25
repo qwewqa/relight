@@ -14,8 +14,10 @@ import xyz.qwewqa.relive.simulator.core.stage.autoskill.AutoSkillType
 import xyz.qwewqa.relive.simulator.core.stage.buff.BuffCategory
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FortitudeBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterArroganceBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterEvasionBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterFortitudeBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterInvincibleRebirthBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterReviveBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterWeakSpotBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.InvincibleRebirthBuff
@@ -1709,6 +1711,11 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
         }
       }
 
+  val ConversionGreaterInvincibleRebirthGreaterArrogance =
+      +skillOptionData(630).makeSkillOption { value, _ ->
+        convert(GreaterInvincibleRebirthBuff, GreaterArroganceBuff, value)
+      }
+
   val GreaterBurn = +skillOptionData(10010).applyEffect()
   val GreaterConfusion = +skillOptionData(10020).applyEffect()
   val GreaterBlindness = +skillOptionData(10030).applyEffect()
@@ -1965,6 +1972,10 @@ object SkillOptions : ImplementationRegistry<SkillOption>() {
   val LockedGreaterCurtainsClosed = +skillOptionData(10468).applyEffect()
   val LockedGreaterApDown3 = +skillOptionData(10469).applyEffect()
   val LockedGreaterSealInstantSkill = +skillOptionData(10470).applyEffect()
+  val GreaterCombinedResistanceDishearteningSealStageEffect =
+      +skillOptionData(10471).applyEffect()
+  val LockedGreaterCombinedResistanceDishearteningSealStageEffect =
+      +skillOptionData(10472).applyEffect()
 
   // TODO: figure out if these affect base
 

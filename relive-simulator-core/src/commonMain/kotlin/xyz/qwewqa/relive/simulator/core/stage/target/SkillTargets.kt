@@ -1905,6 +1905,16 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
         it.dress.character.school == School.Rinmeikan || it.dress.character.school == School.Frontier
       }
 
+  val FrontCenterPositionEnemies =
+      +getSkillTargetData(4231).makeEnemyTargetAoe {
+        it.dress.position == Position.Front || it.dress.position == Position.Middle
+      }
+
+  val FromRearPositionEnemies =
+      +getSkillTargetData(4232).makeEnemyTargetAoe {
+        it.dress.position == Position.Back
+      }
+
   // Handled specially
   val randomAllyPerHit = +getSkillTargetData(5001).makeAllyTargetAoe()
   val randomEnemyPerHit = +getSkillTargetData(6001).makeEnemyTargetAoe()

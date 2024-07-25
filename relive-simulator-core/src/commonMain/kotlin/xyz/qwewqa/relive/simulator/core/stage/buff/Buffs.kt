@@ -2160,6 +2160,15 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val LockedGreaterSealInstantSkillBuff = +buffData(1179).makeGreaterVariantOf(
       LockedSealInstantSkillBuff)
 
+  val GreaterCombinedResistanceDishearteningSealStageEffect =
+      +buffData(1180)
+          .makeMultipleResistanceUpBuff(
+              listOf(GreaterDishearteningBuff, GreaterSealStageEffectBuff))
+
+  val LockedGreaterCombinedResistanceDishearteningSealStageEffect =
+      +buffData(1181)
+          .makeLockedVariantOf(GreaterCombinedResistanceDishearteningSealStageEffect)
+
   // TODO: Implement enhancement
 
   val GreaterPoisonEnhancementApUp2Buff =
