@@ -1,7 +1,7 @@
 package xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.tr46
 
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR45Diff3
-import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR45Diff4
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR46Diff3
+import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.SuperBossPassiveTR46Diff4
 import xyz.qwewqa.relive.simulator.core.presets.dress.boss.tr.trEventBonusPassive2024
 import xyz.qwewqa.relive.simulator.core.stage.actor.ActType
 import xyz.qwewqa.relive.simulator.core.stage.actor.Attribute
@@ -38,7 +38,7 @@ val tr46MusketeerMahiru =
             autoSkills =
             listOf(
                 trEventBonusPassive2024(4050028, 1060031),
-                SuperBossPassiveTR45Diff3.new()
+                SuperBossPassiveTR46Diff3.new()
             ),
         ),
     )
@@ -104,7 +104,7 @@ val tr46MusketeerMahiruDiff4 =
             autoSkills =
             listOf(
                 trEventBonusPassive2024(4050028, 1060031),
-                SuperBossPassiveTR45Diff4.new()
+                SuperBossPassiveTR46Diff4.new()
             ),
         ),
     )

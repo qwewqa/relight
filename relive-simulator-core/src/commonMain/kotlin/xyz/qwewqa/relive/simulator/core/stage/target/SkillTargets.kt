@@ -1912,7 +1912,7 @@ object SkillTargets : ImplementationRegistry<SkillTarget>() {
 
   val FromRearPositionEnemies =
       +getSkillTargetData(4232).makeEnemyTargetAoe {
-        it.dress.position == Position.Back
+        it.dress.position == Position.Front || it.dress.position == Position.Back
       }
 
   // Handled specially
