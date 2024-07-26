@@ -1344,3 +1344,6 @@
 
 # v1.9.12
 - Added new girls and memoirs
+
+# v1.9.13
+- Fixes
