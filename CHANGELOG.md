@@ -1347,3 +1347,7 @@
 
 # v1.9.13
 - Fixes
+
+# v1.9.14
+- TR 47 and 48 bosses added by Savivo
+- Added new girls and memoirs
