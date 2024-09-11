@@ -1351,3 +1351,6 @@
 # v1.9.14
 - TR 47 and 48 bosses added by Savivo
 - Added new girls and memoirs
+
+# v1.9.15
+- Fix mark and greater mark stacking
