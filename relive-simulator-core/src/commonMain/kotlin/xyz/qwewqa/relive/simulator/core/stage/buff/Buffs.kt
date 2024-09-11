@@ -660,8 +660,8 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               category = BuffCategory.Negative,
               exclusive = true,
               flipped = { FlippedMarkBuff },
-              onStart = { self.mod { Modifier.DamageReceivedUp += 30 } },
-              onEnd = { self.mod { Modifier.DamageReceivedUp -= 30 } },
+              onStart = { },
+              onEnd = { },
           )
 
   val FlippedMarkBuff: ContinuousBuffEffect<Unit> =
@@ -670,8 +670,8 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
               category = BuffCategory.Positive,
               exclusive = true,
               flipped = { MarkBuff },
-              onStart = { self.mod { Modifier.DamageReceivedDown += 30 } },
-              onEnd = { self.mod { Modifier.DamageReceivedDown -= 30 } },
+              onStart = { },
+              onEnd = {  },
           )
 
   val AggroBuff =

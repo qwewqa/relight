@@ -11,14 +11,17 @@ import xyz.qwewqa.relive.simulator.core.stage.buff.BuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.AgonyBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.BurnBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.FlippedMarkBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterAgonyBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterArroganceBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterBurnBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterDivineSkillBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterHopeBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterInsanityBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterMarkBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.GreaterMasteryBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.HopeBuff
+import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.MarkBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.Buffs.WeakenBuff
 import xyz.qwewqa.relive.simulator.core.stage.buff.ContinuousBuffEffect
 import xyz.qwewqa.relive.simulator.core.stage.buff.CountableBuffEffect
@@ -192,6 +195,8 @@ fun Modifiers.damageReceivedModifier(attacker: Actor) =
     ((Modifier.DamageReceivedUp - (+Modifier.DamageReceivedDown).coerceAtMost(100)) +
         (actor.fromCharacterDamageReceivedUp[attacker.dress.character] ?: 0.i54) +
         (if (WeakenBuff in actor.buffs) 10.i54 else 0.i54) +
+        (if (MarkBuff in actor.buffs || GreaterMarkBuff in actor.buffs) 30.i54 else 0.i54) +
+        (if (FlippedMarkBuff in actor.buffs) (-30).i54 else 0.i54) +
         (if (AgonyBuff in actor.buffs || GreaterAgonyBuff in actor.buffs) 30.i54 else 0.i54) +
         (if (GreaterArroganceBuff in actor.buffs) 30.i54 else 0.i54) +
         (if (GreaterInsanityBuff in actor.buffs) 30.i54 else 0.i54))
