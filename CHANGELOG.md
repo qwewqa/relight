@@ -1354,3 +1354,6 @@
 
 # v1.9.15
 - Fix mark and greater mark stacking
+
+# v1.9.16
+- Fix arroance and panic removal precedence
