@@ -230,13 +230,13 @@ class Actor(
         return
       }
       // TODO: account for buff values
-      if (buffs.tryRemove(Buffs.ImpudenceBuff) || buffs.tryRemove(GreaterImpudenceBuff)) {
-        context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by pride." }
+      if (buffs.tryRemove(Buffs.GreaterArroganceBuff)) {
+        context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by arrogance." }
         Act { targetRandom().act { heal(fixed = 5000) } }.execute(context)
         return
       }
-      if (buffs.tryRemove(Buffs.GreaterArroganceBuff)) {
-        context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by arrogance." }
+      if (buffs.tryRemove(Buffs.ImpudenceBuff) || buffs.tryRemove(GreaterImpudenceBuff)) {
+        context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by pride." }
         Act { targetRandom().act { heal(fixed = 5000) } }.execute(context)
         return
       }
