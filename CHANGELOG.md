@@ -1356,4 +1356,7 @@
 - Fix mark and greater mark stacking
 
 # v1.9.16
-- Fix arroance and panic removal precedence
+- Fix arrogance and panic removal precedence
+
+# v1.9.17
+- Fix arrogance and impudence removal precedence
