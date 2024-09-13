@@ -235,15 +235,15 @@ class Actor(
         Act { targetRandom().act { heal(fixed = 5000) } }.execute(context)
         return
       }
+      if (buffs.tryRemove(Buffs.GreaterArroganceBuff)) {
+        context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by arrogance." }
+        Act { targetRandom().act { heal(fixed = 5000) } }.execute(context)
+        return
+      }
       if (buffs.tryRemove(Buffs.GreaterPanicBuff)) {
         context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by panic." }
         // TODO: figure out what the actual value is
         Act { targetRandom().act { addBrilliance(20) } }.execute(context)
-        return
-      }
-      if (buffs.tryRemove(Buffs.GreaterArroganceBuff)) {
-        context.log("Abnormal", category = LogCategory.EMPHASIS) { "Act prevented by arrogance." }
-        Act { targetRandom().act { heal(fixed = 5000) } }.execute(context)
         return
       }
       // TODO: test order
