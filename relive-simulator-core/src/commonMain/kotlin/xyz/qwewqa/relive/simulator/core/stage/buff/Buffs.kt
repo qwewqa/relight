@@ -1973,7 +1973,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val GreaterResilienceBuff = +buffData(1122).makeGreaterVariantOf(ResilienceBuff)
 
-  val GreaterBlessingGreaterDispelCountableNegativeEffectsBuff =
+  val GreaterBlessingGreaterRemoveCountableNegativeEffectsBuff =
       +buffData(1123).makeGreaterVariantOf(BlessingRemoveCountableNegativeEffectsBuff)
 
   val GreaterBlessingGreaterApDown2Buff = +buffData(1124).makeGreaterVariantOf(BlessingApDown2)
@@ -1981,7 +1981,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
   val GreaterDisasterGreaterDishearteningBuff =
       +buffData(1125).makeCountableBuffEffect(BuffCategory.Negative)
 
-  val GreaterBlessingGreaterDispelContinuousNegativeEffects =
+  val GreaterBlessingGreaterRemoveContinuousNegativeEffects =
       +buffData(1126).makeGreaterVariantOf(BlessingRemoveContinuousNegativeEffectsBuff)
 
   // TODO
@@ -2055,7 +2055,7 @@ object Buffs : ImplementationRegistry<BuffEffect>() {
 
   val LockedGreaterResilienceBuff = +buffData(1150).makeLockedVariantOf(GreaterResilienceBuff)
 
-  val GreaterBlessingGreaterEffectiveElementDamageDealtUpBuff =
+  val GreaterBlessingGreaterEffectiveDamageDealtUpBuff =
       +buffData(1151).makeCountableBuffEffect(BuffCategory.Positive)
 
   val LockedGreaterApUp2Buff = +buffData(1152).makeLockedVariantOf(GreaterApUp2Buff)
