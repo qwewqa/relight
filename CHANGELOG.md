@@ -1360,3 +1360,6 @@
 
 # v1.9.17
 - Fix arrogance and impudence removal precedence
+
+# v1.9.18
+- Regular blessings no longer activate when the greater version is present
